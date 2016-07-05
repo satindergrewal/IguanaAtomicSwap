@@ -10,6 +10,10 @@ $(document).ready(function() {
 
 // Iguana Login
 function Iguanalogin() {
+	NProgress.configure({ easing: 'ease', speed: 500 });
+	NProgress.start();
+	NProgress.set(0.4);
+	var interval = setInterval(function() { NProgress.inc(); }, 1000);
 	var IguanaLoginData = {
             'handle': $('#username').val(),
             'password': $('#password').val(),
@@ -32,6 +36,8 @@ function Iguanalogin() {
                 console.log('Success');
                 swal("Success", "Login Successfully.", "success");
 
+                NProgress.done();
+                clearInterval(interval);
                 // Populate IP Info
                 //populateIPInfo();
             }
@@ -41,6 +47,9 @@ function Iguanalogin() {
                 console.log(data.statusText);
 	            console.log(textStatus);
 	            console.log(jqXHR);
+
+	            NProgress.done();
+                clearInterval(interval);
             }
         },
         error: function(xhr, textStatus, error) {
@@ -50,6 +59,8 @@ function Iguanalogin() {
             console.log(error);
             swal("Oops...", "Something went wrong!", "error");
             
+            NProgress.done();
+            clearInterval(interval);
         }
     });
 };
