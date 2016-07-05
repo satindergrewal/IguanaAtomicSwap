@@ -10,10 +10,19 @@
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<link href="assets/css/nprogress.css" rel="stylesheet" id="nprogress-css">
     <link href="assets/css/pages.css" rel="stylesheet" id="pages-css">
+    <link href="assets/css/sweetalert2.min.css" rel="stylesheet">
     <link href="assets/css/custom.css" rel="stylesheet">
 
     <script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/nprogress.js"></script>
+	<!-- IE support -->
+	<script src="assets/js/es6-promise.min.js"></script>
+	<!--............-->
+
+	<!-- Promise.finally support -->
+	<script src="assets/js/finally.js"></script>
+	<!--............-->
+	<script src="assets/js/sweetalert2.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/pages.js"></script>
 </head>
@@ -36,7 +45,7 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-12">
-								<form id="login-form" action="#" method="post" role="form" style="display: block;">
+								<form id="login-form" action="#" method="post" role="form" style="display: block;" onsubmit="return false;">
 									<div class="form-group">
 										<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
 									</div>
@@ -46,12 +55,13 @@
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6 col-sm-offset-3">
-												<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+												<button name="login-submit" id="login-submit" type="submit" class="form-control btn btn-login">Log in</button> 
+												<!--<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">-->
 											</div>
 										</div>
 									</div>
 								</form>
-								<form id="register-form" action="#" method="post" role="form" style="display: none;">
+								<form id="register-form" action="#" method="post" role="form" style="display: none;" onsubmit="return false;">
 									<div class="form-group">
 										<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
 									</div>
@@ -78,6 +88,7 @@
 				</div>
 			</div>
 		</div>
+	<script src="assets/js/iguana.js"></script>
 	<script>
 	NProgress.configure({ easing: 'ease', speed: 500 });
 	NProgress.start();
