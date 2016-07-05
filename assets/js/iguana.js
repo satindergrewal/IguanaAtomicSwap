@@ -19,8 +19,8 @@ function Iguanalogin() {
             'password': $('#password').val(),
             'timeout': '99999999'
         }
-    console.log('== Data Collected ==');
-	console.log(IguanaLoginData);
+    //console.log('== Data Collected ==');
+	//console.log(IguanaLoginData);
     // Use AJAX to post the object to login user
     $.ajax({
         type: 'GET',
@@ -29,8 +29,8 @@ function Iguanalogin() {
         dataType: 'text',
         success: function(data, textStatus, jqXHR) {
             var LoginOutput = JSON.parse(data);
-            console.log('== Data OutPut ==');
-            console.log(LoginOutput);
+            //console.log('== Data OutPut ==');
+            //console.log(LoginOutput);
 
             if (LoginOutput.result === 'success') {
                 console.log('Success');
@@ -38,6 +38,8 @@ function Iguanalogin() {
 
                 NProgress.done();
                 clearInterval(interval);
+    			$('#login-section').fadeOut('slow');
+    			//$('#red-box').fadeIn();
                 // Populate IP Info
                 //populateIPInfo();
             }
