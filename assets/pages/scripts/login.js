@@ -79,7 +79,7 @@ toastr.options = {
                         if (LoginOutput.result === 'success') {
                             console.log('Success');
                             //swal("Success", "Login Successfully.", "success");
-                            toastr.success("Login SUccessfull", "Login Notification")
+                            toastr.success("Login SUccessfull", "Account Notification")
 
                             NProgress.done();
                             $('#username').val('')
@@ -91,7 +91,7 @@ toastr.options = {
                         else {
                             // If something goes wrong, alert the error message that our service returned
                             //swal("Oops...", "Something went wrong!", "error");
-                            toastr.warning("Opps... Something went wrong!", "Login Notification")
+                            toastr.warning("Opps... Something went wrong!", "Account Notification")
                             console.log(data.statusText);
                             console.log(textStatus);
                             console.log(jqXHR);
@@ -105,7 +105,7 @@ toastr.options = {
                         console.log(textStatus);
                         console.log(error);
                         //swal("Oops...", "Something went wrong!", "error");
-                        toastr.warning("Opps... Something went wrong!", "Login Notification")
+                        toastr.warning("Opps... Something went wrong!", "Account Notification")
                         
                         NProgress.done();
                     }
@@ -265,7 +265,7 @@ toastr.options = {
                     if (LoginOutput.result === 'logged out') {
                         console.log('Success');
                         //swal("Success", "Logout Successfully.", "success");
-                        toastr.success("Login SUccessfull", "Login Notification")
+                        toastr.success("Logout Successfull", "Account Notification")
 
                         NProgress.done();
                         $('#login-section').show();
@@ -275,7 +275,7 @@ toastr.options = {
                     else {
                         // If something goes wrong, alert the error message that our service returned
                         //swal("Oops...", "Something went wrong!", "error");
-                        toastr.warning("Opps... Something went wrong!", "Login Notification")
+                        toastr.warning("Opps... Something went wrong!", "Account Notification")
                         console.log(data.statusText);
                         console.log(textStatus);
                         console.log(jqXHR);
@@ -289,7 +289,7 @@ toastr.options = {
                     console.log(textStatus);
                     console.log(error);
                     //swal("Oops...", "Something went wrong!", "error");
-                    toastr.warning("Opps... Something went wrong!", "Login Notification")
+                    toastr.warning("Opps... Something went wrong!", "Account Notification")
                     
                     NProgress.done();
                 }
