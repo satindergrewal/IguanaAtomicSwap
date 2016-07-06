@@ -63,8 +63,8 @@ toastr.options = {
                     'password': $('#password').val(),
                     'timeout': '2592000'
                 }
-                console.log('== Data Collected ==');
-                console.log(IguanaLoginData);
+                //console.log('== Data Collected ==');
+                //console.log(IguanaLoginData);
                 // Use AJAX to post the object to login user
                 $.ajax({
                     type: 'GET',
@@ -73,8 +73,10 @@ toastr.options = {
                     dataType: 'text',
                     success: function(data, textStatus, jqXHR) {
                         var LoginOutput = JSON.parse(data);
-                        //console.log('== Data OutPut ==');
-                        //console.log(LoginOutput);
+                        sessionStorage.IguanaActiveAccount = LoginOutput;
+                        //console.log(sessionStorage);
+                        console.log('== Data OutPut ==');
+                        console.log(LoginOutput);
 
                         if (LoginOutput.result === 'success') {
                             console.log('Success');
@@ -258,11 +260,12 @@ toastr.options = {
                 url: 'http://127.0.0.1:7778/api/SuperNET/logout',
                 dataType: 'text',
                 success: function(data, textStatus, jqXHR) {
-                    var LoginOutput = JSON.parse(data);
-                    console.log('== Data OutPut ==');
-                    console.log(LoginOutput);
+                    var LogoutOutput = JSON.parse(data);
+                    sessionStorage.clear();
+                    //console.log('== Data OutPut ==');
+                    //console.log(LogoutOutput);
 
-                    if (LoginOutput.result === 'logged out') {
+                    if (LogoutOutput.result === 'logged out') {
                         console.log('Success');
                         //swal("Success", "Logout Successfully.", "success");
                         toastr.success("Logout Successfull", "Account Notification")
