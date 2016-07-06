@@ -1,5 +1,20 @@
 var Login = function() {
 
+
+toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "positionClass": "toast-top-right",
+    "showDuration": "1000",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+}
+
     var handleLogin = function() {
 
         $('.login-form').validate({
@@ -63,18 +78,20 @@ var Login = function() {
 
                         if (LoginOutput.result === 'success') {
                             console.log('Success');
-                            swal("Success", "Login Successfully.", "success");
+                            //swal("Success", "Login Successfully.", "success");
+                            toastr.success("Login SUccessfull", "Login Notification")
 
                             NProgress.done();
+                            $('#username').val('')
+                            $('#password').val('')
                             $('#login-section').hide();
                             $('body').removeClass( " login" ).addClass( "page-sidebar-closed-hide-logo page-container-bg-solid page-header-fixed" );
                             $('#wallet-section').fadeIn();
-                            // Populate IP Info
-                            //populateIPInfo();
                         }
                         else {
                             // If something goes wrong, alert the error message that our service returned
-                            swal("Oops...", "Something went wrong!", "error");
+                            //swal("Oops...", "Something went wrong!", "error");
+                            toastr.warning("Opps... Something went wrong!", "Login Notification")
                             console.log(data.statusText);
                             console.log(textStatus);
                             console.log(jqXHR);
@@ -87,7 +104,8 @@ var Login = function() {
                         console.log(xhr.statusText);
                         console.log(textStatus);
                         console.log(error);
-                        swal("Oops...", "Something went wrong!", "error");
+                        //swal("Oops...", "Something went wrong!", "error");
+                        toastr.warning("Opps... Something went wrong!", "Login Notification")
                         
                         NProgress.done();
                     }
@@ -105,69 +123,6 @@ var Login = function() {
                 return false;
             }
         });
-    }
-
-    var handleForgetPassword = function() {
-        $('.forget-form').validate({
-            errorElement: 'span', //default input error message container
-            errorClass: 'help-block', // default input error message class
-            focusInvalid: false, // do not focus the last invalid input
-            ignore: "",
-            rules: {
-                email: {
-                    required: true,
-                    email: true
-                }
-            },
-
-            messages: {
-                email: {
-                    required: "Email is required."
-                }
-            },
-
-            invalidHandler: function(event, validator) { //display error alert on form submit   
-
-            },
-
-            highlight: function(element) { // hightlight error inputs
-                $(element)
-                    .closest('.form-group').addClass('has-error'); // set error class to the control group
-            },
-
-            success: function(label) {
-                label.closest('.form-group').removeClass('has-error');
-                label.remove();
-            },
-
-            errorPlacement: function(error, element) {
-                error.insertAfter(element.closest('.input-icon'));
-            },
-
-            submitHandler: function(form) {
-                form.submit();
-            }
-        });
-
-        $('.forget-form input').keypress(function(e) {
-            if (e.which == 13) {
-                if ($('.forget-form').validate().form()) {
-                    $('.forget-form').submit();
-                }
-                return false;
-            }
-        });
-
-        jQuery('#forget-password').click(function() {
-            jQuery('.login-form').hide();
-            jQuery('.forget-form').show();
-        });
-
-        jQuery('#back-btn').click(function() {
-            jQuery('.login-form').show();
-            jQuery('.forget-form').hide();
-        });
-
     }
 
     var handleRegister = function() {
@@ -272,6 +227,7 @@ var Login = function() {
             }
         });
 
+
         $('.register-form input').keypress(function(e) {
             if (e.which == 13) {
                 if ($('.register-form').validate().form()) {
@@ -290,6 +246,56 @@ var Login = function() {
             jQuery('.login-form').show();
             jQuery('.register-form').hide();
         });
+
+
+    }
+
+    var handleLogout = function() {
+
+        $('#logout-account').click(function() {
+            $.ajax({
+                type: 'GET',
+                url: 'http://127.0.0.1:7778/api/SuperNET/logout',
+                dataType: 'text',
+                success: function(data, textStatus, jqXHR) {
+                    var LoginOutput = JSON.parse(data);
+                    console.log('== Data OutPut ==');
+                    console.log(LoginOutput);
+
+                    if (LoginOutput.result === 'logged out') {
+                        console.log('Success');
+                        //swal("Success", "Logout Successfully.", "success");
+                        toastr.success("Login SUccessfull", "Login Notification")
+
+                        NProgress.done();
+                        $('#login-section').show();
+                        $('body').removeClass( "page-sidebar-closed-hide-logo page-container-bg-solid page-header-fixed" ).addClass( " login" );
+                        $('#wallet-section').hide();
+                    }
+                    else {
+                        // If something goes wrong, alert the error message that our service returned
+                        //swal("Oops...", "Something went wrong!", "error");
+                        toastr.warning("Opps... Something went wrong!", "Login Notification")
+                        console.log(data.statusText);
+                        console.log(textStatus);
+                        console.log(jqXHR);
+
+                        NProgress.done();
+                    }
+                },
+                error: function(xhr, textStatus, error) {
+                    console.log('failure');
+                    console.log(xhr.statusText);
+                    console.log(textStatus);
+                    console.log(error);
+                    //swal("Oops...", "Something went wrong!", "error");
+                    toastr.warning("Opps... Something went wrong!", "Login Notification")
+                    
+                    NProgress.done();
+                }
+            });
+            handleLogout();
+        });
     }
 
     return {
@@ -297,8 +303,8 @@ var Login = function() {
         init: function() {
 
             handleLogin();
-            handleForgetPassword();
             handleRegister();
+            handleLogout();
 
         }
 
