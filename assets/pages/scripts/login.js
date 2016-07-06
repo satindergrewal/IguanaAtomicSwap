@@ -66,7 +66,7 @@ var Login = function() {
                             swal("Success", "Login Successfully.", "success");
 
                             NProgress.done();
-                            $('#login-section').fadeOut('slow');
+                            $('#login-section').hide();
                             $('body').removeClass( " login" ).addClass( "page-sidebar-closed-hide-logo page-container-bg-solid page-header-fixed" );
                             $('#wallet-section').fadeIn();
                             // Populate IP Info
