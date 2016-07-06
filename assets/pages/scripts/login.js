@@ -294,7 +294,6 @@ toastr.options = {
                     NProgress.done();
                 }
             });
-            handleLogout();
         });
     }
 
