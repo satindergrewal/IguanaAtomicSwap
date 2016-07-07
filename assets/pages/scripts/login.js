@@ -22,18 +22,12 @@ toastr.options = {
             errorClass: 'help-block', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
             rules: {
-                username: {
-                    required: true
-                },
                 password: {
                     required: true
                 }
             },
 
             messages: {
-                username: {
-                    required: "Username is required."
-                },
                 password: {
                     required: "Password is required."
                 }
@@ -59,7 +53,7 @@ toastr.options = {
 
             submitHandler: function(form) {
                 var IguanaLoginData = {
-                    'handle': $('#username').val(),
+                    'handle': $('#wallet-handle').val(),
                     'password': $('#password').val(),
                     'timeout': '2592000'
                 }
@@ -73,7 +67,8 @@ toastr.options = {
                     dataType: 'text',
                     success: function(data, textStatus, jqXHR) {
                         var LoginOutput = JSON.parse(data);
-                        sessionStorage.IguanaActiveAccount = LoginOutput;
+                        var LoginDataToStore = JSON.stringify(data);
+                        sessionStorage.setItem('IguanaActiveAccount', LoginDataToStore);
                         //console.log(sessionStorage);
                         console.log('== Data OutPut ==');
                         console.log(LoginOutput);
@@ -81,10 +76,10 @@ toastr.options = {
                         if (LoginOutput.result === 'success') {
                             console.log('Success');
                             //swal("Success", "Login Successfully.", "success");
-                            toastr.success("Login SUccessfull", "Account Notification")
+                            toastr.success("Login Successfull", "Account Notification")
 
                             NProgress.done();
-                            $('#username').val('')
+                            $('#wallet-handle').val('')
                             $('#password').val('')
                             $('#login-section').hide();
                             $('body').removeClass( " login" ).addClass( "page-sidebar-closed-hide-logo page-container-bg-solid page-header-fixed" );
@@ -274,6 +269,14 @@ toastr.options = {
                         $('#login-section').show();
                         $('body').removeClass( "page-sidebar-closed-hide-logo page-container-bg-solid page-header-fixed" ).addClass( " login" );
                         $('#wallet-section').hide();
+
+                        //Make sure these fields are unhidden.
+                        $('#login-welcome').text('Welcome.');
+                        $('#wallet-handle').show();
+                        $('.create-account').show();
+                        $('#register-btn').show();
+                        $('#logint-another-wallet').hide();
+
                     }
                     else {
                         // If something goes wrong, alert the error message that our service returned
@@ -298,15 +301,177 @@ toastr.options = {
                 }
             });
         });
-    }
+    };
+
+    var handleLock = function() {
+        //Begin Lock Active Wallet
+        $('#lock-screen').click(function() {
+            $.ajax({
+                type: 'GET',
+                url: 'http://127.0.0.1:7778/api/bitcoinrpc/walletlock',
+                dataType: 'text',
+                success: function(data, textStatus, jqXHR) {
+                    var LockOutput = JSON.parse(data);
+
+                    //Begin Check Active Wallet's status
+                    $.ajax({
+                        type: 'GET',
+                        url: 'http://127.0.0.1:7778/api/SuperNET/activehandle',
+                        dataType: 'text',
+                        success: function(data, textStatus, jqXHR) {
+                            var ActiveHandleOutput = JSON.parse(data);
+                            var ActiveHandleDataToStore = JSON.stringify(data);
+                            sessionStorage.setItem('IguanaActiveAccount', ActiveHandleDataToStore);
+                            console.log('== Data OutPut - Active Handle ==');
+                            console.log(ActiveHandleOutput);
+
+                            if (ActiveHandleOutput.status === 'locked') {
+                                console.log('Success');
+                                //swal("Success", "Wallet Locked Successfully.", "success");
+                                toastr.success("Wallet Locked Successfully", "Account Notification")
+
+                                NProgress.done();
+                                $('#login-section').show();
+                                $('body').removeClass( "page-sidebar-closed-hide-logo page-container-bg-solid page-header-fixed" ).addClass( " login" );
+                                $('#wallet-section').hide();
+                                //Hide some login fields not needing at lock screen
+                                console.log('Wallet is Locked.');
+                                $('#login-welcome').text('Wallet Locked.');
+                                $('#wallet-handle').hide();
+                                $('#register-btn').hide();
+                                $('#logint-another-wallet').show();
+                            }
+                            else {
+                                // If something goes wrong, alert the error message that our service returned
+                                //swal("Oops...", "Something went wrong!", "error");
+                                toastr.warning("Opps... Something went wrong!", "Account Notification")
+                                console.log(data.statusText);
+                                console.log(textStatus);
+                                console.log(jqXHR);
+
+                                NProgress.done();
+                            }
+                        },
+                        error: function(xhr, textStatus, error) {
+                            console.log('failure');
+                            console.log(xhr.statusText);
+                            console.log(textStatus);
+                            console.log(error);
+                            //swal("Oops...", "Something went wrong!", "error");
+                            toastr.warning("Opps... Something went wrong!", "Account Notification")
+                            
+                            NProgress.done();
+                        }
+                    });
+                    //End Check Active Wallet's status
+
+                    //console.log('== Data OutPut - Wallet Lock ==');
+                    //console.log(LockOutput);
+                },
+                error: function(xhr, textStatus, error) {
+                    console.log('failure');
+                    console.log(xhr.statusText);
+                    console.log(textStatus);
+                    console.log(error);
+                    //swal("Oops...", "Something went wrong!", "error");
+                    toastr.warning("Opps... Something went wrong!", "Account Notification")
+                    
+                    NProgress.done();
+                }
+            });
+        });
+        //End Lock Active Wallet
+    };
+
+    var handleCheckLogin = function() {
+        if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
+            console.log('There\'s no active wallet logged in. Please Login.');
+            $('#logint-another-wallet').hide();
+        } else {
+            var CheckLoginData = JSON.parse(sessionStorage.getItem('IguanaActiveAccount'));
+            if ( JSON.parse(CheckLoginData).status === 'unlocked' ) {
+                console.log(JSON.parse(CheckLoginData).status);
+                $('#wallet-handle').val('')
+                $('#password').val('')
+                $('#login-section').hide();
+                $('body').removeClass( " login" ).addClass( "page-sidebar-closed-hide-logo page-container-bg-solid page-header-fixed" );
+                $('#wallet-section').fadeIn();
+            } else if ( JSON.parse(CheckLoginData).status === 'locked' ) {
+                console.log('Wallet is Locked.');
+                $('#login-welcome').text('Wallet Locked.');
+                $('#wallet-handle').hide();
+                $('#register-btn').hide();
+            }
+        }
+        
+    };
+
+    var handleLoginAnotherWallet = function() {
+        $('#logint-another-wallet').click(function() {
+            $('#logint-another-wallet').show();
+            $.ajax({
+                type: 'GET',
+                url: 'http://127.0.0.1:7778/api/SuperNET/logout',
+                dataType: 'text',
+                success: function(data, textStatus, jqXHR) {
+                    var LogoutOutput = JSON.parse(data);
+                    sessionStorage.clear();
+                    //console.log('== Data OutPut ==');
+                    //console.log(LogoutOutput);
+
+                    if (LogoutOutput.result === 'logged out') {
+                        console.log('Success');
+                        //swal("Success", "Logout Successfully.", "success");
+                        toastr.success("Logout Successfull", "Account Notification")
+
+                        NProgress.done();
+                        $('#login-section').show();
+                        $('body').removeClass( "page-sidebar-closed-hide-logo page-container-bg-solid page-header-fixed" ).addClass( " login" );
+                        $('#wallet-section').hide();
+
+                        //Make sure these fields are unhidden.
+                        $('#login-welcome').text('Welcome.');
+                        $('#wallet-handle').show();
+                        $('.create-account').show();
+                        $('#register-btn').show();
+                        $('#logint-another-wallet').hide();
+
+                    }
+                    else {
+                        // If something goes wrong, alert the error message that our service returned
+                        //swal("Oops...", "Something went wrong!", "error");
+                        toastr.warning("Opps... Something went wrong!", "Account Notification")
+                        console.log(data.statusText);
+                        console.log(textStatus);
+                        console.log(jqXHR);
+
+                        NProgress.done();
+                    }
+                },
+                error: function(xhr, textStatus, error) {
+                    console.log('failure');
+                    console.log(xhr.statusText);
+                    console.log(textStatus);
+                    console.log(error);
+                    //swal("Oops...", "Something went wrong!", "error");
+                    toastr.warning("Opps... Something went wrong!", "Account Notification")
+                    
+                    NProgress.done();
+                }
+            });
+        });
+    };
 
     return {
         //main function to initiate the module
         init: function() {
 
             handleLogin();
+            handleLock();
             handleRegister();
             handleLogout();
+            handleCheckLogin();
+            handleLoginAnotherWallet();
 
         }
 
