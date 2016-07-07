@@ -133,23 +133,6 @@ toastr.options = {
             return $state;
         }
 
-        if (jQuery().select2 && $('#country_list').size() > 0) {
-            $("#country_list").select2({
-	            placeholder: '<i class="fa fa-map-marker"></i>&nbsp;Select a Country',
-	            templateResult: format,
-                templateSelection: format,
-                width: 'auto', 
-	            escapeMarkup: function(m) {
-	                return m;
-	            }
-	        });
-
-
-	        $('#country_list').change(function() {
-	            $('.register-form').validate().element($(this)); //revalidate the chosen dropdown value and show error or success message for the input
-	        });
-    	}
-
         $('.register-form').validate({
             errorElement: 'span', //default input error message container
             errorClass: 'help-block', // default input error message class
@@ -157,26 +140,10 @@ toastr.options = {
             ignore: "",
             rules: {
 
-                fullname: {
-                    required: true
-                },
-                email: {
-                    required: true,
-                    email: true
-                },
-                address: {
-                    required: true
-                },
-                city: {
-                    required: true
-                },
-                country: {
+                walletseed: {
                     required: true
                 },
 
-                username: {
-                    required: true
-                },
                 password: {
                     required: true
                 },
@@ -184,14 +151,14 @@ toastr.options = {
                     equalTo: "#register_password"
                 },
 
-                tnc: {
+                backupconfirm: {
                     required: true
                 }
             },
 
             messages: { // custom messages for radio buttons and checkboxes
                 tnc: {
-                    required: "Please accept TNC first."
+                    required: "Please have taken backup of my Seed and Wallet Password."
                 }
             },
 
@@ -237,6 +204,7 @@ toastr.options = {
         jQuery('#register-btn').click(function() {
             jQuery('.login-form').hide();
             jQuery('.register-form').show();
+            $('#walletseed').text(PassPhraseGenerator.generatePassPhrase(256))
         });
 
         jQuery('#register-back-btn').click(function() {

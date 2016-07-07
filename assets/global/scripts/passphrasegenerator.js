@@ -44,11 +44,11 @@ var PassPhraseGenerator = {
 
 	words: ClientWordList,
 
-	generatePassPhrase: function() {
+	generatePassPhrase: function(bitsval) {
 
 		var crypto = window.crypto || window.msCrypto;
 
-		bits = 160;
+		bits = bitsval;
 
 		var random = new Uint32Array(bits / 32);
 
