@@ -96,11 +96,22 @@
                 <div class="form-title">
                     <span class="form-title">Create new wallet</span>
                 </div>
-                <p class="hint"> Please enter following details: </p>
+                <p class="hint"> Please select compatible wallet passhprase type: </p>
+                <div class="mt-radio-inline">
+                    <label class="mt-radio" style="color: #b7d1e2">
+                        <input type="radio" name="PassPhraseOptions" id="PassPhraseOptionsIguana" value="PassPhraseOptionsIguana" checked="">Iguana (256bits)<span></span>
+                    </label>
+                    <label class="mt-radio" style="color: #b7d1e2">
+                        <input type="radio" name="PassPhraseOptions" id="PassPhraseOptionsWaves" value="PassPhraseOptionsWaves">Waves<span></span>
+                    </label>
+                    <label class="mt-radio" style="color: #b7d1e2">
+                        <input type="radio" name="PassPhraseOptions" id="PassPhraseOptionsNXT" value="PassPhraseOptionsNXT">NXT<span></span>
+                    </label>
+                </div>
                 <div class="form-group">
                     <label class="control-label visible-ie8 visible-ie9">Wallet Seed</label>
                     <textarea class="form-control placeholder-no-fix" type="text" placeholder="Wallet Seed" name="walletseed" id="walletseed" style="height: 100px;"> </textarea> </div>
-                <p class="hint"> Enter your account details below: </p>
+                <p class="hint"> Please enter password for new wallet: </p>
                 <div class="form-group">
                     <label class="control-label visible-ie8 visible-ie9">Password</label>
                     <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="Password" name="password" /> </div>
@@ -559,7 +570,7 @@
                     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
                     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
                     <ul class="page-sidebar-menu  page-header-fixed" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-                        <li class="nav-item start ">
+                        <li class="nav-item start " id="nav-dashboard">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-home"></i>
                                 <span class="title">Dashboard</span>
@@ -574,14 +585,14 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item  ">
-                            <a href="#" class="nav-link" id="nav-easydex">
+                        <li class="nav-item  " id="nav-easydex">
+                            <a href="javascript:;" class="nav-link">
                                 <i class="fa fa-random"></i>
                                 <span class="title">EasyDEX</span>
                             </a>
                         </li>
-                        <li class="nav-item  ">
-                            <a href="#" class="nav-link" id="nav-about-iguana">
+                        <li class="nav-item  " id="nav-about-iguana">
+                            <a href="javascript:;" class="nav-link">
                                 <i class="fa fa-bitcoin"></i>
                                 <span class="title">About Iguana</span>
                             </a>
