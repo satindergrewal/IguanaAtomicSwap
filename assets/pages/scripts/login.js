@@ -5,7 +5,7 @@ var Login = function() {
         "closeButton": true,
         "debug": false,
         "positionClass": "toast-top-right",
-        "showDuration": "1000",
+        "showDuration": "5000",
         "hideDuration": "1000",
         "timeOut": "5000",
         "extendedTimeOut": "1000",
@@ -88,12 +88,58 @@ var Login = function() {
                         else {
                             // If something goes wrong, alert the error message that our service returned
                             //swal("Oops...", "Something went wrong!", "error");
-                            toastr.warning("Opps... Something went wrong!", "Account Notification")
+                            if (LoginOutput.error === 'bitcoinrpc needs coin') {
+                                toastr.info("Seems like there's no coin running. Activating BTCD.", "Coin Notification");
+                                var AddBTCDBasiliskData = {
+                                    "poll": 100,
+                                    "active": 1,
+                                    "newcoin": "BTCD",
+                                    "startpend": 1,
+                                    "endpend": 1,
+                                    "services": 128,
+                                    "maxpeers": 16,
+                                    "RELAY": 0,
+                                    "VALIDATE": 0,
+                                    "portp2p": 14631
+                                }
+                                //Start BitcoinDark in Basilisk mode
+                                $.ajax({
+                                    type: 'GET',
+                                    data: AddBTCDBasiliskData,
+                                    url: 'http://127.0.0.1:7778/api/iguana/addcoin',
+                                    dataType: 'text',
+                                    success: function(data, textStatus, jqXHR) {
+                                        var BTCDBasiliskDataOutput = JSON.parse(data);
+                                        //console.log('== Data OutPut ==');
+                                        //console.log(BTCDBasiliskDataOutput);
+
+                                        if (BTCDBasiliskDataOutput.result === 'coin added') {
+                                            console.log('coin added');
+                                            toastr.success("BitcoinDark started in Basilisk Mode", "Coin Notification");
+                                            $( ".login-form" ).submit();
+                                        } else if (BTCDBasiliskDataOutput.result === 'coin already there') {
+                                            console.log('coin already there');
+                                            toastr.info("Looks like BitcoinDark already running.", "Coin Notification");
+                                        } else if (BTCDBasiliskDataOutput.result === null) {
+                                            console.log('coin already there');
+                                            toastr.info("Looks like BitcoinDark already running.", "Coin Notification");
+                                        }
+                                    },
+                                    error: function(xhr, textStatus, error) {
+                                        console.log('failed starting BitcoinDark.');
+                                        console.log(xhr.statusText);
+                                        console.log(textStatus);
+                                        console.log(error);
+                                        //swal("Oops...", "Something went wrong!", "error");
+                                        toastr.warning("Opps... Something went wrong!", "Coin Notification")
+                                    }
+                                });
+                            } else {
+                                toastr.warning("Opps... Something went wrong!", "Account Notification");
+                            }
                             console.log(data.statusText);
                             console.log(textStatus);
                             console.log(jqXHR);
-
-                            NProgress.done();
                         }
                     },
                     error: function(xhr, textStatus, error) {
@@ -196,62 +242,73 @@ var Login = function() {
             },
 
             submitHandler: function(form) {
-                var IguanaLoginData = {
-                    'handle': $('#wallet-handle').val(),
-                    'password': $('#password').val(),
-                    'timeout': '2592000'
-                }
-                //console.log('== Data Collected ==');
-                //console.log(IguanaLoginData);
-                // Use AJAX to post the object to login user
-                $.ajax({
-                    type: 'GET',
-                    data: IguanaLoginData,
-                    url: 'http://127.0.0.1:7778/api/bitcoinrpc/walletpassphrase',
-                    dataType: 'text',
-                    success: function(data, textStatus, jqXHR) {
-                        var LoginOutput = JSON.parse(data);
-                        var LoginDataToStore = JSON.stringify(data);
-                        sessionStorage.setItem('IguanaActiveAccount', LoginDataToStore);
-                        //console.log(sessionStorage);
-                        console.log('== Data OutPut ==');
-                        console.log(LoginOutput);
+                swal({
+                    title: 'Have you taken backup?',
+                    text: "You'll only see and use your wallet passphrase this time. Make sure you have it backed up. Also make sure to have your wallet password backed up. Without both you'll not be able to access your wallet again!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, I have taken backup.'
+                }).then(function() {
+                    //swal('Deleted!', 'Your file has been deleted.', 'success' );
+                    var IguanaCreateWaletData = {
+                        'password': $('#rpassword').val(),
+                        'passphrase': $('#walletseed').val()
+                    }
+                    //console.log('== Data Collected ==');
+                    //console.log(IguanaCreateWaletData);
+                    // Use AJAX to post the object to login user
+                    $.ajax({
+                        type: 'GET',
+                        data: IguanaCreateWaletData,
+                        url: 'http://127.0.0.1:7778/api/SuperNET/login',
+                        dataType: 'text',
+                        success: function(data, textStatus, jqXHR) {
+                            var CreateWalletOutput = JSON.parse(data);
+                            //console.log(sessionStorage);
+                            console.log('== Data OutPut ==');
+                            console.log(CreateWalletOutput);
 
-                        if (LoginOutput.result === 'success') {
-                            console.log('Success');
-                            //swal("Success", "Login Successfully.", "success");
-                            toastr.success("Login Successfull", "Account Notification")
+                            if (CreateWalletOutput.result === 'success') {
+                                console.log('Success');
+                                //swal("Success", "Login Successfully.", "success");
+                                toastr.success("Wallet created successfully", "Account Notification")
 
-                            NProgress.done();
-                            $('#wallet-handle').val('')
-                            $('#password').val('')
-                            $('#login-section').hide();
-                            $('body').removeClass( " login" ).addClass( "page-sidebar-closed-hide-logo page-container-bg-solid page-header-fixed" );
-                            $('#wallet-section').fadeIn();
-                        }
-                        else {
-                            // If something goes wrong, alert the error message that our service returned
+                                NProgress.done();
+                                $('#wallet-handle').val('')
+                                $('#password').val('')
+                            }
+                            else {
+                                // If something goes wrong, alert the error message that our service returned
+                                //swal("Oops...", "Something went wrong!", "error");
+                                toastr.warning("Opps... Something went wrong!", "Account Notification")
+                                console.log(data.statusText);
+                                console.log(textStatus);
+                                console.log(jqXHR);
+
+                                NProgress.done();
+                            }
+                        },
+                        error: function(xhr, textStatus, error) {
+                            console.log('failure');
+                            console.log(xhr.statusText);
+                            console.log(textStatus);
+                            console.log(error);
                             //swal("Oops...", "Something went wrong!", "error");
                             toastr.warning("Opps... Something went wrong!", "Account Notification")
-                            console.log(data.statusText);
-                            console.log(textStatus);
-                            console.log(jqXHR);
-
+                            
                             NProgress.done();
                         }
-                    },
-                    error: function(xhr, textStatus, error) {
-                        console.log('failure');
-                        console.log(xhr.statusText);
-                        console.log(textStatus);
-                        console.log(error);
-                        //swal("Oops...", "Something went wrong!", "error");
-                        toastr.warning("Opps... Something went wrong!", "Account Notification")
-                        
-                        NProgress.done();
-                    }
-                });
-                
+                    });
+
+                    jQuery('.login-form').show();
+                    jQuery('.register-form').hide();
+                    $('#walletseed').text(PassPhraseGenerator.generatePassPhrase(256));
+                    $('#register_password').val('')
+                    $('#rpassword').val('')
+                })
+
                 //form.submit();
             }
         });
