@@ -1,4 +1,19 @@
+// DOM Ready =============================================================
+$(document).ready(function() {
+
+    $('#section-dashboard').show();
+	$('#section-easydex').hide();
+	$('#section-about-iguana').hide();
+	$('#nav-dashboard').removeClass( "" ).addClass( "active open" );
+	$('#nav-easydex').removeClass( " active open" ).addClass( "" );
+	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
+
+});
+
 $('#nav-dashboard').on('click', function() {
+	$('#section-dashboard').show();
+	$('#section-easydex').hide();
+	$('#section-about-iguana').hide();
 	$('#nav-dashboard').removeClass( "" ).addClass( "active open" );
 	$('#nav-easydex').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );

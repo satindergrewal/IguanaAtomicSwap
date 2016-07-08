@@ -149,11 +149,15 @@ var Login = function() {
                         console.log(error);
                         //swal("Oops...", "Something went wrong!", "error");
                         toastr.warning("Opps... Something went wrong!", "Account Notification")
-                        
-                        NProgress.done();
                     }
                 });
                 
+                $('#section-dashboard').show();
+                $('#section-easydex').hide();
+                $('#section-about-iguana').hide();
+                $('#nav-dashboard').removeClass( "" ).addClass( "active open" );
+                $('#nav-easydex').removeClass( " active open" ).addClass( "" );
+                $('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
                 //form.submit(); // form validation success, call ajax form submit
             }
         });
