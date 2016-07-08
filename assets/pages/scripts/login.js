@@ -121,7 +121,7 @@ var Login = function() {
             }
         });
 
-        $('.register-form input').on('change', function() {
+        $('input[name=PassPhraseOptions]').on('change', function() {
             if ( $('input[name=PassPhraseOptions]:checked', '.register-form').val() === 'PassPhraseOptionsIguana' ) {
                 //console.log('PassPhraseOptionsIguana');
                 $('#walletseed').text(PassPhraseGenerator.generatePassPhrase(256))
@@ -166,16 +166,10 @@ var Login = function() {
                     equalTo: "#register_password"
                 },
 
-                backupconfirm: {
-                    required: true
-                }
+                
             },
 
-            messages: { // custom messages for radio buttons and checkboxes
-                tnc: {
-                    required: "Please have taken backup of my Seed and Wallet Password."
-                }
-            },
+            
 
             invalidHandler: function(event, validator) { //display error alert on form submit   
 
@@ -192,8 +186,8 @@ var Login = function() {
             },
 
             errorPlacement: function(error, element) {
-                if (element.attr("name") == "tnc") { // insert checkbox errors after the container                  
-                    error.insertAfter($('#register_tnc_error'));
+                if (element.attr("name") == "backupconfirm") { // insert checkbox errors after the container                  
+                    error.insertAfter($('#register_backupconfirm_error'));
                 } else if (element.closest('.input-icon').size() === 1) {
                     error.insertAfter(element.closest('.input-icon'));
                 } else {
@@ -202,7 +196,63 @@ var Login = function() {
             },
 
             submitHandler: function(form) {
-                form.submit();
+                var IguanaLoginData = {
+                    'handle': $('#wallet-handle').val(),
+                    'password': $('#password').val(),
+                    'timeout': '2592000'
+                }
+                //console.log('== Data Collected ==');
+                //console.log(IguanaLoginData);
+                // Use AJAX to post the object to login user
+                $.ajax({
+                    type: 'GET',
+                    data: IguanaLoginData,
+                    url: 'http://127.0.0.1:7778/api/bitcoinrpc/walletpassphrase',
+                    dataType: 'text',
+                    success: function(data, textStatus, jqXHR) {
+                        var LoginOutput = JSON.parse(data);
+                        var LoginDataToStore = JSON.stringify(data);
+                        sessionStorage.setItem('IguanaActiveAccount', LoginDataToStore);
+                        //console.log(sessionStorage);
+                        console.log('== Data OutPut ==');
+                        console.log(LoginOutput);
+
+                        if (LoginOutput.result === 'success') {
+                            console.log('Success');
+                            //swal("Success", "Login Successfully.", "success");
+                            toastr.success("Login Successfull", "Account Notification")
+
+                            NProgress.done();
+                            $('#wallet-handle').val('')
+                            $('#password').val('')
+                            $('#login-section').hide();
+                            $('body').removeClass( " login" ).addClass( "page-sidebar-closed-hide-logo page-container-bg-solid page-header-fixed" );
+                            $('#wallet-section').fadeIn();
+                        }
+                        else {
+                            // If something goes wrong, alert the error message that our service returned
+                            //swal("Oops...", "Something went wrong!", "error");
+                            toastr.warning("Opps... Something went wrong!", "Account Notification")
+                            console.log(data.statusText);
+                            console.log(textStatus);
+                            console.log(jqXHR);
+
+                            NProgress.done();
+                        }
+                    },
+                    error: function(xhr, textStatus, error) {
+                        console.log('failure');
+                        console.log(xhr.statusText);
+                        console.log(textStatus);
+                        console.log(error);
+                        //swal("Oops...", "Something went wrong!", "error");
+                        toastr.warning("Opps... Something went wrong!", "Account Notification")
+                        
+                        NProgress.done();
+                    }
+                });
+                
+                //form.submit();
             }
         });
 
