@@ -266,7 +266,7 @@ var Login = function() {
                     $.ajax({
                         type: 'GET',
                         data: IguanaCreateWaletData,
-                        url: 'http://127.0.0.1:7778/api/SuperNET/login',
+                        url: 'http://127.0.0.1:7778/api/bitcoinrpc/encryptwallet',
                         dataType: 'text',
                         success: function(data, textStatus, jqXHR) {
                             var CreateWalletOutput = JSON.parse(data);
