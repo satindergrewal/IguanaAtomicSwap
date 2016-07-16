@@ -1,922 +1,284 @@
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
-<!--[if !IE]><!-->
-<html lang="en">
-    <!--<![endif]-->
-    <!-- BEGIN HEAD -->
-
-    <head>
-        <meta charset="utf-8" />
-        <title>SuperNET Iguana</title>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta content="width=device-width, initial-scale=1" name="viewport" />
-        <meta content="" name="description" />
-        <meta content="" name="author" />
-        <!-- BEGIN GLOBAL MANDATORY STYLES -->
-        <link href="assets/global/css/gfonts.css" rel="stylesheet" type="text/css" />
-        <link href="assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/global/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/global/plugins/nprogress/nprogress.css" rel="stylesheet" type="text/css" />
-        <!-- END GLOBAL MANDATORY STYLES -->
-        <!-- BEGIN PAGE LEVEL PLUGINS -->
-        <link href="assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css" />
-        <!-- END PAGE LEVEL PLUGINS -->
-        <!-- BEGIN THEME GLOBAL STYLES -->
-        <link href="assets/global/css/components-rounded.min.css" rel="stylesheet" id="style_components" type="text/css" />
-        <link href="assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
-        <!-- END THEME GLOBAL STYLES -->
-        <!-- BEGIN THEME LAYOUT STYLES -->
-        <link href="assets/layouts/css/layout.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/layouts/css/themes/grey.min.css" rel="stylesheet" type="text/css" id="style_color" />
-        <link href="assets/layouts/css/custom.min.css" rel="stylesheet" type="text/css" />
-        <!-- END THEME LAYOUT STYLES -->
-        <!-- BEGIN PAGE LEVEL STYLES -->
-        <link href="assets/pages/css/login-2.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/pages/css/dashboard.css" rel="stylesheet" type="text/css" />
-        <!-- END PAGE LEVEL STYLES -->
-        <!-- BEGIN THEME LAYOUT STYLES -->
-        <!-- END THEME LAYOUT STYLES -->
-        <link rel="icon" type="image/png" href="assets/layouts/img/favicon-32x32.png" sizes="32x32">
-        <link rel="icon" type="image/png" href="assets/layouts/img/favicon-194x194.png" sizes="194x194">
-        <link rel="icon" type="image/png" href="assets/layouts/img/favicon-96x96.png" sizes="96x96">
-        <link rel="icon" type="image/png" href="assets/layouts/img/android-chrome-192x192.png" sizes="192x192">
-        <link rel="icon" type="image/png" href="assets/layouts/img/favicon-16x16.png" sizes="16x16">
-
-        <script src="assets/global/plugins/nprogress/nprogress.js" type="text/javascript"></script>
-     </head>
-    <!-- END HEAD -->
-
-    <body class=" login">
-
-    <!-- BEGIN LOGIN SECTION -->
-    <div id="login-section">
-        <!-- BEGIN LOGO -->
-        <div class="logo">
-            <img src="assets/pages/img/supernet-iguana-logo.png" alt="SuperNET Iguana" />
+<html class="no-js css-menubar" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta name="description" content="bootstrap admin template">
+  <meta name="author" content="">
+  <title>SuperNET Iguana</title>
+  <link rel="apple-touch-icon" href="assets/images/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" href="assets/images/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="assets/images/favicon-194x194.png" sizes="194x194">
+  <link rel="icon" type="image/png" href="assets/images/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="assets/images/android-chrome-192x192.png" sizes="192x192">
+  <link rel="icon" type="image/png" href="assets/images/favicon-16x16.png" sizes="16x16">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/global/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/global/css/bootstrap-extend.min.css">
+  <link rel="stylesheet" href="assets/css/site.min.css">
+  <!-- Plugins -->
+  <link rel="stylesheet" href="assets/global/vendor/animsition/animsition.min.css">
+  <link rel="stylesheet" href="assets/global/vendor/asscrollable/asScrollable.min.css">
+  <link rel="stylesheet" href="assets/global/vendor/switchery/switchery.min.css">
+  <link rel="stylesheet" href="assets/global/vendor/intro-js/introjs.min.css">
+  <link rel="stylesheet" href="assets/global/vendor/slidepanel/slidePanel.min.css">
+  <link rel="stylesheet" href="assets/global/vendor/bootstrap-toastr/toastr.min.css">
+  <link rel="stylesheet" href="assets/global/vendor/sweetalert2/sweetalert2.min.css">
+  <link rel="stylesheet" href="assets/global/vendor/waves/waves.min.css">
+  <link id="loginStyle" rel="stylesheet" href="assets/pages/login.css">
+  <!-- Fonts -->
+  <link rel="stylesheet" href="assets/global/fonts/material-design/material-design.min.css">
+  <link rel="stylesheet" href="assets/global/fonts/brand-icons/brand-icons.min.css">
+  <!--<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>-->
+  <!--[if lt IE 9]>
+    <script src="assets/global/vendor/html5shiv/html5shiv.min.js"></script>
+    <![endif]-->
+  <!--[if lt IE 10]>
+    <script src="assets/global/vendor/media-match/media.match.min.js"></script>
+    <script src="assets/global/vendor/respond/respond.min.js"></script>
+    <![endif]-->
+  <!-- Scripts -->
+  <script src="assets/global/vendor/modernizr/modernizr.min.js"></script>
+  <script src="assets/global/vendor/breakpoints/breakpoints.min.js"></script>
+  <script>
+  Breakpoints();
+  </script>
+  <link id="skinStyle" href="assets/skins/orange.min.css" rel="stylesheet" type="text/css">
+</head>
+<body class="page-login layout-full page-dark">
+  <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+  <!-- BEGIN Login Page -->
+  <div id="wallet-login">
+  <div class="page animsition vertical-align text-center" data-animsition-in="fade-in"
+  data-animsition-out="fade-out">>
+    <div class="page-content vertical-align-middle">
+      <div class="brand">
+        <img class="brand-img" src="assets/images/supernet-iguana-logo-big.png" alt="SuperNET Iguana">
+      </div>
+      <!-- BEGIN section login -->
+      <div id="section-login">
+      <p>Welcome. Please login.</p>
+      <form class="login-form" method="post" action="javascript:;" autocomplete="off" onsubmit="return false;">
+        <div class="form-group form-material floating">
+          <input type="password" class="form-control empty" name="password" id="password">
+          <label class="floating-label" for="inputPassword">Password</label>
         </div>
-        <!-- END LOGO -->
-        <!-- BEGIN LOGIN -->
-        <div class="content">
-            <!-- BEGIN LOGIN FORM -->
-            <form class="login-form" action="#" method="post" onsubmit="return false;">
-                <div class="form-title">
-                    <span class="form-title" id="login-welcome">Welcome.</span>
-                    <span class="form-subtitle" id="login-welcome-sub">Please login.</span>
-                </div>
-                <div class="alert alert-danger display-hide">
-                    <button class="close" data-close="alert"></button>
-                    <span> Enter wallet password to login. </span>
-                </div>
-                <!--<div class="form-group">
-                    <label class="control-label visible-ie8 visible-ie9">Wallet Seed</label>
-                    <textarea class="form-control placeholder-no-fix" type="text" placeholder="Wallet Seed" name="loginwalletseed" id="loginwalletseed" style="height: 100px;"></textarea> </div>-->
-                <!--<div class="form-group">-->
-                    <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-                    <!--<label class="control-label visible-ie8 visible-ie9">Wallet Handle</label>
-                    <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Wallet Handle" name="wallet-handle" id="wallet-handle" /> </div>-->
-                <div class="form-group">
-                    <label class="control-label visible-ie8 visible-ie9">Password</label>
-                    <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" id="password" /> </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn green btn-block uppercase">Login</button>
-                </div>
-                <div class="create-account">
-                    <p>
-                        <a href="javascript:;" class="btn-primary btn" id="register-btn">Create new wallet</a>
-                        <a href="javascript:;" class="btn-primary btn" id="logint-another-wallet">Login to another wallet</a>
-                    </p>
-                </div>
-            </form>
-            <!-- END LOGIN FORM -->
-            
-            <!-- BEGIN REGISTRATION FORM -->
-            <form class="register-form" action="#" method="post" onsubmit="return false;">
-                <div class="form-title">
-                    <span class="form-title">Create new wallet</span>
-                </div>
-                <p class="hint"> Please select compatible wallet seed type: </p>
-                <div class="mt-radio-inline">
-                    <label class="mt-radio" style="color: #b7d1e2">
-                        <input type="radio" name="PassPhraseOptions" id="PassPhraseOptionsIguana" value="PassPhraseOptionsIguana" checked="">Iguana (256bits)<span></span>
-                    </label>
-                    <label class="mt-radio" style="color: #b7d1e2">
-                        <input type="radio" name="PassPhraseOptions" id="PassPhraseOptionsWaves" value="PassPhraseOptionsWaves">Waves<span></span>
-                    </label>
-                    <label class="mt-radio" style="color: #b7d1e2">
-                        <input type="radio" name="PassPhraseOptions" id="PassPhraseOptionsNXT" value="PassPhraseOptionsNXT">NXT<span></span>
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label class="control-label visible-ie8 visible-ie9">Wallet Seed</label>
-                    <textarea class="form-control placeholder-no-fix" type="text" placeholder="Wallet Seed" name="walletseed" id="walletseed" style="height: 100px;"> </textarea> </div>
-                <p class="hint"> Please enter password for new wallet: </p>
-                <div class="form-group">
-                    <label class="control-label visible-ie8 visible-ie9">Password</label>
-                    <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="Password" name="password" /> </div>
-                <div class="form-group">
-                    <label class="control-label visible-ie8 visible-ie9">Re-type Your Password</label>
-                    <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Re-type Your Password" name="rpassword" id="rpassword" /> </div>
-                <!--<div class="form-group margin-top-20 margin-bottom-20">
-                    <label class="mt-checkbox mt-checkbox-outline">
-                        <input type="checkbox" name="remember" value="1" />
-                        <input type="checkbox" name="backupconfirm" /> I have taken backup of my Seed and Wallet Password
-                        <span></span>
-                    </label>
-                    <div id="register_backupconfirm_error"> </div>
-                </div>-->
-                <div class="form-actions">
-                    <button type="button" id="register-back-btn" class="btn btn-default">Back</button>
-                    <button type="submit" id="register-submit-btn" class="btn green uppercase pull-right">Submit</button>
-                </div>
-            </form>
-            <!-- END REGISTRATION FORM -->
-        
-
-
-    </div>
-        <div class="copyright hide"> 2014 © Metronic. Admin Dashboard Template. </div>
-    </div>
-        <!-- END LOGIN -->
-    <!-- END LOGIN SECTION -->
-
-
-
-
-
-
-
-    <!-- BEGIN WALLET SECTION -->
-    <div id="wallet-section" style="display: none;">
-        <!-- BEGIN HEADER -->
-        <div class="page-header navbar navbar-fixed-top">
-            <!-- BEGIN HEADER INNER -->
-            <div class="page-header-inner ">
-                <!-- BEGIN LOGO -->
-                <div class="page-logo">
-                    <a href="index.html">
-                        <img src="assets/layouts/img/supernet-iguana-logo.png" alt="logo" class="logo-default" /> </a>
-                    <div class="menu-toggler sidebar-toggler">
-                        <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
-                    </div>
-                </div>
-                <!-- END LOGO -->
-                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
-                <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
-                <!-- END RESPONSIVE MENU TOGGLER -->
-                <!-- BEGIN PAGE ACTIONS -->
-                <!-- DOC: Remove "hide" class to enable the page header actions -->
-                <!--<div class="page-actions">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-circle btn-outline red dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-plus"></i>&nbsp;
-                            <span class="hidden-sm hidden-xs">New&nbsp;</span>&nbsp;
-                            <i class="fa fa-angle-down"></i>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="javascript:;">
-                                    <i class="icon-docs"></i> New Post </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <i class="icon-tag"></i> New Comment </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <i class="icon-share"></i> Share </a>
-                            </li>
-                            <li class="divider"> </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <i class="icon-flag"></i> Comments
-                                    <span class="badge badge-success">4</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <i class="icon-users"></i> Feedbacks
-                                    <span class="badge badge-danger">2</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>-->
-                <!-- END PAGE ACTIONS -->
-
-                <!-- BEGIN PAGE TOP -->
-                <div class="page-top">
-                    <!-- BEGIN TOP NAVIGATION MENU -->
-                    <div class="top-menu">
-                        <ul class="nav navbar-nav pull-right">
-                            <!-- BEGIN USER LOGIN DROPDOWN -->
-                            <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-                            <li class="dropdown dropdown-user">
-                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                    <img alt="" class="img-circle" src="assets/layouts/img/avatar3_small.jpg" />
-                                    <span class="username username-hide-on-mobile"> Nick </span>
-                                    <i class="fa fa-angle-down"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-default">
-                                    <!--<li>
-                                        <a href="page_user_profile_1.html">
-                                            <i class="icon-user"></i> My Profile </a>
-                                    </li>
-                                    <li>
-                                        <a href="app_calendar.html">
-                                            <i class="icon-calendar"></i> My Calendar </a>
-                                    </li>
-                                    <li>
-                                        <a href="app_inbox.html">
-                                            <i class="icon-envelope-open"></i> My Inbox
-                                            <span class="badge badge-danger"> 3 </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="app_todo_2.html">
-                                            <i class="icon-rocket"></i> My Tasks
-                                            <span class="badge badge-success"> 7 </span>
-                                        </a>
-                                    </li>
-                                    <li class="divider"> </li>-->
-                                    <li>
-                                        <a href="javascript:;" id="lock-screen">
-                                            <i class="icon-lock"></i> Lock Screen </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;" id="logout-account">
-                                            <i class="icon-key"></i> Log Out </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <!-- END USER LOGIN DROPDOWN -->
-                        </ul>
-                    </div>
-                    <!-- END TOP NAVIGATION MENU -->
-                </div>
-                <!-- END PAGE TOP -->
-            </div>
-            <!-- END HEADER INNER -->
+        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+        <div class="form-group form-material floating">
+          <button class="btn btn-lg btn-flat btn-block waves-effect" id="register-btn">Create new wallet</button>
         </div>
-        <!-- END HEADER -->
-        <!-- BEGIN HEADER & CONTENT DIVIDER -->
-        <div class="clearfix"> </div>
-        <!-- END HEADER & CONTENT DIVIDER -->
-        <!-- BEGIN CONTAINER -->
-        <div class="page-container">
-            <!-- BEGIN SIDEBAR -->
-            <div class="page-sidebar-wrapper">
-                <!-- END SIDEBAR -->
-                <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
-                <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-                <div class="page-sidebar navbar-collapse collapse">
-                    <!-- BEGIN SIDEBAR MENU -->
-                    <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
-                    <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
-                    <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
-                    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
-                    <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
-                    <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-                    <ul class="page-sidebar-menu  page-header-fixed" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-                        <li class="nav-item start " id="nav-dashboard">
-                            <a href="javascript:;" class="nav-link">
-                                <i class="icon-home"></i>
-                                <span class="title">Dashboard</span>
-                                <!--<span class="arrow"></span>-->
-                            </a>
-                            <!--<ul class="sub-menu">
-                                <li class="nav-item start ">
-                                    <a href="javascript:;" class="nav-link ">
-                                        <i class="icon-bar-chart"></i>
-                                        <span class="title">Dashboard 1</span>
-                                    </a>
-                                </li>
-                            </ul>-->
-                        </li>
-                        <li class="nav-item  " id="nav-easydex">
-                            <a href="javascript:;" class="nav-link">
-                                <i class="fa fa-random"></i>
-                                <span class="title">EasyDEX</span>
-                            </a>
-                        </li>
-                        <li class="nav-item  " id="nav-about-iguana">
-                            <a href="javascript:;" class="nav-link">
-                                <i class="fa fa-bitcoin"></i>
-                                <span class="title">About Iguana</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- END SIDEBAR MENU -->
-                </div>
-                <!-- END SIDEBAR -->
-            </div>
-            <!-- END SIDEBAR -->
-            <!-- BEGIN CONTENT -->
-            <div class="page-content-wrapper">
-                <!-- BEGIN DASHBOARD CONTENT BODY -->
-                <div class="page-content" id="section-dashboard">
-                    <!-- BEGIN PAGE HEADER-->
-                    <h3 class="page-title"> Wallet Dashboard
-                        <small>[Todo later]</small>
-                    </h3>
-                    <!--<div class="page-bar">
-                        <ul class="page-breadcrumb">
-                            <li>
-                                <i class="icon-home"></i>
-                                <a href="index.html">Home</a>
-                                <i class="fa fa-angle-right"></i>
-                            </li>
-                            <li>
-                                <a href="#">Blank Page</a>
-                                <i class="fa fa-angle-right"></i>
-                            </li>
-                            <li>
-                                <span>Page Layouts</span>
-                            </li>
-                        </ul>
-                    </div>-->
-                    <!-- END PAGE HEADER-->
-
-                    <!-- BEGIN WALLET WIDGETS -->
-                    <div class="row">
-                        <!-- Begin First Crypto Currency box -->
-                        <div class="col-md-6 col-sm-6">
-                            <div class="portlet light tasks-widget ">
-                                <div class="portlet-title">
-                                    <div class="caption">
-                                        <i class="icon-share font-dark hide"></i>
-                                        <span class="caption-subject font-dark bold uppercase">Bitcoin</span>
-                                        <span class="caption-helper">[btc address here]</span>
-                                    </div>
-                                    <div class="actions">
-                                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
-                                    </div>
-                                </div>
-                                <div class="currency-info">
-                                    <div class="col-md-4" id="cryptologo"><img src="assets/global/img/cryptologo/bitcoin.png"></div>
-                                    <div class="col-md-8"><table class="table table-striped">
-                                    <tr><td style="font-weight: bold;">Balance:</td><td></td></tr>
-                                    <tr><td style="font-weight: bold;">Unconfirmed Balance: </td><td></td></tr>
-                                    <tr><td style="font-weight: bold;">Number of Transactions: </td><td></td></tr>
-                                    </table></div>
-                                </div>
-                                <div class="portlet-body">
-                                    <div class="task-content">
-                                        <div class="scroller" style="height: 180px;" data-always-visible="1" data-rail-visible1="1">
-                                            <!-- START TASK LIST -->
-                                            <ul class="feeds">
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-success">
-                                                                <i class="fa fa-arrow-circle-left"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                        <div class="desc">
-                                                            <span class="desc-col1 font-green-jungle col-sm-1" style="width: 130px;">1.90970587</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> Just now </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-success">
-                                                                <i class="fa fa-arrow-circle-left"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                        <div class="desc">
-                                                            <span class="desc-col1 font-green-jungle col-sm-1" style="width: 130px;">0.42560007</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> 20 mins </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-success">
-                                                                <i class="fa fa-arrow-circle-left"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                        <div class="desc">
-                                                            <span class="desc-col1 font-green-jungle col-sm-1" style="width: 130px;">0.8004085</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> 24 mins </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-danger">
-                                                                <i class="fa fa-arrow-circle-right"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                            <div class="desc">
-                                                            <span class="desc-col1 font-red col-sm-1" style="width: 130px;">-3.98374587</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> 30 mins </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-success">
-                                                                <i class="fa fa-arrow-circle-left"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                        <div class="desc">
-                                                            <span class="desc-col1 font-green-jungle col-sm-1" style="width: 130px;">2.55820083</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> 32 mins </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-success">
-                                                                <i class="fa fa-arrow-circle-left"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                        <div class="desc">
-                                                            <span class="desc-col1 font-green-jungle col-sm-1" style="width: 130px;">1.90970587</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> Just now </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-success">
-                                                                <i class="fa fa-arrow-circle-left"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                        <div class="desc">
-                                                            <span class="desc-col1 font-green-jungle col-sm-1" style="width: 130px;">0.42560007</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> 20 mins </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-success">
-                                                                <i class="fa fa-arrow-circle-left"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                        <div class="desc">
-                                                            <span class="desc-col1 font-green-jungle col-sm-1" style="width: 130px;">0.8004085</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> 24 mins </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-danger">
-                                                                <i class="fa fa-arrow-circle-right"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                            <div class="desc">
-                                                            <span class="desc-col1 font-red col-sm-1" style="width: 130px;">-3.98374587</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> 30 mins </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-success">
-                                                                <i class="fa fa-arrow-circle-left"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                        <div class="desc">
-                                                            <span class="desc-col1 font-green-jungle col-sm-1" style="width: 130px;">2.55820083</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> 32 mins </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <!-- END START TASK LIST -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End First Crypto Currency box -->
-
-                        <!-- Begin Second Crypto Currency box -->
-                        <div class="col-md-6 col-sm-6">
-                            <div class="portlet light tasks-widget ">
-                                <div class="portlet-title">
-                                    <div class="caption">
-                                        <i class="icon-share font-dark hide"></i>
-                                        <span class="caption-subject font-dark bold uppercase">BitcoinDark</span>
-                                        <span class="caption-helper">[btcd address here]</span>
-                                    </div>
-                                    <div class="actions">
-                                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
-                                    </div>
-                                </div>
-                                <div class="currency-info">
-                                    <div class="col-md-4" id="cryptologo"><img src="assets/global/img/cryptologo/bitcoindark.png"></div>
-                                    <div class="col-md-8"><table class="table table-striped">
-                                    <tr><td style="font-weight: bold;">Balance:</td><td></td></tr>
-                                    <tr><td style="font-weight: bold;">Unconfirmed Balance: </td><td></td></tr>
-                                    <tr><td style="font-weight: bold;">Number of Transactions: </td><td></td></tr>
-                                    </table></div>
-                                </div>
-                                <div class="portlet-body">
-                                    <div class="task-content">
-                                        <div class="scroller" style="height: 180px;" data-always-visible="1" data-rail-visible1="1">
-                                            <!-- START TASK LIST -->
-                                            <ul class="feeds">
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-success">
-                                                                <i class="fa fa-arrow-circle-left"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                        <div class="desc">
-                                                            <span class="desc-col1 font-green-jungle col-sm-1" style="width: 130px;">1.90970587</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> Just now </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-success">
-                                                                <i class="fa fa-arrow-circle-left"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                        <div class="desc">
-                                                            <span class="desc-col1 font-green-jungle col-sm-1" style="width: 130px;">0.42560007</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> 20 mins </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-success">
-                                                                <i class="fa fa-arrow-circle-left"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                        <div class="desc">
-                                                            <span class="desc-col1 font-green-jungle col-sm-1" style="width: 130px;">0.8004085</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> 24 mins </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-danger">
-                                                                <i class="fa fa-arrow-circle-right"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                            <div class="desc">
-                                                            <span class="desc-col1 font-red col-sm-1" style="width: 130px;">-3.98374587</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> 30 mins </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-success">
-                                                                <i class="fa fa-arrow-circle-left"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                        <div class="desc">
-                                                            <span class="desc-col1 font-green-jungle col-sm-1" style="width: 130px;">2.55820083</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> 32 mins </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-success">
-                                                                <i class="fa fa-arrow-circle-left"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                        <div class="desc">
-                                                            <span class="desc-col1 font-green-jungle col-sm-1" style="width: 130px;">1.90970587</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> Just now </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-success">
-                                                                <i class="fa fa-arrow-circle-left"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                        <div class="desc">
-                                                            <span class="desc-col1 font-green-jungle col-sm-1" style="width: 130px;">0.42560007</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> 20 mins </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-success">
-                                                                <i class="fa fa-arrow-circle-left"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                        <div class="desc">
-                                                            <span class="desc-col1 font-green-jungle col-sm-1" style="width: 130px;">0.8004085</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> 24 mins </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-danger">
-                                                                <i class="fa fa-arrow-circle-right"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                            <div class="desc">
-                                                            <span class="desc-col1 font-red col-sm-1" style="width: 130px;">-3.98374587</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> 30 mins </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col1">
-                                                    <div class="cont">
-                                                        <div class="cont-col1">
-                                                            <div class="label label-sm label-success">
-                                                                <i class="fa fa-arrow-circle-left"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="cont-col2">
-                                                        <div class="desc">
-                                                            <span class="desc-col1 font-green-jungle col-sm-1" style="width: 130px;">2.55820083</span>
-                                                            <span class="desc-col2">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col2">
-                                                    <div class="date"> 32 mins </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <!-- END START TASK LIST -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Second Crypto Currency box -->
-
-                    </div>
-                    <!-- END WALLET WIDGETS -->
-                </div>
-                <!-- END DASHBOARD CONTENT BODY -->
-
-                <!-- BEGIN EASYDEX CONTENT BODY -->
-                <div class="page-content" id="section-easydex" style="display: none;">
-                    <!-- BEGIN PAGE HEADER-->
-                    <h3 class="page-title"> EasyDEX
-                        <small>Easy Decentralized Exchange</small>
-                    </h3>
-                    <!--<div class="page-bar">
-                        <ul class="page-breadcrumb">
-                            <li>
-                                <i class="icon-home"></i>
-                                <a href="index.html">Home</a>
-                                <i class="fa fa-angle-right"></i>
-                            </li>
-                            <li>
-                                <a href="#">Blank Page</a>
-                                <i class="fa fa-angle-right"></i>
-                            </li>
-                            <li>
-                                <span>Page Layouts</span>
-                            </li>
-                        </ul>
-                    </div>-->
-                    <!-- END PAGE HEADER-->
-                    <div class="note note-info">
-                        <p> A black page template with a minimal dependency assets to use as a base for any custom page you create </p>
-                    </div>
-                </div>
-                <!-- END EASYDEX CONTENT BODY -->
-
-                <!-- BEGIN ABOUT SUPERNET IGUANA CONTENT BODY -->
-                <div class="page-content" id="section-about-iguana" style="display: none;">
-                    <!-- BEGIN PAGE HEADER-->
-                    <h3 class="page-title"> About Iguana
-                        <small>SuperNET</small>
-                    </h3>
-                    <!--<div class="page-bar">
-                        <ul class="page-breadcrumb">
-                            <li>
-                                <i class="icon-home"></i>
-                                <a href="index.html">Home</a>
-                                <i class="fa fa-angle-right"></i>
-                            </li>
-                            <li>
-                                <a href="#">Blank Page</a>
-                                <i class="fa fa-angle-right"></i>
-                            </li>
-                            <li>
-                                <span>Page Layouts</span>
-                            </li>
-                        </ul>
-                    </div>-->
-                    <!-- END PAGE HEADER-->
-                    <div class="note note-info">
-                        <p> A black page template with a minimal dependency assets to use as a base for any custom page you create </p>
-                    </div>
-                </div>
-                <!-- END ABOUT SUPERNET IGUANA CONTENT BODY -->
-
-            </div>
-            <!-- END CONTENT -->
+      </form>
+      </div>
+      <!-- END section login -->
+      <!-- BEGIN section register -->
+      <div id="section-register" style="display: none;">
+      <p>Sign up to find interesting thing</p>
+      <form class="register-form" method="post" role="form" autocomplete="off" onsubmit="return false;">
+        <div class="form-group form-material floating">
+          <textarea class="form-control placeholder-no-fix" type="text" placeholder="Wallet Seed" name="walletseed" id="walletseed" style="height: 100px;"></textarea>
+          <label class="floating-label" for="walletseed">Wallet Seed</label>
         </div>
-        <!-- END CONTAINER -->
-
-        <!-- BEGIN FOOTER -->
-        <!--<div class="page-footer">
-            <div class="page-footer-inner">
-            </div>
-            <div class="scroll-to-top">
-                <i class="icon-arrow-up"></i>
-            </div>
-        </div>-->
-        <!-- END FOOTER -->
-        
+        <p class="hint"> Please enter password for new wallet: </p>
+        <div class="form-group form-material floating">
+          <input type="password" class="form-control" id="register_password" name="password">
+          <label class="floating-label" for="register_password">Password</label>
+        </div>
+        <div class="form-group form-material floating">
+          <input type="password" class="form-control" id="rpassword" name="rpassword">
+          <label class="floating-label" for="rpassword">Retype Password</label>
+        </div>
+        <button type="submit" id="register-submit-btn" class="btn btn-primary btn-block">Register</button>
+        <div class="form-group form-material floating">
+          <button class="btn btn-lg btn-flat btn-block waves-effect" id="register-back-btn">Back to Login</button>
+        </div>
+      </form>
+      </div>
+      <!-- END section register -->
     </div>
-    <!-- END WALLET SECTION -->
+  </div>
+  </div>
+  <!-- END Login Page -->
 
 
-
-
-        <!--[if lt IE 9]>
-<script src="assets/global/plugins/respond.min.js"></script>
-<script src="assets/global/plugins/excanvas.min.js"></script> 
-<![endif]-->
-        <!-- BEGIN CORE PLUGINS -->
-        <script src="assets/global/plugins/jquery.min.js" type="text/javascript"></script>
-        <script src="assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
-        <script src="assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
-        <script src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-        <script src="assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
-        <script src="assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
-        <script src="assets/global/plugins/sweetalert2/sweetalert2.min.js" type="text/javascript"></script>
-        <!-- END CORE PLUGINS -->
-        <!-- BEGIN PAGE LEVEL PLUGINS -->
-        <script src="assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
-        <script src="assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
-        <script src="assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
-        <script src="assets/global/plugins/bootstrap-toastr/toastr.min.js" type="text/javascript"></script>
-        <!-- END PAGE LEVEL PLUGINS -->
-        <!-- BEGIN THEME GLOBAL SCRIPTS -->
-        <script src="assets/global/scripts/app.min.js" type="text/javascript"></script>
-        <script src="assets/global/scripts/iguana.api.js" type="text/javascript"></script>
-        
-
-        <!-- Crypto Dependencies -->
-        <script src="assets/global/scripts/wordlist.js" type="text/javascript"></script>
-        <script src="assets/global/scripts/passphrasegenerator.js" type="text/javascript"></script>
-        <script src="assets/global/scripts/seedrandom.js" type="text/javascript"></script>
-        <!-- END THEME GLOBAL SCRIPTS -->
-        <!-- BEGIN PAGE LEVEL SCRIPTS -->
-        <script src="assets/pages/scripts/login.js" type="text/javascript"></script>
-        <!-- END PAGE LEVEL SCRIPTS -->
-        <!-- BEGIN THEME LAYOUT SCRIPTS -->
-        <script src="assets/layouts/scripts/layout.min.js" type="text/javascript"></script>
-        <script src="assets/layouts/scripts/quick-sidebar.min.js" type="text/javascript"></script>
-        <script src="assets/layouts/scripts/sidebar.js" type="text/javascript"></script>
-        <!-- END THEME LAYOUT SCRIPTS -->
-        <script> //$('#username').val(''); $('#password').val(''); $('#login-section').hide(); $('body').removeClass( " login" ).addClass( "page-sidebar-closed-hide-logo page-container-bg-solid page-header-fixed" ); $('#wallet-section').fadeIn();</script>
-    </body>
-
+  <!-- BEGIN Wallet Core Pages -->
+  <div id="wallet-core" style="display: none;">
+  <nav class="site-navbar navbar navbar-fixed-top navbar-mega" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided"
+      data-toggle="menubar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="hamburger-bar"></span>
+      </button>
+      <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-collapse"
+      data-toggle="collapse">
+        <i class="icon md-more" aria-hidden="true"></i>
+      </button>
+      <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
+        <img class="navbar-brand-logo" src="assets/images/supernet-iguana-logo.png" title="Remark">
+        <span class="navbar-brand-text hidden-xs"></span>
+      </div>
+      <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-search"
+      data-toggle="collapse">
+        <span class="sr-only">Toggle Search</span>
+        <i class="icon md-search" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="navbar-container container-fluid">
+      <!-- Navbar Collapse -->
+      <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+        <!-- Navbar Toolbar -->
+        <ul class="nav navbar-toolbar">
+          <li class="hidden-float" id="toggleMenubar">
+            <a data-toggle="menubar" href="#" role="button">
+              <i class="icon hamburger hamburger-arrow-left">
+                  <span class="sr-only">Toggle menubar</span>
+                  <span class="hamburger-bar"></span>
+                </i>
+            </a>
+          </li>
+        </ul>
+        <!-- End Navbar Toolbar -->
+        <!-- Navbar Toolbar Right -->
+        <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+          <!--<li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up"
+            aria-expanded="false" role="button">
+              <span class="flag-icon flag-icon-us"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem">
+                  <span class="flag-icon flag-icon-gb"></span> English</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem">
+                  <span class="flag-icon flag-icon-fr"></span> French</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem">
+                  <span class="flag-icon flag-icon-cn"></span> Chinese</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem">
+                  <span class="flag-icon flag-icon-de"></span> German</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem">
+                  <span class="flag-icon flag-icon-nl"></span> Dutch</a>
+              </li>
+            </ul>
+          </li>-->
+          <li class="dropdown">
+            <a class="navbar-avatar dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"
+            data-animation="scale-up" role="button">
+              <span class="avatar avatar-online">
+                <img src="assets/images/20.jpg" alt="...">
+                <i></i>
+              </span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem" id="lock-screen"><i class="icon md-lock" aria-hidden="true"></i> Lock Screen</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem" id="logout-account"><i class="icon md-power" aria-hidden="true"></i> Logout</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <!-- End Navbar Toolbar Right -->
+      </div>
+      <!-- End Navbar Collapse -->
+    </div>
+  </nav>
+  <div class="site-menubar">
+    <div class="site-menubar-body">
+      <ul class="site-menu">
+        <li class="site-menu-item" id="nav-dashboard">
+          <a class="animsition-link" href="javascript:;">
+            <i class="site-menu-icon md-view-dashboard" aria-hidden="true"></i>
+            <span class="site-menu-title">Dashboard</span>
+          </a>
+        </li>
+        <li class="site-menu-item" id="nav-easydex">
+          <a class="animsition-link" href="javascript:;">
+            <i class="site-menu-icon md-view-dashboard" aria-hidden="true"></i>
+            <span class="site-menu-title">EasyDEX</span>
+          </a>
+        </li>
+        <li class="site-menu-item" id="nav-about-iguana">
+          <a class="animsition-link" href="javascript:;">
+            <i class="site-menu-icon md-view-dashboard" aria-hidden="true"></i>
+            <span class="site-menu-title">About Iguana</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- Page -->
+  <div class="page animsition">
+    <div class="page-content" style="height: 800px;">
+      <h2>Blank</h2>
+      <p>Page content goes here</p>
+    </div>
+  </div>
+  <!-- End Page -->
+  <!-- Footer -->
+  <!--<footer class="site-footer">
+    <div class="site-footer-legal">© 2016 <a href="javascript:;">SuperNET</a></div>
+    <div class="site-footer-right">
+      Crafted with <i class="red-600 icon md-favorite"></i> by <a href="javascript:;">Iguana</a>
+    </div>
+  </footer>-->
+  </div>
+  <!-- END Wallet Core Pages -->
+  <script src="assets/global/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/global/vendor/bootstrap/bootstrap.min.js"></script>
+  <script src="assets/global/vendor/animsition/animsition.min.js"></script>
+  <script src="assets/global/vendor/asscroll/jquery-asScroll.min.js"></script>
+  <script src="assets/global/vendor/mousewheel/jquery.mousewheel.min.js"></script>
+  <script src="assets/global/vendor/asscrollable/jquery.asScrollable.all.min.js"></script>
+  <script src="assets/global/vendor/ashoverscroll/jquery-asHoverScroll.min.js"></script>
+  <script src="assets/global/vendor/waves/waves.min.js"></script>
+  <!-- Plugins -->
+  <script src="assets/global/vendor/switchery/switchery.min.js"></script>
+  <script src="assets/global/vendor/intro-js/intro.min.js"></script>
+  <script src="assets/global/vendor/screenfull/screenfull.min.js"></script>
+  <script src="assets/global/vendor/slidepanel/jquery-slidePanel.min.js"></script>
+  <script src="assets/global/vendor/jquery-validation/jquery.validate.min.js"></script>
+  <script src="assets/global/vendor/jquery-validation/additional-methods.min.js"></script>
+  <script src="assets/global/vendor/bootstrap-toastr/toastr.min.js"></script>
+  <script src="assets/global/vendor/sweetalert2/sweetalert2.min.js" type="text/javascript"></script>
+  <!-- Crypto Dependencies -->
+  <script src="assets/scripts/wordlist.js" type="text/javascript"></script>
+  <script src="assets/scripts/passphrasegenerator.js" type="text/javascript"></script>
+  <script src="assets/scripts/seedrandom.js" type="text/javascript"></script>
+  <!-- Scripts -->
+  <script src="assets/global/js/core.js"></script>
+  <script src="assets/js/site.js"></script>
+  <script src="assets/js/sections/menu.js"></script>
+  <script src="assets/js/sections/menubar.js"></script>
+  <script src="assets/js/sections/sidebar.js"></script>
+  <script src="assets/global/js/configs/config-colors.js"></script>
+  <script src="assets/js/configs/config-tour.js"></script>
+  <script src="assets/global/js/components/asscrollable.js"></script>
+  <script src="assets/global/js/components/animsition.js"></script>
+  <script src="assets/global/js/components/slidepanel.js"></script>
+  <script src="assets/global/js/components/switchery.js"></script>
+  <script src="assets/global/js/components/tabs.js"></script>
+  <script src="assets/scripts/login.js"></script>
+  <script src="assets/scripts/sidebar.js"></script>
+  <script>
+  (function(document, window, $) {
+    'use strict';
+    var Site = window.Site;
+    $(document).ready(function() {
+      Site.run();
+    });
+  })(document, window, jQuery);
+  </script>
+</body>
 </html>
