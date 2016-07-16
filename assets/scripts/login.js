@@ -172,15 +172,15 @@ var Login = function() {
 
         $('input[name=PassPhraseOptions]').on('change', function() {
             if ( $('input[name=PassPhraseOptions]:checked', '.register-form').val() === 'PassPhraseOptionsIguana' ) {
-                //console.log('PassPhraseOptionsIguana');
+                console.log('PassPhraseOptionsIguana');
                 $('#walletseed').text(PassPhraseGenerator.generatePassPhrase(256))
             }
             if ( $('input[name=PassPhraseOptions]:checked', '.register-form').val() === 'PassPhraseOptionsWaves' ) {
-                //console.log('PassPhraseOptionsWaves');
+                console.log('PassPhraseOptionsWaves');
                 $('#walletseed').text(PassPhraseGenerator.generatePassPhrase(160))
             }
             if ( $('input[name=PassPhraseOptions]:checked', '.register-form').val() === 'PassPhraseOptionsNXT' ) {
-                //console.log('PassPhraseOptionsNXT');
+                console.log('PassPhraseOptionsNXT');
                 $('#walletseed').text(PassPhraseGenerator.generatePassPhrase(128))
             }
         });
@@ -199,6 +199,10 @@ var Login = function() {
                     required: true
                 },
 
+                rwalletseed: {
+                    equalTo: "#walletseed"
+                },
+
                 password: {
                     required: true
                 },
@@ -207,6 +211,12 @@ var Login = function() {
                 },
 
                 
+            },
+
+            messages: {
+                rwalletseed: {
+                    required: "Wallet seed is required."
+                }
             },
 
             
@@ -293,8 +303,8 @@ var Login = function() {
                         }
                     });
 
-                    jQuery('.login-form').show();
-                    jQuery('.register-form').hide();
+                    $('#section-login').fadeIn();
+                    $('#section-register').hide();
                     $('#walletseed').text(PassPhraseGenerator.generatePassPhrase(256));
                     $('#register_password').val('')
                     $('#rpassword').val('')
@@ -362,6 +372,7 @@ var Login = function() {
                         $('.create-account').show();
                         $('#register-btn').show();
                         $('#logint-another-wallet').hide();
+                        $("#loginbtn").text('Sign in');
 
                     }
                     else {
@@ -414,13 +425,14 @@ var Login = function() {
                                 //swal("Success", "Wallet Locked Successfully.", "success");
                                 toastr.success("Wallet Locked Successfully", "Account Notification")
 
-                                $('#login-section').show();
-                                $('body').removeClass( "page-sidebar-closed-hide-logo page-container-bg-solid page-header-fixed" ).addClass( " login" );
-                                $('#wallet-section').hide();
+                                $('#wallet-login').show();
+                                $('body').removeClass( "" ).addClass( "page-login layout-full page-dark" );
+                                $('#wallet-core').hide();
+                                $('link[id=loginStyle]')[0].disabled=false;
+                                $("#loginbtn").text('Unlock');
                                 //Hide some login fields not needing at lock screen
                                 console.log('Wallet is Locked.');
-                                $('#login-welcome').text('Wallet Locked.');
-                                $('#wallet-handle').hide();
+                                $('#login-welcome').text('Wallet Locked. Please login.');
                                 $('#register-btn').hide();
                                 $('#logint-another-wallet').show();
                             }
@@ -477,9 +489,9 @@ var Login = function() {
                 $('#wallet-core').fadeIn();
             } else if ( JSON.parse(CheckLoginData).status === 'locked' ) {
                 console.log('Wallet is Locked.');
-                $('#login-welcome').text('Wallet Locked.');
-                $('#wallet-handle').hide();
+                $('#login-welcome').text('Wallet Locked. Please login');
                 $('#register-btn').hide();
+                $("#loginbtn").text('Unlock');
             }
         }
         
@@ -503,16 +515,17 @@ var Login = function() {
                         //swal("Success", "Logout Successfully.", "success");
                         toastr.success("Logout Successfull", "Account Notification")
 
-                        $('#login-section').show();
-                        $('body').removeClass( "page-sidebar-closed-hide-logo page-container-bg-solid page-header-fixed" ).addClass( " login" );
-                        $('#wallet-section').hide();
+                        $('#wallet-login').show();
+                        $('body').removeClass( "" ).addClass( "page-login layout-full page-dark" );
+                        $('#wallet-core').hide();
+                        $('link[id=loginStyle]')[0].disabled=false;
 
                         //Make sure these fields are unhidden.
-                        $('#login-welcome').text('Welcome.');
-                        $('#wallet-handle').show();
+                        $('#login-welcome').text('Welcome. Please login.');
                         $('.create-account').show();
                         $('#register-btn').show();
                         $('#logint-another-wallet').hide();
+                        $("#loginbtn").text('Sign in');
 
                     }
                     else {

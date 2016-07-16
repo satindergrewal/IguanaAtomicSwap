@@ -60,34 +60,53 @@
       </div>
       <!-- BEGIN section login -->
       <div id="section-login">
-      <p>Welcome. Please login.</p>
+      <h4 style="color: #fff;" id="login-welcome">Welcome. Please login.</h4>
       <form class="login-form" method="post" action="javascript:;" autocomplete="off" onsubmit="return false;">
         <div class="form-group form-material floating">
           <input type="password" class="form-control empty" name="password" id="password">
           <label class="floating-label" for="inputPassword">Password</label>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+        <button type="submit" class="btn btn-primary btn-block" id="loginbtn">Sign in</button>
         <div class="form-group form-material floating">
           <button class="btn btn-lg btn-flat btn-block waves-effect" id="register-btn">Create new wallet</button>
+          <button class="btn btn-lg btn-flat btn-block waves-effect" id="logint-another-wallet">Login to another wallet</button>
         </div>
       </form>
       </div>
       <!-- END section login -->
       <!-- BEGIN section register -->
       <div id="section-register" style="display: none;">
-      <p>Sign up to find interesting thing</p>
       <form class="register-form" method="post" role="form" autocomplete="off" onsubmit="return false;">
+        <h4 class="hint" style="color: #fff;"> Please select compatible wallet seed type: </h4>
         <div class="form-group form-material floating">
-          <textarea class="form-control placeholder-no-fix" type="text" placeholder="Wallet Seed" name="walletseed" id="walletseed" style="height: 100px;"></textarea>
+          <div class="radio-custom radio-default radio-inline">
+            <input type="radio" id="PassPhraseOptionsIguana" value="PassPhraseOptionsIguana" name="PassPhraseOptions" checked="">
+            <label for="PassPhraseOptionsIguana">Iguana (256bits)</label>
+          </div>
+          <div class="radio-custom radio-default radio-inline">
+            <input type="radio" id="PassPhraseOptionsWaves" value="PassPhraseOptionsWaves" name="PassPhraseOptions">
+            <label for="PassPhraseOptionsWaves">Waves</label>
+          </div>
+          <div class="radio-custom radio-default radio-inline">
+            <input type="radio" id="PassPhraseOptionsNXT" value="PassPhraseOptionsNXT" name="PassPhraseOptions">
+            <label for="PassPhraseOptionsNXT">NXT</label>
+          </div>
+        </div>
+        <div class="form-group form-material floating">
+          <textarea class="form-control placeholder-no-fix" type="text" placeholder="" name="walletseed" id="walletseed" style="height: 100px;"></textarea>
           <label class="floating-label" for="walletseed">Wallet Seed</label>
         </div>
-        <p class="hint"> Please enter password for new wallet: </p>
         <div class="form-group form-material floating">
-          <input type="password" class="form-control" id="register_password" name="password">
+          <textarea class="form-control placeholder-no-fix" type="text" placeholder="" name="rwalletseed" id="rwalletseed" style="height: 100px;"></textarea>
+          <label class="floating-label" for="rwalletseed">Wallet Seed</label>
+        </div>
+        <h4 class="hint" style="color: #fff;"> Please enter password for new wallet: </h4>
+        <div class="form-group form-material floating">
+          <input type="text" class="form-control" id="register_password" name="password">
           <label class="floating-label" for="register_password">Password</label>
         </div>
         <div class="form-group form-material floating">
-          <input type="password" class="form-control" id="rpassword" name="rpassword">
+          <input type="text" class="form-control" id="rpassword" name="rpassword">
           <label class="floating-label" for="rpassword">Retype Password</label>
         </div>
         <button type="submit" id="register-submit-btn" class="btn btn-primary btn-block">Register</button>
