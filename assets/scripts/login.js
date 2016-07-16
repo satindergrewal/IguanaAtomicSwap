@@ -306,6 +306,7 @@ var Login = function() {
                     $('#section-login').fadeIn();
                     $('#section-register').hide();
                     $('#walletseed').text(PassPhraseGenerator.generatePassPhrase(256));
+                    $('#rwalletseed').val('')
                     $('#register_password').val('')
                     $('#rpassword').val('')
                 })
