@@ -2,6 +2,7 @@
 $(document).ready(function() {
 
     $('#section-dashboard').show();
+    $('#header-dashboard').show();
 	$('#section-easydex').hide();
 	$('#section-about-iguana').hide();
 	$('#nav-dashboard').removeClass( "" ).addClass( "active open" );
@@ -12,6 +13,7 @@ $(document).ready(function() {
 
 $('#nav-dashboard').on('click', function() {
 	$('#section-dashboard').show();
+	$('#header-dashboard').show();
 	$('#section-easydex').hide();
 	$('#section-about-iguana').hide();
 	$('#nav-dashboard').removeClass( "" ).addClass( "active open" );
@@ -21,6 +23,7 @@ $('#nav-dashboard').on('click', function() {
 
 $('#nav-easydex').on('click', function() {
 	$('#section-dashboard').hide();
+	$('#header-dashboard').hide();
 	$('#section-easydex').show();
 	$('#section-about-iguana').hide();
 	$('#nav-dashboard').removeClass( " active open" ).addClass( "" );
@@ -30,6 +33,7 @@ $('#nav-easydex').on('click', function() {
 
 $('#nav-about-iguana').on('click', function() {
 	$('#section-dashboard').hide();
+	$('#header-dashboard').hide();
 	$('#section-easydex').hide();
 	$('#section-about-iguana').show();
 	$('#nav-dashboard').removeClass( " active open" ).addClass( "" );
