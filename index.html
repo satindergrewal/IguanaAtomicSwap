@@ -260,21 +260,21 @@
     </div>
     <!-- End page header -->
     <div class="page-content" id="section-dashboard">
-      <div class="row" data-plugin="masonry" style="position: relative; height: 1362px;">
+      <div class="row" id="wallet-widgets" data-plugin="masonry" style="position: relative; height: 1362px;">
         <!-- Begin BTC wallet widget -->
         <div class="col-md-6 col-xs-12 masonry-item">
             <div class="widget widget-shadow">
               <div class="widget-header padding-15 clearfix">
                 <div class="row no-space">
                     <div class="col-xs-7">
-                      <a class="avatar avatar-lg pull-left margin-right-20 img-bordered" href="javascript:void(0)">
+                      <a class="avatar avatar-lg pull-left margin-right-20 img-bordered" href="javascript:void(0)" data-currency="">
                         <img src="assets/images/cryptologo/bitcoin.png" alt="">
-                        <span class="badge up badge-info" data-toggle="tooltip" data-placement="top" data-original-title="Basilisk">B</span>
+                        <span class="badge up badge-info" id="basfull" data-currency="" data-toggle="tooltip" data-placement="top" data-original-title="Basilisk">B</span>
                       </a>
                       <div>
-                        <div class="font-size-20">Bitcoin</div>
+                        <div class="font-size-20" data-currency="" id="currency-name">Bitcoin</div>
                         <div class="form-material">
-                          <select class="form-control font-size-12" id="select" style="width: 235px;">
+                          <select class="form-control font-size-12" data-currency="" id="currency-addr" style="width: 235px;">
                             <option>1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</option>
                             <option>1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</option>
                           </select>
@@ -287,19 +287,19 @@
                         <div class="col-md-4 col-xs-6">
                           <div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="Balance">
                             <div class="counter-icon"><i class="icon fa-bitcoin"></i></div>
-                            <span class="counter-number">6.584</span>
+                            <span class="counter-number" data-currency="" id="currency-balance">6.584</span>
                           </div>
                         </div>
                         <div class="col-md-4 col-xs-6">
                           <div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="Unconfirmed">
                             <div class="counter-icon"><i class="icon fa-spinner"></i></div>
-                            <span class="counter-number">3</span>
+                            <span class="counter-number" data-currency="" id="currency-unconfirmed">3</span>
                           </div>
                         </div>
                         <div class="col-md-4 hidden-xs">
                           <div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="No. of Transactions">
                             <div class="counter-icon"><i class="icon fa-book"></i></div>
-                            <span class="counter-number">325</span>
+                            <span class="counter-number" data-currency="" id="currency-nooftransactions">325</span>
                           </div>
                         </div>
                       </div>
@@ -311,7 +311,7 @@
                 <div class="height-200" data-plugin="scrollable">
                   <div data-role="container">
                     <div data-role="content">
-                      <table class="table table-striped font-size-12">
+                      <table class="table table-striped font-size-12" data-currency="" id="currency-tbl">
                         <tbody>
                           <tr>
                             <td><span class="label label-xs label-danger"><i class="icon fa-arrow-right"></i></span></td>
