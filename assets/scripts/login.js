@@ -542,6 +542,50 @@ var Login = function() {
                 toastr.warning("Opps... Something went wrong!", "Coin Notification")
             }
         });
+
+        var AddBTCBasiliskData = {
+            "poll": 100,
+            "active": 1,
+            "newcoin": "BTC",
+            "startpend": 1,
+            "endpend": 1,
+            "services": 128,
+            "maxpeers": 16,
+            "RELAY": 0,
+            "VALIDATE": 0,
+            "portp2p": 14631
+        }
+        //Start Bitcoin in Basilisk mode
+        $.ajax({
+            type: 'GET',
+            data: AddBTCBasiliskData,
+            url: 'http://127.0.0.1:7778/api/iguana/addcoin',
+            dataType: 'text',
+            success: function(data, textStatus, jqXHR) {
+                var BTCBasiliskDataOutput = JSON.parse(data);
+                //console.log('== Data OutPut ==');
+                //console.log(BTCBasiliskDataOutput);
+
+                if (BTCBasiliskDataOutput.result === 'coin added') {
+                    console.log('coin added');
+                    toastr.success("Bitcoin started in Basilisk Mode", "Coin Notification");
+                } else if (BTCBasiliskDataOutput.result === 'coin already there') {
+                    console.log('coin already there');
+                    toastr.info("Looks like Bitcoin already running.", "Coin Notification");
+                } else if (BTCBasiliskDataOutput.result === null) {
+                    console.log('coin already there');
+                    toastr.info("Looks like Bitcoin already running.", "Coin Notification");
+                }
+            },
+            error: function(xhr, textStatus, error) {
+                console.log('failed starting Bitcoin.');
+                console.log(xhr.statusText);
+                console.log(textStatus);
+                console.log(error);
+                //swal("Oops...", "Something went wrong!", "error");
+                toastr.warning("Opps... Something went wrong!", "Coin Notification")
+            }
+        });
     }
 
     var handleLoginAnotherWallet = function() {
