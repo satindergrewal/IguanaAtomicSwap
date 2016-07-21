@@ -21,6 +21,7 @@
   <!-- Plugins -->
   <link rel="stylesheet" href="assets/global/vendor/animsition/animsition.min.css">
   <link rel="stylesheet" href="assets/global/vendor/asscrollable/asScrollable.min.css">
+  <link rel="stylesheet" href="assets/global/vendor/jquery-scrollbar/jquery.scrollbar.css">
   <link rel="stylesheet" href="assets/global/vendor/switchery/switchery.min.css">
   <link rel="stylesheet" href="assets/global/vendor/intro-js/introjs.min.css">
   <link rel="stylesheet" href="assets/global/vendor/slidepanel/slidePanel.min.css">
@@ -247,7 +248,7 @@
     <!-- BEGIN DASHBOARD CONTENT BODY -->
     <!-- Begin page header -->
       <div class="page-header" id="header-dashboard">
-      <h1 class="page-title">Wallet Dashboard</h1>
+      <h1 class="page-title">EasyDEX Dashboard</h1>
       <!--<ol class="breadcrumb">
         <li><a href="../index.html">Home</a></li>
         <li><a href="javascript:void(0)">Widgets</a></li>
@@ -262,249 +263,8 @@
     </div>
     <!-- End page header -->
     <div class="page-content" id="section-dashboard">
-      <div class="row" id="wallet-widgets" data-plugin="masonry" style="position: relative; height: 1362px;">
-        <!-- Begin BTC wallet widget -->
-        <div class="col-md-6 col-xs-12 masonry-item">
-            <div class="widget widget-shadow">
-              <div class="widget-header wallet-widget-header padding-15 clearfix">
-                <div class="row no-space">
-                    <div class="col-xs-7">
-                      <a class="avatar avatar-lg pull-left margin-right-20 img-bordered" href="javascript:void(0)" data-currency="">
-                        <img src="assets/images/cryptologo/bitcoin.png" alt="">
-                        <span class="badge up badge-info" id="basfull" data-currency="" data-toggle="tooltip" data-placement="top" data-original-title="Basilisk">B</span>
-                      </a>
-                      <div>
-                        <div class="font-size-20 hidden-xs" data-currency="" id="currency-name">Bitcoin</div>
-                        <div class="form-material hidden-md hidden-xs">
-                          <select class="form-control font-size-12" data-currency="" id="currency-addr" style="width: 235px;">
-                            <option>1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</option>
-                            <option>1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</option>
-                          </select>
-                        </div>
-                        <div class="font-size-12 hidden-xs"></div>
-                      </div>
-                    </div>
-                    <div class="col-xs-5">
-                      <div class="row no-space text-center">
-                        <div class="col-md-4 col-xs-6">
-                          <div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="Balance">
-                            <div class="counter-icon"><i class="icon">BTC</i></div>
-                            <span class="counter-number" data-currency="" id="currency-balance">6.584</span>
-                          </div>
-                        </div>
-                        <div class="col-md-4 col-xs-6">
-                          <div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="Unconfirmed">
-                            <div class="counter-icon"><i class="icon fa-spinner"></i></div>
-                            <span class="counter-number" data-currency="" id="currency-unconfirmed">3</span>
-                          </div>
-                        </div>
-                        <div class="col-md-4 hidden-xs hidden-sm">
-                          <div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="No. of Transactions">
-                            <div class="counter-icon"><i class="icon fa-book"></i></div>
-                            <span class="counter-number" data-currency="" id="currency-nooftransactions">325</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-              <div class="widget-content history-body hidden-sm hidden-xs">
-                
-                <div class="height-200" data-plugin="scrollable">
-                  <div data-role="container">
-                    <div data-role="content">
-                      <table class="table font-size-12" data-currency="" id="currency-tbl">
-                        <tbody>
-                          <tr>
-                            <td><span class="label label-xs label-danger"><i class="icon fa-arrow-right"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>Just now</td>
-                            <td><span style="color: #f44336;">2.36224</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-danger"><i class="icon fa-arrow-right"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>20 mins</td>
-                            <td><span style="color: #f44336;">0.6774</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-success"><i class="icon fa-arrow-left"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>24 mins</td>
-                            <td><span style="color: #4caf50;">1.9456783</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-danger"><i class="icon fa-arrow-right"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>30 mins</td>
-                            <td><span style="color: #f44336;">0.0024578</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-danger"><i class="icon fa-arrow-right"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>32 mins</td>
-                            <td><span style="color: #f44336;">1.19079834</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-success"><i class="icon fa-arrow-left"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>44 mins</td>
-                            <td><span style="color: #4caf50;">1.0000001</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-danger"><i class="icon fa-arrow-right"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>45 mins</td>
-                            <td><span style="color: #f44336;">0.00001104</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-success"><i class="icon fa-arrow-left"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>53 mins</td>
-                            <td><span style="color: #4caf50;">0.7634890</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-success"><i class="icon fa-arrow-left"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>57 mins</td>
-                            <td><span style="color: #4caf50;">0.0678235</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-danger"><i class="icon fa-arrow-right"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>1 hr</td>
-                            <td><span style="color: #f44336;">3.898090</span></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- End BTC wallet widget -->
-
-          <!-- Begin BTCD wallet widget -->
-        <div class="col-md-6 col-xs-12 masonry-item">
-            <div class="widget widget-shadow">
-              <div class="widget-header wallet-widget-header padding-15 clearfix">
-                <div class="row no-space">
-                    <div class="col-xs-7">
-                      <a class="avatar avatar-lg pull-left margin-right-20 img-bordered" href="javascript:void(0)">
-                        <img src="assets/images/cryptologo/bitcoindark.png" alt="">
-                        <span class="badge up badge-success" data-toggle="tooltip" data-placement="top" data-original-title="Full">F</span>
-                      </a>
-                      <div>
-                        <div class="font-size-20 hidden-xs">BitcoinDark</div>
-                        <div class="form-material hidden-md hidden-xs">
-                          <select class="form-control font-size-12" id="select" style="width: 235px;">
-                            <option>1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</option>
-                            <option>1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-xs-5">
-                      <div class="row no-space text-center">
-                        <div class="col-md-4 col-xs-6">
-                          <div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="Balance">
-                            <div class="counter-icon"><i class="icon">BTCD</i></div>
-                            <span class="counter-number">6.584</span>
-                          </div>
-                        </div>
-                        <div class="col-md-4 col-xs-6">
-                          <div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="Unconfirmed">
-                            <div class="counter-icon"><i class="icon fa-spinner"></i></div>
-                            <span class="counter-number">3</span>
-                          </div>
-                        </div>
-                        <div class="col-md-4 hidden-xs hidden-sm">
-                          <div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="No. of Transactions">
-                            <div class="counter-icon"><i class="icon fa-book"></i></div>
-                            <span class="counter-number">325</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-              <div class="widget-content history-body hidden-sm hidden-xs">
-                <div class="height-200" data-plugin="scrollable">
-                  <div data-role="container">
-                    <div data-role="content">
-                      <table class="table font-size-12">
-                        <tbody>
-                          <tr>
-                            <td><span class="label label-xs label-danger"><i class="icon fa-arrow-right"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>Just now</td>
-                            <td><span style="color: #f44336;">2.36224</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-danger"><i class="icon fa-arrow-right"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>20 mins</td>
-                            <td><span style="color: #f44336;">0.6774</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-success"><i class="icon fa-arrow-left"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>24 mins</td>
-                            <td><span style="color: #4caf50;">1.9456783</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-danger"><i class="icon fa-arrow-right"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>30 mins</td>
-                            <td><span style="color: #f44336;">0.0024578</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-danger"><i class="icon fa-arrow-right"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>32 mins</td>
-                            <td><span style="color: #f44336;">1.19079834</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-success"><i class="icon fa-arrow-left"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>44 mins</td>
-                            <td><span style="color: #4caf50;">1.0000001</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-danger"><i class="icon fa-arrow-right"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>45 mins</td>
-                            <td><span style="color: #f44336;">0.00001104</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-success"><i class="icon fa-arrow-left"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>53 mins</td>
-                            <td><span style="color: #4caf50;">0.7634890</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-success"><i class="icon fa-arrow-left"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>57 mins</td>
-                            <td><span style="color: #4caf50;">0.0678235</span></td>
-                          </tr>
-                          <tr>
-                            <td><span class="label label-xs label-danger"><i class="icon fa-arrow-right"></i></span></td>
-                            <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
-                            <td>1 hr</td>
-                            <td><span style="color: #f44336;">3.898090</span></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- End BTCD wallet widget -->
-
+      <div class="row" id="wallet-widgets" data-plugin="masonry" style="position: relative; height: 800px;">
+        
       </div>
     </div>
     <!-- END DASHBOARD CONTENT BODY -->
@@ -538,6 +298,7 @@
   <script src="assets/global/vendor/bootstrap/bootstrap.min.js"></script>
   <script src="assets/global/vendor/animsition/animsition.min.js"></script>
   <script src="assets/global/vendor/asscroll/jquery-asScroll.min.js"></script>
+  <script src="assets/global/vendor/jquery-scrollbar/jquery.scrollbar.min.js"></script>
   <script src="assets/global/vendor/mousewheel/jquery.mousewheel.min.js"></script>
   <script src="assets/global/vendor/asscrollable/jquery.asScrollable.all.min.js"></script>
   <script src="assets/global/vendor/ashoverscroll/jquery-asHoverScroll.min.js"></script>
@@ -582,6 +343,9 @@
   })(document, window, jQuery);
   </script>
   <script type="text/javascript">
+  jQuery(document).ready(function(){
+    jQuery('.scrollbar-dynamic').scrollbar();
+});
   //$('#password').val(''); $('#wallet-login').hide(); $('#wallet-core').fadeIn(); $('body').removeClass( "page-login layout-full page-dark" ).addClass( "" ); $('link[id=loginStyle]')[0].disabled=true;
   </script>
 </body>
