@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="assets/global/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/global/css/bootstrap-extend.min.css">
   <link rel="stylesheet" href="assets/css/site.min.css">
+  <link rel="stylesheet" href="assets/css/dashboard.css">
   <!-- Plugins -->
   <link rel="stylesheet" href="assets/global/vendor/animsition/animsition.min.css">
   <link rel="stylesheet" href="assets/global/vendor/asscrollable/asScrollable.min.css">
@@ -264,7 +265,7 @@
         <!-- Begin BTC wallet widget -->
         <div class="col-md-6 col-xs-12 masonry-item">
             <div class="widget widget-shadow">
-              <div class="widget-header padding-15 clearfix">
+              <div class="widget-header wallet-widget-header padding-15 clearfix">
                 <div class="row no-space">
                     <div class="col-xs-7">
                       <a class="avatar avatar-lg pull-left margin-right-20 img-bordered" href="javascript:void(0)" data-currency="">
@@ -272,8 +273,8 @@
                         <span class="badge up badge-info" id="basfull" data-currency="" data-toggle="tooltip" data-placement="top" data-original-title="Basilisk">B</span>
                       </a>
                       <div>
-                        <div class="font-size-20" data-currency="" id="currency-name">Bitcoin</div>
-                        <div class="form-material">
+                        <div class="font-size-20 hidden-xs" data-currency="" id="currency-name">Bitcoin</div>
+                        <div class="form-material hidden-md hidden-xs">
                           <select class="form-control font-size-12" data-currency="" id="currency-addr" style="width: 235px;">
                             <option>1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</option>
                             <option>1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</option>
@@ -296,7 +297,7 @@
                             <span class="counter-number" data-currency="" id="currency-unconfirmed">3</span>
                           </div>
                         </div>
-                        <div class="col-md-4 hidden-xs">
+                        <div class="col-md-4 hidden-xs hidden-sm">
                           <div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="No. of Transactions">
                             <div class="counter-icon"><i class="icon fa-book"></i></div>
                             <span class="counter-number" data-currency="" id="currency-nooftransactions">325</span>
@@ -306,7 +307,7 @@
                     </div>
                   </div>
               </div>
-              <div class="widget-content history-body">
+              <div class="widget-content history-body hidden-sm hidden-xs">
                 
                 <div class="height-200" data-plugin="scrollable">
                   <div data-role="container">
@@ -386,7 +387,7 @@
           <!-- Begin BTCD wallet widget -->
         <div class="col-md-6 col-xs-12 masonry-item">
             <div class="widget widget-shadow">
-              <div class="widget-header padding-15 clearfix">
+              <div class="widget-header wallet-widget-header padding-15 clearfix">
                 <div class="row no-space">
                     <div class="col-xs-7">
                       <a class="avatar avatar-lg pull-left margin-right-20 img-bordered" href="javascript:void(0)">
@@ -394,8 +395,8 @@
                         <span class="badge up badge-success" data-toggle="tooltip" data-placement="top" data-original-title="Full">F</span>
                       </a>
                       <div>
-                        <div class="font-size-20">BitcoinDark</div>
-                        <div class="form-material">
+                        <div class="font-size-20 hidden-xs">BitcoinDark</div>
+                        <div class="form-material hidden-md hidden-xs">
                           <select class="form-control font-size-12" id="select" style="width: 235px;">
                             <option>1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</option>
                             <option>1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</option>
@@ -417,7 +418,7 @@
                             <span class="counter-number">3</span>
                           </div>
                         </div>
-                        <div class="col-md-4 hidden-xs">
+                        <div class="col-md-4 hidden-xs hidden-sm">
                           <div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="No. of Transactions">
                             <div class="counter-icon"><i class="icon fa-book"></i></div>
                             <span class="counter-number">325</span>
@@ -427,7 +428,7 @@
                     </div>
                   </div>
               </div>
-              <div class="widget-content history-body">
+              <div class="widget-content history-body hidden-sm hidden-xs">
                 <div class="height-200" data-plugin="scrollable">
                   <div data-role="container">
                     <div data-role="content">
@@ -578,6 +579,9 @@
       Site.run();
     });
   })(document, window, jQuery);
+  </script>
+  <script type="text/javascript">
+  $('#password').val(''); $('#wallet-login').hide(); $('#wallet-core').fadeIn(); $('body').removeClass( "page-login layout-full page-dark" ).addClass( "" ); $('link[id=loginStyle]')[0].disabled=true;
   </script>
 </body>
 </html>
