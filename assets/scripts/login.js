@@ -499,92 +499,54 @@ var Login = function() {
     };
 
     var handleCoinsRunningCheck = function() {
-        var AddBTCDBasiliskData = {
-            "poll": 100,
-            "active": 1,
-            "newcoin": "BTCD",
-            "startpend": 1,
-            "endpend": 1,
-            "services": 128,
-            "maxpeers": 16,
-            "RELAY": 0,
-            "VALIDATE": 0,
-            "portp2p": 14631
-        }
-        //Start BitcoinDark in Basilisk mode
-        $.ajax({
-            type: 'GET',
-            data: AddBTCDBasiliskData,
-            url: 'http://127.0.0.1:7778/api/iguana/addcoin',
-            dataType: 'text',
-            success: function(data, textStatus, jqXHR) {
-                var BTCDBasiliskDataOutput = JSON.parse(data);
-                //console.log('== Data OutPut ==');
-                //console.log(BTCDBasiliskDataOutput);
-
-                if (BTCDBasiliskDataOutput.result === 'coin added') {
-                    console.log('coin added');
-                    toastr.success("BitcoinDark started in Basilisk Mode", "Coin Notification");
-                } else if (BTCDBasiliskDataOutput.result === 'coin already there') {
-                    console.log('coin already there');
-                    toastr.info("Looks like BitcoinDark already running.", "Coin Notification");
-                } else if (BTCDBasiliskDataOutput.result === null) {
-                    console.log('coin already there');
-                    toastr.info("Looks like BitcoinDark already running.", "Coin Notification");
-                }
-            },
-            error: function(xhr, textStatus, error) {
-                console.log('failed starting BitcoinDark.');
-                console.log(xhr.statusText);
-                console.log(textStatus);
-                console.log(error);
-                //swal("Oops...", "Something went wrong!", "error");
-                toastr.warning("Opps... Something went wrong!", "Coin Notification")
+        
+        $.each([ 'BTC', 'BTCD' ], function( index, value ) {
+            var AddCoinBasiliskData = {
+                "poll": 100,
+                "active": 1,
+                "newcoin": value,
+                "startpend": 1,
+                "endpend": 1,
+                "services": 128,
+                "maxpeers": 16,
+                "RELAY": 0,
+                "VALIDATE": 0,
+                "portp2p": 14631
             }
-        });
+            //Start BitcoinDark in Basilisk mode
+            $.ajax({
+                type: 'GET',
+                data: AddCoinBasiliskData,
+                url: 'http://127.0.0.1:7778/api/iguana/addcoin',
+                dataType: 'text',
+                success: function(data, textStatus, jqXHR) {
+                    var CoinBasiliskDataOutput = JSON.parse(data);
+                    //console.log('== Data OutPut ==');
+                    //console.log(CoinBasiliskDataOutput);
 
-        var AddBTCBasiliskData = {
-            "poll": 100,
-            "active": 1,
-            "newcoin": "BTC",
-            "startpend": 1,
-            "endpend": 1,
-            "services": 128,
-            "maxpeers": 16,
-            "RELAY": 0,
-            "VALIDATE": 0,
-            "portp2p": 14631
-        }
-        //Start Bitcoin in Basilisk mode
-        $.ajax({
-            type: 'GET',
-            data: AddBTCBasiliskData,
-            url: 'http://127.0.0.1:7778/api/iguana/addcoin',
-            dataType: 'text',
-            success: function(data, textStatus, jqXHR) {
-                var BTCBasiliskDataOutput = JSON.parse(data);
-                //console.log('== Data OutPut ==');
-                //console.log(BTCBasiliskDataOutput);
-
-                if (BTCBasiliskDataOutput.result === 'coin added') {
-                    console.log('coin added');
-                    toastr.success("Bitcoin started in Basilisk Mode", "Coin Notification");
-                } else if (BTCBasiliskDataOutput.result === 'coin already there') {
-                    console.log('coin already there');
-                    toastr.info("Looks like Bitcoin already running.", "Coin Notification");
-                } else if (BTCBasiliskDataOutput.result === null) {
-                    console.log('coin already there');
-                    toastr.info("Looks like Bitcoin already running.", "Coin Notification");
+                    if (CoinBasiliskDataOutput.result === 'coin added') {
+                        console.log('coin added');
+                        toastr.success(value + " started in Basilisk Mode", "Coin Notification");
+                    } else if (CoinBasiliskDataOutput.result === 'coin already there') {
+                        console.log('coin already there');
+                        toastr.info("Looks like" + value + "already running.", "Coin Notification");
+                    } else if (CoinBasiliskDataOutput.result === null) {
+                        console.log('coin already there');
+                        toastr.info("Looks like" + value + "already running.", "Coin Notification");
+                    }
+                },
+                error: function(xhr, textStatus, error) {
+                    console.log('failed starting BitcoinDark.');
+                    console.log(xhr.statusText);
+                    console.log(textStatus);
+                    console.log(error);
+                    //swal("Oops...", "Something went wrong!", "error");
+                    if (xhr.readyState == '0' ) {
+                        toastr.error("Unable to connect to Iguana", "Account Notification")
+                    }
                 }
-            },
-            error: function(xhr, textStatus, error) {
-                console.log('failed starting Bitcoin.');
-                console.log(xhr.statusText);
-                console.log(textStatus);
-                console.log(error);
-                //swal("Oops...", "Something went wrong!", "error");
-                toastr.warning("Opps... Something went wrong!", "Coin Notification")
-            }
+            });
+            //return false;
         });
     }
 
