@@ -67,8 +67,6 @@ var Dashboard = function() {
                                       walletDivContent += '<div class="font-size-20 hidden-xs" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-name">' + coinname + '</div>';
                                       walletDivContent += '<div class="form-material hidden-md hidden-xs">';
                                         walletDivContent += '<select class="form-control font-size-12" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-addr" style="width: 235px;">';
-                                          //walletDivContent += '<option>1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</option>';
-                                          //walletDivContent += '<option>1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</option>';
                                         walletDivContent += '</select>';
                                       walletDivContent += '</div>';
                                       walletDivContent += '<div class="font-size-12 hidden-xs"></div>';
@@ -118,40 +116,54 @@ var Dashboard = function() {
                         $('.scrollbar-dynamic').scrollbar(); //Make sure widget-body has scrollbar for transactions history
                         $('[data-toggle="tooltip"]').tooltip(); //Make sure tooltips are working for wallet widgets and anywhere else in wallet.
                         //console.log(walletDivContent);
-
+                        
                         //console.log('http://127.0.0.1:7778/api/bitcoinrpc/getaddressesbyaccount?coin=' + AllcoinsDataOutput[value][index] + '&account=*');
-                        //$('select[data-currency="' + AllcoinsDataOutput[value][index] + '"]').empty();
-                        //Get list of address per coin and pupulate that to wallet widget
-                        $.getJSON( 'http://127.0.0.1:7778/api/bitcoinrpc/getaddressesbyaccount?coin=' + AllcoinsDataOutput[value][index] + '&account=*', function( data ) {
-                            //var CoinAddrList = '';
-                            //console.log(data.result);
-                            $.each(data.result, function(coin_index){
-                                //console.log(coin_index);
-                                //console.log(data.result[index]);
-                                //console.log(AllcoinsDataOutput[value][index]);
-                                CoinAddrList = '<option value="' + data.result[coin_index] + '" data-select-options="' + AllcoinsDataOutput[value][index] + '">' + data.result[coin_index] + '</option>';
-
-                                //console.log(CoinAddrList);
-                                // Inject the whole content string into our existing HTML table
-                                $('select[data-currency="' + AllcoinsDataOutput[value][index] + '"]').append(CoinAddrList);
-
-                            });
-                            //console.log(data);
-                            //console.log(data[0]);*/
-                        });
-
-                        var historyvalues = {"timeout":20000,"agent":"basilisk","method":"history","vals":{"coin":"LTC"}};
-
-                        //Get coin history and pupulate balance and other info to wallet widget
+                        //List coin addresses as drop down menu
+                        var getaddrlist = {"coin":AllcoinsDataOutput[value][index],"agent":"bitcoinrpc","method":"getaddressesbyaccount","account":"*"};
                         $.ajax({
                             type: 'POST',
-                            data: historyvalues,
-                            url: 'http://127.0.0.1:7778/api/basilisk/history',
-                            dataType: 'text',
+                            data: JSON.stringify(getaddrlist),
+                            url: 'http://127.0.0.1:7778',
+                            //dataType: 'text',
+                            success: function(data, textStatus, jqXHR) {
+                                var addrlistData = JSON.parse(data);
+                                //console.log('== Data OutPut ==');
+                                //console.log(addrlistData);
+                                $.each(addrlistData.result, function(coin_index){
+                                    //console.log(coin_index);
+                                    //console.log(addrlistData.result[index]);
+                                    //console.log(AllcoinsDataOutput[value][index]);
+                                    CoinAddrList = '<option value="' + addrlistData.result[coin_index] + '" data-select-options="' + AllcoinsDataOutput[value][index] + '">' + addrlistData.result[coin_index] + '</option>';
+
+                                    //console.log(CoinAddrList);
+                                    // Inject the whole content string into our existing HTML table
+                                    $('select[data-currency="' + AllcoinsDataOutput[value][index] + '"]').append(CoinAddrList);
+
+                                });
+                                //console.log(data);
+                                //console.log(data[0]);*/
+                            },
+                            error: function(xhr, textStatus, error) {
+                                console.log('failed getting Coin History.');
+                                console.log(xhr.statusText);
+                                console.log(textStatus);
+                                console.log(error);
+                            }
+                        });
+
+                        //Get coin history and pupulate balance and other info to wallet widget
+                        var historyvalues = {"timeout":20000,"agent":"basilisk","method":"history","vals":{"coin":"" + AllcoinsDataOutput[value][index] + ""}};
+                        $.ajax({
+                            type: 'POST',
+                            data: JSON.stringify(historyvalues),
+                            url: 'http://127.0.0.1:7778',
+                            //dataType: 'text',
                             success: function(data, textStatus, jqXHR) {
                                 var CoinHistoryData = JSON.parse(data);
-                                console.log('== Data OutPut ==');
+                                //console.log('== Data OutPut ==');
                                 console.log(CoinHistoryData);
+                                $('span[data-currency="' + AllcoinsDataOutput[value][index] + '"][id="currency-balance"]').text(CoinHistoryData.balance);
+
                             },
                             error: function(xhr, textStatus, error) {
                                 console.log('failed getting Coin History.');
