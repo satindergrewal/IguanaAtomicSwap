@@ -160,26 +160,35 @@ var Dashboard = function() {
                             //dataType: 'text',
                             success: function(data, textStatus, jqXHR) {
                                 var CoinHistoryData = JSON.parse(data);
+                                var label_color = '';
+                                var label_icon = '';
+                                var wallettblContent = '';
                                 //console.log('== Data OutPut ==');
                                 //console.log(CoinHistoryData);
                                 $('span[data-currency="' + AllcoinsDataOutput[value][index] + '"][id="currency-balance"]').text(CoinHistoryData.balance);
 
                                 var testhistory = {"result":"success","received":[{"address":"RCNL1GJuTVt88dgnuiwS7i51ztjYHpPKF2","amount":9.94390000,"numseconds":1410727,"details":{"txid":"e0330be4ec6f2fd27bc26c559524ccd808a589a0752e18618b358d288d62be3a","vout":1,"height":1195141,"relays":1}}, {"address":"RCNL1GJuTVt88dgnuiwS7i51ztjYHpPKF2","amount":0.89000000,"numseconds":1340168,"details":{"txid":"46b210cd0d505e88b738d1ca09595e33dc435f11d53e0516566deb0a9e0de5ba","vout":1,"height":1196389,"relays":1}}, {"address":"RCNL1GJuTVt88dgnuiwS7i51ztjYHpPKF2","amount":0.94590000,"numseconds":1340168,"details":{"txid":"67499f6ccefadf046e7e26b9a650f32b6dd472046356d79f35714f37482692d8","vout":1,"height":1196382,"relays":1}}, {"address":"RCNL1GJuTVt88dgnuiwS7i51ztjYHpPKF2","amount":0.87900000,"numseconds":1319872,"details":{"txid":"2426d9e0d3643706c0709af8e5342106633030b59ef738cb75d3c19aebe51a40","vout":1,"height":1196766,"relays":1}}, {"address":"RCNL1GJuTVt88dgnuiwS7i51ztjYHpPKF2","amount":0.97890000,"numseconds":1319871,"details":{"txid":"820b553726e055de46ee40652b86692be2c52fd561edf8a927ab012be46b4ed4","vout":1,"height":1196748,"relays":1}}],"sent":[],"coin":"BTCD","balance":13.63770000,"tag":"10703025980307863381"};
                                 console.log(testhistory.received[0]);
-                                var wallettblContent = '';
-                                wallettblContent += '<tr>';
-                                    wallettblContent += '<td><span class="label label-xs label-danger"><i class="icon fa-arrow-right"></i></span></td>';
-                                    wallettblContent += '<td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>';
-                                    wallettblContent += '<td>Just now</td>';
-                                    wallettblContent += '<td><span style="color: #f44336;">2.36224</span></td>';
-                                wallettblContent += '</tr>';
+                                
+                                $.each(testhistory.received, function(coin_history_index){
+                                    //console.log(coin_history_index);
+
+                                    wallettblContent += '<tr>';
+                                        wallettblContent += '<td><span class="label label-xs label-danger"><i class="icon fa-arrow-right"></i></span></td>';
+                                        wallettblContent += '<td class="hidden-xs">' + testhistory.received[coin_history_index].address + '</td>';
+                                        wallettblContent += '<td>' + testhistory.received[coin_history_index].numseconds + ' ' + coin_history_index + '</td>';
+                                        wallettblContent += '<td><span style="color: #f44336;">' + testhistory.received[coin_history_index].amount + '</span></td>';
+                                    wallettblContent += '</tr>';
+                                    $('#currency-tbl tbody').html(wallettblContent);
+                                });
+                                
                                 /*<tr>
                                     <td><span class="label label-xs label-success"><i class="icon fa-arrow-left"></i></span></td>
                                     <td class="hidden-xs">1LkTfkQLXg2v86oc1MoLz68nKoshh5ARTC</td>
                                     <td>24 mins</td>
                                     <td><span style="color: #4caf50;">1.9456783</span></td>
                                 </tr>*/
-                                $('#currency-tbl tbody').html(wallettblContent);
+                                
 
                             },
                             error: function(xhr, textStatus, error) {
