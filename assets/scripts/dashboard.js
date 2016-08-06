@@ -75,19 +75,19 @@ var Dashboard = function() {
                                   walletDivContent += '</div>';
                                   walletDivContent += '<div class="col-xs-5">';
                                     walletDivContent += '<div class="row no-space text-center">';
-                                      walletDivContent += '<div class="col-md-4 col-xs-6">';
+                                      walletDivContent += '<div class="col-md-6 col-xs-12">';
                                         walletDivContent += '<div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="Balance">';
                                           walletDivContent += '<div class="counter-icon"><i class="icon">' + AllcoinsDataOutput[value][index] + '</i></div>';
                                           walletDivContent += '<span class="counter-number" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-balance">0</span>';
                                         walletDivContent += '</div>';
                                       walletDivContent += '</div>';
-                                      walletDivContent += '<div class="col-md-4 col-xs-6">';
+                                      /*walletDivContent += '<div class="col-md-4 col-xs-6">';
                                         walletDivContent += '<div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="Unconfirmed">';
                                           walletDivContent += '<div class="counter-icon"><i class="icon fa-spinner"></i></div>';
                                           walletDivContent += '<span class="counter-number" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-unconfirmed">0</span>';
                                         walletDivContent += '</div>';
-                                      walletDivContent += '</div>';
-                                      walletDivContent += '<div class="col-md-4 hidden-xs hidden-sm">';
+                                      walletDivContent += '</div>';*/
+                                      walletDivContent += '<div class="col-md-6 hidden-xs hidden-sm">';
                                         walletDivContent += '<div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="No. of Transactions">';
                                           walletDivContent += '<div class="counter-icon"><i class="icon fa-book"></i></div>';
                                           walletDivContent += '<span class="counter-number" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-nooftransactions">0</span>';
