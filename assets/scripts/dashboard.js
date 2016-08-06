@@ -113,7 +113,7 @@ var Dashboard = function() {
                               walletDivContent += '<div class="row no-space ">';
                                 walletDivContent += '<div class="btn-group btn-group-justified">';
                                     walletDivContent += '<div class="btn-group" role="group">';
-                                      walletDivContent += '<button type="button" class="btn btn-xs bg-blue-grey-200 grey-800 waves-effect waves-light" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-send" onclick="sendCurrency($(this).data())" data-target="#exampleNifty3dSign" data-toggle="modal">';
+                                      walletDivContent += '<button type="button" class="btn btn-xs bg-blue-grey-200 grey-800 waves-effect waves-light" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-send" onclick="sendCurrency($(this).data())" data-target="#exampleMultipleOne" data-toggle="modal">';
                                         walletDivContent += '<i class="icon wb-upload" aria-hidden="true"></i>';
                                         walletDivContent += '<br>';
                                         walletDivContent += '<span class="text-uppercase hidden-xs">Send</span>';

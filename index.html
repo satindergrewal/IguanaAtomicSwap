@@ -32,6 +32,7 @@
   <link id="loginStyle" rel="stylesheet" href="assets/pages/login.css">
   <!-- Fonts -->
   <link rel="stylesheet" href="assets/global/fonts/font-awesome/font-awesome.min.css">
+  <link rel="stylesheet" href="assets/global/fonts/glyphicons/glyphicons.min.css">
   <link rel="stylesheet" href="assets/global/fonts/material-design/material-design.min.css">
   <link rel="stylesheet" href="assets/global/fonts/web-icons/web-icons.css">
   <link rel="stylesheet" href="assets/global/fonts/brand-icons/brand-icons.min.css">
@@ -267,22 +268,78 @@
         
       </div>
       <!-- Modal -->
-      <div class="modal fade modal-3d-sign" id="exampleNifty3dSign" aria-hidden="true"
+      <div class="modal fade modal-3d-sign" id="exampleMultipleOne" aria-hidden="true"
       aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-center">
+          <form class="modal-content">
+            <div class="modal-header bg-orange-a400">
+              <button type="button" class="close white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+              <h4 class="modal-title white" id="exampleFormModalLabel">SEND [COIN] (Balance) <small class="white" style="font-size: 10px;">STEP 1 of 2</small></h4>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-lg-12 form-group form-material">
+                  <label class="control-label" for="inputText">Send To</label>
+                  <input type="text" class="form-control" id="inputText" name="inputText" placeholder="Enter [coin] address"
+                  />
+                </div>
+                <div class="col-lg-6 form-group form-material">
+                  <label class="control-label" for="inputText">[Coin]]</label>
+                  <input type="text" class="form-control" id="inputText" name="inputText" placeholder="0.000"/>
+                </div>
+                <div class="col-lg-6 form-group form-material">
+                  <label class="control-label" for="inputText">Fee</label>
+                  <input type="text" class="form-control" id="inputText" name="inputText" placeholder="0.000"/>
+                </div>
+                <div class="col-lg-12">
+                  <span><b>Total:</b> 0.000 [Coin] <span class="icon glyphicon glyphicon-resize-horizontal"></span> 0.00 [USD]</span>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-target="#exampleMultipleTwo" data-toggle="modal" data-dismiss="modal">Send</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- End Modal -->
+      <!-- Modal -->
+      <div class="modal fade modal-3d-sign" id="exampleMultipleTwo" aria-hidden="false" role="dialog"
+      tabindex="-1">
+        <div class="modal-dialog modal-center">
           <div class="modal-content">
             <div class="modal-header bg-orange-a400">
               <button type="button" class="close white" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
               </button>
-              <h4 class="modal-title white">Modal Title</h4>
+              <h4 class="modal-title white"><span class="icon wb-upload" style="margin: 0;"></span> Confirm <small class="white" style="font-size: 10px;">STEP 2 of 2</small></h4>
+              <span class="white">Please review your transaction</span>
             </div>
             <div class="modal-body">
-              <p>One fine body…</p>
+              <div class="row">
+                <div class="col-xs-12"><b>To:</b></div>
+                <div class="col-lg-6 col-sm-6 col-xs-12">[coin-address-goes-here]</div>
+                <div class="col-lg-4 col-sm-4 col-xs-6">0.00000000 [COIN]</div>
+                <div class="col-lg-2 col-sm-2 col-xs-6">$0.00</div>
+                <div class="col-lg-6 col-sm-6 col-xs-12">Transaction Fee (Required by miners)</div>
+                <div class="col-lg-4 col-sm-4 col-xs-6">0.00000000 [COIN]</div>
+                <div class="col-lg-2 col-sm-2 col-xs-6">$0.00</div>
+              </div>
+              <br>
+              
+              <div class="row">
+                <div class="col-xs-12"><b>From:</b></div>
+                <div class="col-lg-6 col-sm-6 col-xs-12">[coin-address-goes-here]</div>
+                <div class="col-lg-4 col-sm-4 col-xs-6">-0.00000000 [COIN]</div>
+                <div class="col-lg-2 col-sm-2 col-xs-6">-$0.00</div>
+              </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default btn-pure margin-0" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <a class="btn btn-default" data-target="#exampleMultipleOne" data-toggle="modal" data-dismiss="modal">Back</a>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal">Confirm</button>
             </div>
           </div>
         </div>
