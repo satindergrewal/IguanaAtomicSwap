@@ -113,7 +113,7 @@ var Dashboard = function() {
                               walletDivContent += '<div class="row no-space ">';
                                 walletDivContent += '<div class="btn-group btn-group-justified">';
                                     walletDivContent += '<div class="btn-group" role="group">';
-                                      walletDivContent += '<button type="button" class="btn btn-xs bg-blue-grey-200 grey-800 waves-effect waves-light" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-send" onclick="sendCurrency($(this).data())" data-target="#exampleMultipleOne" data-toggle="modal">';
+                                      walletDivContent += '<button type="button" class="btn btn-xs bg-blue-grey-200 grey-800 waves-effect waves-light" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-send" onclick="sendCurrency($(this).data())" data-target="#SendCoinModelStep1" data-toggle="modal">';
                                         walletDivContent += '<i class="icon wb-upload" aria-hidden="true"></i>';
                                         walletDivContent += '<br>';
                                         walletDivContent += '<span class="text-uppercase hidden-xs">Send</span>';
@@ -191,8 +191,8 @@ var Dashboard = function() {
                                 var label_color = '';
                                 var label_icon = '';
                                 var wallettblContent = '';
-                                console.log('== Data OutPut ==');
-                                console.log(CoinHistoryData);
+                                //console.log('== Data OutPut ==');
+                                //console.log(CoinHistoryData);
 
 
                                 //var testhistory = {"result":"success","received":[{"address":"RCNL1GJuTVt88dgnuiwS7i51ztjYHpPKF2","amount":9.94390000,"numseconds":1410727,"details":{"txid":"e0330be4ec6f2fd27bc26c559524ccd808a589a0752e18618b358d288d62be3a","vout":1,"height":1195141,"relays":1}}, {"address":"RCNL1GJuTVt88dgnuiwS7i51ztjYHpPKF2","amount":0.89000000,"numseconds":1340168,"details":{"txid":"46b210cd0d505e88b738d1ca09595e33dc435f11d53e0516566deb0a9e0de5ba","vout":1,"height":1196389,"relays":1}}, {"address":"RCNL1GJuTVt88dgnuiwS7i51ztjYHpPKF2","amount":0.94590000,"numseconds":1340168,"details":{"txid":"67499f6ccefadf046e7e26b9a650f32b6dd472046356d79f35714f37482692d8","vout":1,"height":1196382,"relays":1}}, {"address":"RCNL1GJuTVt88dgnuiwS7i51ztjYHpPKF2","amount":0.87900000,"numseconds":1319872,"details":{"txid":"2426d9e0d3643706c0709af8e5342106633030b59ef738cb75d3c19aebe51a40","vout":1,"height":1196766,"relays":1}}, {"address":"RCNL1GJuTVt88dgnuiwS7i51ztjYHpPKF2","amount":0.97890000,"numseconds":1319871,"details":{"txid":"820b553726e055de46ee40652b86692be2c52fd561edf8a927ab012be46b4ed4","vout":1,"height":1196748,"relays":1}}],"sent":[{"address":"RCNL1GJuTVt88dgnuiwS7i51ztjYHpPKF2","amount":9.94390000,"numseconds":1410727,"details":{"txid":"e0330be4ec6f2fd27bc26c559524ccd808a589a0752e18618b358d288d62be3a","vout":1,"height":1195141,"relays":1}}, {"address":"RCNL1GJuTVt88dgnuiwS7i51ztjYHpPKF2","amount":0.89000000,"numseconds":1340168,"details":{"txid":"46b210cd0d505e88b738d1ca09595e33dc435f11d53e0516566deb0a9e0de5ba","vout":1,"height":1196389,"relays":1}}, {"address":"RCNL1GJuTVt88dgnuiwS7i51ztjYHpPKF2","amount":0.94590000,"numseconds":1340168,"details":{"txid":"67499f6ccefadf046e7e26b9a650f32b6dd472046356d79f35714f37482692d8","vout":1,"height":1196382,"relays":1}}, {"address":"RCNL1GJuTVt88dgnuiwS7i51ztjYHpPKF2","amount":0.87900000,"numseconds":1319872,"details":{"txid":"2426d9e0d3643706c0709af8e5342106633030b59ef738cb75d3c19aebe51a40","vout":1,"height":1196766,"relays":1}}, {"address":"RCNL1GJuTVt88dgnuiwS7i51ztjYHpPKF2","amount":0.97890000,"numseconds":1319871,"details":{"txid":"820b553726e055de46ee40652b86692be2c52fd561edf8a927ab012be46b4ed4","vout":1,"height":1196748,"relays":1}}],"coin":"BTCD","balance":13.63770000,"tag":"10703025980307863381"};
@@ -202,8 +202,8 @@ var Dashboard = function() {
 
                                 $('span[data-currency="' + AllcoinsDataOutput[value][index] + '"][id="currency-balance"]').text(CoinHistoryData.balance);
                                 
-                                //var show_coin_history = CoinHistoryData; //Enable to get history from each coins's wallet address.
-                                var show_coin_history = testhistory; //Enable to get history from just test variable.
+                                var show_coin_history = CoinHistoryData; //Enable to get history from each coins's wallet address.
+                                //var show_coin_history = testhistory; //Enable to get history from just test variable.
                                 $.each(show_coin_history.history.reverse(), function(coin_history_index){
                                     //console.log(coin_history_index);
                                     //console.log(show_coin_history.history[coin_history_index].details.vout);
@@ -222,7 +222,8 @@ var Dashboard = function() {
                                         wallettblContent += '<td>' + show_coin_history.history[coin_history_index].numseconds + '</td>';
                                         wallettblContent += '<td><span style="color: ' + balance_text_color + ';">' + show_coin_history.history[coin_history_index].amount + '</span></td>';
                                     wallettblContent += '</tr>';
-                                    $('#currency-tbl tbody').html(wallettblContent);
+                                    $('table[data-currency="' + AllcoinsDataOutput[value][index] + '"][id="currency-tbl"] tbody').html(wallettblContent);
+                                    //$('#currency-tbl tbody').html(wallettblContent);
                                 });
                                 
                                 //console.log(show_coin_history.history.length);
