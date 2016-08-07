@@ -271,6 +271,10 @@ var Dashboard = function() {
             handleWalletWidgets();
             handleWalletSendRec();
 
+            setInterval(function() {
+                handleWalletWidgets();
+                console.log('wallet widget refereshed (every 15 seconds)');
+            }, 15000);
         }
 
     };
