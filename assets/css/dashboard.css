@@ -7,3 +7,13 @@
 	-webkit-box-shadow:0 -4px 27px 0px rgba(0,0,0,0.09);
 	box-shadow: 0 -4px 27px 0px rgba(0,0,0,0.09);
 }
+
+.wallet-send-header {
+	background: rgb(135,224,253); /* Old browsers */
+	background: -moz-radial-gradient(top, ellipse cover, rgba(255, 134, 74, 0.86) 0%,rgba(218, 117, 67, 0.5) 40%,rgb(255, 61, 32) 100%); /* FF3.6-15 */
+	background: -webkit-radial-gradient(top, ellipse cover, rgba(255, 134, 74, 0.86) 0%,rgba(218, 117, 67, 0.5) 40%,rgb(255, 61, 32) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: radial-gradient(ellipse at top, rgba(255, 134, 74, 0.86) 0%,rgba(218, 117, 67, 0.5) 40%,rgb(255, 61, 32) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff702a', endColorstr='#ff3d20',GradientType=1 );
+	-webkit-box-shadow:0 -4px 27px 0px rgba(0,0,0,0.09);
+	box-shadow: 0 3px 10px 0px rgba(0, 0, 0, 0.32);
+}
