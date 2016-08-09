@@ -95,19 +95,22 @@ function ExecuteSendCurrencyAPI() {
             var SendToAddrData = JSON.parse(data);
             console.log('== Data OutPut ==');
             console.log(SendToAddrData);
+            if ( SendToAddrData.sendrawtransaction == 'success' ) {
+				toastr.success("Transaction Sent", "Transaction Notification")
+            }
         },
         error: function(xhr, textStatus, error) {
             console.log('failed getting Coin History.');
             console.log(xhr.statusText);
             console.log(textStatus);
             console.log(error);
+            toastr.error("Unable to complete transaction", "Transaction Notification")
         }
     });
 
     //Clear Send Dialog values and set them to blank
     $('#mdl_currency_coin').text('');
 	$('#mdl_currency_balance').text('');
-	$('#mdl_currency_sendto').attr("placeholder", "Enter " + [COIN] + " address");
 	$('#mdl_currency_amount_label').text('');
 	$('#mdl_currency_total_coinname').text('');
 

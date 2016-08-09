@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="assets/global/vendor/switchery/switchery.min.css">
   <link rel="stylesheet" href="assets/global/vendor/intro-js/introjs.min.css">
   <link rel="stylesheet" href="assets/global/vendor/slidepanel/slidePanel.min.css">
+  <!--<link rel="stylesheet" href="assets/global/vendor/flag-icon-css/flag-icon.min.css">-->
   <link rel="stylesheet" href="assets/global/vendor/bootstrap-toastr/toastr.min.css">
   <link rel="stylesheet" href="assets/global/vendor/bootstrap-select/bootstrap-select.min.css">
   <link rel="stylesheet" href="assets/global/vendor/sweetalert2/sweetalert2.min.css">
@@ -169,34 +170,34 @@
         <!-- End Navbar Toolbar -->
         <!-- Navbar Toolbar Right -->
         <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
-          <!--<li class="dropdown">
+          <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up"
             aria-expanded="false" role="button">
-              <span class="flag-icon flag-icon-us"></span>
+              <span class="icon fa-money"></span>
             </a>
             <ul class="dropdown-menu" role="menu">
               <li role="presentation">
                 <a href="javascript:void(0)" role="menuitem">
-                  <span class="flag-icon flag-icon-gb"></span> English</a>
+                  <span class="icon fa-gbp"></span> USD</a>
               </li>
               <li role="presentation">
                 <a href="javascript:void(0)" role="menuitem">
-                  <span class="flag-icon flag-icon-fr"></span> French</a>
+                  <span class="icon fa-eur"></span> EURO</a>
               </li>
               <li role="presentation">
                 <a href="javascript:void(0)" role="menuitem">
-                  <span class="flag-icon flag-icon-cn"></span> Chinese</a>
+                  <span class="icon fa-cny"></span> CNY</a>
               </li>
               <li role="presentation">
                 <a href="javascript:void(0)" role="menuitem">
-                  <span class="flag-icon flag-icon-de"></span> German</a>
+                  <span class="icon fa-jpy"></span> JPY</a>
               </li>
               <li role="presentation">
                 <a href="javascript:void(0)" role="menuitem">
-                  <span class="flag-icon flag-icon-nl"></span> Dutch</a>
+                  <span class="icon fa-inr"></span> INR</a>
               </li>
             </ul>
-          </li>-->
+          </li>
           <li class="dropdown">
             <a class="navbar-avatar dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"
             data-animation="scale-up" role="button">
@@ -206,6 +207,9 @@
               </span>
             </a>
             <ul class="dropdown-menu" role="menu">
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem" id="lock-settings"><i class="icon md-settings" aria-hidden="true"></i> Settings</a>
+              </li>
               <li role="presentation">
                 <a href="javascript:void(0)" role="menuitem" id="lock-screen"><i class="icon md-lock" aria-hidden="true"></i> Lock Screen</a>
               </li>
@@ -247,10 +251,42 @@
   <!-- Page -->
   <div class="page animsition">
     <!-- BEGIN DASHBOARD CONTENT BODY -->
+    
+    <!-- Example With Stats -->
+    <div class="page-header page-header-bordered">
+      <h1 class="page-title">EasyDEX</h1>
+      <ol class="breadcrumb">
+        <li>Dashboard</li>
+        <!--<li class="active">You are Here</li>-->
+      </ol>
+      <div class="page-header-actions">
+        <div class="row no-space width-250 hidden-xs">
+          <div class="col-xs-4">
+            <div class="counter">
+              <span class="counter-number font-weight-medium">BTC</span>
+              <div class="counter-label">0.043235</div>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="counter">
+              <span class="counter-number font-weight-medium">BTCD</span>
+              <div class="counter-label">4.9888</div>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="counter">
+              <span class="counter-number font-weight-medium">USD</span>
+              <div class="counter-label">$38,823</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Example With Stats -->
+
     <!-- Begin page header -->
-      <div class="page-header" id="header-dashboard">
-      <h1 class="page-title">EasyDEX Dashboard</h1>
-      <!--<ol class="breadcrumb">
+      <!--<div class="page-header" id="header-dashboard">
+      <ol class="breadcrumb">
         <li><a href="../index.html">Home</a></li>
         <li><a href="javascript:void(0)">Widgets</a></li>
         <li class="active">Social</li>
@@ -260,8 +296,8 @@
           <span class="text hidden-xs">Settings</span>
           <i class="icon md-chevron-right" aria-hidden="true"></i>
         </button>
-      </div>-->
-    </div>
+      </div>
+    </div>-->
     <!-- End page header -->
     <div class="page-content" id="section-dashboard">
       <div class="row" id="wallet-widgets" data-plugin="masonry">
