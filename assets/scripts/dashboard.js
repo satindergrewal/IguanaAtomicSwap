@@ -220,7 +220,7 @@ var Dashboard = function() {
                                         wallettblContent += '<td><span class="label label-xs ' + label_class + '"><i class="icon ' + icon_arrow_direction + '"></i></span></td>';
                                         wallettblContent += '<td class="hidden-xs">' + show_coin_history.history[coin_history_index].address + '</td>';
                                         wallettblContent += '<td>' + show_coin_history.history[coin_history_index].numseconds + '</td>';
-                                        wallettblContent += '<td><span style="color: ' + balance_text_color + ';">' + show_coin_history.history[coin_history_index].amount + '</span></td>';
+                                        wallettblContent += '<td><span style="color: ' + balance_text_color + ';"><a href="#">' + show_coin_history.history[coin_history_index].amount + '</a></span></td>';
                                     wallettblContent += '</tr>';
                                     $('table[data-currency="' + AllcoinsDataOutput[value][index] + '"][id="currency-tbl"] tbody').html(wallettblContent);
                                     //$('#currency-tbl tbody').html(wallettblContent);

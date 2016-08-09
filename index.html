@@ -300,7 +300,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" data-target="#SendCoinModelStep2" data-toggle="modal" data-dismiss="modal">Send</button>
+              <button type="button" class="btn btn-primary" data-target="#SendCoinModelStep2" data-toggle="modal" data-dismiss="modal" onclick="ConfirmsendCurrency($(this).data())">Send</button>
             </div>
           </form>
         </div>
@@ -321,25 +321,25 @@
             <div class="modal-body">
               <div class="row">
                 <div class="col-xs-12"><b>To:</b></div>
-                <div class="col-lg-6 col-sm-6 col-xs-12">[coin-address-goes-here]</div>
-                <div class="col-lg-4 col-sm-4 col-xs-6">0.00000000 [COIN]</div>
-                <div class="col-lg-2 col-sm-2 col-xs-6">$0.00</div>
+                <div class="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendto_addr">[coin-address-goes-here]</div>
+                <div class="col-lg-4 col-sm-4 col-xs-6"><span id="mdl_confirm_currency_send_amount">0.00000000</span> <span id="mdl_confirm_currency_coinname">[COIN]</span></div>
+                <div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_amount_fiat">$0.00</div>
                 <div class="col-lg-6 col-sm-6 col-xs-12">Transaction Fee (Required by miners)</div>
-                <div class="col-lg-4 col-sm-4 col-xs-6">0.00000000 [COIN]</div>
-                <div class="col-lg-2 col-sm-2 col-xs-6">$0.00</div>
+                <div class="col-lg-4 col-sm-4 col-xs-6"><span id="mdl_confirm_currency_send_fee">0.00000000</span> <span id="mdl_confirm_currency_coinname_fee">[COIN]</span></div>
+                <div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_fee_fiat">$0.00</div>
               </div>
               <br>
               
               <div class="row">
                 <div class="col-xs-12"><b>From:</b></div>
-                <div class="col-lg-6 col-sm-6 col-xs-12">[coin-address-goes-here]</div>
-                <div class="col-lg-4 col-sm-4 col-xs-6">-0.00000000 [COIN]</div>
-                <div class="col-lg-2 col-sm-2 col-xs-6">-$0.00</div>
+                <div class="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendfrom_addr">[coin-address-goes-here]</div>
+                <div class="col-lg-4 col-sm-4 col-xs-6" style="color: #f44336;"><span id="mdl_confirm_currency_sendfrom_total_dedcut">-0.00000000</span> <span id="mdl_confirm_currency_coinname_total">[COIN]</span></div>
+                <div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_sendfrom_total_deduct_fiat" style="color: #f44336;">-$0.00</div>
               </div>
             </div>
             <div class="modal-footer">
               <a class="btn btn-default" data-target="#SendCoinModelStep1" data-toggle="modal" data-dismiss="modal">Back</a>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal">Confirm</button>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" onclick="ExecuteSendCurrencyAPI()">Confirm</button>
             </div>
           </div>
         </div>
