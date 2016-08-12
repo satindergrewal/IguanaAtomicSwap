@@ -201,6 +201,14 @@ var Dashboard = function() {
                                 //console.log(testhistory.sent);
 
                                 $('span[data-currency="' + AllcoinsDataOutput[value][index] + '"][id="currency-balance"]').text(CoinHistoryData.balance);
+
+                                //Update Dashboard Header values as well
+                                if ( AllcoinsDataOutput[value][index] == 'BTC' || AllcoinsDataOutput[value][index] == 'BTCD' ) {
+                                  $('span[data-currency="' + AllcoinsDataOutput[value][index] + '"][id="header_coinbalance"]').text(CoinHistoryData.balance);
+                                }
+
+                                //Calculate Total Fiat Value of BTC/BTCD in Fiat and disaply on Dashboard
+                                TotalFiatValue();
                                 
                                 var show_coin_history = CoinHistoryData; //Enable to get history from each coins's wallet address.
                                 //var show_coin_history = testhistory; //Enable to get history from just test variable.
@@ -338,6 +346,51 @@ function SwitchBasicliskFull(switch_data) {
           if (xhr.readyState == '0' ) {
               toastr.error("Unable to connect to Iguana", "Account Notification")
           }
+      }
+  });
+}
+
+function TotalFiatValue() {
+  var BTC_balance = $('div[data-currency="BTC"][id="header_coinbalance"]').text();
+  var BTCD_balance = $('div[data-currency="BTCD"][id="header_coinbalance"]').text();
+  var Fiat_Currency = localStorage.getItem('EasyDEX_FiatCurrency');
+  var BTC_Fiat_pair_value = '';
+  var Conversion_Fiat_Pair = '';
+  
+  if ( Fiat_Currency == 'USD' ) {
+    BTC_Fiat_pair_value = 'BTC/'+Fiat_Currency;
+    Conversion_Fiat_Pair = 'EUR/USD';
+  } else {
+    BTC_Fiat_pair_value = 'BTC/USD';
+    Conversion_Fiat_Pair = Fiat_Currency+'/USD';
+  }
+  
+
+  console.log(BTC_balance);
+  console.log(BTCD_balance);
+
+  var TotalFiatValueData = {"agent":"iguana","method":"rates","quotes":["BTCD/BTC", BTC_Fiat_pair_value, Conversion_Fiat_Pair]};
+  console.log(TotalFiatValueData);
+
+  //Get Rates
+  $.ajax({
+      type: 'POST',
+      data: JSON.stringify(TotalFiatValueData),
+      url: 'http://127.0.0.1:7778',
+      //dataType: 'text',
+      success: function(data, textStatus, jqXHR) {
+          var RatesData = JSON.parse(data);
+          var label_color = '';
+          var label_icon = '';
+          var wallettblContent = '';
+          console.log('== Rates Data OutPut ==');
+          console.log(RatesData.rates[1]);
+      },
+      error: function(xhr, textStatus, error) {
+          console.log('failed getting Coin History.');
+          console.log(xhr.statusText);
+          console.log(textStatus);
+          console.log(error);
       }
   });
 }

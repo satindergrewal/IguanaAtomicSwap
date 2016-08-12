@@ -5,6 +5,12 @@ $(document).ready(function() {
     //console.log('EhLoe!');
     //$('button[id="currency-send"]').on('click', function(){console.log($(this).data('currency'));});
 
+    //By default set USD as Fiat Currency if there's none selected already.
+    if ( localStorage.getItem('EasyDEX_FiatCurrency') == null ) {
+		var FiatCurrency = '';
+		FiatCurrency = 'USD';
+		localStorage.setItem('EasyDEX_FiatCurrency', FiatCurrency);
+	}
 });
 
 // Functions =============================================================
@@ -130,6 +136,11 @@ function ExecuteSendCurrencyAPI() {
 
 
 
-
-
+//Used this function to set desired Fiat Currency, selected from top menu bar of EasyDEX UI
+function WalletFiatCurrency(fiat_currency_value) {
+	//console.log(fiat_currency_value);
+	var FiatCurrency = fiat_currency_value.fiatcurrency;
+	localStorage.setItem('EasyDEX_FiatCurrency', FiatCurrency);
+	//console.log(localStorage.getItem('EasyDEX_FiatCurrency'));
+}
 

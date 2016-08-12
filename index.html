@@ -177,23 +177,27 @@
             </a>
             <ul class="dropdown-menu" role="menu">
               <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem">
-                  <span class="icon fa-gbp"></span> USD</a>
+                <a href="javascript:void(0)" role="menuitem" data-fiatcurrency="USD" onclick="WalletFiatCurrency($(this).data())">
+                  <span class="icon fa-usd"></span> USD</a>
               </li>
               <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem">
+                <a href="javascript:void(0)" role="menuitem" data-fiatcurrency="GBP" onclick="WalletFiatCurrency($(this).data())">
+                  <span class="icon fa-gbp"></span> GBP</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem" data-fiatcurrency="EUR" onclick="WalletFiatCurrency($(this).data())">
                   <span class="icon fa-eur"></span> EURO</a>
               </li>
               <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem">
+                <a href="javascript:void(0)" role="menuitem" data-fiatcurrency="CNY" onclick="WalletFiatCurrency($(this).data())">
                   <span class="icon fa-cny"></span> CNY</a>
               </li>
               <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem">
+                <a href="javascript:void(0)" role="menuitem" data-fiatcurrency="JPY" onclick="WalletFiatCurrency($(this).data())">
                   <span class="icon fa-jpy"></span> JPY</a>
               </li>
               <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem">
+                <a href="javascript:void(0)" role="menuitem" data-fiatcurrency="INR" onclick="WalletFiatCurrency($(this).data())">
                   <span class="icon fa-inr"></span> INR</a>
               </li>
             </ul>
@@ -263,20 +267,20 @@
         <div class="row no-space width-250 hidden-xs">
           <div class="col-xs-4">
             <div class="counter">
-              <span class="counter-number font-weight-medium">BTC</span>
-              <div class="counter-label">0.043235</div>
+              <span class="counter-number font-weight-medium" data-currency="BTC" id="header_coinname">BTC</span>
+              <div class="counter-label" data-currency="BTC" id="header_coinbalance">0.45</div>
             </div>
           </div>
           <div class="col-xs-4">
             <div class="counter">
-              <span class="counter-number font-weight-medium">BTCD</span>
-              <div class="counter-label">4.9888</div>
+              <span class="counter-number font-weight-medium" data-currency="BTCD" id="header_coinname">BTCD</span>
+              <div class="counter-label" data-currency="BTCD" id="header_coinbalance">398.546</div>
             </div>
           </div>
           <div class="col-xs-4">
             <div class="counter">
-              <span class="counter-number font-weight-medium">USD</span>
-              <div class="counter-label">$38,823</div>
+              <span class="counter-number font-weight-medium" data-currency="USD" id="header_fiatname">USD</span>
+              <div class="counter-label" data-currency="USD" id="header_fiattotalbalance">0</div>
             </div>
           </div>
         </div>
