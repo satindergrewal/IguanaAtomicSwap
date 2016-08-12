@@ -60,7 +60,7 @@ var Dashboard = function() {
                             walletDivContent += '<div class="widget-header wallet-widget-header padding-15 clearfix">';
                               walletDivContent += '<div class="row no-space">';
                                   walletDivContent += '<div class="col-xs-7">';
-                                    walletDivContent += '<a class="avatar avatar-lg pull-left margin-right-20 img-bordered" href="javascript:void(0)" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-logo">';
+                                    walletDivContent += '<a class="avatar avatar-lg pull-left margin-right-20 img-bordered" href="javascript:void(0)" data-currency="' + AllcoinsDataOutput[value][index] + '" data-modecode="' + modecode + '" id="currency-logo" onclick="SwitchBasicliskFull($(this).data())">';
                                       walletDivContent += '<img src="assets/images/cryptologo/' + coinlogo + '.png" alt="">';
                                       walletDivContent += '<span class="badge up badge-' + modecolor + '" id="basfull" data-currency="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>';
                                     walletDivContent += '</a>';
@@ -284,3 +284,60 @@ var Dashboard = function() {
 jQuery(document).ready(function() {
     Dashboard.init();
 });
+
+function SwitchBasicliskFull(switch_data) {
+  console.log(switch_data.currency);
+  console.log(switch_data.modecode);
+  var relay_value = '';
+  var validate_value = '';
+
+  if ( switch_data.modecode == 'B' ) { relay_value = 1; validate_value = 1 }
+  if ( switch_data.modecode == 'F' ) { relay_value = 0; validate_value = 0 }
+
+  var SwitchCoinModeData = {
+      "poll": 100,
+      "active": 1,
+      "newcoin": switch_data.currency,
+      "startpend": 1,
+      "endpend": 1,
+      "services": 128,
+      "maxpeers": 16,
+      "RELAY": relay_value,
+      "VALIDATE": validate_value,
+      "portp2p": 14631
+  }
+  console.log(SwitchCoinModeData);
+  //Switch selected coins' mode
+  $.ajax({
+      type: 'GET',
+      data: SwitchCoinModeData,
+      url: 'http://127.0.0.1:7778/api/iguana/addcoin',
+      dataType: 'text',
+      success: function(data, textStatus, jqXHR) {
+          var CoinBasiliskDataOutput = JSON.parse(data);
+          //console.log('== Data OutPut ==');
+          //console.log(CoinBasiliskDataOutput);
+
+          if (CoinBasiliskDataOutput.result === 'coin added') {
+              console.log('coin added');
+              toastr.success(value + " started in Basilisk Mode", "Coin Notification");
+          } else if (CoinBasiliskDataOutput.result === 'coin already there') {
+              console.log('coin already there');
+              //toastr.info("Looks like" + value + "already running.", "Coin Notification");
+          } else if (CoinBasiliskDataOutput.result === null) {
+              console.log('coin already there');
+              //toastr.info("Looks like" + value + "already running.", "Coin Notification");
+          }
+      },
+      error: function(xhr, textStatus, error) {
+          console.log('failed starting BitcoinDark.');
+          console.log(xhr.statusText);
+          console.log(textStatus);
+          console.log(error);
+          //swal("Oops...", "Something went wrong!", "error");
+          if (xhr.readyState == '0' ) {
+              toastr.error("Unable to connect to Iguana", "Account Notification")
+          }
+      }
+  });
+}
