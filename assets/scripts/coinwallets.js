@@ -52,6 +52,15 @@ function sendCurrency(val) {
 
 function ReceiveCurrency(rec_val) {
 	console.log(rec_val);
+	if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
+		console.log('=> No wallet logged in. No need to get Rates.');
+	} else {
+		var tmp_activhndl = JSON.parse(sessionStorage.getItem('IguanaActiveAccount'));
+		$('#mdl_receive_coin_addr').text('');
+		$('#mdl_receive_coin_addr').text(JSON.parse(tmp_activhndl)[rec_val.currency]);
+		$('#mdl_receive_coin_addr_qr_code').text('');
+		$('#mdl_receive_coin_addr_qr_code').qrcode({width: 120,height: 120,text: JSON.parse(tmp_activhndl)[rec_val.currency]});
+	}
 }
 
 $('#mdl_currency_amount').keyup(function() {
@@ -144,6 +153,11 @@ function CurrencyMdlBtnClean() {
 	$('#mdl_currency_amount').val('');
 	$('#mdl_currency_total_value').text('0.00');
 	$('#mdl_currency_total_fiat_value').text('0.00');
+}
+
+function ReceiveCoinMdlBtnClean() {
+	$('#mdl_receive_coin_addr').text('');
+	$('#mdl_receive_coin_addr_qr_code').text('');
 }
 
 function ConfirmsendCurrency(confirm_val) {
@@ -241,6 +255,9 @@ function ExecuteSendCurrencyAPI() {
 	$('#mdl_confirm_currency_sendfrom_total_dedcut').text('');
 	$('#mdl_confirm_currency_coinname_total').text('');
 	$('#mdl_confirm_currency_sendfrom_total_deduct_fiat').text('');
+
+	//Clean send dialog button fields
+	CurrencyMdlBtnClean();
 }
 
 

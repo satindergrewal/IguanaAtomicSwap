@@ -398,10 +398,13 @@
               <span class="white">This is your default Iguana wallet address.</span>
             </div>
             <div class="modal-body">
-              
+              <div class="row">
+                <div class="col-xs-12"><b>To:</b></div>
+                <span class="col-xs-6" id="mdl_receive_coin_addr"></span>
+                <span class="col-xs-6" id="mdl_receive_coin_addr_qr_code" style="width: 60px;"></span>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal">Done</button>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" id="mdl_receive_coin_done_btn" onclick="ReceiveCoinMdlBtnClean()">Done</button>
             </div>
           </div>
         </div>
