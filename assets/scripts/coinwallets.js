@@ -50,6 +50,10 @@ function sendCurrency(val) {
 	
 }
 
+function ReceiveCurrency(rec_val) {
+	console.log(rec_val);
+}
+
 $('#mdl_currency_amount').keyup(function() {
 	var sum_val1 = parseFloat($('#mdl_currency_amount').val())
 	var sum_val2 = parseFloat($('#mdl_currency_fee').val())
