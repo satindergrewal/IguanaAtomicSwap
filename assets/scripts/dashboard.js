@@ -359,11 +359,15 @@ function SwitchBasicliskFull(switch_data) {
 }
 
 function TotalFiatValue() {
-  var BTC_balance = $('div[data-currency="BTC"][id="header_coinbalance"]').text();
-  var BTCD_balance = $('div[data-currency="BTCD"][id="header_coinbalance"]').text();
+  var BTC_balance = $('span[data-currency="BTC"][id="currency-balance"]').text();
+  var BTCD_balance = $('span[data-currency="BTCD"][id="currency-balance"]').text();
   var Fiat_Currency = localStorage.getItem('EasyDEX_FiatCurrency');
   var BTC_Fiat_pair_value = '';
   var Conversion_Fiat_Pair = '';
+  var BTCD_Fiat_pair_value = '';
+
+  $('span[data-currency="BTC"][id="header_coinname_balance"]').text(BTC_balance + ' BTC');
+  $('span[data-currency="BTCD"][id="header_coinname_balance"]').text(BTCD_balance + ' BTCD' );
   
   if ( Fiat_Currency == 'USD' ) {
     BTC_Fiat_pair_value = 'BTC/'+Fiat_Currency;
@@ -373,7 +377,7 @@ function TotalFiatValue() {
     Conversion_Fiat_Pair = Fiat_Currency+'/USD';
   }
 
-  console.log(BTC_balance); console.log(BTCD_balance);
+  //console.log(BTC_balance); console.log(BTCD_balance);
 
   var TotalFiatValueData = {"agent":"iguana","method":"rates","quotes":["BTCD/BTC", BTC_Fiat_pair_value, Conversion_Fiat_Pair]};
   //console.log(TotalFiatValueData);
@@ -388,12 +392,33 @@ function TotalFiatValue() {
       url: 'http://127.0.0.1:7778',
       //dataType: 'text',
       success: function(data, textStatus, jqXHR) {
-          var RatesData = JSON.parse(data);
-          var label_color = '';
-          var label_icon = '';
-          var wallettblContent = '';
-          console.log('== Rates Data OutPut ==');
-          console.log(RatesData);
+            var RatesData = JSON.parse(data);
+            var label_color = '';
+            var label_icon = '';
+            var wallettblContent = '';
+            //console.log('== Rates Data OutPut ==');
+            //console.log(RatesData.rates);
+            localStorage.setItem('EasyDEX_BTCD_BTC_pair_value', RatesData.rates[0]['BTCD/BTC']); //e.g BTCD/BTC
+            localStorage.setItem('EasyDEX_BTC_Fiat_pair_value', RatesData.rates[1][BTC_Fiat_pair_value]); //e.g BTC/USD
+            localStorage.setItem('EasyDEX_Conversion_Fiat_Pair', Conversion_Fiat_Pair); //e.g EUR/USD
+            localStorage.setItem('EasyDEX_Conversion_Fiat_Pair_value', RatesData.rates[2][Conversion_Fiat_Pair]); //e.g EUR/USD: 1.11830926
+
+            var tmp_btcd_btc = RatesData.rates[0];
+            var tmp_btc_fiat = RatesData.rates[1];
+            //console.log(tmp_btcd_btc['BTCD/BTC']); console.log(tmp_btc_fiat[BTC_Fiat_pair_value]);
+
+            BTCD_Fiat_pair_value = parseFloat(tmp_btcd_btc['BTCD/BTC']) * parseFloat(tmp_btc_fiat[BTC_Fiat_pair_value]);
+            //console.log(BTCD_Fiat_pair_value);
+            localStorage.setItem('EasyDEX_BTCD_Fiat_pair_value', BTCD_Fiat_pair_value); //e.g BTCD/USD: 2.0873619962
+
+            var tmp_btcd_fiat_toal = parseFloat(BTCD_balance) * parseFloat(BTCD_Fiat_pair_value);
+            var tmp_btc_fiat_toal = parseFloat(BTC_balance) * parseFloat(tmp_btc_fiat[BTC_Fiat_pair_value]);
+            //console.log('total btc btcd usd value')
+            //console.log(tmp_btcd_fiat_toal); console.log(tmp_btc_fiat_toal);
+
+            $('span[data-currency="BTC"][id="header_coinfiatbalance"]').text(tmp_btc_fiat_toal + ' ' + Fiat_Currency);
+            $('span[data-currency="BTCD"][id="header_coinfiatbalance"]').text(tmp_btcd_fiat_toal + ' ' + Fiat_Currency);
+
       },
       error: function(xhr, textStatus, error) {
           console.log('failed getting Coin History.');
