@@ -208,7 +208,7 @@ var Dashboard = function() {
                                 }
 
                                 //Calculate Total Fiat Value of BTC/BTCD in Fiat and disaply on Dashboard
-                                TotalFiatValue();
+                                //TotalFiatValue();
                                 
                                 var show_coin_history = CoinHistoryData; //Enable to get history from each coins's wallet address.
                                 //var show_coin_history = testhistory; //Enable to get history from just test variable.
@@ -278,11 +278,18 @@ var Dashboard = function() {
 
             handleWalletWidgets();
             handleWalletSendRec();
+            //TotalFiatValue();
 
             setInterval(function() {
                 handleWalletWidgets();
                 console.log('wallet widget refereshed (every 15 seconds)');
             }, 15000);
+
+            setInterval(function() {
+                TotalFiatValue();
+                console.log('Get Rates (every 60 seconds)');
+            }, 60000);
+
         }
 
     };
@@ -294,13 +301,14 @@ jQuery(document).ready(function() {
 });
 
 function SwitchBasicliskFull(switch_data) {
-  console.log(switch_data.currency);
-  console.log(switch_data.modecode);
+  //console.log(switch_data.currency);
+  //console.log(switch_data.modecode);
   var relay_value = '';
   var validate_value = '';
+  var mode_value = '';
 
-  if ( switch_data.modecode == 'B' ) { relay_value = 1; validate_value = 1 }
-  if ( switch_data.modecode == 'F' ) { relay_value = 0; validate_value = 0 }
+  if ( switch_data.modecode == 'B' ) { relay_value = 1; validate_value = 1; mode_value = 'Basilisk'; }
+  if ( switch_data.modecode == 'F' ) { relay_value = 0; validate_value = 0; mode_value = 'Full'; }
 
   var SwitchCoinModeData = {
       "poll": 100,
@@ -314,7 +322,7 @@ function SwitchBasicliskFull(switch_data) {
       "VALIDATE": validate_value,
       "portp2p": 14631
   }
-  console.log(SwitchCoinModeData);
+  //console.log(SwitchCoinModeData);
   //Switch selected coins' mode
   $.ajax({
       type: 'GET',
@@ -322,19 +330,19 @@ function SwitchBasicliskFull(switch_data) {
       url: 'http://127.0.0.1:7778/api/iguana/addcoin',
       dataType: 'text',
       success: function(data, textStatus, jqXHR) {
-          var CoinBasiliskDataOutput = JSON.parse(data);
+          var SwitchCoinDataOutput = JSON.parse(data);
           //console.log('== Data OutPut ==');
-          //console.log(CoinBasiliskDataOutput);
+          //console.log(SwitchCoinDataOutput);
 
-          if (CoinBasiliskDataOutput.result === 'coin added') {
+          if (SwitchCoinDataOutput.result === 'coin added') {
               console.log('coin added');
-              toastr.success(value + " started in Basilisk Mode", "Coin Notification");
-          } else if (CoinBasiliskDataOutput.result === 'coin already there') {
+              toastr.success(switch_data.currency + " switched to " + mode_value + " Mode", "Coin Notification");
+          } else if (SwitchCoinDataOutput.result === 'coin already there') {
               console.log('coin already there');
-              //toastr.info("Looks like" + value + "already running.", "Coin Notification");
-          } else if (CoinBasiliskDataOutput.result === null) {
+              //toastr.info("Looks like" + switch_data.currency + "already running.", "Coin Notification");
+          } else if (SwitchCoinDataOutput.result === null) {
               console.log('coin already there');
-              //toastr.info("Looks like" + value + "already running.", "Coin Notification");
+              //toastr.info("Looks like" + switch_data.currency + "already running.", "Coin Notification");
           }
       },
       error: function(xhr, textStatus, error) {
@@ -364,16 +372,17 @@ function TotalFiatValue() {
     BTC_Fiat_pair_value = 'BTC/USD';
     Conversion_Fiat_Pair = Fiat_Currency+'/USD';
   }
-  
 
-  console.log(BTC_balance);
-  console.log(BTCD_balance);
+  console.log(BTC_balance); console.log(BTCD_balance);
 
   var TotalFiatValueData = {"agent":"iguana","method":"rates","quotes":["BTCD/BTC", BTC_Fiat_pair_value, Conversion_Fiat_Pair]};
-  console.log(TotalFiatValueData);
+  //console.log(TotalFiatValueData);
 
-  //Get Rates
-  $.ajax({
+  if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
+    console.log('=> No wallet logged in. No need to get Rates.');
+  } else {
+    //Get Rates
+    $.ajax({
       type: 'POST',
       data: JSON.stringify(TotalFiatValueData),
       url: 'http://127.0.0.1:7778',
@@ -384,7 +393,7 @@ function TotalFiatValue() {
           var label_icon = '';
           var wallettblContent = '';
           console.log('== Rates Data OutPut ==');
-          console.log(RatesData.rates[1]);
+          console.log(RatesData);
       },
       error: function(xhr, textStatus, error) {
           console.log('failed getting Coin History.');
@@ -392,5 +401,6 @@ function TotalFiatValue() {
           console.log(textStatus);
           console.log(error);
       }
-  });
+    });
+  }
 }
