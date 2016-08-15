@@ -64,8 +64,8 @@ $('#mdl_currency_amount').keyup(function() {
 	var total_of_currency_fiat = total_of_currency_fee * currency_fiat_value;
 	//console.log($('#mdl_currency_amount').val());
 	//console.log(total_of_currency_fiat);
-	$('#mdl_currency_total_value').text(total_of_currency_fee);
-	$('#mdl_currency_total_fiat_value').text(total_of_currency_fiat.toFixed(5)+' '+localStorage.getItem('EasyDEX_FiatCurrency'));
+	$('#mdl_currency_total_value').text(total_of_currency_fee.toFixed(8));
+	$('#mdl_currency_total_fiat_value').text(total_of_currency_fiat.toFixed(4)+' '+localStorage.getItem('EasyDEX_FiatCurrency'));
 });
 
 $('#mdl_currency_fee').keyup(function() {
@@ -82,8 +82,8 @@ $('#mdl_currency_fee').keyup(function() {
 	var total_of_currency_fiat = total_of_currency_fee * currency_fiat_value;
 	//console.log($('#mdl_currency_amount').val());
 	//console.log(total_of_currency_fiat);
-	$('#mdl_currency_total_value').text(total_of_currency_fee);
-	$('#mdl_currency_total_fiat_value').text(total_of_currency_fiat.toFixed(5)+' '+localStorage.getItem('EasyDEX_FiatCurrency'));
+	$('#mdl_currency_total_value').text(total_of_currency_fee.toFixed(8));
+	$('#mdl_currency_total_fiat_value').text(total_of_currency_fiat.toFixed(4)+' '+localStorage.getItem('EasyDEX_FiatCurrency'));
 });
 
 function CurrencyMdlBtnClose() {
@@ -117,7 +117,7 @@ function ExecuteSendCurrencyAPI() {
 	var confirm_sendto_address = $('#mdl_confirm_currency_sendto_addr').text();
 
 	//Get parameters values from confirm dialog and send currency
-    var sendtoaddrvalues = {"method":"sendtoaddress","params":[confirm_sendto_address,0.001,"EasyDEX","EasyDEXTransaction"]};
+    var sendtoaddrvalues = {"method":"sendtoaddress","params":[confirm_sendto_address,confirm_send_amount,"EasyDEX","EasyDEXTransaction"]};
     console.log(sendtoaddrvalues);
     $.ajax({
         type: 'POST',
