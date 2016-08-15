@@ -322,24 +322,24 @@
               <div class="row">
                 <div class="col-lg-12 form-group form-material">
                   <label class="control-label" for="mdl_currency_sendto">Send To</label>
-                  <input type="text" class="form-control" id="mdl_currency_sendto" name="mdl_currency_sendto" placeholder="Enter [coin] address"
-                  />
+                  <input type="text" class="form-control" id="mdl_currency_sendto" name="mdl_currency_sendto" placeholder="Enter [coin] address" autocomplete="off"/>
                 </div>
                 <div class="col-lg-6 form-group form-material">
                   <label class="control-label" for="mdl_currency_amount" id="mdl_currency_amount_label">[Coin]</label>
-                  <input type="text" class="form-control" id="mdl_currency_amount" name="mdl_currency_amount" placeholder="0.000"/>
+                  <input type="text" class="form-control" id="mdl_currency_amount" name="mdl_currency_amount" placeholder="0.000" autocomplete="off"/>
                 </div>
                 <div class="col-lg-6 form-group form-material">
                   <label class="control-label" for="mdl_currency_fee">Fee</label>
                   <input type="text" class="form-control" id="mdl_currency_fee" name="mdl_currency_fee" placeholder="0.000"/>
                 </div>
                 <div class="col-lg-12">
-                  <span><b>Total:</b> <span id="mdl_currency_total_value">0.000</span> <span id="mdl_currency_total_coinname">[Coin]</span> <span class="icon glyphicon glyphicon-resize-horizontal"></span> 0.00 [USD]</span>
+                  <span><b>Total:</b>
+                  <span id="mdl_currency_total_value">0.000</span> <span id="mdl_currency_total_coinname">[Coin]</span> <span class="icon glyphicon glyphicon-resize-horizontal"></span> <span id="mdl_currency_total_fiat_value">0.00</span></span>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal" onclick="CurrencyMdlBtnClose()">Close</button>
               <button type="button" class="btn btn-primary" data-target="#SendCoinModelStep2" data-toggle="modal" data-dismiss="modal" onclick="ConfirmsendCurrency($(this).data())">Send</button>
             </div>
           </form>

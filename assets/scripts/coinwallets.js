@@ -54,17 +54,44 @@ $('#mdl_currency_amount').keyup(function() {
 	var sum_val1 = parseFloat($('#mdl_currency_amount').val())
 	var sum_val2 = parseFloat($('#mdl_currency_fee').val())
 	var total_of_currency_fee = sum_val1 + sum_val2;
-	console.log($('#mdl_currency_amount').val());
+	var currency_fiat_value = '';
+	if ( $('#mdl_currency_total_coinname').text() == 'BTCD' ) {
+		currency_fiat_value = localStorage.getItem('EasyDEX_BTCD_Fiat_pair_value');
+	}
+	if ( $('#mdl_currency_total_coinname').text() == 'BTC' ) {
+		currency_fiat_value = localStorage.getItem('EasyDEX_BTC_Fiat_pair_value');
+	}
+	var total_of_currency_fiat = total_of_currency_fee * currency_fiat_value;
+	//console.log($('#mdl_currency_amount').val());
+	//console.log(total_of_currency_fiat);
 	$('#mdl_currency_total_value').text(total_of_currency_fee);
+	$('#mdl_currency_total_fiat_value').text(total_of_currency_fiat.toFixed(5)+' '+localStorage.getItem('EasyDEX_FiatCurrency'));
 });
 
 $('#mdl_currency_fee').keyup(function() {
 	var sum_val1 = parseFloat($('#mdl_currency_amount').val())
 	var sum_val2 = parseFloat($('#mdl_currency_fee').val())
 	var total_of_currency_fee = sum_val1 + sum_val2;
-	console.log($('#mdl_currency_amount').val());
+	var currency_fiat_value = '';
+	if ( $('#mdl_currency_total_coinname').text() == 'BTCD' ) {
+		currency_fiat_value = localStorage.getItem('EasyDEX_BTCD_Fiat_pair_value');
+	}
+	if ( $('#mdl_currency_total_coinname').text() == 'BTC' ) {
+		currency_fiat_value = localStorage.getItem('EasyDEX_BTC_Fiat_pair_value');
+	}
+	var total_of_currency_fiat = total_of_currency_fee * currency_fiat_value;
+	//console.log($('#mdl_currency_amount').val());
+	//console.log(total_of_currency_fiat);
 	$('#mdl_currency_total_value').text(total_of_currency_fee);
+	$('#mdl_currency_total_fiat_value').text(total_of_currency_fiat.toFixed(5)+' '+localStorage.getItem('EasyDEX_FiatCurrency'));
 });
+
+function CurrencyMdlBtnClose() {
+	$('#mdl_currency_sendto').val('');
+	$('#mdl_currency_amount').val('');
+	$('#mdl_currency_total_value').text('0.00');
+	$('#mdl_currency_total_fiat_value').text('0.00 '+localStorage.getItem('EasyDEX_FiatCurrency'));
+}
 
 function ConfirmsendCurrency(confirm_val) {
 	var confirm_coinname = $('#mdl_currency_total_coinname').text();
