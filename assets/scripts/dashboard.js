@@ -288,7 +288,7 @@ function ShowCoinHistory(getData) {
                 wallettblContent += '<tr>';
                     wallettblContent += '<td><span class="label label-xs ' + label_class + '"><i class="icon ' + icon_arrow_direction + '"></i></span></td>';
                     wallettblContent += '<td class="hidden-xs">' + show_coin_history.history[coin_history_index].address + '</td>';
-                    wallettblContent += '<td>' + show_coin_history.history[coin_history_index].numseconds + '</td>';
+                    wallettblContent += '<td>' + secondsToString(show_coin_history.history[coin_history_index].numseconds) + '</td>';
                     wallettblContent += '<td><span style="color: ' + balance_text_color + ';"><a href="#">' + show_coin_history.history[coin_history_index].amount + '</a></span></td>';
                 wallettblContent += '</tr>';
                 $('table[data-currency="' + getData.vals['coin'] + '"][id="currency-tbl"] tbody').html(wallettblContent);
@@ -436,4 +436,26 @@ function TotalFiatValue() {
       }
     });
   }
+}
+
+function secondsToString(seconds) {
+    var numyears = Math.floor(seconds / 31536000);
+    var numdays = Math.floor((seconds % 31536000) / 86400);
+    var numhours = Math.floor(((seconds % 31536000) % 86400) / 3600);
+    var numminutes = Math.floor((((seconds % 31536000) % 86400) % 3600) / 60);
+    var numseconds = (((seconds % 31536000) % 86400) % 3600) % 60;
+    if ( numyears != 0 ) {
+        return numyears + ' yrs ago'
+    } else if ( numdays != 0 ) {
+        return numdays + ' dys ago'
+    } else if ( numhours != 0 ) {
+        return numhours + ' hrs ago'
+    } else if ( numminutes != 0 ) {
+        return numminutes + ' mins ago'
+    } else if ( numseconds > 10 && numseconds <= 60 ) {
+        return numseconds + ' sec ago';
+    } else if ( numseconds <= 10 ) {
+        return 'Just Now'
+    }
+    //return numyears + " years " +  numdays + " days " + numhours + " hours " + numminutes + " minutes " + numseconds + " seconds";
 }
