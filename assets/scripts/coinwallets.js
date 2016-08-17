@@ -56,11 +56,19 @@ function ReceiveCurrency(rec_val) {
 		console.log('=> No wallet logged in. No need to get Rates.');
 	} else {
 		var tmp_activhndl = JSON.parse(sessionStorage.getItem('IguanaActiveAccount'));
+		$('#mdl_receive_coin_name').text(rec_val.currency)
 		$('#mdl_receive_coin_addr').text('');
-		$('#mdl_receive_coin_addr').text(JSON.parse(tmp_activhndl)[rec_val.currency]);
+		$('#mdl_receive_coin_addr').val(JSON.parse(tmp_activhndl)[rec_val.currency]);
 		$('#mdl_receive_coin_addr_qr_code').text('');
 		$('#mdl_receive_coin_addr_qr_code').qrcode({width: 120,height: 120,text: JSON.parse(tmp_activhndl)[rec_val.currency]});
 	}
+	var clipboard = new Clipboard('.btn');
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
 }
 
 $('#mdl_currency_amount').keyup(function() {
