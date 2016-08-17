@@ -405,7 +405,7 @@ function TotalFiatValue() {
             var label_icon = '';
             var wallettblContent = '';
             //console.log('== Rates Data OutPut ==');
-            //console.log(RatesData.rates);
+            //console.log(RatesData.rates[2]);
             localStorage.setItem('EasyDEX_BTCD_BTC_pair_value', RatesData.rates[0]['BTCD/BTC']); //e.g BTCD/BTC
             localStorage.setItem('EasyDEX_BTC_Fiat_pair_value', RatesData.rates[1][BTC_Fiat_pair_value]); //e.g BTC/USD
             localStorage.setItem('EasyDEX_Conversion_Fiat_Pair', Conversion_Fiat_Pair); //e.g EUR/USD
