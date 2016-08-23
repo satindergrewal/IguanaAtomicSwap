@@ -203,12 +203,12 @@ var Login = function() {
                     equalTo: "#walletseed"
                 },
 
-                password: {
+                /*password: {
                     required: true
                 },
                 rpassword: {
                     equalTo: "#register_password"
-                },
+                },*/
 
                 
             },
