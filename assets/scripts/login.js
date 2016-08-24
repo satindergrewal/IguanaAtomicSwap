@@ -346,7 +346,7 @@ var Login = function() {
         $('#logout-account').click(function() {
             $.ajax({
                 type: 'GET',
-                url: 'http://127.0.0.1:7778/api/SuperNET/logout',
+                url: 'http://127.0.0.1:7778/api/bitcoinrpc/walletlock',
                 dataType: 'text',
                 success: function(data, textStatus, jqXHR) {
                     var LogoutOutput = JSON.parse(data);
