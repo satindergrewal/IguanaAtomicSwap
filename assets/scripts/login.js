@@ -83,6 +83,7 @@ var Login = function() {
                             $('#wallet-core').fadeIn();
                             $('body').removeClass( "page-login layout-full page-dark" ).addClass( "" );
                             $('link[id=loginStyle]')[0].disabled=true;
+                            location.reload();
                         }
                         else {
                             // If something goes wrong, alert the error message that our service returned
@@ -102,7 +103,7 @@ var Login = function() {
                                     "portp2p": 14631
                                 }
                                 //Start BitcoinDark in Basilisk mode
-                                $.ajax({
+                                /*$.ajax({
                                     type: 'GET',
                                     data: AddBTCDBasiliskData,
                                     url: 'http://127.0.0.1:7778/api/iguana/addcoin',
@@ -132,7 +133,7 @@ var Login = function() {
                                         //swal("Oops...", "Something went wrong!", "error");
                                         toastr.warning("Opps... Something went wrong!", "Coin Notification")
                                     }
-                                });
+                                });*/
                             } else {
                                 toastr.warning("Opps... Something went wrong!", "Account Notification");
                             }
@@ -373,6 +374,7 @@ var Login = function() {
 
                         //Stop SetInterval Calls
                         StopShowCoinHistory();
+                        StopTotalFiatValue();
 
                     }
                     else {

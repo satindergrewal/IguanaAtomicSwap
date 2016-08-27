@@ -1,5 +1,5 @@
-var RunShowCoinHistory = '';
 var RunTotalFiatValue = '';
+var ExecuteShowCoinHistory = '';
 
 var Dashboard = function() {
 
@@ -176,7 +176,15 @@ var Dashboard = function() {
 
                         //Get coin history and pupulate balance and other info to wallet widget
                         var historyvalues = {"timeout":20000,"agent":"basilisk","method":"history","vals":{"coin":"" + AllcoinsDataOutput[value][index] + ""}};
-                        RunShowCoinHistory = setInterval(function() { ShowCoinHistory(historyvalues); /*console.log('wallet widget refereshed (every 1 seconds)');*/ }, 1000);
+                        var ExecuteShowCoinHistory = setInterval(function() {
+                            if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
+                                clearInterval(ExecuteShowCoinHistory);
+                                console.log('=> No wallet logged in. No need to Run History.');
+                            } else {
+                                ShowCoinHistory(historyvalues);
+                                /*console.log('wallet widget refereshed (every 1 seconds)');*/
+                            }
+                        }, 1000);
                        
                     });
                 },
@@ -330,7 +338,7 @@ function ShowCoinHistory(getData) {
 }
 
 function StopShowCoinHistory() {
-    clearInterval(RunShowCoinHistory);
+    clearInterval(ExecuteShowCoinHistory);
     console.log('Stopped executing History API.');
 }
 
