@@ -69,7 +69,7 @@ var Login = function() {
                         var LoginOutput = JSON.parse(data);
                         var LoginDataToStore = JSON.stringify(data);
                         sessionStorage.setItem('IguanaActiveAccount', LoginDataToStore);
-                        //console.log(sessionStorage);
+                        console.log(sessionStorage);
                         console.log('== Data OutPut ==');
                         console.log(LoginOutput);
 
@@ -351,17 +351,13 @@ var Login = function() {
                 success: function(data, textStatus, jqXHR) {
                     var LogoutOutput = JSON.parse(data);
                     sessionStorage.clear();
-                    //console.log('== Data OutPut ==');
-                    //console.log(LogoutOutput);
+                    console.log('== Logout Data OutPut ==');
+                    console.log(LogoutOutput);
 
-                    if (LogoutOutput.result === 'logged out') {
+                    if (LogoutOutput.result === 'success') {
                         console.log('Success');
                         //swal("Success", "Logout Successfully.", "success");
                         toastr.success("Logout Successfull", "Account Notification")
-
-                        
-                        
-                        
                         $('#wallet-login').show();
                         $('body').removeClass( "" ).addClass( "page-login layout-full page-dark" );
                         $('#wallet-core').hide();
@@ -374,6 +370,9 @@ var Login = function() {
                         $('#register-btn').show();
                         $('#logint-another-wallet').hide();
                         $("#loginbtn").text('Sign in');
+
+                        //Stop SetInterval Calls
+                        StopShowCoinHistory();
 
                     }
                     else {
@@ -477,11 +476,19 @@ var Login = function() {
     };
 
     var handleCheckLogin = function() {
+        Iguana_activehandle();
+        //console.log('Iguana_activehandle_output: '+Iguana_activehandle_output);
         if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
             console.log('There\'s no active wallet logged in. Please Login.');
             $('#logint-another-wallet').hide();
         } else {
             var CheckLoginData = JSON.parse(sessionStorage.getItem('IguanaActiveAccount'));
+            if ( JSON.parse(CheckLoginData).rmd160 != Iguana_activehandle_output.rmd160 ) {
+                //console.log("Login: sessionStorage data and activehandle data doesn't match");
+                //console.log('Iguana_activehandle_output: '+Iguana_activehandle_output.rmd160);
+                //console.log('CheckLoginData: ' + JSON.parse(CheckLoginData).rmd160);
+                ClearOnLogout(false, false);
+            }
             if ( JSON.parse(CheckLoginData).status === 'unlocked' ) {
                 console.log(JSON.parse(CheckLoginData).status);
                 $('#password').val('')
@@ -499,6 +506,36 @@ var Login = function() {
     };
 
     var handleCoinsRunningCheck = function() {
+        
+        /*$.each([ 'basilisk', 'full', 'virtual' ], function( index, value ) {
+            var allcoinsvalues = {"agent":"InstantDEX","method":"allcoins"};
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify(allcoinsvalues),
+                url: 'http://127.0.0.1:7778',
+                //dataType: 'text',
+                success: function(data, textStatus, jqXHR) {
+                    var allcoinsData = JSON.parse(data);
+                    console.log('== Data OutPut ==');
+                    console.log(allcoinsData);
+                    $.each(allcoinsData[value], function(index) {
+                        if ( allcoinsData[value][index] == 'BTC' ) { console.log('Index: '+ index + ' and Value: BTC'); }
+                        if ( allcoinsData[value][index] == 'BTCD' ) { console.log('Index: '+ index + ' and Value: BTCD'); }
+                        var coinvals = {"coin":"BTCD","portp2p":14631,"mode":0}
+                        Iguana_addcoin(coinvals);
+                    });
+                    
+                },
+                error: function(xhr, textStatus, error) {
+                    console.log('failed getting Coin History.');
+                    console.log(xhr.statusText);
+                    console.log(textStatus);
+                    console.log(error);
+                    toastr.error("Unable to complete transaction", "Transaction Notification")
+                }
+            });
+        });
+        
 
         if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
             $.each([ 'BTC', 'BTCD' ], function( index, value ) {
@@ -548,7 +585,7 @@ var Login = function() {
                     }
                 });
             });
-        }
+        }*/
         
             
     }
@@ -558,7 +595,7 @@ var Login = function() {
             $('#logint-another-wallet').show();
             $.ajax({
                 type: 'GET',
-                url: 'http://127.0.0.1:7778/api/SuperNET/logout',
+                url: 'http://127.0.0.1:7778/api/bitcoinrpc/walletlock',
                 dataType: 'text',
                 success: function(data, textStatus, jqXHR) {
                     var LogoutOutput = JSON.parse(data);
@@ -566,7 +603,7 @@ var Login = function() {
                     //console.log('== Data OutPut ==');
                     //console.log(LogoutOutput);
 
-                    if (LogoutOutput.result === 'logged out') {
+                    if (LogoutOutput.result === 'success') {
                         console.log('Success');
                         //swal("Success", "Logout Successfully.", "success");
                         toastr.success("Logout Successfull", "Account Notification")
@@ -609,7 +646,7 @@ var Login = function() {
         //main function to initiate the module
         init: function() {
 
-            handleCoinsRunningCheck();
+            //handleCoinsRunningCheck();
             handleLogin();
             handleLock();
             handleRegister();
@@ -626,3 +663,34 @@ var Login = function() {
 jQuery(document).ready(function() {
     Login.init();
 });
+
+
+function ClearOnLogout(cleardata, stopinterval) {
+    if ( cleardata === true ) {
+        sessionStorage.clear();
+    }
+    if ( cleardata === false || cleardata === null ) {
+        console.log('sessionStorage data not cleared.');
+    }
+    if ( stopinterval === true ) {
+        //Stop SetInterval Calls
+        StopShowCoinHistory();
+        StopTotalFiatValue();
+    }
+    if ( stopinterval === false || stopinterval === null ) {
+        console.log('SetInterval data not cleared.');
+    }
+    $('#wallet-login').show();
+    $('body').removeClass( "" ).addClass( "page-login layout-full page-dark" );
+    $('#wallet-core').hide();
+    $('link[id=loginStyle]')[0].disabled=false;
+    $('#logint-another-wallet').hide();
+
+    //Make sure these fields are unhidden.
+    $('#login-welcome').text('Welcome.');
+    $('#wallet-handle').show();
+    $('.create-account').show();
+    $('#register-btn').show();
+    $('#logint-another-wallet').hide();
+    $("#loginbtn").text('Sign in');
+}
