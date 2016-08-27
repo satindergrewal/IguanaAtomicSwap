@@ -172,7 +172,7 @@ function ConfirmsendCurrency(confirm_val) {
 
 	var confirm_coinname = $('#mdl_currency_total_coinname').text();
 
-	var confirm_selected_from_addr = $('select[data-currency="' + confirm_coinname + '"][id="currency-addr"] option:selected').text();
+	var confirm_selected_from_addr = $('div[data-currency="' + confirm_coinname + '"][id="currency-addr"]').text();
 	var confirm_send_amount_fiat = '';
 	var confirm_send_amount_fee_fiat = '';
 	var currency_fiat_value = '';
