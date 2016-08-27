@@ -323,6 +323,10 @@ function ShowCoinHistory(getData) {
                 error: function(xhr, textStatus, error) {
                     console.log('failed getting Coin History.');
                     console.log(xhr.statusText);
+                    if ( xhr.readyState == 0 ) {
+                        console.log('Network Error');
+                        ClearOnLogout(true, true);
+                    }
                     console.log(textStatus);
                     console.log(error);
                 }

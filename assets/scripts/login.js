@@ -98,12 +98,12 @@ var Login = function() {
                                     "endpend": 1,
                                     "services": 128,
                                     "maxpeers": 16,
-                                    "RELAY": 0,
-                                    "VALIDATE": 0,
+                                    "RELAY": 1,
+                                    "VALIDATE": 1,
                                     "portp2p": 14631
                                 }
                                 //Start BitcoinDark in Basilisk mode
-                                /*$.ajax({
+                                $.ajax({
                                     type: 'GET',
                                     data: AddBTCDBasiliskData,
                                     url: 'http://127.0.0.1:7778/api/iguana/addcoin',
@@ -115,7 +115,7 @@ var Login = function() {
 
                                         if (BTCDBasiliskDataOutput.result === 'coin added') {
                                             console.log('coin added');
-                                            toastr.success("BitcoinDark started in Basilisk Mode", "Coin Notification");
+                                            toastr.success("BitcoinDark started in Full Mode", "Coin Notification");
                                             $( ".login-form" ).submit();
                                         } else if (BTCDBasiliskDataOutput.result === 'coin already there') {
                                             console.log('coin already there');
@@ -133,7 +133,7 @@ var Login = function() {
                                         //swal("Oops...", "Something went wrong!", "error");
                                         toastr.warning("Opps... Something went wrong!", "Coin Notification")
                                     }
-                                });*/
+                                });
                             } else {
                                 toastr.warning("Opps... Something went wrong!", "Account Notification");
                             }
