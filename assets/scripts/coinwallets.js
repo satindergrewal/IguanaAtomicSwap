@@ -232,9 +232,10 @@ function ExecuteSendCurrencyAPI() {
             var SendToAddrData = JSON.parse(data);
             console.log('== Data OutPut ==');
             console.log(SendToAddrData);
+            var SentToAddrTxData = "<font style='font-size: 13px; font-family: Menlo,Monaco,Consolas,\"Courier New\",monospace'><font style='font-weight: 800;'><b>Transaction ID:</font> </b>"+SendToAddrData.result+"</font>";
             bootbox.dialog({
-            	title: "Sent Transaction Info",
-            	message: SendToAddrData
+            	title: "Transaction Successful",
+            	message: SentToAddrTxData
             });
             if ( SendToAddrData.sendrawtransaction == 'success' ) {
 				toastr.success("Transaction Sent", "Transaction Notification")

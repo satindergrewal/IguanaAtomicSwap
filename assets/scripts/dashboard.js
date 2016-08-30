@@ -115,6 +115,7 @@ var Dashboard = function() {
                             walletDivContent += '</div>';
                             walletDivContent += '<div class="widget-footer text-center">';
                               walletDivContent += '<div class="row no-space ">';
+                              //walletDivContent += '';
                                 walletDivContent += '<div class="btn-group btn-group-justified">';
                                     walletDivContent += '<div class="btn-group" role="group">';
                                       walletDivContent += '<button type="button" class="btn btn-xs bg-blue-grey-200 grey-800 waves-effect waves-light" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-send" onclick="sendCurrency($(this).data())" data-target="#SendCoinModelStep1" data-toggle="modal">';
@@ -184,7 +185,7 @@ var Dashboard = function() {
                                 ShowCoinHistory(historyvalues);
                                 /*console.log('wallet widget refereshed (every 1 seconds)');*/
                             }
-                        }, 1000);
+                        }, 10000);
                        
                     });
                 },
@@ -238,7 +239,7 @@ var Dashboard = function() {
                     TotalFiatValue();
                     //console.log('Get Rates (every 60 seconds)');
                 }
-            }, 1000);
+            }, 10000);
 
         }
 
@@ -504,3 +505,9 @@ function secondsToString(seconds) {
     //return numyears + " years " +  numdays + " days " + numhours + " hours " + numminutes + " minutes " + numseconds + " seconds";
 }
 
+
+jQuery(document).ready(function($){
+    $('.progress').asProgress({
+        'namespace': 'progress'
+    });
+});
