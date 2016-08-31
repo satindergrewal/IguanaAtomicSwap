@@ -232,9 +232,14 @@ function ExecuteSendCurrencyAPI() {
             var SendToAddrData = JSON.parse(data);
             console.log('== Data OutPut ==');
             console.log(SendToAddrData);
+            if ( SendToAddrData.error != 'couldnt create rawtx' ) {
+            	var SendToAddrTxDataTitle = "Transaction Failed";
+            } else {
+            	var SendToAddrTxDataTitle = "Transaction Successful";
+            }
             var SentToAddrTxData = "<font style='font-size: 13px; font-family: Menlo,Monaco,Consolas,\"Courier New\",monospace'><font style='font-weight: 800;'><b>Transaction ID:</font> </b>"+SendToAddrData.result+"</font>";
             bootbox.dialog({
-            	title: "Transaction Successful",
+            	title: SendToAddrTxDataTitle,
             	message: SentToAddrTxData
             });
             if ( SendToAddrData.sendrawtransaction == 'success' ) {
