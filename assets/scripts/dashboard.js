@@ -538,8 +538,8 @@ function ShowCoinProgressBar(coin) {
           if (typeof CoinInfoData.bundles == 'undefined') {
             //console.log(coin+' is undefined');
           } else {
-            if ( parseFloat(CoinInfoData.bundles) < 99 || parseFloat(CoinInfoData.utxo) < 99 || parseFloat(CoinInfoData.balances) < 99 || parseFloat(CoinInfoData.validated) < 99 ) {
-              //console.log(coin+' is less than 99% complete.');
+            if ( parseInt(CoinInfoData.longestchain-1) != parseInt(CoinInfoData.blocks) ) {
+              //console.log(coin+' is less than 99.98% complete.');
               console.log(coin+': '+CoinInfoData.bundles);
               $('div[data-currency="'+coin+'"][id="currency-progressbars"]').show();
               $('div[data-currency="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
@@ -551,7 +551,7 @@ function ShowCoinProgressBar(coin) {
               $('div[data-currency="'+coin+'"][id="currency-validated"]').width(parseFloat(CoinInfoData.validated).toFixed(2)+'%');
               $('span[data-currency="'+coin+'"][id="currency-validated-percent"]').text(parseFloat(CoinInfoData.validated).toFixed(2)+'%');
             }
-            if ( parseFloat(CoinInfoData.bundles) > 99 || parseFloat(CoinInfoData.utxo) > 99 || parseFloat(CoinInfoData.balances) > 99 || parseFloat(CoinInfoData.validated) > 99 ) {
+            if ( parseInt(CoinInfoData.longestchain-1) == parseInt(CoinInfoData.blocks) ) {
               $('div[data-currency="'+coin+'"][id="currency-progressbars"]').hide();
             }
           }
