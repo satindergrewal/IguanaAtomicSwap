@@ -549,7 +549,7 @@ function ShowCoinProgressBar(coin) {
               $('div[data-currency="'+coin+'"][id="additional-progress-bars"]').hide();
             }
             if ( parseInt(CoinInfoData.RTheight) == 0 ) {
-              $('div[data-currency="'+coin+'"][id="currency-progressbars"]').hide();
+              $('div[data-currency="'+coin+'"][id="currency-progressbars"]').show();
               $('div[data-currency="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
               $('span[data-currency="'+coin+'"][id="currency-bundles-percent"]').text(parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+CoinInfoData.blocks+' / '+CoinInfoData.longestchain+' )');
               $('div[data-currency="'+coin+'"][id="currency-utxo"]').width(parseFloat(CoinInfoData.utxo).toFixed(2)+'%');
