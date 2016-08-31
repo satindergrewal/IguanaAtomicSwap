@@ -198,11 +198,10 @@ var Dashboard = function() {
                             } else {
                                 //ShowCoinHistory(historyvalues);
                                 /*console.log('wallet widget refereshed (every 1 seconds)');*/
+                                //Show Coin Progress Bars
+                                ShowCoinProgressBar(AllcoinsDataOutput[value][index]);
                             }
                         }, 1000);
-
-                        //Show Coin Progress Bars
-                        ShowCoinProgressBar(AllcoinsDataOutput[value][index]);
                        
                     });
                 },
@@ -537,7 +536,7 @@ function ShowCoinProgressBar(coin) {
           console.log('== Coin Info Data OutPut ==');
           console.log(CoinInfoData.bundles);
           
-          if ( parseFloat(CoinInfoData.bundles) < 99 ) {
+          if ( parseFloat(CoinInfoData.bundles) < 99 || parseFloat(CoinInfoData.utxo) < 99 || parseFloat(CoinInfoData.balances) < 99 || parseFloat(CoinInfoData.validated) < 99 ) {
             console.log(coin+' is less than 99% complete.');
             $('div[data-currency="'+coin+'"][id="currency-progressbars"]').show();
             $('div[data-currency="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
@@ -548,6 +547,9 @@ function ShowCoinProgressBar(coin) {
             $('span[data-currency="'+coin+'"][id="currency-balances-percent"]').text(parseFloat(CoinInfoData.balances).toFixed(2)+'%');
             $('div[data-currency="'+coin+'"][id="currency-validated"]').width(parseFloat(CoinInfoData.validated).toFixed(2)+'%');
             $('span[data-currency="'+coin+'"][id="currency-validated-percent"]').text(parseFloat(CoinInfoData.validated).toFixed(2)+'%');
+          }
+          if ( parseFloat(CoinInfoData.bundles) > 99 || parseFloat(CoinInfoData.utxo) > 99 || parseFloat(CoinInfoData.balances) > 99 || parseFloat(CoinInfoData.validated) > 99 ) {
+            $('div[data-currency="'+coin+'"][id="currency-progressbars"]').hide();
           }
       },
       error: function(xhr, textStatus, error) {
