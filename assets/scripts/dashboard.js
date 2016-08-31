@@ -547,6 +547,7 @@ function ShowCoinProgressBar(coin) {
               $('div[data-currency="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
               $('span[data-currency="'+coin+'"][id="currency-bundles-percent"]').text(parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+CoinInfoData.blocks+' / '+CoinInfoData.longestchain+' ) ==>> RT'+CoinInfoData.RTheight);
               $('div[data-currency="'+coin+'"][id="additional-progress-bars"]').hide();
+              $('div[data-currency="'+coin+'"][id="currency-bundles"]').removeClass( "progress-bar-info" ).addClass( "progress-bar-indicating progress-bar-success" );
             }
             if ( parseInt(CoinInfoData.RTheight) == 0 ) {
               $('div[data-currency="'+coin+'"][id="currency-progressbars"]').show();
