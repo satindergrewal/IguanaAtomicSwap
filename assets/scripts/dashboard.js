@@ -119,6 +119,7 @@ var Dashboard = function() {
                                   walletDivContent += '<div class="progress progress-sm">';
                                   walletDivContent += '<div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-bundles">Bundles <span data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-bundles-percent">0%</span></div>';
                                   walletDivContent += '</div>';
+                                  walletDivContent += '<div data-currency="' + AllcoinsDataOutput[value][index] + '" id="additional-progress-bars">';
                                   walletDivContent += '<div class="progress progress-sm">';
                                   walletDivContent += '<div class="progress-bar progress-bar-warning progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-utxo">utxo <span data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-utxo-percent">0%</span></div>';
                                   walletDivContent += '</div>';
@@ -128,6 +129,7 @@ var Dashboard = function() {
                                   walletDivContent += '<div class="progress progress-sm">';
                                   walletDivContent += '<div class="progress-bar progress-bar-success progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-validated">Validated <span data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-validated-percent">0%</span></div>';
                                   walletDivContent += '</div>';
+                                  walletDivContent += '</div><!-- END additional-progress-bars -->';
                                 walletDivContent += '</div>';
                               walletDivContent += '</div>';
                                 walletDivContent += '<div class="btn-group btn-group-justified">';
@@ -538,10 +540,16 @@ function ShowCoinProgressBar(coin) {
           if (typeof CoinInfoData.bundles == 'undefined') {
             //console.log(coin+' is undefined');
           } else {
-            if ( parseInt(CoinInfoData.longestchain-1) != parseInt(CoinInfoData.blocks) ) {
+            if ( parseInt(CoinInfoData.RTheight) != 0 ) {
               //console.log(coin+' is less than 99.98% complete.');
               console.log(coin+': '+CoinInfoData.bundles);
               $('div[data-currency="'+coin+'"][id="currency-progressbars"]').show();
+              $('div[data-currency="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
+              $('span[data-currency="'+coin+'"][id="currency-bundles-percent"]').text(parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+CoinInfoData.blocks+' / '+CoinInfoData.longestchain+' ) ==>> RT'+CoinInfoData.RTheight);
+              $('div[data-currency="'+coin+'"][id="additional-progress-bars"]').hide();
+            }
+            if ( parseInt(CoinInfoData.RTheight) == 0 ) {
+              $('div[data-currency="'+coin+'"][id="currency-progressbars"]').hide();
               $('div[data-currency="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
               $('span[data-currency="'+coin+'"][id="currency-bundles-percent"]').text(parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+CoinInfoData.blocks+' / '+CoinInfoData.longestchain+' )');
               $('div[data-currency="'+coin+'"][id="currency-utxo"]').width(parseFloat(CoinInfoData.utxo).toFixed(2)+'%');
@@ -550,9 +558,6 @@ function ShowCoinProgressBar(coin) {
               $('span[data-currency="'+coin+'"][id="currency-balances-percent"]').text(parseFloat(CoinInfoData.balances).toFixed(2)+'%');
               $('div[data-currency="'+coin+'"][id="currency-validated"]').width(parseFloat(CoinInfoData.validated).toFixed(2)+'%');
               $('span[data-currency="'+coin+'"][id="currency-validated-percent"]').text(parseFloat(CoinInfoData.validated).toFixed(2)+'%');
-            }
-            if ( parseInt(CoinInfoData.longestchain-1) == parseInt(CoinInfoData.blocks) ) {
-              $('div[data-currency="'+coin+'"][id="currency-progressbars"]').hide();
             }
           }
       },
