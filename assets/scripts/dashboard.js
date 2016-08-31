@@ -524,7 +524,7 @@ function secondsToString(seconds) {
 
 
 function ShowCoinProgressBar(coin) {
-  console.log('Showing Prgoress bar of '+coin);
+  //console.log('Showing Prgoress bar of '+coin);
   var getinfoValues = {"coin":coin,"agent":"bitcoinrpc","method":"getinfo"};
   $.ajax({
       type: 'POST',
@@ -533,23 +533,27 @@ function ShowCoinProgressBar(coin) {
       //dataType: 'text',
       success: function(data, textStatus, jqXHR) {
           var CoinInfoData = JSON.parse(data);
-          console.log('== Coin Info Data OutPut ==');
-          console.log(CoinInfoData.bundles);
-          
-          if ( parseFloat(CoinInfoData.bundles) < 99 || parseFloat(CoinInfoData.utxo) < 99 || parseFloat(CoinInfoData.balances) < 99 || parseFloat(CoinInfoData.validated) < 99 ) {
-            console.log(coin+' is less than 99% complete.');
-            $('div[data-currency="'+coin+'"][id="currency-progressbars"]').show();
-            $('div[data-currency="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
-            $('span[data-currency="'+coin+'"][id="currency-bundles-percent"]').text(parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ('+CoinInfoData.blocks+'/'+CoinInfoData.longestchain+')');
-            $('div[data-currency="'+coin+'"][id="currency-utxo"]').width(parseFloat(CoinInfoData.utxo).toFixed(2)+'%');
-            $('span[data-currency="'+coin+'"][id="currency-utxo-percent"]').text(parseFloat(CoinInfoData.utxo).toFixed(2)+'%');
-            $('div[data-currency="'+coin+'"][id="currency-balances"]').width(parseFloat(CoinInfoData.balances).toFixed(2)+'%');
-            $('span[data-currency="'+coin+'"][id="currency-balances-percent"]').text(parseFloat(CoinInfoData.balances).toFixed(2)+'%');
-            $('div[data-currency="'+coin+'"][id="currency-validated"]').width(parseFloat(CoinInfoData.validated).toFixed(2)+'%');
-            $('span[data-currency="'+coin+'"][id="currency-validated-percent"]').text(parseFloat(CoinInfoData.validated).toFixed(2)+'%');
-          }
-          if ( parseFloat(CoinInfoData.bundles) > 99 || parseFloat(CoinInfoData.utxo) > 99 || parseFloat(CoinInfoData.balances) > 99 || parseFloat(CoinInfoData.validated) > 99 ) {
-            $('div[data-currency="'+coin+'"][id="currency-progressbars"]').hide();
+          //console.log('== Coin Info Data OutPut ==');
+
+          if (typeof CoinInfoData.bundles == 'undefined') {
+            //console.log(coin+' is undefined');
+          } else {
+            if ( parseFloat(CoinInfoData.bundles) < 99 || parseFloat(CoinInfoData.utxo) < 99 || parseFloat(CoinInfoData.balances) < 99 || parseFloat(CoinInfoData.validated) < 99 ) {
+              //console.log(coin+' is less than 99% complete.');
+              console.log(coin+': '+CoinInfoData.bundles);
+              $('div[data-currency="'+coin+'"][id="currency-progressbars"]').show();
+              $('div[data-currency="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
+              $('span[data-currency="'+coin+'"][id="currency-bundles-percent"]').text(parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+CoinInfoData.blocks+' / '+CoinInfoData.longestchain+' )');
+              $('div[data-currency="'+coin+'"][id="currency-utxo"]').width(parseFloat(CoinInfoData.utxo).toFixed(2)+'%');
+              $('span[data-currency="'+coin+'"][id="currency-utxo-percent"]').text(parseFloat(CoinInfoData.utxo).toFixed(2)+'%');
+              $('div[data-currency="'+coin+'"][id="currency-balances"]').width(parseFloat(CoinInfoData.balances).toFixed(2)+'%');
+              $('span[data-currency="'+coin+'"][id="currency-balances-percent"]').text(parseFloat(CoinInfoData.balances).toFixed(2)+'%');
+              $('div[data-currency="'+coin+'"][id="currency-validated"]').width(parseFloat(CoinInfoData.validated).toFixed(2)+'%');
+              $('span[data-currency="'+coin+'"][id="currency-validated-percent"]').text(parseFloat(CoinInfoData.validated).toFixed(2)+'%');
+            }
+            if ( parseFloat(CoinInfoData.bundles) > 99 || parseFloat(CoinInfoData.utxo) > 99 || parseFloat(CoinInfoData.balances) > 99 || parseFloat(CoinInfoData.validated) > 99 ) {
+              $('div[data-currency="'+coin+'"][id="currency-progressbars"]').hide();
+            }
           }
       },
       error: function(xhr, textStatus, error) {
