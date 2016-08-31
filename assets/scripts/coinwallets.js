@@ -234,7 +234,8 @@ function ExecuteSendCurrencyAPI() {
             console.log(SendToAddrData);
             if ( SendToAddrData.error != 'couldnt create rawtx' ) {
             	var SendToAddrTxDataTitle = "Transaction Failed";
-            } else {
+            }
+            if ( SendToAddrData.sendrawtransaction == 'success' ) {
             	var SendToAddrTxDataTitle = "Transaction Successful";
             }
             var SentToAddrTxData = "<font style='font-size: 13px; font-family: Menlo,Monaco,Consolas,\"Courier New\",monospace'><font style='font-weight: 800;'><b>Transaction ID:</font> </b>"+SendToAddrData.result+"</font>";
