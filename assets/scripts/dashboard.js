@@ -199,7 +199,7 @@ var Dashboard = function() {
                                 console.log('=> No wallet logged in. No need to Run History.');
                             } else {
                                 //ShowCoinHistory(historyvalues);
-                                /*console.log('wallet widget refereshed (every 1 seconds)');*/
+                                //console.log('wallet widget refereshed (every 1 seconds)');
                                 //Show Coin Progress Bars
                                 ShowCoinProgressBar(AllcoinsDataOutput[value][index]);
                             }
@@ -542,7 +542,6 @@ function ShowCoinProgressBar(coin) {
           } else {
             if ( parseInt(CoinInfoData.RTheight) != 0 ) {
               //console.log(coin+' is less than 99.98% complete.');
-              console.log(coin+': '+CoinInfoData.bundles);
               $('div[data-currency="'+coin+'"][id="currency-progressbars"]').show();
               $('div[data-currency="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
               $('span[data-currency="'+coin+'"][id="currency-bundles-percent"]').text(parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+CoinInfoData.blocks+' / '+CoinInfoData.longestchain+' ) ==>> RT'+CoinInfoData.RTheight);
@@ -550,6 +549,7 @@ function ShowCoinProgressBar(coin) {
               $('div[data-currency="'+coin+'"][id="currency-bundles"]').removeClass( "progress-bar-info" ).addClass( "progress-bar-indicating progress-bar-success" );
             }
             if ( parseInt(CoinInfoData.RTheight) == 0 ) {
+              console.log(coin+': '+CoinInfoData.bundles);
               $('div[data-currency="'+coin+'"][id="currency-progressbars"]').show();
               $('div[data-currency="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
               $('span[data-currency="'+coin+'"][id="currency-bundles-percent"]').text(parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+CoinInfoData.blocks+' / '+CoinInfoData.longestchain+' )');
