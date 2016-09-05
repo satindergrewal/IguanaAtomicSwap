@@ -128,24 +128,16 @@ var Login = function() {
 
                                 var logincoinnames = []; $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); }); console.log(logincoinnames);
                                 $.each(logincoinnames, function( index, value ) {
-                                    var logincoinmodeval = $("input[name='logincoinbtcmode']:checked").val();
-                                    var logincoin_data = {"coin": value, "mode": logincoinmodeval};
-                                    Iguana_addcoin(logincoin_data);
-                                    /*if ( value == 'BTC' ) {
-                                        
-                                        var logincoinfullname = 'Bitcoin';
-                                        
-                                        var logincoinmodeinfo = '';
-                                        if ( logincoinmodeval == '1' ) { logincoinmodeinfo = 'Full'; } else { logincoinmodeinfo = 'Full'; }
-                                        var AddCoinData = {"prefetchlag":5,"poll":1,"active":1,"agent":"iguana","method":"addcoin","newcoin":"BTC","startpend":64,"endpend":2,"services":128,"maxpeers":512,"RELAY":logincoinmodeval,"VALIDATE":logincoinmodeval,"portp2p":8333}
+                                    if ( value == 'BTC' ) {
+                                        var logincoinmodeval = $("input[name='logincoinbtcmode']:checked").val();
+                                        var logincoin_data = {"coin": value, "mode": logincoinmodeval};
+                                        Iguana_addcoin(logincoin_data);
                                     }
                                     if ( value == 'BTCD' ) {
-                                        var logincoinfullname = 'BitcoinDark';
                                         var logincoinmodeval = $("input[name='logincoinbtcdmode']:checked").val();
-                                        var logincoinmodeinfo = '';
-                                        if ( logincoinmodeval == '1' ) { logincoinmodeinfo = 'Full'; } else { logincoinmodeinfo = 'Full'; }
-                                        var AddCoinData = {"prefetchlag":-1,"poll":50,"active":1,"agent":"iguana","method":"addcoin","newcoin":"BTCD","startpend":8,"endpend":4,"services":129,"maxpeers":64,"RELAY":logincoinmodeval,"VALIDATE":logincoinmodeval,"portp2p":14631,"rpc":14632}
-                                    }*/
+                                        var logincoin_data = {"coin": value, "mode": logincoinmodeval};
+                                        Iguana_addcoin(logincoin_data);
+                                    }
                                     /*var AddCoinData = {
                                         "poll": 100,
                                         "active": 1,
