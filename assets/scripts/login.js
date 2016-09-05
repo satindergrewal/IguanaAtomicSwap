@@ -90,9 +90,9 @@ var Login = function() {
                             //swal("Oops...", "Something went wrong!", "error");
                             if (LoginOutput.error === 'bitcoinrpc needs coin') {
                                 toastr.info("Seems like there's no coin running. Activating BTC.", "Coin Notification");
-                                var AddBTCDBasiliskData = {"prefetchlag":5,"poll":1,"active":1,"agent":"iguana","method":"addcoin","newcoin":"BTC","startpend":64,"endpend":2,"services":128,"maxpeers":512,"RELAY":1,"VALIDATE":1,"portp2p":8333}
+                                //var AddBTCDBasiliskData = {"prefetchlag":5,"poll":1,"active":1,"agent":"iguana","method":"addcoin","newcoin":"BTC","startpend":64,"endpend":2,"services":128,"maxpeers":512,"RELAY":1,"VALIDATE":1,"portp2p":8333}
                                 //Start Bitcoin in Full/Basilisk mode
-                                $.ajax({
+                                /*$.ajax({
                                     type: 'GET',
                                     data: AddBTCDBasiliskData,
                                     url: 'http://127.0.0.1:7778/api/iguana/addcoin',
@@ -122,7 +122,7 @@ var Login = function() {
                                         //swal("Oops...", "Something went wrong!", "error");
                                         toastr.warning("Opps... Something went wrong!", "Coin Notification")
                                     }
-                                });
+                                });*/
 
 
 
