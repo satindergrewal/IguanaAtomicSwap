@@ -83,7 +83,7 @@ var Login = function() {
                             $('#wallet-core').fadeIn();
                             $('body').removeClass( "page-login layout-full page-dark" ).addClass( "" );
                             $('link[id=loginStyle]')[0].disabled=true;
-                            //location.reload();
+                            location.reload();
                         }
                         else {
                             // If something goes wrong, alert the error message that our service returned
