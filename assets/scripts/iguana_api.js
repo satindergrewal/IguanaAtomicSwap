@@ -134,7 +134,10 @@ function Iguana_addcoin(addcoin_data) {
             if (addcoinData.result === 'coin added') {
                 console.log('coin added');
                 toastr.success("Bitcoin started in Full Mode", "Coin Notification");
-                $( ".login-form" ).submit();
+                if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
+                    $( ".login-form" ).submit();
+                    console.log("There was no wallet logged in. Logged in now.");
+                }
             } else if (addcoinData.result === 'coin already there') {
                 console.log('coin already there');
                 toastr.info("Looks like Bitcoin already running.", "Coin Notification");
