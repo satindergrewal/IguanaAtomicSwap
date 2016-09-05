@@ -83,7 +83,7 @@ var Login = function() {
                             $('#wallet-core').fadeIn();
                             $('body').removeClass( "page-login layout-full page-dark" ).addClass( "" );
                             $('link[id=loginStyle]')[0].disabled=true;
-                            location.reload();
+                            //location.reload();
                         }
                         else {
                             // If something goes wrong, alert the error message that our service returned
@@ -128,9 +128,13 @@ var Login = function() {
 
                                 var logincoinnames = []; $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); }); console.log(logincoinnames);
                                 $.each(logincoinnames, function( index, value ) {
-                                    if ( value == 'BTC' ) {
+                                    var logincoinmodeval = $("input[name='logincoinbtcmode']:checked").val();
+                                    var logincoin_data = {"coin": value, "mode": logincoinmodeval};
+                                    Iguana_addcoin(logincoin_data);
+                                    /*if ( value == 'BTC' ) {
+                                        
                                         var logincoinfullname = 'Bitcoin';
-                                        var logincoinmodeval = $("input[name='logincoinbtcmode']:checked").val();
+                                        
                                         var logincoinmodeinfo = '';
                                         if ( logincoinmodeval == '1' ) { logincoinmodeinfo = 'Full'; } else { logincoinmodeinfo = 'Full'; }
                                         var AddCoinData = {"prefetchlag":5,"poll":1,"active":1,"agent":"iguana","method":"addcoin","newcoin":"BTC","startpend":64,"endpend":2,"services":128,"maxpeers":512,"RELAY":logincoinmodeval,"VALIDATE":logincoinmodeval,"portp2p":8333}
@@ -141,7 +145,7 @@ var Login = function() {
                                         var logincoinmodeinfo = '';
                                         if ( logincoinmodeval == '1' ) { logincoinmodeinfo = 'Full'; } else { logincoinmodeinfo = 'Full'; }
                                         var AddCoinData = {"prefetchlag":-1,"poll":50,"active":1,"agent":"iguana","method":"addcoin","newcoin":"BTCD","startpend":8,"endpend":4,"services":129,"maxpeers":64,"RELAY":logincoinmodeval,"VALIDATE":logincoinmodeval,"portp2p":14631,"rpc":14632}
-                                    }
+                                    }*/
                                     /*var AddCoinData = {
                                         "poll": 100,
                                         "active": 1,
@@ -155,7 +159,7 @@ var Login = function() {
                                         "portp2p": 14631
                                     }*/
                                     //Start BitcoinDark in Basilisk mode
-                                    $.ajax({
+                                    /*$.ajax({
                                         type: 'POST',
                                         data: AddCoinData,
                                         url: 'http://127.0.0.1:7778',
@@ -186,7 +190,7 @@ var Login = function() {
                                                 toastr.error("Unable to connect to Iguana", "Account Notification")
                                             }
                                         }
-                                    });
+                                    });*/
                                 });
                             } else {
                                 toastr.warning("Opps... Something went wrong!", "Account Notification");
