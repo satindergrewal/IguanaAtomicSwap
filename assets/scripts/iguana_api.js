@@ -130,6 +130,18 @@ function Iguana_addcoin(addcoin_data) {
         //dataType: 'text',
         success: function(data, textStatus, jqXHR) {
             var addcoinData = JSON.parse(data);
+
+            if (addcoinData.result === 'coin added') {
+                console.log('coin added');
+                toastr.success("Bitcoin started in Full Mode", "Coin Notification");
+                $( ".login-form" ).submit();
+            } else if (addcoinData.result === 'coin already there') {
+                console.log('coin already there');
+                toastr.info("Looks like Bitcoin already running.", "Coin Notification");
+            } else if (addcoinData.result === null) {
+                console.log('coin already there');
+                toastr.info("Looks like Bitcoin already running.", "Coin Notification");
+            }
         },
         error: function(xhr, textStatus, error) {
             console.log('failed getting Coin History.');
