@@ -123,7 +123,7 @@ function Iguana_addcoin(addcoin_data) {
         console.log(logincoinfullname);
         console.log(logincoinmodeinfo);
     }
-    /*$.ajax({
+    $.ajax({
         type: 'POST',
         data: JSON.stringify(addcoinValues),
         url: 'http://127.0.0.1:7778',
@@ -137,5 +137,5 @@ function Iguana_addcoin(addcoin_data) {
             console.log(textStatus);
             console.log(error);
         }
-    });*/
+    });
 }
