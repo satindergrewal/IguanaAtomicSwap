@@ -131,12 +131,12 @@ var Login = function() {
                                     if ( value == 'BTC' ) {
                                         var logincoinmodeval = $("input[name='logincoinbtcmode']:checked").val();
                                         var logincoin_data = {"coin": value, "mode": logincoinmodeval};
-                                        Iguana_addcoin(logincoin_data);
+                                        Iguana_addcoinLogin(logincoin_data);
                                     }
                                     if ( value == 'BTCD' ) {
                                         var logincoinmodeval = $("input[name='logincoinbtcdmode']:checked").val();
                                         var logincoin_data = {"coin": value, "mode": logincoinmodeval};
-                                        Iguana_addcoin(logincoin_data);
+                                        Iguana_addcoinLogin(logincoin_data);
                                     }
                                     /*var AddCoinData = {
                                         "poll": 100,

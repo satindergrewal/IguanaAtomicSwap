@@ -323,8 +323,8 @@ function ShowCoinHistory(getData) {
                         var icon_arrow_direction = '';
                         var balance_text_color = '';
 
-                        if ('vin' in show_coin_history.history[coin_history_index].details) { label_class = 'label-danger'; icon_arrow_direction = 'fa-arrow-left'; balance_text_color = '#f44336'; }
-                        if ('vout' in show_coin_history.history[coin_history_index].details) { label_class = 'label-success'; icon_arrow_direction = 'fa-arrow-right'; balance_text_color = '#4caf50'; }
+                        if ('vin' in show_coin_history.history[coin_history_index].details) { label_class = 'label-danger'; icon_arrow_direction = 'fa-arrow-right'; balance_text_color = '#f44336'; }
+                        if ('vout' in show_coin_history.history[coin_history_index].details) { label_class = 'label-success'; icon_arrow_direction = 'fa-arrow-left'; balance_text_color = '#4caf50'; }
 
 
                         wallettblContent += '<tr>';
