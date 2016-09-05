@@ -89,20 +89,9 @@ var Login = function() {
                             // If something goes wrong, alert the error message that our service returned
                             //swal("Oops...", "Something went wrong!", "error");
                             if (LoginOutput.error === 'bitcoinrpc needs coin') {
-                                toastr.info("Seems like there's no coin running. Activating BTCD.", "Coin Notification");
-                                var AddBTCDBasiliskData = {
-                                    "poll": 100,
-                                    "active": 1,
-                                    "newcoin": "BTCD",
-                                    "startpend": 1,
-                                    "endpend": 1,
-                                    "services": 128,
-                                    "maxpeers": 16,
-                                    "RELAY": 1,
-                                    "VALIDATE": 1,
-                                    "portp2p": 14631
-                                }
-                                //Start BitcoinDark in Basilisk mode
+                                toastr.info("Seems like there's no coin running. Activating BTC.", "Coin Notification");
+                                var AddBTCDBasiliskData = {"prefetchlag":5,"poll":1,"active":1,"agent":"iguana","method":"addcoin","newcoin":"BTC","startpend":64,"endpend":2,"services":128,"maxpeers":512,"RELAY":1,"VALIDATE":1,"portp2p":8333}
+                                //Start Bitcoin in Full/Basilisk mode
                                 $.ajax({
                                     type: 'GET',
                                     data: AddBTCDBasiliskData,
@@ -115,24 +104,89 @@ var Login = function() {
 
                                         if (BTCDBasiliskDataOutput.result === 'coin added') {
                                             console.log('coin added');
-                                            toastr.success("BitcoinDark started in Full Mode", "Coin Notification");
+                                            toastr.success("Bitcoin started in Full Mode", "Coin Notification");
                                             $( ".login-form" ).submit();
                                         } else if (BTCDBasiliskDataOutput.result === 'coin already there') {
                                             console.log('coin already there');
-                                            toastr.info("Looks like BitcoinDark already running.", "Coin Notification");
+                                            toastr.info("Looks like Bitcoin already running.", "Coin Notification");
                                         } else if (BTCDBasiliskDataOutput.result === null) {
                                             console.log('coin already there');
-                                            toastr.info("Looks like BitcoinDark already running.", "Coin Notification");
+                                            toastr.info("Looks like Bitcoin already running.", "Coin Notification");
                                         }
                                     },
                                     error: function(xhr, textStatus, error) {
-                                        console.log('failed starting BitcoinDark.');
+                                        console.log('failed starting Bitcoin.');
                                         console.log(xhr.statusText);
                                         console.log(textStatus);
                                         console.log(error);
                                         //swal("Oops...", "Something went wrong!", "error");
                                         toastr.warning("Opps... Something went wrong!", "Coin Notification")
                                     }
+                                });
+
+
+
+                                var logincoinnames = []; $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); }); console.log(logincoinnames);
+                                $.each(logincoinnames, function( index, value ) {
+                                    if ( value == 'BTC' ) {
+                                        var logincoinfullname = 'Bitcoin';
+                                        var logincoinmodeval = $("input[name='logincoinbtcmode']:checked").val();
+                                        var logincoinmodeinfo = '';
+                                        if ( logincoinmodeval == '1' ) { logincoinmodeinfo = 'Full'; } else { logincoinmodeinfo = 'Full'; }
+                                        var AddCoinData = {"prefetchlag":5,"poll":1,"active":1,"agent":"iguana","method":"addcoin","newcoin":"BTC","startpend":64,"endpend":2,"services":128,"maxpeers":512,"RELAY":logincoinmodeval,"VALIDATE":logincoinmodeval,"portp2p":8333}
+                                    }
+                                    if ( value == 'BTCD' ) {
+                                        var logincoinfullname = 'BitcoinDark';
+                                        var logincoinmodeval = $("input[name='logincoinbtcdmode']:checked").val();
+                                        var logincoinmodeinfo = '';
+                                        if ( logincoinmodeval == '1' ) { logincoinmodeinfo = 'Full'; } else { logincoinmodeinfo = 'Full'; }
+                                        var AddCoinData = {"prefetchlag":-1,"poll":50,"active":1,"agent":"iguana","method":"addcoin","newcoin":"BTCD","startpend":8,"endpend":4,"services":129,"maxpeers":64,"RELAY":logincoinmodeval,"VALIDATE":logincoinmodeval,"portp2p":14631,"rpc":14632}
+                                    }
+                                    /*var AddCoinData = {
+                                        "poll": 100,
+                                        "active": 1,
+                                        "newcoin": value,
+                                        "startpend": 1,
+                                        "endpend": 1,
+                                        "services": 128,
+                                        "maxpeers": 16,
+                                        "RELAY": 0,
+                                        "VALIDATE": 0,
+                                        "portp2p": 14631
+                                    }*/
+                                    //Start BitcoinDark in Basilisk mode
+                                    $.ajax({
+                                        type: 'POST',
+                                        data: AddCoinData,
+                                        url: 'http://127.0.0.1:7778',
+                                        //dataType: 'text',
+                                        success: function(data, textStatus, jqXHR) {
+                                            var LoginCoinDataOutput = JSON.parse(data);
+                                            console.log('== Data OutPut for'+ logincoinfullname +' ==');
+                                            console.log(LoginCoinDataOutput);
+
+                                            if (LoginCoinDataOutput.result === 'coin added') {
+                                                console.log('coin added');
+                                                toastr.success(logincoinfullname + " started in "+ logincoinmodeinfo +" Mode", "Coin Notification");
+                                            } else if (LoginCoinDataOutput.result === 'coin already there') {
+                                                console.log('coin already there');
+                                                //toastr.info("Looks like" + value + "already running.", "Coin Notification");
+                                            } else if (LoginCoinDataOutput.result === null) {
+                                                console.log('coin already there');
+                                                //toastr.info("Looks like" + value + "already running.", "Coin Notification");
+                                            }
+                                        },
+                                        error: function(xhr, textStatus, error) {
+                                            console.log('failed starting BitcoinDark.');
+                                            console.log(xhr.statusText);
+                                            console.log(textStatus);
+                                            console.log(error);
+                                            //swal("Oops...", "Something went wrong!", "error");
+                                            if (xhr.readyState == '0' ) {
+                                                toastr.error("Unable to connect to Iguana", "Account Notification")
+                                            }
+                                        }
+                                    });
                                 });
                             } else {
                                 toastr.warning("Opps... Something went wrong!", "Account Notification");

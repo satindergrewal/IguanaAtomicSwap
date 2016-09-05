@@ -71,7 +71,7 @@
       <h4 style="color: #fff;" id="login-welcome">Welcome. Please login.</h4>
       <form class="login-form" method="post" action="javascript:;" autocomplete="off" onsubmit="return false;">
         <div class="form-group form-material floating">
-          <input type="password" class="form-control empty" name="password" id="password">
+          <input type="password" class="form-control" name="password" id="password">
           <label class="floating-label" for="inputPassword">Passphrase</label>
         </div>
         <button type="submit" class="btn btn-primary btn-block" id="loginbtn">Sign in</button>
@@ -79,7 +79,58 @@
           <button class="btn btn-lg btn-flat btn-block waves-effect" id="register-btn">Create new wallet</button>
           <button class="btn btn-lg btn-flat btn-block waves-effect" id="logint-another-wallet">Login to another wallet</button>
         </div>
+        <!-- START ADVANCED OPTIONS TO SELECT COINS -->
+        <div class="form-group form-material row" id="logincoinslist">
+          <!-- START BITCOIN COIN OPTIONS -->
+          <div class="col-sm-12">
+          <div class="col-sm-3">
+            <div class="checkbox-custom checkbox-default" style="margin-top: 0px;">
+              <input type="checkbox" id="logincoinbtc" value="BTC" name="logincoinbtc" checked="" autocomplete="off">
+              <label for="logincoinbtc">Bitcoin</label>
+            </div>
+          </div>
+          <div class="col-sm-9">
+            <div>
+              <div class="radio-custom radio-default radio-inline">
+                <input type="radio" id="logincoinbtcmodeF" name="logincoinbtcmode" value="1">
+                <label for="logincoinbtcmodeF">Full Mode</label>
+              </div>
+              <div class="radio-custom radio-default radio-inline">
+                <input type="radio" id="logincoinbtcmodeB" name="logincoinbtcmode" value="0" checked="">
+                <label for="logincoinbtcmodeB">Basilisk Mode</label>
+              </div>
+            </div>
+          </div>
+          </div>
+          <!-- END BITCOIN COIN OPTIONS -->
+          <!-- START BITCOIN COIN OPTIONS -->
+          <div class="col-sm-12">
+          <div class="col-sm-3">
+            <div class="checkbox-custom checkbox-default" style="margin-top: 0px;">
+              <input type="checkbox" id="logincoinbtcd" value="BTCD" name="logincoinbtcd" checked="" autocomplete="off">
+              <label for="logincoinbtcd">BitcoinDark</label>
+            </div>
+          </div>
+          <div class="col-sm-9">
+            <div>
+              <div class="radio-custom radio-default radio-inline">
+                <input type="radio" id="logincoinbtcdmodeF" name="logincoinbtcdmode" value="1" checked>
+                <label for="logincoinbtcdmodeF">Full Mode</label>
+              </div>
+              <div class="radio-custom radio-default radio-inline">
+                <input type="radio" id="logincoinbtcdmodeB" name="logincoinbtcdmode" value="0">
+                <label for="logincoinbtcdmodeB">Basilisk Mode</label>
+              </div>
+            </div>
+          </div>
+          </div>
+          <!-- END BITCOIN COIN OPTIONS -->
+        </div>
+        <!-- END ADVANCED OPTIONS TO SELECT COINS -->
       </form>
+
+
+
       </div>
       <!-- END section login -->
       <!-- BEGIN section register -->
