@@ -105,19 +105,24 @@ function Iguana_activehandle() {
 function Iguana_addcoin(addcoin_data) {
     //var addcoinValues = {"poll":100,"active":1,"agent":"iguana","method":"addcoin","newcoin":addcoin_data.coin,"startpend":1,"endpend":1,"services":128,"maxpeers":16,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"portp2p":addcoin_data.portp2p};
     console.log(addcoin_data);
-    /*if ( value == 'BTC' ) {
+    if ( addcoin_data.coin == 'BTC' ) {
         var logincoinfullname = 'Bitcoin';
         var logincoinmodeinfo = '';
-        if ( logincoinmodeval == '1' ) { logincoinmodeinfo = 'Full'; } else { logincoinmodeinfo = 'Full'; }
-        var AddCoinData = {"prefetchlag":5,"poll":1,"active":1,"agent":"iguana","method":"addcoin","newcoin":"BTC","startpend":64,"endpend":2,"services":128,"maxpeers":512,"RELAY":logincoinmodeval,"VALIDATE":logincoinmodeval,"portp2p":8333}
+        if ( addcoin_data.mode == '1' ) { logincoinmodeinfo = 'Full'; } else { logincoinmodeinfo = 'Full'; }
+        var AddCoinData = {"prefetchlag":5,"poll":1,"active":1,"agent":"iguana","method":"addcoin","newcoin":"BTC","startpend":64,"endpend":2,"services":128,"maxpeers":512,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"portp2p":8333}
+        console.log(AddCoinData);
+        console.log(logincoinfullname);
+        console.log(logincoinmodeinfo);
     }
-    if ( value == 'BTCD' ) {
+    if ( addcoin_data.coin == 'BTCD' ) {
         var logincoinfullname = 'BitcoinDark';
-        var logincoinmodeval = $("input[name='logincoinbtcdmode']:checked").val();
         var logincoinmodeinfo = '';
-        if ( logincoinmodeval == '1' ) { logincoinmodeinfo = 'Full'; } else { logincoinmodeinfo = 'Full'; }
-        var AddCoinData = {"prefetchlag":-1,"poll":50,"active":1,"agent":"iguana","method":"addcoin","newcoin":"BTCD","startpend":8,"endpend":4,"services":129,"maxpeers":64,"RELAY":logincoinmodeval,"VALIDATE":logincoinmodeval,"portp2p":14631,"rpc":14632}
-    }*/
+        if ( addcoin_data.mode == '1' ) { logincoinmodeinfo = 'Full'; } else { logincoinmodeinfo = 'Full'; }
+        var AddCoinData = {"prefetchlag":-1,"poll":50,"active":1,"agent":"iguana","method":"addcoin","newcoin":"BTCD","startpend":8,"endpend":4,"services":129,"maxpeers":64,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"portp2p":14631,"rpc":14632}
+        console.log(AddCoinData);
+        console.log(logincoinfullname);
+        console.log(logincoinmodeinfo);
+    }
     /*$.ajax({
         type: 'POST',
         data: JSON.stringify(addcoinValues),
