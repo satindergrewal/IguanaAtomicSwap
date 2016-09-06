@@ -507,7 +507,7 @@ var Login = function() {
             $('#logint-another-wallet').hide();
         } else {
             var CheckLoginData = JSON.parse(sessionStorage.getItem('IguanaActiveAccount'));
-            if ( JSON.parse(CheckLoginData).rmd160 != Iguana_activehandle_output.rmd160 ) {
+            if ( JSON.parse(CheckLoginData).pubkey != Iguana_activehandle_output.pubkey ) {
                 //console.log("Login: sessionStorage data and activehandle data doesn't match");
                 //console.log('Iguana_activehandle_output: '+Iguana_activehandle_output.rmd160);
                 //console.log('CheckLoginData: ' + JSON.parse(CheckLoginData).rmd160);

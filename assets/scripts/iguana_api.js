@@ -259,9 +259,9 @@ function Iguana_addcoin(addcoin_data) {
             if (addcoinData.result === 'coin added') {
                 console.log('coin added');
                 toastr.success(logincoinfullname+" started in "+ logincoinmodeinfo +" Mode", "Coin Notification");
-                if ( typeof addcoin_data.reload == 'undefined' || addcoin_data.reload != false ) {
-                    location.reload();
-                }
+                //if ( typeof addcoin_data.reload == 'undefined' || addcoin_data.reload != false ) {
+                    $(document).ready(function() { Dashboard.init(); });
+                //}
             } else if (addcoinData.result === 'coin already there') {
                 console.log('coin already there');
                 toastr.info("Looks like "+ logincoinfullname +" already running.", "Coin Notification");
