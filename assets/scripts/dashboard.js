@@ -356,7 +356,7 @@ function ShowCoinHistory(getData) {
                     console.log(xhr.statusText);
                     if ( xhr.readyState == 0 ) {
                         Iguana_ServiceUnavailable();
-                        ClearOnLogout(true, true);
+                        //ClearOnLogout(true, true);
                     }
                     console.log(textStatus);
                     console.log(error);
