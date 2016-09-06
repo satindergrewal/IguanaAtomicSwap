@@ -217,11 +217,12 @@ function ConfirmsendCurrency(confirm_val) {
 function ExecuteSendCurrencyAPI() {
 	console.log('==> SendToAddress API Executed <==');
 
+	var confirm_coinname_to_send = $('#mdl_confirm_currency_coinname').text();
 	var confirm_send_amount = $('#mdl_confirm_currency_sendfrom_total_dedcut').text();
 	var confirm_sendto_address = $('#mdl_confirm_currency_sendto_addr').text();
 
 	//Get parameters values from confirm dialog and send currency
-    var sendtoaddrvalues = {"method":"sendtoaddress","params":[confirm_sendto_address,confirm_send_amount,"EasyDEX","EasyDEXTransaction"]};
+    var sendtoaddrvalues = {"coin": confirm_coinname_to_send,"method":"sendtoaddress","params":[confirm_sendto_address,confirm_send_amount,"EasyDEX","EasyDEXTransaction"]};
     console.log(sendtoaddrvalues);
     $.ajax({
         type: 'POST',
