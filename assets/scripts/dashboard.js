@@ -295,7 +295,7 @@ function ShowCoinHistory(getData) {
             ClearOnLogout(true, true);
         }
         if ( JSON.parse(CheckLoginData).status === 'unlocked' ) {
-            //console.log(getData.vals['coin']);
+            console.log(getData.vals['coin']);
             $.ajax({
                 type: 'POST',
                 data: JSON.stringify(getData),
@@ -326,28 +326,32 @@ function ShowCoinHistory(getData) {
                     
                     var show_coin_history = CoinHistoryData; //Enable to get history from each coins's wallet address.
                     //var show_coin_history = testhistory; //Enable to get history from just test variable.
-                    $.each(show_coin_history.history.reverse(), function(coin_history_index){
-                        //console.log(coin_history_index);
-                        //console.log(show_coin_history.history[coin_history_index].details.vout);
-
-                        var label_class = '';
-                        var icon_arrow_direction = '';
-                        var balance_text_color = '';
-
-                        if ('vin' in show_coin_history.history[coin_history_index].details) { label_class = 'label-danger'; icon_arrow_direction = 'fa-arrow-right'; balance_text_color = '#f44336'; }
-                        if ('vout' in show_coin_history.history[coin_history_index].details) { label_class = 'label-success'; icon_arrow_direction = 'fa-arrow-left'; balance_text_color = '#4caf50'; }
-
-
-                        wallettblContent += '<tr>';
-                            wallettblContent += '<td><span class="label label-xs ' + label_class + '"><i class="icon ' + icon_arrow_direction + '"></i></span></td>';
-                            wallettblContent += '<td class="hidden-xs">' + show_coin_history.history[coin_history_index].address + '</td>';
-                            wallettblContent += '<td>' + secondsToString(show_coin_history.history[coin_history_index].numseconds) + '</td>';
-                            wallettblContent += '<td><span style="color: ' + balance_text_color + ';"><a href="#">' + show_coin_history.history[coin_history_index].amount + '</a></span></td>';
-                        wallettblContent += '</tr>';
-                        $('table[data-currency="' + getData.vals['coin'] + '"][id="currency-tbl"] tbody').html(wallettblContent);
-                        //$('#currency-tbl tbody').html(wallettblContent);
-                    });
                     
+                    if ( sessionStorage.getItem('PrevHistoryLength_'+getData.vals['coin']) != CoinHistoryData.history.length ) {
+                      $.each(show_coin_history.history.reverse(), function(coin_history_index){
+                          //console.log(coin_history_index);
+                          //console.log(show_coin_history.history[coin_history_index].details.vout);
+
+                          var label_class = '';
+                          var icon_arrow_direction = '';
+                          var balance_text_color = '';
+
+                          if ('vin' in show_coin_history.history[coin_history_index].details) { label_class = 'label-danger'; icon_arrow_direction = 'fa-arrow-right'; balance_text_color = '#f44336'; }
+                          if ('vout' in show_coin_history.history[coin_history_index].details) { label_class = 'label-success'; icon_arrow_direction = 'fa-arrow-left'; balance_text_color = '#4caf50'; }
+
+
+                          wallettblContent += '<tr>';
+                              wallettblContent += '<td><span class="label label-xs ' + label_class + '"><i class="icon ' + icon_arrow_direction + '"></i></span></td>';
+                              wallettblContent += '<td class="hidden-xs">' + show_coin_history.history[coin_history_index].address + '</td>';
+                              wallettblContent += '<td>' + secondsToString(show_coin_history.history[coin_history_index].numseconds) + '</td>';
+                              wallettblContent += '<td><span style="color: ' + balance_text_color + ';"><a href="#">' + show_coin_history.history[coin_history_index].amount + '</a></span></td>';
+                          wallettblContent += '</tr>';
+                          $('table[data-currency="' + getData.vals['coin'] + '"][id="currency-tbl"] tbody').html(wallettblContent);
+                          //$('#currency-tbl tbody').html(wallettblContent);
+                          sessionStorage.setItem('PrevHistoryLength_'+getData.vals['coin'], CoinHistoryData.history.length);
+                      });
+                    }
+                   
                     //console.log(show_coin_history.history.length);
                     $('span[data-currency="' + getData.vals['coin'] + '"][id="currency-nooftransactions"]').text(show_coin_history.history.length);
                 },
