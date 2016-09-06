@@ -314,6 +314,13 @@ function Iguana_addcoin(addcoin_data) {
     });
 }
 
+function ExecuteAddCoinFn() {
+    var addcoin_selected_mode_val = $("input[name='addcoin_select_mode_mdl']:checked").val();
+    var addcoin_selected_coinname_code_val = $("option:selected","#addcoin_select_coin_mdl_options").val();
+    var ExecAddCoinData = {"coin": addcoin_selected_coinname_code_val, "mode": addcoin_selected_mode_val}
+    Iguana_addcoin(ExecAddCoinData);
+}
+
 function Iguana_ServiceUnavailable() {
     console.log('Network Error with history api');
     toastr.error("Unable to connect with iguana service. 127.0.0.1:7778", "Service Notification")

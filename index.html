@@ -27,6 +27,7 @@
   <link rel="stylesheet" href="assets/global/vendor/intro-js/introjs.min.css">
   <link rel="stylesheet" href="assets/global/vendor/slidepanel/slidePanel.min.css">
   <!--<link rel="stylesheet" href="assets/global/vendor/flag-icon-css/flag-icon.min.css">-->
+  <link rel="stylesheet" href="assets/global/vendor/jquery-labelauty/jquery-labelauty.min.css">
   <link rel="stylesheet" href="assets/global/vendor/bootstrap-toastr/toastr.min.css">
   <link rel="stylesheet" href="assets/global/vendor/bootstrap-select/bootstrap-select.min.css">
   <link rel="stylesheet" href="assets/global/vendor/sweetalert2/sweetalert2.min.css">
@@ -463,47 +464,57 @@
         </div>
       </div>
       <!-- End Modal -->
-      <!-- Modal -->
-      <div class="modal fade modal-3d-sign" id="AddCoinModel" aria-hidden="true"
-      aria-labelledby="AddCoinModelTitle" role="dialog" tabindex="-1">
+      
+    </div>
+
+    <!-- START ADD COIN DIV -->
+    <div>
+    <!-- Modal -->
+      <div class="modal fade modal-3d-sign" id="exampleGrid" aria-hidden="true" aria-labelledby="exampleGrid" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-center modal-lg">
-          <form class="modal-content" id="send_currency_form">
-            <!--<div class="modal-header bg-orange-a400 wallet-send-header">
+          <div class="modal-content">
+            <div class="modal-header bg-orange-a400 wallet-send-header">
               <button type="button" class="close white" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
               </button>
-              <h4 class="modal-title white" id="SendCoinModelLabel">SEND <span id="mdl_currency_coin">[COIN]</span> <span id="mdl_currency_balance">(Balance)</span> <small class="white" style="font-size: 10px;">STEP 1 of 2</small></h4>
-            </div>-->
+              <h4 class="modal-title white">Select Coin to add to EasyDEX</h4>
+            </div>
             <div class="modal-body">
-              <div class="row">
-                <div class="col-lg-12 form-group form-material">
-                  <label class="control-label" for="mdl_currency_sendto">Send To</label>
-                  <input type="text" class="form-control" id="mdl_currency_sendto" name="mdl_currency_sendto" placeholder="Enter [coin] address" autocomplete="off" required/>
+              <div class="col-sm-6" style="text-align: center;">
+                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl" data-plugin="labelauty" id="addcoin_mdl_full_mode" data-labelauty="Full Mode|Full Mode" value="1" checked>
                 </div>
-                <div class="col-lg-6 form-group form-material">
-                  <label class="control-label" for="mdl_currency_amount" id="mdl_currency_amount_label">[Coin]</label>
-                  <input type="text" class="form-control" id="mdl_currency_amount" name="mdl_currency_amount" placeholder="0.000" autocomplete="off"/>
-                </div>
-                <div class="col-lg-6 form-group form-material">
-                  <label class="control-label" for="mdl_currency_fee">Fee</label>
-                  <input type="text" class="form-control" id="mdl_currency_fee" name="mdl_currency_fee" placeholder="0.000" autocomplete="off"/>
-                </div>
-                <div class="col-lg-12">
-                  <span><b>Total:</b>
-                  <span id="mdl_currency_total_value">0.000</span> <span id="mdl_currency_total_coinname">[Coin]</span> <span class="icon glyphicon glyphicon-resize-horizontal"></span> <span id="mdl_currency_total_fiat_value">0.00</span></span>
+                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl" data-plugin="labelauty" id="addcoin_mdl_basilisk_mode" value="0" data-labelauty="Basilisk Mode|Basilisk Mode">
                 </div>
               </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <select class="form-control form-material" id="addcoin_select_coin_mdl_options">
+                    <option>-Select-</option>
+                    <option value="BTC">Bitcoin</option>
+                    <option value="BTCD">BitcoinDark</option>
+                    <option value="LTC">Litcoin</option>
+                    <option value="DOGE">Dogecoin</option>
+                    <option value="DGB">Digibyte</option>
+                    <option value="SYS">SysCoin</option>
+                    <option value="MZC">MazaCoin</option>
+                    <option value="UNO">Unobtanium</option>
+                    <option value="ZET">Zetacoin</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-2" style="text-align: center;">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn" onclick="ExecuteAddCoinFn()">Add Coin</button>
+              </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal" onclick="CurrencyMdlBtnClean()">Close</button>
-              <button type="button" class="btn btn-primary disabled" data-toggle="modal" id="mdl_currency_send_btn">Send</button>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
       <!-- End Modal -->
+    <button type="button" class="btn btn-info btn-lg btn-block waves-effect waves-light" data-target="#exampleGrid" data-toggle="modal">Add Coin</button>
     </div>
-    <button type="button" class="btn btn-info btn-lg btn-block waves-effect waves-light">Add Coin</button>
+    <!-- START ADD COIN DIV -->
     <!-- END DASHBOARD CONTENT BODY -->
 
     <!-- BEGIN EASYDEX CONTENT BODY -->
@@ -554,6 +565,7 @@
   <script src="assets/global/vendor/jquery-qrcode/jquery.qrcode.min.js" type="text/javascript"></script>
   <script src="assets/global/vendor/clipboard/clipboard.min.js"></script>
   <script src="assets/global/vendor/asprogress/jquery-asProgress.min.js"></script>
+  <script src="assets/global/vendor/jquery-labelauty/jquery-labelauty.js"></script>
   <!-- Crypto Dependencies -->
   <script src="assets/scripts/wordlist.js" type="text/javascript"></script>
   <script src="assets/scripts/passphrasegenerator.js" type="text/javascript"></script>
@@ -573,6 +585,7 @@
   <script src="assets/global/js/components/switchery.js"></script>
   <script src="assets/global/js/components/tabs.js"></script>
   <script src="assets/global/js/components/asprogress.min.js"></script>
+  <script src="assets/global/js/components/jquery-labelauty.min.js"></script>
   <script src="assets/scripts/iguana_api.js"></script>
   <script src="assets/scripts/login.js"></script>
   <script src="assets/scripts/dashboard.js"></script>

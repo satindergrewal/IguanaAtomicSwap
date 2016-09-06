@@ -329,6 +329,7 @@ function ShowCoinHistory(getData) {
                     //var show_coin_history = testhistory; //Enable to get history from just test variable.
                     //console.log(show_coin_history_unspents);
                     //console.log(show_coin_history_spends);
+                    //console.log(show_coin_history_unspents.length+show_coin_history_spends.length+show_coin_history_spends.length)
 
                     
                     //if ( sessionStorage.getItem('PrevHistoryLength_'+getData.vals['coin']) != CoinHistoryData.history.length ) {
