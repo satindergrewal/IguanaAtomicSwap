@@ -191,6 +191,9 @@ var Dashboard = function() {
                             error: function(xhr, textStatus, error) {
                                 console.log('failed getting Coin History.');
                                 console.log(xhr.statusText);
+                                if ( xhr.readyState == 0 ) {
+                                    Iguana_ServiceUnavailable();
+                                }
                                 console.log(textStatus);
                                 console.log(error);
                             }
@@ -215,6 +218,9 @@ var Dashboard = function() {
                 error: function(xhr, textStatus, error) {
                     console.log('failed starting BitcoinDark.');
                     console.log(xhr.statusText);
+                    if ( xhr.readyState == 0 ) {
+                        Iguana_ServiceUnavailable();
+                    }
                     console.log(textStatus);
                     console.log(error);
                     //swal("Oops...", "Something went wrong!", "error");
@@ -349,8 +355,8 @@ function ShowCoinHistory(getData) {
                     console.log('failed getting Coin History.');
                     console.log(xhr.statusText);
                     if ( xhr.readyState == 0 ) {
-                        console.log('Network Error with history api');
-                        //ClearOnLogout(true, true);
+                        Iguana_ServiceUnavailable();
+                        ClearOnLogout(true, true);
                     }
                     console.log(textStatus);
                     console.log(error);
@@ -420,6 +426,9 @@ function SwitchBasicliskFull(switch_data) {
       error: function(xhr, textStatus, error) {
           console.log('failed starting BitcoinDark.');
           console.log(xhr.statusText);
+          if ( xhr.readyState == 0 ) {
+              Iguana_ServiceUnavailable();
+          }
           console.log(textStatus);
           console.log(error);
           //swal("Oops...", "Something went wrong!", "error");
@@ -495,6 +504,9 @@ function TotalFiatValue() {
       error: function(xhr, textStatus, error) {
           console.log('failed getting Coin History.');
           console.log(xhr.statusText);
+          if ( xhr.readyState == 0 ) {
+              Iguana_ServiceUnavailable();
+          }
           console.log(textStatus);
           console.log(error);
       }
@@ -570,6 +582,9 @@ function ShowCoinProgressBar(coin) {
       error: function(xhr, textStatus, error) {
           console.log('failed getting Coin History.');
           console.log(xhr.statusText);
+          if ( xhr.readyState == 0 ) {
+              Iguana_ServiceUnavailable();
+          }
           console.log(textStatus);
           console.log(error);
       }

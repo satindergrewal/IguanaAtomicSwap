@@ -90,42 +90,6 @@ var Login = function() {
                             //swal("Oops...", "Something went wrong!", "error");
                             if (LoginOutput.error === 'bitcoinrpc needs coin') {
                                 toastr.info("Seems like there's no coin running. Activating BTC.", "Coin Notification");
-                                //var AddBTCDBasiliskData = {"prefetchlag":5,"poll":1,"active":1,"agent":"iguana","method":"addcoin","newcoin":"BTC","startpend":64,"endpend":2,"services":128,"maxpeers":512,"RELAY":1,"VALIDATE":1,"portp2p":8333}
-                                //Start Bitcoin in Full/Basilisk mode
-                                /*$.ajax({
-                                    type: 'GET',
-                                    data: AddBTCDBasiliskData,
-                                    url: 'http://127.0.0.1:7778/api/iguana/addcoin',
-                                    dataType: 'text',
-                                    success: function(data, textStatus, jqXHR) {
-                                        var BTCDBasiliskDataOutput = JSON.parse(data);
-                                        //console.log('== Data OutPut ==');
-                                        //console.log(BTCDBasiliskDataOutput);
-
-                                        if (BTCDBasiliskDataOutput.result === 'coin added') {
-                                            console.log('coin added');
-                                            toastr.success("Bitcoin started in Full Mode", "Coin Notification");
-                                            $( ".login-form" ).submit();
-                                        } else if (BTCDBasiliskDataOutput.result === 'coin already there') {
-                                            console.log('coin already there');
-                                            toastr.info("Looks like Bitcoin already running.", "Coin Notification");
-                                        } else if (BTCDBasiliskDataOutput.result === null) {
-                                            console.log('coin already there');
-                                            toastr.info("Looks like Bitcoin already running.", "Coin Notification");
-                                        }
-                                    },
-                                    error: function(xhr, textStatus, error) {
-                                        console.log('failed starting Bitcoin.');
-                                        console.log(xhr.statusText);
-                                        console.log(textStatus);
-                                        console.log(error);
-                                        //swal("Oops...", "Something went wrong!", "error");
-                                        toastr.warning("Opps... Something went wrong!", "Coin Notification")
-                                    }
-                                });*/
-
-
-
                                 var logincoinnames = []; $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); }); console.log(logincoinnames);
                                 $.each(logincoinnames, function( index, value ) {
                                     if ( value == 'BTC' ) {
@@ -138,51 +102,6 @@ var Login = function() {
                                         var logincoin_data = {"coin": value, "mode": logincoinmodeval};
                                         Iguana_addcoinLogin(logincoin_data);
                                     }
-                                    /*var AddCoinData = {
-                                        "poll": 100,
-                                        "active": 1,
-                                        "newcoin": value,
-                                        "startpend": 1,
-                                        "endpend": 1,
-                                        "services": 128,
-                                        "maxpeers": 16,
-                                        "RELAY": 0,
-                                        "VALIDATE": 0,
-                                        "portp2p": 14631
-                                    }*/
-                                    //Start BitcoinDark in Basilisk mode
-                                    /*$.ajax({
-                                        type: 'POST',
-                                        data: AddCoinData,
-                                        url: 'http://127.0.0.1:7778',
-                                        //dataType: 'text',
-                                        success: function(data, textStatus, jqXHR) {
-                                            var LoginCoinDataOutput = JSON.parse(data);
-                                            console.log('== Data OutPut for'+ logincoinfullname +' ==');
-                                            console.log(LoginCoinDataOutput);
-
-                                            if (LoginCoinDataOutput.result === 'coin added') {
-                                                console.log('coin added');
-                                                toastr.success(logincoinfullname + " started in "+ logincoinmodeinfo +" Mode", "Coin Notification");
-                                            } else if (LoginCoinDataOutput.result === 'coin already there') {
-                                                console.log('coin already there');
-                                                //toastr.info("Looks like" + value + "already running.", "Coin Notification");
-                                            } else if (LoginCoinDataOutput.result === null) {
-                                                console.log('coin already there');
-                                                //toastr.info("Looks like" + value + "already running.", "Coin Notification");
-                                            }
-                                        },
-                                        error: function(xhr, textStatus, error) {
-                                            console.log('failed starting BitcoinDark.');
-                                            console.log(xhr.statusText);
-                                            console.log(textStatus);
-                                            console.log(error);
-                                            //swal("Oops...", "Something went wrong!", "error");
-                                            if (xhr.readyState == '0' ) {
-                                                toastr.error("Unable to connect to Iguana", "Account Notification")
-                                            }
-                                        }
-                                    });*/
                                 });
                             } else {
                                 toastr.warning("Opps... Something went wrong!", "Account Notification");
@@ -195,10 +114,13 @@ var Login = function() {
                     error: function(xhr, textStatus, error) {
                         console.log('failure');
                         console.log(xhr.statusText);
+                        if ( xhr.readyState == 0 ) {
+                            Iguana_ServiceUnavailable();
+                        }
                         console.log(textStatus);
                         console.log(error);
                         //swal("Oops...", "Something went wrong!", "error");
-                        toastr.warning("Opps... Something went wrong!", "Account Notification")
+                        //toastr.warning("Opps... Something went wrong!", "Account Notification")
                     }
                 });
                 
@@ -322,8 +244,8 @@ var Login = function() {
                         success: function(data, textStatus, jqXHR) {
                             var CreateWalletOutput = JSON.parse(data);
                             //console.log(sessionStorage);
-                            console.log('== Data OutPut ==');
-                            console.log(CreateWalletOutput);
+                            //console.log('== Data OutPut ==');
+                            //console.log(CreateWalletOutput);
 
                             if (CreateWalletOutput.result === 'success') {
                                 console.log('Success');
@@ -337,7 +259,39 @@ var Login = function() {
                                 // If something goes wrong, alert the error message that our service returned
                                 //swal("Oops...", "Something went wrong!", "error");
                                 toastr.warning("Opps... Something went wrong!", "Account Notification")
+                                console.log(CreateWalletOutput)
+                                if (CreateWalletOutput.error === 'bitcoinrpc needs coin') {
+                                    toastr.info("Seems like there's no coin running. Activating BTC.", "Coin Notification");
+                                    var logincoinnames = []; $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); }); console.log(logincoinnames);
+                                    $.each(logincoinnames, function( index, value ) {
+                                        if ( value == 'BTC' ) {
+                                            var logincoinmodeval = $("input[name='logincoinbtcmode']:checked").val();
+                                            var logincoin_data = {"coin": value, "mode": logincoinmodeval, "reload": false};
+                                            Iguana_addcoin(logincoin_data);
+                                            if (index == '0' ) {
+                                                console.log(value+' '+index);
+                                                $('.register-form').submit();
+                                                toastr.success("Wallet created successfully", "Account Notification")
+                                            }
+                                        }
+                                        if ( value == 'BTCD' ) {
+                                            var logincoinmodeval = $("input[name='logincoinbtcdmode']:checked").val();
+                                            var logincoin_data = {"coin": value, "mode": logincoinmodeval, "reload": false};
+                                            Iguana_addcoin(logincoin_data);
+                                            if (index == '0' ) {
+                                                console.log(value+' '+index);
+                                                $('.register-form').submit();
+                                                toastr.success("Wallet created successfully", "Account Notification")
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    toastr.warning("Opps... Something went wrong!", "Account Notification");
+                                }
                                 console.log(data.statusText);
+                                if ( data.readyState == 0 ) {
+                                    Iguana_ServiceUnavailable();
+                                }
                                 console.log(textStatus);
                                 console.log(jqXHR);
 
@@ -346,6 +300,9 @@ var Login = function() {
                         error: function(xhr, textStatus, error) {
                             console.log('failure');
                             console.log(xhr.statusText);
+                            if ( xhr.readyState == 0 ) {
+                                Iguana_ServiceUnavailable();
+                            }
                             console.log(textStatus);
                             console.log(error);
                             //swal("Oops...", "Something went wrong!", "error");
@@ -432,6 +389,9 @@ var Login = function() {
                         //swal("Oops...", "Something went wrong!", "error");
                         toastr.warning("Opps... Something went wrong!", "Account Notification")
                         console.log(data.statusText);
+                        if ( xhr.readyState == 0 ) {
+                            Iguana_ServiceUnavailable();
+                        }
                         console.log(textStatus);
                         console.log(jqXHR);
 
@@ -440,6 +400,9 @@ var Login = function() {
                 error: function(xhr, textStatus, error) {
                     console.log('failure');
                     console.log(xhr.statusText);
+                    if ( xhr.readyState == 0 ) {
+                        Iguana_ServiceUnavailable();
+                    }
                     console.log(textStatus);
                     console.log(error);
                     //swal("Oops...", "Something went wrong!", "error");
@@ -493,6 +456,9 @@ var Login = function() {
                                 //swal("Oops...", "Something went wrong!", "error");
                                 toastr.warning("Opps... Something went wrong!", "Account Notification")
                                 console.log(data.statusText);
+                                if ( xhr.readyState == 0 ) {
+                                    Iguana_ServiceUnavailable();
+                                }
                                 console.log(textStatus);
                                 console.log(jqXHR);
 
@@ -501,6 +467,9 @@ var Login = function() {
                         error: function(xhr, textStatus, error) {
                             console.log('failure');
                             console.log(xhr.statusText);
+                            if ( xhr.readyState == 0 ) {
+                                Iguana_ServiceUnavailable();
+                            }
                             console.log(textStatus);
                             console.log(error);
                             //swal("Oops...", "Something went wrong!", "error");
@@ -516,6 +485,9 @@ var Login = function() {
                 error: function(xhr, textStatus, error) {
                     console.log('failure');
                     console.log(xhr.statusText);
+                    if ( xhr.readyState == 0 ) {
+                        Iguana_ServiceUnavailable();
+                    }
                     console.log(textStatus);
                     console.log(error);
                     //swal("Oops...", "Something went wrong!", "error");
@@ -678,6 +650,9 @@ var Login = function() {
                         //swal("Oops...", "Something went wrong!", "error");
                         toastr.warning("Opps... Something went wrong!", "Account Notification")
                         console.log(data.statusText);
+                        if ( xhr.readyState == 0 ) {
+                            Iguana_ServiceUnavailable();
+                        }
                         console.log(textStatus);
                         console.log(jqXHR);
                     }
@@ -685,6 +660,9 @@ var Login = function() {
                 error: function(xhr, textStatus, error) {
                     console.log('failure');
                     console.log(xhr.statusText);
+                    if ( xhr.readyState == 0 ) {
+                        Iguana_ServiceUnavailable();
+                    }
                     console.log(textStatus);
                     console.log(error);
                     //swal("Oops...", "Something went wrong!", "error");

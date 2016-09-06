@@ -67,6 +67,9 @@ function Iguana_rmd160conv(rmd160conv_data) {
         error: function(xhr, textStatus, error) {
             console.log('failed getting Coin History.');
             console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
             console.log(textStatus);
             console.log(error);
         }
@@ -94,6 +97,9 @@ function Iguana_activehandle() {
         error: function(xhr, textStatus, error) {
             console.log('failed getting Coin History.');
             console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
             console.log(textStatus);
             console.log(error);
             return false;
@@ -149,6 +155,9 @@ function Iguana_addcoinLogin(addcoin_data) {
         error: function(xhr, textStatus, error) {
             console.log('failed getting Coin History.');
             console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
             console.log(textStatus);
             console.log(error);
         }
@@ -250,7 +259,9 @@ function Iguana_addcoin(addcoin_data) {
             if (addcoinData.result === 'coin added') {
                 console.log('coin added');
                 toastr.success(logincoinfullname+" started in "+ logincoinmodeinfo +" Mode", "Coin Notification");
-                location.reload();
+                if ( typeof addcoin_data.reload == 'undefined' || addcoin_data.reload != false ) {
+                    location.reload();
+                }
             } else if (addcoinData.result === 'coin already there') {
                 console.log('coin already there');
                 toastr.info("Looks like "+ logincoinfullname +" already running.", "Coin Notification");
@@ -262,8 +273,17 @@ function Iguana_addcoin(addcoin_data) {
         error: function(xhr, textStatus, error) {
             console.log('failed getting Coin History.');
             console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
             console.log(textStatus);
             console.log(error);
         }
     });
+}
+
+function Iguana_ServiceUnavailable() {
+    console.log('Network Error with history api');
+    toastr.error("Unable to connect with iguana service. 127.0.0.1:7778", "Service Notification")
+    toastr.info("Are you sure Iguana is running?", "Account Notification")
 }
