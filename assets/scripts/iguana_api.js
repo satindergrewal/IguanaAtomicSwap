@@ -108,6 +108,37 @@ function Iguana_activehandle() {
     return 'Executed Iguana_activehandle. Check Iguana_activehandle_output var value.';
 }
 
+function Iguana_Setactivehandle() {    
+
+    //comment
+    var ajax_data = {"agent":"SuperNET","method":"activehandle"};
+    //console.log(ajax_data);
+    $.ajax({
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data);
+            var AjaxOutputDataToStore = JSON.stringify(data);
+            sessionStorage.setItem('IguanaActiveAccount', AjaxOutputDataToStore);
+            console.log('== SetActiveHandle Data OutPut ==');
+            console.log(AjaxOutputData);
+            
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    return 'Executed Iguana_activehandle. Check Iguana_activehandle_output var value.';
+}
+
 function Iguana_addcoinLogin(addcoin_data) {
     //var addcoinValues = {"poll":100,"active":1,"agent":"iguana","method":"addcoin","newcoin":addcoin_data.coin,"startpend":1,"endpend":1,"services":128,"maxpeers":16,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"portp2p":addcoin_data.portp2p};
     console.log(addcoin_data);
@@ -257,6 +288,7 @@ function Iguana_addcoin(addcoin_data) {
             var addcoinData = JSON.parse(data);
 
             if (addcoinData.result === 'coin added') {
+                Iguana_Setactivehandle();
                 console.log('coin added');
                 toastr.success(logincoinfullname+" started in "+ logincoinmodeinfo +" Mode", "Coin Notification");
                 //if ( typeof addcoin_data.reload == 'undefined' || addcoin_data.reload != false ) {

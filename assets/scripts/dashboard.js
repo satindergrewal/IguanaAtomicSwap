@@ -314,12 +314,12 @@ function ShowCoinHistory(getData) {
                     //console.log(testhistory.history.reverse());
                     //console.log(testhistory.sent);
 
-                    $('span[data-currency="' + getData.vals['coin'] + '"][id="currency-balance"]').text(CoinHistoryData.balance);
+                    /*$('span[data-currency="' + getData.vals['coin'] + '"][id="currency-balance"]').text(CoinHistoryData.balance);
 
                     //Update Dashboard Header values as well
                     if ( getData.vals['coin'] == 'BTC' || getData.vals['coin'] == 'BTCD' ) {
                       $('span[data-currency="' + getData.vals['coin'] + '"][id="header_coinbalance"]').text(CoinHistoryData.balance);
-                    }
+                    }*/
 
                     //Calculate Total Fiat Value of BTC/BTCD in Fiat and disaply on Dashboard
                     //TotalFiatValue();
@@ -327,7 +327,7 @@ function ShowCoinHistory(getData) {
                     var show_coin_history = CoinHistoryData; //Enable to get history from each coins's wallet address.
                     //var show_coin_history = testhistory; //Enable to get history from just test variable.
                     
-                    if ( sessionStorage.getItem('PrevHistoryLength_'+getData.vals['coin']) != CoinHistoryData.history.length ) {
+                    /*if ( sessionStorage.getItem('PrevHistoryLength_'+getData.vals['coin']) != CoinHistoryData.history.length ) {
                       $.each(show_coin_history.history.reverse(), function(coin_history_index){
                           //console.log(coin_history_index);
                           //console.log(show_coin_history.history[coin_history_index].details.vout);
@@ -350,17 +350,17 @@ function ShowCoinHistory(getData) {
                           //$('#currency-tbl tbody').html(wallettblContent);
                           sessionStorage.setItem('PrevHistoryLength_'+getData.vals['coin'], CoinHistoryData.history.length);
                       });
-                    }
+                    }*/
                    
                     //console.log(show_coin_history.history.length);
-                    $('span[data-currency="' + getData.vals['coin'] + '"][id="currency-nooftransactions"]').text(show_coin_history.history.length);
+                    //$('span[data-currency="' + getData.vals['coin'] + '"][id="currency-nooftransactions"]').text(show_coin_history.history.length);
                 },
                 error: function(xhr, textStatus, error) {
                     console.log('failed getting Coin History.');
                     console.log(xhr.statusText);
                     if ( xhr.readyState == 0 ) {
                         Iguana_ServiceUnavailable();
-                        //ClearOnLogout(true, true);
+                        ClearOnLogout(true, true);
                     }
                     console.log(textStatus);
                     console.log(error);
