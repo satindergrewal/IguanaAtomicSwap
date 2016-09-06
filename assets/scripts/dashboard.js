@@ -206,7 +206,7 @@ var Dashboard = function() {
                                 clearInterval(ExecuteShowCoinHistory);
                                 console.log('=> No wallet logged in. No need to Run History.');
                             } else {
-                                ShowCoinHistory(historyvalues);
+                                //ShowCoinHistory(historyvalues);
                                 //console.log('wallet widget refereshed (every 1 seconds)');
                                 //Show Coin Progress Bars
                                 ShowCoinProgressBar(AllcoinsDataOutput[value][index]);
@@ -295,7 +295,7 @@ function ShowCoinHistory(getData) {
             ClearOnLogout(true, true);
         }
         if ( JSON.parse(CheckLoginData).status === 'unlocked' ) {
-            console.log(getData.vals['coin']);
+            //console.log(getData.vals['coin']);
             $.ajax({
                 type: 'POST',
                 data: JSON.stringify(getData),

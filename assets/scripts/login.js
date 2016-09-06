@@ -450,6 +450,7 @@ var Login = function() {
                                 $('#login-welcome').text('Wallet Locked. Please login.');
                                 $('#register-btn').hide();
                                 $('#logint-another-wallet').show();
+                                $('#logincoinslist').hide();
                             }
                             else {
                                 // If something goes wrong, alert the error message that our service returned
@@ -643,6 +644,7 @@ var Login = function() {
                         $('#register-btn').show();
                         $('#logint-another-wallet').hide();
                         $("#loginbtn").text('Sign in');
+                        $('#logincoinslist').show();
 
                     }
                     else {
