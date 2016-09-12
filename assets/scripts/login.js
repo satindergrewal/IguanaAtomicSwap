@@ -88,7 +88,7 @@ var Login = function() {
                         else {
                             // If something goes wrong, alert the error message that our service returned
                             //swal("Oops...", "Something went wrong!", "error");
-                            if (LoginOutput.error === 'bitcoinrpc needs coin') {
+                            if (LoginOutput.error === 'bitcoinrpc needs coin that is active') {
                                 toastr.info("Seems like there's no coin running. Activating BTC.", "Coin Notification");
                                 var logincoinnames = []; $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); }); console.log(logincoinnames);
                                 $.each(logincoinnames, function( index, value ) {
@@ -260,7 +260,7 @@ var Login = function() {
                                 //swal("Oops...", "Something went wrong!", "error");
                                 toastr.warning("Opps... Something went wrong!", "Account Notification")
                                 console.log(CreateWalletOutput)
-                                if (CreateWalletOutput.error === 'bitcoinrpc needs coin') {
+                                if (CreateWalletOutput.error === 'bitcoinrpc needs coin that is active') {
                                     toastr.info("Seems like there's no coin running. Activating BTC.", "Coin Notification");
                                     var logincoinnames = []; $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); }); console.log(logincoinnames);
                                     $.each(logincoinnames, function( index, value ) {

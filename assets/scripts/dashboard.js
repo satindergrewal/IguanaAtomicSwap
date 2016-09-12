@@ -604,18 +604,22 @@ function ShowCoinProgressBar(coin) {
             //console.log(coin+' is undefined');
           } else {
             if ( parseInt(CoinInfoData.RTheight) != 0 ) {
+              var coin_blocks = parseInt(CoinInfoData.blocks);
+              var coin_blocks_plus1 = coin_blocks + 1;
               //console.log(coin+' is less than 99.98% complete.');
               $('div[data-currency="'+coin+'"][id="currency-progressbars"]').show();
               $('div[data-currency="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
-              $('span[data-currency="'+coin+'"][id="currency-bundles-percent"]').text(parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+parseInt(CoinInfoData.blocks)+1+' / '+CoinInfoData.longestchain+' ) ==>> RT'+CoinInfoData.RTheight);
+              $('span[data-currency="'+coin+'"][id="currency-bundles-percent"]').text(parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+coin_blocks_plus1+' / '+CoinInfoData.longestchain+' ) ==>> RT'+CoinInfoData.RTheight);
               $('div[data-currency="'+coin+'"][id="additional-progress-bars"]').hide();
               $('div[data-currency="'+coin+'"][id="currency-bundles"]').removeClass( "progress-bar-info" ).addClass( "progress-bar-indicating progress-bar-success" );
             }
             if ( parseInt(CoinInfoData.RTheight) == 0 ) {
               console.log(coin+': '+CoinInfoData.bundles);
+              var coin_blocks = parseInt(CoinInfoData.blocks);
+              var coin_blocks_plus1 = coin_blocks + 1;
               $('div[data-currency="'+coin+'"][id="currency-progressbars"]').show();
               $('div[data-currency="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
-              $('span[data-currency="'+coin+'"][id="currency-bundles-percent"]').text(parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+parseInt(CoinInfoData.blocks)+1+' / '+CoinInfoData.longestchain+' )');
+              $('span[data-currency="'+coin+'"][id="currency-bundles-percent"]').text(parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+coin_blocks_plus1+' / '+CoinInfoData.longestchain+' )');
               $('div[data-currency="'+coin+'"][id="currency-utxo"]').width(parseFloat(CoinInfoData.utxo).toFixed(2)+'%');
               $('span[data-currency="'+coin+'"][id="currency-utxo-percent"]').text(parseFloat(CoinInfoData.utxo).toFixed(2)+'%');
               $('div[data-currency="'+coin+'"][id="currency-balances"]').width(parseFloat(CoinInfoData.balances).toFixed(2)+'%');
