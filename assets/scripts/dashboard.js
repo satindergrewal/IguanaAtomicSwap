@@ -59,6 +59,7 @@ var Dashboard = function() {
                         if ( AllcoinsDataOutput[value][index] == 'MZC' ) { coinlogo = 'mazacoin'; coinname = 'Mazacoin'; }
                         if ( AllcoinsDataOutput[value][index] == 'UNO' ) { coinlogo = 'unobtanium'; coinname = 'Unobtanium'; }
                         if ( AllcoinsDataOutput[value][index] == 'ZET' ) { coinlogo = 'zetacoin'; coinname = 'Zetacoin'; }
+                        if ( AllcoinsDataOutput[value][index] == 'KMD' ) { coinlogo = 'komodo'; coinname = 'Komodo'; }
 
 
                         //console.log(AllcoinsDataOutput[value][index]);
@@ -292,7 +293,7 @@ function ShowCoinHistory(getData) {
             console.log("ShowCoinHistory: sessionStorage data and activehandle data doesn't match");
             console.log(Iguana_activehandle_output.pubkey);
             console.log(JSON.parse(CheckLoginData).pubkey);
-            ClearOnLogout(true, true);
+            //ClearOnLogout(true, true);
         }
         if ( JSON.parse(CheckLoginData).status === 'unlocked' ) {
             //console.log(getData.vals['coin']);
@@ -411,7 +412,7 @@ function ShowCoinHistory(getData) {
                     console.log(xhr.statusText);
                     if ( xhr.readyState == 0 ) {
                         Iguana_ServiceUnavailable();
-                        ClearOnLogout(true, true);
+                        //ClearOnLogout(true, true);
                     }
                     console.log(textStatus);
                     console.log(error);
