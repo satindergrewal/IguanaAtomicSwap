@@ -288,6 +288,42 @@ function Iguana_addcoin(addcoin_data) {
         console.log(logincoinfullname);
         console.log(logincoinmodeinfo);
     }
+    if ( addcoin_data.coin == 'BTM' ) {
+        var logincoinfullname = 'Bitmark';
+        var logincoinmodeinfo = '';
+        if ( addcoin_data.mode == '1' ) { logincoinmodeinfo = 'Full'; } else { logincoinmodeinfo = 'Basilisk'; }
+        var AddCoinData = {"RELAY":1,"VALIDATE":1,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","maxpeers":256,"newcoin":"BTM","name":"Bitmark","netmagic":"f9beb4d9","p2p":9265,"rpc":9266,"pubval":85,"p2shval":5,"wifval":213,"txfee_satoshis":"0","minconfirms":2,"genesishash":"c1fb746e87e89ae75bdec2ef0639a1f6786744639ce3d0ece1dcf979b79137cb","genesis":{"hashalgo":"scrypt","version":1,"timestamp":1405274442,"nBits":"1d00ffff","nonce":14385103,"merkle_root":"d4715adf41222fae3d4bf41af30c675bc27228233d0f3cfd4ae0ae1d3e760ba8"},"alertpubkey":"04bf5a75ff0f823840ef512b08add20bb4275ff6e097f2830ad28645e28cb5ea4dc2cfd0972b94019ad46f331b45ef4ba679f2e6c87fd19c864365fadb4f8d2269"}
+        console.log(AddCoinData);
+        console.log(logincoinfullname);
+        console.log(logincoinmodeinfo);
+    }
+    if ( addcoin_data.coin == 'CARB' ) {
+        var logincoinfullname = 'Carboncoin';
+        var logincoinmodeinfo = '';
+        if ( addcoin_data.mode == '1' ) { logincoinmodeinfo = 'Full'; } else { logincoinmodeinfo = 'Basilisk'; }
+        var AddCoinData = {"RELAY":1,"VALIDATE":1,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","maxpeers":256,"newcoin":"CARB","name":"Carboncoin","netmagic":"abccbbdf","p2p":9350,"rpc":9351,"pubval":47,"p2shval":5,"wifval":175,"txfee_satoshis":"0","minconfirms":2,"genesishash":"a94f1aae8c409a0bd1e53cbca92d7e506b61c51d955cf56f76da501718d48d6c","genesis":{"hashalgo":"scrypt","version":1,"timestamp":1389199888,"nBits":"1e0ffff0","nonce":605268,"merkle_root":"074bbb9d355731bfa8f67130e2179db7518d1387ad52e55309d4debe7d4e6383"},"alertpubkey":"046d6918a7c0c053aa942dbb8861499be4bd915c8bfb6a2b77b3787e207097cc2734b9321226ff107c1a95dae98570a66baec66e350d78ceba091b54411654d33f"}
+        console.log(AddCoinData);
+        console.log(logincoinfullname);
+        console.log(logincoinmodeinfo);
+    }
+    if ( addcoin_data.coin == 'ANC' ) {
+        var logincoinfullname = 'AnonCoin';
+        var logincoinmodeinfo = '';
+        if ( addcoin_data.mode == '1' ) { logincoinmodeinfo = 'Full'; } else { logincoinmodeinfo = 'Basilisk'; }
+        var AddCoinData = {"RELAY":1,"VALIDATE":1,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","maxpeers":256,"newcoin":"ANC","name":"AnonCoin","netmagic":"facabada","p2p":9377,"rpc":28332,"pubval":23,"p2shval":5,"wifval":151,"txfee_satoshis":"2000000","minconfirms":2,"genesishash":"00000be19c5a519257aa921349037d55548af7cabf112741eb905a26bb73e468","genesis":{"version":1,"timestamp":1370190760,"nBits":"1e0ffff0","nonce":347089008,"merkle_root":"7ce7004d764515f9b43cb9f07547c8e2e00d94c9348b3da33c8681d350f2c736"},"alertpubkey":"04c6db35c11724e526f6725cc5bd5293b4bc9382397856e1bcef7111fb44ce357fd12442b34c496d937a348c1dca1e36ae0c0e128905eb3d301433887e8f0b4536"}
+        console.log(AddCoinData);
+        console.log(logincoinfullname);
+        console.log(logincoinmodeinfo);
+    }
+    if ( addcoin_data.coin == 'FRK' ) {
+        var logincoinfullname = 'Franko';
+        var logincoinmodeinfo = '';
+        if ( addcoin_data.mode == '1' ) { logincoinmodeinfo = 'Full'; } else { logincoinmodeinfo = 'Basilisk'; }
+        var AddCoinData = {"RELAY":1,"VALIDATE":1,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","maxpeers":256,"newcoin":"FRK","name":"Franko","netmagic":"7defaced","p2p":7912,"rpc":7913,"pubval":35,"p2shval":5,"wifval":163,"txfee_satoshis":"0","minconfirms":2,"genesishash":"19225ae90d538561217b5949e98ca4964ac91af39090d1a4407c892293e4f44f","genesis":{"hashalgo":"scrypt","version":1,"timestamp":1368144664,"nBits":"1e0ffff0","nonce":731837,"merkle_root":"b78f79f1d10029cc45ed3d5a1db7bd423d4ee170c03baf110a62565d16a21dca"},"alertpubkey":"04d4da7a5dae4db797d9b0644d57a5cd50e05a70f36091cd62e2fc41c98ded06340be5a43a35e185690cd9cde5d72da8f6d065b499b06f51dcfba14aad859f443a"}
+        console.log(AddCoinData);
+        console.log(logincoinfullname);
+        console.log(logincoinmodeinfo);
+    }
     $.ajax({
         type: 'POST',
         data: JSON.stringify(AddCoinData),

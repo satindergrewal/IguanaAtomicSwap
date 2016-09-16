@@ -60,6 +60,10 @@ var Dashboard = function() {
                         if ( AllcoinsDataOutput[value][index] == 'UNO' ) { coinlogo = 'unobtanium'; coinname = 'Unobtanium'; }
                         if ( AllcoinsDataOutput[value][index] == 'ZET' ) { coinlogo = 'zetacoin'; coinname = 'Zetacoin'; }
                         if ( AllcoinsDataOutput[value][index] == 'KMD' ) { coinlogo = 'komodo'; coinname = 'Komodo (TestNet)'; }
+                        if ( AllcoinsDataOutput[value][index] == 'BTM' ) { coinlogo = 'bitmark'; coinname = 'Bitmark'; }
+                        if ( AllcoinsDataOutput[value][index] == 'CARB' ) { coinlogo = 'carboncoin'; coinname = 'Carboncoin'; }
+                        if ( AllcoinsDataOutput[value][index] == 'ANC' ) { coinlogo = 'anoncoin'; coinname = 'AnonCoin'; }
+                        if ( AllcoinsDataOutput[value][index] == 'FRK' ) { coinlogo = 'franko'; coinname = 'Franko'; }
 
 
                         //console.log(AllcoinsDataOutput[value][index]);
@@ -412,7 +416,7 @@ function ShowCoinHistory(getData) {
                     console.log(xhr.statusText);
                     if ( xhr.readyState == 0 ) {
                         Iguana_ServiceUnavailable();
-                        //ClearOnLogout(true, true);
+                        ClearOnLogout(true, true);
                     }
                     console.log(textStatus);
                     console.log(error);
