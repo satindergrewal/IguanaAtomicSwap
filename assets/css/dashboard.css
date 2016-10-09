@@ -17,3 +17,7 @@
 	-webkit-box-shadow:0 -4px 27px 0px rgba(0,0,0,0.09);
 	box-shadow: 0 3px 10px 0px rgba(0, 0, 0, 0.32);
 }
+
+#section-iguana-wallet-settings {
+	padding-top: 0;
+}

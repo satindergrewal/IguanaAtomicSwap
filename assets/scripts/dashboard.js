@@ -257,7 +257,7 @@ var Dashboard = function() {
             } else {
                 handleWalletWidgets();
                 handleWalletSendRec();
-                TotalFiatValue();
+                //TotalFiatValue();
             }
 
             /*setInterval(function() {
@@ -270,7 +270,7 @@ var Dashboard = function() {
                 console.log('=> No wallet logged in. No need to get Rates.');
                 StopTotalFiatValue();
                 } else {
-                    TotalFiatValue();
+                    //TotalFiatValue();
                     //console.log('Get Rates (every 60 seconds)');
                 }
             }, 1000);

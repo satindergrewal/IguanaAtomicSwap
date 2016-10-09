@@ -223,7 +223,7 @@
         <!-- End Navbar Toolbar -->
         <!-- Navbar Toolbar Right -->
         <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
-          <li class="dropdown">
+          <!--<li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up"
             aria-expanded="false" role="button">
               <span class="icon fa-money"></span>
@@ -254,7 +254,7 @@
                   <span class="icon fa-inr"></span> INR</a>
               </li>
             </ul>
-          </li>
+          </li>-->
           <li class="dropdown">
             <a class="navbar-avatar dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"
             data-animation="scale-up" role="button">
@@ -264,9 +264,9 @@
               </span>
             </a>
             <ul class="dropdown-menu" role="menu">
-              <li role="presentation">
+              <!--<li role="presentation">
                 <a href="javascript:void(0)" role="menuitem" id="lock-settings"><i class="icon md-settings" aria-hidden="true"></i> Settings</a>
-              </li>
+              </li>-->
               <li role="presentation">
                 <a href="javascript:void(0)" role="menuitem" id="lock-screen"><i class="icon md-lock" aria-hidden="true"></i> Lock Screen</a>
               </li>
@@ -296,9 +296,15 @@
             <span class="site-menu-title">EasyDEX</span>
           </a>
         </li>
+        <li class="site-menu-item" id="nav-iguana-atomic-explorer">
+          <a class="animsition-link" href="javascript:;">
+            <i class="site-menu-icon fa-cubes" aria-hidden="true"></i>
+            <span class="site-menu-title">Atomic Explorer</span>
+          </a>
+        </li>
         <li class="site-menu-item" id="nav-iguana-wallet-settings">
           <a class="animsition-link" href="javascript:;">
-            <i class="site-menu-icon fa-wrench" aria-hidden="true"></i>
+            <i class="site-menu-icon icon md-settings" aria-hidden="true"></i>
             <span class="site-menu-title">Wallet Settings</span>
           </a>
         </li>
@@ -528,12 +534,67 @@
     <!-- START ADD COIN DIV -->
     <!-- END DASHBOARD CONTENT BODY -->
 
-    <!-- BEGIN EASYDEX CONTENT BODY -->
+    
+
+  <div class="progress-bar progress-bar-info progress-bar-striped active" aria-valuemin="0" aria-valuemax="100" style="width: 50%" aria-valuenow="60" role="progressbar"><span class="progress-label"></span></div>
+  </div>
+  <!-- End Page -->
+
+  <!-- BEGIN EASYDEX CONTENT BODY -->
     <div class="page-content" id="section-easydex">
       <h2>EasyDEX</h2>
       <p>Page content goes here</p>
     </div>
     <!-- END EASYDEX CONTENT BODY -->
+
+    <!-- BEGIN IGUANA WALLET SETTINGS CONTENT BODY -->
+    <div class="page-content" id="section-iguana-atomic-explorer">
+      <h2>Atomic Explorer</h2>
+      <p>Page content goes here</p>
+    </div>
+    <!-- END IGUANA WALLET SETTINGS CONTENT BODY -->
+
+    <!-- BEGIN IGUANA WALLET SETTINGS CONTENT BODY -->
+    <div class="page-content" id="section-iguana-wallet-settings">
+      <div class="row" id="wallet-widgets" data-plugin="masonry">
+      <div class="col-xlg-4 col-md-12">
+          <!-- Example Tabs In The Panel -->
+          <div class="panel nav-tabs-horizontal">
+            <!--<div class="panel-heading">
+              <h3 class="panel-title">Wallet Settings</h3>
+            </div>-->
+            <ul class="nav nav-tabs nav-tabs-line" data-plugin="nav-tabs" role="tablist">
+              <li class="active" role="presentation"><a data-toggle="tab" href="#WalletInfo" aria-controls="WalletInfo" role="tab"><i class="icon md-balance-wallet" aria-hidden="true"></i>Wallet Info</a></li>
+              <li role="presentation"><a data-toggle="tab" href="#AddNodeforCoin" aria-controls="AddNodeforCoin" role="tab"><i class="icon md-plus-square" aria-hidden="true"></i>Add Node</a></li>
+              <li role="presentation"><a data-toggle="tab" href="#DumpWallet" aria-controls="DumpWallet" role="tab"><i class="icon wb-briefcase" aria-hidden="true"></i>Wallet Backup</a></li>
+              <li role="presentation"><a data-toggle="tab" href="#GetPrivKey" aria-controls="GetPrivKey" role="tab"><i class="icon md-key" aria-hidden="true"></i>Export Keys</a></li>
+              <li role="presentation"><a data-toggle="tab" href="#FiatCurrencySettings" aria-controls="FiatCurrencySettings" role="tab"><i class="icon fa-money" aria-hidden="true"></i>Fiat Currency</a></li>
+            </ul>
+            <div class="panel-body">
+              <div class="tab-content">
+                <div class="tab-pane active" id="WalletInfo" role="tabpanel">
+                  Wallet Info section to be updated soon.
+                </div>
+                <div class="tab-pane" id="AddNodeforCoin" role="tabpanel">
+                  Add Node section to be updated soon.
+                </div>
+                <div class="tab-pane" id="DumpWallet" role="tabpanel">
+                  Wallet Backup section to be updated soon.
+                </div>
+                <div class="tab-pane" id="GetPrivKey" role="tabpanel">
+                  Export Keys section to be updated soon.
+                </div>
+                <div class="tab-pane" id="FiatCurrencySettings" role="tabpanel">
+                  Fiat currency settings section to be updated soon.
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Example Tabs In The Panel -->
+        </div>
+      </div>
+    </div>
+    <!-- END IGUANA WALLET SETTINGS CONTENT BODY -->
 
     <!-- BEGIN ABOUT SUPERNET IGUANA CONTENT BODY -->
     <div class="page-content" id="section-about-iguana">
@@ -542,16 +603,7 @@
     </div>
     <!-- END ABOUT SUPERNET IGUANA CONTENT BODY -->
 
-    <!-- BEGIN IGUANA WALLET SETTINGS CONTENT BODY -->
-    <div class="page-content" id="section-iguana-wallet-settings">
-      <h2>Iguana Walet Settings</h2>
-      <p>Page content goes here</p>
-    </div>
-    <!-- END IGUANA WALLET SETTINGS CONTENT BODY -->
 
-  <div class="progress-bar progress-bar-info progress-bar-striped active" aria-valuemin="0" aria-valuemax="100" style="width: 50%" aria-valuenow="60" role="progressbar"><span class="progress-label"></span></div>
-  </div>
-  <!-- End Page -->
   <!-- Footer -->
   <!--<footer class="site-footer">
     <div class="site-footer-legal">© 2016 <a href="javascript:;">SuperNET</a></div>
