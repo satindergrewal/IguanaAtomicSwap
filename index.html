@@ -573,7 +573,20 @@
             <div class="panel-body">
               <div class="tab-content">
                 <div class="tab-pane active" id="WalletInfo" role="tabpanel">
-                  Wallet Info section to be updated soon.
+                  <table class="table" id="wallet-info-table">
+                    <thead>
+                      <tr><th width="10%">Key</th><th>Value</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td style="font-weight: bold;">pubkey</td><td><div id="winfo_pubkey_value"></div></td></tr>
+                      <tr><td style="font-weight: bold;">btcpubkey</td><td><div id="winfo_btcpubkey_value"></div></td></tr>
+                      <tr><td style="font-weight: bold;">rmd160</td><td><div id="winfo_rmd160_value"></div></td></tr>
+                      <tr><td style="font-weight: bold;">NXT</td><td><div id="winfo_NXT_value"></div></td></tr>
+                      <tr><td style="font-weight: bold;">notary</td><td><div id="winfo_notary_value"></div></td></tr>
+                      <tr><td style="font-weight: bold;">status</td><td><div id="winfo_status_value"></div></td></tr>
+                      <!--<tr><td style="font-weight: bold;">duration</td><td><div id="winfo_duration_value"></div></td></tr>-->
+                    </tbody>
+                  </table>
                 </div>
                 <div class="tab-pane" id="AddNodeforCoin" role="tabpanel">
                   Add Node section to be updated soon.

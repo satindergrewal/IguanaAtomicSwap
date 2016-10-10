@@ -74,6 +74,7 @@ $('#nav-iguana-wallet-settings').on('click', function() {
 	$('#nav-iguana-atomic-explorer').removeClass( " active open" ).addClass( "" );
 	$('#nav-iguana-wallet-settings').removeClass( "" ).addClass( "active open" );
 	$(".header-easydex-section").text("Wallet Settings")
+	Settings_ShowWalletInfo(); //Execute this function from walletsettings.js file
 });
 
 $('#nav-about-iguana').on('click', function() {
