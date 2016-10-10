@@ -589,7 +589,45 @@
                   </table>
                 </div>
                 <div class="tab-pane" id="AddNodeforCoin" role="tabpanel">
-                  Add Node section to be updated soon.
+                  <div class="row">
+                    
+                    <div class="col-sm-6">
+                      <div class="col-sm-12"><p>Use this section to check if the node IP you wish to add is allready active as peer of your coin:</p></div>
+                      <div class="col-sm-8">
+                      <div class="form-group">
+                        <select class="form-control form-material" id="settings_select_coin_options">
+                          <option>-Select-</option>
+                          <option value="BTC">Bitcoin</option>
+                          <option value="BTCD">BitcoinDark</option>
+                          <option value="LTC">Litecoin</option>
+                          <option value="DOGE">Dogecoin</option>
+                          <option value="DGB">Digibyte</option>
+                          <option value="SYS">SysCoin</option>
+                          <option value="MZC">MazaCoin</option>
+                          <option value="UNO">Unobtanium</option>
+                          <option value="ZET">Zetacoin</option>
+                          <option value="KMD">Komodo (TestNet)</option>
+                          <option value="BTM">Bitmark</option>
+                          <option value="CARB">Carboncoin</option>
+                          <option value="ANC">AnonCoin</option>
+                          <option value="FRK">Franko</option>
+                        </select>
+                      </div>
+                      </div>
+                      <div class="col-sm-4" style="text-align: center;">
+                          <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="settings_getcoinpeers_btn" onclick="Settings_ShowCoinPeers()">Check Nodes</button>
+                      </div>
+                      <div class="col-sm-12">
+                        <h5>SuperNET Peers: <span id="coin_supernetpeers_h"></span></h5>
+                        <p id="coin_supernetpeers"></p>
+                        <h5>Raw Peers: <span id="coin_rawpeers_h"></span></h5>
+                        <p id="coin_rawpeers"></p>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                    </div>
+                  </div>
                 </div>
                 <div class="tab-pane" id="DumpWallet" role="tabpanel">
                   Wallet Backup section to be updated soon.
