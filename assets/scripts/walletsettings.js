@@ -69,3 +69,35 @@ function Settings_ShowCoinPeers() {
         }
     });
 }
+
+
+
+function Settings_AddCoinPeers() {
+	console.log("wait till peer ip added to selected coin...")
+	var settings_selected_coinname_code_val = $("option:selected","#settings_select_coin_addpeer_options").val();
+	var settings_add_peer_ip_val = $("#settings_add_peer_ip").val();
+	var ajax_data = {"agent":"iguana","method":"addnode","activecoin": settings_selected_coinname_code_val,"ipaddr": settings_add_peer_ip_val};
+	$.ajax({
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var getAddCoinPeers = JSON.parse(data);
+            console.log(getAddCoinPeers);
+            if ( getAddCoinPeers.result == 'addnode submitted' ) {
+            	toastr.success(settings_add_peer_ip_val + " added to " + settings_selected_coinname_code_val + " Successfully", "Coin Notification");
+            	$("#settings_add_peer_ip").val('');
+            }
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+}

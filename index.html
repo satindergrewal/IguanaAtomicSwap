@@ -593,10 +593,10 @@
                     
                     <div class="col-sm-6">
                       <div class="col-sm-12"><p>Use this section to check if the node IP you wish to add is allready active as peer of your coin:</p></div>
-                      <div class="col-sm-8">
+                      <div class="col-sm-8 col-xs-12">
                       <div class="form-group">
                         <select class="form-control form-material" id="settings_select_coin_options">
-                          <option>-Select-</option>
+                          <option>-Select Coin-</option>
                           <option value="BTC">Bitcoin</option>
                           <option value="BTCD">BitcoinDark</option>
                           <option value="LTC">Litecoin</option>
@@ -614,7 +614,7 @@
                         </select>
                       </div>
                       </div>
-                      <div class="col-sm-4" style="text-align: center;">
+                      <div class="col-sm-4 col-xs-12" style="text-align: center;">
                           <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="settings_getcoinpeers_btn" onclick="Settings_ShowCoinPeers()">Check Nodes</button>
                       </div>
                       <div class="col-sm-12">
@@ -626,7 +626,36 @@
                     </div>
 
                     <div class="col-sm-6">
+                      <div class="col-sm-12"><p>Use this section to add a peer IP to a selected coin:</p></div>
+                      <div class="col-sm-8 col-xs-12">
+                      <div class="form-group">
+                        <select class="form-control form-material" id="settings_select_coin_addpeer_options">
+                          <option>-Select Coin-</option>
+                          <option value="BTC">Bitcoin</option>
+                          <option value="BTCD">BitcoinDark</option>
+                          <option value="LTC">Litecoin</option>
+                          <option value="DOGE">Dogecoin</option>
+                          <option value="DGB">Digibyte</option>
+                          <option value="SYS">SysCoin</option>
+                          <option value="MZC">MazaCoin</option>
+                          <option value="UNO">Unobtanium</option>
+                          <option value="ZET">Zetacoin</option>
+                          <option value="KMD">Komodo (TestNet)</option>
+                          <option value="BTM">Bitmark</option>
+                          <option value="CARB">Carboncoin</option>
+                          <option value="ANC">AnonCoin</option>
+                          <option value="FRK">Franko</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="settings_add_peer_ip" name="settings_add_peer_ip" placeholder="Add Peer IP">
+                      </div>
+                      </div>
+                      <div class="col-sm-4 col-xs-12" style="text-align: center;">
+                          <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="settings_addcoinpeers_btn" onclick="Settings_AddCoinPeers()">Add Node</button>
+                      </div>
                     </div>
+
                   </div>
                 </div>
                 <div class="tab-pane" id="DumpWallet" role="tabpanel">
