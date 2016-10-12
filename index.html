@@ -67,6 +67,33 @@
       <div class="brand">
         <img class="brand-img" src="assets/images/supernet-iguana-logo-big.png" alt="SuperNET Iguana">
       </div>
+      <!-- BEGIN IE Warning -->
+      <div id="section-ie-warning" style="display: none;">
+          <!-- Example Panel Alert -->
+          <div class="panel">
+            <div class="panel-heading">
+              <h3 class="panel-title">Uh Oh! Unsupported Web Browser :-(</h3>
+            </div>
+            <div class="alert alert-danger alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+              </button>
+              The current version of EasyDEX-GUI doesn't support Internet Explorer.
+            </div>
+            <div class="panel-body">
+              <p style="color: #424242;">Please use either <a href="https://www.google.com/chrome/">Google Chrome</a> or <a href="https://www.firefox.com">Mozilla FireFox</a> to use EasyDEX-GUI. Please click on browser's logo to visit website for installation instructions.</p>
+              <div class="col-sm-6 col-xs-6">
+                <a href="https://www.google.com/chrome/"><img class="brand-img" src="assets/images/browsers/chrome.png" alt="Google Chrome"></a>
+              </div>
+              <div class="col-sm-6 col-xs-6">
+                <a href="https://www.firefox.com"><img class="brand-img" src="assets/images/browsers/firefox.png" alt="Mozilla FireFox"></a>
+              </div>
+            </div>
+          </div>
+          <!-- End Example Panel Alert -->
+      </div>
+      <!-- END IE Warning -->
       <!-- BEGIN section login -->
       <div id="section-login">
       <h4 style="color: #fff;" id="login-welcome">Welcome. Please login.</h4>
@@ -737,6 +764,7 @@
   <script src="assets/global/js/components/tabs.js"></script>
   <script src="assets/global/js/components/asprogress.min.js"></script>
   <script src="assets/global/js/components/jquery-labelauty.min.js"></script>
+  <script src="assets/scripts/checkie.js"></script>
   <script src="assets/scripts/iguana_api.js"></script>
   <script src="assets/scripts/login.js"></script>
   <script src="assets/scripts/dashboard.js"></script>
