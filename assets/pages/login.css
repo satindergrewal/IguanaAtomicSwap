@@ -1,5 +1,5 @@
 .page-login:before {
-  background-image: url("../images/WallStreetNY.jpg");
+  /*background-image: url("../images/WallStreetNY.jpg");*/
 }
 .page-login form {
   width: 440px;
