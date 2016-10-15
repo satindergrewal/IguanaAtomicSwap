@@ -205,18 +205,18 @@ var Dashboard = function() {
                         });
 
                         //Get coin history and pupulate balance and other info to wallet widget
-                        var historyvalues = {"timeout":20000,"agent":"basilisk","method":"history","vals":{"coin":"" + AllcoinsDataOutput[value][index] + ""}};
+                        var historyvalues = {"timeout":20000,"immediate":100,"agent":"basilisk","method":"history","vals":{"coin":"" + AllcoinsDataOutput[value][index] + ""}};
                         var ExecuteShowCoinHistory = setInterval(function() {
                             if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
                                 clearInterval(ExecuteShowCoinHistory);
                                 console.log('=> No wallet logged in. No need to Run History.');
                             } else {
                                 ShowCoinHistory(historyvalues);
-                                //console.log('wallet widget refereshed (every 1 seconds)');
+                                console.log('wallet widget refereshed (every 1 seconds)');
                                 //Show Coin Progress Bars
                                 ShowCoinProgressBar(AllcoinsDataOutput[value][index]);
                             }
-                        }, 1000);
+                        }, 5000);
                        
                     });
                 },
@@ -273,7 +273,7 @@ var Dashboard = function() {
                     TotalFiatValue();
                     //console.log('Get Rates (every 60 seconds)');
                 }
-            }, 1000);
+            }, 60000);
 
         }
 
@@ -450,6 +450,7 @@ function SwitchBasicliskFull(switch_data) {
 
   var SwitchCoinModeData = {
       "poll": 100,
+      "immediate":100,
       "active": 1,
       "newcoin": switch_data.currency,
       "startpend": 1,
@@ -520,7 +521,7 @@ function TotalFiatValue() {
 
   //console.log(BTC_balance); console.log(BTCD_balance);
 
-  var TotalFiatValueData = {"agent":"iguana","method":"rates","quotes":["BTCD/BTC", BTC_Fiat_pair_value, Conversion_Fiat_Pair]};
+  var TotalFiatValueData = {"agent":"iguana","method":"rates","quotes":["BTCD/BTC", BTC_Fiat_pair_value, Conversion_Fiat_Pair],"immediate":100};
   //console.log(TotalFiatValueData);
 
   if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
@@ -595,7 +596,7 @@ function secondsToString(seconds) {
 
 function ShowCoinProgressBar(coin) {
   //console.log('Showing Prgoress bar of '+coin);
-  var getinfoValues = {"coin":coin,"agent":"bitcoinrpc","method":"getinfo"};
+  var getinfoValues = {"coin":coin,"agent":"bitcoinrpc","method":"getinfo","immediate":100};
   $.ajax({
       type: 'POST',
       data: JSON.stringify(getinfoValues),
