@@ -211,7 +211,7 @@ var Dashboard = function() {
                                 clearInterval(ExecuteShowCoinHistory);
                                 console.log('=> No wallet logged in. No need to Run History.');
                             } else {
-                                //ShowCoinHistory(historyvalues);
+                                ShowCoinHistory(historyvalues);
                                 //console.log('wallet widget refereshed (every 1 seconds)');
                                 //Show Coin Progress Bars
                                 ShowCoinProgressBar(AllcoinsDataOutput[value][index]);
@@ -257,7 +257,7 @@ var Dashboard = function() {
             } else {
                 handleWalletWidgets();
                 handleWalletSendRec();
-                //TotalFiatValue();
+                TotalFiatValue();
             }
 
             /*setInterval(function() {
@@ -270,7 +270,7 @@ var Dashboard = function() {
                 console.log('=> No wallet logged in. No need to get Rates.');
                 StopTotalFiatValue();
                 } else {
-                    //TotalFiatValue();
+                    TotalFiatValue();
                     //console.log('Get Rates (every 60 seconds)');
                 }
             }, 1000);
