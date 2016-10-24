@@ -603,41 +603,62 @@
     <!-- BEGIN ATOMIC EXPLORER SETTINGS CONTENT BODY -->
     <div class="page-content" id="section-iguana-atomic-explorer">
       <div class="row" id="atomic-explorer" data-plugin="masonry">
-      <div class="col-xlg-4 col-md-12">
-          <!-- Example Tabs In The Panel -->
-          <div class="panel nav-tabs-horizontal">
+      <div class="col-xlg-12 col-md-12">
+          <!-- Atomic Expolrer Tab -->
+          <div class="panel panel-bordered">
             <!--<div class="panel-heading">
-              <h3 class="panel-title">Wallet Settings</h3>
+              <h3 class="panel-title">Panel Heading</h3>
             </div>-->
-            <ul class="nav nav-tabs nav-tabs-line" data-plugin="nav-tabs" role="tablist">
-              <li class="active" role="presentation"><a data-toggle="tab" href="#GetBalance" aria-controls="GetBalance" role="tab"><i class="icon md-balance-wallet" aria-hidden="true"></i>Get Balance</a></li>
-              <li role="presentation"><a data-toggle="tab" href="#ListUnspent" aria-controls="ListUnspent" role="tab"><i class="icon md-plus-square" aria-hidden="true"></i>List Unspent</a></li>
-              <li role="presentation"><a data-toggle="tab" href="#txid" aria-controls="txid" role="tab"><i class="icon wb-briefcase" aria-hidden="true"></i>Transaction ID</a></li>
-              <li role="presentation"><a data-toggle="tab" href="#BlockHash" aria-controls="BlockHash" role="tab"><i class="icon md-key" aria-hidden="true"></i>Block Hash</a></li>
-              <li role="presentation"><a data-toggle="tab" href="#ChainTip" aria-controls="ChainTip" role="tab"><i class="icon fa-money" aria-hidden="true"></i>Chain Tip</a></li>
-              <li role="presentation"><a data-toggle="tab" href="#GetTransaction" aria-controls="GetTransaction" role="tab"><i class="icon fa-money" aria-hidden="true"></i>Get Transaction</a></li>
-            </ul>
+            <div class="panel-body">
+              <div class="col-sm-4 col-xs-12">
+                <div class="form-group">
+                  <select class="form-control form-material" id="atomic_explorer_select_coin_options">
+                    <option>-Select Coin-</option>
+                    <option value="BTC">Bitcoin</option>
+                    <option value="BTCD">BitcoinDark</option>
+                    <option value="LTC">Litecoin</option>
+                    <option value="DOGE">Dogecoin</option>
+                    <option value="DGB">Digibyte</option>
+                    <option value="SYS">SysCoin</option>
+                    <option value="MZC">MazaCoin</option>
+                    <option value="UNO">Unobtanium</option>
+                    <option value="ZET">Zetacoin</option>
+                    <option value="KMD">Komodo (TestNet)</option>
+                    <option value="BTM">Bitmark</option>
+                    <option value="CARB">Carboncoin</option>
+                    <option value="ANC">AnonCoin</option>
+                    <option value="FRK">Franko</option>
+                  </select>
+                </div>
+                </div>
+                <div class="col-sm-4 col-xs-12" style="text-align: center;">
+                    <select class="form-control form-material" id="atomic_explorer_select_command_options">
+                    <option>-Select Command-</option>
+                    <option value="getbalance">Get Balance</option>
+                    <option value="listunspent">List Unspent</option>
+                    <option value="txid">Transaction ID</option>
+                    <option value="blockash">Block Hash</option>
+                    <option value="chaintip">Chain Tip</option>
+                    <option value="gettransaction">Get Transaction</option>
+                  </select>
+                </div>
+                <div class="col-sm-4 col-xs-12" style="text-align: center;">
+                    <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="atomic_explorer_getcoinpeers_btn" onclick="Settings_ShowCoinPeers()">Submit</button>
+                </div>
+            </div>
+          </div>
+          <!-- End Atomic Expolrer Tab -->
+        </div>
+      <div class="col-xlg-4 col-md-12">
+          <!-- Atomic Explorer tab -->
+          <div class="panel panel-bordered">
             <div class="panel-body">
               <div class="tab-content">
-                <div class="tab-pane active" id="GetBalance" role="tabpanel">
-                  Get Balance section to be updated soon.
-                </div>
-                <div class="tab-pane" id="ListUnspent" role="tabpanel">
-                  List Unspent section to be updated soon.
-                </div>
-                <div class="tab-pane" id="txid" role="tabpanel">
-                  Wallet Backup section to be updated soon.
-                </div>
-                <div class="tab-pane" id="BlockHash" role="tabpanel">
-                  Export Keys section to be updated soon.
-                </div>
-                <div class="tab-pane" id="ChainTip" role="tabpanel">
-                  Fiat currency settings section to be updated soon.
-                </div>
+                <div id="atomic-explorer-commands-output"></div>
               </div>
             </div>
           </div>
-          <!-- End Example Tabs In The Panel -->
+          <!-- End Atomic Explorer tab -->
         </div>
       </div>
     </div>
@@ -647,7 +668,7 @@
     <div class="page-content" id="section-iguana-wallet-settings">
       <div class="row" id="iguana-wallet-settings" data-plugin="masonry">
       <div class="col-xlg-4 col-md-12">
-          <!-- Example Tabs In The Panel -->
+          <!-- Iguana Wallet Settings Box Tab -->
           <div class="panel nav-tabs-horizontal">
             <!--<div class="panel-heading">
               <h3 class="panel-title">Wallet Settings</h3>
@@ -759,7 +780,7 @@
               </div>
             </div>
           </div>
-          <!-- End Example Tabs In The Panel -->
+          <!-- End Iguana Wallet Settings Box Tab -->
         </div>
       </div>
     </div>

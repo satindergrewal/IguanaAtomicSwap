@@ -77,6 +77,19 @@ var Login = function() {
                             console.log('Success');
                             //swal("Success", "Login Successfully.", "success");
                             toastr.success("Login Successfull", "Account Notification")
+                            var logincoinnames = []; $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); }); console.log(logincoinnames);
+                            $.each(logincoinnames, function( index, value ) {
+                                if ( value == 'BTC' ) {
+                                    var logincoinmodeval = $("input[name='logincoinbtcmode']:checked").val();
+                                    var logincoin_data = {"coin": value, "mode": logincoinmodeval};
+                                    Iguana_addcoinLogin(logincoin_data);
+                                }
+                                if ( value == 'BTCD' ) {
+                                    var logincoinmodeval = $("input[name='logincoinbtcdmode']:checked").val();
+                                    var logincoin_data = {"coin": value, "mode": logincoinmodeval};
+                                    Iguana_addcoinLogin(logincoin_data);
+                                }
+                            });
                             
                             $('#password').val('')
                             $('#wallet-login').hide();

@@ -211,10 +211,14 @@ var Dashboard = function() {
                                 clearInterval(ExecuteShowCoinHistory);
                                 console.log('=> No wallet logged in. No need to Run History.');
                             } else {
-                                ShowCoinHistory(historyvalues);
-                                console.log('wallet widget refereshed (every 1 seconds)');
-                                //Show Coin Progress Bars
-                                ShowCoinProgressBar(AllcoinsDataOutput[value][index]);
+                                if ( value == "basilisk" ) {
+                                  console.log("ShowCoinHistory and ShowCoinProgressBar not executing for basilisk...");
+                                } else {
+                                  ShowCoinHistory(historyvalues);
+                                  console.log('wallet widget refereshed (every 1 seconds)');
+                                  //Show Coin Progress Bars
+                                  ShowCoinProgressBar(AllcoinsDataOutput[value][index]);
+                                }
                             }
                         }, 1000);
                        
