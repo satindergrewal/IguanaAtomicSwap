@@ -39,7 +39,12 @@ var AtomicExplorer = function() {
             if (atomic_explorer_select_command_val === 'txid') {
                 ExplorerInputData = {"coin":atomic_explorer_select_coin_val,"method":"getrawtransaction","params":[atomic_explorer_input_data_val]}
                 console.log(ExplorerInputData);
-            }if (atomic_explorer_select_command_val === 'gettransaction') {
+            }
+            if (atomic_explorer_select_command_val === 'blockash') {
+                ExplorerInputData = {"coin":atomic_explorer_select_coin_val,"agent":"bitcoinrpc","method":"getblockhash","height":atomic_explorer_input_data_val}
+                console.log(ExplorerInputData);
+            }
+            if (atomic_explorer_select_command_val === 'gettransaction') {
                 ExplorerInputData = {"coin":atomic_explorer_select_coin_val,"agent":"bitcoinrpc","method":"gettransaction","txid":atomic_explorer_input_data_val}
                 console.log(ExplorerInputData);
             }
