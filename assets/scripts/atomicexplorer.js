@@ -44,6 +44,10 @@ var AtomicExplorer = function() {
                 ExplorerInputData = {"coin":atomic_explorer_select_coin_val,"agent":"bitcoinrpc","method":"getblockhash","height":atomic_explorer_input_data_val}
                 console.log(ExplorerInputData);
             }
+            if (atomic_explorer_select_command_val === 'chaintip') {
+                ExplorerInputData = {"coin":atomic_explorer_select_coin_val,"agent":"bitcoinrpc","method":"getbestblockhash"}
+                console.log(ExplorerInputData);
+            }
             if (atomic_explorer_select_command_val === 'gettransaction') {
                 ExplorerInputData = {"coin":atomic_explorer_select_coin_val,"agent":"bitcoinrpc","method":"gettransaction","txid":atomic_explorer_input_data_val}
                 console.log(ExplorerInputData);
