@@ -207,15 +207,15 @@ var Dashboard = function() {
                         //Get coin history and pupulate balance and other info to wallet widget
                         var historyvalues = {"timeout":20000,"immediate":100,"agent":"basilisk","method":"history","vals":{"coin":"" + AllcoinsDataOutput[value][index] + ""}};
                         var ExecuteShowCoinHistory = setInterval(function() {
-                            if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
+                            if ( sessionStorage.getItem('IguanaActiveAccount') === null || sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "stop" ) {
                                 clearInterval(ExecuteShowCoinHistory);
-                                console.log('=> No wallet logged in. No need to Run History.');
-                            } else {
+                                console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
+                            } else if ( sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "start") {
                                 if ( value == "basilisk" ) {
-                                  console.log("ShowCoinHistory and ShowCoinProgressBar not executing for basilisk...");
+                                  //console.log("ShowCoinHistory and ShowCoinProgressBar not executing for basilisk...");
                                 } else {
                                   ShowCoinHistory(historyvalues);
-                                  console.log('wallet widget refereshed (every 1 seconds)');
+                                  //console.log('wallet widget refereshed (every 1 seconds)');
                                   //Show Coin Progress Bars
                                   ShowCoinProgressBar(AllcoinsDataOutput[value][index]);
                                 }

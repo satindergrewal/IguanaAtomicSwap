@@ -16,7 +16,9 @@ $(document).ready(function() {
 	$('#nav-iguana-atomic-explorer').removeClass( " active open" ).addClass( "" );
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
-	$(".header-easydex-section").text("Dashboard")
+	$(".header-easydex-section").text("Dashboard");
+	sessionStorage.setItem('DashboardActions', "start");
+	$(document).ready(function() { Dashboard.init(); });
 
 });
 
@@ -36,7 +38,9 @@ $('#nav-dashboard').on('click', function() {
 	$('#nav-iguana-atomic-explorer').removeClass( " active open" ).addClass( "" );
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
-	$(".header-easydex-section").text("Dashboard")
+	$(".header-easydex-section").text("Dashboard");
+	sessionStorage.setItem('DashboardActions', "start");
+	$(document).ready(function() { Dashboard.init(); });
 });
 
 $('#nav-easydex').on('click', function() {
@@ -55,7 +59,8 @@ $('#nav-easydex').on('click', function() {
 	$('#nav-iguana-atomic-explorer').removeClass( " active open" ).addClass( "" );
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
-	$(".header-easydex-section").text("EasyDEX")
+	$(".header-easydex-section").text("EasyDEX");
+	sessionStorage.setItem('DashboardActions', "stop");
 });
 
 $('#nav-komodo-wallet').on('click', function() {
@@ -74,7 +79,8 @@ $('#nav-komodo-wallet').on('click', function() {
 	$('#nav-iguana-atomic-explorer').removeClass( " active open" ).addClass( "" );
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
-	$(".header-easydex-section").text("Komodo Wallet")
+	$(".header-easydex-section").text("Komodo Wallet");
+	sessionStorage.setItem('DashboardActions', "stop");
 });
 
 $('#nav-zcash-wallet').on('click', function() {
@@ -93,7 +99,8 @@ $('#nav-zcash-wallet').on('click', function() {
 	$('#nav-iguana-atomic-explorer').removeClass( " active open" ).addClass( "" );
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
-	$(".header-easydex-section").text("Zcash Wallet")
+	$(".header-easydex-section").text("Zcash Wallet");
+	sessionStorage.setItem('DashboardActions', "stop");
 });
 
 $('#nav-iguana-atomic-explorer').on('click', function() {
@@ -112,7 +119,8 @@ $('#nav-iguana-atomic-explorer').on('click', function() {
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-iguana-atomic-explorer').removeClass( "" ).addClass( "active open" );
-	$(".header-easydex-section").text("Atomic Explorer")
+	$(".header-easydex-section").text("Atomic Explorer");
+	sessionStorage.setItem('DashboardActions', "stop");
 });
 
 $('#nav-iguana-wallet-settings').on('click', function() {
@@ -133,6 +141,7 @@ $('#nav-iguana-wallet-settings').on('click', function() {
 	$('#nav-iguana-wallet-settings').removeClass( "" ).addClass( "active open" );
 	$(".header-easydex-section").text("Wallet Settings")
 	Settings_ShowWalletInfo(); //Execute this function from walletsettings.js file
+	sessionStorage.setItem('DashboardActions', "stop");
 });
 
 $('#nav-about-iguana').on('click', function() {
@@ -151,6 +160,7 @@ $('#nav-about-iguana').on('click', function() {
 	$('#nav-iguana-atomic-explorer').removeClass( " active open" ).addClass( "" );
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( "" ).addClass( "active open" );
-	$(".header-easydex-section").text("About Iguana")
+	$(".header-easydex-section").text("About Iguana");
+	sessionStorage.setItem('DashboardActions', "stop");
 });
 
