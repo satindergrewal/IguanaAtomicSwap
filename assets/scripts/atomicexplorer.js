@@ -28,6 +28,10 @@ var AtomicExplorer = function() {
             console.log(atomic_explorer_select_command_val);
             console.log(atomic_explorer_input_data_val);
 
+            if (atomic_explorer_select_command_val === 'history') {
+                ExplorerInputData = {"timeout":20000,"agent":"basilisk","method":"history","vals":{"coin":atomic_explorer_select_coin_val,"addresses":[atomic_explorer_input_data_val]}}
+                console.log(ExplorerInputData);
+            }
             if (atomic_explorer_select_command_val === 'getbalance') {
                 ExplorerInputData = {"coin":atomic_explorer_select_coin_val,"method":"getbalance","params":[atomic_explorer_input_data_val]}
                 console.log(ExplorerInputData);
