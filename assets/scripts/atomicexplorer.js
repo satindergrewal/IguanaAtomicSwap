@@ -19,7 +19,57 @@ var AtomicExplorer = function() {
     var handleExplorer = function() {
 
         $('#atomic_explorer_getcoinpeers_btn').click(function() {
-            console.log("button pushed in atomic explorer")
+            console.log("button pushed in atomic explorer");
+
+            var atomic_explorer_select_coin_val = $("select[id='atomic_explorer_select_coin_options']").val();
+            var atomic_explorer_select_command_val = $("select[id='atomic_explorer_select_command_options']").val();
+            var atomic_explorer_input_data_val = $("#atomic_explorer_input_data").val();
+            console.log(atomic_explorer_select_coin_val);
+            console.log(atomic_explorer_select_command_val);
+            console.log(atomic_explorer_input_data_val);
+
+            if (atomic_explorer_select_command_val === 'getbalance') {
+                ExplorerInputData = {"coin":atomic_explorer_select_coin_val,"method":"getbalance","params":[atomic_explorer_input_data_val]}
+                console.log(ExplorerInputData);
+            }
+            if (atomic_explorer_select_command_val === 'listunspent') {
+                ExplorerInputData = {"coin":atomic_explorer_select_coin_val,"method":"listunspent","params":[1, 9999999, [atomic_explorer_input_data_val]]}
+                console.log(ExplorerInputData);
+            }
+            if (atomic_explorer_select_command_val === 'txid') {
+                ExplorerInputData = {"coin":atomic_explorer_select_coin_val,"method":"getrawtransaction","params":[atomic_explorer_input_data_val]}
+                console.log(ExplorerInputData);
+            }if (atomic_explorer_select_command_val === 'gettransaction') {
+                ExplorerInputData = {"coin":atomic_explorer_select_coin_val,"agent":"bitcoinrpc","method":"gettransaction","txid":atomic_explorer_input_data_val}
+                console.log(ExplorerInputData);
+            }
+
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify(ExplorerInputData),
+                url: 'http://127.0.0.1:7778',
+                //dataType: 'text',
+                success: function(data, textStatus, jqXHR) {
+                    console.log(data);
+                    if (atomic_explorer_select_command_val === 'txid') {
+                        $("#atomic-explorer-commands-output").html(data);
+                    } else {
+                        var ExplorerOutputData = JSON.parse(data);
+                        console.log(ExplorerOutputData);
+                        $("#atomic-explorer-commands-output").html(JSON.stringify(ExplorerOutputData, null, '\t'));
+                    }
+                },
+                error: function(xhr, textStatus, error) {
+                    console.log('failed getting Coin History.');
+                    console.log(xhr.statusText);
+                    if ( xhr.readyState == 0 ) {
+                        Iguana_ServiceUnavailable();
+                    }
+                    console.log(textStatus);
+                    console.log(error);
+                }
+            });
+
 
             /*$.ajax({
                 type: 'GET',

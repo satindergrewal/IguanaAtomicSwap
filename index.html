@@ -613,7 +613,7 @@
               <div class="col-sm-4 col-xs-12">
                 <div class="form-group">
                   <select class="form-control form-material" id="atomic_explorer_select_coin_options">
-                    <option>-Select Coin-</option>
+                    <option value="">-Select Coin-</option>
                     <option value="BTC">Bitcoin</option>
                     <option value="BTCD">BitcoinDark</option>
                     <option value="LTC">Litecoin</option>
@@ -633,7 +633,7 @@
                 </div>
                 <div class="col-sm-4 col-xs-12" style="text-align: center;">
                     <select class="form-control form-material" id="atomic_explorer_select_command_options">
-                    <option>-Select Command-</option>
+                    <option value="">-Select Command-</option>
                     <option value="getbalance">Get Balance</option>
                     <option value="listunspent">List Unspent</option>
                     <option value="txid">Transaction ID</option>
@@ -643,6 +643,9 @@
                   </select>
                 </div>
                 <div class="col-sm-4 col-xs-12" style="text-align: center;">
+                    <input type="text" class="form-control" id="atomic_explorer_input_data" name="atomic_explorer_input_data" placeholder="addr, txid, blockash etc.">
+                </div>
+                <div class="col-sm-12 col-xs-12" style="text-align: center;">
                     <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="atomic_explorer_getcoinpeers_btn">Submit</button>
                 </div>
             </div>
@@ -651,10 +654,13 @@
         </div>
       <div class="col-xlg-4 col-md-12">
           <!-- Atomic Explorer tab -->
-          <div class="panel panel-bordered">
+          <div class="panel">
+            <div class="panel-heading">
+              <h3 class="panel-title">Raw Output</h3>
+            </div>
             <div class="panel-body">
               <div class="tab-content">
-                <div id="atomic-explorer-commands-output"></div>
+                  <pre id="atomic-explorer-commands-output"></pre>
               </div>
             </div>
           </div>
