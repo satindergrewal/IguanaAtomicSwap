@@ -116,6 +116,8 @@ var Login = function() {
                                         Iguana_addcoinLogin(logincoin_data);
                                     }
                                 });
+                            } else if ( LoginOutput.error === 'invalid passphrase' ) {
+                                toastr.info("Invalid Passphrase. Make sure your passphrase is correct, or create new wallet.", "Login Notification");
                             } else {
                                 toastr.warning("Opps... Something went wrong!", "Account Notification");
                             }
