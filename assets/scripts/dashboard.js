@@ -211,13 +211,15 @@ var Dashboard = function() {
                                 clearInterval(ExecuteShowCoinHistory);
                                 console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
                             } else if ( sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "start") {
-                                if ( value == "basilisk" ) {
+                                if ( value == "basilisk") {
                                   //console.log("ShowCoinHistory and ShowCoinProgressBar not executing for basilisk...");
                                 } else {
-                                  ShowCoinHistory(historyvalues);
                                   //console.log('wallet widget refereshed (every 1 seconds)');
                                   //Show Coin Progress Bars
                                   ShowCoinProgressBar(AllcoinsDataOutput[value][index]);
+                                  if ( sessionStorage.getItem('Activate'+AllcoinsDataOutput[value][index]+'History') === 'Yes' ) {
+                                    ShowCoinHistory(historyvalues);
+                                  }
                                 }
                             }
                         }, 1000);
@@ -614,6 +616,7 @@ function ShowCoinProgressBar(coin) {
             //console.log(coin+' is undefined');
           } else {
             if ( parseInt(CoinInfoData.RTheight) != 0 ) {
+              sessionStorage.setItem('Activate'+coin+'History', 'Yes');
               var coin_blocks = parseInt(CoinInfoData.blocks);
               var coin_blocks_plus1 = coin_blocks + 1;
               //console.log(coin+' is less than 99.98% complete.');
@@ -624,6 +627,7 @@ function ShowCoinProgressBar(coin) {
               $('div[data-currency="'+coin+'"][id="currency-bundles"]').removeClass( "progress-bar-info" ).addClass( "progress-bar-indicating progress-bar-success" );
             }
             if ( parseInt(CoinInfoData.RTheight) == 0 ) {
+              sessionStorage.setItem('Activate'+coin+'History', 'No');
               console.log(coin+': '+CoinInfoData.bundles);
               var coin_blocks = parseInt(CoinInfoData.blocks);
               var coin_blocks_plus1 = coin_blocks + 1;
