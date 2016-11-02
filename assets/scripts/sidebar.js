@@ -163,7 +163,7 @@ $('#nav-about-iguana').on('click', function() {
 });
 
 
-function CommonSidebarActionSet01() {
+function CommonSidebarActionsSet01() {
 	sessionStorage.setItem('DashboardActions', "start");
 	$(document).ready(function() { Dashboard.init(); });
 	$("#wifkeys_passphrase").val('');
