@@ -277,7 +277,7 @@ var Dashboard = function() {
                     TotalFiatValue();
                     //console.log('Get Rates (every 60 seconds)');
                 }
-            }, 1000);
+            }, 60000);
 
         }
 
