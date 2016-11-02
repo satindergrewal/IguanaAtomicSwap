@@ -779,7 +779,25 @@
                   Wallet Backup section to be updated soon.
                 </div>
                 <div class="tab-pane" id="GetPrivKey" role="tabpanel">
-                  Export Keys section to be updated soon.
+                  <p>Only the active coin wallet wif keys will be shown here.<br>
+                  If you don't see a wif key for the coin you are looking for please active it by adding it from EasyDEX Dashboard.<br>
+                  You can use these wif keys to import to another coin wallets. <b><i>Please keep these keys extra safe and secure.</i></b></p>
+                  <div class="col-sm-12"></div>
+                      <form class="wifkeys-form" method="post" action="javascript:;" autocomplete="off" onsubmit="return false;">
+                      <div class="form-group form-material floating">
+                        <input type="password" class="form-control" name="wifkeys_passphrase" id="wifkeys_passphrase">
+                        <label class="floating-label" for="wifkeys_passphrase">Passphrase</label>
+                      </div>
+                      <div class="col-sm-12 col-xs-12" style="text-align: center;">
+                          <button type="submit" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="settings_getcoinpeers_btn">Get Wif Keys</button>
+                      </div>
+                      </form>
+
+                      <div class="col-sm-12" style="padding-top: 15px;">
+                        <div class="row" id="wif-priv-keys" data-plugin="masonry">
+                          
+                        </div>
+                      </div>
                 </div>
                 <div class="tab-pane" id="FiatCurrencySettings" role="tabpanel">
                   Fiat currency settings section to be updated soon.

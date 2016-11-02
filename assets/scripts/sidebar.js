@@ -17,8 +17,7 @@ $(document).ready(function() {
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
 	$(".header-easydex-section").text("Dashboard");
-	sessionStorage.setItem('DashboardActions', "start");
-	$(document).ready(function() { Dashboard.init(); });
+	CommonSidebarActionsSet01();
 
 });
 
@@ -39,8 +38,7 @@ $('#nav-dashboard').on('click', function() {
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
 	$(".header-easydex-section").text("Dashboard");
-	sessionStorage.setItem('DashboardActions', "start");
-	$(document).ready(function() { Dashboard.init(); });
+	CommonSidebarActionsSet01();
 });
 
 $('#nav-easydex').on('click', function() {
@@ -60,7 +58,7 @@ $('#nav-easydex').on('click', function() {
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
 	$(".header-easydex-section").text("EasyDEX");
-	sessionStorage.setItem('DashboardActions', "stop");
+	CommonSidebarActionsSet02();
 });
 
 $('#nav-komodo-wallet').on('click', function() {
@@ -80,7 +78,7 @@ $('#nav-komodo-wallet').on('click', function() {
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
 	$(".header-easydex-section").text("Komodo Wallet");
-	sessionStorage.setItem('DashboardActions', "stop");
+	CommonSidebarActionsSet02();
 });
 
 $('#nav-zcash-wallet').on('click', function() {
@@ -100,7 +98,7 @@ $('#nav-zcash-wallet').on('click', function() {
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
 	$(".header-easydex-section").text("Zcash Wallet");
-	sessionStorage.setItem('DashboardActions', "stop");
+	CommonSidebarActionsSet02();
 });
 
 $('#nav-iguana-atomic-explorer').on('click', function() {
@@ -120,7 +118,7 @@ $('#nav-iguana-atomic-explorer').on('click', function() {
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-iguana-atomic-explorer').removeClass( "" ).addClass( "active open" );
 	$(".header-easydex-section").text("Atomic Explorer");
-	sessionStorage.setItem('DashboardActions', "stop");
+	CommonSidebarActionsSet02();
 });
 
 $('#nav-iguana-wallet-settings').on('click', function() {
@@ -141,7 +139,7 @@ $('#nav-iguana-wallet-settings').on('click', function() {
 	$('#nav-iguana-wallet-settings').removeClass( "" ).addClass( "active open" );
 	$(".header-easydex-section").text("Wallet Settings")
 	Settings_ShowWalletInfo(); //Execute this function from walletsettings.js file
-	sessionStorage.setItem('DashboardActions', "stop");
+	CommonSidebarActionsSet02();
 });
 
 $('#nav-about-iguana').on('click', function() {
@@ -161,6 +159,19 @@ $('#nav-about-iguana').on('click', function() {
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( "" ).addClass( "active open" );
 	$(".header-easydex-section").text("About Iguana");
-	sessionStorage.setItem('DashboardActions', "stop");
+	CommonSidebarActionsSet02();
 });
 
+
+function CommonSidebarActionSet01() {
+	sessionStorage.setItem('DashboardActions', "start");
+	$(document).ready(function() { Dashboard.init(); });
+	$("#wifkeys_passphrase").val('');
+	$('#wif-priv-keys').html('');
+}
+
+function CommonSidebarActionsSet02() {
+	sessionStorage.setItem('DashboardActions', "stop");
+	$("#wifkeys_passphrase").val('');
+	$('#wif-priv-keys').html('');
+}
