@@ -140,16 +140,6 @@ jQuery(document).ready(function() {
 // DOM Ready =============================================================
 $(document).ready(function() {
     
-    /*$('#settings_getcoinpeers_btn').click(function() { Settings_ExportActiveCoinKeys(); });
-    $('.wifkeys-form input').keypress(function(e) {
-        console.log('something happened with wifkeys...');
-        if (e.which == 13) {
-            if ($('.wifkeys-form').validate().form()) {
-                $('.wifkeys-form').submit(); //form validation success, call ajax form submit
-            }
-            return false;
-        }
-    });*/
 });
 
 // Functions =============================================================
@@ -249,8 +239,4 @@ function Settings_AddCoinPeers() {
             console.log(error);
         }
     });
-}
-
-function Settings_ExportActiveCoinKeys() {
-    
 }
