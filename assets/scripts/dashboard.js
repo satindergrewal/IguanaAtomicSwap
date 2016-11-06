@@ -1,6 +1,8 @@
 var RunTotalFiatValue = '';
 var ExecuteShowCoinHistory = '';
 
+
+
 var Dashboard = function() {
 
 
@@ -21,7 +23,7 @@ var Dashboard = function() {
     var handleWalletWidgets = function() {
 
         var walletDivContent = '';
-
+        var AddColumnDiv = 0
         $.each([ 'basilisk', 'full', 'virtual' ], function( index, value ) {
 
             $.ajax({
@@ -33,7 +35,7 @@ var Dashboard = function() {
                     //console.log('== AllCoins Data OutPut ==');
                     //console.log(value);
                     //console.log(AllcoinsDataOutput[value]);
-
+                    
                     $.each(AllcoinsDataOutput[value], function(index) {
 
                         var coinlogo = '';
@@ -65,8 +67,8 @@ var Dashboard = function() {
                         if ( AllcoinsDataOutput[value][index] == 'ANC' ) { coinlogo = 'anoncoin'; coinname = 'AnonCoin'; }
                         if ( AllcoinsDataOutput[value][index] == 'FRK' ) { coinlogo = 'franko'; coinname = 'Franko'; }
 
-
                         //console.log(AllcoinsDataOutput[value][index]);
+                        
                         walletDivContent += '<!-- Begin' + AllcoinsDataOutput[value][index] + 'wallet widget -->';
                         walletDivContent += '<div class="col-md-6 col-xs-12 masonry-item">';
                           walletDivContent += '<div class="widget widget-shadow">';
@@ -325,7 +327,8 @@ function ShowCoinHistory(getData) {
                     //console.log(testhistory.history.reverse());
                     //console.log(testhistory.sent);
 
-                    $('span[data-currency="' + getData.vals['coin'] + '"][id="currency-balance"]').text(CoinHistoryData.balance);
+                    //$('span[data-currency="' + getData.vals['coin'] + '"][id="currency-balance"]').text(CoinHistoryData.balance);
+                    getCoinBalance(getData.vals['coin']);
 
                     //Update Dashboard Header values as well
                     if ( getData.vals['coin'] == 'BTC' || getData.vals['coin'] == 'BTCD' ) {
@@ -436,6 +439,40 @@ function ShowCoinHistory(getData) {
         }
     }
     
+}
+
+function getCoinBalance() {
+  
+}
+
+function getCoinBalance(coin) {
+  //console.log(rmd160conv_data);
+  //return rmd160conv_data;
+
+  //comment
+    var ajax_data = {"agent":"bitcoinrpc","method":"getbalance","coin": coin};
+    console.log(ajax_data);
+    $.ajax({
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data);
+            console.log('== Data OutPut ==');
+            console.log(AjaxOutputData);
+            $('span[data-currency="' + coin + '"][id="currency-balance"]').text(AjaxOutputData.result);
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
 }
 
 function StopShowCoinHistory() {
@@ -654,3 +691,4 @@ function ShowCoinProgressBar(coin) {
       }
   });
 }
+

@@ -361,14 +361,24 @@
     <!-- BEGIN DASHBOARD CONTENT BODY -->
     
     <!-- Example With Stats -->
-    <div class="page-header page-header-bordered header-easydex">
+    <div class="page-header page-header-bordered header-easydex" id="easydex-header-div">
       <h1 class="page-title">EasyDEX</h1>
       <ol class="breadcrumb">
         <li class="header-easydex-section">Dashboard</li>
         <!--<li class="active">You are Here</li>-->
       </ol>
-      <div class="page-header-actions">
-        <div class="row no-space width-350 hidden-xs">
+      <div class="page-header-actions" style="z-index: 1;">
+        <button type="button" id="easydex_kmd_wallet_actions_header" class="bg-teal-500 btn btn-floating btn-info waves-effect waves-float waves-light" id="kmd_wallet_header_button" data-toggle="dropdown" aria-expanded="false" style="display: none;"><i class="icon md-plus" aria-hidden="true"></i></button>
+        <ul class="dropdown-menu animate dropdown-menu-right" aria-labelledby="kmd_wallet_header_button" role="menu" style="">
+          <li role="presentation"><a href="javascript:void(0)" role="menuitem" id="btn_kmd_wallet_dashboard">Dashboard</a></li>
+          <li role="presentation"><a href="javascript:void(0)" role="menuitem" id="btn_kmd_wallet_send">Send</a></li>
+          <li role="presentation"><a href="javascript:void(0)" role="menuitem" id="btn_kmd_wallet_recieve">Recieve</a></li>
+          <li role="presentation"><a href="javascript:void(0)" role="menuitem" id="btn_kmd_wallet_transactions">Transactions</a></li>
+          <li role="presentation"><a href="javascript:void(0)" role="menuitem" id="btn_kmd_wallet_pax">PAX</a></li>
+          <li class="divider" role="presentation"></li>
+          <li role="presentation"><a href="javascript:void(0)" role="menuitem">Settings</a></li>
+        </ul>
+        <div class="row no-space width-350 hidden-xs" id="easydex_btc_btcd_balances_header">
           <div class="col-xs-6">
             <div class="counter">
               <span class="font-weight-medium" data-currency="BTC" id="header_coinname_balance"> - BTC</span>
@@ -588,8 +598,119 @@
 
     <!-- BEGIN KOMODO WALLET CONTENT BODY -->
     <div class="page-content" id="section-komodo">
-      <h2>Komodo Wallet</h2>
-      <p>Page content goes here</p>
+      <div class="row" id="komodo-wallet" data-plugin="masonry">
+      <div class="col-xs-12">
+        <div class="col-lg-4 col-xs-12">
+          <!-- KMD Transparent Balance Widget-->
+          <div class="widget widget-shadow" id="widgetLineareaOne">
+            <div class="widget-content white bg-yellow-800">
+              <div class="padding-20 padding-top-10">
+                <div class="clearfix">
+                  <div class="pull-left padding-vertical-10">
+                    <i class="icon fa-eye font-size-24 vertical-align-bottom margin-right-5"></i>Transparent Balance
+                  </div>
+                  <span class="pull-right font-size-30" id="kmd_transparent_balance">1253</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End KMD Transparent Balance Widget -->
+        </div>
+        <div class="col-lg-4 col-xs-12">
+          <!-- KMD Private (Z) Balance Widget-->
+          <div class="widget widget-shadow" id="widgetLineareaOne">
+            <div class="widget-content white bg-blue-grey-800">
+              <div class="padding-20 padding-top-10">
+                <div class="clearfix">
+                  <div class="pull-left padding-vertical-10">
+                    <i class="icon fa-eye-slash font-size-24 vertical-align-bottom margin-right-5"></i>Private (Z) Balance
+                  </div>
+                  <span class="pull-right font-size-30" id="kmd_private_balance">1253</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End KMD Private (Z) Balance Widget -->
+        </div>
+        <div class="col-lg-4 col-xs-12">
+          <!-- KMD Total (Z+T) Balance Widget-->
+          <div class="widget widget-shadow" id="widgetLineareaOne">
+            <div class="widget-content white bg-green-600">
+              <div class="padding-20 padding-top-10">
+                <div class="clearfix">
+                  <div class="pull-left padding-vertical-10">
+                    <i class="icon fa-bullseye font-size-24 vertical-align-bottom margin-right-5"></i>Total (Z+T) Balance
+                  </div>
+                  <span class="pull-right font-size-30" id="kmd_total_tz_balance">1,253</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End KMD Total (Z+T) Balance Widget -->
+        </div>
+      </div>
+
+      <div class="col-xs-12">
+          <!-- Iguana Wallet Settings Box Tab -->
+          <div class="panel nav-tabs-horizontal">
+            <!-- KMD Wallet Dashboard -->
+            <div id="kmd_wallet_dashoard_section">
+              <div class="col-xlg-6 col-md-4">
+                <!-- Panel Wallet Info -->
+                <div class="panel" id="projects">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Wallet Info</h3>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <tbody>
+                        <tr><td>Wallet Version</td><td><span id="kmd_walletversion"></span></td></tr>
+                        <tr><td>Balance</td><td><span id="kmd_balance"></span></td></tr>
+                        <tr><td>Unconfirmed Balance</td><td><span id="kmd_unconfirmed_balance"></span></td></tr>
+                        <tr><td>Immature Balance</td><td><span id="kmd_immature_balance"></span></td></tr>
+                        <tr><td>Total Transactions Count</td><td><span id="KMDTotalTransactionsCount"></span></td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- End Panel Wallet Info -->
+                </div>
+
+
+                <div class="col-xlg-6 col-md-8">
+                <!-- Panel getinfo -->
+                <div class="panel" id="projects">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Komodo Info</h3>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <tbody>
+                        <tr><td>Version</td><td><span id="kmd_version"></span></td></tr>
+                        <tr><td>Protocol Version</td><td><span id="kmd_protocolversion"></span></td></tr>
+                        <tr><td>Notarized</td><td><span id="kmd_notarized"></span></td></tr>
+                        <tr><td>Notarized Hash</td><td><span id="kmd_notarizedhash"></span></td></tr>
+                        <tr><td>Notarized BTC</td><td><span id="kmd_notarizedbtc"></span></td></tr>
+                        <tr><td>Blocks</td><td><span id="kmd_blocks"></span></td></tr>
+                        <tr><td>Connections</td><td><span id="kmd_connections"></span></td></tr>
+                        <tr><td>Difficulty</td><td><span id="kmd_difficulty"></span></td></tr>
+                        <tr><td>Testnet</td><td><span id="kmd_testnet"></span></td></tr>
+                        <tr><td>Pay Transaction Fee</td><td><span id="kmd_paytxfee"></span></td></tr>
+                        <tr><td>Relay Fee</td><td><span id="kmd_relayfee"></span></td></tr>
+                        <tr><td>Errors</td><td><span id="kmd_errors"></span></td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- End Panel getinfo -->
+                </div>
+            </div>
+            <!-- End KMD Wallet Dashboard -->
+
+          </div>
+          <!-- End Iguana Wallet Settings Box Tab -->
+        </div>
+      </div>
     </div>
     <!-- END KOMODO WALLET CONTENT BODY -->
 
@@ -880,6 +1001,11 @@
   <script src="assets/scripts/sidebar.js"></script>
   <script src="assets/scripts/walletsettings.js"></script>
   <script src="assets/scripts/atomicexplorer.js"></script>
+
+  <!-- KMD Wallet Scripts -->
+  <script src="assets/scripts/kmd_wallet_dashboard.js"></script>
+  <!-- End KMD Wallet Scripts -->
+
   <script>
   (function(document, window, $) {
     'use strict';
