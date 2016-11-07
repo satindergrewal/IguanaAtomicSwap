@@ -5,8 +5,7 @@ var KMDWalletDashboard = function() {
 		$('#btn_kmd_wallet_dashboard').click(function() {
             //console.log('kmd wallet dashbaord button clicked...');
             $('#kmd_wallet_dashoard_section').show();
-            getKMDBalanceT();
-            getKMDBalanceTotal();
+            getTotalKMDBalance();
             getKMDWalletInfo();
             getKMDInfo();
 
@@ -29,10 +28,37 @@ jQuery(document).ready(function() {
 
 
 function RunInitFunctions() {
-	getKMDBalanceT();
-    getKMDBalanceTotal();
+	getTotalKMDBalance();
     getKMDWalletInfo();
     getKMDInfo();
+}
+
+function getTotalKMDBalance() {
+	var ajax_data = {"agent":"komodo","method":"passthru","function":"z_gettotalbalance","hex":"3100"}
+    console.log(ajax_data);
+    $.ajax({
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data);
+            //console.log('== Data OutPut ==');
+            //console.log(AjaxOutputData);
+            $('#kmd_transparent_balance').text(AjaxOutputData.transparent);
+            $('#kmd_private_balance').text(AjaxOutputData.private);
+            $('#kmd_total_tz_balance').text(AjaxOutputData.total);
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
 }
 
 function getKMDBalanceT() {
@@ -47,7 +73,7 @@ function getKMDBalanceT() {
             var AjaxOutputData = JSON.parse(data);
             //console.log('== Data OutPut ==');
             //console.log(AjaxOutputData);
-            $('#kmd_transparent_balance').text(AjaxOutputData);
+            //$('#kmd_transparent_balance').text(AjaxOutputData);
         },
         error: function(xhr, textStatus, error) {
             console.log('failed getting Coin History.');
@@ -74,7 +100,7 @@ function getKMDBalanceZ() {
             var AjaxOutputData = JSON.parse(data);
             //console.log('== Data OutPut ==');
             //console.log(AjaxOutputData);
-            $('#kmd_private_balance').text(AjaxOutputData);
+            //$('#kmd_private_balance').text(AjaxOutputData);
         },
         error: function(xhr, textStatus, error) {
             console.log('failed getting Coin History.');
@@ -86,13 +112,6 @@ function getKMDBalanceZ() {
             console.log(error);
         }
     });
-}
-
-function getKMDBalanceTotal() {
-	var kmd_T_balance = parseFloat($('#kmd_transparent_balance').text());
-	var kmd_Z_balance = parseFloat($('#kmd_private_balance').text());
-	var kmd_total_balance = kmd_T_balance + kmd_Z_balance;
-	$('#kmd_total_tz_balance').text(kmd_total_balance.toFixed(4));
 }
 
 
