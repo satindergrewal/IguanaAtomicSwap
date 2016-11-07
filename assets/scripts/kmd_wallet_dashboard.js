@@ -182,3 +182,53 @@ function getKMDInfo() {
         }
     });
 }
+
+
+function KMDlistunspentT() {
+	var result = [];
+
+	var ajax_data = {"agent":"komodo","method":"passthru","function":"listunspent","hex":""}
+    //console.log(ajax_data);
+    $.ajax({
+    	async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
+            //console.log('== Data OutPut ==');
+            //console.log(AjaxOutputData);
+            var unique_addresses  = _.keys(_.countBy(AjaxOutputData, function(data) { return data.address; })); //This code using undscore.js takes only the address into an array which are unique in that list
+            
+            // This function calls each unique address and calculates the total amount of coins in it.
+            $.each(unique_addresses, function(index) {
+				//console.log(unique_addresses[index]);
+				var unique_addr_tmp_array = _.where(AjaxOutputData, {address: unique_addresses[index]});
+				//console.log(unique_addr_tmp_array);
+
+				var tmpcalcnum = 0;
+				$.each(unique_addr_tmp_array, function(index, value) {
+					//console.log(value.amount);
+					tmpcalcnum = tmpcalcnum + value.amount;
+				});
+				//console.log(tmpcalcnum);
+				var tmp_addr_total_balance_output = {"addr": unique_addr_tmp_array[0].address, "total": tmpcalcnum};
+				//console.log(tmp_addr_total_balance_output);
+				result.push(tmp_addr_total_balance_output);
+
+			});
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    //console.log(result);
+    return result;
+}
