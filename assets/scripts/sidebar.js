@@ -18,6 +18,7 @@ $(document).ready(function() {
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
 	$(".header-easydex-section").text("Dashboard");
 	removeKMDWalletStyle();
+	removeZECWalletStyle();
 	CommonSidebarActionsSet01();
 
 });
@@ -40,6 +41,7 @@ $('#nav-dashboard').on('click', function() {
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
 	$(".header-easydex-section").text("Dashboard");
 	removeKMDWalletStyle();
+	removeZECWalletStyle();
 	CommonSidebarActionsSet01();
 });
 
@@ -61,6 +63,7 @@ $('#nav-easydex').on('click', function() {
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
 	$(".header-easydex-section").text("EasyDEX");
 	removeKMDWalletStyle();
+	removeZECWalletStyle();
 	CommonSidebarActionsSet02();
 });
 
@@ -82,6 +85,7 @@ $('#nav-komodo-wallet').on('click', function() {
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
 	KMDWalletDashboard.init(); //Initiate Komodo Dashbaord sript
 	applyKMDWalletStyle();
+	//removeZECWalletStyle();
 	CommonSidebarActionsSet02();
 });
 
@@ -102,7 +106,8 @@ $('#nav-zcash-wallet').on('click', function() {
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
 	$(".header-easydex-section").text("Zcash Wallet");
-	removeKMDWalletStyle();
+	applyZECWalletStyle();
+	//removeKMDWalletStyle();
 	CommonSidebarActionsSet02();
 });
 
@@ -124,6 +129,7 @@ $('#nav-iguana-atomic-explorer').on('click', function() {
 	$('#nav-iguana-atomic-explorer').removeClass( "" ).addClass( "active open" );
 	$(".header-easydex-section").text("Atomic Explorer");
 	removeKMDWalletStyle();
+	removeZECWalletStyle();
 	CommonSidebarActionsSet02();
 });
 
@@ -145,6 +151,7 @@ $('#nav-iguana-wallet-settings').on('click', function() {
 	$('#nav-iguana-wallet-settings').removeClass( "" ).addClass( "active open" );
 	$(".header-easydex-section").text("Wallet Settings");
 	removeKMDWalletStyle();
+	removeZECWalletStyle();
 	Settings_ShowWalletInfo(); //Execute this function from walletsettings.js file
 	CommonSidebarActionsSet02();
 });
@@ -167,6 +174,7 @@ $('#nav-about-iguana').on('click', function() {
 	$('#nav-about-iguana').removeClass( "" ).addClass( "active open" );
 	$(".header-easydex-section").text("About Iguana");
 	removeKMDWalletStyle();
+	removeZECWalletStyle();
 	CommonSidebarActionsSet02();
 });
 
@@ -192,6 +200,7 @@ function applyKMDWalletStyle() {
 	$('#easydex-header-div').css('background-repeat', 'no-repeat');
 	$('#easydex-header-div').css('background-position', '0%');
 	$('#easydex_kmd_wallet_actions_header').show();
+	$('#easydex_zec_wallet_actions_header').hide();
 	$('#easydex_btc_btcd_balances_header').hide();
 }
 
@@ -199,5 +208,26 @@ function removeKMDWalletStyle() {
 	$('.page-title').show();
 	$('#easydex-header-div').removeAttr( "style" );
 	$('#easydex_kmd_wallet_actions_header').hide();
+	$('#easydex_zec_wallet_actions_header').hide();
+	$('#easydex_btc_btcd_balances_header').show();
+}
+
+
+function applyZECWalletStyle() {
+	$('.header-easydex-section').html('<img src="assets/images/zec_header_title_logo.png">');
+	$('.page-title').hide();
+	$('#easydex-header-div').css('background-image', 'url("assets/images/bg/zec_transparent_header_bg.png")');
+	$('#easydex-header-div').css('background-repeat', 'no-repeat');
+	$('#easydex-header-div').css('background-position', '0%');
+	$('#easydex_kmd_wallet_actions_header').hide();
+	$('#easydex_zec_wallet_actions_header').show();
+	$('#easydex_btc_btcd_balances_header').hide();
+}
+
+function removeZECWalletStyle() {
+	$('.page-title').show();
+	$('#easydex-header-div').removeAttr( "style" );
+	$('#easydex_kmd_wallet_actions_header').hide();
+	$('#easydex_zec_wallet_actions_header').hide();
 	$('#easydex_btc_btcd_balances_header').show();
 }
