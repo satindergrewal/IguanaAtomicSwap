@@ -667,6 +667,7 @@
         </div>
       </div>
 
+      <div id="kmd_wallet_dashboardinfo">
       <div class="col-xs-12">
           <!-- Iguana Wallet Settings Box Tab -->
           <div class="panel nav-tabs-horizontal">
@@ -727,7 +728,49 @@
           </div>
           <!-- End Iguana Wallet Settings Box Tab -->
         </div>
+        </div>
+
+
+        <div id="kmd_wallet_send" style="display: none;">
+          <div class="col-xlg-12 col-md-12 col-sm-12 col-xs-12">
+          <!-- Panel getinfo -->
+          <div class="panel" id="projects">
+            <div class="panel-heading">
+              <h3 class="panel-title">Send KMD</h3>
+            </div>
+            <div class="panel-body container-fluid">
+              <div class="row">
+                <div class="col-lg-6 form-group form-material">
+                  <label class="control-label" for="kmd_wallet_send_from">Send From</label>
+                  <select class="form-control form-material showkmdwalletaddrs show-tick" id="kmd_wallet_send_from" title="Select Transparent or Private KMD Address" data-size="5">
+                  </select>
+                </div>
+                <div class="col-lg-6 form-group form-material">
+                  <label class="control-label" for="kmd_wallet_sendto">Send To</label>
+                  <input type="text" class="form-control" id="kmd_wallet_sendto" name="kmd_wallet_sendto" placeholder="Enter Transparent or Private KMD address" autocomplete="off" required/>
+                </div>
+                <div class="col-lg-6 form-group form-material">
+                  <label class="control-label" for="kmd_wallet_amount" id="kmd_wallet_amount_label">KMD</label>
+                  <input type="text" class="form-control" id="kmd_wallet_amount" name="kmd_wallet_amount" placeholder="0.000" autocomplete="off"/>
+                </div>
+                <div class="col-lg-6 form-group form-material">
+                  <label class="control-label" for="kmd_wallet_fee">Fee</label>
+                  <input type="text" class="form-control" id="kmd_wallet_fee" name="kmd_wallet_fee" placeholder="0.000" value="0.0001" autocomplete="off"/>
+                </div>
+                <div class="col-lg-12">
+                  <span><b>Total (KMD - txfee):</b>
+                  <span id="kmd_wallet_total_value">0.000</span> <span id="kmd_wallet_total_coinname">KMD</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Panel getinfo -->
+          </div>
+        </div>
+              
       </div>
+
+
     </div>
     <!-- END KOMODO WALLET CONTENT BODY -->
 

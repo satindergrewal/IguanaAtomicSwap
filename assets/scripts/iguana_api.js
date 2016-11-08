@@ -371,3 +371,33 @@ function Iguana_ServiceUnavailable() {
     toastr.error("Unable to connect with iguana service. 127.0.0.1:7778", "Service Notification")
     toastr.info("Are you sure Iguana is running?", "Account Notification")
 }
+
+
+function Iguana_HashHex(data) {
+    var result = '';
+    //console.log(data);
+    var ajax_data = {"agent":"hash","method":"hex","message":data}
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data);
+            //console.log('== Hex Data OutPut ==');
+            //console.log(AjaxOutputData);
+            result = AjaxOutputData.hex;
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    return result;
+}
