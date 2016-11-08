@@ -70,6 +70,10 @@ var KMDWalletDashboard = function() {
 			}
 		});
 
+		$('#kmd_wallet_send_coins_btn').click(function() {
+			console.log('send button clicked in form...')
+		});
+
 		/*$('.md-refresh-alt').click(function() {
 			if ( $(this).data('load-callback') === 'KMDSendScreenRefreshCallback' ) {
 				//handle_KMD_Send();
