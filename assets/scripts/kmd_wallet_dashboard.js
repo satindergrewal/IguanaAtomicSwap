@@ -70,11 +70,11 @@ var KMDWalletDashboard = function() {
 			}
 		});
 
-		$('.md-refresh-alt').click(function() {
+		/*$('.md-refresh-alt').click(function() {
 			if ( $(this).data('load-callback') === 'KMDSendScreenRefreshCallback' ) {
 				//handle_KMD_Send();
 			}
-		});
+		});*/
 	}
 
 	return {
