@@ -31,6 +31,14 @@ var KMDWalletDashboard = function() {
 				tmpoptions += '<option value="' + kmd_addr_list_with_balance[index].addr + '" data-total="' + kmd_addr_list_with_balance[index].total.toFixed(8) + '">' + kmd_addr_list_with_balance[index].addr + ' &emsp;[ ' + kmd_addr_list_with_balance[index].total.toFixed(8) + ' KMD ]</option>';
 				$('#kmd_wallet_send_from').html(tmpoptions);
 			});
+
+			var kmd_z_addr_list_with_balance = KMDListaddrZ();
+			console.log(kmd_z_addr_list_with_balance);
+			$.each(kmd_z_addr_list_with_balance, function(index) {
+				tmpoptions += '<option value="' + kmd_z_addr_list_with_balance[index].addr + '" data-total="' + kmd_z_addr_list_with_balance[index].total.toFixed(8) + '">' + kmd_z_addr_list_with_balance[index].addr + ' &emsp;[ ' + kmd_z_addr_list_with_balance[index].total.toFixed(8) + ' KMD ]</option>';
+				$('#kmd_wallet_send_from').html(tmpoptions);
+			});
+
 			$('.showkmdwalletaddrs').selectpicker({ style: 'btn-info' });
 		});
 
@@ -309,21 +317,29 @@ function KMDListaddrZ() {
             // This function calls each address and then gets the total amount of coins in it.
             $.each(AjaxOutputData, function(index, value) {
 				//console.log(value);
-				var ajax_data_to_hex = ['"'+value+'"',"1"];
+				var ajax_data_to_hex = '["'+ value +'",1]';
 				var tmpZaddrs_output = Iguana_HashHex(ajax_data_to_hex);
 				//console.log(tmpZaddrs_output);
 
 				var ajax_data_zaddrbalance = {"agent":"komodo","method":"passthru","function":"z_getbalance","hex":tmpZaddrs_output}
-			    console.log(ajax_data_zaddrbalance);
+			    //console.log(ajax_data_zaddrbalance);
 			    $.ajax({
+			    	async: false,
 			        type: 'POST',
 			        data: JSON.stringify(ajax_data_zaddrbalance),
 			        url: 'http://127.0.0.1:7778',
 			        //dataType: 'text',
 			        success: function(data, textStatus, jqXHR) {
 			            var AjaxOutputData = JSON.parse(data);
-			            console.log('== Data OutPut of z_getbalance ==');
+			            //console.log('== Data OutPut of z_getbalance ==');
+			            console.log(value);
 			            console.log(AjaxOutputData);
+			            if(AjaxOutputData.hasOwnProperty('error')){
+			            	AjaxOutputData = 0;
+			            }
+			            var tmp_Zaddr_total_balance_output = {"addr": value, "total": AjaxOutputData};
+						//console.log(tmp_Zaddr_total_balance_output);
+						result.push(tmp_Zaddr_total_balance_output);
 			        },
 			        error: function(xhr, textStatus, error) {
 			            console.log('failed getting Coin History.');
