@@ -33,7 +33,7 @@ var KMDWalletDashboard = function() {
 			});
 
 			var kmd_z_addr_list_with_balance = KMDListaddrZ();
-			console.log(kmd_z_addr_list_with_balance);
+			//console.log(kmd_z_addr_list_with_balance);
 			$.each(kmd_z_addr_list_with_balance, function(index) {
 				tmpoptions += '<option value="' + kmd_z_addr_list_with_balance[index].addr + '" data-total="' + kmd_z_addr_list_with_balance[index].total.toFixed(8) + '">' + kmd_z_addr_list_with_balance[index].addr + ' &emsp;[ ' + kmd_z_addr_list_with_balance[index].total.toFixed(8) + ' KMD ]</option>';
 				$('#kmd_wallet_send_from').html(tmpoptions);
