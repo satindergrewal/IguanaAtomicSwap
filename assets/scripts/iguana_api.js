@@ -372,6 +372,18 @@ function Iguana_ServiceUnavailable() {
     toastr.info("Are you sure Iguana is running?", "Account Notification")
 }
 
+function secondsToString(seconds) {
+  var a = new Date(seconds * 1000);
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var hour = a.getHours();
+  var min = a.getMinutes();
+  var sec = a.getSeconds();
+  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+  return time;
+}
 
 function Iguana_HashHex(data) {
     var result = '';

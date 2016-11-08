@@ -623,20 +623,6 @@ function StopTotalFiatValue() {
     console.log('Stopped executing Total Fiat Value API with Rates');
 }
 
-function secondsToString(seconds) {
-  var a = new Date(seconds * 1000);
-  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  var year = a.getFullYear();
-  var month = months[a.getMonth()];
-  var date = a.getDate();
-  var hour = a.getHours();
-  var min = a.getMinutes();
-  var sec = a.getSeconds();
-  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
-  return time;
-}
-
-
 function ShowCoinProgressBar(coin) {
   //console.log('Showing Prgoress bar of '+coin);
   var getinfoValues = {"coin":coin,"agent":"bitcoinrpc","method":"getinfo","immediate":100,"timeout":4000};

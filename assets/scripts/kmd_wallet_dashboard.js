@@ -44,8 +44,8 @@ var KMDWalletDashboard = function() {
 
 		$('.showkmdwalletaddrs').on('change', function(){
 			var selected = $(this).find("option:selected").val();
-			console.log(selected);
-			console.log($(this).find("option:selected").data('total'));
+			//console.log(selected);
+			//console.log($(this).find("option:selected").data('total'));
 		});
 
 		$('#kmd_wallet_amount').keyup(function() {
@@ -54,7 +54,7 @@ var KMDWalletDashboard = function() {
 			var total_minus_currency_fee = sum_val1 - sum_val2;			
 			var mdl_send_btn = $('#kmd_wallet_send_btn');
 
-			console.log($('#kmd_wallet_amount').val());
+			//console.log($('#kmd_wallet_amount').val());
 			$('#kmd_wallet_total_value').text(total_minus_currency_fee.toFixed(8));
 
 			if ($('#kmd_wallet_amount').val() != '' && $('#kmd_wallet_sendto') != '' && $('#kmd_wallet_fee') != '' ) {
@@ -67,6 +67,12 @@ var KMDWalletDashboard = function() {
 				mdl_send_btn.removeAttr('data-dismiss');
 				mdl_send_btn.removeAttr('data-target');
 				mdl_send_btn.removeAttr('onclick');
+			}
+		});
+
+		$('.md-refresh-alt').click(function() {
+			if ( $(this).data('load-callback') === 'KMDSendScreenRefreshCallback' ) {
+				//handle_KMD_Send();
 			}
 		});
 	}
@@ -310,8 +316,8 @@ function KMDListaddrZ() {
         //dataType: 'text',
         success: function(data, textStatus, jqXHR) {
             var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
-            console.log('== Data OutPut of z_listaddresses ==');
-            console.log(AjaxOutputData);
+            //console.log('== Data OutPut of z_listaddresses ==');
+            //console.log(AjaxOutputData);
             //This code gets list of all z_addresses into an array
             
             // This function calls each address and then gets the total amount of coins in it.
@@ -332,8 +338,8 @@ function KMDListaddrZ() {
 			        success: function(data, textStatus, jqXHR) {
 			            var AjaxOutputData = JSON.parse(data);
 			            //console.log('== Data OutPut of z_getbalance ==');
-			            console.log(value);
-			            console.log(AjaxOutputData);
+			            //console.log(value);
+			            //console.log(AjaxOutputData);
 			            if(AjaxOutputData.hasOwnProperty('error')){
 			            	AjaxOutputData = 0;
 			            }
