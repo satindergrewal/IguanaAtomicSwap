@@ -376,3 +376,42 @@ function KMDListaddrZ() {
     //console.log(result);
     return result;
 }
+
+
+function KMDGetPublicTransactions() {
+	var result = [];
+
+	var ajax_data = {"agent":"komodo","method":"passthru","function":"listtransactions","hex":""}
+    //console.log(ajax_data);
+    $.ajax({
+    	async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
+            //console.log('== Data OutPut of listtransactions ==');
+            //console.log(AjaxOutputData);
+
+            $.each(AjaxOutputData, function(index, value) {
+				//console.log(value);
+				tmplisttransactions = {"type":"public","category": AjaxOutputData[index].category,"confirmations": AjaxOutputData[index].confirmations,"amount": AjaxOutputData[index].amount,"time": AjaxOutputData[index].time,"address": AjaxOutputData[index].address,"txid": AjaxOutputData[index].txid}
+				//console.log(tmplisttransactions);
+				//result.push(tmplisttransactions);
+			});
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    //console.log(result);
+    return result;
+}
+
