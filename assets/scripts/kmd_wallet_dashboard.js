@@ -40,6 +40,7 @@ var KMDWalletDashboard = function() {
 			});
 
 			$('.showkmdwalletaddrs').selectpicker({ style: 'btn-info' });
+            //KMDfillTxHistoryT();
 		});
 
 		$('.showkmdwalletaddrs').on('change', function(){
@@ -395,8 +396,14 @@ function KMDGetPublicTransactions() {
             //console.log(AjaxOutputData);
 
             $.each(AjaxOutputData, function(index, value) {
-				//console.log(value);
-				tmplisttransactions = {"type":"public","category": AjaxOutputData[index].category,"confirmations": AjaxOutputData[index].confirmations,"amount": AjaxOutputData[index].amount,"time": AjaxOutputData[index].time,"address": AjaxOutputData[index].address,"txid": AjaxOutputData[index].txid}
+				console.log(value);
+                tmp_addr == ' - No Address - ';
+                if(AjaxOutputData[index].hasOwnProperty('address')) {
+                    var tmp_addr = AjaxOutputData[index].address;
+                }
+                console.log(tmp_addr);
+				//tmplisttransactions = {"type":"public","category": AjaxOutputData[index].category,"confirmations": AjaxOutputData[index].confirmations,"amount": AjaxOutputData[index].amount,"time": AjaxOutputData[index].time,"address": AjaxOutputData[index].address,"txid": AjaxOutputData[index].txid}
+                tmplisttransactions = ["public",AjaxOutputData[index].category,AjaxOutputData[index].confirmations,AjaxOutputData[index].amount,AjaxOutputData[index].time,"tmp_addr",AjaxOutputData[index].txid]
 				//console.log(tmplisttransactions);
 				result.push(tmplisttransactions);
 			});
@@ -418,20 +425,10 @@ function KMDGetPublicTransactions() {
 function KMDfillTxHistoryT() {
     var txhistorydata = KMDGetPublicTransactions();
     console.log(txhistorydata);
-    var txdata = {"data": [txhistorydata]}
-    console.log(txdata);
-    $('#kmd-tx-history-tbl').DataTable( { data: txdata,
-columns: [
-{data: "address" },
-{data: "amount" },
-{data: "category" },
-{data: "confirmations" },
-{data: "time" },
-{data: "txid" },
-{data: "type" }
-],
-select: true,
-paging: false,
-    searching: false
+    $('#kmd-tx-history-tbl').DataTable( { data: txhistorydata,
+        "order": [[ 4, "desc" ]],
+        select: true,
+        paging: true,
+        searching: true
     } );
 }
