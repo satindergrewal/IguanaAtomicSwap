@@ -92,6 +92,19 @@ var KMDWalletDashboard = function() {
 
 			var kmd_addr_txid_info = KMDGetTransactionIDInfo($(this).data('txid'));
 			console.log(kmd_addr_txid_info);
+			$('#kmd_txid_info_amount').text(kmd_addr_txid_info[0].amount);
+			$('#kmd_txid_info_fee').text(kmd_addr_txid_info[0].fee);
+			$('#kmd_txid_info_confirmations').text(kmd_addr_txid_info[0].confirmations);
+			$('#kmd_txid_info_blockhash').text(kmd_addr_txid_info[0].blockhash);
+			$('#kmd_txid_info_blockindex').text(kmd_addr_txid_info[0].blockindex);
+			$('#kmd_txid_info_blocktime').text(kmd_addr_txid_info[0].blocktime);
+			$('#kmd_txid_info_txid').text(kmd_addr_txid_info[0].txid);
+			$('#kmd_txid_info_walletconflicts').text(kmd_addr_txid_info[0].walletconflicts);
+			$('#kmd_txid_info_time').text(kmd_addr_txid_info[0].time);
+			$('#kmd_txid_info_timereceived').text(kmd_addr_txid_info[0].timereceived);
+			$('#kmd_txid_info_vjoinsplit').text(kmd_addr_txid_info[0].vjoinsplit);
+			$('#kmd_txid_info_details').text(kmd_addr_txid_info[0].details);
+			$('#kmd_txid_info_hex').val(kmd_addr_txid_info[0].hex);
 		});
 	};
 
@@ -456,7 +469,7 @@ function KMDGetPublicTransactions() {
                 }
                 //console.log(tmp_addr);
 				//tmplisttransactions = {"type":"public","category": AjaxOutputData[index].category,"confirmations": AjaxOutputData[index].confirmations,"amount": AjaxOutputData[index].amount,"time": AjaxOutputData[index].time,"address": AjaxOutputData[index].address,"txid": AjaxOutputData[index].txid}
-                tmplisttransactions = ['<span class="label label-default"><i class="icon fa-eye"></i> public</span>',tmp_category,AjaxOutputData[index].confirmations,AjaxOutputData[index].amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="kmd-txid-details-btn" data-txid-type="public" data-txid="'+AjaxOutputData[index].txid+'"><i class="icon fa-search"></i></button>']
+                tmplisttransactions = ['<span class="label label-default"><i class="icon fa-eye"></i> public</span>',tmp_category,AjaxOutputData[index].confirmations,AjaxOutputData[index].amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light" data-toggle="modal" data-target="#kmd_txid_info_mdl" id="kmd-txid-details-btn" data-txid-type="public" data-txid="'+AjaxOutputData[index].txid+'"><i class="icon fa-search"></i></button>']
 				//console.log(tmplisttransactions);
 				result.push(tmplisttransactions);
 			});
@@ -524,7 +537,7 @@ function KMDGetProtectedTransactions() {
 
 	                
 	                
-	                tmplistZtransactions = ['<span class="label label-dark"><i class="icon fa-eye-slash"></i> private</span>',tmp_category,tmp_confirmations,tmp_amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="kmd-txid-details-btn" data-txid-type="private" data-txid="'+txidvalue.txid+'"><i class="icon fa-search"></i></button>']
+	                tmplistZtransactions = ['<span class="label label-dark"><i class="icon fa-eye-slash"></i> private</span>',tmp_category,tmp_confirmations,tmp_amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light" data-toggle="modal" data-target="#kmd_txid_info_mdl" id="kmd-txid-details-btn" data-txid-type="private" data-txid="'+txidvalue.txid+'"><i class="icon fa-search"></i></button>']
 					//console.log(tmplistZtransactions);
 					result.push(tmplistZtransactions);
 				});
@@ -555,7 +568,7 @@ function KMDfillTxHistoryT() {
     var txhistorydataZ = KMDGetProtectedTransactions();
     var txhistorydata = $.merge( txhistorydataT, txhistorydataZ );
     //console.log(txhistorydata);
-    
+
     if ( $.fn.dataTable.isDataTable( '#kmd-tx-history-tbl' ) ) {
 		$('#kmd-tx-history-tbl').DataTable( { data: txhistorydata,
 			"order": [[ 4, "desc" ]],
