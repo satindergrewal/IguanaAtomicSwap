@@ -40,7 +40,7 @@ var KMDWalletDashboard = function() {
 			});
 
 			$('.showkmdwalletaddrs').selectpicker({ style: 'btn-info' });
-            //KMDfillTxHistoryT();
+            KMDfillTxHistoryT();
 		});
 
 		$('.showkmdwalletaddrs').on('change', function(){
@@ -397,13 +397,13 @@ function KMDGetPublicTransactions() {
 
             $.each(AjaxOutputData, function(index, value) {
 				console.log(value);
-                tmp_addr == ' - No Address - ';
-                if(AjaxOutputData[index].hasOwnProperty('address')) {
-                    var tmp_addr = AjaxOutputData[index].address;
+                var tmp_addr = AjaxOutputData[index].address;
+                if(!("address" in AjaxOutputData[index])) {
+                    tmp_addr = '(Z Address not listed by wallet!)'
                 }
                 console.log(tmp_addr);
 				//tmplisttransactions = {"type":"public","category": AjaxOutputData[index].category,"confirmations": AjaxOutputData[index].confirmations,"amount": AjaxOutputData[index].amount,"time": AjaxOutputData[index].time,"address": AjaxOutputData[index].address,"txid": AjaxOutputData[index].txid}
-                tmplisttransactions = ["public",AjaxOutputData[index].category,AjaxOutputData[index].confirmations,AjaxOutputData[index].amount,AjaxOutputData[index].time,"tmp_addr",AjaxOutputData[index].txid]
+                tmplisttransactions = ["public",AjaxOutputData[index].category,AjaxOutputData[index].confirmations,AjaxOutputData[index].amount,AjaxOutputData[index].time,tmp_addr,AjaxOutputData[index].txid]
 				//console.log(tmplisttransactions);
 				result.push(tmplisttransactions);
 			});
