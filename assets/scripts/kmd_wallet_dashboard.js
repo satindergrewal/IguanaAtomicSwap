@@ -450,7 +450,7 @@ function KMDGetPublicTransactions() {
                 	tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
                 }
                 if ( AjaxOutputData[index].category == 'generate' ) {
-                	tmp_category = '<i class="icon fa-gear"></i> Mined';
+                	tmp_category = '<i class="icon fa-cogs"></i> Mined';
                 }if ( AjaxOutputData[index].category == 'immature' ) {
                 	tmp_category = '<i class="icon fa-clock-o"></i> Immature';
                 }
@@ -554,12 +554,8 @@ function KMDfillTxHistoryT() {
     var txhistorydataT = KMDGetPublicTransactions();
     var txhistorydataZ = KMDGetProtectedTransactions();
     var txhistorydata = $.merge( txhistorydataT, txhistorydataZ );
-    console.log(txhistorydata);
-    $.each(txhistorydata, function(index, txidvalue) {
-    	console.log(txhistorydata[index]);
-    });
     //console.log(txhistorydata);
-    //console.log(txhistorydataZ);
+    
     if ( $.fn.dataTable.isDataTable( '#kmd-tx-history-tbl' ) ) {
 		$('#kmd-tx-history-tbl').DataTable( { data: txhistorydata,
 			"order": [[ 4, "desc" ]],
