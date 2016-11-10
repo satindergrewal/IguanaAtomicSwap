@@ -398,7 +398,7 @@ function KMDGetPublicTransactions() {
 				//console.log(value);
 				tmplisttransactions = {"type":"public","category": AjaxOutputData[index].category,"confirmations": AjaxOutputData[index].confirmations,"amount": AjaxOutputData[index].amount,"time": AjaxOutputData[index].time,"address": AjaxOutputData[index].address,"txid": AjaxOutputData[index].txid}
 				//console.log(tmplisttransactions);
-				//result.push(tmplisttransactions);
+				result.push(tmplisttransactions);
 			});
         },
         error: function(xhr, textStatus, error) {
@@ -415,3 +415,23 @@ function KMDGetPublicTransactions() {
     return result;
 }
 
+function KMDfillTxHistoryT() {
+    var txhistorydata = KMDGetPublicTransactions();
+    console.log(txhistorydata);
+    var txdata = {"data": [txhistorydata]}
+    console.log(txdata);
+    $('#kmd-tx-history-tbl').DataTable( { data: txdata,
+columns: [
+{data: "address" },
+{data: "amount" },
+{data: "category" },
+{data: "confirmations" },
+{data: "time" },
+{data: "txid" },
+{data: "type" }
+],
+select: true,
+paging: false,
+    searching: false
+    } );
+}
