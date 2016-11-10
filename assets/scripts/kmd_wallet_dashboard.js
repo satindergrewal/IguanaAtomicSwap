@@ -7,9 +7,9 @@ var KMDWalletDashboard = function() {
             $('#kmd_wallet_dashoard_section').show();
             $('#kmd_wallet_dashboardinfo').show();
 			$('#kmd_wallet_send').hide();
+			$('#kmd_wallet_settings').hide();
             getTotalKMDBalance();
-            getKMDWalletInfo();
-            getKMDInfo();
+            KMDfillTxHistoryT();
 
         });
 	}
@@ -17,30 +17,31 @@ var KMDWalletDashboard = function() {
 	var handle_KMD_Send = function() {
 
 		$('#btn_kmd_wallet_send').click(function() {
+			
 			//console.log('kmd wallet send button clicked...');
 			var tmpoptions = '';
 
 			$('#kmd_wallet_dashboardinfo').hide();
 			$('#kmd_wallet_send').show();
+			$('#kmd_wallet_settings').hide();
 			
 			var kmd_addr_list_with_balance = KMDlistunspentT();
 			//console.log(kmd_addr_list_with_balance);
 
 			tmpoptions += '<option> - Select Transparent or Private KMD Address - </option>';
 			$.each(kmd_addr_list_with_balance, function(index) {
-				tmpoptions += '<option value="' + kmd_addr_list_with_balance[index].addr + '" data-total="' + kmd_addr_list_with_balance[index].total.toFixed(8) + '">' + kmd_addr_list_with_balance[index].addr + ' &emsp;[ ' + kmd_addr_list_with_balance[index].total.toFixed(8) + ' KMD ]</option>';
+				tmpoptions += '<option value="' + kmd_addr_list_with_balance[index].addr + '" data-total="' + kmd_addr_list_with_balance[index].total.toFixed(8) + '">[ ' + kmd_addr_list_with_balance[index].total.toFixed(8) + ' KMD ] &emsp;' + kmd_addr_list_with_balance[index].addr + '</option>';
 				$('#kmd_wallet_send_from').html(tmpoptions);
 			});
 
 			var kmd_z_addr_list_with_balance = KMDListaddrZ();
 			//console.log(kmd_z_addr_list_with_balance);
 			$.each(kmd_z_addr_list_with_balance, function(index) {
-				tmpoptions += '<option value="' + kmd_z_addr_list_with_balance[index].addr + '" data-total="' + kmd_z_addr_list_with_balance[index].total.toFixed(8) + '">' + kmd_z_addr_list_with_balance[index].addr + ' &emsp;[ ' + kmd_z_addr_list_with_balance[index].total.toFixed(8) + ' KMD ]</option>';
+				tmpoptions += '<option value="' + kmd_z_addr_list_with_balance[index].addr + '" data-total="' + kmd_z_addr_list_with_balance[index].total.toFixed(8) + '">[ ' + kmd_z_addr_list_with_balance[index].total.toFixed(8) + ' KMD ] &emsp;' + kmd_z_addr_list_with_balance[index].addr + '</option>';
 				$('#kmd_wallet_send_from').html(tmpoptions);
 			});
 
 			$('.showkmdwalletaddrs').selectpicker({ style: 'btn-info' });
-            KMDfillTxHistoryT();
 		});
 
 		$('.showkmdwalletaddrs').on('change', function(){
@@ -82,11 +83,35 @@ var KMDWalletDashboard = function() {
 		});*/
 	}
 
+	var KMDGetTXIDdetails = function() {
+		
+		$('#kmd-txid-details-btn').click(function() {
+			//console.log('kmd-txid-details-btn button clicked!..');
+			console.log($(this).data('txid-type'));
+			console.log($(this).data('txid'));
+		});
+	};
+
+	var KMDWalletSettings = function() {
+		$('#btn_kmd_wallet_settings').click(function() {
+			console.log('wallet settings button clicked...');
+			$('#kmd_wallet_dashboardinfo').hide();
+			$('#kmd_wallet_dashoard_section').hide();
+			$('#kmd_wallet_send').hide();
+			$('#kmd_wallet_settings').show();
+			getKMDWalletInfo();
+    		getKMDInfo();
+		});
+	};
+
 	return {
         //main function to initiate the module
         init: function() {
             handle_KMD_Dashboard();
+            KMDfillTxHistoryT();
+            KMDGetTXIDdetails();
             handle_KMD_Send();
+            KMDWalletSettings();
             RunInitFunctions();
         }
     };
@@ -100,8 +125,7 @@ jQuery(document).ready(function() {
 
 function RunInitFunctions() {
 	getTotalKMDBalance();
-    getKMDWalletInfo();
-    getKMDInfo();
+    KMDfillTxHistoryT();
 }
 
 function getTotalKMDBalance() {
@@ -256,6 +280,11 @@ function getKMDInfo() {
 
 
 function KMDlistunspentT() {
+	NProgress.done(true);
+	NProgress.configure({
+		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+	});
+	NProgress.start();
 	var result = [];
 
 	var ajax_data = {"agent":"komodo","method":"passthru","function":"listunspent","hex":""}
@@ -301,6 +330,7 @@ function KMDlistunspentT() {
         }
     });
     //console.log(result);
+    NProgress.done();
     return result;
 }
 
@@ -380,6 +410,11 @@ function KMDListaddrZ() {
 
 
 function KMDGetPublicTransactions() {
+	NProgress.done(true);
+	NProgress.configure({
+		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+	});
+	NProgress.start();
 	var result = [];
 
 	var ajax_data = {"agent":"komodo","method":"passthru","function":"listtransactions","hex":""}
@@ -396,14 +431,29 @@ function KMDGetPublicTransactions() {
             //console.log(AjaxOutputData);
 
             $.each(AjaxOutputData, function(index, value) {
-				console.log(value);
+				//console.log(value);
+
+				var tmp_category = '';
                 var tmp_addr = AjaxOutputData[index].address;
                 if(!("address" in AjaxOutputData[index])) {
-                    tmp_addr = '(Z Address not listed by wallet!)'
+                    tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>'
                 }
-                console.log(tmp_addr);
+                var tmp_secondsToString = secondsToString(AjaxOutputData[index].time)
+
+                if ( AjaxOutputData[index].category == 'send' ) {
+                	tmp_category = '<i class="icon fa-arrow-circle-left"></i> OUT';
+                }
+                if ( AjaxOutputData[index].category == 'receive' ) {
+                	tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
+                }
+                if ( AjaxOutputData[index].category == 'generate' ) {
+                	tmp_category = '<i class="icon fa-gear"></i> Mined';
+                }if ( AjaxOutputData[index].category == 'immature' ) {
+                	tmp_category = '<i class="icon fa-clock-o"></i> Immature';
+                }
+                //console.log(tmp_addr);
 				//tmplisttransactions = {"type":"public","category": AjaxOutputData[index].category,"confirmations": AjaxOutputData[index].confirmations,"amount": AjaxOutputData[index].amount,"time": AjaxOutputData[index].time,"address": AjaxOutputData[index].address,"txid": AjaxOutputData[index].txid}
-                tmplisttransactions = ["public",AjaxOutputData[index].category,AjaxOutputData[index].confirmations,AjaxOutputData[index].amount,AjaxOutputData[index].time,tmp_addr,AjaxOutputData[index].txid]
+                tmplisttransactions = ['<span class="label label-default"><i class="icon fa-eye"></i> public</span>',tmp_category,AjaxOutputData[index].confirmations,AjaxOutputData[index].amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="kmd-txid-details-btn" data-txid-type="public" data-txid="'+AjaxOutputData[index].txid+'"><i class="icon fa-search"></i></button>']
 				//console.log(tmplisttransactions);
 				result.push(tmplisttransactions);
 			});
@@ -419,16 +469,33 @@ function KMDGetPublicTransactions() {
         }
     });
     //console.log(result);
+    NProgress.done();
     return result;
 }
 
 function KMDfillTxHistoryT() {
+	NProgress.done(true);
+	NProgress.configure({
+		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+	});
+	NProgress.start();
     var txhistorydata = KMDGetPublicTransactions();
-    console.log(txhistorydata);
-    $('#kmd-tx-history-tbl').DataTable( { data: txhistorydata,
-        "order": [[ 4, "desc" ]],
-        select: true,
-        paging: true,
-        searching: true
-    } );
+    //console.log(txhistorydata);
+    if ( $.fn.dataTable.isDataTable( '#kmd-tx-history-tbl' ) ) {
+		$('#kmd-tx-history-tbl').DataTable( { data: txhistorydata,
+			"order": [[ 4, "desc" ]],
+			select: true,
+			retrieve: true
+		});
+	}
+	else {
+		$('#kmd-tx-history-tbl').DataTable( { data: txhistorydata,
+			"order": [[ 4, "desc" ]],
+			select: true,
+			retrieve: true,
+			paging: true,
+			searching: true
+		});
+	}
+    NProgress.done();
 }

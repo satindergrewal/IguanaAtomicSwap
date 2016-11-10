@@ -32,6 +32,7 @@
   <link rel="stylesheet" href="assets/global/vendor/bootstrap-select/bootstrap-select.min.css">
   <link rel="stylesheet" href="assets/global/vendor/sweetalert2/sweetalert2.min.css">
   <link rel="stylesheet" href="assets/global/vendor/waves/waves.min.css">
+  <link rel="stylesheet" href="assets/global/vendor/nprogress/nprogress.min.css">
   <link rel="stylesheet" href="assets/global/vendor/datatables-bootstrap/dataTables.bootstrap.min.css">
   <link rel="stylesheet" href="assets/global/vendor/datatables-fixedheader/dataTables.fixedHeader.min.css">
   <link rel="stylesheet" href="assets/global/vendor/datatables-responsive/dataTables.responsive.min.css">
@@ -381,7 +382,7 @@
             <li role="presentation"><a href="javascript:void(0)" role="menuitem" id="btn_kmd_wallet_transactions">Transactions</a></li>
             <li role="presentation"><a href="javascript:void(0)" role="menuitem" id="btn_kmd_wallet_pax">PAX</a></li>
             <li class="divider" role="presentation"></li>
-            <li role="presentation"><a href="javascript:void(0)" role="menuitem">Settings</a></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" id="btn_kmd_wallet_settings">Settings</a></li>
           </ul>
         </div>
         <!-- End KMD Wallet Header button -->
@@ -676,55 +677,47 @@
           <div class="panel nav-tabs-horizontal">
             <!-- KMD Wallet Dashboard -->
             <div id="kmd_wallet_dashoard_section">
-              <div class="col-xlg-6 col-md-4">
-                <!-- Panel Wallet Info -->
-                <div class="panel" id="projects">
-                  <div class="panel-heading">
-                    <h3 class="panel-title">Wallet Info</h3>
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table table-striped">
-                      <tbody>
-                        <tr><td>Wallet Version</td><td><span id="kmd_walletversion"></span></td></tr>
-                        <tr><td>Balance</td><td><span id="kmd_balance"></span></td></tr>
-                        <tr><td>Unconfirmed Balance</td><td><span id="kmd_unconfirmed_balance"></span></td></tr>
-                        <tr><td>Immature Balance</td><td><span id="kmd_immature_balance"></span></td></tr>
-                        <tr><td>Total Transactions Count</td><td><span id="KMDTotalTransactionsCount"></span></td></tr>
-                      </tbody>
+              <div class="col-xlg-12 col-lg-12 col-sm-12 col-xs-12">
+                <!-- Panel FixedHeader -->
+                <div class="panel">
+                  <header class="panel-heading">
+                    <h3 class="panel-title">
+                      Transactions History
+                    </h3>
+                  </header>
+                  <div class="panel-body">
+                    <!--<p>Transaction History info goes here...</p>-->
+                    <table class="table table-hover dataTable table-striped" id="kmd-tx-history-tbl">
+                      <thead>
+                        <tr>
+                          <th>Type</th>
+                          <th>Direction</th>
+                          <th>Confirmations</th>
+                          <th>Amount</th>
+                          <th>Time</th>
+                          <th>Dest. Address</th>
+                          <th>Tx Detail</th>
+                        </tr>
+                      </thead>
+                      <tfoot>
+                        <tr>
+                          <th>Type</th>
+                          <th>Direction</th>
+                          <th>Confirmations</th>
+                          <th>Amount</th>
+                          <th>Time</th>
+                          <th>Dest. Address</th>
+                          <th>Tx Detail</th>
+                        </tr>
+                      </tfoot>
+                      
                     </table>
                   </div>
                 </div>
-                <!-- End Panel Wallet Info -->
-                </div>
+                <!-- End Panel FixedHeader -->
+              </div>
 
-
-                <div class="col-xlg-6 col-md-8">
-                <!-- Panel getinfo -->
-                <div class="panel" id="projects">
-                  <div class="panel-heading">
-                    <h3 class="panel-title">Komodo Info</h3>
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table table-striped">
-                      <tbody>
-                        <tr><td>Version</td><td><span id="kmd_version"></span></td></tr>
-                        <tr><td>Protocol Version</td><td><span id="kmd_protocolversion"></span></td></tr>
-                        <tr><td>Notarized</td><td><span id="kmd_notarized"></span></td></tr>
-                        <tr><td>Notarized Hash</td><td><span id="kmd_notarizedhash"></span></td></tr>
-                        <tr><td>Notarized BTC</td><td><span id="kmd_notarizedbtc"></span></td></tr>
-                        <tr><td>Blocks</td><td><span id="kmd_blocks"></span></td></tr>
-                        <tr><td>Connections</td><td><span id="kmd_connections"></span></td></tr>
-                        <tr><td>Difficulty</td><td><span id="kmd_difficulty"></span></td></tr>
-                        <tr><td>Testnet</td><td><span id="kmd_testnet"></span></td></tr>
-                        <tr><td>Pay Transaction Fee</td><td><span id="kmd_paytxfee"></span></td></tr>
-                        <tr><td>Relay Fee</td><td><span id="kmd_relayfee"></span></td></tr>
-                        <tr><td>Errors</td><td><span id="kmd_errors"></span></td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <!-- End Panel getinfo -->
-                </div>
+                
             </div>
             <!-- End KMD Wallet Dashboard -->
 
@@ -776,47 +769,62 @@
           </div>
           <!-- End Panel getinfo -->
 
-          <!-- Panel FixedHeader -->
-      <div class="panel">
-        <header class="panel-heading">
-          <h3 class="panel-title">
-            Transactions History
-          </h3>
-        </header>
-        <div class="panel-body">
-          <!--<p>Transaction History info goes here...</p>-->
-          <table class="table table-hover dataTable table-striped" id="kmd-tx-history-tbl">
-            <thead>
-              <tr>
-                <th>Type</th>
-                <th>Category</th>
-                <th>Confirmations</th>
-                <th>Amount</th>
-                <th>Time</th>
-                <th>Address</th>
-                <th>Tx Detail</th>
-              </tr>
-            </thead>
-            <tfoot>
-              <tr>
-                <th>Type</th>
-                <th>Category</th>
-                <th>Confirmations</th>
-                <th>Amount</th>
-                <th>Time</th>
-                <th>Address</th>
-                <th>Tx Detail</th>
-              </tr>
-            </tfoot>
-            
-          </table>
-        </div>
-      </div>
-      <!-- End Panel FixedHeader -->
+          
 
           </div>
         </div>
 
+        <div id="kmd_wallet_settings" style="display: none;">
+          <div class="col-xlg-6 col-md-4">
+          <!-- Panel Wallet Info -->
+          <div class="panel" id="projects">
+            <div class="panel-heading">
+              <h3 class="panel-title">Wallet Info</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <tbody>
+                  <tr><td>Wallet Version</td><td><span id="kmd_walletversion"></span></td></tr>
+                  <tr><td>Balance</td><td><span id="kmd_balance"></span></td></tr>
+                  <tr><td>Unconfirmed Balance</td><td><span id="kmd_unconfirmed_balance"></span></td></tr>
+                  <tr><td>Immature Balance</td><td><span id="kmd_immature_balance"></span></td></tr>
+                  <tr><td>Total Transactions Count</td><td><span id="KMDTotalTransactionsCount"></span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- End Panel Wallet Info -->
+          </div>
+
+
+          <div class="col-xlg-6 col-md-8">
+          <!-- Panel getinfo -->
+          <div class="panel" id="projects">
+            <div class="panel-heading">
+              <h3 class="panel-title">Komodo Info</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <tbody>
+                  <tr><td>Version</td><td><span id="kmd_version"></span></td></tr>
+                  <tr><td>Protocol Version</td><td><span id="kmd_protocolversion"></span></td></tr>
+                  <tr><td>Notarized</td><td><span id="kmd_notarized"></span></td></tr>
+                  <tr><td>Notarized Hash</td><td><span id="kmd_notarizedhash"></span></td></tr>
+                  <tr><td>Notarized BTC</td><td><span id="kmd_notarizedbtc"></span></td></tr>
+                  <tr><td>Blocks</td><td><span id="kmd_blocks"></span></td></tr>
+                  <tr><td>Connections</td><td><span id="kmd_connections"></span></td></tr>
+                  <tr><td>Difficulty</td><td><span id="kmd_difficulty"></span></td></tr>
+                  <tr><td>Testnet</td><td><span id="kmd_testnet"></span></td></tr>
+                  <tr><td>Pay Transaction Fee</td><td><span id="kmd_paytxfee"></span></td></tr>
+                  <tr><td>Relay Fee</td><td><span id="kmd_relayfee"></span></td></tr>
+                  <tr><td>Errors</td><td><span id="kmd_errors"></span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- End Panel getinfo -->
+          </div>
+        </div>
 
               
       </div>
@@ -1084,6 +1092,7 @@
   <script src="assets/global/vendor/clipboard/clipboard.min.js"></script>
   <script src="assets/global/vendor/asprogress/jquery-asProgress.min.js"></script>
   <script src="assets/global/vendor/jquery-labelauty/jquery-labelauty.js"></script>
+  <script src="assets/global/vendor/nprogress/nprogress.js"></script>
   <script src="assets/global/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="assets/global/vendor/datatables-fixedheader/dataTables.fixedHeader.js"></script>
   <script src="assets/global/vendor/datatables-bootstrap/dataTables.bootstrap.min.js"></script>
@@ -1103,6 +1112,7 @@
   <script src="assets/global/js/configs/config-colors.js"></script>
   <script src="assets/js/configs/config-tour.js"></script>
   <script src="assets/global/js/components/asscrollable.js"></script>
+  <script src="assets/global/js/components/nprogress.min.js"></script>
   <script src="assets/global/js/components/animsition.js"></script>
   <script src="assets/global/js/components/slidepanel.js"></script>
   <script src="assets/global/js/components/bootbox.js"></script>
