@@ -3,7 +3,8 @@ var KMDWalletDashboard = function() {
 	var handle_KMD_Dashboard = function() {
 
 		$('#btn_kmd_wallet_dashboard').click(function() {
-            //console.log('kmd wallet dashbaord button clicked...');
+            console.log('kmd wallet dashbaord button clicked...');
+            console.log($(this).data());
             $('#kmd_wallet_dashoard_section').show();
             $('#kmd_wallet_dashboardinfo').show();
 			$('#kmd_wallet_send').hide();

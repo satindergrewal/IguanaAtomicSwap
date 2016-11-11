@@ -68,6 +68,11 @@ $('#nav-easydex').on('click', function() {
 });
 
 $('#nav-komodo-wallet').on('click', function() {
+	NProgress.done(true);
+	NProgress.configure({
+		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+	});
+	NProgress.start();
 	$('#section-dashboard').hide();
 	$('#header-dashboard').hide();
 	$('#section-easydex').hide();
@@ -89,9 +94,15 @@ $('#nav-komodo-wallet').on('click', function() {
 	applyKMDWalletStyle();
 	//removeZECWalletStyle();
 	CommonSidebarActionsSet02();
+	NProgress.done();
 });
 
 $('#nav-zcash-wallet').on('click', function() {
+	NProgress.done(true);
+	NProgress.configure({
+		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+	});
+	NProgress.start();
 	$('#section-dashboard').hide();
 	$('#header-dashboard').hide();
 	$('#section-easydex').hide();
@@ -112,6 +123,7 @@ $('#nav-zcash-wallet').on('click', function() {
 	applyZECWalletStyle();
 	//removeKMDWalletStyle();
 	CommonSidebarActionsSet02();
+	NProgress.done();
 });
 
 $('#nav-iguana-atomic-explorer').on('click', function() {
