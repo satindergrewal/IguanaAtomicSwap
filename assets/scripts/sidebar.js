@@ -83,6 +83,8 @@ $('#nav-komodo-wallet').on('click', function() {
 	$('#nav-iguana-atomic-explorer').removeClass( " active open" ).addClass( "" );
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
+	//$.each($('[data-extcoin="KMD"]'), function(index, value) {console.log($('[data-extcoin="KMD"]').data()); $('[data-extcoin="KMD"]').attr("data-extcoin","ZEC"); });
+	$.each($('[data-extcoin]'), function(index, value) {$('[data-extcoin]').attr("data-extcoin","KMD"); $('[data-extcoin="KMD"]')});
 	KMDWalletDashboard.init(); //Initiate Komodo Dashbaord sript
 	applyKMDWalletStyle();
 	//removeZECWalletStyle();
@@ -106,6 +108,7 @@ $('#nav-zcash-wallet').on('click', function() {
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
 	$(".header-easydex-section").text("Zcash Wallet");
+	$.each($('[data-extcoin]'), function(index, value) {$('[data-extcoin]').attr("data-extcoin","ZEC"); $('[data-extcoin="ZEC"]')});
 	applyZECWalletStyle();
 	//removeKMDWalletStyle();
 	CommonSidebarActionsSet02();
