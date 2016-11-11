@@ -798,39 +798,92 @@
               </div>-->
             </div>
             <div class="panel-body container-fluid">
-              <div class="row">
-                <div class="col-xlg-12 form-group form-material">
-                  <label class="control-label" data-extcoin="COIN" for="kmd_wallet_send_from">Send From</label>
-                  <select class="form-control form-material showkmdwalletaddrs show-tick" data-extcoin="COIN" id="kmd_wallet_send_from" title="Select Transparent or Private KMD Address" data-size="5">
-                  </select>
-                </div>
-                <div class="col-xlg-12 form-group form-material">
-                  <label class="control-label" data-extcoin="COIN" for="kmd_wallet_sendto">Send To</label>
-                  <input type="text" class="form-control" data-extcoin="COIN" id="kmd_wallet_sendto" name="kmd_wallet_sendto" placeholder="Enter Transparent or Private KMD address" autocomplete="off" required/>
-                </div>
-                <div class="col-lg-6 form-group form-material">
-                  <label class="control-label" for="kmd_wallet_amount" data-extcoin="COIN" id="kmd_wallet_amount_label">KMD</label>
-                  <input type="text" class="form-control" data-extcoin="COIN" id="kmd_wallet_amount" name="kmd_wallet_amount" placeholder="0.000" autocomplete="off"/>
-                </div>
-                <div class="col-lg-6 form-group form-material">
-                  <label class="control-label" data-extcoin="COIN" for="kmd_wallet_fee">Fee</label>
-                  <input type="text" class="form-control" data-extcoin="COIN" id="kmd_wallet_fee" name="kmd_wallet_fee" placeholder="0.000" value="0.0001" autocomplete="off"/>
-                </div>
-                <div class="col-lg-12">
-                  <span data-extcoin="KMD"><b>Total (KMD - txfee):</b>
-                  <span data-extcoin="COIN" id="kmd_wallet_total_value">0.000</span> <span data-extcoin="COIN" id="kmd_wallet_total_coinname">KMD</span>
-                </div>
-                <div class="col-lg-12">
-                  <button type="button" class="pull-right btn white bg-yellow-800" data-toggle="modal" data-dismiss="modal" data-extcoin="COIN" id="kmd_wallet_send_coins_btn">Send</button>
+              <form class="extcoin-send-form" data-extcoin="COIN" method="post" role="form" autocomplete="off" onsubmit="return false;">
+                <div class="row">
+                  <div class="col-xlg-12 form-group form-material">
+                    <label class="control-label" data-extcoin="COIN" for="kmd_wallet_send_from">Send From</label>
+                    <select class="form-control form-material showkmdwalletaddrs show-tick" data-extcoin="COIN" id="kmd_wallet_send_from" title="Select Transparent or Private KMD Address" data-size="5">
+                    </select>
+                  </div>
+                  <div class="col-xlg-12 form-group form-material">
+                    <label class="control-label" data-extcoin="COIN" for="kmd_wallet_sendto">Send To</label>
+                    <input type="text" class="form-control" data-extcoin="COIN" id="kmd_wallet_sendto" name="kmd_wallet_sendto" placeholder="Enter Transparent or Private KMD address" autocomplete="off" required/>
+                  </div>
+                  <div class="col-lg-6 form-group form-material">
+                    <label class="control-label" for="kmd_wallet_amount" data-extcoin="COIN" id="kmd_wallet_amount_label">KMD</label>
+                    <input type="text" class="form-control" data-extcoin="COIN" id="kmd_wallet_amount" name="kmd_wallet_amount" placeholder="0.000" autocomplete="off"/>
+                  </div>
+                  <div class="col-lg-6 form-group form-material">
+                    <label class="control-label" data-extcoin="COIN" for="kmd_wallet_fee">Fee</label>
+                    <input type="text" class="form-control" data-extcoin="COIN" id="kmd_wallet_fee" name="kmd_wallet_fee" placeholder="0.000" value="0.0001" autocomplete="off"/>
+                  </div>
+                  <div class="col-lg-12">
+                    <span data-extcoin="KMD"><b>Total (KMD - txfee):</b> <span data-extcoin="COIN" id="kmd_wallet_total_value">0.000</span> <span data-extcoin="COIN" id="kmd_wallet_total_coinname">KMD</span></span>
+                  </div>
+                  <div class="col-lg-12">
+                    <button type="submit" class="btn btn-primary waves-effect waves-light pull-right" data-toggle="modal" id="kmd_wallet_send_coins_btn">Send KMD</button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
           <!-- End Panel getinfo -->
 
           
 
           </div>
+
+
+          <div class="col-xs-12">
+          <!-- Komodo Wallet send opid status tab -->
+          <div class="row">
+          <div class="panel nav-tabs-horizontal">
+            <!-- KMD opid status -->
+            <div data-extcoin="COIN" id="kmd_wallet_recieve_section">
+              <div class="col-xlg-12 col-lg-12 col-sm-12 col-xs-12">
+                <!-- Panel FixedHeader -->
+                <div class="panel">
+                  <header class="panel-heading">
+                    <h3 class="panel-title">
+                      Operations Statuses
+                    </h3>
+                  </header>
+                  <div class="panel-body">
+                    <!--<p>Recieving addresses info goes here...</p>-->
+                    <table class="table table-hover dataTable table-striped" data-extcoin="COIN" id="kmd-recieve-addr-tbl">
+                      <thead>
+                        <tr>
+                          <th>Status</th>
+                          <th>ID</th>
+                          <th>creation_time</th>
+                          <th>Result</th>
+                          <th>Execution Secs</th>
+                        </tr>
+                      </thead>
+                      <tfoot>
+                        <tr>
+                          <th>Status</th>
+                          <th>ID</th>
+                          <th>creation_time</th>
+                          <th>Result</th>
+                          <th>Execution Secs</th>
+                        </tr>
+                      </tfoot>
+                      
+                    </table>
+                  </div>
+                </div>
+                <!-- End Panel FixedHeader -->
+              </div>
+
+                
+            </div>
+            <!-- End KMD opid status -->
+
+          </div>
+          </div>
+          <!-- End Komodo Wallet send opid status tab -->
+        </div>
         </div>
 
         <div data-extcoin="COIN" id="kmd_wallet_settings" style="display: none;">

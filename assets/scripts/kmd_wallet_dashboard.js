@@ -57,33 +57,100 @@ var KMDWalletDashboard = function() {
 			var sum_val1 = parseFloat($('#kmd_wallet_amount').val())
 			var sum_val2 = parseFloat($('#kmd_wallet_fee').val())
 			var total_minus_currency_fee = sum_val1 - sum_val2;			
-			var mdl_send_btn = $('#kmd_wallet_send_btn');
+			var mdl_send_btn = $('#kmd_wallet_send_coins_btn');
 
 			//console.log($('#kmd_wallet_amount').val());
 			$('#kmd_wallet_total_value').text(total_minus_currency_fee.toFixed(8));
 
-			if ($('#kmd_wallet_amount').val() != '' && $('#kmd_wallet_sendto') != '' && $('#kmd_wallet_fee') != '' ) {
+			if ($('#kmd_wallet_send_from').val() != '- Select Transparent or Private KMD Address -' && $('#kmd_wallet_amount').val() != '' && $('#kmd_wallet_sendto') != '' && $('#kmd_wallet_fee') != '' ) {
 				mdl_send_btn.removeClass('disabled');
-				mdl_send_btn.attr('data-dismiss','modal');
-				mdl_send_btn.attr('data-target','#SendCoinModelStep2');
-				mdl_send_btn.attr('onclick','ConfirmsendCurrency($(this).data())')
+				//mdl_send_btn.attr('data-dismiss','modal');
+				//mdl_send_btn.attr('data-target','#SendCoinModelStep2');
 			} else {
 				mdl_send_btn.addClass('disabled');
 				mdl_send_btn.removeAttr('data-dismiss');
 				mdl_send_btn.removeAttr('data-target');
-				mdl_send_btn.removeAttr('onclick');
 			}
 		});
 
-		$('#kmd_wallet_send_coins_btn').click(function() {
+        $('#kmd_wallet_fee').keyup(function() {
+            var sum_val1 = parseFloat($('#kmd_wallet_amount').val())
+            var sum_val2 = parseFloat($('#kmd_wallet_fee').val())
+            var total_minus_currency_fee = sum_val1 - sum_val2;         
+            var mdl_send_btn = $('#kmd_wallet_send_coins_btn');
+
+            //console.log($('#kmd_wallet_amount').val());
+            $('#kmd_wallet_total_value').text(total_minus_currency_fee.toFixed(8));
+
+            if ($('#kmd_wallet_send_from').val() != '- Select Transparent or Private KMD Address -' && $('#kmd_wallet_amount').val() != '' && $('#kmd_wallet_sendto') != '' && $('#kmd_wallet_fee') != '' ) {
+                mdl_send_btn.removeClass('disabled');
+                //mdl_send_btn.attr('data-dismiss','modal');
+                //mdl_send_btn.attr('data-target','#SendCoinModelStep2');
+            } else {
+                mdl_send_btn.addClass('disabled');
+                mdl_send_btn.removeAttr('data-dismiss');
+                mdl_send_btn.removeAttr('data-target');
+            }
+        });
+
+		/*$('#kmd_wallet_send_coins_btn').click(function() {
 			console.log('send button clicked in form...')
-		});
-
-		/*$('.md-refresh-alt').click(function() {
-			if ( $(this).data('load-callback') === 'KMDSendScreenRefreshCallback' ) {
-				//handle_KMD_Send();
-			}
 		});*/
+
+        $('.extcoin-send-form').validate({
+            //errorElement: 'span', //default input error message container
+            //errorClass: 'help-block', // default input error message class
+            //focusInvalid: false, // do not focus the last invalid input
+            rules: {
+                kmd_wallet_send_from: {
+                    required: true
+                },
+                kmd_wallet_sendto: {
+                    required: true
+                },
+                kmd_wallet_amount: {
+                    required: true
+                },
+                kmd_wallet_fee: {
+                    required: true
+                },
+                kmd_wallet_total_value: {
+                    required: true
+                }
+            },
+
+            messages: {
+                kmd_wallet_send_from: {
+                    required: "From Address is required."
+                },
+                kmd_wallet_sendto: {
+                    required: "To Address is required."
+                },
+                kmd_wallet_amount: {
+                    required: "Please enter KMD amount to send."
+                },
+                kmd_wallet_fee: {
+                    required: "Make sure you have fee entered. Default value is 0.0001 KMD."
+                },
+                kmd_wallet_total_value: {
+                    required: "Make sure you have both amount and fee entered to calculate final total."
+                }
+            },
+
+            submitHandler: function(form) {
+                console.log('send sent control here after clicked in form...');
+            }
+        });
+
+        $('.extcoin-send-form #kmd_wallet_send_coins_btn').keypress(function(e) {
+            //console.log('send button clicked in form...');
+            if (e.which == 13) {
+                if ($('.extcoin-send-form').validate().form()) {
+                    $('.extcoin-send-form').submit(); //form validation success, call ajax form submit
+                }
+                return false;
+            }
+        });
 	}
 
 	var KMDGetTXIDdetails = function() {
@@ -796,4 +863,82 @@ function KMDGetTransactionIDInfo(txid) {
     });
     //console.log(result);
     return result;
+}
+
+
+function KMDGetOPIDInfo(opid) {
+    var result = [];
+    var tmpopid_output = '';
+
+    if ( opid === undefined ) {
+        tmpopid_output = '';
+    } else {
+        var ajax_data_to_hex = '["'+ opid +'"]'
+        var tmpopid_output = Iguana_HashHex(ajax_data_to_hex)
+        //console.log(tmpopid_output);
+    }
+
+    var ajax_data_txid_input = {"agent":"komodo","method":"passthru","function":"z_getoperationstatus","hex":tmpopid_output}
+    //console.log(ajax_data_txid_input);
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data_txid_input),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data);
+            //console.log('== Data OutPut of z_getoperationstatus ==');
+            //console.log(value);
+            //console.log(AjaxOutputData);
+            result.push(AjaxOutputData);
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    //console.log(result);
+    return result;
+}
+
+
+function KMDListAllOPIDs() {
+    NProgress.done(true);
+    NProgress.configure({
+        template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+    });
+    NProgress.start();
+    var only_reciving_addr_data = [];
+    var listOPIDs = KMDGetOPIDInfo();
+
+    $.each(listOPIDs, function(index, value) {
+        tmp_addr_label = '<span class="label label-default"><i class="icon fa-eye"></i> public</span>';
+        if ( listAlladdr[index].slice(0, 2) == 'zc' ) { tmp_addr_label = '<span class="label label-dark"><i class="icon fa-eye-slash"></i> private</span>'; }
+        //var tmp_addr_action_button = '<button></button>';
+        only_reciving_addr_data.push([tmp_addr_label, listAlladdr[index]]);
+    });
+    //console.log(only_reciving_addr_data);
+
+    var kmd_recieve_table = '';
+
+    kmd_recieve_table = $('#kmd-recieve-addr-tbl').DataTable( { data: only_reciving_addr_data,
+        select: false,
+        retrieve: true
+    });
+    
+    kmd_recieve_table.destroy();
+
+    kmd_recieve_table = $('#kmd-recieve-addr-tbl').DataTable( { data: only_reciving_addr_data,
+        select: false,
+        retrieve: true
+    });
+    
+    NProgress.done();
+    return only_reciving_addr_data;
 }
