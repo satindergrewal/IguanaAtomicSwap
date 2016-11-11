@@ -618,8 +618,8 @@
     <!-- END EASYDEX CONTENT BODY -->
 
     <!-- BEGIN KOMODO WALLET CONTENT BODY -->
-    <div class="page-content" id="section-komodo">
-      <div class="row" id="komodo-wallet" data-plugin="masonry">
+    <div class="page-content" data-extcoin="KMD" id="section-komodo">
+      <div class="row" data-extcoin="KMD" id="komodo-wallet" data-plugin="masonry">
       <div class="col-xs-12">
         <div class="col-lg-4 col-xs-12">
           <!-- KMD Transparent Balance Widget-->
@@ -630,7 +630,7 @@
                   <div class="pull-left padding-vertical-10">
                     <i class="icon fa-eye font-size-24 vertical-align-bottom margin-right-5"></i>Transparent Balance
                   </div>
-                  <span class="pull-right font-size-30" id="kmd_transparent_balance">1253</span>
+                  <span class="pull-right font-size-30" data-extcoin="KMD" id="kmd_transparent_balance">-</span>
                 </div>
               </div>
             </div>
@@ -646,7 +646,7 @@
                   <div class="pull-left padding-vertical-10">
                     <i class="icon fa-eye-slash font-size-24 vertical-align-bottom margin-right-5"></i>Private (Z) Balance
                   </div>
-                  <span class="pull-right font-size-30" id="kmd_private_balance">1253</span>
+                  <span class="pull-right font-size-30" data-extcoin="KMD" id="kmd_private_balance">-</span>
                 </div>
               </div>
             </div>
@@ -662,7 +662,7 @@
                   <div class="pull-left padding-vertical-10">
                     <i class="icon fa-bullseye font-size-24 vertical-align-bottom margin-right-5"></i>Total (Z+T) Balance
                   </div>
-                  <span class="pull-right font-size-30" id="kmd_total_tz_balance">1,253</span>
+                  <span class="pull-right font-size-30" data-extcoin="KMD" id="kmd_total_tz_balance">-</span>
                 </div>
               </div>
             </div>
@@ -671,12 +671,12 @@
         </div>
       </div>
 
-      <div id="kmd_wallet_dashboardinfo">
+      <div data-extcoin="KMD" id="kmd_wallet_dashboardinfo">
       <div class="col-xs-12">
           <!-- Iguana Wallet Settings Box Tab -->
           <div class="panel nav-tabs-horizontal">
             <!-- KMD Wallet Dashboard -->
-            <div id="kmd_wallet_dashoard_section">
+            <div data-extcoin="KMD" id="kmd_wallet_dashoard_section">
               <div class="col-xlg-12 col-lg-12 col-sm-12 col-xs-12">
                 <!-- Panel FixedHeader -->
                 <div class="panel">
@@ -687,7 +687,7 @@
                   </header>
                   <div class="panel-body">
                     <!--<p>Transaction History info goes here...</p>-->
-                    <table class="table table-hover dataTable table-striped" id="kmd-tx-history-tbl">
+                    <table class="table table-hover dataTable table-striped" data-extcoin="KMD" id="kmd-tx-history-tbl">
                       <thead>
                         <tr>
                           <th>Type</th>
@@ -727,12 +727,12 @@
         </div>
 
 
-        <div id="kmd_wallet_send" style="display: none;">
+        <div data-extcoin="KMD" id="kmd_wallet_send" style="display: none;">
           <div class="col-xlg-12 col-md-12 col-sm-12 col-xs-12">
           <!-- Panel getinfo -->
           <div class="panel" id="projects">
             <div class="panel-heading">
-              <h3 class="panel-title">Send KMD</h3>
+              <h3 data-extcoin="KMD" class="panel-title">Send KMD</h3>
               <!--<div class="panel-actions">
                 <a class="panel-action icon md-refresh-alt" data-toggle="panel-refresh" data-load-type="blue-only"
                 data-load-callback="KMDSendScreenRefreshCallback" aria-hidden="true"></a>
@@ -741,28 +741,28 @@
             <div class="panel-body container-fluid">
               <div class="row">
                 <div class="col-xlg-12 form-group form-material">
-                  <label class="control-label" for="kmd_wallet_send_from">Send From</label>
-                  <select class="form-control form-material showkmdwalletaddrs show-tick" id="kmd_wallet_send_from" title="Select Transparent or Private KMD Address" data-size="5">
+                  <label class="control-label" data-extcoin="KMD" for="kmd_wallet_send_from">Send From</label>
+                  <select class="form-control form-material showkmdwalletaddrs show-tick" data-extcoin="KMD" id="kmd_wallet_send_from" title="Select Transparent or Private KMD Address" data-size="5">
                   </select>
                 </div>
                 <div class="col-xlg-12 form-group form-material">
-                  <label class="control-label" for="kmd_wallet_sendto">Send To</label>
-                  <input type="text" class="form-control" id="kmd_wallet_sendto" name="kmd_wallet_sendto" placeholder="Enter Transparent or Private KMD address" autocomplete="off" required/>
+                  <label class="control-label" data-extcoin="KMD" for="kmd_wallet_sendto">Send To</label>
+                  <input type="text" class="form-control" data-extcoin="KMD" id="kmd_wallet_sendto" name="kmd_wallet_sendto" placeholder="Enter Transparent or Private KMD address" autocomplete="off" required/>
                 </div>
                 <div class="col-lg-6 form-group form-material">
-                  <label class="control-label" for="kmd_wallet_amount" id="kmd_wallet_amount_label">KMD</label>
-                  <input type="text" class="form-control" id="kmd_wallet_amount" name="kmd_wallet_amount" placeholder="0.000" autocomplete="off"/>
+                  <label class="control-label" for="kmd_wallet_amount" data-extcoin="KMD" id="kmd_wallet_amount_label">KMD</label>
+                  <input type="text" class="form-control" data-extcoin="KMD" id="kmd_wallet_amount" name="kmd_wallet_amount" placeholder="0.000" autocomplete="off"/>
                 </div>
                 <div class="col-lg-6 form-group form-material">
-                  <label class="control-label" for="kmd_wallet_fee">Fee</label>
-                  <input type="text" class="form-control" id="kmd_wallet_fee" name="kmd_wallet_fee" placeholder="0.000" value="0.0001" autocomplete="off"/>
+                  <label class="control-label" data-extcoin="KMD" for="kmd_wallet_fee">Fee</label>
+                  <input type="text" class="form-control" data-extcoin="KMD" id="kmd_wallet_fee" name="kmd_wallet_fee" placeholder="0.000" value="0.0001" autocomplete="off"/>
                 </div>
                 <div class="col-lg-12">
-                  <span><b>Total (KMD - txfee):</b>
-                  <span id="kmd_wallet_total_value">0.000</span> <span id="kmd_wallet_total_coinname">KMD</span>
+                  <span data-extcoin="KMD"><b>Total (KMD - txfee):</b>
+                  <span data-extcoin="KMD" id="kmd_wallet_total_value">0.000</span> <span data-extcoin="KMD" id="kmd_wallet_total_coinname">KMD</span>
                 </div>
                 <div class="col-lg-12">
-                  <button type="button" class="pull-right btn white bg-yellow-800" data-toggle="modal" data-dismiss="modal" id="kmd_wallet_send_coins_btn">Send</button>
+                  <button type="button" class="pull-right btn white bg-yellow-800" data-toggle="modal" data-dismiss="modal" data-extcoin="KMD" id="kmd_wallet_send_coins_btn">Send</button>
                 </div>
               </div>
             </div>
@@ -774,7 +774,7 @@
           </div>
         </div>
 
-        <div id="kmd_wallet_settings" style="display: none;">
+        <div data-extcoin="KMD" id="kmd_wallet_settings" style="display: none;">
           <div class="col-xlg-6 col-md-4">
           <!-- Panel Wallet Info -->
           <div class="panel" id="projects">
@@ -784,11 +784,11 @@
             <div class="table-responsive">
               <table class="table table-striped">
                 <tbody>
-                  <tr><td>Wallet Version</td><td><span id="kmd_walletversion"></span></td></tr>
-                  <tr><td>Balance</td><td><span id="kmd_balance"></span></td></tr>
-                  <tr><td>Unconfirmed Balance</td><td><span id="kmd_unconfirmed_balance"></span></td></tr>
-                  <tr><td>Immature Balance</td><td><span id="kmd_immature_balance"></span></td></tr>
-                  <tr><td>Total Transactions Count</td><td><span id="KMDTotalTransactionsCount"></span></td></tr>
+                  <tr><td>Wallet Version</td><td><span data-extcoin="KMD" id="kmd_walletversion"></span></td></tr>
+                  <tr><td>Balance</td><td><span data-extcoin="KMD" id="kmd_balance"></span></td></tr>
+                  <tr><td>Unconfirmed Balance</td><td><span data-extcoin="KMD" id="kmd_unconfirmed_balance"></span></td></tr>
+                  <tr><td>Immature Balance</td><td><span data-extcoin="KMD" id="kmd_immature_balance"></span></td></tr>
+                  <tr><td>Total Transactions Count</td><td><span data-extcoin="KMD" id="KMDTotalTransactionsCount"></span></td></tr>
                 </tbody>
               </table>
             </div>
@@ -806,18 +806,18 @@
             <div class="table-responsive">
               <table class="table table-striped">
                 <tbody>
-                  <tr><td>Version</td><td><span id="kmd_version"></span></td></tr>
-                  <tr><td>Protocol Version</td><td><span id="kmd_protocolversion"></span></td></tr>
-                  <tr><td>Notarized</td><td><span id="kmd_notarized"></span></td></tr>
-                  <tr><td>Notarized Hash</td><td><span id="kmd_notarizedhash"></span></td></tr>
-                  <tr><td>Notarized BTC</td><td><span id="kmd_notarizedbtc"></span></td></tr>
-                  <tr><td>Blocks</td><td><span id="kmd_blocks"></span></td></tr>
-                  <tr><td>Connections</td><td><span id="kmd_connections"></span></td></tr>
-                  <tr><td>Difficulty</td><td><span id="kmd_difficulty"></span></td></tr>
-                  <tr><td>Testnet</td><td><span id="kmd_testnet"></span></td></tr>
-                  <tr><td>Pay Transaction Fee</td><td><span id="kmd_paytxfee"></span></td></tr>
-                  <tr><td>Relay Fee</td><td><span id="kmd_relayfee"></span></td></tr>
-                  <tr><td>Errors</td><td><span id="kmd_errors"></span></td></tr>
+                  <tr><td>Version</td><td><span data-extcoin="KMD" id="kmd_version"></span></td></tr>
+                  <tr><td>Protocol Version</td><td><span data-extcoin="KMD" id="kmd_protocolversion"></span></td></tr>
+                  <tr><td>Notarized</td><td><span data-extcoin="KMD" id="kmd_notarized"></span></td></tr>
+                  <tr><td>Notarized Hash</td><td><span data-extcoin="KMD" id="kmd_notarizedhash"></span></td></tr>
+                  <tr><td>Notarized BTC</td><td><span data-extcoin="KMD" id="kmd_notarizedbtc"></span></td></tr>
+                  <tr><td>Blocks</td><td><span data-extcoin="KMD" id="kmd_blocks"></span></td></tr>
+                  <tr><td>Connections</td><td><span data-extcoin="KMD" id="kmd_connections"></span></td></tr>
+                  <tr><td>Difficulty</td><td><span data-extcoin="KMD" id="kmd_difficulty"></span></td></tr>
+                  <tr><td>Testnet</td><td><span data-extcoin="KMD" id="kmd_testnet"></span></td></tr>
+                  <tr><td>Pay Transaction Fee</td><td><span data-extcoin="KMD" id="kmd_paytxfee"></span></td></tr>
+                  <tr><td>Relay Fee</td><td><span data-extcoin="KMD" id="kmd_relayfee"></span></td></tr>
+                  <tr><td>Errors</td><td><span data-extcoin="KMD" id="kmd_errors"></span></td></tr>
                 </tbody>
               </table>
             </div>
@@ -830,7 +830,7 @@
       </div>
 
       <!-- Modal -->
-      <div class="modal fade modal-3d-sign" id="kmd_txid_info_mdl" aria-hidden="false" role="dialog"
+      <div class="modal fade modal-3d-sign" data-extcoin="KMD" id="kmd_txid_info_mdl" aria-hidden="false" role="dialog"
       tabindex="-1">
         <div class="modal-dialog modal-center modal-lg">
           <div class="modal-content">
@@ -844,38 +844,38 @@
               <!-- Iguana Wallet Settings Box Tab -->
               <div class="panel nav-tabs-horizontal">
                 <ul class="nav nav-tabs nav-tabs-line" data-plugin="nav-tabs" role="tablist">
-                  <li class="active" role="presentation"><a data-toggle="tab" href="#KmdTxIDInfotab1" aria-controls="KmdTxIDInfotab1" role="tab"><i class="icon md-balance-wallet" aria-hidden="true"></i>TxID Info</a></li>
-                  <li role="presentation"><a data-toggle="tab" href="#KmdTxIDInfotab2" aria-controls="KmdTxIDInfotab2" role="tab"><i class="icon md-plus-square" aria-hidden="true"></i>vjointsplits, details</a></li>
-                  <li role="presentation"><a data-toggle="tab" href="#KmdTxIDInfotab3" aria-controls="KmdTxIDInfotab3" role="tab"><i class="icon wb-briefcase" aria-hidden="true"></i>hex</a></li>
+                  <li class="active" role="presentation"><a data-toggle="tab" href="#KmdTxIDInfotab1" data-extcoin="KMD" aria-controls="KmdTxIDInfotab1" role="tab"><i class="icon md-balance-wallet" aria-hidden="true"></i>TxID Info</a></li>
+                  <li role="presentation"><a data-toggle="tab" href="#KmdTxIDInfotab2" data-extcoin="KMD" aria-controls="KmdTxIDInfotab2" role="tab"><i class="icon md-plus-square" aria-hidden="true"></i>vjointsplits, details</a></li>
+                  <li role="presentation"><a data-toggle="tab" href="#KmdTxIDInfotab3" data-extcoin="KMD" aria-controls="KmdTxIDInfotab3" role="tab"><i class="icon wb-briefcase" aria-hidden="true"></i>hex</a></li>
                 </ul>
                 <div class="panel-body">
                   <div class="tab-content">
-                    <div class="tab-pane active" id="KmdTxIDInfotab1" role="tabpanel">
+                    <div class="tab-pane active" id="KmdTxIDInfotab1" data-extcoin="KMD" role="tabpanel">
                       <table class="table table-striped">
                         <tbody>
-                          <tr><td>amount</td><td><span id="kmd_txid_info_amount"></span></td></tr>
-                          <tr><td>fee</td><td><span id="kmd_txid_info_fee"></span></td></tr>
-                          <tr><td>confirmations</td><td><span id="kmd_txid_info_confirmations"></span></td></tr>
-                          <tr><td>blockhash</td><td><span id="kmd_txid_info_blockhash"></span></td></tr>
-                          <tr><td>blockindex</td><td><span id="kmd_txid_info_blockindex"></span></td></tr>
-                          <tr><td>blocktime</td><td><span id="kmd_txid_info_blocktime"></span></td></tr>
-                          <tr><td>txid</td><td><span id="kmd_txid_info_txid"></span></td></tr>
-                          <tr><td>walletconflicts</td><td><span id="kmd_txid_info_walletconflicts"></span></td></tr>
-                          <tr><td>time</td><td><span id="kmd_txid_info_time"></span></td></tr>
-                          <tr><td>timereceived</td><td><span id="kmd_txid_info_timereceived"></span></td></tr>
+                          <tr><td>amount</td><td><span data-extcoin="KMD" id="kmd_txid_info_amount"></span></td></tr>
+                          <tr><td>fee</td><td><span data-extcoin="KMD" id="kmd_txid_info_fee"></span></td></tr>
+                          <tr><td>confirmations</td><td><span data-extcoin="KMD" id="kmd_txid_info_confirmations"></span></td></tr>
+                          <tr><td>blockhash</td><td><span data-extcoin="KMD" id="kmd_txid_info_blockhash"></span></td></tr>
+                          <tr><td>blockindex</td><td><span data-extcoin="KMD" id="kmd_txid_info_blockindex"></span></td></tr>
+                          <tr><td>blocktime</td><td><span data-extcoin="KMD" id="kmd_txid_info_blocktime"></span></td></tr>
+                          <tr><td>txid</td><td><span data-extcoin="KMD" id="kmd_txid_info_txid"></span></td></tr>
+                          <tr><td>walletconflicts</td><td><span data-extcoin="KMD" id="kmd_txid_info_walletconflicts"></span></td></tr>
+                          <tr><td>time</td><td><span data-extcoin="KMD" id="kmd_txid_info_time"></span></td></tr>
+                          <tr><td>timereceived</td><td><span data-extcoin="KMD" id="kmd_txid_info_timereceived"></span></td></tr>
                         </tbody>
                       </table>
                     </div>
-                    <div class="tab-pane" id="KmdTxIDInfotab2" role="tabpanel">
+                    <div class="tab-pane" id="KmdTxIDInfotab2" data-extcoin="KMD" role="tabpanel">
                       <table class="table table-striped">
                         <tbody>
-                          <tr><td>vjoinsplit</td><td><span id="kmd_txid_info_vjoinsplit"></span></td></tr>
-                          <tr><td>details</td><td><span id="kmd_txid_info_details"></span></td></tr>
+                          <tr><td>vjoinsplit</td><td><span data-extcoin="KMD" id="kmd_txid_info_vjoinsplit"></span></td></tr>
+                          <tr><td>details</td><td><span data-extcoin="KMD" id="kmd_txid_info_details"></span></td></tr>
                         </tbody>
                       </table>
                     </div>
-                    <div class="tab-pane" id="KmdTxIDInfotab3" role="tabpanel">
-                      <textarea id="kmd_txid_info_hex" style="width: 100%; height: 170px" rows="10" cols="80" disabled></textarea>
+                    <div class="tab-pane" id="KmdTxIDInfotab3" data-extcoin="KMD" role="tabpanel">
+                      <textarea id="kmd_txid_info_hex" data-extcoin="KMD" style="width: 100%; height: 170px" rows="10" cols="80" disabled></textarea>
                     </div>
                   </div>
                 </div>
