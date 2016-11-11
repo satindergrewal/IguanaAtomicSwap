@@ -146,7 +146,13 @@ function RunInitFunctions() {
 }
 
 function getTotalKMDBalance() {
-	var ajax_data = {"agent":"komodo","method":"passthru","function":"z_gettotalbalance","hex":"3100"}
+    console.log($('#extcoin-wallet').data('extcoin'));
+    var extcoin = $('#extcoin-wallet').data('extcoin');
+    var passthru_agent = '';
+    if ( extcoin == 'KMD') { passthru_agent = 'komodo'; };
+    if ( extcoin == 'ZEC') { passthru_agent = 'zcash'; };
+
+	var ajax_data = {"agent":passthru_agent,"method":"passthru","function":"z_gettotalbalance","hex":"3000"}
     console.log(ajax_data);
     $.ajax({
         type: 'POST',

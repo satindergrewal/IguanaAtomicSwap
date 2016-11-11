@@ -4,7 +4,7 @@ $(document).ready(function() {
     $('#section-dashboard').show();
     $('#header-dashboard').show();
 	$('#section-easydex').hide();
-	$('#section-komodo').hide();
+	$('#section-extcoin').hide();
 	$('#section-zcash').hide();
 	$('#section-iguana-atomic-explorer').hide();
 	$('#section-iguana-wallet-settings').hide();
@@ -27,7 +27,7 @@ $('#nav-dashboard').on('click', function() {
 	$('#section-dashboard').show();
 	$('#header-dashboard').show();
 	$('#section-easydex').hide();
-	$('#section-komodo').hide();
+	$('#section-extcoin').hide();
 	$('#section-zcash').hide();
 	$('#section-iguana-atomic-explorer').hide();
 	$('#section-iguana-wallet-settings').hide();
@@ -49,7 +49,7 @@ $('#nav-easydex').on('click', function() {
 	$('#section-dashboard').hide();
 	$('#header-dashboard').hide();
 	$('#section-easydex').show();
-	$('#section-komodo').hide();
+	$('#section-extcoin').hide();
 	$('#section-zcash').hide();
 	$('#section-about-iguana').hide();
 	$('#section-iguana-atomic-explorer').hide();
@@ -76,7 +76,7 @@ $('#nav-komodo-wallet').on('click', function() {
 	$('#section-dashboard').hide();
 	$('#header-dashboard').hide();
 	$('#section-easydex').hide();
-	$('#section-komodo').show();
+	$('#section-extcoin').show();
 	$('#section-zcash').hide();
 	$('#section-about-iguana').hide();
 	$('#section-iguana-atomic-explorer').hide();
@@ -106,7 +106,7 @@ $('#nav-zcash-wallet').on('click', function() {
 	$('#section-dashboard').hide();
 	$('#header-dashboard').hide();
 	$('#section-easydex').hide();
-	$('#section-komodo').hide();
+	$('#section-extcoin').hide();
 	$('#section-zcash').show();
 	$('#section-about-iguana').hide();
 	$('#section-iguana-atomic-explorer').hide();
@@ -130,7 +130,7 @@ $('#nav-iguana-atomic-explorer').on('click', function() {
 	$('#section-dashboard').hide();
 	$('#header-dashboard').hide();
 	$('#section-easydex').hide();
-	$('#section-komodo').hide();
+	$('#section-extcoin').hide();
 	$('#section-zcash').hide();
 	$('#section-iguana-atomic-explorer').show();
 	$('#section-iguana-wallet-settings').hide();
@@ -152,7 +152,7 @@ $('#nav-iguana-wallet-settings').on('click', function() {
 	$('#section-dashboard').hide();
 	$('#header-dashboard').hide();
 	$('#section-easydex').hide();
-	$('#section-komodo').hide();
+	$('#section-extcoin').hide();
 	$('#section-zcash').hide();
 	$('#section-iguana-atomic-explorer').hide();
 	$('#section-iguana-wallet-settings').show();
@@ -175,7 +175,7 @@ $('#nav-about-iguana').on('click', function() {
 	$('#section-dashboard').hide();
 	$('#header-dashboard').hide();
 	$('#section-easydex').hide();
-	$('#section-komodo').hide();
+	$('#section-extcoin').hide();
 	$('#section-zcash').hide();
 	$('#section-iguana-atomic-explorer').hide();
 	$('#section-iguana-wallet-settings').hide();
