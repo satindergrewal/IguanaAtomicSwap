@@ -8,6 +8,7 @@ var KMDWalletDashboard = function() {
             $('#kmd_wallet_dashoard_section').show();
             $('#kmd_wallet_dashboardinfo').show();
 			$('#kmd_wallet_send').hide();
+            $('#kmd_wallet_recieve_section').hide();
 			$('#kmd_wallet_settings').hide();
             getTotalKMDBalance();
             KMDfillTxHistoryT();
@@ -24,6 +25,7 @@ var KMDWalletDashboard = function() {
 
 			$('#kmd_wallet_dashboardinfo').hide();
 			$('#kmd_wallet_send').show();
+            $('#kmd_wallet_recieve_section').hide();
 			$('#kmd_wallet_settings').hide();
 			
 			var kmd_addr_list_with_balance = KMDlistunspentT();
@@ -115,11 +117,39 @@ var KMDWalletDashboard = function() {
 			$('#kmd_wallet_dashboardinfo').hide();
 			$('#kmd_wallet_dashoard_section').hide();
 			$('#kmd_wallet_send').hide();
+            $('#kmd_wallet_recieve_section').hide();
 			$('#kmd_wallet_settings').show();
 			getKMDWalletInfo();
     		getKMDInfo();
 		});
 	};
+
+
+    var KMDWalletRecieve = function() {
+        $('#btn_kmd_wallet_recieve').click(function() {
+            //console.log('wallet recieve button clicked...');
+            $('#kmd_wallet_dashboardinfo').hide();
+            $('#kmd_wallet_dashoard_section').hide();
+            $('#kmd_wallet_send').hide();
+            $('#kmd_wallet_recieve_section').show();
+            $('#kmd_wallet_settings').hide();
+            KMDListAllAddr();
+        });
+
+        $('#kmd_get_new_taddr').click(function() {
+            console.log('get new T address button clicked...');
+            KMDGetNewAddresses('public');
+            KMDListAllAddr();
+            toastr.info("Recieving Address list updated", "Wallet Notification");
+        });
+        
+        $('#kmd_get_new_zaddr').click(function() {
+            console.log('get new Z address button clicked...');
+            KMDGetNewAddresses('private');
+            KMDListAllAddr();
+            toastr.info("Recieving Address list updated", "Wallet Notification");
+        });
+    };
 
 	return {
         //main function to initiate the module
@@ -128,6 +158,7 @@ var KMDWalletDashboard = function() {
             KMDfillTxHistoryT();
             KMDGetTXIDdetails();
             handle_KMD_Send();
+            KMDWalletRecieve();
             KMDWalletSettings();
             RunInitFunctions();
         }
@@ -143,6 +174,7 @@ jQuery(document).ready(function() {
 function RunInitFunctions() {
 	getTotalKMDBalance();
     KMDfillTxHistoryT();
+    $('#kmd_wallet_recieve_section').hide();
 }
 
 function getTotalKMDBalance() {
@@ -576,25 +608,159 @@ function KMDfillTxHistoryT() {
     var txhistorydata = $.merge( txhistorydataT, txhistorydataZ );
     //console.log(txhistorydata);
 
-    if ( $.fn.dataTable.isDataTable( '#kmd-tx-history-tbl' ) ) {
-		$('#kmd-tx-history-tbl').DataTable( { data: txhistorydata,
-			"order": [[ 4, "desc" ]],
-			select: true,
-			retrieve: true
-		});
-	}
-	else {
-		$('#kmd-tx-history-tbl').DataTable( { data: txhistorydata,
-			"order": [[ 4, "desc" ]],
-			select: true,
-			retrieve: true,
-			paging: true,
-			searching: true
-		});
-	}
+    var kmd_txhistory_table = '';
+    kmd_txhistory_table = $('#kmd-tx-history-tbl').DataTable( { data: txhistorydata,
+        "order": [[ 4, "desc" ]],
+        select: true,
+        retrieve: true
+    });
+
+    kmd_txhistory_table.destroy();
+    kmd_txhistory_table = $('#kmd-tx-history-tbl').DataTable( { data: txhistorydata,
+        "order": [[ 4, "desc" ]],
+        select: true,
+        retrieve: true
+    });
+    
     NProgress.done();
 }
 
+
+function KMDListAddresses(pubpriv) {
+    NProgress.done(true);
+    NProgress.configure({
+        template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+    });
+    NProgress.start();
+    var result = [];
+
+    var ajax_data_to_hex = '""'
+    var ajax_function_input = '';
+    var tmplistaddr_hex_input = '';
+    if ( pubpriv === 'public' ) {
+        ajax_function_input = 'getaddressesbyaccount';
+        tmplistaddr_hex_input = Iguana_HashHex(ajax_data_to_hex)
+    }
+    if ( pubpriv === 'private' ) {
+        ajax_function_input = 'z_listaddresses';
+        tmplistaddr_hex_input = "";
+    }
+    
+    //console.log(tmpzaddr_hex_input);
+    
+    var ajax_data = {"agent":"komodo","method":"passthru","function":ajax_function_input,"hex":tmplistaddr_hex_input}
+    //console.log(ajax_data);
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
+            //console.log('== Data OutPut of getaddressesbyaccount ==');
+            //console.log(AjaxOutputData);
+            result = AjaxOutputData;
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    //console.log(result);
+    NProgress.done();
+    return result;
+}
+
+
+function KMDGetNewAddresses(pubpriv) {
+    NProgress.done(true);
+    NProgress.configure({
+        template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+    });
+    NProgress.start();
+    var result = [];
+
+    var ajax_function_input = '';
+    if ( pubpriv === 'public' ) {
+        ajax_function_input = 'getnewaddress';
+    }
+    if ( pubpriv === 'private' ) {
+        ajax_function_input = 'z_getnewaddress';
+    }
+    
+    var ajax_data = {"agent":"komodo","method":"passthru","function":ajax_function_input,"hex":""}
+    //console.log(ajax_data);
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            //console.log('== Data OutPut of get new address ==');
+            //console.log(data);
+            result = data;
+            toastr.success("New address generated successfully", "Wallet Notification");
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    //console.log(result);
+    NProgress.done();
+    return result;
+}
+
+
+function KMDListAllAddr() {
+    NProgress.done(true);
+    NProgress.configure({
+        template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+    });
+    NProgress.start();
+    var only_reciving_addr_data = [];
+    var listTaddr = KMDListAddresses('public');
+    var listZaddr = KMDListAddresses('private');
+    var listAlladdr = $.merge( listTaddr, listZaddr );
+    console.log(listAlladdr[5].slice(0, 2));
+
+    $.each(listAlladdr, function(index, value) {
+        tmp_addr_label = '<span class="label label-default"><i class="icon fa-eye"></i> public</span>';
+        if ( listAlladdr[index].slice(0, 2) == 'zc' ) { tmp_addr_label = '<span class="label label-dark"><i class="icon fa-eye-slash"></i> private</span>'; }
+        //var tmp_addr_action_button = '<button></button>';
+        only_reciving_addr_data.push([tmp_addr_label, listAlladdr[index]]);
+    });
+    //console.log(only_reciving_addr_data);
+
+    var kmd_recieve_table = '';
+
+    kmd_recieve_table = $('#kmd-recieve-addr-tbl').DataTable( { data: only_reciving_addr_data,
+        select: false,
+        retrieve: true
+    });
+    
+    kmd_recieve_table.destroy();
+
+    kmd_recieve_table = $('#kmd-recieve-addr-tbl').DataTable( { data: only_reciving_addr_data,
+        select: false,
+        retrieve: true
+    });
+    
+    NProgress.done();
+    return only_reciving_addr_data;
+}
 
 function KMDGetTransactionIDInfo(txid) {
 	var result = [];
