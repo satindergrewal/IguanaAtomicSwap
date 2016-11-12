@@ -2,7 +2,8 @@ var KMDWalletDashboard = function() {
 
 	var handle_KMD_Dashboard = function() {
 
-		$('#btn_kmd_wallet_dashboard').click(function() {
+        var action_btn_code = getHeaderActionMenuButtonCoinCode();
+		$('#btn_'+action_btn_code+'_wallet_dashboard').click(function() {
             console.log('kmd wallet dashbaord button clicked...');
             console.log($(this).data());
             $('#kmd_wallet_dashoard_section').show();
@@ -17,8 +18,8 @@ var KMDWalletDashboard = function() {
 	}
 
 	var handle_KMD_Send = function() {
-
-		$('#btn_kmd_wallet_send').click(function() {
+        var action_btn_code = getHeaderActionMenuButtonCoinCode();
+		$('#btn_'+action_btn_code+'_wallet_send').click(function() {
 			KMDListAllOPIDs();
 			//console.log('kmd wallet send button clicked...');
 			var tmpoptions = '';
@@ -31,7 +32,7 @@ var KMDWalletDashboard = function() {
 			var kmd_addr_list_with_balance = KMDlistunspentT();
 			//console.log(kmd_addr_list_with_balance);
 
-			tmpoptions += '<option> - Select Transparent or Private KMD Address - </option>';
+			tmpoptions += '<option> - Select Transparent or Private Address - </option>';
 			$.each(kmd_addr_list_with_balance, function(index) {
 				tmpoptions += '<option value="' + kmd_addr_list_with_balance[index].addr + '" data-total="' + kmd_addr_list_with_balance[index].total.toFixed(8) + '">[ ' + kmd_addr_list_with_balance[index].total.toFixed(8) + ' KMD ] &emsp;' + kmd_addr_list_with_balance[index].addr + '</option>';
 				$('#kmd_wallet_send_from').html(tmpoptions);
@@ -184,7 +185,8 @@ var KMDWalletDashboard = function() {
 	};
 
 	var KMDWalletSettings = function() {
-		$('#btn_kmd_wallet_settings').click(function() {
+        var action_btn_code = getHeaderActionMenuButtonCoinCode();
+		$('#btn_'+action_btn_code+'_wallet_settings').click(function() {
 			console.log('wallet settings button clicked...');
 			$('#kmd_wallet_dashboardinfo').hide();
 			$('#kmd_wallet_dashoard_section').hide();
@@ -198,7 +200,8 @@ var KMDWalletDashboard = function() {
 
 
     var KMDWalletRecieve = function() {
-        $('#btn_kmd_wallet_recieve').click(function() {
+        var action_btn_code = getHeaderActionMenuButtonCoinCode();
+        $('#btn_'+action_btn_code+'_wallet_recieve').click(function() {
             //console.log('wallet recieve button clicked...');
             $('#kmd_wallet_dashboardinfo').hide();
             $('#kmd_wallet_dashoard_section').hide();
@@ -255,6 +258,23 @@ function RunInitFunctions() {
     NProgress.done();
 }
 
+
+function getHeaderActionMenuButtonCoinCode() {
+    var extcoin = $('#extcoin-wallet').data('extcoin');
+    var action_menu_button_code = '';
+    if ( extcoin == 'KMD') { action_menu_button_code = 'kmd'; };
+    if ( extcoin == 'ZEC') { action_menu_button_code = 'zec'; };
+    return action_menu_button_code;
+}
+
+function getPassthruAgent() {
+    var extcoin = $('#extcoin-wallet').data('extcoin');
+    var passthru_agent = '';
+    if ( extcoin == 'KMD') { passthru_agent = 'komodo'; };
+    if ( extcoin == 'ZEC') { passthru_agent = 'zcash'; };
+    return passthru_agent;
+}
+
 function getTotalKMDBalance() {
     console.log($('#extcoin-wallet').data('extcoin'));
     var extcoin = $('#extcoin-wallet').data('extcoin');
@@ -290,7 +310,8 @@ function getTotalKMDBalance() {
 }
 
 function getKMDBalanceT() {
-	var ajax_data = {"agent":"komodo","method":"passthru","function":"getbalance","hex":""}
+    var passthru_agent = getPassthruAgent();
+	var ajax_data = {"agent":passthru_agent,"method":"passthru","function":"getbalance","hex":""}
     console.log(ajax_data);
     $.ajax({
         type: 'POST',
@@ -317,7 +338,8 @@ function getKMDBalanceT() {
 
 
 function getKMDBalanceZ() {
-	var ajax_data = {"agent":"komodo","method":"passthru","function":"z_getbalance","hex":""}
+    var passthru_agent = getPassthruAgent();
+	var ajax_data = {"agent":passthru_agent,"method":"passthru","function":"z_getbalance","hex":""}
     console.log(ajax_data);
     $.ajax({
         type: 'POST',
@@ -344,7 +366,8 @@ function getKMDBalanceZ() {
 
 
 function getKMDWalletInfo() {
-	var ajax_data = {"agent":"komodo","method":"passthru","function":"getwalletinfo","hex":""}
+	var passthru_agent = getPassthruAgent();
+    var ajax_data = {"agent":passthru_agent,"method":"passthru","function":"getwalletinfo","hex":""}
     console.log(ajax_data);
     $.ajax({
         type: 'POST',
@@ -375,7 +398,8 @@ function getKMDWalletInfo() {
 
 
 function getKMDInfo() {
-	var ajax_data = {"agent":"komodo","method":"passthru","function":"getinfo","hex":""}
+	var passthru_agent = getPassthruAgent();
+    var ajax_data = {"agent":passthru_agent,"method":"passthru","function":"getinfo","hex":""}
     console.log(ajax_data);
     $.ajax({
         type: 'POST',
@@ -420,7 +444,8 @@ function KMDlistunspentT() {
 	NProgress.start();
 	var result = [];
 
-	var ajax_data = {"agent":"komodo","method":"passthru","function":"listunspent","hex":""}
+	var passthru_agent = getPassthruAgent();
+    var ajax_data = {"agent":passthru_agent,"method":"passthru","function":"listunspent","hex":""}
     //console.log(ajax_data);
     $.ajax({
     	async: false,
@@ -471,7 +496,8 @@ function KMDlistunspentT() {
 function KMDListaddrZ() {
 	var result = [];
 
-	var ajax_data = {"agent":"komodo","method":"passthru","function":"z_listaddresses","hex":""}
+	var passthru_agent = getPassthruAgent();
+    var ajax_data = {"agent":passthru_agent,"method":"passthru","function":"z_listaddresses","hex":""}
     //console.log(ajax_data);
     $.ajax({
     	async: false,
@@ -547,7 +573,8 @@ function KMDGetPublicTransactions() {
 	NProgress.start();
 	var result = [];
 
-	var ajax_data = {"agent":"komodo","method":"passthru","function":"listtransactions","hex":""}
+	var passthru_agent = getPassthruAgent();
+    var ajax_data = {"agent":passthru_agent,"method":"passthru","function":"listtransactions","hex":""}
     //console.log(ajax_data);
     $.ajax({
     	async: false,
@@ -621,7 +648,8 @@ function KMDGetProtectedTransactions() {
 		var tmpzaddr_hex_input = Iguana_HashHex(ajax_data_to_hex)
 		//console.log(tmpzaddr_hex_input);
 		
-		var ajax_data = {"agent":"komodo","method":"passthru","function":"z_listreceivedbyaddress","hex":tmpzaddr_hex_input}
+		var passthru_agent = getPassthruAgent();
+        var ajax_data = {"agent":passthru_agent,"method":"passthru","function":"z_listreceivedbyaddress","hex":tmpzaddr_hex_input}
 	    //console.log(ajax_data);
 	    $.ajax({
 	    	async: false,
@@ -723,7 +751,8 @@ function KMDListAddresses(pubpriv) {
     
     //console.log(tmpzaddr_hex_input);
     
-    var ajax_data = {"agent":"komodo","method":"passthru","function":ajax_function_input,"hex":tmplistaddr_hex_input}
+    var passthru_agent = getPassthruAgent();
+    var ajax_data = {"agent":passthru_agent,"method":"passthru","function":ajax_function_input,"hex":tmplistaddr_hex_input}
     //console.log(ajax_data);
     $.ajax({
         async: false,
@@ -769,7 +798,8 @@ function KMDGetNewAddresses(pubpriv) {
         ajax_function_input = 'z_getnewaddress';
     }
     
-    var ajax_data = {"agent":"komodo","method":"passthru","function":ajax_function_input,"hex":""}
+    var passthru_agent = getPassthruAgent();
+    var ajax_data = {"agent":passthru_agent,"method":"passthru","function":ajax_function_input,"hex":""}
     //console.log(ajax_data);
     $.ajax({
         async: false,
@@ -809,11 +839,11 @@ function KMDListAllAddr() {
     var listTaddr = KMDListAddresses('public');
     var listZaddr = KMDListAddresses('private');
     var listAlladdr = $.merge( listTaddr, listZaddr );
-    console.log(listAlladdr[5].slice(0, 2));
+    //console.log(listAlladdr[5].slice(0, 2));
 
     $.each(listAlladdr, function(index, value) {
         tmp_addr_label = '<span class="label label-default"><i class="icon fa-eye"></i> public</span>';
-        if ( listAlladdr[index].slice(0, 2) == 'zc' ) { tmp_addr_label = '<span class="label label-dark"><i class="icon fa-eye-slash"></i> private</span>'; }
+        if ( listAlladdr[index].slice(0, 2) == 'zc' || listAlladdr[index].slice(0, 2) == 'zt' ) { tmp_addr_label = '<span class="label label-dark"><i class="icon fa-eye-slash"></i> private</span>'; }
         //var tmp_addr_action_button = '<button></button>';
         only_reciving_addr_data.push([tmp_addr_label, listAlladdr[index]]);
     });
@@ -886,7 +916,8 @@ function KMDGetOPIDInfo(opid) {
         //console.log(tmpopid_output);
     }
 
-    var ajax_data_txid_input = {"agent":"komodo","method":"passthru","function":"z_getoperationstatus","hex":tmpopid_output}
+    var passthru_agent = getPassthruAgent();
+    var ajax_data_txid_input = {"agent":passthru_agent,"method":"passthru","function":"z_getoperationstatus","hex":tmpopid_output}
     //console.log(ajax_data_txid_input);
     $.ajax({
         async: false,
@@ -935,6 +966,10 @@ function KMDListAllOPIDs() {
         tmp_id = listOPIDs[0][index].id;
         tmp_creation_time = secondsToString(listOPIDs[0][index].creation_time);
         
+        if (listOPIDs[0][index].status === 'queued') {
+            tmp_status_label = '<span class="label label-warning"><i class="icon fa-eye"></i> Queued</span>';
+            tmp_results = '<i>Please press refresh button in a minute or so to see updated status...</i>';
+        }
         if (listOPIDs[0][index].status === 'executing') {
             tmp_status_label = '<span class="label label-info"><i class="icon fa-eye"></i> Executing</span>';
             tmp_results = '<i>Please press refresh button in a minute or so to see updated status...</i>';
@@ -994,7 +1029,8 @@ function KMDZSendManyTransaction() {
     var zsendmoney_output = Iguana_HashHex(ajax_data_to_hex)
     //console.log(zsendmoney_output);
 
-    var ajax_data_txid_input = {"agent":"komodo","method":"passthru","function":"z_sendmany","hex":zsendmoney_output}
+    var passthru_agent = getPassthruAgent();
+    var ajax_data_txid_input = {"agent":passthru_agent,"method":"passthru","function":"z_sendmany","hex":zsendmoney_output}
     //console.log(ajax_data_txid_input);
     $.ajax({
         async: false,

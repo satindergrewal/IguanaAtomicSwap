@@ -85,6 +85,8 @@ $('#nav-komodo-wallet').on('click', function() {
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
 	//$.each($('[data-extcoin="KMD"]'), function(index, value) {console.log($('[data-extcoin="KMD"]').data()); $('[data-extcoin="KMD"]').attr("data-extcoin","ZEC"); });
 	$.each($('[data-extcoin]'), function(index, value) {$('[data-extcoin]').attr("data-extcoin","KMD"); $('[data-extcoin="KMD"]')});
+	$.each($('[data-extcoinname]'), function(index, value) {$('[data-extcoinname]').text("KMD"); $('[data-extcoinname="KMD"]')});
+	$.each($('[data-extcointitle]'), function(index, value) {$('[data-extcointitle]').text("Komodo"); $('[data-extcointitle="Komodo"]')});
 	KMDWalletDashboard.init(); //Initiate Komodo Dashbaord sript
 	applyKMDWalletStyle();
 	//removeZECWalletStyle();
@@ -101,7 +103,8 @@ $('#nav-zcash-wallet').on('click', function() {
 	$('#header-dashboard').hide();
 	$('#section-easydex').hide();
 	$('#section-extcoin').hide();
-	$('#section-zcash').show();
+	//$('#section-zcash').show();
+	$('#section-extcoin').show();
 	$('#section-about-iguana').hide();
 	$('#section-iguana-atomic-explorer').hide();
 	$('#section-iguana-wallet-settings').hide();
@@ -114,6 +117,9 @@ $('#nav-zcash-wallet').on('click', function() {
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
 	$(".header-easydex-section").text("Zcash Wallet");
 	$.each($('[data-extcoin]'), function(index, value) {$('[data-extcoin]').attr("data-extcoin","ZEC"); $('[data-extcoin="ZEC"]')});
+	$.each($('[data-extcoinname]'), function(index, value) {$('[data-extcoinname]').text("ZEC"); $('[data-extcoinname="ZEC"]')});
+	$.each($('[data-extcointitle]'), function(index, value) {$('[data-extcointitle]').text("Zcash"); $('[data-extcointitle="Zcash"]')});
+	KMDWalletDashboard.init(); //Initiate Komodo Dashbaord sript
 	applyZECWalletStyle();
 	//removeKMDWalletStyle();
 	CommonSidebarActionsSet02();

@@ -380,7 +380,6 @@
             <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_send">Send</a></li>
             <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_recieve">Recieve</a></li>
             <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_transactions">Transactions</a></li>
-            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_pax">PAX</a></li>
             <li class="divider" role="presentation"></li>
             <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_settings">Settings</a></li>
           </ul>
@@ -395,7 +394,7 @@
             <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="ZEC" id="btn_zec_wallet_recieve">Recieve</a></li>
             <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="ZEC" id="btn_zec_wallet_transactions">Transactions</a></li>
             <li class="divider" role="presentation"></li>
-            <li role="presentation"><a href="javascript:void(0)" role="menuitem">Settings</a></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="ZEC" id="btn_zec_wallet_settings">Settings</a></li>
           </ul>
         </div>
         <!-- End ZEC Wallet Header button -->
@@ -791,7 +790,7 @@
           <!-- Panel getinfo -->
           <div class="panel" id="projects">
             <div class="panel-heading">
-              <h3 data-extcoin="COIN" class="panel-title">Send KMD</h3>
+              <h3 data-extcoin="COIN" class="panel-title">Send <span data-extcoinname="COIN"></span></h3>
               <!--<div class="panel-actions">
                 <a class="panel-action icon md-refresh-alt" data-toggle="panel-refresh" data-load-type="blue-only"
                 data-load-callback="KMDSendScreenRefreshCallback" aria-hidden="true"></a>
@@ -802,15 +801,15 @@
                 <div class="row">
                   <div class="col-xlg-12 form-group form-material">
                     <label class="control-label" data-extcoin="COIN" for="kmd_wallet_send_from">Send From</label>
-                    <select class="form-control form-material showkmdwalletaddrs show-tick" data-extcoin="COIN" id="kmd_wallet_send_from" title="Select Transparent or Private KMD Address" data-size="5">
+                    <select class="form-control form-material showkmdwalletaddrs show-tick" data-extcoin="COIN" id="kmd_wallet_send_from" title="Select Transparent or Private Address" data-size="5">
                     </select>
                   </div>
                   <div class="col-xlg-12 form-group form-material">
                     <label class="control-label" data-extcoin="COIN" for="kmd_wallet_sendto">Send To</label>
-                    <input type="text" class="form-control" data-extcoin="COIN" id="kmd_wallet_sendto" name="kmd_wallet_sendto" placeholder="Enter Transparent or Private KMD address" autocomplete="off" required/>
+                    <input type="text" class="form-control" data-extcoin="COIN" id="kmd_wallet_sendto" name="kmd_wallet_sendto" placeholder="Enter Transparent or Private address" autocomplete="off" required/>
                   </div>
                   <div class="col-lg-6 form-group form-material">
-                    <label class="control-label" for="kmd_wallet_amount" data-extcoin="COIN" id="kmd_wallet_amount_label">KMD</label>
+                    <label class="control-label" for="kmd_wallet_amount" data-extcoin="COIN" id="kmd_wallet_amount_label"><span data-extcoinname="COIN"></span></label>
                     <input type="text" class="form-control" data-extcoin="COIN" id="kmd_wallet_amount" name="kmd_wallet_amount" placeholder="0.000" autocomplete="off"/>
                   </div>
                   <div class="col-lg-6 form-group form-material">
@@ -818,10 +817,10 @@
                     <input type="text" class="form-control" data-extcoin="COIN" id="kmd_wallet_fee" name="kmd_wallet_fee" placeholder="0.000" value="0.0001" autocomplete="off"/>
                   </div>
                   <div class="col-lg-12">
-                    <span data-extcoin="KMD"><b>Total (KMD - txfee):</b> <span data-extcoin="COIN" id="kmd_wallet_total_value">0.000</span> <span data-extcoin="COIN" id="kmd_wallet_total_coinname">KMD</span></span>
+                    <span data-extcoin="KMD"><b>Total (<span data-extcoinname="COIN"></span> - txfee):</b> <span data-extcoin="COIN" id="kmd_wallet_total_value">0.000</span> <span data-extcoin="COIN" id="kmd_wallet_total_coinname" data-extcoinname="COIN"></span></span>
                   </div>
                   <div class="col-lg-12">
-                    <button type="submit" class="btn btn-primary waves-effect waves-light pull-right" data-toggle="modal" id="kmd_wallet_send_coins_btn">Send KMD</button>
+                    <button type="submit" class="btn btn-primary waves-effect waves-light pull-right" data-toggle="modal" id="kmd_wallet_send_coins_btn">Send <span data-extcoinname="COIN"></span></button>
                   </div>
                 </div>
               </div>
@@ -858,7 +857,7 @@
                         <tr>
                           <th>Status</th>
                           <th>ID</th>
-                          <th>creation_time</th>
+                          <th>Time</th>
                           <th>Result</th>
                         </tr>
                       </thead>
@@ -866,7 +865,7 @@
                         <tr>
                           <th>Status</th>
                           <th>ID</th>
-                          <th>creation_time</th>
+                          <th>Time</th>
                           <th>Result</th>
                         </tr>
                       </tfoot>
@@ -914,7 +913,7 @@
           <!-- Panel getinfo -->
           <div class="panel" id="projects">
             <div class="panel-heading">
-              <h3 class="panel-title">Komodo Info</h3>
+              <h3 class="panel-title"><span data-extcointitle="COIN">Komodo</span> Info</h3>
             </div>
             <div class="table-responsive">
               <table class="table table-striped">
