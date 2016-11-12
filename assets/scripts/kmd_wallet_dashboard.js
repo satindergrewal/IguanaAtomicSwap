@@ -139,6 +139,7 @@ var KMDWalletDashboard = function() {
 
             submitHandler: function(form) {
                 console.log('Sent control here after clicked in form...');
+                KMDZSendManyTransaction();
             }
         });
 
@@ -956,16 +957,18 @@ function KMDListAllOPIDs() {
     });
     //console.log(opids_statuses_data);
 
-    var kmd_recieve_table = '';
+    var kmd_opids_statuses_table = '';
 
-    kmd_recieve_table = $('#kmd-opid-status-tbl').DataTable( { data: opids_statuses_data,
+    kmd_opids_statuses_table = $('#kmd-opid-status-tbl').DataTable( { data: opids_statuses_data,
+        "order": [[ 2, "desc" ]],
         select: false,
         retrieve: true
     });
     
-    kmd_recieve_table.destroy();
+    kmd_opids_statuses_table.destroy();
 
-    kmd_recieve_table = $('#kmd-opid-status-tbl').DataTable( { data: opids_statuses_data,
+    kmd_opids_statuses_table = $('#kmd-opid-status-tbl').DataTable( { data: opids_statuses_data,
+        "order": [[ 2, "desc" ]],
         select: false,
         retrieve: true
     });
@@ -977,17 +980,21 @@ function KMDListAllOPIDs() {
 
 function KMDZSendManyTransaction() {
     var result = [];
-    var tmpopid_output = '';
+    var zsendmoney_output = '';
 
-    if ( opid === undefined ) {
-        tmpopid_output = '';
-    } else {
-        var ajax_data_to_hex = '["'+ opid +'"]'
-        var tmpopid_output = Iguana_HashHex(ajax_data_to_hex)
-        //console.log(tmpopid_output);
-    }
+    var tmp_zsendmany_from_addr = $('#kmd_wallet_send_from').val();
+    var tmp_zsendmany_to_addr = $('#kmd_wallet_sendto').val();
+    var tmp_zsendmany_total_amount = $('#kmd_wallet_total_value').text();
 
-    var ajax_data_txid_input = {"agent":"komodo","method":"passthru","function":"z_getoperationstatus","hex":tmpopid_output}
+    //console.log(tmp_zsendmany_from_addr);
+    //console.log(tmp_zsendmany_to_addr);
+    //console.log(tmp_zsendmany_total_amount);
+
+    var ajax_data_to_hex = '["'+tmp_zsendmany_from_addr+'",[{"address":"'+tmp_zsendmany_to_addr+'","amount":'+tmp_zsendmany_total_amount+'}]]'
+    var zsendmoney_output = Iguana_HashHex(ajax_data_to_hex)
+    //console.log(zsendmoney_output);
+
+    var ajax_data_txid_input = {"agent":"komodo","method":"passthru","function":"z_sendmany","hex":zsendmoney_output}
     //console.log(ajax_data_txid_input);
     $.ajax({
         async: false,
@@ -996,11 +1003,9 @@ function KMDZSendManyTransaction() {
         url: 'http://127.0.0.1:7778',
         //dataType: 'text',
         success: function(data, textStatus, jqXHR) {
-            var AjaxOutputData = JSON.parse(data);
-            //console.log('== Data OutPut of z_getoperationstatus ==');
-            //console.log(value);
-            //console.log(AjaxOutputData);
-            result.push(AjaxOutputData);
+            console.log('== Data OutPut of z_sendmany ==');
+            console.log(data);
+            result.push(data);
         },
         error: function(xhr, textStatus, error) {
             console.log('failed getting Coin History.');
@@ -1013,5 +1018,6 @@ function KMDZSendManyTransaction() {
         }
     });
     //console.log(result);
+    KMDListAllOPIDs();
     return result;
 }
