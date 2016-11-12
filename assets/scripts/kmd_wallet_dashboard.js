@@ -19,7 +19,7 @@ var KMDWalletDashboard = function() {
 	var handle_KMD_Send = function() {
 
 		$('#btn_kmd_wallet_send').click(function() {
-			
+			KMDListAllOPIDs();
 			//console.log('kmd wallet send button clicked...');
 			var tmpoptions = '';
 
@@ -138,7 +138,7 @@ var KMDWalletDashboard = function() {
             },
 
             submitHandler: function(form) {
-                console.log('send sent control here after clicked in form...');
+                console.log('Sent control here after clicked in form...');
             }
         });
 
@@ -150,6 +150,10 @@ var KMDWalletDashboard = function() {
                 }
                 return false;
             }
+        });
+
+        $('#kmd_opids_status_btn').click(function(){
+            KMDListAllOPIDs();
         });
 	}
 
@@ -239,9 +243,15 @@ jQuery(document).ready(function() {
 
 
 function RunInitFunctions() {
+    NProgress.done(true);
+    NProgress.configure({
+        template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+    });
+    NProgress.start();
 	getTotalKMDBalance();
     KMDfillTxHistoryT();
     $('#kmd_wallet_recieve_section').hide();
+    NProgress.done();
 }
 
 function getTotalKMDBalance() {
@@ -455,9 +465,6 @@ function KMDlistunspentT() {
     NProgress.done();
     return result;
 }
-
-
-
 
 
 function KMDListaddrZ() {
@@ -914,31 +921,97 @@ function KMDListAllOPIDs() {
         template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
     });
     NProgress.start();
-    var only_reciving_addr_data = [];
+    var opids_statuses_data = [];
     var listOPIDs = KMDGetOPIDInfo();
+    var tmp_results = 'Waiting...';
+    var tmp_status_label = '';
+    var tmp_creation_time = '';
+    var tmp_id = '';
+    
+    console.log(listOPIDs);
+    $.each(listOPIDs[0], function(index, value) {
 
-    $.each(listOPIDs, function(index, value) {
-        tmp_addr_label = '<span class="label label-default"><i class="icon fa-eye"></i> public</span>';
-        if ( listAlladdr[index].slice(0, 2) == 'zc' ) { tmp_addr_label = '<span class="label label-dark"><i class="icon fa-eye-slash"></i> private</span>'; }
-        //var tmp_addr_action_button = '<button></button>';
-        only_reciving_addr_data.push([tmp_addr_label, listAlladdr[index]]);
+        tmp_id = listOPIDs[0][index].id;
+        tmp_creation_time = secondsToString(listOPIDs[0][index].creation_time);
+        
+        if (listOPIDs[0][index].status === 'executing') {
+            tmp_status_label = '<span class="label label-info"><i class="icon fa-eye"></i> Executing</span>';
+            tmp_results = '<i>Please press refresh button in a minute or so to see updated status...</i>';
+        }
+        if (listOPIDs[0][index].status === 'failed') {
+            tmp_status_label = '<span class="label label-danger"><i class="icon fa-eye"></i> Failed</span>';
+            tmp_results = '<b>Error Code:</b> '+listOPIDs[0][index].error.code+'<br> <b>Message:</b> '+listOPIDs[0][index].error.message;
+        }
+        if (listOPIDs[0][index].status === 'success') {
+            tmp_status_label = '<span class="label label-success"><i class="icon fa-eye"></i> Success</span>';
+            tmp_results = '<b>txid:</b> '+listOPIDs[0][index].result.txid+'<br> <b>Execution Seconds:</b> '+listOPIDs[0][index].execution_secs;
+        }
+
+        //console.log(tmp_status_label);
+        //console.log(tmp_id);
+        //console.log(tmp_creation_time);
+        //console.log(tmp_results);
+
+        opids_statuses_data.push([tmp_status_label, tmp_id, tmp_creation_time, tmp_results]);
     });
-    //console.log(only_reciving_addr_data);
+    //console.log(opids_statuses_data);
 
     var kmd_recieve_table = '';
 
-    kmd_recieve_table = $('#kmd-recieve-addr-tbl').DataTable( { data: only_reciving_addr_data,
+    kmd_recieve_table = $('#kmd-opid-status-tbl').DataTable( { data: opids_statuses_data,
         select: false,
         retrieve: true
     });
     
     kmd_recieve_table.destroy();
 
-    kmd_recieve_table = $('#kmd-recieve-addr-tbl').DataTable( { data: only_reciving_addr_data,
+    kmd_recieve_table = $('#kmd-opid-status-tbl').DataTable( { data: opids_statuses_data,
         select: false,
         retrieve: true
     });
     
+    
     NProgress.done();
-    return only_reciving_addr_data;
+    return opids_statuses_data;
+}
+
+function KMDZSendManyTransaction() {
+    var result = [];
+    var tmpopid_output = '';
+
+    if ( opid === undefined ) {
+        tmpopid_output = '';
+    } else {
+        var ajax_data_to_hex = '["'+ opid +'"]'
+        var tmpopid_output = Iguana_HashHex(ajax_data_to_hex)
+        //console.log(tmpopid_output);
+    }
+
+    var ajax_data_txid_input = {"agent":"komodo","method":"passthru","function":"z_getoperationstatus","hex":tmpopid_output}
+    //console.log(ajax_data_txid_input);
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data_txid_input),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data);
+            //console.log('== Data OutPut of z_getoperationstatus ==');
+            //console.log(value);
+            //console.log(AjaxOutputData);
+            result.push(AjaxOutputData);
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    //console.log(result);
+    return result;
 }

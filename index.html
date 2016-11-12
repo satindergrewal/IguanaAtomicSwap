@@ -839,25 +839,27 @@
           <div class="row">
           <div class="panel nav-tabs-horizontal">
             <!-- KMD opid status -->
-            <div data-extcoin="COIN" id="kmd_wallet_recieve_section">
+            <div data-extcoin="COIN" id="kmd_wallet_opids_status_section">
               <div class="col-xlg-12 col-lg-12 col-sm-12 col-xs-12">
                 <!-- Panel FixedHeader -->
                 <div class="panel">
                   <header class="panel-heading">
+                    <div class="panel-actions">
+                      <button class="btn btn-info btn-block" id="kmd_opids_status_btn" type="button"><i class="icon fa-repeat" aria-hidden="true"></i> Refresh</button>
+                    </div>
                     <h3 class="panel-title">
                       Operations Statuses
                     </h3>
                   </header>
                   <div class="panel-body">
                     <!--<p>Recieving addresses info goes here...</p>-->
-                    <table class="table table-hover dataTable table-striped" data-extcoin="COIN" id="kmd-recieve-addr-tbl">
+                    <table class="table table-hover dataTable table-striped" data-extcoin="COIN" id="kmd-opid-status-tbl" width="100%">
                       <thead>
                         <tr>
                           <th>Status</th>
                           <th>ID</th>
                           <th>creation_time</th>
                           <th>Result</th>
-                          <th>Execution Secs</th>
                         </tr>
                       </thead>
                       <tfoot>
@@ -866,7 +868,6 @@
                           <th>ID</th>
                           <th>creation_time</th>
                           <th>Result</th>
-                          <th>Execution Secs</th>
                         </tr>
                       </tfoot>
                       
