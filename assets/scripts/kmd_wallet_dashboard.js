@@ -260,7 +260,7 @@ function RunInitFunctions() {
 
 
 function getHeaderActionMenuButtonCoinCode() {
-    var extcoin = $('#extcoin-wallet').data('extcoin');
+    var extcoin = $('[data-extcoin]').attr("data-extcoin");
     var action_menu_button_code = '';
     if ( extcoin == 'KMD') { action_menu_button_code = 'kmd'; };
     if ( extcoin == 'ZEC') { action_menu_button_code = 'zec'; };
@@ -268,7 +268,7 @@ function getHeaderActionMenuButtonCoinCode() {
 }
 
 function getPassthruAgent() {
-    var extcoin = $('#extcoin-wallet').data('extcoin');
+    var extcoin = $('[data-extcoin]').attr("data-extcoin");
     var passthru_agent = '';
     if ( extcoin == 'KMD') { passthru_agent = 'komodo'; };
     if ( extcoin == 'ZEC') { passthru_agent = 'zcash'; };
@@ -276,8 +276,8 @@ function getPassthruAgent() {
 }
 
 function getTotalKMDBalance() {
-    console.log($('#extcoin-wallet').data('extcoin'));
-    var extcoin = $('#extcoin-wallet').data('extcoin');
+    console.log($('[data-extcoin]').attr("data-extcoin"));
+    var extcoin = $('[data-extcoin]').attr("data-extcoin");
     var passthru_agent = '';
     if ( extcoin == 'KMD') { passthru_agent = 'komodo'; };
     if ( extcoin == 'ZEC') { passthru_agent = 'zcash'; };
@@ -293,6 +293,26 @@ function getTotalKMDBalance() {
             var AjaxOutputData = JSON.parse(data);
             //console.log('== Data OutPut ==');
             //console.log(AjaxOutputData);
+            if (AjaxOutputData.interest != undefined) {
+                console.log('show interest..');
+                $('#kmd_total_interest_balance').text(AjaxOutputData.interest);
+                $('#kmd_widget_get_total_balance_i').show();
+                $('#kmd_widget_get_total_balance_t').addClass(' col-lg-3');
+                $('#kmd_widget_get_total_balance_t').removeClass('col-lg-4');
+                $('#kmd_widget_get_total_balance_z').addClass(' col-lg-3');
+                $('#kmd_widget_get_total_balance_z').removeClass(' col-lg-4');
+                $('#kmd_widget_get_total_balance_tzi').addClass(' col-lg-3');
+                $('#kmd_widget_get_total_balance_tzi').removeClass(' col-lg-4');
+            } else {
+                console.log('do not show interest...');
+                $('#kmd_widget_get_total_balance_i').hide();
+                $('#kmd_widget_get_total_balance_t').addClass(' col-lg-4');
+                $('#kmd_widget_get_total_balance_t').removeClass(' col-lg-3');
+                $('#kmd_widget_get_total_balance_z').addClass(' col-lg-4');
+                $('#kmd_widget_get_total_balance_z').removeClass(' col-lg-3');
+                $('#kmd_widget_get_total_balance_tzi').addClass(' col-lg-4');
+                $('#kmd_widget_get_total_balance_tzi').removeClass(' col-lg-3');
+            }
             $('#kmd_transparent_balance').text(AjaxOutputData.transparent);
             $('#kmd_private_balance').text(AjaxOutputData.private);
             $('#kmd_total_tz_balance').text(AjaxOutputData.total);

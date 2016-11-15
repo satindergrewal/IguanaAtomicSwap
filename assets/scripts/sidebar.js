@@ -116,6 +116,7 @@ $('#nav-zcash-wallet').on('click', function() {
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
 	$(".header-easydex-section").text("Zcash Wallet");
+	console.log('changing to zcash')
 	$.each($('[data-extcoin]'), function(index, value) {$('[data-extcoin]').attr("data-extcoin","ZEC"); $('[data-extcoin="ZEC"]')});
 	$.each($('[data-extcoinname]'), function(index, value) {$('[data-extcoinname]').text("ZEC"); $('[data-extcoinname="ZEC"]')});
 	$.each($('[data-extcointitle]'), function(index, value) {$('[data-extcointitle]').text("Zcash"); $('[data-extcointitle="Zcash"]')});
