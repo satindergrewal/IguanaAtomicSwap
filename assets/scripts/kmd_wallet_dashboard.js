@@ -13,6 +13,7 @@ var KMDWalletDashboard = function() {
 			$('#kmd_wallet_settings').hide();
             getTotalKMDBalance();
             KMDfillTxHistoryT();
+            clearSendManyFieldData();
 
         });
 
@@ -48,6 +49,7 @@ var KMDWalletDashboard = function() {
 
 			$('.showkmdwalletaddrs').selectpicker({ style: 'btn-info' });
             $('.showkmdwalletaddrs').selectpicker('refresh');
+            clearSendManyFieldData();
 		});
 
 		$('.showkmdwalletaddrs').on('change', function(){
@@ -143,6 +145,7 @@ var KMDWalletDashboard = function() {
             submitHandler: function(form) {
                 console.log('Sent control here after clicked in form...');
                 KMDZSendManyTransaction();
+                clearSendManyFieldData();
             }
         });
 
@@ -183,6 +186,7 @@ var KMDWalletDashboard = function() {
 			$('#kmd_txid_info_vjoinsplit').text(kmd_addr_txid_info[0].vjoinsplit);
 			$('#kmd_txid_info_details').text(kmd_addr_txid_info[0].details);
 			$('#kmd_txid_info_hex').val(kmd_addr_txid_info[0].hex);
+            clearSendManyFieldData();
 		});
 	};
 
@@ -197,6 +201,7 @@ var KMDWalletDashboard = function() {
 			$('#kmd_wallet_settings').show();
 			getKMDWalletInfo();
     		getKMDInfo();
+            clearSendManyFieldData();
 		});
 	};
 
@@ -211,6 +216,7 @@ var KMDWalletDashboard = function() {
             $('#kmd_wallet_recieve_section').show();
             $('#kmd_wallet_settings').hide();
             KMDListAllAddr();
+            clearSendManyFieldData();
         });
 
         $('#kmd_get_new_taddr').click(function() {
@@ -1113,6 +1119,13 @@ function KMDZSendManyTransaction() {
     //console.log(result);
     KMDListAllOPIDs();
     return result;
+}
+
+function clearSendManyFieldData() {
+    $('.showkmdwalletaddrs').selectpicker('refresh');
+    $('#kmd_wallet_sendto').val('');
+    $('#kmd_wallet_total_value').text('');
+    $('#kmd_wallet_amount').val('');
 }
 
 
