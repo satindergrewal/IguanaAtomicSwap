@@ -230,12 +230,12 @@ var KMDWalletDashboard = function() {
         //main function to initiate the module
         init: function() {
             handle_KMD_Dashboard();
-            KMDfillTxHistoryT();
+            //KMDfillTxHistoryT();
             KMDGetTXIDdetails();
             handle_KMD_Send();
             KMDWalletRecieve();
             KMDWalletSettings();
-            RunInitFunctions();
+            //RunKMDInitFunctions();
         }
     };
 
@@ -246,14 +246,31 @@ jQuery(document).ready(function() {
 });
 
 
-function RunInitFunctions() {
+function RunKMDInitFunctions() {
     NProgress.done(true);
     NProgress.configure({
         template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
     });
     NProgress.start();
-	getTotalKMDBalance();
-    KMDfillTxHistoryT();
+	
+    var check1 = CheckIfConnected();
+    console.log(check1[0]);
+    if ( check1[0] == 'not active' ) {
+        console.log('Could not connect to external wallet. Is external wallet running?');
+        toastr.error("Connection Error. Is external wallet running?", "Wallet Notification");
+        $('#extcoin-wallet').hide();
+    }
+    if ( check1[0] == 'null return' ) {
+        console.log('Could not connect to external wallet. Is iguana connected to external wallet?');
+        toastr.error("Connection Error. Is iguana connected to external wallet?", "Wallet Notification");
+        $('#extcoin-wallet').hide();
+    }
+    if ( check1[0] == 'connected' ) {
+        getTotalKMDBalance();
+        KMDfillTxHistoryT();
+        $('#extcoin-wallet').show();
+    }
+    //KMDWalletDashboard.init()
     $('#kmd_wallet_recieve_section').hide();
     NProgress.done();
 }
@@ -1077,5 +1094,83 @@ function KMDZSendManyTransaction() {
     });
     //console.log(result);
     KMDListAllOPIDs();
+    return result;
+}
+
+
+function CheckIfConnected() {
+    var result = [];
+    var extcoin = $('[data-extcoin]').attr("data-extcoin");
+
+    var passthru_agent = getPassthruAgent();
+    var ajax_data = {"agent":passthru_agent,"method":"passthru","function":"getinfo","hex":""}
+    console.log(ajax_data);
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data);
+            console.log('== Data OutPut ==');
+            console.log(AjaxOutputData.error);
+            if ( AjaxOutputData.errors != undefined ) {
+                //console.log('connected');
+                result.push('connected');
+            } else if ( AjaxOutputData.errors == undefined) {
+                result.push('not active');
+            } else {
+                result.push(AjaxOutputData.errors);
+            }
+            
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    return result;
+}
+
+function CheckIfWalletEncrypted() {
+    var result = [];
+
+    var passthru_agent = getPassthruAgent();
+    var ajax_data = {"agent":passthru_agent,"method":"passthru","function":"walletlock","hex":""}
+    console.log(ajax_data);
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data);
+            console.log('== Data OutPut ==');
+            console.log(AjaxOutputData.error);
+            if ( AjaxOutputData.errors != undefined ) {
+                //console.log('encrypted');
+                result.push('encrypted');
+            } else {
+                result.push(AjaxOutputData.error);
+            }
+            
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
     return result;
 }
