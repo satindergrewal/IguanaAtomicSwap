@@ -538,7 +538,8 @@ function KMDListaddrZ() {
 				var tmpZaddrs_output = Iguana_HashHex(ajax_data_to_hex);
 				//console.log(tmpZaddrs_output);
 
-				var ajax_data_zaddrbalance = {"agent":"komodo","method":"passthru","function":"z_getbalance","hex":tmpZaddrs_output}
+				var passthru_agent = getPassthruAgent();
+                var ajax_data_zaddrbalance = {"agent":passthru_agent,"method":"passthru","function":"z_getbalance","hex":tmpZaddrs_output}
 			    //console.log(ajax_data_zaddrbalance);
 			    $.ajax({
 			    	async: false,
@@ -894,7 +895,8 @@ function KMDGetTransactionIDInfo(txid) {
 	var tmptxid_output = Iguana_HashHex(ajax_data_to_hex)
 	//console.log(tmptxid_output);
 
-	var ajax_data_txid_input = {"agent":"komodo","method":"passthru","function":"gettransaction","hex":tmptxid_output}
+	var passthru_agent = getPassthruAgent();
+    var ajax_data_txid_input = {"agent":passthru_agent,"method":"passthru","function":"gettransaction","hex":tmptxid_output}
     //console.log(ajax_data_txid_input);
     $.ajax({
     	async: false,
