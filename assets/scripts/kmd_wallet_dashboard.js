@@ -330,7 +330,7 @@ function getTotalKMDBalance() {
             //console.log(AjaxOutputData);
             if (AjaxOutputData.interest != undefined) {
                 console.log('show interest..');
-                $('#kmd_total_interest_balance').text(AjaxOutputData.interest);
+                $('#kmd_total_interest_balance').text(AjaxOutputData.interest+' '+extcoin);
                 $('#kmd_widget_get_total_balance_i').show();
                 $('#kmd_widget_get_total_balance_t').addClass(' col-lg-3');
                 $('#kmd_widget_get_total_balance_t').removeClass('col-lg-4');
@@ -348,9 +348,9 @@ function getTotalKMDBalance() {
                 $('#kmd_widget_get_total_balance_tzi').addClass(' col-lg-4');
                 $('#kmd_widget_get_total_balance_tzi').removeClass(' col-lg-3');
             }
-            $('#kmd_transparent_balance').text(AjaxOutputData.transparent);
-            $('#kmd_private_balance').text(AjaxOutputData.private);
-            $('#kmd_total_tz_balance').text(AjaxOutputData.total);
+            $('#kmd_transparent_balance').text(AjaxOutputData.transparent+' '+extcoin);
+            $('#kmd_private_balance').text(AjaxOutputData.private+' '+extcoin);
+            $('#kmd_total_tz_balance').text(AjaxOutputData.total+' '+extcoin);
         },
         error: function(xhr, textStatus, error) {
             console.log('failed getting Coin History.');
