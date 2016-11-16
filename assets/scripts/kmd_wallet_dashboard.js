@@ -15,6 +15,7 @@ var KMDWalletDashboard = function() {
             KMDfillTxHistoryT();
 
         });
+
 	}
 
 	var handle_KMD_Send = function() {
@@ -46,6 +47,7 @@ var KMDWalletDashboard = function() {
 			});
 
 			$('.showkmdwalletaddrs').selectpicker({ style: 'btn-info' });
+            $('.showkmdwalletaddrs').selectpicker('refresh');
 		});
 
 		$('.showkmdwalletaddrs').on('change', function(){
@@ -226,6 +228,12 @@ var KMDWalletDashboard = function() {
         });
     };
 
+    var handleWalletDashboardAlet = function() {
+        $('#extcoin-wallet-connection-alert-btn').click(function(){
+            RunKMDInitFunctions();
+        });
+    }
+
 	return {
         //main function to initiate the module
         init: function() {
@@ -236,6 +244,7 @@ var KMDWalletDashboard = function() {
             KMDWalletRecieve();
             KMDWalletSettings();
             //RunKMDInitFunctions();
+            handleWalletDashboardAlet();
         }
     };
 
@@ -259,16 +268,25 @@ function RunKMDInitFunctions() {
         console.log('Could not connect to external wallet. Is external wallet running?');
         toastr.error("Connection Error. Is external wallet running?", "Wallet Notification");
         $('#extcoin-wallet').hide();
+        $('#extcoin-wallet-connection-alert').show();
     }
     if ( check1[0] == 'null return' ) {
         console.log('Could not connect to external wallet. Is iguana connected to external wallet?');
         toastr.error("Connection Error. Is iguana connected to external wallet?", "Wallet Notification");
         $('#extcoin-wallet').hide();
+        $('#extcoin-wallet-connection-alert').show();
     }
     if ( check1[0] == 'connected' ) {
         getTotalKMDBalance();
         KMDfillTxHistoryT();
         $('#extcoin-wallet').show();
+        $('#extcoin-wallet-connection-alert').hide();
+
+        $('#kmd_wallet_dashoard_section').show();
+        $('#kmd_wallet_dashboardinfo').show();
+        $('#kmd_wallet_send').hide();
+        $('#kmd_wallet_recieve_section').hide();
+        $('#kmd_wallet_settings').hide();
     }
     //KMDWalletDashboard.init()
     $('#kmd_wallet_recieve_section').hide();
