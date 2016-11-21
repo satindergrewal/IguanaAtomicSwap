@@ -20,6 +20,7 @@ $(document).ready(function() {
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
 	CommonSidebarActionsSet01();
+	applyDashboardStyle();
 
 });
 
@@ -43,6 +44,7 @@ $('#nav-dashboard').on('click', function() {
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
 	CommonSidebarActionsSet01();
+	applyDashboardStyle();
 });
 
 $('#nav-easydex').on('click', function() {
@@ -65,6 +67,7 @@ $('#nav-easydex').on('click', function() {
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
 	CommonSidebarActionsSet02();
+	removeDashboardStyle();
 });
 
 $('#nav-komodo-wallet').on('click', function() {
@@ -92,6 +95,7 @@ $('#nav-komodo-wallet').on('click', function() {
 	applyKMDWalletStyle();
 	//removeZECWalletStyle();
 	CommonSidebarActionsSet02();
+	removeDashboardStyle();
 });
 
 $('#nav-zcash-wallet').on('click', function() {
@@ -125,6 +129,7 @@ $('#nav-zcash-wallet').on('click', function() {
 	applyZECWalletStyle();
 	//removeKMDWalletStyle();
 	CommonSidebarActionsSet02();
+	removeDashboardStyle();
 	NProgress.done();
 });
 
@@ -148,6 +153,7 @@ $('#nav-iguana-atomic-explorer').on('click', function() {
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
 	CommonSidebarActionsSet02();
+	removeDashboardStyle();
 });
 
 $('#nav-iguana-wallet-settings').on('click', function() {
@@ -171,6 +177,7 @@ $('#nav-iguana-wallet-settings').on('click', function() {
 	removeZECWalletStyle();
 	Settings_ShowWalletInfo(); //Execute this function from walletsettings.js file
 	CommonSidebarActionsSet02();
+	removeDashboardStyle();
 });
 
 $('#nav-about-iguana').on('click', function() {
@@ -193,6 +200,7 @@ $('#nav-about-iguana').on('click', function() {
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
 	CommonSidebarActionsSet02();
+	removeDashboardStyle();
 });
 
 
@@ -247,4 +255,22 @@ function removeZECWalletStyle() {
 	$('#easydex_kmd_wallet_actions_header').hide();
 	$('#easydex_zec_wallet_actions_header').hide();
 	$('#easydex_btc_btcd_balances_header').show();
+}
+
+
+function applyDashboardStyle() {
+	$('.page-aside').show();
+	$('.page-main').show();
+	/* set default map height */
+	var navbarH = $(".site-navbar").outerHeight();
+	var footerH = $(".site-footer").outerHeight();
+	var mapH = $(window).height() - navbarH - footerH;
+	$(".page-main").outerHeight(mapH);
+	$('#easydex-header-div').hide();
+}
+
+function removeDashboardStyle() {
+	$('.page-aside').hide();
+	$(".page-main").hide();
+	$('#easydex-header-div').show();
 }

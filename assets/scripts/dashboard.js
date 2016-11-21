@@ -44,9 +44,9 @@ var Dashboard = function() {
                         var modetip = '';
                         var modecolor = '';
 
-                        if ( value == 'basilisk' ) { modecode = 'B'; modetip = 'Basilisk'; modecolor = 'info'; }
-                        if ( value == 'full' ) { modecode = 'F'; modetip = 'Full'; modecolor = 'success'; }
-                        if ( value == 'virtual' ) { modecode = 'V'; modetip = 'Virtual'; modecolor = 'danger'; }
+                        if ( value == 'basilisk' ) { modecode = 'Basilisk'; modetip = 'Basilisk'; modecolor = 'info'; }
+                        if ( value == 'full' ) { modecode = 'Full'; modetip = 'Full'; modecolor = 'success'; }
+                        if ( value == 'virtual' ) { modecode = 'Virtual'; modetip = 'Virtual'; modecolor = 'danger'; }
 
                         if ( AllcoinsDataOutput[value][index] == 'BTC' ) { coinlogo = 'bitcoin'; coinname = 'Bitcoin'; }
                         if ( AllcoinsDataOutput[value][index] == 'BTCD' ) { coinlogo = 'bitcoindark'; coinname = 'BitcoinDark'; }
@@ -69,7 +69,23 @@ var Dashboard = function() {
 
                         //console.log(AllcoinsDataOutput[value][index]);
                         
-                        walletDivContent += '<!-- Begin' + AllcoinsDataOutput[value][index] + 'wallet widget -->';
+                        walletDivContent += '<!-- Wallet Widget '+AllcoinsDataOutput[value][index]+' -->';
+                        walletDivContent += '<div class="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info" data-wallet-widget-coin-code="'+AllcoinsDataOutput[value][index]+'">';
+                          walletDivContent += '<div class="widget widget-shadow">';
+                            walletDivContent += '<div class="widget-content text-center bg-white padding-20">';
+                              //walletDivContent += '<a href="#" class="avatar margin-bottom-5">';
+                              walletDivContent += '<a class="avatar margin-bottom-5" href="javascript:void(0)" data-wallet-widgets-coin-code="' + AllcoinsDataOutput[value][index] + '" data-wallet-widgets-coin-modecode="' + modecode + '" id="wallet-widgets-coin-logo">';
+                                walletDivContent += '<img class="img-responsive" src="assets/images/cryptologo/' + coinlogo + '.png" alt="'+coinname+'"/>';
+                                walletDivContent += '<span class="badge up badge-' + modecolor + '" id="basfull" data-wallet-widgets-coin-code="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>';
+                              walletDivContent += '</a>';
+                              walletDivContent += '<div class="coin-name">'+coinname+'</div>';
+                              walletDivContent += '<div class="coin-title margin-bottom-20 blue-grey-400"><span data-wallet-widget-coin-code="'+AllcoinsDataOutput[value][index]+'" id="wallet-widget-coin-balance">-</span> '+AllcoinsDataOutput[value][index]+'</div>';
+                            walletDivContent += '</div>';
+                          walletDivContent += '</div>';
+                        walletDivContent += '</div>';
+                        walletDivContent += '<!-- End Wallet Widget '+AllcoinsDataOutput[value][index]+' -->';
+
+                        /*walletDivContent += '<!-- Begin' + AllcoinsDataOutput[value][index] + 'wallet widget -->';
                         walletDivContent += '<div class="col-md-6 col-xs-12 masonry-item">';
                           walletDivContent += '<div class="widget widget-shadow">';
                             walletDivContent += '<div class="widget-header wallet-widget-header padding-15 clearfix">';
@@ -81,10 +97,12 @@ var Dashboard = function() {
                                     walletDivContent += '</a>';
                                     walletDivContent += '<div>';
                                       walletDivContent += '<div class="font-size-20 hidden-xs" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-name">' + coinname + '</div>';
-                                      walletDivContent += '<div class="form-material hidden-md hidden-xs">';
+                                      walletDivContent += '<div class="form-material hidden-md hidden-xs">';*/
+                                        
                                         /*walletDivContent += '<select class="form-control font-size-12" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-addr" style="width: 235px;">';
                                         walletDivContent += '</select>';*/
-                                        walletDivContent += '<div class="font-size-12" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-addr"></div>';
+                                        
+                                        /*walletDivContent += '<div class="font-size-12" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-addr"></div>';
                                       walletDivContent += '</div>';
                                       walletDivContent += '<div class="font-size-12 hidden-xs"></div>';
                                     walletDivContent += '</div>';
@@ -96,14 +114,16 @@ var Dashboard = function() {
                                           walletDivContent += '<div class="counter-icon"><i class="icon">' + AllcoinsDataOutput[value][index] + '</i></div>';
                                           walletDivContent += '<span class="counter-number" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-balance">0</span>';
                                         walletDivContent += '</div>';
-                                      walletDivContent += '</div>';
+                                      walletDivContent += '</div>';*/
+
                                       /*walletDivContent += '<div class="col-md-4 col-xs-6">';
                                         walletDivContent += '<div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="Unconfirmed">';
                                           walletDivContent += '<div class="counter-icon"><i class="icon fa-spinner"></i></div>';
                                           walletDivContent += '<span class="counter-number" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-unconfirmed">0</span>';
                                         walletDivContent += '</div>';
                                       walletDivContent += '</div>';*/
-                                      walletDivContent += '<div class="col-md-6 hidden-xs hidden-sm">';
+
+                                      /*walletDivContent += '<div class="col-md-6 hidden-xs hidden-sm">';
                                         walletDivContent += '<div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="No. of Transactions">';
                                           walletDivContent += '<div class="counter-icon"><i class="icon fa-book"></i></div>';
                                           walletDivContent += '<span class="counter-number" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-nooftransactions">0</span>';
@@ -171,9 +191,10 @@ var Dashboard = function() {
                             walletDivContent += '</div>';
                           walletDivContent += '</div>';
                         walletDivContent += '</div>';
-                        walletDivContent += '<!-- End' + AllcoinsDataOutput[value][index] + 'wallet widget -->';
+                        walletDivContent += '<!-- End' + AllcoinsDataOutput[value][index] + 'wallet widget -->';*/
 
-                        $('#wallet-widgets').html(walletDivContent);
+                        $('.wallet-widgets-row').html(walletDivContent);
+                        getCoinBalance(AllcoinsDataOutput[value][index]);
                         $('.scrollbar-dynamic').scrollbar(); //Make sure widget-body has scrollbar for transactions history
                         $('[data-toggle="tooltip"]').tooltip(); //Make sure tooltips are working for wallet widgets and anywhere else in wallet.
                         //console.log(walletDivContent);
@@ -260,12 +281,19 @@ var Dashboard = function() {
         //main function to initiate the module
         init: function() {
 
+          /* set default map height */
+          var navbarH = $(".site-navbar").outerHeight();
+          var footerH = $(".site-footer").outerHeight();
+          var mapH = $(window).height() - navbarH - footerH;
+
+          $(".page-main").outerHeight(mapH);
+
             if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
                 console.log('=> No wallet logged in. No need to run Dashboard JS.');
             } else {
                 handleWalletWidgets();
-                handleWalletSendRec();
-                TotalFiatValue();
+                //handleWalletSendRec();
+                //TotalFiatValue();
             }
 
             /*setInterval(function() {
@@ -278,7 +306,7 @@ var Dashboard = function() {
                 console.log('=> No wallet logged in. No need to get Rates.');
                 StopTotalFiatValue();
                 } else {
-                    TotalFiatValue();
+                    //TotalFiatValue();
                     //console.log('Get Rates (every 60 seconds)');
                 }
             }, 60000);
@@ -441,10 +469,6 @@ function ShowCoinHistory(getData) {
     
 }
 
-function getCoinBalance() {
-  
-}
-
 function getCoinBalance(coin) {
   //console.log(rmd160conv_data);
   //return rmd160conv_data;
@@ -461,7 +485,7 @@ function getCoinBalance(coin) {
             var AjaxOutputData = JSON.parse(data);
             console.log('== Data OutPut ==');
             console.log(AjaxOutputData);
-            $('span[data-currency="' + coin + '"][id="currency-balance"]').text(AjaxOutputData.result);
+            $('span[data-wallet-widget-coin-code="' + coin + '"][id="wallet-widget-coin-balance"]').text(AjaxOutputData.result);
         },
         error: function(xhr, textStatus, error) {
             console.log('failed getting Coin History.');
