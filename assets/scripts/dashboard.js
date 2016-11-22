@@ -131,9 +131,9 @@ var Dashboard = function() {
                                 } else {
                                   //console.log('wallet widget refereshed (every 1 seconds)');
                                   //Show Coin Progress Bars
-                                  ShowCoinProgressBar(AllcoinsDataOutput[value][index]);
+                                  //ShowCoinProgressBar(AllcoinsDataOutput[value][index]);
                                   if ( sessionStorage.getItem('Activate'+AllcoinsDataOutput[value][index]+'History') === 'Yes' ) {
-                                    ShowCoinHistory(historyvalues);
+                                    //ShowCoinHistory(historyvalues);
                                   }
                                 }
                             }
@@ -159,10 +159,13 @@ var Dashboard = function() {
         
     }
 
-    var handleWalletSendRec = function() {
+    var handleWalletActionBtn = function() {
         
-        $('#currency-logo').click(function() {
-            console.log('hello!');
+        $('#dashboardedex-floating').click(function() {
+            console.log('floating btn clicked')
+            
+            $('#dashboardedex-bar').toggleClass("active");
+            
         });
 
         
@@ -184,7 +187,7 @@ var Dashboard = function() {
                 console.log('=> No wallet logged in. No need to run Dashboard JS.');
             } else {
                 handleWalletWidgets();
-                //handleWalletSendRec();
+                handleWalletActionBtn();
                 //TotalFiatValue();
             }
 
@@ -210,7 +213,7 @@ var Dashboard = function() {
 }();
 
 jQuery(document).ready(function() {
-    Dashboard.init();
+    //Dashboard.init();
 });
 
 
