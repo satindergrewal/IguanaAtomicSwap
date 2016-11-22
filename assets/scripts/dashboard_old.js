@@ -76,7 +76,7 @@ var Dashboard = function() {
                               //walletDivContent += '<a href="#" class="avatar margin-bottom-5">';
                               walletDivContent += '<a class="avatar margin-bottom-5" href="javascript:void(0)" data-wallet-widgets-coin-code="' + AllcoinsDataOutput[value][index] + '" data-wallet-widgets-coin-modecode="' + modecode + '" id="wallet-widgets-coin-logo">';
                                 walletDivContent += '<img class="img-responsive" src="assets/images/cryptologo/' + coinlogo + '.png" alt="'+coinname+'"/>';
-                                walletDivContent += '<span class="badge up badge-' + modecolor + '" id="basfull" data-wallet-widgets-coin-code="' + AllcoinsDataOutput[value][index] + '">' + modecode + '</span>';
+                                walletDivContent += '<span class="badge up badge-' + modecolor + '" id="basfull" data-wallet-widgets-coin-code="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>';
                               walletDivContent += '</a>';
                               walletDivContent += '<div class="coin-name">'+coinname+'</div>';
                               walletDivContent += '<div class="coin-title margin-bottom-20 blue-grey-400"><span data-wallet-widget-coin-code="'+AllcoinsDataOutput[value][index]+'" id="wallet-widget-coin-balance">-</span> '+AllcoinsDataOutput[value][index]+'</div>';
@@ -84,6 +84,114 @@ var Dashboard = function() {
                           walletDivContent += '</div>';
                         walletDivContent += '</div>';
                         walletDivContent += '<!-- End Wallet Widget '+AllcoinsDataOutput[value][index]+' -->';
+
+                        /*walletDivContent += '<!-- Begin' + AllcoinsDataOutput[value][index] + 'wallet widget -->';
+                        walletDivContent += '<div class="col-md-6 col-xs-12 masonry-item">';
+                          walletDivContent += '<div class="widget widget-shadow">';
+                            walletDivContent += '<div class="widget-header wallet-widget-header padding-15 clearfix">';
+                              walletDivContent += '<div class="row no-space">';
+                                  walletDivContent += '<div class="col-xs-7">';
+                                    walletDivContent += '<a class="avatar avatar-lg pull-left margin-right-20 img-bordered" href="javascript:void(0)" data-currency="' + AllcoinsDataOutput[value][index] + '" data-modecode="' + modecode + '" id="currency-logo" onclick="SwitchBasicliskFull($(this).data())">';
+                                      walletDivContent += '<img src="assets/images/cryptologo/' + coinlogo + '.png" alt="">';
+                                      walletDivContent += '<span class="badge up badge-' + modecolor + '" id="basfull" data-currency="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>';
+                                    walletDivContent += '</a>';
+                                    walletDivContent += '<div>';
+                                      walletDivContent += '<div class="font-size-20 hidden-xs" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-name">' + coinname + '</div>';
+                                      walletDivContent += '<div class="form-material hidden-md hidden-xs">';*/
+                                        
+                                        /*walletDivContent += '<select class="form-control font-size-12" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-addr" style="width: 235px;">';
+                                        walletDivContent += '</select>';*/
+                                        
+                                        /*walletDivContent += '<div class="font-size-12" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-addr"></div>';
+                                      walletDivContent += '</div>';
+                                      walletDivContent += '<div class="font-size-12 hidden-xs"></div>';
+                                    walletDivContent += '</div>';
+                                  walletDivContent += '</div>';
+                                  walletDivContent += '<div class="col-xs-5">';
+                                    walletDivContent += '<div class="row no-space text-center">';
+                                      walletDivContent += '<div class="col-md-6 col-xs-12">';
+                                        walletDivContent += '<div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="Balance">';
+                                          walletDivContent += '<div class="counter-icon"><i class="icon">' + AllcoinsDataOutput[value][index] + '</i></div>';
+                                          walletDivContent += '<span class="counter-number" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-balance">0</span>';
+                                        walletDivContent += '</div>';
+                                      walletDivContent += '</div>';*/
+
+                                      /*walletDivContent += '<div class="col-md-4 col-xs-6">';
+                                        walletDivContent += '<div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="Unconfirmed">';
+                                          walletDivContent += '<div class="counter-icon"><i class="icon fa-spinner"></i></div>';
+                                          walletDivContent += '<span class="counter-number" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-unconfirmed">0</span>';
+                                        walletDivContent += '</div>';
+                                      walletDivContent += '</div>';*/
+
+                                      /*walletDivContent += '<div class="col-md-6 hidden-xs hidden-sm">';
+                                        walletDivContent += '<div class="counter" data-toggle="tooltip" data-placement="top" data-original-title="No. of Transactions">';
+                                          walletDivContent += '<div class="counter-icon"><i class="icon fa-book"></i></div>';
+                                          walletDivContent += '<span class="counter-number" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-nooftransactions">0</span>';
+                                        walletDivContent += '</div>';
+                                      walletDivContent += '</div>';
+                                    walletDivContent += '</div>';
+                                  walletDivContent += '</div>';
+                                walletDivContent += '</div>';
+                            walletDivContent += '</div>';
+                            walletDivContent += '<div class="widget-content history-body hidden-sm hidden-xs">';
+                              walletDivContent += '<div class="height-200 scrollbar-dynamic" id="tblscroll">';
+                                walletDivContent += '<div data-role="container">';
+                                  walletDivContent += '<div data-role="content">';
+                                    walletDivContent += '<table class="table font-size-12" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-tbl">';
+                                      walletDivContent += '<tbody>';
+                                      walletDivContent += '</tbody>';
+                                    walletDivContent += '</table>';
+                                  walletDivContent += '</div>';
+                                walletDivContent += '</div>';
+                              walletDivContent += '</div>';
+                            walletDivContent += '</div>';
+                            walletDivContent += '<div class="widget-footer text-center">';
+                              walletDivContent += '<div class="row no-space ">';
+                                walletDivContent += '<div data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-progressbars" style="display: none;">';
+                                  walletDivContent += '<div class="progress progress-sm">';
+                                  walletDivContent += '<div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-bundles">Bundles <span data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-bundles-percent">0%</span></div>';
+                                  walletDivContent += '</div>';
+                                  walletDivContent += '<div data-currency="' + AllcoinsDataOutput[value][index] + '" id="additional-progress-bars">';
+                                  walletDivContent += '<div class="progress progress-sm">';
+                                  walletDivContent += '<div class="progress-bar progress-bar-warning progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-utxo">utxo <span data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-utxo-percent">0%</span></div>';
+                                  walletDivContent += '</div>';
+                                  walletDivContent += '<div class="progress progress-sm">';
+                                  walletDivContent += '<div class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-balances">Balances <span data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-balances-percent">0%</span></div>';
+                                  walletDivContent += '</div>';
+                                  walletDivContent += '<div class="progress progress-sm">';
+                                  walletDivContent += '<div class="progress-bar progress-bar-success progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-validated">Validated <span data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-validated-percent">0%</span></div>';
+                                  walletDivContent += '</div>';
+                                  walletDivContent += '</div><!-- END additional-progress-bars -->';
+                                walletDivContent += '</div>';
+                              walletDivContent += '</div>';
+                                walletDivContent += '<div class="btn-group btn-group-justified">';
+                                    walletDivContent += '<div class="btn-group" role="group">';
+                                      walletDivContent += '<button type="button" class="btn btn-xs bg-blue-grey-200 grey-800 waves-effect waves-light" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-send" onclick="sendCurrency($(this).data())" data-target="#SendCoinModelStep1" data-toggle="modal">';
+                                        walletDivContent += '<i class="icon wb-upload" aria-hidden="true"></i>';
+                                        walletDivContent += '<br>';
+                                        walletDivContent += '<span class="text-uppercase hidden-xs">Send</span>';
+                                      walletDivContent += '</button>';
+                                    walletDivContent += '</div>';
+                                    walletDivContent += '<div class="btn-group" role="group">';
+                                      walletDivContent += '<button type="button" class="btn btn-xs bg-blue-grey-100 grey-800 waves-effect waves-light" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-receive" onclick="ReceiveCurrency($(this).data())" data-target="#ReceiveCoinModel" data-toggle="modal">';
+                                        walletDivContent += '<i class="icon wb-download " aria-hidden="true"></i>';
+                                        walletDivContent += '<br>';
+                                        walletDivContent += '<span class="text-uppercase hidden-xs">Receive</span>';
+                                      walletDivContent += '</button>';
+                                    walletDivContent += '</div>';
+                                    walletDivContent += '<div class="btn-group" role="group">';
+                                      walletDivContent += '<button type="button" class="btn btn-xs bg-blue-grey-300 grey-800 waves-effect waves-light" data-currency="' + AllcoinsDataOutput[value][index] + '" id="currency-trade">';
+                                        walletDivContent += '<i class="icon wb-graph-up" aria-hidden="true"></i>';
+                                        walletDivContent += '<br>';
+                                        walletDivContent += '<span class="text-uppercase hidden-xs">Trade</span>';
+                                      walletDivContent += '</button>';
+                                    walletDivContent += '</div>';
+                                  walletDivContent += '</div>';
+                              walletDivContent += '</div>';
+                            walletDivContent += '</div>';
+                          walletDivContent += '</div>';
+                        walletDivContent += '</div>';
+                        walletDivContent += '<!-- End' + AllcoinsDataOutput[value][index] + 'wallet widget -->';*/
 
                         $('.wallet-widgets-row').html(walletDivContent);
                         getCoinBalance(AllcoinsDataOutput[value][index]);

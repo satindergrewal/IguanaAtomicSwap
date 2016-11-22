@@ -168,6 +168,9 @@
   .page-aside {
     width: 300px;
   }
+  .page-main {
+    margin-left: 300px;
+  }
   .page-aside .panel-title {
     opacity: 0;
   }
@@ -185,6 +188,10 @@
   }
   .page-aside {
     width: 260px;
+  }
+
+  .page-main {
+    margin-left: 260px;
   }
   .page-aside + .page-main {
     margin-left: 0 !important;
