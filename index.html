@@ -478,28 +478,112 @@
       <div class="row" id="wallet-widgets" data-plugin="masonry">
         
       </div>
-      <button type="button" class="btn btn-info btn-lg btn-block waves-effect waves-light" data-target="#exampleGrid" data-toggle="modal">Add Coin</button>
-    </div>
-
-    <!-- Site Action -->
-    <div class="site-action" data-plugin="actionBtn">
-      <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating">
-        <i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i>
-        <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i>
-      </button>
-      <div class="site-action-buttons">
-        <button type="button" data-action="trash" class="btn-raised btn btn-success btn-floating animation-slide-bottom">
-          <i class="icon md-delete" aria-hidden="true"></i>
-        </button>
-        <button type="button" data-action="folder" class="btn-raised btn btn-success btn-floating animation-slide-bottom">
-          <i class="icon md-print" aria-hidden="true"></i>
-        </button>
-        <button type="button" data-action="folder" class="btn-raised btn btn-success btn-floating animation-slide-bottom">
-          <i class="icon md-share" aria-hidden="true"></i>
-        </button>
+      <!-- Modal -->
+      <div class="modal fade modal-3d-sign" id="SendCoinModelStep1" aria-hidden="true"
+      aria-labelledby="SendCoinModelTitle" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-center modal-lg">
+          <form class="modal-content" id="send_currency_form">
+            <div class="modal-header bg-orange-a400 wallet-send-header">
+              <button type="button" class="close white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+              <h4 class="modal-title white" id="SendCoinModelLabel">SEND <span id="mdl_currency_coin">[COIN]</span> <span id="mdl_currency_balance">(Balance)</span> <small class="white" style="font-size: 10px;">STEP 1 of 2</small></h4>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-lg-12 form-group form-material">
+                  <label class="control-label" for="mdl_currency_sendto">Send To</label>
+                  <input type="text" class="form-control" id="mdl_currency_sendto" name="mdl_currency_sendto" placeholder="Enter [coin] address" autocomplete="off" required/>
+                </div>
+                <div class="col-lg-6 form-group form-material">
+                  <label class="control-label" for="mdl_currency_amount" id="mdl_currency_amount_label">[Coin]</label>
+                  <input type="text" class="form-control" id="mdl_currency_amount" name="mdl_currency_amount" placeholder="0.000" autocomplete="off"/>
+                </div>
+                <div class="col-lg-6 form-group form-material">
+                  <label class="control-label" for="mdl_currency_fee">Fee</label>
+                  <input type="text" class="form-control" id="mdl_currency_fee" name="mdl_currency_fee" placeholder="0.000" autocomplete="off"/>
+                </div>
+                <div class="col-lg-12">
+                  <span><b>Total:</b>
+                  <span id="mdl_currency_total_value">0.000</span> <span id="mdl_currency_total_coinname">[Coin]</span> <span class="icon glyphicon glyphicon-resize-horizontal"></span> <span id="mdl_currency_total_fiat_value">0.00</span></span>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" onclick="CurrencyMdlBtnClean()">Close</button>
+              <button type="button" class="btn btn-primary disabled" data-toggle="modal" id="mdl_currency_send_btn">Send</button>
+            </div>
+          </form>
+        </div>
       </div>
+      <!-- End Modal -->
+      <!-- Modal -->
+      <div class="modal fade modal-3d-sign" id="SendCoinModelStep2" aria-hidden="false" role="dialog"
+      tabindex="-1">
+        <div class="modal-dialog modal-center modal-lg">
+          <div class="modal-content">
+            <div class="modal-header bg-orange-a400 wallet-send-header">
+              <button type="button" class="close white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+              <h4 class="modal-title white"><span class="icon wb-upload" style="margin: 0;"></span> Confirm <small class="white" style="font-size: 10px;">STEP 2 of 2</small></h4>
+              <span class="white">Please review your transaction</span>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-xs-12"><b>To:</b></div>
+                <div class="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendto_addr">[coin-address-goes-here]</div>
+                <div class="col-lg-4 col-sm-4 col-xs-6"><span id="mdl_confirm_currency_send_amount">0.00000000</span> <span id="mdl_confirm_currency_coinname">[COIN]</span></div>
+                <div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_amount_fiat">$0.00</div>
+                <div class="col-lg-6 col-sm-6 col-xs-12">Transaction Fee (Required by miners)</div>
+                <div class="col-lg-4 col-sm-4 col-xs-6"><span id="mdl_confirm_currency_send_fee">0.00000000</span> <span id="mdl_confirm_currency_coinname_fee">[COIN]</span></div>
+                <div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_fee_fiat">$0.00</div>
+              </div>
+              <br>
+              
+              <div class="row">
+                <div class="col-xs-12"><b>From:</b></div>
+                <div class="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendfrom_addr">[coin-address-goes-here]</div>
+                <div class="col-lg-4 col-sm-4 col-xs-6" style="color: #f44336;"><span id="mdl_confirm_currency_sendfrom_total_dedcut">-0.00000000</span> <span id="mdl_confirm_currency_coinname_total">[COIN]</span></div>
+                <div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_sendfrom_total_deduct_fiat" style="color: #f44336;">-$0.00</div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a class="btn btn-default" data-target="#SendCoinModelStep1" data-toggle="modal" data-dismiss="modal">Back</a>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" onclick="ExecuteSendCurrencyAPI()">Confirm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Modal -->
+      <!-- Modal -->
+      <div class="modal fade modal-3d-sign" id="ReceiveCoinModel" aria-hidden="false" role="dialog"
+      tabindex="-1">
+        <div class="modal-dialog modal-center modal-lg">
+          <div class="modal-content">
+            <div class="modal-header bg-orange-a400 wallet-send-header">
+              <button type="button" class="close white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+              <h4 class="modal-title white"><span class="icon wb-download" style="margin: 0;"></span> Receive <span id="mdl_receive_coin_name"></span></h4>
+              <span class="white">This is your default Iguana wallet address.</span>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-xs-8" style="text-align: center;"><h4>Copy and Share</h4></div><div class="col-xs-4" style="text-align: center;"><h4>Scan</h4></div>
+                <span class="col-sm-8 col-xs-12" style="text-align: center;"><input type="text" class="force-select form-control empty" id="mdl_receive_coin_addr" readonly/><br>
+                <button class="btn btn-round btn-info waves-effect waves-round waves-light" data-clipboard-action="copy" data-clipboard-target="#mdl_receive_coin_addr" data-toggle="tooltip"><i class="icon md-copy" aria-hidden="true"></i>Copy to clipboard</button></span>
+                <span class="col-sm-4 col-xs-12" id="mdl_receive_coin_addr_qr_code" style="width: 60px;"></span>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" id="mdl_receive_coin_done_btn" onclick="ReceiveCoinMdlBtnClean()">Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Modal -->
+      
     </div>
-    <!-- End Site Action -->
 
     <!-- START ADD COIN DIV -->
     <div>
@@ -543,22 +627,22 @@
                   </select>
                 </div>
               </div>
-              <div class="col-sm-2" style="text-align: center;">
+              <!--<div class="col-sm-2" style="text-align: center;">
               <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn" onclick="ExecuteAddCoinFn()">Add Coin</button>
-              </div>
+              </div>-->
             </div>
           </div>
         </div>
       </div>
       <!-- End Modal -->
-    
+    <!--<button type="button" class="btn btn-info btn-lg btn-block waves-effect waves-light" data-target="#exampleGrid" data-toggle="modal">Add Coin</button>-->
     </div>
     <!-- START ADD COIN DIV -->
     <!-- END DASHBOARD CONTENT BODY -->
 
     
 
-  <div class="progress-bar progress-bar-info progress-bar-striped active" aria-valuemin="0" aria-valuemax="100" style="width: 50%" aria-valuenow="60" role="progressbar"><span class="progress-label"></span></div>-->
+  <!--<div class="progress-bar progress-bar-info progress-bar-striped active" aria-valuemin="0" aria-valuemax="100" style="width: 50%" aria-valuenow="60" role="progressbar"><span class="progress-label"></span></div>-->
   </div>
   <!-- End Page -->
 
