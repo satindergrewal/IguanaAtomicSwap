@@ -479,7 +479,7 @@
             <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-edexcoinmenu="COIN" id="btn_edexcoin_wallet_recieve">Recieve</a></li>
             <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-edexcoinmenu="COIN" id="btn_edexcoin_wallet_transactions">Transactions</a></li>
             <li class="divider" role="presentation"></li>
-            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-edexcoinmenu="COIN" id="btn_edexcoin_wallet_addcoin">Add Coin</a></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-edexcoinmenu="COIN" id="btn_edexcoin_wallet_addcoin" data-target="#AddCoinDilogModel" data-toggle="modal">Add Coin</a></li>
             <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-edexcoinmenu="COIN" id="btn_edexcoin_wallet_settings">Settings</a></li>
           </ul>
         </div>
@@ -604,7 +604,7 @@
     <!-- START ADD COIN DIV -->
     <div>
     <!-- Modal -->
-      <div class="modal fade modal-3d-sign" id="exampleGrid" aria-hidden="true" aria-labelledby="exampleGrid" role="dialog" tabindex="-1">
+      <div class="modal fade modal-3d-sign" id="AddCoinDilogModel" aria-hidden="true" aria-labelledby="AddCoinDilogModel" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-center modal-lg">
           <div class="modal-content">
             <div class="modal-header bg-orange-a400 wallet-send-header">
@@ -643,15 +643,15 @@
                   </select>
                 </div>
               </div>
-              <!--<div class="col-sm-2" style="text-align: center;">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn" onclick="ExecuteAddCoinFn()">Add Coin</button>
-              </div>-->
+              <div class="col-sm-2" style="text-align: center;">
+              <button type="button" class="btn btn-primary mdl_addcoin_done_btn" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn">Add Coin</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <!-- End Modal -->
-    <!--<button type="button" class="btn btn-info btn-lg btn-block waves-effect waves-light" data-target="#exampleGrid" data-toggle="modal">Add Coin</button>-->
+    <!--<button type="button" class="btn btn-info btn-lg btn-block waves-effect waves-light" data-target="#AddCoinDilogModel" data-toggle="modal">Add Coin</button>-->
     </div>
     <!-- START ADD COIN DIV -->
     <!-- END DASHBOARD CONTENT BODY -->

@@ -237,27 +237,7 @@ var Dashboard = function() {
                         });
 
 
-                        //Get coin history and pupulate balance and other info to wallet widget
-                        var historyvalues = {"timeout":20000,"immediate":100,"agent":"basilisk","method":"history","vals":{"coin":"" + AllcoinsDataOutput[value][index] + ""}};
-                        var ExecuteShowCoinHistory = setInterval(function() {
-                            if ( sessionStorage.getItem('IguanaActiveAccount') === null || sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "stop" ) {
-                                clearInterval(ExecuteShowCoinHistory);
-                                console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
-                            } else if ( sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "start") {
-                                if ( value == "basilisk") {
-                                  //console.log("ShowCoinHistory and ShowCoinProgressBar not executing for basilisk...");
-                                } else {
-                                  //console.log('wallet widget refereshed (every 1 seconds)');
-                                  //Show Coin Progress Bars
-                                  var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
-                                  ShowCoinProgressBar(active_edexcoin);
-                                  if ( sessionStorage.getItem('Activate'+active_edexcoin+'History') === 'Yes' ) {
-                                    console.log('Show coin history');
-                                    //ShowCoinHistory(historyvalues);
-                                  }
-                                }
-                            }
-                        }, 1000);
+                        
                        
                     });
                 },
@@ -281,9 +261,36 @@ var Dashboard = function() {
 
     var handleWalletWidgetBtns = function() {
         
-        
+        $('.mdl_addcoin_done_btn').click(function(){
+          ExecuteAddCoinFn();
+        });
 
         
+    }
+
+
+    var handleEdexWalletInfo = function() {
+      //Get coin history and pupulate balance and other info to wallet widget
+      var ExecuteShowCoinHistory = setInterval(function() {
+          if ( sessionStorage.getItem('IguanaActiveAccount') === null || sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "stop" ) {
+              clearInterval(ExecuteShowCoinHistory);
+              console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
+          } else if ( sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "start") {
+              //if ( value == "basilisk") {
+                //console.log("ShowCoinHistory and ShowCoinProgressBar not executing for basilisk...");
+              //} else {
+                //console.log('wallet widget refereshed (every 1 seconds)');
+                //Show Coin Progress Bars
+                var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
+                ShowCoinProgressBar(active_edexcoin);
+                if ( sessionStorage.getItem('Activate'+active_edexcoin+'History') === 'Yes' ) {
+                  console.log('Show coin history');
+                  var historyvalues = {"timeout":20000,"immediate":100,"agent":"basilisk","method":"history","vals":{"coin":"" + active_edexcoin + ""}};
+                  //ShowCoinHistory(historyvalues);
+                //}
+              }
+          }
+      }, 1000);
     }
 
 
@@ -293,7 +300,7 @@ var Dashboard = function() {
 
           resizeDashboardWindow();
           handle_edex_wallet();
-          //handleWalletWidgetBtns();
+
 
 
           window.onresize = function(event) { resizeDashboardWindow(); };
@@ -302,6 +309,8 @@ var Dashboard = function() {
                 console.log('=> No wallet logged in. No need to run Dashboard JS.');
             } else {
                 handleWalletWidgets();
+                handleWalletWidgetBtns();
+                handleEdexWalletInfo();
                 //TotalFiatValue();
             }
 
