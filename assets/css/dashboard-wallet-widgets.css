@@ -67,6 +67,9 @@
   height: 100%;
   margin-left: 450px !important;
 }
+#edex-footer {
+  margin-left: 450px !important;
+}
 
 .page-aside-inner {
   height: 100%;
@@ -167,7 +170,7 @@
   .page-aside + .page-main {
     margin-left: 450px !important;
   }
-  .page-main {
+  .page-main, #edex-footer {
     margin-left: 450px !important;
   }
 }
@@ -185,7 +188,7 @@
   .page-aside + .page-main {
     margin-left: 300px !important;
   }
-  .page-main {
+  .page-main, #edex-footer {
     margin-left: 300px !important;
   }
 }
@@ -200,7 +203,7 @@
   .page-aside + .page-main {
     margin-left: 0 !important;
   }
-  .page-main {
+  .page-main, #edex-footer {
     margin-left: 0 !important;
   }
   .page-aside.open {
