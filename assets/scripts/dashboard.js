@@ -20,6 +20,14 @@ var Dashboard = function() {
         "hideMethod": "fadeOut"
     }
 
+    var handle_edex_wallet = function() {
+      //var action_btn_code = getActiveEdexcoin();
+      $('#btn_edexcoin_wallet_dashboard').click(function() {
+          console.log('edex wallet dashbaord button clicked...');
+          console.log($(this).data());
+      });
+    }
+
     var handleWalletWidgets = function() {
 
         var walletDivContent = '';
@@ -284,6 +292,7 @@ var Dashboard = function() {
         init: function() {
 
           resizeDashboardWindow();
+          handle_edex_wallet();
           //handleWalletWidgetBtns();
 
 
@@ -336,7 +345,14 @@ function edexCoinBtnAction() {
     console.log($(this).data('edexcoincode'));
     var coincode = $(this).data('edexcoincode');
     $.each($('[data-edexcoin]'), function(index, value) {$('[data-edexcoin]').attr("data-edexcoin",coincode); $('[data-edexcoin="'+coincode+'"]')});
+    $.each($('[data-edexcoinmenu]'), function(index, value) {$('[data-edexcoinmenu]').attr("data-edexcoinmenu",coincode); $('[data-edexcoinmenu="'+coincode+'"]')});
+    $('#edexcoin-active').text(coincode);
   });
+}
+
+function getActiveEdexcoin() {
+    var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
+    return active_edexcoin;
 }
 
 function ShowCoinHistory(getData) {
