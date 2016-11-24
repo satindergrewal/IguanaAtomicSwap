@@ -70,16 +70,16 @@ var Dashboard = function() {
                         //console.log(AllcoinsDataOutput[value][index]);
                         
                         walletDivContent += '<!-- Wallet Widget '+AllcoinsDataOutput[value][index]+' -->';
-                        walletDivContent += '<div class="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info" data-wallet-widget-coin-code="'+AllcoinsDataOutput[value][index]+'">';
+                        walletDivContent += '<div class="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info" data-edexcoincode="'+AllcoinsDataOutput[value][index]+'">';
                           walletDivContent += '<div class="widget widget-shadow">';
                             walletDivContent += '<div class="widget-content text-center bg-white padding-20">';
                               //walletDivContent += '<a href="#" class="avatar margin-bottom-5">';
-                              walletDivContent += '<a class="avatar margin-bottom-5" href="javascript:void(0)" data-wallet-widgets-coin-code="' + AllcoinsDataOutput[value][index] + '" data-wallet-widgets-coin-modecode="' + modecode + '" id="wallet-widgets-coin-logo">';
+                              walletDivContent += '<a class="avatar margin-bottom-5 edexcoin-logo" href="javascript:void(0)" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-edexcoinmodecode="' + modecode + '" id="edexcoin-logo">';
                                 walletDivContent += '<img class="img-responsive" src="assets/images/cryptologo/' + coinlogo + '.png" alt="'+coinname+'"/>';
-                                walletDivContent += '<span class="badge up badge-' + modecolor + '" id="basfull" data-wallet-widgets-coin-code="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>';
+                                walletDivContent += '<span class="badge up badge-' + modecolor + '" id="basfull" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>';
                               walletDivContent += '</a>';
                               walletDivContent += '<div class="coin-name">'+coinname+'</div>';
-                              walletDivContent += '<div class="coin-title margin-bottom-20 blue-grey-400"><span data-wallet-widget-coin-code="'+AllcoinsDataOutput[value][index]+'" id="wallet-widget-coin-balance">-</span> '+AllcoinsDataOutput[value][index]+'</div>';
+                              walletDivContent += '<div class="coin-title margin-bottom-20 blue-grey-400"><span data-edexcoincode="'+AllcoinsDataOutput[value][index]+'" id="edexcoin-balance">-</span> '+AllcoinsDataOutput[value][index]+'</div>';
                             walletDivContent += '</div>';
                           walletDivContent += '</div>';
                         walletDivContent += '</div>';
@@ -198,6 +198,7 @@ var Dashboard = function() {
                         $('.scrollbar-dynamic').scrollbar(); //Make sure widget-body has scrollbar for transactions history
                         $('[data-toggle="tooltip"]').tooltip(); //Make sure tooltips are working for wallet widgets and anywhere else in wallet.
                         //console.log(walletDivContent);
+                        edexCoinBtnAction();
                         
                         //console.log('http://127.0.0.1:7778/api/bitcoinrpc/getaddressesbyaccount?coin=' + AllcoinsDataOutput[value][index] + '&account=*');
                         //List coin addresses as drop down menu
@@ -227,6 +228,7 @@ var Dashboard = function() {
                             }
                         });
 
+
                         //Get coin history and pupulate balance and other info to wallet widget
                         var historyvalues = {"timeout":20000,"immediate":100,"agent":"basilisk","method":"history","vals":{"coin":"" + AllcoinsDataOutput[value][index] + ""}};
                         var ExecuteShowCoinHistory = setInterval(function() {
@@ -239,9 +241,11 @@ var Dashboard = function() {
                                 } else {
                                   //console.log('wallet widget refereshed (every 1 seconds)');
                                   //Show Coin Progress Bars
-                                  ShowCoinProgressBar(AllcoinsDataOutput[value][index]);
-                                  if ( sessionStorage.getItem('Activate'+AllcoinsDataOutput[value][index]+'History') === 'Yes' ) {
-                                    ShowCoinHistory(historyvalues);
+                                  var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
+                                  ShowCoinProgressBar(active_edexcoin);
+                                  if ( sessionStorage.getItem('Activate'+active_edexcoin+'History') === 'Yes' ) {
+                                    console.log('Show coin history');
+                                    //ShowCoinHistory(historyvalues);
                                   }
                                 }
                             }
@@ -267,11 +271,9 @@ var Dashboard = function() {
         
     }
 
-    var handleWalletSendRec = function() {
+    var handleWalletWidgetBtns = function() {
         
-        $('#currency-logo').click(function() {
-            console.log('hello!');
-        });
+        
 
         
     }
@@ -282,6 +284,8 @@ var Dashboard = function() {
         init: function() {
 
           resizeDashboardWindow();
+          //handleWalletWidgetBtns();
+
 
           window.onresize = function(event) { resizeDashboardWindow(); };
 
@@ -289,7 +293,6 @@ var Dashboard = function() {
                 console.log('=> No wallet logged in. No need to run Dashboard JS.');
             } else {
                 handleWalletWidgets();
-                //handleWalletSendRec();
                 //TotalFiatValue();
             }
 
@@ -326,6 +329,14 @@ function resizeDashboardWindow() {
   var mapH = $(window).height() - navbarH - footerH;
 
   $(".page-main").outerHeight(mapH);
+}
+
+function edexCoinBtnAction() {
+  $('.edexcoin-logo').click(function() {
+    console.log($(this).data('edexcoincode'));
+    var coincode = $(this).data('edexcoincode');
+    $.each($('[data-edexcoin]'), function(index, value) {$('[data-edexcoin]').attr("data-edexcoin",coincode); $('[data-edexcoin="'+coincode+'"]')});
+  });
 }
 
 function ShowCoinHistory(getData) {
@@ -481,7 +492,7 @@ function getCoinBalance(coin) {
 
   //comment
     var ajax_data = {"agent":"bitcoinrpc","method":"getbalance","coin": coin};
-    console.log(ajax_data);
+    //console.log(ajax_data);
     $.ajax({
         type: 'POST',
         data: JSON.stringify(ajax_data),
@@ -489,9 +500,9 @@ function getCoinBalance(coin) {
         //dataType: 'text',
         success: function(data, textStatus, jqXHR) {
             var AjaxOutputData = JSON.parse(data);
-            console.log('== Data OutPut ==');
-            console.log(AjaxOutputData);
-            $('span[data-wallet-widget-coin-code="' + coin + '"][id="wallet-widget-coin-balance"]').text(AjaxOutputData.result);
+            //console.log('== Data OutPut ==');
+            //console.log(AjaxOutputData);
+            $('span[data-edexcoincode="' + coin + '"][id="edexcoin-balance"]').text(AjaxOutputData.result);
         },
         error: function(xhr, textStatus, error) {
             console.log('failed getting Coin History.');
@@ -673,26 +684,30 @@ function ShowCoinProgressBar(coin) {
               var coin_blocks = parseInt(CoinInfoData.blocks);
               var coin_blocks_plus1 = coin_blocks + 1;
               //console.log(coin+' is less than 99.98% complete.');
-              $('div[data-currency="'+coin+'"][id="currency-progressbars"]').show();
-              $('div[data-currency="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
-              $('span[data-currency="'+coin+'"][id="currency-bundles-percent"]').text(parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+coin_blocks_plus1+' / '+CoinInfoData.longestchain+' ) ==>> RT'+CoinInfoData.RTheight);
-              $('div[data-currency="'+coin+'"][id="additional-progress-bars"]').hide();
-              $('div[data-currency="'+coin+'"][id="currency-bundles"]').removeClass( "progress-bar-info" ).addClass( "progress-bar-indicating progress-bar-success" );
+              $('div[data-edexcoin="'+coin+'"][id="currency-progressbars"]').show();
+              $('div[data-edexcoin="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
+              $('span[data-edexcoin="'+coin+'"][id="currency-bundles-percent"]').text(parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+coin_blocks_plus1+' / '+CoinInfoData.longestchain+' ) ==>> RT'+CoinInfoData.RTheight);
+              $('div[data-edexcoin="'+coin+'"][id="additional-progress-bars"]').hide();
+              $('div[data-edexcoin="'+coin+'"][id="currency-bundles"]').removeClass( "progress-bar-info" ).addClass( "progress-bar-indicating progress-bar-success" );
+              $('#edex-footer').css("height", "11px");
+              resizeDashboardWindow();
             }
             if ( parseInt(CoinInfoData.RTheight) == 0 ) {
               sessionStorage.setItem('Activate'+coin+'History', 'No');
               console.log(coin+': '+CoinInfoData.bundles);
               var coin_blocks = parseInt(CoinInfoData.blocks);
               var coin_blocks_plus1 = coin_blocks + 1;
-              $('div[data-currency="'+coin+'"][id="currency-progressbars"]').show();
-              $('div[data-currency="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
-              $('span[data-currency="'+coin+'"][id="currency-bundles-percent"]').text(parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+coin_blocks_plus1+' / '+CoinInfoData.longestchain+' )');
-              $('div[data-currency="'+coin+'"][id="currency-utxo"]').width(parseFloat(CoinInfoData.utxo).toFixed(2)+'%');
-              $('span[data-currency="'+coin+'"][id="currency-utxo-percent"]').text(parseFloat(CoinInfoData.utxo).toFixed(2)+'%');
-              $('div[data-currency="'+coin+'"][id="currency-balances"]').width(parseFloat(CoinInfoData.balances).toFixed(2)+'%');
-              $('span[data-currency="'+coin+'"][id="currency-balances-percent"]').text(parseFloat(CoinInfoData.balances).toFixed(2)+'%');
-              $('div[data-currency="'+coin+'"][id="currency-validated"]').width(parseFloat(CoinInfoData.validated).toFixed(2)+'%');
-              $('span[data-currency="'+coin+'"][id="currency-validated-percent"]').text(parseFloat(CoinInfoData.validated).toFixed(2)+'%');
+              $('div[data-edexcoin="'+coin+'"][id="currency-progressbars"]').show();
+              $('div[data-edexcoin="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
+              $('span[data-edexcoin="'+coin+'"][id="currency-bundles-percent"]').text('('+coin+') '+parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+coin_blocks_plus1+' / '+CoinInfoData.longestchain+' )');
+              $('div[data-edexcoin="'+coin+'"][id="currency-utxo"]').width(parseFloat(CoinInfoData.utxo).toFixed(2)+'%');
+              $('span[data-edexcoin="'+coin+'"][id="currency-utxo-percent"]').text('('+coin+') '+parseFloat(CoinInfoData.utxo).toFixed(2)+'%');
+              $('div[data-edexcoin="'+coin+'"][id="currency-balances"]').width(parseFloat(CoinInfoData.balances).toFixed(2)+'%');
+              $('span[data-edexcoin="'+coin+'"][id="currency-balances-percent"]').text('('+coin+') '+parseFloat(CoinInfoData.balances).toFixed(2)+'%');
+              $('div[data-edexcoin="'+coin+'"][id="currency-validated"]').width(parseFloat(CoinInfoData.validated).toFixed(2)+'%');
+              $('span[data-edexcoin="'+coin+'"][id="currency-validated-percent"]').text('('+coin+') '+parseFloat(CoinInfoData.validated).toFixed(2)+'%');
+              $('#edex-footer').css("height", "44px");
+              resizeDashboardWindow();
             }
           }
       },

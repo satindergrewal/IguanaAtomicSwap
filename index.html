@@ -461,23 +461,37 @@
     <!-- End Header with background and menus -->
 
     
-    <div class="page-main" id="section-dashboard">
+    <div class="page-main" id="section-dashboard" data-edexcoin="COIN">
     <!-- Begin page header -->
-      <div class="page-header page-header-bordered header-easydex" id="header-dashboard">
-      <ol class="breadcrumb">
+      <div class="page-header page-header-bordered header-easydex" id="header-dashboard" data-edexcoin="COIN">
+      <ol class="breadcrumb" data-edexcoin="COIN">
         <li>Dashboard</li>
         <li>Wallet</li>
-        <li class="active">COIN</li>
+        <li class="active" data-edexcoin="COIN" id="edexcoin-active">COIN</li>
       </ol>
-      <div class="page-header-actions">
-        <button type="button" class="btn btn-primary btn-floating btn-sm" style="font-size: 1.072rem;">
-          <!--<span class="text hidden-xs">Settings</span>-->
+      <div class="page-header-actions" data-edexcoin="COIN" id="edexcoin-actions">
+        <!-- EasyDEX Coin Wallet Header button -->
+        <div id="kmd_header_button">
+          <button type="button" id="edexcoin_wallet_menu" class="btn btn-floating btn-primary btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="icon md-plus" aria-hidden="true"></i></button>
+          <ul class="dropdown-menu animate dropdown-menu-right" aria-labelledby="edexcoin_wallet_menu" role="menu" style="">
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-edexcoin-menu="COIN" id="btn_edexcoin_wallet_dashboard">Dashboard</a></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-edexcoin-menu="COIN" id="btn_edexcoin_wallet_send">Send</a></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-edexcoin-menu="COIN" id="btn_edexcoin_wallet_recieve">Recieve</a></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-edexcoin-menu="COIN" id="btn_edexcoin_wallet_transactions">Transactions</a></li>
+            <li class="divider" role="presentation"></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-edexcoin-menu="COIN" id="btn_edexcoin_wallet_addcoin">Add Coin</a></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-edexcoin-menu="COIN" id="btn_edexcoin_wallet_settings">Settings</a></li>
+          </ul>
+        </div>
+        <!-- End EasyDEX Coin Wallet Header button -->
+        <!--<button type="button" class="btn btn-primary btn-floating btn-sm" style="font-size: 1.072rem;" data-edexcoin="COIN" id="edexcoin-actions-btn">
+          
           <i class="icon wb-plus" aria-hidden="true"></i>
-        </button>
+        </button>-->
       </div>
     </div>
     <!-- End page header -->
-      <div class="row" id="wallet-widgets" data-plugin="masonry">
+      <div class="row" id="wallet-widgets" data-plugin="masonry" data-edexcoin="COIN">
         
       </div>
       <!-- Modal -->
@@ -648,22 +662,22 @@
   </div>
   <!-- End Page -->
   <!-- Footer -->
-  <footer class="site-footer" id="edex-footer">
+  <footer class="site-footer" id="edex-footer" data-edexcoin="COIN">
     <!--<div class="site-footer-right">Crafted with <i class="red-600 icon md-favorite"></i> by <a href="javascript:;">Iguana</a></div>-->
     <div class="row no-space " data-edexcoin="COIN">
-      <div data-currency="BTCD" id="currency-progressbars" style="display: none;">
+      <div data-edexcoin="COIN" id="currency-progressbars" style="display: none;">
         <div class="progress progress-sm">
-        <div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-currency="BTCD" id="currency-bundles">Bundles <span data-currency="BTCD" id="currency-bundles-percent">0%</span></div>
+        <div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-edexcoin="COIN" id="currency-bundles">Bundles <span data-edexcoin="COIN" id="currency-bundles-percent">0%</span></div>
       </div>
-      <div data-currency="BTCD" id="additional-progress-bars">
+      <div data-edexcoin="COIN" id="additional-progress-bars">
         <div class="progress progress-sm">
-        <div class="progress-bar progress-bar-warning progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-currency="BTCD" id="currency-utxo">utxo <span data-currency="BTCD" id="currency-utxo-percent">0%</span></div>
-      </div>
-        <div class="progress progress-sm">
-        <div class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-currency="BTCD" id="currency-balances">Balances <span data-currency="BTCD" id="currency-balances-percent">0%</span></div>
+        <div class="progress-bar progress-bar-warning progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-edexcoin="COIN" id="currency-utxo">utxo <span data-edexcoin="COIN" id="currency-utxo-percent">0%</span></div>
       </div>
         <div class="progress progress-sm">
-        <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-currency="BTCD" id="currency-validated">Validated <span data-currency="BTCD" id="currency-validated-percent">0%</span></div>
+        <div class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-edexcoin="COIN" id="currency-balances">Balances <span data-edexcoin="COIN" id="currency-balances-percent">0%</span></div>
+      </div>
+        <div class="progress progress-sm">
+        <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-edexcoin="COIN" id="currency-validated">Validated <span data-edexcoin="COIN" id="currency-validated-percent">0%</span></div>
       </div>
     </div><!-- END additional-progress-bars -->
   </footer>
