@@ -281,12 +281,9 @@ var Dashboard = function() {
         //main function to initiate the module
         init: function() {
 
-          /* set default map height */
-          var navbarH = $(".site-navbar").outerHeight();
-          var footerH = $(".site-footer").outerHeight();
-          var mapH = $(window).height() - navbarH - footerH;
+          resizeDashboardWindow();
 
-          $(".page-main").outerHeight(mapH);
+          window.onresize = function(event) { resizeDashboardWindow(); };
 
             if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
                 console.log('=> No wallet logged in. No need to run Dashboard JS.');
@@ -321,6 +318,15 @@ jQuery(document).ready(function() {
     Dashboard.init();
 });
 
+
+function resizeDashboardWindow() {
+  /* set default map height */
+  var navbarH = $(".site-navbar").outerHeight();
+  var footerH = $(".site-footer").outerHeight();
+  var mapH = $(window).height() - navbarH - footerH;
+
+  $(".page-main").outerHeight(mapH);
+}
 
 function ShowCoinHistory(getData) {
     Iguana_activehandle();

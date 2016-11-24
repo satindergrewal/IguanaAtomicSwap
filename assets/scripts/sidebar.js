@@ -267,10 +267,12 @@ function applyDashboardStyle() {
 	var mapH = $(window).height() - navbarH - footerH;
 	$(".page-main").outerHeight(mapH);
 	$('#easydex-header-div').hide();
+	$('#edex-footer').show();
 }
 
 function removeDashboardStyle() {
 	$('.page-aside').hide();
 	$(".page-main").hide();
 	$('#easydex-header-div').show();
+	$('#edex-footer').hide();
 }

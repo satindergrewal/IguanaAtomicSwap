@@ -399,9 +399,10 @@
       </div>
     </div>
     <!-- End Wallet Widgets Sidebar -->
-    <!-- BEGIN DASHBOARD CONTENT BODY -->
     
-    <!-- Example With Stats -->
+
+    <!-- BEGIN DASHBOARD CONTENT BODY -->
+    <!-- Header with background and menus -->
     <div class="page-header page-header-bordered header-easydex" id="easydex-header-div">
       <h1 class="page-title">EasyDEX</h1>
       <ol class="breadcrumb">
@@ -457,24 +458,25 @@
         </div>
       </div>
     </div>
-    <!-- End Example With Stats -->
+    <!-- End Header with background and menus -->
 
+    
+    <div class="page-main" id="section-dashboard">
     <!-- Begin page header -->
-      <!--<div class="page-header" id="header-dashboard">
+      <div class="page-header page-header-bordered header-easydex" id="header-dashboard">
       <ol class="breadcrumb">
-        <li><a href="../index.html">Home</a></li>
-        <li><a href="javascript:void(0)">Widgets</a></li>
-        <li class="active">Social</li>
+        <li>Dashboard</li>
+        <li>Wallet</li>
+        <li class="active">COIN</li>
       </ol>
       <div class="page-header-actions">
-        <button type="button" class="btn btn-sm btn-primary btn-round waves-effect waves-light waves-round">
-          <span class="text hidden-xs">Settings</span>
-          <i class="icon md-chevron-right" aria-hidden="true"></i>
+        <button type="button" class="btn btn-primary btn-floating btn-sm" style="font-size: 1.072rem;">
+          <!--<span class="text hidden-xs">Settings</span>-->
+          <i class="icon wb-plus" aria-hidden="true"></i>
         </button>
       </div>
-    </div>-->
+    </div>
     <!-- End page header -->
-    <div class="page-main" id="section-dashboard">
       <div class="row" id="wallet-widgets" data-plugin="masonry">
         
       </div>
@@ -645,6 +647,26 @@
   <!--<div class="progress-bar progress-bar-info progress-bar-striped active" aria-valuemin="0" aria-valuemax="100" style="width: 50%" aria-valuenow="60" role="progressbar"><span class="progress-label"></span></div>-->
   </div>
   <!-- End Page -->
+  <!-- Footer -->
+  <footer class="site-footer" id="edex-footer">
+    <!--<div class="site-footer-right">Crafted with <i class="red-600 icon md-favorite"></i> by <a href="javascript:;">Iguana</a></div>-->
+    <div class="row no-space " data-edexcoin="COIN">
+      <div data-currency="BTCD" id="currency-progressbars" style="display: none;">
+        <div class="progress progress-sm">
+        <div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-currency="BTCD" id="currency-bundles">Bundles <span data-currency="BTCD" id="currency-bundles-percent">0%</span></div>
+      </div>
+      <div data-currency="BTCD" id="additional-progress-bars">
+        <div class="progress progress-sm">
+        <div class="progress-bar progress-bar-warning progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-currency="BTCD" id="currency-utxo">utxo <span data-currency="BTCD" id="currency-utxo-percent">0%</span></div>
+      </div>
+        <div class="progress progress-sm">
+        <div class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-currency="BTCD" id="currency-balances">Balances <span data-currency="BTCD" id="currency-balances-percent">0%</span></div>
+      </div>
+        <div class="progress progress-sm">
+        <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-currency="BTCD" id="currency-validated">Validated <span data-currency="BTCD" id="currency-validated-percent">0%</span></div>
+      </div>
+    </div><!-- END additional-progress-bars -->
+  </footer>
 
   <!-- BEGIN EASYDEX CONTENT BODY -->
     <div class="page-content" id="section-easydex">
