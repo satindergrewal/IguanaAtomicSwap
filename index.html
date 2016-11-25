@@ -491,8 +491,41 @@
       </div>
     </div>
     <!-- End page header -->
-      <div class="row" id="wallet-widgets" data-plugin="masonry" data-edexcoin="COIN">
-        
+      <div class="" id="wallet-widgets" data-plugin="masonry" data-edexcoin="COIN">
+        <div class="col-xs-12">
+          <div class="col-lg-6 col-xs-12" data-extcoin="COIN" id="edexcoin_getbalance_t">
+            <!-- EasyDEX Total Balance Widget-->
+            <div class="widget widget-shadow" id="widgetLineareaOne">
+              <div class="widget-content">
+                <div class="padding-20 padding-top-10">
+                  <div class="clearfix">
+                    <div class="pull-left padding-vertical-10">
+                      <i class="icon fa-eye font-size-24 vertical-align-bottom margin-right-5"></i>Total Balance
+                    </div>
+                    <span class="pull-right padding-top-10" data-extcoin="COIN" id="edex_total_balance" style="font-size: 22px;">-</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End EasyDEX Total Balance Widget -->
+          </div>
+          <div class="col-lg-6 col-xs-12" data-extcoin="COIN" id="edexcoin_getbalance_m">
+            <!-- EasyDEX Convertable Balance Widget-->
+            <div class="widget widget-shadow" id="widgetLineareaOne">
+              <div class="widget-content">
+                <div class="padding-20 padding-top-10">
+                  <div class="clearfix">
+                    <div class="pull-left padding-vertical-10">
+                      <i class="icon fa-money font-size-24 vertical-align-bottom margin-right-5"></i>Convertable
+                    </div>
+                    <span class="pull-right padding-top-10" data-extcoin="COIN" id="edex_convertable_balance" style="font-size: 22px;">-</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End EasyDEX Convertable Balance Widget -->
+          </div>
+        </div>
       </div>
       <!-- Modal -->
       <div class="modal fade modal-3d-sign" id="SendCoinModelStep1" aria-hidden="true"

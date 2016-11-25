@@ -31,3 +31,7 @@
 #edex-footer {
 	padding: 0px !important;
 }
+
+.header-easydex {
+	z-index: 99;
+}
