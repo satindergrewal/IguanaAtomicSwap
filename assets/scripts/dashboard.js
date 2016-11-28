@@ -340,7 +340,7 @@ var Dashboard = function() {
                         
                         //console.log('http://127.0.0.1:7778/api/bitcoinrpc/getaddressesbyaccount?coin=' + AllcoinsDataOutput[value][index] + '&account=*');
                         //List coin addresses as drop down menu
-                        var getaddrlist = {"agent":"SuperNET","method":"activehandle"};
+                        /*var getaddrlist = {"agent":"SuperNET","method":"activehandle"};
                         $.ajax({
                             type: 'POST',
                             data: JSON.stringify(getaddrlist),
@@ -364,7 +364,7 @@ var Dashboard = function() {
                                 console.log(textStatus);
                                 console.log(error);
                             }
-                        });
+                        });*/
 
 
                         
@@ -504,6 +504,11 @@ function edexCoinBtnAction() {
 function getActiveEdexcoin() {
     var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
     return active_edexcoin;
+}
+
+function hideExtCoinsinEdexDashboard(coin) {
+  var tmp_getinfo = EDEXgetinfo(coin)
+  console.log(tmp_getinfo);
 }
 
 function ShowCoinHistory(getData) {
@@ -668,8 +673,8 @@ function getCoinBalance(coin) {
         //dataType: 'text',
         success: function(data, textStatus, jqXHR) {
             var AjaxOutputData = JSON.parse(data);
-            //console.log('== Data OutPut ==');
-            //console.log(AjaxOutputData);
+            console.log('== Data OutPut getCoinBalance ==');
+            console.log(AjaxOutputData);
             $('span[data-edexcoincode="' + coin + '"][id="edexcoin-balance"]').text(AjaxOutputData.result);
         },
         error: function(xhr, textStatus, error) {

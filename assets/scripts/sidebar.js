@@ -43,7 +43,7 @@ $('#nav-dashboard').on('click', function() {
 	$(".header-easydex-section").text("Dashboard");
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
-	CommonSidebarActionsSet01();
+	CommonSidebarActionsSet011();
 	applyDashboardStyle();
 });
 
@@ -207,6 +207,13 @@ $('#nav-about-iguana').on('click', function() {
 function CommonSidebarActionsSet01() {
 	sessionStorage.setItem('DashboardActions', "start");
 	$(document).ready(function() { Dashboard.init(); });
+	$("#wifkeys_passphrase").val('');
+	$('#wif-priv-keys').html('');
+}
+
+function CommonSidebarActionsSet011() {
+	sessionStorage.setItem('DashboardActions', "start");
+	location.reload();
 	$("#wifkeys_passphrase").val('');
 	$('#wif-priv-keys').html('');
 }

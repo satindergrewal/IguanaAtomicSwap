@@ -582,3 +582,35 @@ function EDEXSendToAddr(data) {
     });
     return result;
 }
+
+
+function EDEXgetinfo(coin) {
+    var result = [];
+
+    //Get parameters values from confirm dialog and send currency
+    var getinfoValues = {"coin":coin,"agent":"bitcoinrpc","method":"getinfo","immediate":100,"timeout":4000};
+    console.log(getinfoValues);
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: JSON.stringify(getinfoValues),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data);
+            //console.log('== Data OutPut ==');
+            //console.log(AjaxOutputData);
+            result.push(AjaxOutputData);
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    return result;
+}
