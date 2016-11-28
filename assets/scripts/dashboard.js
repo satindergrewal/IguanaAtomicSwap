@@ -859,7 +859,7 @@ function ShowCoinProgressBar(coin) {
               //console.log(coin+' is less than 99.98% complete.');
               $('div[data-edexcoin="'+coin+'"][id="currency-progressbars"]').show();
               $('div[data-edexcoin="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
-              $('span[data-edexcoin="'+coin+'"][id="currency-bundles-percent"]').text(parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+coin_blocks_plus1+' / '+CoinInfoData.longestchain+' ) ==>> RT'+CoinInfoData.RTheight);
+              $('span[data-edexcoin="'+coin+'"][id="currency-bundles-percent"]').text('('+coin+') '+parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+coin_blocks_plus1+' / '+CoinInfoData.longestchain+' ) ==>> RT'+CoinInfoData.RTheight);
               $('div[data-edexcoin="'+coin+'"][id="additional-progress-bars"]').hide();
               $('div[data-edexcoin="'+coin+'"][id="currency-bundles"]').removeClass( "progress-bar-info" ).addClass( "progress-bar-indicating progress-bar-success" );
               $('#edex-footer').css("height", "11px");
@@ -870,7 +870,9 @@ function ShowCoinProgressBar(coin) {
               console.log(coin+': '+CoinInfoData.bundles);
               var coin_blocks = parseInt(CoinInfoData.blocks);
               var coin_blocks_plus1 = coin_blocks + 1;
+              $('div[data-edexcoin="'+coin+'"][id="additional-progress-bars"]').show();
               $('div[data-edexcoin="'+coin+'"][id="currency-progressbars"]').show();
+              $('div[data-edexcoin="'+coin+'"][id="currency-bundles"]').removeClass( "progress-bar-indicating progress-bar-success" ).addClass( "progress-bar-info" );
               $('div[data-edexcoin="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2)+'%');
               $('span[data-edexcoin="'+coin+'"][id="currency-bundles-percent"]').text('('+coin+') '+parseFloat(CoinInfoData.bundles).toFixed(2)+'% - ( '+coin_blocks_plus1+' / '+CoinInfoData.longestchain+' )');
               $('div[data-edexcoin="'+coin+'"][id="currency-utxo"]').width(parseFloat(CoinInfoData.utxo).toFixed(2)+'%');
