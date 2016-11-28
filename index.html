@@ -493,7 +493,7 @@
     <!-- End page header -->
       <div class="" id="wallet-widgets" data-plugin="masonry" data-edexcoin="COIN">
         <div class="col-xs-12">
-          <div class="col-lg-6 col-xs-12" data-extcoin="COIN" id="edexcoin_getbalance_t">
+          <div class="col-lg-6 col-xs-12" data-edexcoin="COIN" id="edexcoin_getbalance_t">
             <!-- EasyDEX Total Balance Widget-->
             <div class="widget widget-shadow" id="widgetLineareaOne">
               <div class="widget-content">
@@ -502,14 +502,14 @@
                     <div class="pull-left padding-vertical-10">
                       <i class="icon fa-eye font-size-24 vertical-align-bottom margin-right-5"></i>Total Balance
                     </div>
-                    <span class="pull-right padding-top-10" data-extcoin="COIN" id="edex_total_balance" style="font-size: 22px;">-</span>
+                    <span class="pull-right padding-top-10" data-edexcoin="COIN" id="edex_total_balance" style="font-size: 22px;">-</span>
                   </div>
                 </div>
               </div>
             </div>
             <!-- End EasyDEX Total Balance Widget -->
           </div>
-          <div class="col-lg-6 col-xs-12" data-extcoin="COIN" id="edexcoin_getbalance_m">
+          <div class="col-lg-6 col-xs-12" data-edexcoin="COIN" id="edexcoin_getbalance_m">
             <!-- EasyDEX Convertable Balance Widget-->
             <div class="widget widget-shadow" id="widgetLineareaOne">
               <div class="widget-content">
@@ -518,7 +518,7 @@
                     <div class="pull-left padding-vertical-10">
                       <i class="icon fa-money font-size-24 vertical-align-bottom margin-right-5"></i>Convertable
                     </div>
-                    <span class="pull-right padding-top-10" data-extcoin="COIN" id="edex_convertable_balance" style="font-size: 22px;">-</span>
+                    <span class="pull-right padding-top-10" data-edexcoin="COIN" id="edex_convertable_balance" style="font-size: 22px;">-</span>
                   </div>
                 </div>
               </div>
@@ -527,6 +527,57 @@
           </div>
         </div>
       </div>
+
+      <div class="col-sm-12 padding-top-10" data-edexcoin="COIN" id="edexcoin_send" style="display: none;">
+          <div class="col-xlg-12 col-md-12 col-sm-12 col-xs-12">
+          
+
+          <!-- EasyDEX Panel send -->
+          <div class="panel" id="projects">
+            <div class="panel-heading">
+              <h3 data-edexcoin="COIN" class="panel-title">Send <span data-edexcoinname="COIN"></span></h3>
+              <!--<div class="panel-actions">
+                <a class="panel-action icon md-refresh-alt" data-toggle="panel-refresh" data-load-type="blue-only"
+                data-load-callback="KMDSendScreenRefreshCallback" aria-hidden="true"></a>
+              </div>-->
+            </div>
+            <div class="panel-body container-fluid">
+              <form class="edexcoin-send-form" data-edexcoin="COIN" method="post" role="form" autocomplete="off" onsubmit="return false;">
+                <div class="row">
+                  <div class="col-xlg-12 form-group form-material">
+                    <label class="control-label" data-edexcoin="COIN" for="edexcoin_send_from">Send From</label>
+                    <select class="form-control form-material showkmdwalletaddrs show-tick" data-edexcoin="COIN" id="edexcoin_send_from" title="Select Transparent or Private Address" data-size="5">
+                    </select>
+                  </div>
+                  <div class="col-xlg-12 form-group form-material">
+                    <label class="control-label" data-edexcoin="COIN" for="edexcoin_sendto">Send To</label>
+                    <input type="text" class="form-control" data-edexcoin="COIN" id="edexcoin_sendto" name="edexcoin_sendto" placeholder="Enter Transparent or Private address" autocomplete="off" required/>
+                  </div>
+                  <div class="col-lg-6 form-group form-material">
+                    <label class="control-label" for="edexcoin_amount" data-edexcoin="COIN" id="edexcoin_amount_label"><span data-edexcoinname="COIN"></span></label>
+                    <input type="text" class="form-control" data-edexcoin="COIN" id="edexcoin_amount" name="edexcoin_amount" placeholder="0.000" autocomplete="off"/>
+                  </div>
+                  <div class="col-lg-6 form-group form-material">
+                    <label class="control-label" data-edexcoin="COIN" for="edexcoin_fee">Fee</label>
+                    <input type="text" class="form-control" data-edexcoin="COIN" id="edexcoin_fee" name="edexcoin_fee" placeholder="0.000" value="0.0001" autocomplete="off"/>
+                  </div>
+                  <div class="col-lg-12">
+                    <span data-edexcoin="KMD"><b>Total (<span data-edexcoinname="COIN"></span> - txfee):</b> <span data-edexcoin="COIN" id="edexcoin_total_value">0.000</span> <span data-edexcoin="COIN" id="edexcoin_total_coinname" data-edexcoinname="COIN"></span></span>
+                  </div>
+                  <div class="col-lg-12">
+                    <button type="submit" class="btn btn-primary waves-effect waves-light pull-right" data-toggle="modal" id="edexcoin_send_coins_btn">Send <span data-edexcoinname="COIN"></span></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- End EasyDEX Panel send -->
+
+          </div>
+          
+          </div>
+          <!-- End Komodo Wallet send opid status tab -->
+
       <!-- Modal -->
       <div class="modal fade modal-3d-sign" id="SendCoinModelStep1" aria-hidden="true"
       aria-labelledby="SendCoinModelTitle" role="dialog" tabindex="-1">

@@ -28,6 +28,12 @@ var Dashboard = function() {
       });
     }
 
+    var handle_edex_send = function() {
+      $('#btn_edexcoin_wallet_send').click(function() {
+        $('#edexcoin_send').show();
+      });
+    }
+
     var handleWalletWidgets = function() {
 
         var walletDivContent = '';
@@ -300,6 +306,7 @@ var Dashboard = function() {
 
           resizeDashboardWindow();
           handle_edex_wallet();
+          handle_edex_send();
 
 
 
