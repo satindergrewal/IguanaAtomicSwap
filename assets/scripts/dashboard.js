@@ -30,7 +30,131 @@ var Dashboard = function() {
 
     var handle_edex_send = function() {
       $('#btn_edexcoin_wallet_send').click(function() {
+        var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
+        //console.log(active_edexcoin);
+        
+
+        $('#edexcoin_dashboardinfo').hide();
         $('#edexcoin_send').show();
+        $('#edexcoin_recieve_section').hide();
+        $('#edexcoin_settings').hide();
+        
+        //Disabled dropdown list address in EasyDEX's main send option, as it's using sendtoaddress at the moment.
+        //This option can be enabled later for other section where user can select particular address to send funds from.
+        /*var edexcoin_addr_list_with_balance = EDEXlistunspent(active_edexcoin);
+        console.log(edexcoin_addr_list_with_balance);
+        var tmpoptions = '';
+        tmpoptions += '<option> - Select Address - </option>';
+        $.each(edexcoin_addr_list_with_balance, function(index) {
+          tmpoptions += '<option value="' + edexcoin_addr_list_with_balance[index].addr + '" data-total="' + edexcoin_addr_list_with_balance[index].total.toFixed(8) + '">[ ' + edexcoin_addr_list_with_balance[index].total.toFixed(8) + ' KMD ] &emsp;' + edexcoin_addr_list_with_balance[index].addr + '</option>';
+          $('#edexcoin_send_from').html(tmpoptions);
+        });
+
+        $('.showedexcoinaddrs').selectpicker({ style: 'btn-info' });
+        $('.showedexcoinaddrs').selectpicker('refresh');*/
+        clearEdexSendFieldData();
+
+      });
+
+      $('.showedexcoinaddrs').on('change', function(){
+        var selected = $(this).find("option:selected").val();
+        //console.log(selected);
+        //console.log($(this).find("option:selected").data('total'));
+      });
+
+      $('#edexcoin_amount').keyup(function() {
+        var sum_val1 = parseFloat($('#edexcoin_amount').val())
+        var sum_val2 = parseFloat($('#edexcoin_fee').val())
+        var total_minus_currency_fee = sum_val1 - sum_val2;     
+        var mdl_send_btn = $('#edexcoin_send_coins_btn');
+
+        //console.log($('#edexcoin_amount').val());
+        $('#edexcoin_total_value').text(total_minus_currency_fee.toFixed(8));
+
+        if ($('#edexcoin_send_from').val() != '- Select Transparent or Private KMD Address -' && $('#edexcoin_amount').val() != '' && $('#edexcoin_sendto') != '' && $('#edexcoin_fee') != '' ) {
+          mdl_send_btn.removeClass('disabled');
+          //mdl_send_btn.attr('data-dismiss','modal');
+          //mdl_send_btn.attr('data-target','#SendCoinModelStep2');
+        } else {
+          mdl_send_btn.addClass('disabled');
+          mdl_send_btn.removeAttr('data-dismiss');
+          mdl_send_btn.removeAttr('data-target');
+        }
+      });
+
+      $('#edexcoin_fee').keyup(function() {
+        var sum_val1 = parseFloat($('#edexcoin_amount').val())
+        var sum_val2 = parseFloat($('#edexcoin_fee').val())
+        var total_minus_currency_fee = sum_val1 - sum_val2;         
+        var mdl_send_btn = $('#edexcoin_send_coins_btn');
+
+        //console.log($('#edexcoin_amount').val());
+        $('#edexcoin_total_value').text(total_minus_currency_fee.toFixed(8));
+
+        if ($('#edexcoin_send_from').val() != '- Select Transparent or Private KMD Address -' && $('#edexcoin_amount').val() != '' && $('#edexcoin_sendto') != '' && $('#edexcoin_fee') != '' ) {
+          mdl_send_btn.removeClass('disabled');
+          //mdl_send_btn.attr('data-dismiss','modal');
+          //mdl_send_btn.attr('data-target','#SendCoinModelStep2');
+        } else {
+          mdl_send_btn.addClass('disabled');
+          mdl_send_btn.removeAttr('data-dismiss');
+          mdl_send_btn.removeAttr('data-target');
+        }
+      });
+
+      $('.edexcoin-send-form').validate({
+        //errorElement: 'span', //default input error message container
+        //errorClass: 'help-block', // default input error message class
+        //focusInvalid: false, // do not focus the last invalid input
+        rules: {
+            edexcoin_send_from: {
+                required: true
+            },
+            edexcoin_sendto: {
+                required: true
+            },
+            edexcoin_amount: {
+                required: true
+            },
+            edexcoin_fee: {
+                required: true
+            },
+            edexcoin_total_value: {
+                required: true
+            }
+        },
+
+        messages: {
+            edexcoin_send_from: {
+                required: "From Address is required."
+            },
+            edexcoin_sendto: {
+                required: "To Address is required."
+            },
+            edexcoin_amount: {
+                required: "Please enter amount to send."
+            },
+            edexcoin_fee: {
+                required: "Make sure you have fee entered. Default value is 0.0001."
+            },
+            edexcoin_total_value: {
+                required: "Make sure you have both amount and fee entered to calculate final total."
+            }
+        },
+
+        submitHandler: function(form) {
+          console.log('Sent control here after clicked in form...');
+
+          var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
+          var tmp_send_from_addr = $('#edexcoin_send_from').val();
+          var tmp_send_to_addr = $('#edexcoin_sendto').val();
+          var tmp_send_total_amount = $('#edexcoin_total_value').text();
+          var tmp_json_data = {'coin':active_edexcoin,'sendtoaddr':tmp_send_to_addr,'amount':tmp_send_total_amount};
+          //console.log(tmp_json_data);
+          var tmp_sendtoaddr_output = EDEXSendToAddr(tmp_json_data);
+          console.log(tmp_sendtoaddr_output);
+          //clearSendManyFieldData();
+        }
       });
     }
 
@@ -290,7 +414,7 @@ var Dashboard = function() {
                 var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
                 ShowCoinProgressBar(active_edexcoin);
                 if ( sessionStorage.getItem('Activate'+active_edexcoin+'History') === 'Yes' ) {
-                  console.log('Show coin history');
+                  //console.log('Show coin history');
                   var historyvalues = {"timeout":20000,"immediate":100,"agent":"basilisk","method":"history","vals":{"coin":"" + active_edexcoin + ""}};
                   //ShowCoinHistory(historyvalues);
                 //}
@@ -328,8 +452,8 @@ var Dashboard = function() {
 
             RunTotalFiatValue = setInterval(function() {
                 if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
-                console.log('=> No wallet logged in. No need to get Rates.');
-                StopTotalFiatValue();
+                //console.log('=> No wallet logged in. No need to get Rates.');
+                //StopTotalFiatValue();
                 } else {
                     //TotalFiatValue();
                     //console.log('Get Rates (every 60 seconds)');
@@ -359,10 +483,21 @@ function resizeDashboardWindow() {
 function edexCoinBtnAction() {
   $('.edexcoin-logo').click(function() {
     console.log($(this).data('edexcoincode'));
+    
+    //get selected coin's code and populate in easydex wallet widget's html elements
     var coincode = $(this).data('edexcoincode');
     $.each($('[data-edexcoin]'), function(index, value) {$('[data-edexcoin]').attr("data-edexcoin",coincode); $('[data-edexcoin="'+coincode+'"]')});
     $.each($('[data-edexcoinmenu]'), function(index, value) {$('[data-edexcoinmenu]').attr("data-edexcoinmenu",coincode); $('[data-edexcoinmenu="'+coincode+'"]')});
+    
     $('#edexcoin-active').text(coincode);
+    //populate selected coin's address
+    var coinmainaddr = EDEXMainAddr(coincode);
+    $('#edexcoin_active_addr').text(coinmainaddr[0]);
+
+    //populate selected coin's balance
+    var coinwalletbalance = EDEXgetBalance(coincode);
+    $('#edex_total_balance').text(coinwalletbalance[0]);
+
   });
 }
 
@@ -526,6 +661,7 @@ function getCoinBalance(coin) {
     var ajax_data = {"agent":"bitcoinrpc","method":"getbalance","coin": coin};
     //console.log(ajax_data);
     $.ajax({
+        async: false,
         type: 'POST',
         data: JSON.stringify(ajax_data),
         url: 'http://127.0.0.1:7778',

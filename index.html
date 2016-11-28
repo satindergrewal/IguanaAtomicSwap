@@ -465,9 +465,7 @@
     <!-- Begin page header -->
       <div class="page-header page-header-bordered header-easydex" id="header-dashboard" data-edexcoin="COIN">
       <ol class="breadcrumb" data-edexcoin="COIN">
-        <li>Dashboard</li>
-        <li>Wallet</li>
-        <li class="active" data-edexcoin="COIN" id="edexcoin-active">COIN</li>
+        <b>My <span data-edexcoin="COIN" id="edexcoin-active">-</span> Address: </b> <span data-edexcoin="COIN" id="edexcoin_active_addr">-</span>
       </ol>
       <div class="page-header-actions" data-edexcoin="COIN" id="edexcoin-actions">
         <!-- EasyDEX Coin Wallet Header button -->
@@ -535,7 +533,7 @@
           <!-- EasyDEX Panel send -->
           <div class="panel" id="projects">
             <div class="panel-heading">
-              <h3 data-edexcoin="COIN" class="panel-title">Send <span data-edexcoinname="COIN"></span></h3>
+              <h3 data-edexcoin="COIN" class="panel-title">Send <span data-edexcoin="COIN"></span></h3>
               <!--<div class="panel-actions">
                 <a class="panel-action icon md-refresh-alt" data-toggle="panel-refresh" data-load-type="blue-only"
                 data-load-callback="KMDSendScreenRefreshCallback" aria-hidden="true"></a>
@@ -544,17 +542,17 @@
             <div class="panel-body container-fluid">
               <form class="edexcoin-send-form" data-edexcoin="COIN" method="post" role="form" autocomplete="off" onsubmit="return false;">
                 <div class="row">
-                  <div class="col-xlg-12 form-group form-material">
+                  <!--<div class="col-xlg-12 form-group form-material">
                     <label class="control-label" data-edexcoin="COIN" for="edexcoin_send_from">Send From</label>
-                    <select class="form-control form-material showkmdwalletaddrs show-tick" data-edexcoin="COIN" id="edexcoin_send_from" title="Select Transparent or Private Address" data-size="5">
+                    <select class="form-control form-material showedexcoinaddrs show-tick" data-edexcoin="COIN" id="edexcoin_send_from" title="Select Transparent or Private Address" data-size="5">
                     </select>
-                  </div>
+                  </div>-->
                   <div class="col-xlg-12 form-group form-material">
                     <label class="control-label" data-edexcoin="COIN" for="edexcoin_sendto">Send To</label>
-                    <input type="text" class="form-control" data-edexcoin="COIN" id="edexcoin_sendto" name="edexcoin_sendto" placeholder="Enter Transparent or Private address" autocomplete="off" required/>
+                    <input type="text" class="form-control" data-edexcoin="COIN" id="edexcoin_sendto" name="edexcoin_sendto" placeholder="Enter address" autocomplete="off" required/>
                   </div>
                   <div class="col-lg-6 form-group form-material">
-                    <label class="control-label" for="edexcoin_amount" data-edexcoin="COIN" id="edexcoin_amount_label"><span data-edexcoinname="COIN"></span></label>
+                    <label class="control-label" for="edexcoin_amount" data-edexcoin="COIN" id="edexcoin_amount_label"><span data-edexcoin="COIN"></span></label>
                     <input type="text" class="form-control" data-edexcoin="COIN" id="edexcoin_amount" name="edexcoin_amount" placeholder="0.000" autocomplete="off"/>
                   </div>
                   <div class="col-lg-6 form-group form-material">
@@ -562,10 +560,10 @@
                     <input type="text" class="form-control" data-edexcoin="COIN" id="edexcoin_fee" name="edexcoin_fee" placeholder="0.000" value="0.0001" autocomplete="off"/>
                   </div>
                   <div class="col-lg-12">
-                    <span data-edexcoin="KMD"><b>Total (<span data-edexcoinname="COIN"></span> - txfee):</b> <span data-edexcoin="COIN" id="edexcoin_total_value">0.000</span> <span data-edexcoin="COIN" id="edexcoin_total_coinname" data-edexcoinname="COIN"></span></span>
+                    <span data-edexcoin="KMD"><b>Total (<span data-edexcoin="COIN">amount</span> - txfee):</b> <span data-edexcoin="COIN" id="edexcoin_total_value">0.000</span> <span data-edexcoin="COIN" id="edexcoin_total_coinname" data-edexcoin="COIN"></span></span>
                   </div>
                   <div class="col-lg-12">
-                    <button type="submit" class="btn btn-primary waves-effect waves-light pull-right" data-toggle="modal" id="edexcoin_send_coins_btn">Send <span data-edexcoinname="COIN"></span></button>
+                    <button type="submit" class="btn btn-primary waves-effect waves-light pull-right" data-toggle="modal" id="edexcoin_send_coins_btn">Send <span data-edexcoin="COIN"></span></button>
                   </div>
                 </div>
               </div>

@@ -413,3 +413,172 @@ function Iguana_HashHex(data) {
     });
     return result;
 }
+
+
+function EDEXlistunspent(coin) {
+    NProgress.done(true);
+    NProgress.configure({
+        template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+    });
+    NProgress.start();
+    var result = [];
+
+    var ajax_data = {"coin":coin,"method":"listunspent","params":[]}
+    //console.log(ajax_data);
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
+            //console.log('== Data OutPut ==');
+            //console.log(AjaxOutputData);
+            var unique_addresses  = _.keys(_.countBy(AjaxOutputData, function(data) { return data.address; })); //This code using undscore.js takes only the address into an array which are unique in that list
+            
+            // This function calls each unique address and calculates the total amount of coins in it.
+            $.each(unique_addresses, function(index) {
+                console.log(unique_addresses[index]);
+                var unique_addr_tmp_array = _.where(AjaxOutputData, {address: unique_addresses[index]});
+                //console.log(unique_addr_tmp_array);
+
+                var tmpcalcnum = 0;
+                $.each(unique_addr_tmp_array, function(index, value) {
+                    //console.log(value.amount);
+                    tmpcalcnum = tmpcalcnum + value.amount;
+                });
+                //console.log(tmpcalcnum);
+                var tmp_addr_total_balance_output = {"addr": unique_addr_tmp_array[0].address, "total": tmpcalcnum};
+                //console.log(tmp_addr_total_balance_output);
+                result.push(tmp_addr_total_balance_output);
+
+            });
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    //console.log(result);
+    NProgress.done();
+    return result;
+}
+
+function clearEdexSendFieldData() {
+    $('.showedexcoinaddrs').selectpicker('refresh');
+    $('#edexcoin_sendto').val('');
+    $('#edexcoin_total_value').text('');
+    $('#edexcoin_amount').val('');
+}
+
+function EDEXMainAddr(coin) {
+    NProgress.done(true);
+    NProgress.configure({
+        template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+    });
+    NProgress.start();
+    var result = [];
+
+    var ajax_data = {"agent":"SuperNET","method":"activehandle"}
+    //console.log(ajax_data);
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
+            //console.log('== Data OutPut ==');
+            //console.log(AjaxOutputData[coin]);
+            result.push(AjaxOutputData[coin]);
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    //console.log(result);
+    NProgress.done();
+    return result;
+}
+
+
+function EDEXgetBalance(coin) {
+  var result = [];
+  //console.log(rmd160conv_data);
+  //return rmd160conv_data;
+
+  //comment
+    var ajax_data = {"agent":"bitcoinrpc","method":"getbalance","coin": coin};
+    //console.log(ajax_data);
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data);
+            //console.log('== Data OutPut getbalance ==');
+            //console.log(AjaxOutputData.result);
+            result.push(AjaxOutputData['result']);
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    return result;
+}
+
+
+function EDEXSendToAddr(data) {
+    var result = [];
+    var confirm_coinname_to_send = data.coin;
+    var confirm_send_amount = data.amount;
+    var confirm_sendto_address = data.sendtoaddr;
+
+    //Get parameters values from confirm dialog and send currency
+    var sendtoaddrvalues = {"coin": confirm_coinname_to_send,"method":"sendtoaddress","params":[confirm_sendto_address,confirm_send_amount,"EasyDEX","EasyDEXTransaction"]};
+    console.log(sendtoaddrvalues);
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: JSON.stringify(sendtoaddrvalues),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var SendToAddrData = JSON.parse(data);
+            console.log('== Data OutPut ==');
+            //console.log(SendToAddrData);
+            result.push(SendToAddrData);
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    return result;
+}
