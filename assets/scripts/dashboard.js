@@ -28,8 +28,24 @@ var Dashboard = function() {
       });
     }
 
+    var handle_edex_dashboard = function() {
+        $('#btn_edexcoin_dashboard').click(function() {
+          var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
+          console.log('EasyDEX dashbaord button clicked...');
+          console.log($(this).data());
+          $('#edexcoin_dashoard_section').show();
+          $('#edexcoin_dashboardinfo').show();
+          $('#edexcoin_send').hide();
+          $('#edexcoin_recieve_section').hide();
+          $('#edexcoin_settings').hide();
+          getCoinBalance(active_edexcoin);
+          EdexfillTxHistory(active_edexcoin);
+          //clearSendManyFieldData();
+        });
+    }
+
     var handle_edex_send = function() {
-      $('#btn_edexcoin_wallet_send').click(function() {
+      $('#btn_edexcoin_send').click(function() {
         var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
         //console.log(active_edexcoin);
         
@@ -430,6 +446,7 @@ var Dashboard = function() {
 
           resizeDashboardWindow();
           handle_edex_wallet();
+          handle_edex_dashboard();
           handle_edex_send();
 
 
@@ -483,6 +500,11 @@ function resizeDashboardWindow() {
 function edexCoinBtnAction() {
   $('.edexcoin-logo').click(function() {
     console.log($(this).data('edexcoincode'));
+    $('#edexcoin_dashoard_section').show();
+    $('#edexcoin_dashboardinfo').show();
+    $('#edexcoin_send').hide();
+    $('#edexcoin_recieve_section').hide();
+    $('#edexcoin_settings').hide();
     
     //get selected coin's code and populate in easydex wallet widget's html elements
     var coincode = $(this).data('edexcoincode');
@@ -498,6 +520,9 @@ function edexCoinBtnAction() {
     var coinwalletbalance = EDEXgetBalance(coincode);
     $('#edex_total_balance').text(coinwalletbalance[0]);
 
+    //getCoinBalance(active_edexcoin);
+    EdexfillTxHistory(coincode);
+
   });
 }
 
@@ -509,6 +534,32 @@ function getActiveEdexcoin() {
 function hideExtCoinsinEdexDashboard(coin) {
   var tmp_getinfo = EDEXgetinfo(coin)
   console.log(tmp_getinfo);
+}
+
+function EdexfillTxHistory(coin) {
+  NProgress.done(true);
+  NProgress.configure({
+    template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+  });
+  NProgress.start();
+    var txhistorydata = EdexGetTxList(coin);
+    //console.log(txhistorydata);
+
+    var edex_txhistory_table = '';
+    edex_txhistory_table = $('#edex-tx-history-tbl').DataTable( { data: txhistorydata,
+        "order": [[ 3, "desc" ]],
+        select: true,
+        retrieve: true
+    });
+
+    edex_txhistory_table.destroy();
+    edex_txhistory_table = $('#edex-tx-history-tbl').DataTable( { data: txhistorydata,
+        "order": [[ 3, "desc" ]],
+        select: true,
+        retrieve: true
+    });
+    
+  NProgress.done();
 }
 
 function ShowCoinHistory(getData) {
@@ -898,3 +949,74 @@ function ShowCoinProgressBar(coin) {
   });
 }
 
+function EdexGetTxList(coin) {
+  NProgress.done(true);
+  NProgress.configure({
+    template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+  });
+  NProgress.start();
+  var result = [];
+
+    var ajax_data = {"coin":coin,"method":"listtransactions","params":[0, 9999999, []]}
+    //console.log(ajax_data);
+    $.ajax({
+      async: false,
+      type: 'POST',
+      data: JSON.stringify(ajax_data),
+      url: 'http://127.0.0.1:7778',
+      //dataType: 'text',
+      success: function(data, textStatus, jqXHR) {
+        var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
+        AjaxOutputData = AjaxOutputData.result;
+        console.log('== Data OutPut of listtransactions ==');
+        console.log(AjaxOutputData);
+
+        $.each(AjaxOutputData, function(index, value) {
+        console.log(value);
+
+          var tmp_category = '';
+          var tmp_amount = AjaxOutputData[index].amount;
+          if(!("amount" in AjaxOutputData[index])) {
+              tmp_amount = '<span class="label label-dark">Unknown</span>'
+          }
+          var tmp_addr = AjaxOutputData[index].address;
+          if(!("address" in AjaxOutputData[index])) {
+              tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>'
+          }
+          var tmp_secondsToString = secondsToString(AjaxOutputData[index].blocktime)
+
+          if ( AjaxOutputData[index].category == 'send' ) {
+            tmp_category = '<i class="icon fa-arrow-circle-left"></i> OUT';
+          }
+          if ( AjaxOutputData[index].category == 'receive' ) {
+            tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
+          }
+          if ( AjaxOutputData[index].category == 'generate' ) {
+            tmp_category = '<i class="icon fa-cogs"></i> Mined';
+          }if ( AjaxOutputData[index].category == 'immature' ) {
+            tmp_category = '<i class="icon fa-clock-o"></i> Immature';
+          }
+          if ( AjaxOutputData[index].category == 'unknown' ) {
+            tmp_category = '<i class="icon fa-meh-o"></i> Unknown';
+          }
+          //console.log(tmp_addr);
+          //tmplisttransactions = {"category": AjaxOutputData[index].category,"confirmations": AjaxOutputData[index].confirmations,"amount": AjaxOutputData[index].amount,"time": AjaxOutputData[index].time,"address": AjaxOutputData[index].address,"txid": AjaxOutputData[index].txid}
+          tmplisttransactions = [tmp_category,AjaxOutputData[index].confirmations,tmp_amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light" data-toggle="modal" data-target="#kmd_txid_info_mdl" id="kmd-txid-details-btn" data-txid-type="public" data-txid="'+AjaxOutputData[index].txid+'" disabled><i class="icon fa-search"></i></button>']
+          //console.log(tmplisttransactions);
+          result.push(tmplisttransactions);
+      });
+      },
+      error: function(xhr, textStatus, error) {
+          console.log('failed getting Coin History.');
+          console.log(xhr.statusText);
+          if ( xhr.readyState == 0 ) {
+              Iguana_ServiceUnavailable();
+          }
+          console.log(textStatus);
+          console.log(error);
+      }
+    });
+  //console.log(result);
+  NProgress.done();
+  return result;
+}
