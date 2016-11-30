@@ -17,6 +17,29 @@ var KMDWalletDashboard = function() {
 
         });
 
+        $('.btn-kmdtxid').click(function() {
+            console.log('kmd-txid-details-btn button clicked!..');
+            console.log($(this).data('txid-type'));
+            console.log($(this).data('txid'));
+
+            var kmd_addr_txid_info = KMDGetTransactionIDInfo($(this).data('txid'));
+            console.log(kmd_addr_txid_info);
+            $('#kmd_txid_info_amount').text(kmd_addr_txid_info[0].amount);
+            $('#kmd_txid_info_fee').text(kmd_addr_txid_info[0].fee);
+            $('#kmd_txid_info_confirmations').text(kmd_addr_txid_info[0].confirmations);
+            $('#kmd_txid_info_blockhash').text(kmd_addr_txid_info[0].blockhash);
+            $('#kmd_txid_info_blockindex').text(kmd_addr_txid_info[0].blockindex);
+            $('#kmd_txid_info_blocktime').text(kmd_addr_txid_info[0].blocktime);
+            $('#kmd_txid_info_txid').text(kmd_addr_txid_info[0].txid);
+            $('#kmd_txid_info_walletconflicts').text(kmd_addr_txid_info[0].walletconflicts);
+            $('#kmd_txid_info_time').text(kmd_addr_txid_info[0].time);
+            $('#kmd_txid_info_timereceived').text(kmd_addr_txid_info[0].timereceived);
+            $('#kmd_txid_info_vjoinsplit').text(kmd_addr_txid_info[0].vjoinsplit);
+            $('#kmd_txid_info_details').text(kmd_addr_txid_info[0].details);
+            $('#kmd_txid_info_hex').val(kmd_addr_txid_info[0].hex);
+            clearSendManyFieldData();
+        });
+
 	}
 
 	var handle_KMD_Send = function() {
@@ -43,8 +66,10 @@ var KMDWalletDashboard = function() {
 			var kmd_z_addr_list_with_balance = KMDListaddrZ();
 			//console.log(kmd_z_addr_list_with_balance);
 			$.each(kmd_z_addr_list_with_balance, function(index) {
-				tmpoptions += '<option value="' + kmd_z_addr_list_with_balance[index].addr + '" data-total="' + kmd_z_addr_list_with_balance[index].total.toFixed(8) + '">[ ' + kmd_z_addr_list_with_balance[index].total.toFixed(8) + ' KMD ] &emsp;' + kmd_z_addr_list_with_balance[index].addr + '</option>';
-				$('#kmd_wallet_send_from').html(tmpoptions);
+                if (kmd_z_addr_list_with_balance[index].total !== 0) {
+                    tmpoptions += '<option value="' + kmd_z_addr_list_with_balance[index].addr + '" data-total="' + kmd_z_addr_list_with_balance[index].total.toFixed(8) + '">[ ' + kmd_z_addr_list_with_balance[index].total.toFixed(8) + ' KMD ] &emsp;' + kmd_z_addr_list_with_balance[index].addr + '</option>';
+                    $('#kmd_wallet_send_from').html(tmpoptions);
+                }
 			});
 
 			$('.showkmdwalletaddrs').selectpicker({ style: 'btn-info' });
@@ -164,32 +189,6 @@ var KMDWalletDashboard = function() {
         });
 	}
 
-	var KMDGetTXIDdetails = function() {
-		
-		$('#kmd-txid-details-btn').click(function() {
-			//console.log('kmd-txid-details-btn button clicked!..');
-			console.log($(this).data('txid-type'));
-			console.log($(this).data('txid'));
-
-			var kmd_addr_txid_info = KMDGetTransactionIDInfo($(this).data('txid'));
-			console.log(kmd_addr_txid_info);
-			$('#kmd_txid_info_amount').text(kmd_addr_txid_info[0].amount);
-			$('#kmd_txid_info_fee').text(kmd_addr_txid_info[0].fee);
-			$('#kmd_txid_info_confirmations').text(kmd_addr_txid_info[0].confirmations);
-			$('#kmd_txid_info_blockhash').text(kmd_addr_txid_info[0].blockhash);
-			$('#kmd_txid_info_blockindex').text(kmd_addr_txid_info[0].blockindex);
-			$('#kmd_txid_info_blocktime').text(kmd_addr_txid_info[0].blocktime);
-			$('#kmd_txid_info_txid').text(kmd_addr_txid_info[0].txid);
-			$('#kmd_txid_info_walletconflicts').text(kmd_addr_txid_info[0].walletconflicts);
-			$('#kmd_txid_info_time').text(kmd_addr_txid_info[0].time);
-			$('#kmd_txid_info_timereceived').text(kmd_addr_txid_info[0].timereceived);
-			$('#kmd_txid_info_vjoinsplit').text(kmd_addr_txid_info[0].vjoinsplit);
-			$('#kmd_txid_info_details').text(kmd_addr_txid_info[0].details);
-			$('#kmd_txid_info_hex').val(kmd_addr_txid_info[0].hex);
-            clearSendManyFieldData();
-		});
-	};
-
 	var KMDWalletSettings = function() {
         var action_btn_code = getHeaderActionMenuButtonCoinCode();
 		$('#btn_'+action_btn_code+'_wallet_settings').click(function() {
@@ -245,7 +244,6 @@ var KMDWalletDashboard = function() {
         init: function() {
             handle_KMD_Dashboard();
             //KMDfillTxHistoryT();
-            KMDGetTXIDdetails();
             handle_KMD_Send();
             KMDWalletRecieve();
             KMDWalletSettings();
@@ -672,7 +670,7 @@ function KMDGetPublicTransactions() {
                 }
                 //console.log(tmp_addr);
 				//tmplisttransactions = {"type":"public","category": AjaxOutputData[index].category,"confirmations": AjaxOutputData[index].confirmations,"amount": AjaxOutputData[index].amount,"time": AjaxOutputData[index].time,"address": AjaxOutputData[index].address,"txid": AjaxOutputData[index].txid}
-                tmplisttransactions = ['<span class="label label-default"><i class="icon fa-eye"></i> public</span>',tmp_category,AjaxOutputData[index].confirmations,AjaxOutputData[index].amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light" data-toggle="modal" data-target="#kmd_txid_info_mdl" id="kmd-txid-details-btn" data-txid-type="public" data-txid="'+AjaxOutputData[index].txid+'"><i class="icon fa-search"></i></button>']
+                tmplisttransactions = ['<span class="label label-default"><i class="icon fa-eye"></i> public</span>',tmp_category,AjaxOutputData[index].confirmations,AjaxOutputData[index].amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light btn-kmdtxid" data-toggle="modal" data-target="#kmd_txid_info_mdl" id="kmd-txid-details-btn" data-txid-type="public" data-txid="'+AjaxOutputData[index].txid+'"><i class="icon fa-search"></i></button>']
 				//console.log(tmplisttransactions);
 				result.push(tmplisttransactions);
 			});
