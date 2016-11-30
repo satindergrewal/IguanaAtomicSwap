@@ -547,7 +547,7 @@ function EDEXSendToAddr(data) {
 
     //Get parameters values from confirm dialog and send currency
     var sendtoaddrvalues = {"coin": confirm_coinname_to_send,"method":"sendtoaddress","params":[confirm_sendto_address,confirm_send_amount,"EasyDEX","EasyDEXTransaction"]};
-    console.log(sendtoaddrvalues);
+    //console.log(sendtoaddrvalues);
     $.ajax({
         async: false,
         type: 'POST',
@@ -578,7 +578,7 @@ function EDEXgetinfo(coin) {
 
     //Get parameters values from confirm dialog and send currency
     var ajax_data = {"coin":coin,"agent":"bitcoinrpc","method":"getinfo","immediate":100,"timeout":4000};
-    console.log(ajax_data);
+    //console.log(ajax_data);
     $.ajax({
         async: false,
         type: 'POST',
@@ -608,7 +608,7 @@ function EDEXgetaddrbyaccount(coin) {
 
     //Get parameters values from confirm dialog and send currency
     var ajax_data = {"coin":coin,"agent":"bitcoinrpc","method":"getaddressesbyaccount","account":"*"}
-    console.log(ajax_data);
+    //console.log(ajax_data);
     $.ajax({
         async: false,
         type: 'POST',
