@@ -2,7 +2,7 @@
 $(document).ready(function() {
 
     $('#section-dashboard').show();
-    $('#header-dashboard').show();
+    //$('#header-dashboard').show();
 	$('#section-easydex').hide();
 	$('#section-extcoin').hide();
 	$('#section-zcash').hide();
@@ -26,7 +26,7 @@ $(document).ready(function() {
 
 $('#nav-dashboard').on('click', function() {
 	$('#section-dashboard').show();
-	$('#header-dashboard').show();
+	//$('#header-dashboard').show();
 	$('#section-easydex').hide();
 	$('#section-extcoin').hide();
 	$('#section-zcash').hide();

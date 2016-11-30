@@ -510,7 +510,10 @@ function edexCoinBtnAction() {
   $('.edexcoin-logo').click(function() {
     console.log($(this).data('edexcoincode'));
     $('#edexcoin_dashoard_section').show();
+    $('#header-dashboard').show();
+    $('#wallet-widgets').show();
     $('#edexcoin_dashboardinfo').show();
+    $('#no_wallet_selected').hide();
     $('#edexcoin_send').hide();
     $('#edexcoin_recieve_section').hide();
     $('#edexcoin_settings').hide();
