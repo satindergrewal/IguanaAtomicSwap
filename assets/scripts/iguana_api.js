@@ -35,7 +35,6 @@ function Iguana_dumpwallet() {
             //return AjaxOutputData;
         },
         error: function(xhr, textStatus, error) {
-            console.log('failed getting Coin History.');
             console.log(xhr.statusText);
             console.log(textStatus);
             console.log(error);
@@ -65,7 +64,6 @@ function Iguana_rmd160conv(rmd160conv_data) {
             return AjaxOutputData;
         },
         error: function(xhr, textStatus, error) {
-            console.log('failed getting Coin History.');
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
                 Iguana_ServiceUnavailable();
@@ -95,7 +93,6 @@ function Iguana_activehandle() {
             return true;
         },
         error: function(xhr, textStatus, error) {
-            console.log('failed getting Coin History.');
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
                 Iguana_ServiceUnavailable();
@@ -127,7 +124,6 @@ function Iguana_Setactivehandle() {
             
         },
         error: function(xhr, textStatus, error) {
-            console.log('failed getting Coin History.');
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
                 Iguana_ServiceUnavailable();
@@ -184,7 +180,6 @@ function Iguana_addcoinLogin(addcoin_data) {
             }
         },
         error: function(xhr, textStatus, error) {
-            console.log('failed getting Coin History.');
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
                 Iguana_ServiceUnavailable();
@@ -348,7 +343,6 @@ function Iguana_addcoin(addcoin_data) {
             }
         },
         error: function(xhr, textStatus, error) {
-            console.log('failed getting Coin History.');
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
                 Iguana_ServiceUnavailable();
@@ -402,7 +396,6 @@ function Iguana_HashHex(data) {
             result = AjaxOutputData.hex;
         },
         error: function(xhr, textStatus, error) {
-            console.log('failed getting Coin History.');
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
                 Iguana_ServiceUnavailable();
@@ -456,7 +449,6 @@ function EDEXlistunspent(coin) {
             });
         },
         error: function(xhr, textStatus, error) {
-            console.log('failed getting Coin History.');
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
                 Iguana_ServiceUnavailable();
@@ -500,7 +492,6 @@ function EDEXMainAddr(coin) {
             result.push(AjaxOutputData[coin]);
         },
         error: function(xhr, textStatus, error) {
-            console.log('failed getting Coin History.');
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
                 Iguana_ServiceUnavailable();
@@ -536,7 +527,6 @@ function EDEXgetBalance(coin) {
             result.push(AjaxOutputData['result']);
         },
         error: function(xhr, textStatus, error) {
-            console.log('failed getting Coin History.');
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
                 Iguana_ServiceUnavailable();
@@ -571,7 +561,6 @@ function EDEXSendToAddr(data) {
             result.push(SendToAddrData);
         },
         error: function(xhr, textStatus, error) {
-            console.log('failed getting Coin History.');
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
                 Iguana_ServiceUnavailable();
@@ -588,12 +577,12 @@ function EDEXgetinfo(coin) {
     var result = [];
 
     //Get parameters values from confirm dialog and send currency
-    var getinfoValues = {"coin":coin,"agent":"bitcoinrpc","method":"getinfo","immediate":100,"timeout":4000};
-    console.log(getinfoValues);
+    var ajax_data = {"coin":coin,"agent":"bitcoinrpc","method":"getinfo","immediate":100,"timeout":4000};
+    console.log(ajax_data);
     $.ajax({
         async: false,
         type: 'POST',
-        data: JSON.stringify(getinfoValues),
+        data: JSON.stringify(ajax_data),
         url: 'http://127.0.0.1:7778',
         //dataType: 'text',
         success: function(data, textStatus, jqXHR) {
@@ -603,7 +592,66 @@ function EDEXgetinfo(coin) {
             result.push(AjaxOutputData);
         },
         error: function(xhr, textStatus, error) {
-            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    return result;
+}
+
+function EDEXgetaddrbyaccount(coin) {
+    var result = [];
+
+    //Get parameters values from confirm dialog and send currency
+    var ajax_data = {"coin":coin,"agent":"bitcoinrpc","method":"getaddressesbyaccount","account":"*"}
+    console.log(ajax_data);
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data);
+            //console.log('== Data OutPut ==');
+            //console.log(AjaxOutputData);
+            result.push(AjaxOutputData.result);
+        },
+        error: function(xhr, textStatus, error) {
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    return result;
+}
+
+function EDEXgetnewaddress(coin) {
+    var result = [];
+
+    //Get parameters values from confirm dialog and send currency
+    var ajax_data = {"coin":coin,"agent":"bitcoinrpc","method":"getnewaddress","account":""}
+    console.log(ajax_data);
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data);
+            //console.log('== Data OutPut ==');
+            //console.log(AjaxOutputData);
+            result.push(AjaxOutputData.result);
+        },
+        error: function(xhr, textStatus, error) {
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
                 Iguana_ServiceUnavailable();
