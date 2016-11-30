@@ -40,7 +40,7 @@ var Dashboard = function() {
           $('#edexcoin_settings').hide();
           getCoinBalance(active_edexcoin);
           EdexfillTxHistory(active_edexcoin);
-          //clearSendManyFieldData();
+          clearEdexSendFieldData();
         });
     }
 
@@ -69,6 +69,8 @@ var Dashboard = function() {
         $('.showedexcoinaddrs').selectpicker({ style: 'btn-info' });
         $('.showedexcoinaddrs').selectpicker('refresh');*/
         clearEdexSendFieldData();
+        tmp_coinkbfee = EDEXgetinfo(active_edexcoin);
+        $('#edexcoin_fee').val(tmp_coinkbfee[0].kbfee)
 
       });
 
@@ -159,6 +161,12 @@ var Dashboard = function() {
         },
 
         submitHandler: function(form) {
+          NProgress.done(true);
+          NProgress.configure({
+              template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+          });
+          NProgress.start();
+
           console.log('Sent control here after clicked in form...');
 
           var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
@@ -169,7 +177,8 @@ var Dashboard = function() {
           //console.log(tmp_json_data);
           var tmp_sendtoaddr_output = EDEXSendToAddr(tmp_json_data);
           console.log(tmp_sendtoaddr_output);
-          //clearSendManyFieldData();
+          clearEdexSendFieldData();
+          NProgress.done();
         }
       });
     }
@@ -724,8 +733,8 @@ function getCoinBalance(coin) {
         //dataType: 'text',
         success: function(data, textStatus, jqXHR) {
             var AjaxOutputData = JSON.parse(data);
-            console.log('== Data OutPut getCoinBalance ==');
-            console.log(AjaxOutputData);
+            //console.log('== Data OutPut getCoinBalance ==');
+            //console.log(AjaxOutputData);
             $('span[data-edexcoincode="' + coin + '"][id="edexcoin-balance"]').text(AjaxOutputData.result);
         },
         error: function(xhr, textStatus, error) {
@@ -968,11 +977,11 @@ function EdexGetTxList(coin) {
       success: function(data, textStatus, jqXHR) {
         var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
         AjaxOutputData = AjaxOutputData.result;
-        console.log('== Data OutPut of listtransactions ==');
-        console.log(AjaxOutputData);
+        //console.log('== Data OutPut of listtransactions ==');
+        //console.log(AjaxOutputData);
 
         $.each(AjaxOutputData, function(index, value) {
-        console.log(value);
+        //console.log(value);
 
           var tmp_category = '';
           var tmp_amount = AjaxOutputData[index].amount;
@@ -1019,4 +1028,11 @@ function EdexGetTxList(coin) {
   //console.log(result);
   NProgress.done();
   return result;
+}
+
+function clearEdexSendFieldData() {
+    //$('.showedexcoinaddrs').selectpicker('refresh');
+    $('#edexcoin_sendto').val('');
+    $('#edexcoin_total_value').text('');
+    $('#edexcoin_amount').val('');
 }
