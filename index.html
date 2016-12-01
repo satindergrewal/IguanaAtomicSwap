@@ -61,11 +61,13 @@
   <!-- Node.js scripts -->
 
   <!-- Scripts -->
+  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
   <script src="assets/global/vendor/modernizr/modernizr.min.js"></script>
   <script src="assets/global/vendor/breakpoints/breakpoints.min.js"></script>
   <script>
   //Breakpoints();
   </script>
+  <script>if (window.module) module = window.module;</script>
   <link id="skinStyle" href="assets/skins/orange.min.css" rel="stylesheet" type="text/css">
 </head>
 <body class="page-login layout-full page-dark">
@@ -1506,6 +1508,7 @@
   </footer>-->
   </div>
   <!-- END Wallet Core Pages -->
+  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
   <script src="assets/global/vendor/jquery/jquery.min.js"></script>
   <script src="assets/global/vendor/bootstrap/bootstrap.min.js"></script>
   <script src="assets/global/vendor/animsition/animsition.min.js"></script>
@@ -1585,5 +1588,6 @@
     jQuery('.scrollbar-dynamic').scrollbar();
   });
   </script>
+  <script>if (window.module) module = window.module;</script>
 </body>
 </html>
