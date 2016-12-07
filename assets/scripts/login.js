@@ -516,7 +516,7 @@ var Login = function() {
     };
 
     var handleCheckLogin = function() {
-        Iguana_activehandle();
+        //Iguana_activehandle();
         //console.log('Iguana_activehandle_output: '+Iguana_activehandle_output);
         if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
             console.log('There\'s no active wallet logged in. Please Login.');
