@@ -89,6 +89,11 @@ var Login = function() {
                                     var logincoin_data = {"coin": value, "mode": logincoinmodeval};
                                     Iguana_addcoinLogin(logincoin_data);
                                 }
+                                if ( value == 'KMD' ) {
+                                    var logincoinmodeval = $("input[name='logincoinkmdmode']:checked").val();
+                                    var logincoin_data = {"coin": value, "mode": logincoinmodeval};
+                                    Iguana_addcoinLogin(logincoin_data);
+                                }
                             });
                             
                             $('#password').val('')
@@ -112,6 +117,11 @@ var Login = function() {
                                     }
                                     if ( value == 'BTCD' ) {
                                         var logincoinmodeval = $("input[name='logincoinbtcdmode']:checked").val();
+                                        var logincoin_data = {"coin": value, "mode": logincoinmodeval};
+                                        Iguana_addcoinLogin(logincoin_data);
+                                    }
+                                    if ( value == 'KMD' ) {
+                                        var logincoinmodeval = $("input[name='logincoinkmdmode']:checked").val();
                                         var logincoin_data = {"coin": value, "mode": logincoinmodeval};
                                         Iguana_addcoinLogin(logincoin_data);
                                     }
