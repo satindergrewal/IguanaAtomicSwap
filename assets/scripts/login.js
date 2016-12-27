@@ -395,7 +395,8 @@ var Login = function() {
                 //dataType: 'text',
                 success: function(data, textStatus, jqXHR) {
                     var LogoutOutput = JSON.parse(data);
-                    sessionStorage.clear();
+                    //sessionStorage.clear();
+                    sessionStorage.removeItem('IguanaActiveAccount');
                     console.log('== Logout Data OutPut ==');
                     console.log(LogoutOutput);
 
@@ -679,7 +680,8 @@ var Login = function() {
                 //dataType: 'text',
                 success: function(data, textStatus, jqXHR) {
                     var LogoutOutput = JSON.parse(data);
-                    sessionStorage.clear();
+                    //sessionStorage.clear();
+                    sessionStorage.removeItem('IguanaActiveAccount');
                     //console.log('== Data OutPut ==');
                     //console.log(LogoutOutput);
 
@@ -754,7 +756,8 @@ jQuery(document).ready(function() {
 
 function ClearOnLogout(cleardata, stopinterval) {
     if ( cleardata === true ) {
-        sessionStorage.clear();
+        //sessionStorage.clear();
+        sessionStorage.removeItem('IguanaActiveAccount');
     }
     if ( cleardata === false || cleardata === null ) {
         console.log('sessionStorage data not cleared.');
