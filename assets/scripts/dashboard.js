@@ -1,8 +1,6 @@
 var RunTotalFiatValue = '';
 var ExecuteShowCoinHistory = '';
 
-
-
 var Dashboard = function() {
 
 
@@ -215,10 +213,14 @@ var Dashboard = function() {
         var AddColumnDiv = 0
         $.each([ 'basilisk', 'full', 'virtual' ], function( index, value ) {
 
+            var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+            var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"InstantDEX","method":"allcoins"};
+            //console.log(ajax_data);
             $.ajax({
-                type: 'GET',
-                url: 'http://127.0.0.1:7778/api/InstantDEX/allcoins',
-                dataType: 'text',
+                type: 'POST',
+                data: JSON.stringify(ajax_data),
+                url: 'http://127.0.0.1:7778',
+                //dataType: 'JSON',
                 success: function(data, textStatus, jqXHR) {
                     var AllcoinsDataOutput = JSON.parse(data);
                     //console.log('== AllCoins Data OutPut ==');
@@ -609,7 +611,8 @@ function ShowCoinHistory(getData) {
 }
 
 function getCoinBalance(coin) {
-    var ajax_data = {"agent":"bitcoinrpc","method":"getbalance","coin": coin};
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+    var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"bitcoinrpc","method":"getbalance","coin": coin};
     //console.log(ajax_data);
     $.ajax({
         //async: false,
@@ -651,7 +654,9 @@ function SwitchBasicliskFull(switch_data) {
   if ( switch_data.modecode == 'B' ) { relay_value = 1; validate_value = 1; mode_value = 'Basilisk'; }
   if ( switch_data.modecode == 'F' ) { relay_value = 0; validate_value = 0; mode_value = 'Full'; }
 
+  var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
   var SwitchCoinModeData = {
+      'userpass':tmpIguanaRPCAuth,
       "poll": 100,
       "immediate":100,
       "active": 1,
@@ -785,7 +790,8 @@ function StopTotalFiatValue() {
 
 function ShowCoinProgressBar(coin) {
   //console.log('Showing Prgoress bar of '+coin);
-  var getinfoValues = {"coin":coin,"agent":"bitcoinrpc","method":"getinfo","immediate":100,"timeout":4000};
+  var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+  var getinfoValues = {'userpass':tmpIguanaRPCAuth,"coin":coin,"agent":"bitcoinrpc","method":"getinfo","immediate":100,"timeout":4000};
   $.ajax({
       type: 'POST',
       data: JSON.stringify(getinfoValues),
@@ -854,6 +860,7 @@ function EdexGetTxList(coin) {
   NProgress.start();
   var result = [];
 
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
     var ajax_data = {"coin":coin,"method":"listtransactions","params":[0, 9999999, []]}
     //console.log(ajax_data);
     $.ajax({

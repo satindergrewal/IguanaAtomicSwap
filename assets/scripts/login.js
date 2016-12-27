@@ -52,19 +52,25 @@ var Login = function() {
             },
 
             submitHandler: function(form) {
+                var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
                 var IguanaLoginData = {
+                    'userpass':tmpIguanaRPCAuth,
                     'handle': $('#wallet-handle').val(),
                     'password': $('#password').val(),
                     'timeout': '2592000'
                 }
                 //console.log('== Data Collected ==');
-                //console.log(IguanaLoginData);
+                console.log(IguanaLoginData);
                 // Use AJAX to post the object to login user
+                var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+                var ajax_data = {'userpass':tmpIguanaRPCAuth,'handle': $('#wallet-handle').val(),'password': $('#password').val(),'timeout': '2592000',"agent":"bitcoinrpc","method":"walletpassphrase"}
                 $.ajax({
-                    type: 'GET',
-                    data: IguanaLoginData,
-                    url: 'http://127.0.0.1:7778/api/bitcoinrpc/walletpassphrase',
-                    dataType: 'text',
+                    type: 'POST',
+                    data: ajax_data,
+                    data: JSON.stringify(ajax_data),
+                    url: 'http://127.0.0.1:7778',
+                    //url: 'http://127.0.0.1:7778/api/bitcoinrpc/walletpassphrase',
+                    //dataType: 'JSON',
                     success: function(data, textStatus, jqXHR) {
                         var LoginOutput = JSON.parse(data);
                         var LoginDataToStore = JSON.stringify(data);
@@ -254,7 +260,9 @@ var Login = function() {
                     confirmButtonText: 'Yes, I have taken backup.'
                 }).then(function() {
                     //swal('Deleted!', 'Your file has been deleted.', 'success' );
+                    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
                     var IguanaCreateWaletData = {
+                        'userpass':tmpIguanaRPCAuth,
                         'password': $('#rpassword').val(),
                         'passphrase': $('#walletseed').val()
                     }
@@ -377,10 +385,14 @@ var Login = function() {
     var handleLogout = function() {
 
         $('#logout-account').click(function() {
+            var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+            var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"bitcoinrpc","method":"walletlock"}
             $.ajax({
-                type: 'GET',
-                url: 'http://127.0.0.1:7778/api/bitcoinrpc/walletlock',
-                dataType: 'text',
+                type: 'POST',
+                data: JSON.stringify(ajax_data),
+                //url: 'http://127.0.0.1:7778/api/bitcoinrpc/walletlock',
+                url: 'http://127.0.0.1:7778',
+                //dataType: 'text',
                 success: function(data, textStatus, jqXHR) {
                     var LogoutOutput = JSON.parse(data);
                     sessionStorage.clear();
@@ -441,18 +453,25 @@ var Login = function() {
     var handleLock = function() {
         //Begin Lock Active Wallet
         $('#lock-screen').click(function() {
+            var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+            var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"bitcoinrpc","method":"walletlock"}
             $.ajax({
-                type: 'GET',
-                url: 'http://127.0.0.1:7778/api/bitcoinrpc/walletlock',
-                dataType: 'text',
+                type: 'POST',
+                data: JSON.stringify(ajax_data),
+                //url: 'http://127.0.0.1:7778/api/bitcoinrpc/walletlock',
+                url: 'http://127.0.0.1:7778',
                 success: function(data, textStatus, jqXHR) {
                     var LockOutput = JSON.parse(data);
 
                     //Begin Check Active Wallet's status
+                    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+                    var ajax_data_activehandle = {'userpass':tmpIguanaRPCAuth,"agent":"SuperNET","method":"activehandle"}
                     $.ajax({
-                        type: 'GET',
-                        url: 'http://127.0.0.1:7778/api/SuperNET/activehandle',
-                        dataType: 'text',
+                        type: 'POST',
+                        data: JSON.stringify(ajax_data_activehandle),
+                        url: 'http://127.0.0.1:7778',
+                        //url: 'http://127.0.0.1:7778/api/SuperNET/activehandle',
+                        //dataType: 'text',
                         success: function(data, textStatus, jqXHR) {
                             var ActiveHandleOutput = JSON.parse(data);
                             var ActiveHandleDataToStore = JSON.stringify(data);
@@ -552,6 +571,13 @@ var Login = function() {
                 $("#loginbtn").text('Unlock');
             }
         }
+        if ( sessionStorage.getItem('IguanaRPCAuth') === null || typeof sessionStorage.getItem('IguanaRPCAuth') == undefined) {
+            Iguana_SetRPCAuth();
+            typeof sessionStorage.getItem('IguanaRPCAuth')
+            console.log(sessionStorage.getItem('IguanaRPCAuth'));
+            var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+            console.log(tmpIguanaRPCAuth)
+        }
         
     };
 
@@ -643,10 +669,14 @@ var Login = function() {
     var handleLoginAnotherWallet = function() {
         $('#logint-another-wallet').click(function() {
             $('#logint-another-wallet').show();
+            var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+            var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"bitcoinrpc","method":"walletlock"}
             $.ajax({
-                type: 'GET',
-                url: 'http://127.0.0.1:7778/api/bitcoinrpc/walletlock',
-                dataType: 'text',
+                type: 'POST',
+                data: JSON.stringify(ajax_data),
+                url: 'http://127.0.0.1:7778',
+                //url: 'http://127.0.0.1:7778/api/bitcoinrpc/walletlock',
+                //dataType: 'text',
                 success: function(data, textStatus, jqXHR) {
                     var LogoutOutput = JSON.parse(data);
                     sessionStorage.clear();
