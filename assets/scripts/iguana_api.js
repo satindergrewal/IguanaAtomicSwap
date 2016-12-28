@@ -701,31 +701,6 @@ function EDEXgetnewaddress(coin) {
 }
 
 function Iguana_SetRPCAuth() {    
-    var tmpPass = PassPhraseGenerator.generatePassPhrase(128);
-    //comment
-    var ajax_data = {"agent":"hash","method":"md5","message":tmpPass};
-    //var ajax_data = {"agent":"SuperNET","method":"activehandle"};
-    //console.log(ajax_data);
-    $.ajax({
-        type: 'POST',
-        data: JSON.stringify(ajax_data),
-        url: 'http://127.0.0.1:7778',
-        //dataType: 'text',
-        success: function(data, textStatus, jqXHR) {
-            var AjaxOutputData = JSON.parse(data);
-            var AjaxOutputDataToStore = JSON.stringify(data);
-            sessionStorage.setItem('IguanaRPCAuth', AjaxOutputData.md5);
-            console.log('== SetActiveHandle Data OutPut ==');
-            console.log(AjaxOutputData);
-            
-        },
-        error: function(xhr, textStatus, error) {
-            console.log(xhr.statusText);
-            if ( xhr.readyState == 0 ) {
-                Iguana_ServiceUnavailable();
-            }
-            console.log(textStatus);
-            console.log(error);
-        }
-    });
+    var tmpPass = md5(PassPhraseGenerator.generatePassPhrase(128));
+    sessionStorage.setItem('IguanaRPCAuth', tmpPass);
 }
