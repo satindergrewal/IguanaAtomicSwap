@@ -53,7 +53,7 @@ var KMDWalletDashboard = function() {
 			$('#kmd_wallet_send').show();
             $('#kmd_wallet_recieve_section').hide();
 			$('#kmd_wallet_settings').hide();
-			
+
 			var kmd_addr_list_with_balance = KMDlistunspentT();
 			//console.log(kmd_addr_list_with_balance);
 
@@ -86,7 +86,7 @@ var KMDWalletDashboard = function() {
 		$('#kmd_wallet_amount').keyup(function() {
 			var sum_val1 = parseFloat($('#kmd_wallet_amount').val())
 			var sum_val2 = parseFloat($('#kmd_wallet_fee').val())
-			var total_minus_currency_fee = sum_val1 - sum_val2;			
+			var total_minus_currency_fee = sum_val1 - sum_val2;
 			var mdl_send_btn = $('#kmd_wallet_send_coins_btn');
 
 			//console.log($('#kmd_wallet_amount').val());
@@ -106,7 +106,7 @@ var KMDWalletDashboard = function() {
         $('#kmd_wallet_fee').keyup(function() {
             var sum_val1 = parseFloat($('#kmd_wallet_amount').val())
             var sum_val2 = parseFloat($('#kmd_wallet_fee').val())
-            var total_minus_currency_fee = sum_val1 - sum_val2;         
+            var total_minus_currency_fee = sum_val1 - sum_val2;
             var mdl_send_btn = $('#kmd_wallet_send_coins_btn');
 
             //console.log($('#kmd_wallet_amount').val());
@@ -222,14 +222,14 @@ var KMDWalletDashboard = function() {
             console.log('get new T address button clicked...');
             KMDGetNewAddresses('public');
             KMDListAllAddr();
-            toastr.info("Recieving Address list updated", "Wallet Notification");
+            toastr.info("Receiving Address list updated", "Wallet Notification");
         });
-        
+
         $('#kmd_get_new_zaddr').click(function() {
             console.log('get new Z address button clicked...');
             KMDGetNewAddresses('private');
             KMDListAllAddr();
-            toastr.info("Recieving Address list updated", "Wallet Notification");
+            toastr.info("Receiving Address list updated", "Wallet Notification");
         });
     };
 
@@ -265,7 +265,7 @@ function RunKMDInitFunctions() {
         template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
     });
     NProgress.start();
-	
+
     var check1 = CheckIfConnected();
     console.log(check1[0]);
     if ( check1[0] == 'not active' ) {
@@ -517,7 +517,7 @@ function KMDlistunspentT() {
             //console.log('== Data OutPut ==');
             //console.log(AjaxOutputData);
             var unique_addresses  = _.keys(_.countBy(AjaxOutputData, function(data) { return data.address; })); //This code using undscore.js takes only the address into an array which are unique in that list
-            
+
             // This function calls each unique address and calculates the total amount of coins in it.
             $.each(unique_addresses, function(index) {
 				//console.log(unique_addresses[index]);
@@ -569,7 +569,7 @@ function KMDListaddrZ() {
             //console.log('== Data OutPut of z_listaddresses ==');
             //console.log(AjaxOutputData);
             //This code gets list of all z_addresses into an array
-            
+
             // This function calls each address and then gets the total amount of coins in it.
             $.each(AjaxOutputData, function(index, value) {
 				//console.log(value);
@@ -703,11 +703,11 @@ function KMDGetProtectedTransactions() {
 
 	$.each(get_zaddr_list, function(index, value) {
 		//console.log(value.addr);
-		
+
 		var ajax_data_to_hex = '["'+ value.addr +'",0]'
 		var tmpzaddr_hex_input = Iguana_HashHex(ajax_data_to_hex)
 		//console.log(tmpzaddr_hex_input);
-		
+
 		var passthru_agent = getPassthruAgent();
         var ajax_data = {"agent":passthru_agent,"method":"passthru","function":"z_listreceivedbyaddress","hex":tmpzaddr_hex_input}
 	    //console.log(ajax_data);
@@ -737,8 +737,8 @@ function KMDGetProtectedTransactions() {
 	                    tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>'
 	                }*/
 
-	                
-	                
+
+
 	                tmplistZtransactions = ['<span class="label label-dark"><i class="icon fa-eye-slash"></i> private</span>',tmp_category,tmp_confirmations,tmp_amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light" data-toggle="modal" data-target="#kmd_txid_info_mdl" id="kmd-txid-details-btn" data-txid-type="private" data-txid="'+txidvalue.txid+'"><i class="icon fa-search"></i></button>']
 					//console.log(tmplistZtransactions);
 					result.push(tmplistZtransactions);
@@ -784,7 +784,7 @@ function KMDfillTxHistoryT() {
         select: true,
         retrieve: true
     });
-    
+
     NProgress.done();
 }
 
@@ -808,9 +808,9 @@ function KMDListAddresses(pubpriv) {
         ajax_function_input = 'z_listaddresses';
         tmplistaddr_hex_input = "";
     }
-    
+
     //console.log(tmpzaddr_hex_input);
-    
+
     var passthru_agent = getPassthruAgent();
     var ajax_data = {"agent":passthru_agent,"method":"passthru","function":ajax_function_input,"hex":tmplistaddr_hex_input}
     //console.log(ajax_data);
@@ -857,7 +857,7 @@ function KMDGetNewAddresses(pubpriv) {
     if ( pubpriv === 'private' ) {
         ajax_function_input = 'z_getnewaddress';
     }
-    
+
     var passthru_agent = getPassthruAgent();
     var ajax_data = {"agent":passthru_agent,"method":"passthru","function":ajax_function_input,"hex":""}
     //console.log(ajax_data);
@@ -915,14 +915,14 @@ function KMDListAllAddr() {
         select: false,
         retrieve: true
     });
-    
+
     kmd_recieve_table.destroy();
 
     kmd_recieve_table = $('#kmd-recieve-addr-tbl').DataTable( { data: only_reciving_addr_data,
         select: false,
         retrieve: true
     });
-    
+
     NProgress.done();
     return only_reciving_addr_data;
 }
@@ -1020,13 +1020,13 @@ function KMDListAllOPIDs() {
     var tmp_status_label = '';
     var tmp_creation_time = '';
     var tmp_id = '';
-    
+
     console.log(listOPIDs);
     $.each(listOPIDs[0], function(index, value) {
 
         tmp_id = listOPIDs[0][index].id;
         tmp_creation_time = secondsToString(listOPIDs[0][index].creation_time);
-        
+
         if (listOPIDs[0][index].status === 'queued') {
             tmp_status_label = '<span class="label label-warning"><i class="icon fa-eye"></i> Queued</span>';
             tmp_results = '<i>Please press refresh button in a minute or so to see updated status...</i>';
@@ -1060,7 +1060,7 @@ function KMDListAllOPIDs() {
         select: false,
         retrieve: true
     });
-    
+
     kmd_opids_statuses_table.destroy();
 
     kmd_opids_statuses_table = $('#kmd-opid-status-tbl').DataTable( { data: opids_statuses_data,
@@ -1068,8 +1068,8 @@ function KMDListAllOPIDs() {
         select: false,
         retrieve: true
     });
-    
-    
+
+
     NProgress.done();
     return opids_statuses_data;
 }
@@ -1152,7 +1152,7 @@ function CheckIfConnected() {
             } else {
                 result.push(AjaxOutputData.errors);
             }
-            
+
         },
         error: function(xhr, textStatus, error) {
             console.log('failed getting Coin History.');
@@ -1189,7 +1189,7 @@ function CheckIfWalletEncrypted() {
             } else {
                 result.push(AjaxOutputData.error);
             }
-            
+
         },
         error: function(xhr, textStatus, error) {
             console.log('failed getting Coin History.');

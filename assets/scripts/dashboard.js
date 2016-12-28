@@ -47,14 +47,14 @@ var Dashboard = function() {
       $('#btn_edexcoin_send').click(function() {
         var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
         //console.log(active_edexcoin);
-        
+
 
         $('#edexcoin_dashboardinfo').hide();
         $('#edexcoin_send').show();
         $('#edexcoin_recieve').hide();
         $('#edexcoin_recieve_section').hide();
         $('#edexcoin_settings').hide();
-        
+
         //Disabled dropdown list address in EasyDEX's main send option, as it's using sendtoaddress at the moment.
         //This option can be enabled later for other section where user can select particular address to send funds from.
         /*var edexcoin_addr_list_with_balance = EDEXlistunspent(active_edexcoin);
@@ -83,7 +83,7 @@ var Dashboard = function() {
       $('#edexcoin_amount').keyup(function() {
         var sum_val1 = parseFloat($('#edexcoin_amount').val())
         var sum_val2 = parseFloat($('#edexcoin_fee').val())
-        var total_minus_currency_fee = sum_val1 - sum_val2;     
+        var total_minus_currency_fee = sum_val1 - sum_val2;
         var mdl_send_btn = $('#edexcoin_send_coins_btn');
 
         //console.log($('#edexcoin_amount').val());
@@ -103,7 +103,7 @@ var Dashboard = function() {
       $('#edexcoin_fee').keyup(function() {
         var sum_val1 = parseFloat($('#edexcoin_amount').val())
         var sum_val2 = parseFloat($('#edexcoin_fee').val())
-        var total_minus_currency_fee = sum_val1 - sum_val2;         
+        var total_minus_currency_fee = sum_val1 - sum_val2;
         var mdl_send_btn = $('#edexcoin_send_coins_btn');
 
         //console.log($('#edexcoin_amount').val());
@@ -187,7 +187,7 @@ var Dashboard = function() {
     var handle_edex_recieve = function() {
         $('#btn_edexcoin_recieve').click(function() {
             var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
-            //console.log('wallet recieve button clicked...');
+            //console.log('wallet receive button clicked...');
             $('#edexcoin_dashboardinfo').hide();
             $('#edexcoin_dashoard_section').hide();
             $('#edexcoin_send').hide();
@@ -203,7 +203,7 @@ var Dashboard = function() {
             console.log('get new T address button clicked...');
             EDEXgetnewaddress(active_edexcoin);
             EdexListAllAddr(active_edexcoin);
-            toastr.info("Recieving Address list updated", "Wallet Notification");
+            toastr.info("Receiving Address list updated", "Wallet Notification");
         });
     };
 
@@ -226,7 +226,7 @@ var Dashboard = function() {
                     //console.log('== AllCoins Data OutPut ==');
                     //console.log(value);
                     //console.log(AllcoinsDataOutput[value]);
-                    
+
                     $.each(AllcoinsDataOutput[value], function(index) {
 
                         var coinlogo = '';
@@ -259,7 +259,7 @@ var Dashboard = function() {
                         if ( AllcoinsDataOutput[value][index] == 'FRK' ) { coinlogo = 'franko'; coinname = 'Franko'; }
 
                         //console.log(AllcoinsDataOutput[value][index]);
-                        
+
                         walletDivContent += '<!-- Wallet Widget '+AllcoinsDataOutput[value][index]+' -->';
                         walletDivContent += '<div class="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info" data-edexcoincode="'+AllcoinsDataOutput[value][index]+'">';
                           walletDivContent += '<div class="widget widget-shadow">';
@@ -299,16 +299,16 @@ var Dashboard = function() {
                 }
             });
         });
-        
+
     }
 
     var handleWalletWidgetBtns = function() {
-        
+
         $('.mdl_addcoin_done_btn').click(function(){
           ExecuteAddCoinFn();
         });
 
-        
+
     }
 
 
@@ -406,12 +406,12 @@ function edexCoinBtnAction() {
     $('#edexcoin_send').hide();
     $('#edexcoin_recieve_section').hide();
     $('#edexcoin_settings').hide();
-    
+
     //get selected coin's code and populate in easydex wallet widget's html elements
     var coincode = $(this).data('edexcoincode');
     $.each($('[data-edexcoin]'), function(index, value) {$('[data-edexcoin]').attr("data-edexcoin",coincode); $('[data-edexcoin="'+coincode+'"]')});
     $.each($('[data-edexcoinmenu]'), function(index, value) {$('[data-edexcoinmenu]').attr("data-edexcoinmenu",coincode); $('[data-edexcoinmenu="'+coincode+'"]')});
-    
+
     $('#edexcoin-active').text(coincode);
     //populate selected coin's address
     var coinmainaddr = EDEXMainAddr(coincode);
@@ -459,7 +459,7 @@ function EdexfillTxHistory(coin) {
         select: true,
         retrieve: true
     });
-    
+
   NProgress.done();
 }
 
@@ -506,7 +506,7 @@ function ShowCoinHistory(getData) {
 
                     //Calculate Total Fiat Value of BTC/BTCD in Fiat and disaply on Dashboard
                     //TotalFiatValue();
-                    
+
                     var show_coin_history_unspents = CoinHistoryData.unspents[0]; //Store unspents array output in variable.
                     var show_coin_history_spends = CoinHistoryData.spends[0]; //Store spends array output in variable.
                     //var show_coin_history = testhistory; //Enable to get history from just test variable.
@@ -514,7 +514,7 @@ function ShowCoinHistory(getData) {
                     //console.log(show_coin_history_spends);
                     //console.log(show_coin_history_unspents.length+show_coin_history_spends.length+show_coin_history_spends.length)
 
-                    
+
                     //if ( sessionStorage.getItem('PrevHistoryLength_'+getData.vals['coin']) != CoinHistoryData.history.length ) {
                       $.each(show_coin_history_unspents, function(coin_history_index){
                           //console.log(coin_history_index);
@@ -585,7 +585,7 @@ function ShowCoinHistory(getData) {
                           //sessionStorage.setItem('PrevHistoryLength_'+getData.vals['coin'], CoinHistoryData.history.length);
                       });
                     //}
-                   
+
                     //console.log(show_coin_history_spends.length);
                     //$('span[data-currency="' + getData.vals['coin'] + '"][id="currency-nooftransactions"]').text(show_coin_history_spends.length);
                 },
@@ -607,7 +607,7 @@ function ShowCoinHistory(getData) {
             $("#loginbtn").text('Unlock');
         }
     }
-    
+
 }
 
 function getCoinBalance(coin) {
@@ -718,7 +718,7 @@ function TotalFiatValue() {
 
   $('span[data-currency="BTC"][id="header_coinname_balance"]').text(BTC_balance + ' BTC');
   $('span[data-currency="BTCD"][id="header_coinname_balance"]').text(BTCD_balance + ' BTCD' );
-  
+
   if ( Fiat_Currency == 'USD' ) {
     BTC_Fiat_pair_value = 'BTC/'+Fiat_Currency;
     Conversion_Fiat_Pair = 'EUR/USD';
@@ -956,14 +956,14 @@ function EdexListAllAddr(coin) {
         select: false,
         retrieve: true
     });
-    
+
     edexcoin_recieve_table.destroy();
 
     edexcoin_recieve_table = $('#edexcoin-recieve-addr-tbl').DataTable( { data: only_reciving_addr_data,
         select: false,
         retrieve: true
     });
-    
+
     NProgress.done();
     return only_reciving_addr_data;
 }
