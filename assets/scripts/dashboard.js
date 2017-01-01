@@ -861,7 +861,7 @@ function EdexGetTxList(coin) {
   var result = [];
 
     var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-    var ajax_data = {"coin":coin,"method":"listtransactions","params":[0, 9999999, []]}
+    var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"method":"listtransactions","params":[0, 9999999, []]}
     //console.log(ajax_data);
     $.ajax({
       async: false,
