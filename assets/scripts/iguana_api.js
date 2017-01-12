@@ -359,10 +359,16 @@ function Iguana_addcoin(addcoin_data) {
                 Iguana_Setactivehandle();
                 console.log('coin added');
                 toastr.success(logincoinfullname+" started in "+ logincoinmodeinfo +" Mode", "Coin Notification");
-                //if ( typeof addcoin_data.reload == 'undefined' || addcoin_data.reload != false ) {
-                    //$(document).ready(function() { Dashboard.init(); });
+                if (addcoin_data.logincmd == undefined) {
+                    console.log('command NOT executed from login. RELOADING SCREEN...');
                     $(document).ready(function() { window.location.reload(); });
-                //}
+                } else {
+                    var check_active_coins_status = Iguana_CheckActiveCoins()
+                    if (check_active_coins_status.length !== 0 ) {
+                        $('#section-login-addcoin-btn').hide();
+                        $('#section-login').show();
+                    }
+                }
             } else if (addcoinData.result === 'coin already there') {
                 console.log('coin already there');
                 toastr.info("Looks like "+ logincoinfullname +" already running.", "Coin Notification");
@@ -386,6 +392,13 @@ function ExecuteAddCoinFn() {
     var addcoin_selected_mode_val = $("input[name='addcoin_select_mode_mdl']:checked").val();
     var addcoin_selected_coinname_code_val = $("option:selected","#addcoin_select_coin_mdl_options").val();
     var ExecAddCoinData = {"coin": addcoin_selected_coinname_code_val, "mode": addcoin_selected_mode_val}
+    Iguana_addcoin(ExecAddCoinData);
+}
+
+function ExecuteAddCoinLoginFn() {
+    var addcoin_selected_mode_val = $("input[name='addcoin_select_mode_mdl-login']:checked").val();
+    var addcoin_selected_coinname_code_val = $("option:selected","#addcoin_select_coin_mdl_options-login").val();
+    var ExecAddCoinData = {"coin": addcoin_selected_coinname_code_val, "mode": addcoin_selected_mode_val, "logincmd": 1}
     Iguana_addcoin(ExecAddCoinData);
 }
 
@@ -704,3 +717,52 @@ function Iguana_SetRPCAuth() {
     var tmpPass = md5(PassPhraseGenerator.generatePassPhrase(128));
     sessionStorage.setItem('IguanaRPCAuth', tmpPass);
 }
+
+
+
+function Iguana_CheckActiveCoins() {
+    var result = [];
+
+    //Get parameters values from confirm dialog and send currency
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+    var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"InstantDEX","method":"allcoins"};
+    console.log(ajax_data);
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data);
+            //console.log('== Data OutPut ==');
+            //console.log(AjaxOutputData);
+            $.each(AjaxOutputData, function( index, value ) {
+                //console.log(index)
+                //console.log(value)
+                if (index === 'tag' ) {
+                    //console.log('it is tag');
+                } else {
+                    if (AjaxOutputData[index].length !== 0 ) {
+                        result.push({"active": AjaxOutputData[index].length});
+                    }
+                    //console.log(AjaxOutputData[index]);
+                    //console.log(AjaxOutputData[index].length);
+                }
+            });
+            
+        },
+        error: function(xhr, textStatus, error) {
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    return result;
+}
+
+
+

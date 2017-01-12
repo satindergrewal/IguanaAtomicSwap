@@ -385,6 +385,8 @@ var Login = function() {
     var handleLogout = function() {
 
         $('#logout-account').click(function() {
+            $('#section-login-addcoin-btn').hide();
+            $('#section-login').show();
             var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
             var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"bitcoinrpc","method":"walletlock"}
             $.ajax({
@@ -454,6 +456,8 @@ var Login = function() {
     var handleLock = function() {
         //Begin Lock Active Wallet
         $('#lock-screen').click(function() {
+            $('#section-login-addcoin-btn').hide();
+            $('#section-login').show();
             var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
             var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"bitcoinrpc","method":"walletlock"}
             $.ajax({
@@ -551,6 +555,11 @@ var Login = function() {
         if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
             console.log('There\'s no active wallet logged in. Please Login.');
             $('#logint-another-wallet').hide();
+            var check_active_coins_status = Iguana_CheckActiveCoins()
+            if (check_active_coins_status.length !== 0 ) {
+                $('#section-login-addcoin-btn').hide();
+                $('#section-login').show();
+            }
         } else {
             var CheckLoginData = JSON.parse(sessionStorage.getItem('IguanaActiveAccount'));
             if ( JSON.parse(CheckLoginData).pubkey != Iguana_activehandle_output.pubkey ) {
@@ -570,6 +579,8 @@ var Login = function() {
                 $('#login-welcome').text('Wallet Locked. Please login');
                 $('#register-btn').hide();
                 $("#loginbtn").text('Unlock');
+                $('#section-login-addcoin-btn').hide();
+                $('#section-login').show();
             }
         }
         if ( sessionStorage.getItem('IguanaRPCAuth') === null || typeof sessionStorage.getItem('IguanaRPCAuth') == undefined) {
@@ -583,6 +594,11 @@ var Login = function() {
     };
 
     var handleCoinsRunningCheck = function() {
+        var check_active_coins_status = Iguana_CheckActiveCoins()
+        if (check_active_coins_status.length !== 0 ) {
+            $('#section-login-addcoin-btn').hide();
+            $('#section-login').show();
+        }
         
         /*$.each([ 'basilisk', 'full', 'virtual' ], function( index, value ) {
             var allcoinsvalues = {"agent":"InstantDEX","method":"allcoins"};
@@ -731,6 +747,16 @@ var Login = function() {
         });
     };
 
+    var handleAddCoinLoginBtn = function() {
+
+        $('.mdl_addcoin_done_btn-login').click(function(){
+          ExecuteAddCoinLoginFn();
+        });
+
+
+    }
+
+
     return {
         //main function to initiate the module
         init: function() {
@@ -742,6 +768,7 @@ var Login = function() {
             handleLogout();
             handleCheckLogin();
             handleLoginAnotherWallet();
+            handleAddCoinLoginBtn();
 
         }
 

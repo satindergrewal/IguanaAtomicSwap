@@ -303,12 +303,9 @@ var Dashboard = function() {
     }
 
     var handleWalletWidgetBtns = function() {
-
         $('.mdl_addcoin_done_btn').click(function(){
           ExecuteAddCoinFn();
         });
-
-
     }
 
 
