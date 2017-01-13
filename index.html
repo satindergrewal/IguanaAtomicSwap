@@ -264,15 +264,18 @@
               <h4 class="modal-title white">Select Coin to add to EasyDEX</h4>
             </div>
             <div class="modal-body">
-              <div class="col-sm-6" style="text-align: center;">
-                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <div class="col-sm-12" style="text-align: center;">
+                <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login">
                   <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl-login" data-plugin="labelauty" id="addcoin_mdl_full_mode" data-labelauty="Full Mode|Full Mode" value="1" checked>
                 </div>
-                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login">
                   <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl-login" data-plugin="labelauty" id="addcoin_mdl_basilisk_mode" value="0" data-labelauty="Basilisk Mode|Basilisk Mode">
                 </div>
+                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12 style-addcoin-lbl-mdl-login">
+                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl-login" data-plugin="labelauty" id="addcoin_mdl_native_mode" value="-1" data-labelauty="Native Mode|Native Mode">
+                </div>
               </div>
-              <div class="col-sm-4">
+              <div class="col-sm-8">
                 <div class="form-group">
                   <select class="form-control form-material" id="addcoin_select_coin_mdl_options-login">
                     <option>-Select-</option>
@@ -282,7 +285,7 @@
                   </select>
                 </div>
               </div>
-              <div class="col-sm-2" style="text-align: center;">
+              <div class="col-sm-4" style="text-align: center;">
               <button type="button" class="btn btn-primary mdl_addcoin_done_btn-login" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn-login">Add Coin</button>
               </div>
               <div class="col-sm-12" style="color: #333">
@@ -840,15 +843,18 @@
               <h4 class="modal-title white">Select Coin to add to EasyDEX</h4>
             </div>
             <div class="modal-body">
-              <div class="col-sm-6" style="text-align: center;">
-                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl" data-plugin="labelauty" id="addcoin_mdl_full_mode" data-labelauty="Full Mode|Full Mode" value="1" checked>
+              <div class="col-sm-12" style="text-align: center;">
+                <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login">
+                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl-login" data-plugin="labelauty" id="addcoin_mdl_full_mode" data-labelauty="Full Mode|Full Mode" value="1" checked>
                 </div>
-                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl" data-plugin="labelauty" id="addcoin_mdl_basilisk_mode" value="0" data-labelauty="Basilisk Mode|Basilisk Mode">
+                <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login">
+                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl-login" data-plugin="labelauty" id="addcoin_mdl_basilisk_mode" value="0" data-labelauty="Basilisk Mode|Basilisk Mode">
+                </div>
+                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12 style-addcoin-lbl-mdl-login">
+                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl-login" data-plugin="labelauty" id="addcoin_mdl_native_mode" value="-1" data-labelauty="Native Mode|Native Mode">
                 </div>
               </div>
-              <div class="col-sm-4">
+              <div class="col-sm-8">
                 <div class="form-group">
                   <select class="form-control form-material" id="addcoin_select_coin_mdl_options">
                     <option>-Select-</option>
@@ -869,7 +875,7 @@
                   </select>
                 </div>
               </div>
-              <div class="col-sm-2" style="text-align: center;">
+              <div class="col-sm-4" style="text-align: center;">
               <button type="button" class="btn btn-primary mdl_addcoin_done_btn" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn">Add Coin</button>
               </div>
               <div class="col-sm-12" style="color: #333">
@@ -1605,6 +1611,7 @@
   <script src="assets/global/vendor/datatables-tabletools/dataTables.tableTools.js"></script>
   <script src="assets/global/vendor/underscore-js/underscore-min.js"></script>
   <script src="assets/global/vendor/javascript-md5/md5.min.js"></script>
+  <script src="assets/global/vendor/bluebird/bluebird.min.js"></script>
   <!-- Crypto Dependencies -->
   <script src="assets/scripts/wordlist.js" type="text/javascript"></script>
   <script src="assets/scripts/passphrasegenerator.js" type="text/javascript"></script>

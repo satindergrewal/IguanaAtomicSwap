@@ -22,6 +22,10 @@
   }
 }
 
+.style-addcoin-lbl-mdl-login > label, .style-addcoin-lbl-mdl > label {
+  margin: auto;
+}
+
 #register-btn, #register-back-btn, #logint-another-wallet {
 	border: 1px solid #5d5d5d;
 	color: #fff;
