@@ -226,7 +226,7 @@ function Iguana_addcoinLogin(addcoin_data) {
                 console.log(error);
             }
         });
-    }, 3000)
+    }, 6000)
 }
 
 function Iguana_addcoin(addcoin_data) {
@@ -435,7 +435,7 @@ function Iguana_addcoin(addcoin_data) {
                 console.log(error);
             }
         });
-    }, 3000)
+    }, 6000)
 }
 
 function ExecuteAddCoinFn() {
