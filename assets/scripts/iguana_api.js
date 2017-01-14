@@ -173,8 +173,12 @@ function Iguana_addcoinLogin(addcoin_data) {
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
         
         if ( addcoin_data.mode == '-1' ) {
-            var setconfig = Shepherd_setConf('komodod');
-            var startcoin = Shepherd_herd('komodod');
+            var setconfig = setTimeout(function() {
+                Shepherd_setConf('komodod');
+                }, 0)
+            var startcoin = setTimeout(function() {
+                Shepherd_herd('komodod');
+                }, 3000)
 
             Promise.all([setconfig, startcoin]).then(function() {
                 console.log('all promises executed!!!');
@@ -189,38 +193,40 @@ function Iguana_addcoinLogin(addcoin_data) {
         console.log(logincoinfullname);
         console.log(logincoinmodeinfo);
     }
-    $.ajax({
-        type: 'POST',
-        data: JSON.stringify(AddCoinData),
-        url: 'http://127.0.0.1:7778',
-        //dataType: 'text',
-        success: function(data, textStatus, jqXHR) {
-            var addcoinData = JSON.parse(data);
+    setTimeout(function() {
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify(AddCoinData),
+            url: 'http://127.0.0.1:7778',
+            //dataType: 'text',
+            success: function(data, textStatus, jqXHR) {
+                var addcoinData = JSON.parse(data);
 
-            if (addcoinData.result === 'coin added') {
-                console.log('coin added');
-                toastr.success(logincoinfullname+" started in "+ logincoinmodeinfo +" Mode", "Coin Notification");
-                //if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
-                    $( ".login-form" ).submit();
-                    console.log("There was no wallet logged in. Logged in now.");
-                //}
-            } else if (addcoinData.result === 'coin already there') {
-                console.log('coin already there');
-                toastr.info("Looks like "+ logincoinfullname +" already running.", "Coin Notification");
-            } else if (addcoinData.result === null) {
-                console.log('coin already there');
-                toastr.info("Looks like "+ logincoinfullname +" already running.", "Coin Notification");
+                if (addcoinData.result === 'coin added') {
+                    console.log('coin added');
+                    toastr.success(logincoinfullname+" started in "+ logincoinmodeinfo +" Mode", "Coin Notification");
+                    //if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
+                        $( ".login-form" ).submit();
+                        console.log("There was no wallet logged in. Logged in now.");
+                    //}
+                } else if (addcoinData.result === 'coin already there') {
+                    console.log('coin already there');
+                    toastr.info("Looks like "+ logincoinfullname +" already running.", "Coin Notification");
+                } else if (addcoinData.result === null) {
+                    console.log('coin already there');
+                    toastr.info("Looks like "+ logincoinfullname +" already running.", "Coin Notification");
+                }
+            },
+            error: function(xhr, textStatus, error) {
+                console.log(xhr.statusText);
+                if ( xhr.readyState == 0 ) {
+                    Iguana_ServiceUnavailable();
+                }
+                console.log(textStatus);
+                console.log(error);
             }
-        },
-        error: function(xhr, textStatus, error) {
-            console.log(xhr.statusText);
-            if ( xhr.readyState == 0 ) {
-                Iguana_ServiceUnavailable();
-            }
-            console.log(textStatus);
-            console.log(error);
-        }
-    });
+        });
+    }, 3000)
 }
 
 function Iguana_addcoin(addcoin_data) {
@@ -329,8 +335,12 @@ function Iguana_addcoin(addcoin_data) {
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
         
         if ( addcoin_data.mode == '-1' ) {
-            var setconfig = Shepherd_setConf('komodod');
-            var startcoin = Shepherd_herd('komodod');
+            var setconfig = setTimeout(function() {
+                Shepherd_setConf('komodod');
+                }, 0)
+            var startcoin = setTimeout(function() {
+                Shepherd_herd('komodod');
+                }, 3000)
 
             Promise.all([setconfig, startcoin]).then(function() {
                 console.log('all promises executed!!!');
@@ -385,45 +395,47 @@ function Iguana_addcoin(addcoin_data) {
         console.log(logincoinfullname);
         console.log(logincoinmodeinfo);
     }
-    $.ajax({
-        type: 'POST',
-        data: JSON.stringify(AddCoinData),
-        url: 'http://127.0.0.1:7778',
-        //dataType: 'text',
-        success: function(data, textStatus, jqXHR) {
-            var addcoinData = JSON.parse(data);
+    setTimeout(function() {
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify(AddCoinData),
+            url: 'http://127.0.0.1:7778',
+            //dataType: 'text',
+            success: function(data, textStatus, jqXHR) {
+                var addcoinData = JSON.parse(data);
 
-            if (addcoinData.result === 'coin added') {
-                Iguana_Setactivehandle();
-                console.log('coin added');
-                toastr.success(logincoinfullname+" started in "+ logincoinmodeinfo +" Mode", "Coin Notification");
-                if (addcoin_data.logincmd == undefined) {
-                    console.log('command NOT executed from login. RELOADING SCREEN...');
-                    $(document).ready(function() { window.location.reload(); });
-                } else {
-                    var check_active_coins_status = Iguana_CheckActiveCoins()
-                    if (check_active_coins_status.length !== 0 ) {
-                        $('#section-login-addcoin-btn').hide();
-                        $('#section-login').show();
+                if (addcoinData.result === 'coin added') {
+                    Iguana_Setactivehandle();
+                    console.log('coin added');
+                    toastr.success(logincoinfullname+" started in "+ logincoinmodeinfo +" Mode", "Coin Notification");
+                    if (addcoin_data.logincmd == undefined) {
+                        console.log('command NOT executed from login. RELOADING SCREEN...');
+                        $(document).ready(function() { window.location.reload(); });
+                    } else {
+                        var check_active_coins_status = Iguana_CheckActiveCoins()
+                        if (check_active_coins_status.length !== 0 ) {
+                            $('#section-login-addcoin-btn').hide();
+                            $('#section-login').show();
+                        }
                     }
+                } else if (addcoinData.result === 'coin already there') {
+                    console.log('coin already there');
+                    toastr.info("Looks like "+ logincoinfullname +" already running.", "Coin Notification");
+                } else if (addcoinData.result === null) {
+                    console.log('coin already there');
+                    toastr.info("Looks like "+ logincoinfullname +" already running.", "Coin Notification");
                 }
-            } else if (addcoinData.result === 'coin already there') {
-                console.log('coin already there');
-                toastr.info("Looks like "+ logincoinfullname +" already running.", "Coin Notification");
-            } else if (addcoinData.result === null) {
-                console.log('coin already there');
-                toastr.info("Looks like "+ logincoinfullname +" already running.", "Coin Notification");
+            },
+            error: function(xhr, textStatus, error) {
+                console.log(xhr.statusText);
+                if ( xhr.readyState == 0 ) {
+                    Iguana_ServiceUnavailable();
+                }
+                console.log(textStatus);
+                console.log(error);
             }
-        },
-        error: function(xhr, textStatus, error) {
-            console.log(xhr.statusText);
-            if ( xhr.readyState == 0 ) {
-                Iguana_ServiceUnavailable();
-            }
-            console.log(textStatus);
-            console.log(error);
-        }
-    });
+        });
+    }, 3000)
 }
 
 function ExecuteAddCoinFn() {
