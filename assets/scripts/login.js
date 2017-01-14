@@ -251,8 +251,8 @@ var Login = function() {
 
             submitHandler: function(form) {
                 swal({
-                    title: 'Have you taken backup?',
-                    text: "You'll only see and use your wallet passphrase this time. Make sure you have it backed up. Also make sure to have your wallet password backed up. Without both you'll not be able to access your wallet again!",
+                    title: 'Have you saved your wallet seed?',
+                    text: "Make sure you have it backed up. Without this seed you won't be able to access your wallet in the future!",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
