@@ -408,7 +408,8 @@ function edexCoinBtnAction() {
     var selected_coin = $(this).data('edexcoincode')
     var selected_coinmode = $(this).data('edexcoinmodecode')
     sessionStorage.setItem('edexTmpMode', selected_coinmode);
-    if ( $(this).data('edexcoinmodecode') !== 'Native' ) {
+    if ( selected_coinmode == 'Basilisk' ) { $('#edex-footer').hide(); StopShowCoinHistory(); }
+    if ( selected_coinmode !== 'Native' ) {
       $('#edexcoin_dashoard_section').show();
       $('#header-dashboard').show();
       $('#wallet-widgets').show();
@@ -662,7 +663,7 @@ function getCoinBalance(coin) {
 
 function StopShowCoinHistory() {
     clearInterval(ExecuteShowCoinHistory);
-    console.log('Stopped executing History API.');
+    console.log('Stopped executing History and ProgressBar API.');
 }
 
 
@@ -883,8 +884,14 @@ function EdexGetTxList(coin) {
   var result = [];
 
     var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-    var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"method":"listtransactions","params":[0, 9999999, []]}
-    //console.log(ajax_data);
+    var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
+    if ( active_edexcoinmodecode == 'Basilisk' ) {
+      var getCoinMainAddr = EDEXMainAddr(coin)
+      var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listtransactions","address":getCoinMainAddr[0],"count":100,"skip":0,"symbol":coin}
+    } else {
+      var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"method":"listtransactions","params":[0, 9999999, []]}
+    }
+    console.log(ajax_data);
     $.ajax({
       async: false,
       type: 'POST',
