@@ -211,7 +211,7 @@ var Dashboard = function() {
 
         var walletDivContent = '';
         var AddColumnDiv = 0
-        $.each([ 'basilisk', 'full', 'virtual' ], function( index, value ) {
+        $.each([ 'native','basilisk', 'full', 'virtual', 'notarychains' ], function( index, value ) {
 
             var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
             var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"InstantDEX","method":"allcoins"};
@@ -235,9 +235,11 @@ var Dashboard = function() {
                         var modetip = '';
                         var modecolor = '';
 
+                        if ( value == 'native' ) { modecode = 'Native'; modetip = 'Native'; modecolor = 'primary'; }
                         if ( value == 'basilisk' ) { modecode = 'Basilisk'; modetip = 'Basilisk'; modecolor = 'info'; }
                         if ( value == 'full' ) { modecode = 'Full'; modetip = 'Full'; modecolor = 'success'; }
                         if ( value == 'virtual' ) { modecode = 'Virtual'; modetip = 'Virtual'; modecolor = 'danger'; }
+                        if ( value == 'notarychains' ) { modecode = 'Notarychains'; modetip = 'Notarychains'; modecolor = 'dark'; }
 
                         if ( AllcoinsDataOutput[value][index] == 'BTC' ) { coinlogo = 'bitcoin'; coinname = 'Bitcoin'; }
                         if ( AllcoinsDataOutput[value][index] == 'BTCD' ) { coinlogo = 'bitcoindark'; coinname = 'BitcoinDark'; }
@@ -322,7 +324,14 @@ var Dashboard = function() {
                 //console.log('wallet widget refereshed (every 1 seconds)');
                 //Show Coin Progress Bars
                 var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
-                ShowCoinProgressBar(active_edexcoin);
+                var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
+
+                if ( active_edexcoinmodecode == 'Basilisk' || active_edexcoinmodecode == 'Native' ) {
+                  //console.log(active_edexcoinmodecode)
+                  console.log('No need to show Progress bar for Native or Basilisk mode.')
+                } else {
+                  ShowCoinProgressBar(active_edexcoin);
+                }
                 if ( sessionStorage.getItem('Activate'+active_edexcoin+'History') === 'Yes' ) {
                   //console.log('Show coin history');
                   var historyvalues = {"timeout":20000,"immediate":100,"agent":"basilisk","method":"history","vals":{"coin":"" + active_edexcoin + ""}};
@@ -395,31 +404,47 @@ function resizeDashboardWindow() {
 function edexCoinBtnAction() {
   $('.edexcoin-logo').click(function() {
     console.log($(this).data('edexcoincode'));
-    $('#edexcoin_dashoard_section').show();
-    $('#header-dashboard').show();
-    $('#wallet-widgets').show();
-    $('#edexcoin_dashboardinfo').show();
-    $('#no_wallet_selected').hide();
-    $('#edexcoin_send').hide();
-    $('#edexcoin_recieve_section').hide();
-    $('#edexcoin_settings').hide();
+    console.log($(this).data('edexcoinmodecode'))
+    var selected_coin = $(this).data('edexcoincode')
+    var selected_coinmode = $(this).data('edexcoinmodecode')
+    sessionStorage.setItem('edexTmpMode', selected_coinmode);
+    if ( $(this).data('edexcoinmodecode') !== 'Native' ) {
+      $('#edexcoin_dashoard_section').show();
+      $('#header-dashboard').show();
+      $('#wallet-widgets').show();
+      $('#edexcoin_dashboardinfo').show();
+      $('#no_wallet_selected').hide();
+      $('#edexcoin_send').hide();
+      $('#edexcoin_recieve_section').hide();
+      $('#edexcoin_settings').hide();
+      $('#currency-progressbars').show();
 
-    //get selected coin's code and populate in easydex wallet widget's html elements
-    var coincode = $(this).data('edexcoincode');
-    $.each($('[data-edexcoin]'), function(index, value) {$('[data-edexcoin]').attr("data-edexcoin",coincode); $('[data-edexcoin="'+coincode+'"]')});
-    $.each($('[data-edexcoinmenu]'), function(index, value) {$('[data-edexcoinmenu]').attr("data-edexcoinmenu",coincode); $('[data-edexcoinmenu="'+coincode+'"]')});
+      //get selected coin's code and populate in easydex wallet widget's html elements
+      var coincode = $(this).data('edexcoincode');
+      $.each($('[data-edexcoin]'), function(index, value) {$('[data-edexcoin]').attr("data-edexcoin",coincode); $('[data-edexcoin="'+coincode+'"]')});
+      $.each($('[data-edexcoinmenu]'), function(index, value) {$('[data-edexcoinmenu]').attr("data-edexcoinmenu",coincode); $('[data-edexcoinmenu="'+coincode+'"]')});
 
-    $('#edexcoin-active').text(coincode);
-    //populate selected coin's address
-    var coinmainaddr = EDEXMainAddr(coincode);
-    $('#edexcoin_active_addr').text(coinmainaddr[0]);
+      $('#edexcoin-active').text(coincode);
+      //populate selected coin's address
+      var coinmainaddr = EDEXMainAddr(coincode);
+      $('#edexcoin_active_addr').text(coinmainaddr[0]);
 
-    //populate selected coin's balance
-    var coinwalletbalance = EDEXgetBalance(coincode);
-    $('#edex_total_balance').text(coinwalletbalance[0]);
+      //populate selected coin's balance
+      var coinwalletbalance = EDEXgetBalance(coincode);
+      $('#edex_total_balance').text(coinwalletbalance[0]);
 
-    //getCoinBalance(active_edexcoin);
-    EdexfillTxHistory(coincode);
+      //getCoinBalance(active_edexcoin);
+      EdexfillTxHistory(coincode);
+    } else {
+      $('#currency-progressbars').hide();
+      if ( selected_coin == 'KMD' ) {
+        $( "#nav-komodo-wallet" ).trigger( "click" );
+      }
+      if ( selected_coin == 'ZEC' ) {
+        $( "#nav-zcash-wallet" ).trigger( "click" );
+      }
+    }
+    
 
   });
 }
