@@ -900,7 +900,9 @@ function EdexGetTxList(coin) {
       //dataType: 'text',
       success: function(data, textStatus, jqXHR) {
         var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
-        AjaxOutputData = AjaxOutputData.result;
+        if ( active_edexcoinmodecode !== 'Basilisk' ) {
+          AjaxOutputData = AjaxOutputData.result;
+        }
         //console.log('== Data OutPut of listtransactions ==');
         //console.log(AjaxOutputData);
 
