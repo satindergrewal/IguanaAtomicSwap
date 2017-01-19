@@ -748,9 +748,18 @@ var Login = function() {
     };
 
     var handleAddCoinLoginBtn = function() {
+        $('#addcoin_mdl_native_mode_login').prop('disabled', true);
 
         $('.mdl_addcoin_done_btn-login').click(function(){
           ExecuteAddCoinLoginFn();
+        });
+
+        $( "#addcoin_select_coin_mdl_options-login" ).change(function() {
+            if ($('#addcoin_select_coin_mdl_options-login').val() == 'KMD') {
+                $('#addcoin_mdl_native_mode_login').prop('disabled', false);
+            } else {
+                $('#addcoin_mdl_native_mode_login').prop('disabled', true);
+            }
         });
 
 

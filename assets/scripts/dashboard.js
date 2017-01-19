@@ -305,9 +305,19 @@ var Dashboard = function() {
     }
 
     var handleWalletWidgetBtns = function() {
-        $('.mdl_addcoin_done_btn').click(function(){
-          ExecuteAddCoinFn();
-        });
+      $('#addcoin_mdl_native_mode').prop('disabled', true);
+      
+      $('.mdl_addcoin_done_btn').click(function(){
+        ExecuteAddCoinFn();
+      });
+
+      $( "#addcoin_select_coin_mdl_options" ).change(function() {
+          if ($('#addcoin_select_coin_mdl_options').val() == 'KMD') {
+              $('#addcoin_mdl_native_mode').prop('disabled', false);
+          } else {
+              $('#addcoin_mdl_native_mode').prop('disabled', true);
+          }
+      });
     }
 
 
