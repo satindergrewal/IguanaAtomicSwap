@@ -206,6 +206,7 @@ $('#nav-about-iguana').on('click', function() {
 
 function CommonSidebarActionsSet01() {
 	sessionStorage.setItem('DashboardActions', "start");
+	sessionStorage.setItem('NativeWalletActions', "stop");
 	$(document).ready(function() { Dashboard.init(); });
 	$("#wifkeys_passphrase").val('');
 	$('#wif-priv-keys').html('');
@@ -213,6 +214,7 @@ function CommonSidebarActionsSet01() {
 
 function CommonSidebarActionsSet011() {
 	sessionStorage.setItem('DashboardActions', "start");
+	sessionStorage.setItem('NativeWalletActions', "stop");
 	location.reload();
 	$("#wifkeys_passphrase").val('');
 	$('#wif-priv-keys').html('');
@@ -234,6 +236,7 @@ function applyKMDWalletStyle() {
 	$('#easydex_kmd_wallet_actions_header').show();
 	$('#easydex_zec_wallet_actions_header').hide();
 	$('#easydex_btc_btcd_balances_header').hide();
+	sessionStorage.setItem('NativeWalletActions', "start");
 }
 
 function removeKMDWalletStyle() {
@@ -242,6 +245,7 @@ function removeKMDWalletStyle() {
 	$('#easydex_kmd_wallet_actions_header').hide();
 	$('#easydex_zec_wallet_actions_header').hide();
 	$('#easydex_btc_btcd_balances_header').show();
+	sessionStorage.setItem('NativeWalletActions', "stop");
 }
 
 
@@ -254,6 +258,7 @@ function applyZECWalletStyle() {
 	$('#easydex_kmd_wallet_actions_header').hide();
 	$('#easydex_zec_wallet_actions_header').show();
 	$('#easydex_btc_btcd_balances_header').hide();
+	sessionStorage.setItem('NativeWalletActions', "start");
 }
 
 function removeZECWalletStyle() {
@@ -262,6 +267,7 @@ function removeZECWalletStyle() {
 	$('#easydex_kmd_wallet_actions_header').hide();
 	$('#easydex_zec_wallet_actions_header').hide();
 	$('#easydex_btc_btcd_balances_header').show();
+	sessionStorage.setItem('NativeWalletActions', "stop");
 }
 
 

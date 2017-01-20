@@ -256,6 +256,15 @@ var KMDWalletDashboard = function() {
 
 jQuery(document).ready(function() {
     //KMDWalletDashboard.init();
+    var RunNativeProgressBar = setInterval(function() {
+        if ( sessionStorage.getItem('IguanaActiveAccount') === null || sessionStorage.getItem('NativeWalletActions') === null || sessionStorage.getItem('NativeWalletActions') === "stop" ) {
+            //clearInterval(RunNativeProgressBar);
+            //console.log('=> No wallet logged in, or Native Wallet not ative. No need to Run Progress Bar code.');
+        } else if ( sessionStorage.getItem('NativeWalletActions') !== null || sessionStorage.getItem('NativeWalletActions') === "start") {
+            KMD_ProgressBar();
+        }
+    }, 1000);
+
 });
 
 
@@ -1220,3 +1229,65 @@ function CheckIfWalletEncrypted() {
     });
     return result;
 }
+
+function KMD_getInfo_rtrn() {
+    var result = [];
+    var extcoin = $('[data-extcoin]').attr("data-extcoin");
+
+    var passthru_agent = getPassthruAgent();
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+    var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":"getinfo","hex":""}
+    //console.log(ajax_data);
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data);
+            //console.log('== Data OutPut ==');
+            //console.log(AjaxOutputData);
+            if ( AjaxOutputData.errors != undefined ) {
+                //console.log('connected');
+                result.push(AjaxOutputData);
+            } else if ( AjaxOutputData.errors == undefined) {
+                result.push('not active');
+            } else {
+                result.push(AjaxOutputData.errors);
+            }
+
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    return result[0];
+}
+
+
+function KMD_ProgressBar() {
+    var result = [];
+    var extcoin = $('[data-extcoin]').attr("data-extcoin");
+
+    var getinfotmp = KMD_getInfo_rtrn()
+    //console.log(getinfotmp.blocks);
+    //console.log(getinfotmp.connections);
+    //console.log(getinfotmp.longestchain);
+
+    var sync_percent = parseFloat(parseInt(getinfotmp.blocks, 10) * 100)/ parseInt(getinfotmp.longestchain, 10);
+    console.log(parseFloat(sync_percent).toFixed(2)+'%')
+    $('div[data-extcoin="'+extcoin+'"][id="extcoin-sync"]').width(parseFloat(sync_percent).toFixed(2)+'%');
+    $('span[data-extcoin="'+extcoin+'"][id="extcoin-sync-percent"]').text(parseFloat(sync_percent).toFixed(2)+'%');
+    $('span[data-extcoin="'+extcoin+'"][id="extcoin-synced-blocks"]').text(getinfotmp.blocks);
+    $('span[data-extcoin="'+extcoin+'"][id="extcoin-longestchain"]').text(getinfotmp.longestchain);
+    $('span[data-extcoin="'+extcoin+'"][id="extcoin-connections"]').text(getinfotmp.connections);
+
+}
+

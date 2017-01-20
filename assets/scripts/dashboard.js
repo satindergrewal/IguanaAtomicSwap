@@ -338,7 +338,7 @@ var Dashboard = function() {
 
                 if ( active_edexcoinmodecode == 'Basilisk' || active_edexcoinmodecode == 'Native' ) {
                   //console.log(active_edexcoinmodecode)
-                  console.log('No need to show Progress bar for Native or Basilisk mode.')
+                  //console.log('No need to show Progress bar for Native or Basilisk mode.')
                 } else {
                   ShowCoinProgressBar(active_edexcoin);
                 }
