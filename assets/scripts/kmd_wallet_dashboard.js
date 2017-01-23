@@ -263,7 +263,7 @@ jQuery(document).ready(function() {
         } else if ( sessionStorage.getItem('NativeWalletActions') !== null || sessionStorage.getItem('NativeWalletActions') === "start") {
             KMD_ProgressBar();
         }
-    }, 1000);
+    }, 5000);
 
 });
 
@@ -1169,9 +1169,12 @@ function CheckIfConnected() {
             var AjaxOutputData = JSON.parse(data);
             console.log('== Data OutPut ==');
             console.log(AjaxOutputData.error);
+            console.log(AjaxOutputData['error'].message);
             if ( AjaxOutputData.errors != undefined ) {
                 //console.log('connected');
                 result.push('connected');
+            } else if ( AjaxOutputData['error'].message = 'Activating best chain...' ) {
+                result.push('activating');
             } else if ( AjaxOutputData.errors == undefined) {
                 result.push('not active');
             } else {
@@ -1251,6 +1254,8 @@ function KMD_getInfo_rtrn() {
             if ( AjaxOutputData.errors != undefined ) {
                 //console.log('connected');
                 result.push(AjaxOutputData);
+            } else if ( AjaxOutputData['error'].message = 'Activating best chain...' ) {
+                result.push('activating');
             } else if ( AjaxOutputData.errors == undefined) {
                 result.push('not active');
             } else {
@@ -1277,17 +1282,20 @@ function KMD_ProgressBar() {
     var extcoin = $('[data-extcoin]').attr("data-extcoin");
 
     var getinfotmp = KMD_getInfo_rtrn()
+    console.log(getinfotmp);
     //console.log(getinfotmp.blocks);
     //console.log(getinfotmp.connections);
     //console.log(getinfotmp.longestchain);
-
-    var sync_percent = parseFloat(parseInt(getinfotmp.blocks, 10) * 100)/ parseInt(getinfotmp.longestchain, 10);
-    console.log(parseFloat(sync_percent).toFixed(2)+'%')
-    $('div[data-extcoin="'+extcoin+'"][id="extcoin-sync"]').width(parseFloat(sync_percent).toFixed(2)+'%');
-    $('span[data-extcoin="'+extcoin+'"][id="extcoin-sync-percent"]').text(parseFloat(sync_percent).toFixed(2)+'%');
-    $('span[data-extcoin="'+extcoin+'"][id="extcoin-synced-blocks"]').text(getinfotmp.blocks);
-    $('span[data-extcoin="'+extcoin+'"][id="extcoin-longestchain"]').text(getinfotmp.longestchain);
-    $('span[data-extcoin="'+extcoin+'"][id="extcoin-connections"]').text(getinfotmp.connections);
-
+    if ( getinfotmp == 'activating') {
+        $('span[data-extcoin="'+extcoin+'"][id="extcoin-sync-percent"]').text('Activating... Please wait');
+    } else {
+        var sync_percent = parseFloat(parseInt(getinfotmp.blocks, 10) * 100)/ parseInt(getinfotmp.longestchain, 10);
+        console.log(parseFloat(sync_percent).toFixed(2)+'%')
+        $('div[data-extcoin="'+extcoin+'"][id="extcoin-sync"]').width(parseFloat(sync_percent).toFixed(2)+'%');
+        $('span[data-extcoin="'+extcoin+'"][id="extcoin-sync-percent"]').text(parseFloat(sync_percent).toFixed(2)+'%');
+        $('span[data-extcoin="'+extcoin+'"][id="extcoin-synced-blocks"]').text(' | '+getinfotmp.blocks);
+        $('span[data-extcoin="'+extcoin+'"][id="extcoin-longestchain"]').text(' / '+getinfotmp.longestchain);
+        $('span[data-extcoin="'+extcoin+'"][id="extcoin-connections"]').text(' | Connections: '+getinfotmp.connections);
+    }
 }
 
