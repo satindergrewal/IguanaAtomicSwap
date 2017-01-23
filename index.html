@@ -71,6 +71,73 @@
   <link id="skinStyle" href="assets/skins/orange.min.css" rel="stylesheet" type="text/css">
 </head>
 <body class="page-login layout-full page-dark">
+
+<!-- START ADD COIN DIV -->
+    <div>
+    <!-- Modal -->
+      <div class="modal fade modal-3d-sign" id="AddCoinDilogModel" aria-hidden="true" aria-labelledby="AddCoinDilogModel" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-center modal-lg">
+          <div class="modal-content">
+            <div class="modal-header bg-orange-a400 wallet-send-header">
+              <button type="button" class="close white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+              <h4 class="modal-title white">Select Coin to add to EasyDEX</h4>
+            </div>
+            <div class="modal-body">
+              <div class="col-sm-12" style="text-align: center;">
+                <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl">
+                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl" data-plugin="labelauty" id="addcoin_mdl_full_mode" data-labelauty="Full Mode|Full Mode" value="1" checked>
+                </div>
+                <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl">
+                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl" data-plugin="labelauty" id="addcoin_mdl_basilisk_mode" value="0" data-labelauty="Basilisk Mode|Basilisk Mode">
+                </div>
+                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12 style-addcoin-lbl-mdl">
+                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl" data-plugin="labelauty" id="addcoin_mdl_native_mode" value="-1" data-labelauty="Native Mode|Native Mode">
+                </div>
+              </div>
+              <div class="col-sm-8">
+                <div class="form-group">
+                  <select class="form-control form-material" id="addcoin_select_coin_mdl_options">
+                    <option>-Select-</option>
+                    <option value="BTC">Bitcoin</option>
+                    <option value="BTCD">BitcoinDark</option>
+                    <option value="LTC">Litecoin</option>
+                    <option value="DOGE">Dogecoin</option>
+                    <option value="DGB">Digibyte</option>
+                    <option value="SYS">SysCoin</option>
+                    <option value="MZC">MazaCoin</option>
+                    <option value="UNO">Unobtanium</option>
+                    <option value="ZET">Zetacoin</option>
+                    <option value="KMD">Komodo</option>
+                    <option value="BTM">Bitmark</option>
+                    <option value="CARB">Carboncoin</option>
+                    <option value="ANC">AnonCoin</option>
+                    <option value="FRK">Franko</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-4" style="text-align: center;">
+              <button type="button" class="btn btn-primary mdl_addcoin_done_btn" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn">Add Coin</button>
+              </div>
+              <div class="col-sm-12" style="color: #333">
+              <p><strong>Full Mode:</strong> Adding a coin in Full mode will download FULL blockchain on your local machine. This is the most optimem performing mode, but will require good system performance to have one or multiple coins running in Full mode on your local machine.</p>
+              <p><strong>Basilisk Mode:</strong> In Basilisk Mode a coin will not download Full blockchain on local machine. This mode is best if you have less disk space on your machine, or in case your system is low performance system. But, it will be bit low in performance as compare to Full mode.</p>
+              <p><strong>Native Mode:</strong> This mode is ONLY available for KOMODO Coin, PAX FIAT Chains, Assetchains, and Geckochains. This mode uses <strong>Komodo Daemon</strong>, instead of <i>Iguana Daemon</i> to query blockchain data.</p>
+                <div class="alert alert-icon alert-primary" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <i class="icon md-info-outline" aria-hidden="true"></i> <strong>Native Mode</strong> is the so far mode which will allow you to do <strong>Z Transactions</strong>, the <i>Private Transactions</i>.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Modal -->
+    <!--<button type="button" class="btn btn-info btn-lg btn-block waves-effect waves-light" data-target="#AddCoinDilogModel" data-toggle="modal">Add Coin</button>-->
+    </div>
+    <!-- START ADD COIN DIV -->
+    
   <!--[if lt IE 8]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -831,71 +898,7 @@
 
     </div>
 
-    <!-- START ADD COIN DIV -->
-    <div>
-    <!-- Modal -->
-      <div class="modal fade modal-3d-sign" id="AddCoinDilogModel" aria-hidden="true" aria-labelledby="AddCoinDilogModel" role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-center modal-lg">
-          <div class="modal-content">
-            <div class="modal-header bg-orange-a400 wallet-send-header">
-              <button type="button" class="close white" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-              <h4 class="modal-title white">Select Coin to add to EasyDEX</h4>
-            </div>
-            <div class="modal-body">
-              <div class="col-sm-12" style="text-align: center;">
-                <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl">
-                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl" data-plugin="labelauty" id="addcoin_mdl_full_mode" data-labelauty="Full Mode|Full Mode" value="1" checked>
-                </div>
-                <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl">
-                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl" data-plugin="labelauty" id="addcoin_mdl_basilisk_mode" value="0" data-labelauty="Basilisk Mode|Basilisk Mode">
-                </div>
-                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12 style-addcoin-lbl-mdl">
-                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl" data-plugin="labelauty" id="addcoin_mdl_native_mode" value="-1" data-labelauty="Native Mode|Native Mode">
-                </div>
-              </div>
-              <div class="col-sm-8">
-                <div class="form-group">
-                  <select class="form-control form-material" id="addcoin_select_coin_mdl_options">
-                    <option>-Select-</option>
-                    <option value="BTC">Bitcoin</option>
-                    <option value="BTCD">BitcoinDark</option>
-                    <option value="LTC">Litecoin</option>
-                    <option value="DOGE">Dogecoin</option>
-                    <option value="DGB">Digibyte</option>
-                    <option value="SYS">SysCoin</option>
-                    <option value="MZC">MazaCoin</option>
-                    <option value="UNO">Unobtanium</option>
-                    <option value="ZET">Zetacoin</option>
-                    <option value="KMD">Komodo</option>
-                    <option value="BTM">Bitmark</option>
-                    <option value="CARB">Carboncoin</option>
-                    <option value="ANC">AnonCoin</option>
-                    <option value="FRK">Franko</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-sm-4" style="text-align: center;">
-              <button type="button" class="btn btn-primary mdl_addcoin_done_btn" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn">Add Coin</button>
-              </div>
-              <div class="col-sm-12" style="color: #333">
-              <p><strong>Full Mode:</strong> Adding a coin in Full mode will download FULL blockchain on your local machine. This is the most optimem performing mode, but will require good system performance to have one or multiple coins running in Full mode on your local machine.</p>
-              <p><strong>Basilisk Mode:</strong> In Basilisk Mode a coin will not download Full blockchain on local machine. This mode is best if you have less disk space on your machine, or in case your system is low performance system. But, it will be bit low in performance as compare to Full mode.</p>
-              <p><strong>Native Mode:</strong> This mode is ONLY available for KOMODO Coin, PAX FIAT Chains, Assetchains, and Geckochains. This mode uses <strong>Komodo Daemon</strong>, instead of <i>Iguana Daemon</i> to query blockchain data.</p>
-                <div class="alert alert-icon alert-primary" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <i class="icon md-info-outline" aria-hidden="true"></i> <strong>Native Mode</strong> is the so far mode which will allow you to do <strong>Z Transactions</strong>, the <i>Private Transactions</i>.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- End Modal -->
-    <!--<button type="button" class="btn btn-info btn-lg btn-block waves-effect waves-light" data-target="#AddCoinDilogModel" data-toggle="modal">Add Coin</button>-->
-    </div>
-    <!-- START ADD COIN DIV -->
+    
     <!-- END DASHBOARD CONTENT BODY -->
 
 
