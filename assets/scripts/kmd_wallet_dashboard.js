@@ -289,7 +289,7 @@ function RunKMDInitFunctions() {
         $('#extcoin-wallet').hide();
         $('#extcoin-wallet-connection-alert').show();
     }
-    if ( check1[0] == 'connected' ) {
+    if ( check1[0] == 'connected' || check1[0] == 'activating' ) {
         getTotalKMDBalance();
         KMDfillTxHistoryT();
         $('#extcoin-wallet').show();
@@ -1169,12 +1169,12 @@ function CheckIfConnected() {
             var AjaxOutputData = JSON.parse(data);
             console.log('== Data OutPut ==');
             console.log(AjaxOutputData.error);
-            console.log(AjaxOutputData['error'].message);
+            //console.log(AjaxOutputData['error'].message);
             if ( AjaxOutputData.errors != undefined ) {
                 //console.log('connected');
                 result.push('connected');
-            } else if ( AjaxOutputData['error'].message = 'Activating best chain...' ) {
-                result.push('activating');
+            //} else if ( AjaxOutputData['error'].message = 'Activating best chain...' ) {
+                //result.push('activating');
             } else if ( AjaxOutputData.errors == undefined) {
                 result.push('not active');
             } else {
@@ -1254,8 +1254,8 @@ function KMD_getInfo_rtrn() {
             if ( AjaxOutputData.errors != undefined ) {
                 //console.log('connected');
                 result.push(AjaxOutputData);
-            } else if ( AjaxOutputData['error'].message = 'Activating best chain...' ) {
-                result.push('activating');
+            //} else if ( AjaxOutputData['error'].message = 'Activating best chain...' ) {
+                //result.push('activating');
             } else if ( AjaxOutputData.errors == undefined) {
                 result.push('not active');
             } else {
