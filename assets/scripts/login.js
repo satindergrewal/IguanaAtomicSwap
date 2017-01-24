@@ -748,13 +748,6 @@ var Login = function() {
     };
 
     var handleAddCoinLoginBtn = function() {
-        var detect_os = navigator.platform;
-
-        if ( detect_os == 'Win32' ) {
-            $('.style-addcoin-lbl-mdl-login')[0].removeClass( "form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login" ).addClass( "form-group col-lg-6 col-md-6 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login" );
-            $('.style-addcoin-lbl-mdl-login')[1].removeClass( "form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login" ).addClass( "form-group col-lg-6 col-md-6 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login" );
-            $('.style-addcoin-lbl-mdl-login')[0].hide();
-        }
         $('#addcoin_mdl_native_mode_login').prop('disabled', true);
 
         $('.mdl_addcoin_done_btn-login').click(function(){
