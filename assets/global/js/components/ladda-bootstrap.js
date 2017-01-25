@@ -6,7 +6,7 @@
 $.components.register("ladda", {
   mode: "init",
   defaults: {
-    timeout: 10000
+    timeout: 2000
   },
   init: function() {
     if (typeof Ladda === "undefined") return;

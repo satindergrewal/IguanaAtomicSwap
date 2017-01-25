@@ -289,7 +289,18 @@ function RunKMDInitFunctions() {
         $('#extcoin-wallet').hide();
         $('#extcoin-wallet-connection-alert').show();
     }
-    if ( check1[0] == 'connected' || check1[0] == 'activating' ) {
+    if ( check1[0] == 'activating' ) {
+        $('#extcoin-wallet-activating-alert').show();
+        $('#extcoin-wallet').show();
+        $('#extcoin-wallet-connection-alert').hide();
+
+        $('#kmd_wallet_dashoard_section').show();
+        $('#kmd_wallet_dashboardinfo').show();
+        $('#kmd_wallet_send').hide();
+        $('#kmd_wallet_recieve_section').hide();
+        $('#kmd_wallet_settings').hide();
+    }
+    if ( check1[0] == 'connected') {
         getTotalKMDBalance();
         KMDfillTxHistoryT();
         $('#extcoin-wallet').show();
@@ -1173,8 +1184,8 @@ function CheckIfConnected() {
             if ( AjaxOutputData.errors != undefined ) {
                 //console.log('connected');
                 result.push('connected');
-            //} else if ( AjaxOutputData['error'].message = 'Activating best chain...' ) {
-                //result.push('activating');
+            } else if ( AjaxOutputData['error'].message = 'Activating best chain...' ) {
+                result.push('activating');
             } else if ( AjaxOutputData.errors == undefined) {
                 result.push('not active');
             } else {
@@ -1254,8 +1265,8 @@ function KMD_getInfo_rtrn() {
             if ( AjaxOutputData.errors != undefined ) {
                 //console.log('connected');
                 result.push(AjaxOutputData);
-            //} else if ( AjaxOutputData['error'].message = 'Activating best chain...' ) {
-                //result.push('activating');
+            } else if ( AjaxOutputData['error'].message = 'Activating best chain...' ) {
+                result.push('activating');
             } else if ( AjaxOutputData.errors == undefined) {
                 result.push('not active');
             } else {
@@ -1287,7 +1298,7 @@ function KMD_ProgressBar() {
     //console.log(getinfotmp.connections);
     //console.log(getinfotmp.longestchain);
     if ( getinfotmp == 'activating') {
-        $('span[data-extcoin="'+extcoin+'"][id="extcoin-sync-percent"]').text('Activating... Please wait');
+        $('span[data-extcoin="'+extcoin+'"][id="extcoin-sync-percent"]').text('Activating...');
     } else {
         var sync_percent = parseFloat(parseInt(getinfotmp.blocks, 10) * 100)/ parseInt(getinfotmp.longestchain, 10);
         console.log(parseFloat(sync_percent).toFixed(2)+'%')

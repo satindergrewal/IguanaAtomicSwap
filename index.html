@@ -471,12 +471,12 @@
             <span class="site-menu-title">Komodo Wallet</span>
           </a>
         </li>
-        <li class="site-menu-item" id="nav-zcash-wallet">
+        <!--<li class="site-menu-item" id="nav-zcash-wallet">
           <a class="animsition-link" href="javascript:;">
             <i class="site-menu-icon" aria-hidden="true"><img src="assets/images/icons/zcash_icon_grey.png" alt="" style="width: 25px;"></i>
             <span class="site-menu-title">Zcash Wallet</span>
           </a>
-        </li>
+        </li>-->
         <li class="site-menu-item" id="nav-iguana-atomic-explorer">
           <a class="animsition-link" href="javascript:;">
             <i class="site-menu-icon fa-cubes" aria-hidden="true"></i>
@@ -944,6 +944,12 @@
          - Your External Wallet/daemon is running, but iguana is not given command to connect to External Wallet/daemon<br>
          - Your External Wallet/daemon is setup, but is not setup with config settings like<br><code>server=1</code><br><code>rpcport=</code><br><code>rpcuser=</code><br><code>rpcpassword=</code></p>
         <!--<p class="margin-top-15"><button class="btn btn-success btn-inverse" type="button" id="extcoin-wallet-connection-alert-btn">Refresh Again</button></p>-->
+      </div>
+
+      <div role="alert" class="alert alert-info alert-dismissible" data-extcoin="COIN" id="extcoin-wallet-activating-alert" style="display: none;">
+        <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
+        <h4>Activating best chain...</h4>
+        <p data-extcoin="COIN" id="extcoin-wallet-connection-alert-text">Komodo daemon has been started and is processing.<br>Please wait while the best chain is being activated.</p>
       </div>
 
       <div class="row" data-extcoin="COIN" style="margin: -20px 0px 10px 0px;">
