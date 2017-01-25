@@ -27,33 +27,34 @@ var AtomicExplorer = function() {
             console.log(atomic_explorer_select_coin_val);
             console.log(atomic_explorer_select_command_val);
             console.log(atomic_explorer_input_data_val);
+            var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
 
             if (atomic_explorer_select_command_val === 'history') {
-                ExplorerInputData = {"timeout":20000,"agent":"basilisk","method":"history","vals":{"coin":atomic_explorer_select_coin_val,"addresses":[atomic_explorer_input_data_val]}}
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"timeout":20000,"agent":"basilisk","method":"history","vals":{"coin":atomic_explorer_select_coin_val,"addresses":[atomic_explorer_input_data_val]}}
                 console.log(ExplorerInputData);
             }
             if (atomic_explorer_select_command_val === 'getbalance') {
-                ExplorerInputData = {"coin":atomic_explorer_select_coin_val,"method":"getbalance","params":[atomic_explorer_input_data_val]}
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"coin":atomic_explorer_select_coin_val,"method":"getbalance","params":[atomic_explorer_input_data_val]}
                 console.log(ExplorerInputData);
             }
             if (atomic_explorer_select_command_val === 'listunspent') {
-                ExplorerInputData = {"coin":atomic_explorer_select_coin_val,"method":"listunspent","params":[1, 9999999, [atomic_explorer_input_data_val]]}
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"coin":atomic_explorer_select_coin_val,"method":"listunspent","params":[1, 9999999, [atomic_explorer_input_data_val]]}
                 console.log(ExplorerInputData);
             }
             if (atomic_explorer_select_command_val === 'txid') {
-                ExplorerInputData = {"coin":atomic_explorer_select_coin_val,"method":"getrawtransaction","params":[atomic_explorer_input_data_val]}
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"coin":atomic_explorer_select_coin_val,"method":"getrawtransaction","params":[atomic_explorer_input_data_val]}
                 console.log(ExplorerInputData);
             }
             if (atomic_explorer_select_command_val === 'blockash') {
-                ExplorerInputData = {"coin":atomic_explorer_select_coin_val,"agent":"bitcoinrpc","method":"getblockhash","height":atomic_explorer_input_data_val}
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"coin":atomic_explorer_select_coin_val,"agent":"bitcoinrpc","method":"getblockhash","height":atomic_explorer_input_data_val}
                 console.log(ExplorerInputData);
             }
             if (atomic_explorer_select_command_val === 'chaintip') {
-                ExplorerInputData = {"coin":atomic_explorer_select_coin_val,"agent":"bitcoinrpc","method":"getbestblockhash"}
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"coin":atomic_explorer_select_coin_val,"agent":"bitcoinrpc","method":"getbestblockhash"}
                 console.log(ExplorerInputData);
             }
             if (atomic_explorer_select_command_val === 'gettransaction') {
-                ExplorerInputData = {"coin":atomic_explorer_select_coin_val,"agent":"bitcoinrpc","method":"gettransaction","txid":atomic_explorer_input_data_val}
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"coin":atomic_explorer_select_coin_val,"agent":"bitcoinrpc","method":"gettransaction","txid":atomic_explorer_input_data_val}
                 console.log(ExplorerInputData);
             }
 

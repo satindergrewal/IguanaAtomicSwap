@@ -24,7 +24,8 @@ function sendCurrency(val) {
 	$('#mdl_currency_amount_label').text(val.currency);
 	$('#mdl_currency_total_coinname').text(val.currency);
 
-	var getinfoValues = {"coin":val.currency,"agent":"bitcoinrpc","method":"getinfo"};
+	var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+	var getinfoValues = {'userpass':tmpIguanaRPCAuth,"coin":val.currency,"agent":"bitcoinrpc","method":"getinfo"};
 	$.ajax({
 	    type: 'POST',
 	    data: JSON.stringify(getinfoValues),
@@ -222,7 +223,8 @@ function ExecuteSendCurrencyAPI() {
 	var confirm_sendto_address = $('#mdl_confirm_currency_sendto_addr').text();
 
 	//Get parameters values from confirm dialog and send currency
-    var sendtoaddrvalues = {"coin": confirm_coinname_to_send,"method":"sendtoaddress","params":[confirm_sendto_address,confirm_send_amount,"EasyDEX","EasyDEXTransaction"]};
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+    var sendtoaddrvalues = {'userpass':tmpIguanaRPCAuth,"coin": confirm_coinname_to_send,"method":"sendtoaddress","params":[confirm_sendto_address,confirm_send_amount,"EasyDEX","EasyDEXTransaction"]};
     console.log(sendtoaddrvalues);
     $.ajax({
         type: 'POST',
@@ -298,7 +300,8 @@ function Iguana_rmd160conv(rmd160conv_data) {
 	//return rmd160conv_data;
 
 	//comment
-    var ajax_data = {"agent":"SuperNET","method":"rmd160conv","rmd160": rmd160conv_data.rmd160,"coin": rmd160conv_data.coin};
+	var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+    var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"SuperNET","method":"rmd160conv","rmd160": rmd160conv_data.rmd160,"coin": rmd160conv_data.coin};
     console.log(ajax_data);
     $.ajax({
         type: 'POST',

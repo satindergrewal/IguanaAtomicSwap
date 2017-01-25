@@ -33,6 +33,7 @@
   <link rel="stylesheet" href="assets/global/vendor/bootstrap-select/bootstrap-select.min.css">
   <link rel="stylesheet" href="assets/global/vendor/sweetalert2/sweetalert2.min.css">
   <link rel="stylesheet" href="assets/global/vendor/waves/waves.min.css">
+  <link rel="stylesheet" href="assets/global/vendor/ladda-bootstrap/ladda.min.css">
   <link rel="stylesheet" href="assets/global/vendor/nprogress/nprogress.min.css">
   <link rel="stylesheet" href="assets/global/vendor/datatables-bootstrap/dataTables.bootstrap.min.css">
   <link rel="stylesheet" href="assets/global/vendor/datatables-fixedheader/dataTables.fixedHeader.min.css">
@@ -268,7 +269,7 @@
       <div id="section-login-addcoin-btn">
         <h4 style="color: #fff;" id="login-welcome">Welcome. Please add coin to start.</h4>
         <div class="form-group form-material floating" style="width: 540px; margin: 30px 0;">
-        <button class="btn btn-lg btn-primary btn-block" id="start-coin-login" href="javascript:void(0)" role="menuitem" data-edexcoinmenu="COIN" data-target="#AddCoinDilogModel-login" data-toggle="modal">Start Coin</button>
+        <button class="btn btn-lg btn-primary btn-block ladda-button" id="start-coin-login" role="menuitem" data-edexcoinmenu="COIN" data-target="#AddCoinDilogModel-login" data-toggle="modal" data-style="expand-left" data-plugin="ladda"><span class="ladda-label">Start Coin</span></button>
         </div>
       </div>
       <!-- END section login add coin -->
@@ -1616,6 +1617,8 @@
   <script src="assets/global/vendor/asprogress/jquery-asProgress.min.js"></script>
   <script src="assets/global/vendor/jquery-labelauty/jquery-labelauty.js"></script>
   <script src="assets/global/vendor/nprogress/nprogress.js"></script>
+  <script src="assets/global/vendor/ladda-bootstrap/spin.min.js"></script>
+  <script src="assets/global/vendor/ladda-bootstrap/ladda.min.js"></script>
   <script src="assets/global/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="assets/global/vendor/datatables-fixedheader/dataTables.fixedHeader.js"></script>
   <script src="assets/global/vendor/datatables-bootstrap/dataTables.bootstrap.min.js"></script>
@@ -1643,6 +1646,8 @@
   <script src="assets/global/js/components/bootbox.js"></script>
   <script src="assets/global/js/components/switchery.js"></script>
   <script src="assets/global/js/components/tabs.js"></script>
+  <script src="assets/global/js/components/buttons.js"></script>
+  <script src="assets/global/js/components/ladda-bootstrap.js"></script>
   <script src="assets/global/js/components/asprogress.min.js"></script>
   <script src="assets/global/js/components/jquery-labelauty.min.js"></script>
   <script src="assets/scripts/checkie.js"></script>

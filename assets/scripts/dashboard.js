@@ -211,7 +211,7 @@ var Dashboard = function() {
 
         var walletDivContent = '';
         var AddColumnDiv = 0
-        $.each([ 'native','basilisk', 'full', 'virtual', 'notarychains' ], function( index, value ) {
+        $.each([ 'native','basilisk', 'full' ], function( index, value ) {
 
             var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
             var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"InstantDEX","method":"allcoins"};

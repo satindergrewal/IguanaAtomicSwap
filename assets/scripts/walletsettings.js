@@ -25,8 +25,9 @@ var WalletSettings = function() {
                 var WifKeyDivContent = '';
 
                 //First check which coins are active. Execute API for each mode of wallet
-                $.each([ 'basilisk', 'full', 'virtual' ], function( index, value ) {
-                    var allcoins_ajax_data = {"agent":"InstantDEX","method":"allcoins"};
+                $.each([ 'native','basilisk', 'full' ], function( index, value ) {
+                    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+                    var allcoins_ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"InstantDEX","method":"allcoins"};
                     $.ajax({
                         type: 'POST',
                         data: JSON.stringify(allcoins_ajax_data),
@@ -46,7 +47,8 @@ var WalletSettings = function() {
                                     var wifkey_coin_handle = AllcoinsDataOutput[value][index];
 
                                     console.log(AllcoinsDataOutput[value][index]);
-                                    var EncryptWallet_ajax_data = {"agent":"bitcoinrpc","method":"encryptwallet","passphrase":Getwifkeys_passphrase}
+                                    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+                                    var EncryptWallet_ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"bitcoinrpc","method":"encryptwallet","passphrase":Getwifkeys_passphrase}
                                     $.ajax({
                                         type: 'POST',
                                         data: JSON.stringify(EncryptWallet_ajax_data),
@@ -74,7 +76,8 @@ var WalletSettings = function() {
                                 });
 
                                 //Second run walletpassphrase again to make sure wallet is unlocked as before login.
-                                var WalletPassphrase_ajax_data = {"agent":"bitcoinrpc","method":"walletpassphrase","password":Getwifkeys_passphrase,'timeout': '2592000'}
+                                var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+                                var WalletPassphrase_ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"bitcoinrpc","method":"walletpassphrase","password":Getwifkeys_passphrase,'timeout': '2592000'}
                                 $.ajax({
                                     type: 'POST',
                                     data: JSON.stringify(WalletPassphrase_ajax_data),
@@ -163,7 +166,8 @@ function Settings_ShowCoinPeers() {
 	$("#coin_rawpeers_h").text('');
 	$("#coin_rawpeers").text('');
 	var settings_selected_coinname_code_val = $("option:selected","#settings_select_coin_options").val();
-	var ajax_data = {"agent":"SuperNET","method":"getpeers","activecoin": settings_selected_coinname_code_val};
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+	var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"SuperNET","method":"getpeers","activecoin": settings_selected_coinname_code_val};
 	$.ajax({
         type: 'POST',
         data: JSON.stringify(ajax_data),
@@ -215,7 +219,8 @@ function Settings_AddCoinPeers() {
 	console.log("wait till peer ip added to selected coin...")
 	var settings_selected_coinname_code_val = $("option:selected","#settings_select_coin_addpeer_options").val();
 	var settings_add_peer_ip_val = $("#settings_add_peer_ip").val();
-	var ajax_data = {"agent":"iguana","method":"addnode","activecoin": settings_selected_coinname_code_val,"ipaddr": settings_add_peer_ip_val};
+	var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+    var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"iguana","method":"addnode","activecoin": settings_selected_coinname_code_val,"ipaddr": settings_add_peer_ip_val};
 	$.ajax({
         type: 'POST',
         data: JSON.stringify(ajax_data),

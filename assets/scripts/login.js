@@ -261,19 +261,14 @@ var Login = function() {
                 }).then(function() {
                     //swal('Deleted!', 'Your file has been deleted.', 'success' );
                     var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-                    var IguanaCreateWaletData = {
-                        'userpass':tmpIguanaRPCAuth,
-                        'password': $('#rpassword').val(),
-                        'passphrase': $('#walletseed').val()
-                    }
-                    //console.log('== Data Collected ==');
-                    //console.log(IguanaCreateWaletData);
+                    var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"bitcoinrpc","method":"encryptwallet",'passphrase': $('#walletseed').val()}
                     // Use AJAX to post the object to login user
                     $.ajax({
-                        type: 'GET',
-                        data: IguanaCreateWaletData,
-                        url: 'http://127.0.0.1:7778/api/bitcoinrpc/encryptwallet',
-                        dataType: 'text',
+                        type: 'POST',
+                        data: ajax_data,
+                        data: JSON.stringify(ajax_data),
+                        url: 'http://127.0.0.1:7778',
+                        //dataType: 'text',
                         success: function(data, textStatus, jqXHR) {
                             var CreateWalletOutput = JSON.parse(data);
                             //console.log(sessionStorage);
@@ -692,8 +687,6 @@ var Login = function() {
                 type: 'POST',
                 data: JSON.stringify(ajax_data),
                 url: 'http://127.0.0.1:7778',
-                //url: 'http://127.0.0.1:7778/api/bitcoinrpc/walletlock',
-                //dataType: 'text',
                 success: function(data, textStatus, jqXHR) {
                     var LogoutOutput = JSON.parse(data);
                     //sessionStorage.clear();
