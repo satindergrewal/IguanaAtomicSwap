@@ -378,7 +378,7 @@
 
   <!-- BEGIN Wallet Core Pages -->
   <div id="wallet-core" style="display: none;">
-  <nav class="site-navbar navbar navbar-fixed-top navbar-mega" role="navigation">
+  <nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided"
       data-toggle="menubar">
@@ -405,7 +405,7 @@
       <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
         <!-- Navbar Toolbar -->
         <ul class="nav navbar-toolbar">
-          <li class="hidden-float" id="toggleMenubar">
+          <li class="hidden-float" id="toggleMenubar" style="display: none;">
             <a data-toggle="menubar" href="#" role="button">
               <i class="icon hamburger hamburger-arrow-left">
                   <span class="sr-only">Toggle menubar</span>
@@ -413,6 +413,11 @@
                 </i>
             </a>
           </li>
+          <li class="active nav-top-menu"><a href="javascript:void(0)" id="nav-dashboard"><i class="site-menu-icon" aria-hidden="true"></i> Wallets</a></li>
+          <li class="nav-top-menu"><a href="javascript:void(0)" id="nav-easydex"><i class="site-menu-icon" aria-hidden="true"></i> EasyDEX</a></li>
+          <!--<li class="nav-top-menu"><a href="javascript:void(0)" id="nav-assetchains"><i class="site-menu-icon" aria-hidden="true"></i> Assetchains</a></li>
+          <li class="nav-top-menu"><a href="javascript:void(0)" id="nav-pax"><i class="site-menu-icon" aria-hidden="true"></i> PAX</a></li>-->
+          <li class="nav-top-menu"><a href="javascript:void(0)" id="nav-iguana-atomic-explorer"><i class="site-menu-icon" aria-hidden="true"></i> Atomic Explorer</a></li>
         </ul>
         <!-- End Navbar Toolbar -->
         <!-- Navbar Toolbar Right -->
@@ -433,9 +438,13 @@
               </span>
             </a>
             <ul class="dropdown-menu" role="menu">
-              <!--<li role="presentation">
-                <a href="javascript:void(0)" role="menuitem" id="lock-settings"><i class="icon md-settings" aria-hidden="true"></i> Settings</a>
-              </li>-->
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem" id="nav-iguana-wallet-settings"><i class="icon md-settings" aria-hidden="true"></i> Settings</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem" id="nav-about-iguana"><i class="icon md-settings" aria-hidden="true"></i> About Iguana</a>
+              </li>
+              <li class="divider" role="presentation"></li>
               <li role="presentation">
                 <a href="javascript:void(0)" role="menuitem" id="lock-screen"><i class="icon md-lock" aria-hidden="true"></i> Lock Screen</a>
               </li>
@@ -450,7 +459,7 @@
       <!-- End Navbar Collapse -->
     </div>
   </nav>
-  <div class="site-menubar site-menubar-dark">
+  <div class="site-menubar site-menubar-dark" style="display: none;">
     <div class="site-menubar-body">
       <ul class="site-menu">
         <li class="site-menu-item" id="nav-dashboard">
@@ -499,7 +508,7 @@
     </div>
   </div>
   <!-- Page -->
-  <div class="page animsition">
+  <div class="page animsition" style="margin-left: 0px;">
   <!-- Wallet Widgets Sidebar -->
     <div class="page-aside">
       <div class="page-aside-switch">

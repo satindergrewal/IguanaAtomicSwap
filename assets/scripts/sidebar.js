@@ -64,6 +64,8 @@ $('#nav-easydex').on('click', function() {
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
 	$(".header-easydex-section").text("EasyDEX");
+	$.each($('.nav-top-menu'), function(index, value) { $(value).removeClass('active') });
+	$(this.parentElement).addClass('active')
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
 	CommonSidebarActionsSet02();
@@ -150,6 +152,8 @@ $('#nav-iguana-atomic-explorer').on('click', function() {
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-iguana-atomic-explorer').removeClass( "" ).addClass( "active open" );
 	$(".header-easydex-section").text("Atomic Explorer");
+	$.each($('.nav-top-menu'), function(index, value) { $(value).removeClass('active') });
+	$(this.parentElement).addClass('active')
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
 	CommonSidebarActionsSet02();
