@@ -754,8 +754,30 @@ var Login = function() {
                 $('#addcoin_mdl_native_mode_login').prop('disabled', true);
             }
         });
+    }
 
+    var handleAddCoinOSOptions = function() {
+        if ( navigator.platform == 'Win32' || navigator.platform == 'Linux x86_64' || navigator.platform == 'Linux' || navigator.platform == 'Linux i686' ) {
+            //Conditions for Login Add Coin Dialog
+            $.each($('.style-addcoin-lbl-mdl-login'), function(index, value) {
+                if ( index == 0  || index == 1 ) {
+                    $(value).removeClass('col-lg-4 col-md-4').addClass('col-lg-6 col-md-6')
+                }
+                if ( index == 2 ) {
+                    $(value).hide()
+                }
+            });
 
+            //Conditions for Dashboard Add Coin Dialog
+            $.each($('.style-addcoin-lbl-mdl'), function(index, value) {
+                if ( index == 0  || index == 1 ) {
+                    $(value).removeClass('col-lg-4 col-md-4').addClass('col-lg-6 col-md-6')
+                }
+                if ( index == 2 ) {
+                    $(value).hide()
+                }
+            });
+        }
     }
 
 
@@ -771,6 +793,7 @@ var Login = function() {
             handleCheckLogin();
             handleLoginAnotherWallet();
             handleAddCoinLoginBtn();
+            handleAddCoinOSOptions();
 
         }
 
