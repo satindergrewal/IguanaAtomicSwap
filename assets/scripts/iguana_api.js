@@ -457,9 +457,10 @@ function ExecuteAddCoinLoginFn() {
 }
 
 function Iguana_ServiceUnavailable() {
-    console.log('Network Error with history api');
+    console.log('Network Error api');
     toastr.error("Unable to connect with iguana service. 127.0.0.1:7778", "Service Notification")
     toastr.info("Are you sure Iguana is running?", "Account Notification")
+    ClearOnLogout(true, true)
 }
 
 function secondsToString(seconds) {
