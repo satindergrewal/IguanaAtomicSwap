@@ -279,6 +279,10 @@ var Dashboard = function() {
                         walletDivContent += '<!-- End Wallet Widget '+AllcoinsDataOutput[value][index]+' -->';
 
                         $('.wallet-widgets-row').html(walletDivContent);
+                        if ( modecode == 'Basilisk' ) {
+                          $('span[data-edexcoincode="' + AllcoinsDataOutput[value][index] + '"][id="edexcoin-balance"]').parent().hide();
+                          //getBasiliskCoinBalance(AllcoinsDataOutput[value][index])
+                        }
                         getCoinBalance(AllcoinsDataOutput[value][index]);
                         $('.scrollbar-dynamic').scrollbar(); //Make sure widget-body has scrollbar for transactions history
                         $('[data-toggle="tooltip"]').tooltip(); //Make sure tooltips are working for wallet widgets and anywhere else in wallet.
@@ -459,8 +463,15 @@ function edexCoinBtnAction() {
       $('#edexcoin_active_addr').text(coinmainaddr[0]);
 
       //populate selected coin's balance
-      var coinwalletbalance = EDEXgetBalance(coincode);
-      $('#edex_total_balance').text(coinwalletbalance[0]);
+      if ( selected_coinmode == 'Basilisk' ) {
+        var coinwalletbalance = EDEX_DEXlistunspent(coincode, coinmainaddr[0]);
+        console.log(coinwalletbalance[0].amount)
+        coinwalletbalance = coinwalletbalance[0].amount
+        $('#edex_total_balance').text(coinwalletbalance);
+      } else {
+        var coinwalletbalance = EDEXgetBalance(coincode);
+        $('#edex_total_balance').text(coinwalletbalance[0]);
+      }
 
       //getCoinBalance(active_edexcoin);
       EdexfillTxHistory(coincode);
@@ -687,6 +698,14 @@ function getCoinBalance(coin) {
             console.log(error);
         }
     });
+}
+
+function getBasiliskCoinBalance(coin) {
+  var coinmainaddr = EDEXMainAddr(coin);
+  var coinwalletbalance = EDEX_DEXlistunspent(coin, coinmainaddr);
+  console.log(coinwalletbalance[0].amount)
+  coinwalletbalance = coinwalletbalance[0].amount
+  $('span[data-edexcoincode="' + coin + '"][id="edexcoin-balance"]').text(coinwalletbalance);
 }
 
 function StopShowCoinHistory() {
