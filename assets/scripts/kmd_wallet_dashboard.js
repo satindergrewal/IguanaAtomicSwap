@@ -1304,9 +1304,9 @@ function KMD_ProgressBar() {
         console.log(parseFloat(sync_percent).toFixed(2)+'%')
         $('div[data-extcoin="'+extcoin+'"][id="extcoin-sync"]').width(parseFloat(sync_percent).toFixed(2)+'%');
         $('span[data-extcoin="'+extcoin+'"][id="extcoin-sync-percent"]').text(parseFloat(sync_percent).toFixed(2)+'%');
-        $('span[data-extcoin="'+extcoin+'"][id="extcoin-synced-blocks"]').text(' | '+getinfotmp.blocks);
-        $('span[data-extcoin="'+extcoin+'"][id="extcoin-longestchain"]').text(' / '+getinfotmp.longestchain);
-        $('span[data-extcoin="'+extcoin+'"][id="extcoin-connections"]').text(' | Connections: '+getinfotmp.connections);
+        $('span[data-extcoin="'+extcoin+'"][id="extcoin-synced-blocks"]').text(getinfotmp.blocks);
+        $('span[data-extcoin="'+extcoin+'"][id="extcoin-longestchain"]').text(getinfotmp.longestchain);
+        $('span[data-extcoin="'+extcoin+'"][id="extcoin-connections"]').text(getinfotmp.connections);
     }
 }
 
