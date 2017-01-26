@@ -465,6 +465,7 @@ function edexCoinBtnAction() {
       //populate selected coin's balance
       if ( selected_coinmode == 'Basilisk' ) {
         var coinwalletbalance = EDEX_DEXlistunspent(coincode, coinmainaddr[0]);
+        console.log(coinwalletbalance[0])
         console.log(coinwalletbalance[0].amount)
         coinwalletbalance = coinwalletbalance[0].amount
         $('#edex_total_balance').text(coinwalletbalance);

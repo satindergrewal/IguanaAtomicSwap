@@ -19,6 +19,11 @@ var AtomicExplorer = function() {
     var handleExplorer = function() {
 
         $('#atomic_explorer_getcoinpeers_btn').click(function() {
+            NProgress.done(true);
+            NProgress.configure({
+                template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+            });
+            NProgress.start();
             console.log("button pushed in atomic explorer");
 
             var atomic_explorer_select_coin_val = $("select[id='atomic_explorer_select_coin_options']").val();
@@ -57,6 +62,50 @@ var AtomicExplorer = function() {
                 ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"coin":atomic_explorer_select_coin_val,"agent":"bitcoinrpc","method":"gettransaction","txid":atomic_explorer_input_data_val}
                 console.log(ExplorerInputData);
             }
+            if (atomic_explorer_select_command_val === 'dex_getnotaries') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getnotaries","symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
+            if (atomic_explorer_select_command_val === 'dex_alladdresses') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"alladdresses","symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
+            if (atomic_explorer_select_command_val === 'dex_checkaddress') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"checkaddress","address":atomic_explorer_input_data_val,"symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
+            if (atomic_explorer_select_command_val === 'dex_validateaddress') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"validateaddress","address":atomic_explorer_input_data_val,"symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
+            if (atomic_explorer_select_command_val === 'dex_getbestblockhash') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getbestblockhash","symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
+            if (atomic_explorer_select_command_val === 'dex_listtransactions') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listtransactions","address":atomic_explorer_input_data_val,"count":100,"skip":0,"symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
+            if (atomic_explorer_select_command_val === 'dex_listunspent') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listunspent","address":atomic_explorer_input_data_val,"symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
+            if (atomic_explorer_select_command_val === 'dex_getblockhash') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getblockhash","height":100,"symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
+            if (atomic_explorer_select_command_val === 'dex_getblock') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getblock","hash":atomic_explorer_input_data_val,"symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
+            if (atomic_explorer_select_command_val === 'dex_gettxout') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"gettxout","vout":0,"txid":atomic_explorer_input_data_val,"symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
+            if (atomic_explorer_select_command_val === 'dex_gettransaction') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"gettransaction","txid":atomic_explorer_input_data_val,"symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
 
             $.ajax({
                 type: 'POST',
@@ -65,13 +114,14 @@ var AtomicExplorer = function() {
                 //dataType: 'text',
                 success: function(data, textStatus, jqXHR) {
                     console.log(data);
-                    if (atomic_explorer_select_command_val === 'txid') {
+                    if (atomic_explorer_select_command_val === 'txid' || atomic_explorer_select_command_val === 'dex_getbestblockhash' || atomic_explorer_select_command_val === 'dex_getblockhash') {
                         $("#atomic-explorer-commands-output").html(data);
                     } else {
                         var ExplorerOutputData = JSON.parse(data);
                         console.log(ExplorerOutputData);
                         $("#atomic-explorer-commands-output").html(JSON.stringify(ExplorerOutputData, null, '\t'));
                     }
+                    NProgress.done();
                 },
                 error: function(xhr, textStatus, error) {
                     console.log('failed getting Coin History.');
@@ -81,6 +131,7 @@ var AtomicExplorer = function() {
                     }
                     console.log(textStatus);
                     console.log(error);
+                    NProgress.done();
                 }
             });
 

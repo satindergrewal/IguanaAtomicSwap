@@ -409,6 +409,7 @@ function Iguana_addcoin(addcoin_data) {
                 if (addcoinData.result === 'coin added') {
                     Iguana_Setactivehandle();
                     console.log('coin added');
+                    Iguana_DEXImportAll();
                     toastr.success(logincoinfullname+" started in "+ logincoinmodeinfo +" Mode", "Coin Notification");
                     if (addcoin_data.logincmd == undefined) {
                         console.log('command NOT executed from login. RELOADING SCREEN...');
@@ -850,7 +851,7 @@ function Iguana_DEXgetNotaries(coin) {
             console.log(error);
         }
     });
-    return result;
+    return result[0];
 }
 
 
@@ -886,6 +887,42 @@ function Iguana_DEXImportAddr(coin,addr) {
     return result;
 }
 
+function Iguana_DEXImportAll() {
+    $.each([ 'basilisk' ], function( index, value ) {
+        var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+        var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"InstantDEX","method":"allcoins"};
+        console.log(ajax_data);
+        $.ajax({
+            async: false,
+            type: 'POST',
+            data: JSON.stringify(ajax_data),
+            url: 'http://127.0.0.1:7778',
+            //dataType: 'text',
+            success: function(data, textStatus, jqXHR) {
+                var AjaxOutputData = JSON.parse(data);
+                console.log('== Iguana_DEXImportOnLogin Data OutPut ==');
+                console.log(AjaxOutputData['basilisk']);
+
+                $.each(AjaxOutputData['basilisk'], function(basilisk_index) {
+                    console.log(AjaxOutputData['basilisk'][basilisk_index]);
+                    tmp_coinaddr = EDEXMainAddr(AjaxOutputData['basilisk'][basilisk_index])
+                    console.log(tmp_coinaddr[index]);
+                    tmp_deximport_output = Iguana_DEXImportAddr(AjaxOutputData['basilisk'][basilisk_index], tmp_coinaddr[index])
+                    console.log(tmp_deximport_output[0]);
+                });
+                
+            },
+            error: function(xhr, textStatus, error) {
+                console.log(xhr.statusText);
+                if ( xhr.readyState == 0 ) {
+                    Iguana_ServiceUnavailable();
+                }
+                console.log(textStatus);
+                console.log(error);
+            }
+        });
+    });
+}
 
 function Iguana_DEXCheckAddr(coin,addr) {
     var result = [];
@@ -939,8 +976,11 @@ function EDEX_DEXlistunspent(coin,addr) {
         //dataType: 'text',
         success: function(data, textStatus, jqXHR) {
             var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
-            //console.log('== Data OutPut ==');
+            //console.log('== EDEX_DEXlistunspent Data OutPut ==');
             //console.log(AjaxOutputData);
+            if (AjaxOutputData == '' ) {
+                result.push([{"amount":0}]);
+            }
             result.push(AjaxOutputData);
         },
         error: function(xhr, textStatus, error) {
