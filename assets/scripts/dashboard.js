@@ -306,17 +306,35 @@ var Dashboard = function() {
 
     var handleWalletWidgetBtns = function() {
       $('#addcoin_mdl_native_mode').prop('disabled', true);
-      
+      $('#addcoin_mdl_basilisk_mode').prop('disabled', true);
+      $('#addcoin_mdl_full_mode').prop('disabled', true);
+      $('#addcoin_mdl_full_mode').prop("checked", false);
+
       $('.mdl_addcoin_done_btn').click(function(){
         ExecuteAddCoinFn();
       });
 
       $( "#addcoin_select_coin_mdl_options" ).change(function() {
-          if ($('#addcoin_select_coin_mdl_options').val() == 'KMD') {
-              $('#addcoin_mdl_native_mode').prop('disabled', false);
-          } else {
-              $('#addcoin_mdl_native_mode').prop('disabled', true);
-          }
+        var tmp_coin_val = $('#addcoin_select_coin_mdl_options').val()
+        
+        if (tmp_coin_val !== 'KMD' || tmp_coin_val !== 'KMD' ) {
+            $('#addcoin_mdl_native_mode').prop('disabled', true);
+            $('#addcoin_mdl_basilisk_mode').prop('disabled', true);
+            $('#addcoin_mdl_full_mode').prop('disabled', false);
+            $('#addcoin_mdl_full_mode').prop("checked", true);
+        }
+        if (tmp_coin_val == 'KMD') {
+            $('#addcoin_mdl_native_mode').prop('disabled', false);
+            $('#addcoin_mdl_basilisk_mode').prop('disabled', false);
+            $('#addcoin_mdl_full_mode').prop('disabled', false);
+            $('#addcoin_mdl_full_mode').prop("checked", true);
+        }
+        if (tmp_coin_val == 'BTC') {
+            $('#addcoin_mdl_basilisk_mode').prop('disabled', false);
+            $('#addcoin_mdl_native_mode').prop('disabled', true);
+            $('#addcoin_mdl_full_mode').prop('disabled', false);
+            $('#addcoin_mdl_full_mode').prop("checked", true);
+        }
       });
     }
 
