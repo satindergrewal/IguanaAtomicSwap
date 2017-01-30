@@ -840,6 +840,9 @@ function Iguana_DEXgetNotaries(coin) {
             //console.log('== Data OutPut ==');
             //console.log(AjaxOutputData);
             result.push(AjaxOutputData);
+            if (AjaxOutputData.error === 'less than required responses') {
+              toastr.error("Less than required responses. Please try again.", "Basilisk Notification")
+            }
             
         },
         error: function(xhr, textStatus, error) {
@@ -870,9 +873,21 @@ function Iguana_DEXImportAddr(coin,addr) {
         //dataType: 'text',
         success: function(data, textStatus, jqXHR) {
             var AjaxOutputData = JSON.parse(data);
-            //console.log('== Data OutPut ==');
-            //console.log(AjaxOutputData);
+            console.log('== Data OutPut ==');
+            console.log(AjaxOutputData);
+            if (AjaxOutputData.iswatchonly == true) {
+                toastr.success("Address Registered on Network", "Basilisk Notification")
+            }
+            if (AjaxOutputData.iswatchonly == false) {
+                toastr.success("Address Registeration failed. Please try again.", "Basilisk Notification")
+            }
+            if (AjaxOutputData.iswatchonly == undefined) {
+                toastr.error("Invalid query sent. Please try again.", "Basilisk Notification")
+            }
             result.push(AjaxOutputData);
+            if (AjaxOutputData.error === 'less than required responses') {
+              toastr.error("Less than required responses. Please try again.", "Basilisk Notification")
+            }
             
         },
         error: function(xhr, textStatus, error) {
@@ -900,15 +915,15 @@ function Iguana_DEXImportAll() {
             //dataType: 'text',
             success: function(data, textStatus, jqXHR) {
                 var AjaxOutputData = JSON.parse(data);
-                console.log('== Iguana_DEXImportOnLogin Data OutPut ==');
-                console.log(AjaxOutputData['basilisk']);
+                //console.log('== Iguana_DEXImportOnLogin Data OutPut ==');
+                //console.log(AjaxOutputData['basilisk']);
 
                 $.each(AjaxOutputData['basilisk'], function(basilisk_index) {
-                    console.log(AjaxOutputData['basilisk'][basilisk_index]);
+                    //console.log(AjaxOutputData['basilisk'][basilisk_index]);
                     tmp_coinaddr = EDEXMainAddr(AjaxOutputData['basilisk'][basilisk_index])
-                    console.log(tmp_coinaddr[index]);
+                    //console.log(tmp_coinaddr[index]);
                     tmp_deximport_output = Iguana_DEXImportAddr(AjaxOutputData['basilisk'][basilisk_index], tmp_coinaddr[index])
-                    console.log(tmp_deximport_output[0]);
+                    //console.log(tmp_deximport_output[0]);
                 });
                 
             },
@@ -942,6 +957,54 @@ function Iguana_DEXCheckAddr(coin,addr) {
             //console.log('== Data OutPut ==');
             //console.log(AjaxOutputData);
             result.push(AjaxOutputData);
+            if (AjaxOutputData.error === 'less than required responses') {
+              toastr.error("Less than required responses. Please try again.", "Basilisk Notification")
+            }
+            
+        },
+        error: function(xhr, textStatus, error) {
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    return result;
+}
+
+
+function Iguana_DEXValidateAddr(coin,addr) {
+    var result = [];
+
+    //Get parameters values from confirm dialog and send currency
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+    var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"validateaddress","address":addr,"symbol":coin};
+    console.log(ajax_data);
+    $.ajax({
+        async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data);
+            //console.log('== Data OutPut ==');
+            //console.log(AjaxOutputData);
+            if (AjaxOutputData.iswatchonly == true) {
+                toastr.success("Validation Success on Network", "Basilisk Notification")
+            }
+            if (AjaxOutputData.iswatchonly == false) {
+                toastr.info("Address isn't Registered on Network. Please Register", "Basilisk Notification")
+            }
+            if (AjaxOutputData.iswatchonly == undefined) {
+                toastr.error("Invalid query sent. Please try again.", "Basilisk Notification")
+            }
+            result.push(AjaxOutputData);
+            if (AjaxOutputData.error === 'less than required responses') {
+              toastr.error("Less than required responses. Please try again.", "Basilisk Notification")
+            }
             
         },
         error: function(xhr, textStatus, error) {
@@ -982,6 +1045,9 @@ function EDEX_DEXlistunspent(coin,addr) {
                 result.push([{"amount":0}]);
             }
             result.push(AjaxOutputData);
+            if (AjaxOutputData.error === 'less than required responses') {
+              toastr.error("Less than required responses. Please try again.", "Basilisk Notification")
+            }
         },
         error: function(xhr, textStatus, error) {
             console.log(xhr.statusText);

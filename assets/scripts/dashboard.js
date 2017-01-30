@@ -47,8 +47,25 @@ var Dashboard = function() {
           $('#edexcoin_recieve').hide();
           $('#edexcoin_recieve_section').hide();
           $('#edexcoin_settings').hide();
-          getCoinBalance(active_edexcoin);
-          EdexfillTxHistory(active_edexcoin);
+          
+          var selected_coinmode = sessionStorage.getItem('edexTmpMode')
+          if ( selected_coinmode == 'Basilisk' ) {
+            var coinwalletbalance = getDEXCoinBalance(active_edexcoin)
+            //console.log(coinwalletbalance.total)
+            coinwalletbalance = coinwalletbalance.total
+            $('#edex_total_balance').text(coinwalletbalance);
+          } else {
+            var tmp_get_coin_balance = EDEXlistunspent(active_edexcoin)
+            if (tmp_get_coin_balance[0] != undefined) {
+              //console.log(tmp_get_coin_balance[0])
+              $('#edex_total_balance').text(tmp_get_coin_balance[0].total);
+              //console.log(tmp_get_coin_balance[0].total)
+            } else {
+              $('#edex_total_balance').text('0');
+            }
+          }
+          //getCoinBalance(active_edexcoin);
+          //EdexfillTxHistory(active_edexcoin);
           clearEdexSendFieldData();
         });
     }
@@ -350,6 +367,30 @@ var Dashboard = function() {
       });
     }
 
+    var handleBasiliskWalletActions = function() {
+      $(".btn_edexcoin_dashboard_getnotaries").click(function() {
+        var selected_coin = $(this).data('edexcoin')
+        $( "#nav-iguana-atomic-explorer" ).trigger( "click" );
+        $('#atomic_explorer_select_coin_options option[value=' + selected_coin + ']').attr('selected','selected');
+        $('#atomic_explorer_select_command_options option[value=dex_getnotaries]').attr('selected','selected');
+        $( "#atomic_explorer_getcoinpeers_btn" ).trigger( "click" );
+      })
+
+      $(".btn_edexcoin_dashboard_register").click(function() {
+        var selected_coin = $(this).data('edexcoin')
+        var coinmainaddr = EDEXMainAddr(selected_coin);
+        Iguana_DEXImportAddr(selected_coin,coinmainaddr[0]);
+        
+      })
+
+      $(".btn_edexcoin_dashboard_validate").click(function() {
+        var selected_coin = $(this).data('edexcoin')
+        var coinmainaddr = EDEXMainAddr(selected_coin);
+        Iguana_DEXValidateAddr(selected_coin,coinmainaddr[0])
+        
+      })
+    }
+
 
     var handleEdexWalletInfo = function() {
       //Get coin history and pupulate balance and other info to wallet widget
@@ -428,6 +469,7 @@ var Dashboard = function() {
                 handleWalletWidgets();
                 handleWalletWidgetBtns();
                 handleEdexWalletInfo();
+                handleBasiliskWalletActions();
                 //TotalFiatValue();
             }
 
@@ -475,8 +517,17 @@ function edexCoinBtnAction() {
     var selected_coinmode = $(this).data('edexcoinmodecode')
     var selected_coinname = $(this).data('edexcoinname')
     sessionStorage.setItem('edexTmpMode', selected_coinmode);
-    if ( selected_coinmode == 'Basilisk' ) { $('#edex-footer').hide(); StopShowCoinHistory(); sessionStorage.setItem('edexTmpRefresh', "stop"); }
-    if ( selected_coinmode == 'Full' ) { $('#edex-footer').show(); sessionStorage.setItem('edexTmpRefresh', "start");}
+    if ( selected_coinmode == 'Basilisk' ) {
+      $('#edex-footer').hide();
+      $('#btn_edexcoin_basilisk').show();
+      StopShowCoinHistory();
+      sessionStorage.setItem('edexTmpRefresh', "stop");
+    }
+    if ( selected_coinmode == 'Full' ) {
+      $('#edex-footer').show();
+      $('#btn_edexcoin_basilisk').hide();
+      sessionStorage.setItem('edexTmpRefresh', "start");
+    }
     if ( selected_coinmode !== 'Native' ) {
       $('#edexcoin_dashoard_section').show();
       $('#header-dashboard').show();
@@ -504,7 +555,7 @@ function edexCoinBtnAction() {
 
       if ( selected_coinmode == 'Basilisk' ) {
         var coinwalletbalance = getDEXCoinBalance(coincode)
-        console.log(coinwalletbalance.total)
+        //console.log(coinwalletbalance.total)
         coinwalletbalance = coinwalletbalance.total
         $('#edex_total_balance').text(coinwalletbalance);
       } else {
@@ -771,6 +822,10 @@ function getDEXCoinBalance(coin) {
             var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
             //console.log('== getDEXCoinBalance Data OutPut ==');
             //console.log(AjaxOutputData);
+
+            if (AjaxOutputData.error === 'less than required responses') {
+              toastr.error("Less than required responses. Please try again.", "Basilisk Notification")
+            }
 
             var tmpcalcnum = 0;
             $.each(AjaxOutputData, function(index) {

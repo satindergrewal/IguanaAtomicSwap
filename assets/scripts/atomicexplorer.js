@@ -125,6 +125,9 @@ var AtomicExplorer = function() {
                         console.log(ExplorerOutputData);
                         $("#atomic-explorer-commands-output").html(JSON.stringify(ExplorerOutputData, null, '\t'));
                     }
+                    if (ExplorerOutputData.error === 'less than required responses') {
+                            toastr.error("Less than required responses. Please try again.", "Basilisk Notification")
+                        }
                     NProgress.done();
                 },
                 error: function(xhr, textStatus, error) {

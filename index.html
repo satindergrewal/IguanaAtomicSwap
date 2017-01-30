@@ -183,7 +183,7 @@
       <form class="login-form" method="post" action="javascript:;" autocomplete="off" onsubmit="return false;">
         <div class="form-group form-material floating">
           <input type="password" class="form-control" name="password" id="password">
-          <label class="floating-label" for="inputPassword">Passphrase</label>
+          <label class="floating-label" for="inputPassword">Wallet Seed</label>
         </div>
         <button type="submit" class="btn btn-primary btn-block" id="loginbtn">Sign in</button>
         <div class="form-group form-material floating">
@@ -724,12 +724,26 @@
               <div class="col-xlg-12 col-lg-12 col-sm-12 col-xs-12">
                 <!-- Panel FixedHeader -->
                 <div class="panel">
-                  <header class="panel-heading">
+                  <header class="panel-heading" style="z-index: 10">
+                    
                     <div class="panel-actions">
+                      <a href="javascript:void(0)" class="dropdown-toggle white btn-xs btn-info btn_refresh_edexcoin_dashboard" data-edexcoin="COIN" aria-expanded="false" role="button"><i class="icon fa-refresh margin-right-10" aria-hidden="true"></i> Refresh</a>
                       <div class="dropdown">
-                        <a href="javascript:void(0)" class="dropdown-toggle white btn-xs btn-warning btn_refresh_edexcoin_dashboard" data-edexcoin="COIN" aria-expanded="false" role="button"><i class="icon fa-refresh margin-right-10" aria-hidden="true"></i> Refresh</a>
+                        <a class="dropdown-toggle btn-xs btn-default" data-edexcoin="COIN" id="btn_edexcoin_basilisk" data-toggle="dropdown" href="javascript:void(0)"
+                        aria-expanded="false" role="button" style="display: none;"><i class="icon fa-magic margin-right-10" aria-hidden="true"></i> Basilisk Actions <span class="caret"></span></a>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="btn_edexcoin_basilisk"
+                        role="menu">
+                          
+                          <li role="presentation"><a href="javascript:void(0)" class="btn_edexcoin_dashboard_getnotaries" data-edexcoin="COIN" id="btn_edexcoin_dashboard_getnotaries" role="menuitem"><i class="icon fa-sitemap" aria-hidden="true"></i> Get Notary Nodes List</a></li>
+                          
+                          <li data-edexcoin="COIN" role="presentation"><a href="javascript:void(0)" class="btn_edexcoin_dashboard_register" data-edexcoin="COIN" id="btn_edexcoin_dashboard_register" role="menuitem"><i class="icon fa-sign-in" aria-hidden="true"></i> Register Address on Network</a></li>
+
+                          <li data-edexcoin="COIN" role="presentation"><a href="javascript:void(0)" class="btn_edexcoin_dashboard_validate" data-edexcoin="COIN" id="btn_edexcoin_dashboard_validate" role="menuitem"><i class="icon fa-check" aria-hidden="true"></i> Validate Address on Network</a></li>
+                        </ul>
                       </div>
                     </div>
+
+                    
                     <h3 class="panel-title">
                       Transactions History
                     </h3>
