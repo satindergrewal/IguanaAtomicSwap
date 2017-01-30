@@ -62,6 +62,10 @@ var AtomicExplorer = function() {
                 ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"coin":atomic_explorer_select_coin_val,"agent":"bitcoinrpc","method":"gettransaction","txid":atomic_explorer_input_data_val}
                 console.log(ExplorerInputData);
             }
+            if (atomic_explorer_select_command_val === 'dex_getinfo') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getinfo","symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
             if (atomic_explorer_select_command_val === 'dex_getnotaries') {
                 ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getnotaries","symbol":atomic_explorer_select_coin_val};
                 console.log(ExplorerInputData);

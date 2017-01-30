@@ -529,7 +529,7 @@
       </div>
       <div class="page-aside-inner">
         <!-- Search Panel -->
-        <div class="search-wallet-widgets panel">
+        <div class="search-wallet-widgets panel" style="display: none;">
           <div class="panel-heading">
             <div class="panel-actions">
               <div class="input-search input-group-sm">
@@ -620,6 +620,28 @@
 
 
     <div class="page-main" id="section-dashboard" data-edexcoin="COIN">
+      <div id="edex-footer" data-edexcoin="COIN">
+        <div class="row no-space " data-edexcoin="COIN">
+          <div data-edexcoin="COIN" id="currency-progressbars" style="display: none;">
+            <div class="progress progress-sm">
+            <div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-edexcoin="COIN" id="currency-bundles">Bundles <span data-edexcoin="COIN" id="currency-bundles-percent">0%</span></div>
+            </div>
+          </div>
+          <div data-edexcoin="COIN" id="additional-progress-bars" style="display: none;">
+            <div class="progress progress-sm">
+              <div class="progress-bar progress-bar-warning progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-edexcoin="COIN" id="currency-utxo">utxo <span data-edexcoin="COIN" id="currency-utxo-percent">0%</span></div>
+            </div>
+              <div class="progress progress-sm">
+              <div class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-edexcoin="COIN" id="currency-balances">Balances <span data-edexcoin="COIN" id="currency-balances-percent">0%</span></div>
+            </div>
+              <div class="progress progress-sm">
+              <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-edexcoin="COIN" id="currency-validated">Validated <span data-edexcoin="COIN" id="currency-validated-percent">0%</span></div>
+            </div>
+          </div>
+        </div><!-- END additional-progress-bars -->
+      </div>
+
+
       <div class="col-xs-12 padding-top-20" id="no_wallet_selected">
         <div class="alert alert-info alert-dismissible" role="alert">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -632,7 +654,7 @@
     <!-- Begin page header -->
       <div class="page-header page-header-bordered header-easydex" id="header-dashboard" data-edexcoin="COIN" style="display: none;">
       <ol class="breadcrumb" data-edexcoin="COIN">
-        <b>My <span data-edexcoin="COIN" id="edexcoin-active">-</span> Address: </b> <span data-edexcoin="COIN" id="edexcoin_active_addr">-</span>
+        <b>My <span data-edexcoin="COIN" id="edexcoin-active">-</span> Address: </b> <span data-edexcoin="COIN" id="edexcoin_active_addr">-</span> <button class="btn btn-xs" data-edexcoin="COIN" id="edexcoin_active_addr_clipboard" data-clipboard-text=""><i class="icon wb-copy" aria-hidden="true"></i></button>
       </ol>
       <div class="page-header-actions" data-edexcoin="COIN" id="edexcoin-actions">
         <!-- EasyDEX Coin Wallet Header button -->
@@ -808,10 +830,10 @@
                 <div class="panel">
                   <header class="panel-heading">
                     <div class="panel-actions">
-                      <div class="dropdown">
+                      <!--<div class="dropdown">
                         <a class="dropdown-toggle white btn btn-warning" data-edexcoin="COIN" id="edexcoin_get_new_addr" href="javascript:void(0)"
                         aria-expanded="false" role="button"><i class="icon md-arrows margin-right-10" aria-hidden="true"></i> Get New Address</a>
-                      </div>
+                      </div>-->
                     </div>
                     <h3 class="panel-title">
                       Receiving Addresses
@@ -929,25 +951,9 @@
   </div>
   <!-- End Page -->
   <!-- Footer -->
-  <footer class="site-footer" id="edex-footer" data-edexcoin="COIN">
-    <!--<div class="site-footer-right">Crafted with <i class="red-600 icon md-favorite"></i> by <a href="javascript:;">Iguana</a></div>-->
-    <div class="row no-space " data-edexcoin="COIN">
-      <div data-edexcoin="COIN" id="currency-progressbars" style="display: none;">
-        <div class="progress progress-sm">
-        <div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-edexcoin="COIN" id="currency-bundles">Bundles <span data-edexcoin="COIN" id="currency-bundles-percent">0%</span></div>
-      </div>
-      <div data-edexcoin="COIN" id="additional-progress-bars">
-        <div class="progress progress-sm">
-        <div class="progress-bar progress-bar-warning progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-edexcoin="COIN" id="currency-utxo">utxo <span data-edexcoin="COIN" id="currency-utxo-percent">0%</span></div>
-      </div>
-        <div class="progress progress-sm">
-        <div class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-edexcoin="COIN" id="currency-balances">Balances <span data-edexcoin="COIN" id="currency-balances-percent">0%</span></div>
-      </div>
-        <div class="progress progress-sm">
-        <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-edexcoin="COIN" id="currency-validated">Validated <span data-edexcoin="COIN" id="currency-validated-percent">0%</span></div>
-      </div>
-    </div><!-- END additional-progress-bars -->
-  </footer>
+  <!--<footer class="site-footer" id="edex-footer" data-edexcoin="COIN">
+    
+  </footer>-->
 
   <!-- BEGIN EASYDEX CONTENT BODY -->
     <div class="page-content" id="section-easydex">
@@ -1430,6 +1436,7 @@
                     <option value="blockash">Block Hash</option>
                     <option value="chaintip">Chain Tip</option>
                     <option value="gettransaction">Get Transaction</option>
+                    <option value="dex_getinfo">DEX Get Info</option>
                     <option value="dex_getnotaries">DEX Get Notaries</option>
                     <option value="dex_alladdresses">DEX All Addresses</option>
                     <option value="dex_checkaddress">DEX Check Address</option>

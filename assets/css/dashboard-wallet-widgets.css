@@ -68,7 +68,7 @@
   margin-left: 450px !important;
 }
 #edex-footer {
-  margin-left: 450px !important;
+  /*margin-left: 450px !important;*/
 }
 
 .page-aside-inner {
@@ -188,7 +188,7 @@
   .page-aside + .page-main {
     margin-left: 300px !important;
   }
-  .page-main, #edex-footer {
+  .page-main {
     margin-left: 300px !important;
   }
 }

@@ -413,7 +413,7 @@ function Iguana_addcoin(addcoin_data) {
                     toastr.success(logincoinfullname+" started in "+ logincoinmodeinfo +" Mode", "Coin Notification");
                     if (addcoin_data.logincmd == undefined) {
                         console.log('command NOT executed from login. RELOADING SCREEN...');
-                        $(document).ready(function() { window.location.reload(); });
+                        //$(document).ready(function() { window.location.reload(); });
                     } else {
                         var check_active_coins_status = Iguana_CheckActiveCoins()
                         if (check_active_coins_status.length !== 0 ) {
@@ -534,7 +534,7 @@ function EDEXlistunspent(coin) {
             $.each(unique_addresses, function(index) {
                 console.log(unique_addresses[index]);
                 var unique_addr_tmp_array = _.where(AjaxOutputData, {address: unique_addresses[index]});
-                //console.log(unique_addr_tmp_array);
+                console.log(unique_addr_tmp_array);
 
                 var tmpcalcnum = 0;
                 $.each(unique_addr_tmp_array, function(index, value) {
