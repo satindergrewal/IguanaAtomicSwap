@@ -27,10 +27,20 @@ var Dashboard = function() {
     }
 
     var handle_edex_dashboard = function() {
+        $('.btn_refresh_edexcoin_dashboard').click(function() {
+          $( "#btn_edexcoin_dashboard" ).trigger( "click" );
+        });
+
         $('#btn_edexcoin_dashboard').click(function() {
           var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
           console.log('EasyDEX dashbaord button clicked...');
           console.log($(this).data());
+          if ( sessionStorage.getItem('edexTmpMode') === "Full") {
+            sessionStorage.setItem('edexTmpRefresh', "start");
+          }
+          if ( sessionStorage.getItem('edexTmpMode') === "Basilisk" || sessionStorage.getItem('edexTmpMode') === "Native" ) {
+            sessionStorage.setItem('edexTmpRefresh', "stop");
+          }
           $('#edexcoin_dashoard_section').show();
           $('#edexcoin_dashboardinfo').show();
           $('#edexcoin_send').hide();
@@ -47,6 +57,7 @@ var Dashboard = function() {
       $('#btn_edexcoin_send').click(function() {
         var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
         //console.log(active_edexcoin);
+        sessionStorage.setItem('edexTmpRefresh', "stop");
 
 
         $('#edexcoin_dashboardinfo').hide();
@@ -188,6 +199,7 @@ var Dashboard = function() {
         $('#btn_edexcoin_recieve').click(function() {
             var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
             //console.log('wallet receive button clicked...');
+            sessionStorage.setItem('edexTmpRefresh', "stop");
             $('#edexcoin_dashboardinfo').hide();
             $('#edexcoin_dashoard_section').hide();
             $('#edexcoin_send').hide();
@@ -272,19 +284,14 @@ var Dashboard = function() {
                                 walletDivContent += '<span class="badge up badge-' + modecolor + '" id="basfull" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>';
                               walletDivContent += '</a>';
                               walletDivContent += '<div class="coin-name">'+coinname+'</div>';
-                              walletDivContent += '<div class="coin-title margin-bottom-20 blue-grey-400"><span data-edexcoincode="'+AllcoinsDataOutput[value][index]+'" id="edexcoin-balance">-</span> '+AllcoinsDataOutput[value][index]+'</div>';
+                              //walletDivContent += '<div class="coin-title margin-bottom-20 blue-grey-400"><span data-edexcoincode="'+AllcoinsDataOutput[value][index]+'" id="edexcoin-balance">-</span> '+AllcoinsDataOutput[value][index]+'</div>';
                             walletDivContent += '</div>';
                           walletDivContent += '</div>';
                         walletDivContent += '</div>';
                         walletDivContent += '<!-- End Wallet Widget '+AllcoinsDataOutput[value][index]+' -->';
 
                         $('.wallet-widgets-row').html(walletDivContent);
-                        if ( modecode == 'Basilisk' ) {
-                          $('span[data-edexcoincode="' + AllcoinsDataOutput[value][index] + '"][id="edexcoin-balance"]').parent().hide();
-                          //getBasiliskCoinBalance(AllcoinsDataOutput[value][index])
-                        }
-                        
-                        getCoinBalance_altfn(AllcoinsDataOutput[value][index]);
+                        //getCoinBalance_altfn(AllcoinsDataOutput[value][index]);
                         $('.scrollbar-dynamic').scrollbar(); //Make sure widget-body has scrollbar for transactions history
                         $('[data-toggle="tooltip"]').tooltip(); //Make sure tooltips are working for wallet widgets and anywhere else in wallet.
                         //console.log(walletDivContent);
@@ -374,14 +381,30 @@ var Dashboard = function() {
           }
       }, 1000);
 
-      var RefreshEdexWalletList = setInterval(function() {
+      /*var RefreshEdexWalletList = setInterval(function() {
           if ( sessionStorage.getItem('IguanaActiveAccount') === null || sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "stop" ) {
               clearInterval(RefreshEdexWalletList);
               //console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
           } else if ( sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "start") {
               refreshEDEXCoinWalletList()
           }
-      }, 10000);
+      }, 30000);*/
+
+      var RefreshEdexWalletDashboard = setInterval(function() {
+          if ( sessionStorage.getItem('IguanaActiveAccount') === null || sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "stop" ) {
+              clearInterval(RefreshEdexWalletDashboard);
+              //console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
+          } else if ( sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "start") {
+              if ( $('[data-edexcoin]').attr("data-edexcoin") !== "COIN" ) {
+                if ( sessionStorage.getItem('edexTmpMode') !== null || sessionStorage.getItem('edexTmpMode') === "Full") {
+                  if ( sessionStorage.getItem('edexTmpRefresh') === null || sessionStorage.getItem('edexTmpRefresh') === "start") {
+                    console.log('it is not COIN. '+'It is: ' + $('[data-edexcoin]').attr("data-edexcoin"));
+                    $( "#btn_edexcoin_dashboard" ).trigger( "click" );
+                  }
+                }
+              }
+          }
+      }, 30000);
     }
 
 
@@ -446,14 +469,14 @@ function resizeDashboardWindow() {
 
 function edexCoinBtnAction() {
   $('.edexcoin-logo').click(function() {
-    console.log($(this).data('edexcoincode'));
-    console.log($(this).data('edexcoinmodecode'))
+    //console.log($(this).data('edexcoincode'));
+    //console.log($(this).data('edexcoinmodecode'))
     var selected_coin = $(this).data('edexcoincode')
     var selected_coinmode = $(this).data('edexcoinmodecode')
     var selected_coinname = $(this).data('edexcoinname')
     sessionStorage.setItem('edexTmpMode', selected_coinmode);
-    if ( selected_coinmode == 'Basilisk' ) { $('#edex-footer').hide(); StopShowCoinHistory(); }
-    if ( selected_coinmode == 'Full' ) { $('#edex-footer').show(); }
+    if ( selected_coinmode == 'Basilisk' ) { $('#edex-footer').hide(); StopShowCoinHistory(); sessionStorage.setItem('edexTmpRefresh', "stop"); }
+    if ( selected_coinmode == 'Full' ) { $('#edex-footer').show(); sessionStorage.setItem('edexTmpRefresh', "start");}
     if ( selected_coinmode !== 'Native' ) {
       $('#edexcoin_dashoard_section').show();
       $('#header-dashboard').show();
@@ -478,34 +501,35 @@ function edexCoinBtnAction() {
       new Clipboard('.btn');
 
       //populate selected coin's balance
-      var tmp_get_coin_balance = EDEXlistunspent(coincode)
-      if (tmp_get_coin_balance[0] != undefined) {
-        console.log(tmp_get_coin_balance[0])
-        $('#edex_total_balance').text(tmp_get_coin_balance[0].total);
-        console.log(tmp_get_coin_balance[0].total)
-      } else {
-        $('#edex_total_balance').text('0');
-      }
 
-      /*if ( selected_coinmode == 'Basilisk' ) {
-        var coinwalletbalance = EDEX_DEXlistunspent(coincode, coinmainaddr[0]);
-        console.log(coinwalletbalance[0])
-        console.log(coinwalletbalance[0].amount)
-        coinwalletbalance = coinwalletbalance[0].amount
+      if ( selected_coinmode == 'Basilisk' ) {
+        var coinwalletbalance = getDEXCoinBalance(coincode)
+        console.log(coinwalletbalance.total)
+        coinwalletbalance = coinwalletbalance.total
         $('#edex_total_balance').text(coinwalletbalance);
       } else {
-        var coinwalletbalance = EDEXgetBalance(coincode);
-        $('#edex_total_balance').text(coinwalletbalance[0]);
-      }*/
+        var tmp_get_coin_balance = EDEXlistunspent(coincode)
+        if (tmp_get_coin_balance[0] != undefined) {
+          //console.log(tmp_get_coin_balance[0])
+          $('#edex_total_balance').text(tmp_get_coin_balance[0].total);
+          //console.log(tmp_get_coin_balance[0].total)
+        } else {
+          $('#edex_total_balance').text('0');
+        }
+      }
 
       //getCoinBalance(active_edexcoin);
       EdexfillTxHistory(coincode);
     } else {
       $('#currency-progressbars').hide();
       if ( selected_coin == 'KMD' ) {
+        sessionStorage.setItem('edexTmpMode', selected_coinmode);
+        sessionStorage.setItem('edexTmpRefresh', "start");
         $( "#nav-komodo-wallet" ).trigger( "click" );
       }
       if ( selected_coin == 'ZEC' ) {
+        sessionStorage.setItem('edexTmpMode', selected_coinmode);
+        sessionStorage.setItem('edexTmpRefresh', "start");
         $( "#nav-zcash-wallet" ).trigger( "click" );
       }
     }
@@ -725,7 +749,7 @@ function ShowCoinHistory(getData) {
     });
 }*/
 
-function getCoinBalance_altfn(coin) {
+function getDEXCoinBalance(coin) {
     NProgress.done(true);
     NProgress.configure({
         template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
@@ -733,8 +757,9 @@ function getCoinBalance_altfn(coin) {
     NProgress.start();
     var result = [];
 
+    var coinmainaddr = EDEXMainAddr(coin);
     var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-    var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"method":"listunspent","params":[]}
+    var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listunspent","address":coinmainaddr[0],"symbol":coin}
     //console.log(ajax_data);
     $.ajax({
         async: false,
@@ -744,36 +769,21 @@ function getCoinBalance_altfn(coin) {
         //dataType: 'text',
         success: function(data, textStatus, jqXHR) {
             var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
-            //console.log('== Data OutPut ==');
+            //console.log('== getDEXCoinBalance Data OutPut ==');
             //console.log(AjaxOutputData);
-            var unique_addresses  = _.keys(_.countBy(AjaxOutputData, function(data) { return data.address; })); //This code using undscore.js takes only the address into an array which are unique in that list
-            
-            // This function calls each unique address and calculates the total amount of coins in it.
-            $.each(unique_addresses, function(index) {
-                //console.log(unique_addresses[index]);
-                var unique_addr_tmp_array = _.where(AjaxOutputData, {address: unique_addresses[index]});
-                //console.log(unique_addr_tmp_array);
 
-                var tmpcalcnum = 0;
-                $.each(unique_addr_tmp_array, function(index, value) {
-                    //console.log(value.amount);
-                    tmpcalcnum = tmpcalcnum + value.amount;
-                });
-                //console.log(tmpcalcnum);
-                var tmp_addr_total_balance_output = {"addr": unique_addr_tmp_array[0].address, "total": tmpcalcnum};
-                //console.log(tmp_addr_total_balance_output);
-                result.push(tmp_addr_total_balance_output);
-
+            var tmpcalcnum = 0;
+            $.each(AjaxOutputData, function(index) {
+                tmpcalcnum = tmpcalcnum + AjaxOutputData[index].amount;
             });
+            
+            var tmp_addr_total_balance_output = {"addr": coinmainaddr[0], "total": tmpcalcnum.toFixed(8)};
+            //console.log(tmp_addr_total_balance_output);
 
-            //console.log(result[0])
-            if (result[0] != undefined) {
-              console.log(result[0])
-              $('span[data-edexcoincode="' + coin + '"][id="edexcoin-balance"]').text(result[0].total);
-              console.log(result[0].total)
-            } else {
-              $('span[data-edexcoincode="' + coin + '"][id="edexcoin-balance"]').text('0');
+            if (AjaxOutputData == '' ) {
+                result.push([{"addr": coinmainaddr[0], "amount":0}]);
             }
+            result.push(tmp_addr_total_balance_output);
         },
         error: function(xhr, textStatus, error) {
             console.log(xhr.statusText);
@@ -786,7 +796,7 @@ function getCoinBalance_altfn(coin) {
     });
     //console.log(result);
     NProgress.done();
-    return result;
+    return result[0];
 }
 
 function getCoinBalance(coin) {
@@ -878,14 +888,14 @@ function refreshEDEXCoinWalletList() {
                                 walletDivContent += '<span class="badge up badge-' + modecolor + '" id="basfull" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>';
                               walletDivContent += '</a>';
                               walletDivContent += '<div class="coin-name">'+coinname+'</div>';
-                              walletDivContent += '<div class="coin-title margin-bottom-20 blue-grey-400"><span data-edexcoincode="'+AllcoinsDataOutput[value][index]+'" id="edexcoin-balance">-</span> '+AllcoinsDataOutput[value][index]+'</div>';
+                              //walletDivContent += '<div class="coin-title margin-bottom-20 blue-grey-400"><span data-edexcoincode="'+AllcoinsDataOutput[value][index]+'" id="edexcoin-balance">-</span> '+AllcoinsDataOutput[value][index]+'</div>';
                             walletDivContent += '</div>';
                           walletDivContent += '</div>';
                         walletDivContent += '</div>';
                         walletDivContent += '<!-- End Wallet Widget '+AllcoinsDataOutput[value][index]+' -->';
 
                         $('.wallet-widgets-row').html(walletDivContent);
-                        getCoinBalance_altfn(AllcoinsDataOutput[value][index]);
+                        //getCoinBalance(AllcoinsDataOutput[value][index]);
                         //getCoinBalance_altfn('KMD');
                         //getCoinBalance('KMD');
                         /*if ( modecode == 'Basilisk' ) {
@@ -1141,7 +1151,7 @@ function EdexGetTxList(coin) {
     } else {
       var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"method":"listtransactions","params":[0, 9999999, []]}
     }
-    console.log(ajax_data);
+    //console.log(ajax_data);
     $.ajax({
       async: false,
       type: 'POST',

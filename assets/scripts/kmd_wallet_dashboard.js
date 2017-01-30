@@ -6,6 +6,12 @@ var KMDWalletDashboard = function() {
 		$('#btn_'+action_btn_code+'_wallet_dashboard').click(function() {
             console.log('kmd wallet dashbaord button clicked...');
             console.log($(this).data());
+            if ( sessionStorage.getItem('edexTmpMode') === "Native") {
+                sessionStorage.setItem('edexTmpRefresh', "start");
+            }
+            if ( sessionStorage.getItem('edexTmpMode') === "Basilisk" || sessionStorage.getItem('edexTmpMode') === "Full" ) {
+                sessionStorage.setItem('edexTmpRefresh', "stop");
+            }
             $('#kmd_wallet_dashoard_section').show();
             $('#kmd_wallet_dashboardinfo').show();
 			$('#kmd_wallet_send').hide();
@@ -47,6 +53,7 @@ var KMDWalletDashboard = function() {
 		$('#btn_'+action_btn_code+'_wallet_send').click(function() {
 			KMDListAllOPIDs();
 			//console.log('kmd wallet send button clicked...');
+            sessionStorage.setItem('edexTmpRefresh', "stop");
 			var tmpoptions = '';
 
 			$('#kmd_wallet_dashboardinfo').hide();
@@ -193,6 +200,7 @@ var KMDWalletDashboard = function() {
         var action_btn_code = getHeaderActionMenuButtonCoinCode();
 		$('#btn_'+action_btn_code+'_wallet_settings').click(function() {
 			console.log('wallet settings button clicked...');
+            sessionStorage.setItem('edexTmpRefresh', "stop");
 			$('#kmd_wallet_dashboardinfo').hide();
 			$('#kmd_wallet_dashoard_section').hide();
 			$('#kmd_wallet_send').hide();
@@ -209,6 +217,7 @@ var KMDWalletDashboard = function() {
         var action_btn_code = getHeaderActionMenuButtonCoinCode();
         $('#btn_'+action_btn_code+'_wallet_recieve').click(function() {
             //console.log('wallet recieve button clicked...');
+            sessionStorage.setItem('edexTmpRefresh', "stop");
             $('#kmd_wallet_dashboardinfo').hide();
             $('#kmd_wallet_dashoard_section').hide();
             $('#kmd_wallet_send').hide();
@@ -264,6 +273,22 @@ jQuery(document).ready(function() {
             KMD_ProgressBar();
         }
     }, 5000);
+
+    var RefreshEdexWalletDashboard = setInterval(function() {
+          if ( sessionStorage.getItem('IguanaActiveAccount') === null || sessionStorage.getItem('NativeWalletActions') === null || sessionStorage.getItem('NativeWalletActions') === "stop" ) {
+              clearInterval(RefreshEdexWalletDashboard);
+              //console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
+          } else if ( sessionStorage.getItem('NativeWalletActions') === null || sessionStorage.getItem('NativeWalletActions') === "start") {
+              if ( $('[data-data-extcoin]').attr("data-data-extcoin") !== "COIN" ) {
+                if ( sessionStorage.getItem('edexTmpMode') !== null || sessionStorage.getItem('edexTmpMode') === "Native") {
+                  if ( sessionStorage.getItem('edexTmpRefresh') === null || sessionStorage.getItem('edexTmpRefresh') === "start") {
+                    console.log('it is not COIN. '+'It is: ' + $('[data-data-extcoin]').attr("data-data-extcoin"));
+                    $( "#btn_kmd_wallet_dashboard" ).trigger( "click" );
+                  }
+                }
+              }
+          }
+      }, 30000);
 
 });
 
@@ -1293,7 +1318,7 @@ function KMD_ProgressBar() {
     var extcoin = $('[data-extcoin]').attr("data-extcoin");
 
     var getinfotmp = KMD_getInfo_rtrn()
-    console.log(getinfotmp);
+    //console.log(getinfotmp);
     //console.log(getinfotmp.blocks);
     //console.log(getinfotmp.connections);
     //console.log(getinfotmp.longestchain);
@@ -1301,7 +1326,7 @@ function KMD_ProgressBar() {
         $('span[data-extcoin="'+extcoin+'"][id="extcoin-sync-percent"]').text('Activating...');
     } else {
         var sync_percent = parseFloat(parseInt(getinfotmp.blocks, 10) * 100)/ parseInt(getinfotmp.longestchain, 10);
-        console.log(parseFloat(sync_percent).toFixed(2)+'%')
+        //console.log(parseFloat(sync_percent).toFixed(2)+'%')
         $('div[data-extcoin="'+extcoin+'"][id="extcoin-sync"]').width(parseFloat(sync_percent).toFixed(2)+'%');
         $('span[data-extcoin="'+extcoin+'"][id="extcoin-sync-percent"]').text(parseFloat(sync_percent).toFixed(2)+'%');
         $('span[data-extcoin="'+extcoin+'"][id="extcoin-synced-blocks"]').text(getinfotmp.blocks);

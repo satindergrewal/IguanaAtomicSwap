@@ -413,7 +413,7 @@ function Iguana_addcoin(addcoin_data) {
                     toastr.success(logincoinfullname+" started in "+ logincoinmodeinfo +" Mode", "Coin Notification");
                     if (addcoin_data.logincmd == undefined) {
                         console.log('command NOT executed from login. RELOADING SCREEN...');
-                        //$(document).ready(function() { window.location.reload(); });
+                        $(document).ready(function() { window.location.reload(); });
                     } else {
                         var check_active_coins_status = Iguana_CheckActiveCoins()
                         if (check_active_coins_status.length !== 0 ) {
@@ -532,9 +532,9 @@ function EDEXlistunspent(coin) {
             
             // This function calls each unique address and calculates the total amount of coins in it.
             $.each(unique_addresses, function(index) {
-                console.log(unique_addresses[index]);
+                //console.log(unique_addresses[index]);
                 var unique_addr_tmp_array = _.where(AjaxOutputData, {address: unique_addresses[index]});
-                console.log(unique_addr_tmp_array);
+                //console.log(unique_addr_tmp_array);
 
                 var tmpcalcnum = 0;
                 $.each(unique_addr_tmp_array, function(index, value) {
@@ -783,7 +783,7 @@ function Iguana_CheckActiveCoins() {
     //Get parameters values from confirm dialog and send currency
     var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
     var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"InstantDEX","method":"allcoins"};
-    console.log(ajax_data);
+    //console.log(ajax_data);
     $.ajax({
         async: false,
         type: 'POST',
@@ -793,7 +793,7 @@ function Iguana_CheckActiveCoins() {
         success: function(data, textStatus, jqXHR) {
             var AjaxOutputData = JSON.parse(data);
             //console.log('== Data OutPut ==');
-            console.log(AjaxOutputData);
+            //console.log(AjaxOutputData);
             $.each(AjaxOutputData, function( index, value ) {
                 //console.log(index)
                 //console.log(value)
@@ -803,8 +803,8 @@ function Iguana_CheckActiveCoins() {
                     if (AjaxOutputData[index].length !== 0 ) {
                         result.push({"active": AjaxOutputData[index].length});
                     }
-                    console.log(AjaxOutputData[index]);
-                    console.log(AjaxOutputData[index].length);
+                    //console.log(AjaxOutputData[index]);
+                    //console.log(AjaxOutputData[index].length);
                 }
             });
             
