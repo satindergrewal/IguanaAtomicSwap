@@ -539,7 +539,12 @@ function EDEXlistunspent(coin) {
                 var tmpcalcnum = 0;
                 $.each(unique_addr_tmp_array, function(index, value) {
                     //console.log(value.amount);
-                    tmpcalcnum = tmpcalcnum + value.amount;
+                    if ( value.interest !== undefined ) {
+                        tmpcalcnum = tmpcalcnum + value.amount + value.interest;
+                    }
+                    if ( value.interest === undefined ) {
+                        tmpcalcnum = tmpcalcnum + value.amount;
+                    }
                 });
                 //console.log(tmpcalcnum);
                 var tmp_addr_total_balance_output = {"addr": unique_addr_tmp_array[0].address, "total": tmpcalcnum};

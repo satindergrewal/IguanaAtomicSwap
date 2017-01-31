@@ -33,8 +33,8 @@ var Dashboard = function() {
 
         $('#btn_edexcoin_dashboard').click(function() {
           var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
-          console.log('EasyDEX dashbaord button clicked...');
-          console.log($(this).data());
+          //console.log('EasyDEX dashbaord button clicked...');
+          //console.log($(this).data());
           if ( sessionStorage.getItem('edexTmpMode') === "Full") {
             sessionStorage.setItem('edexTmpRefresh', "start");
           }
@@ -892,7 +892,13 @@ function getDEXCoinBalance(coin) {
 
             var tmpcalcnum = 0;
             $.each(AjaxOutputData, function(index) {
+              if ( AjaxOutputData[index].interest !== undefined ) {
+                //console.log('interest is available for this currency. Adding to total balance.');
+                tmpcalcnum = tmpcalcnum + AjaxOutputData[index].amount + AjaxOutputData[index].interest;
+              }
+              if ( AjaxOutputData[index].interest === undefined ) {
                 tmpcalcnum = tmpcalcnum + AjaxOutputData[index].amount;
+              }
             });
             
             var tmp_addr_total_balance_output = {"addr": coinmainaddr[0], "total": tmpcalcnum.toFixed(8)};
