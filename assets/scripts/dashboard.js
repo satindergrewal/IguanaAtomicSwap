@@ -196,30 +196,43 @@ var Dashboard = function() {
           NProgress.start();
 
           console.log('Sent control here after clicked in form...');
+          var coinmainaddr = EDEXMainAddr($('[data-edexcoin]').attr("data-edexcoin"));
+          $('#mdl_confirm_currency_sendto_addr').text($('#edexcoin_sendto').val());
+          $('#mdl_confirm_currency_send_amount').text($('#edexcoin_amount').val());
+          $('#mdl_confirm_currency_coinname').text($('[data-edexcoin]').attr("data-edexcoin"));
+          $('#mdl_confirm_currency_send_fee').text($('#edexcoin_fee').val());
+          $('#mdl_confirm_currency_coinname_fee').text($('[data-edexcoin]').attr("data-edexcoin"));
+          $('#mdl_confirm_currency_sendfrom_addr').text(coinmainaddr);
+          $('#mdl_confirm_currency_sendfrom_total_dedcut').text($('#edexcoin_total_value').text());
+          $('#mdl_confirm_currency_coinname_total').text($('[data-edexcoin]').attr("data-edexcoin"));
+          $('#SendCoinModelStep2').modal('show')
 
-          var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
-          var tmp_send_from_addr = $('#edexcoin_send_from').val();
-          var tmp_send_to_addr = $('#edexcoin_sendto').val();
-          var tmp_send_total_amount = $('#edexcoin_total_value').text();
-          var tmp_json_data = {'coin':active_edexcoin,'sendtoaddr':tmp_send_to_addr,'amount':tmp_send_total_amount};
-          //console.log(tmp_json_data);
-          var tmp_sendtoaddr_output = EDEXSendToAddr(tmp_json_data);
-          console.log(tmp_sendtoaddr_output);
-          console.log(tmp_sendtoaddr_output[0]);
-          var edexcoin_sendto_result_tbl = '';
-          if ( tmp_sendtoaddr_output[0].error !== undefined ) {
-            //console.log(tmp_sendtoaddr_output[0].error);
-            edexcoin_sendto_result_tbl += '<tr class="active"><td>error</td><td><span class="label label-danger">' + tmp_sendtoaddr_output[0].error + '</span></td></tr>';
-          }
-          if ( tmp_sendtoaddr_output[0].complete !== undefined ) {
-            edexcoin_sendto_result_tbl += '<tr class=""><td>complete</td><td><span class="label label-info">' + tmp_sendtoaddr_output[0].complete + '</span></td></tr>'
-            edexcoin_sendto_result_tbl += '<tr><td>result</td><td><a href="javascript:void(0)" data-edexcoin="' + active_edexcoin + '" data-sendtotxresult="' + tmp_sendtoaddr_output[0].result + '" class="edexcoin_sendto_output_result">' + tmp_sendtoaddr_output[0].result + '</a></td></tr>'
-            edexcoin_sendto_result_tbl += '<tr class=""><td>sendrawtransaction</td><td><span class="label label-primary">' + tmp_sendtoaddr_output[0].sendrawtransaction + '</span></td></tr>'
-            edexcoin_sendto_result_tbl += '<tr class=""><td>signedtx</td><td><span style="display: block; width: 400px;word-wrap: break-word;">' + tmp_sendtoaddr_output[0].signedtx + '</span></td></tr>'
-          }
-          $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
-          getCoinBalance(active_edexcoin);
-          clearEdexSendFieldData();
+          $('#edexcoin_send_coins_btn').click(function() {
+            console.log('confirmed!');
+            var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
+            var tmp_send_from_addr = $('#edexcoin_send_from').val();
+            var tmp_send_to_addr = $('#edexcoin_sendto').val();
+            var tmp_send_total_amount = $('#edexcoin_total_value').text();
+            var tmp_json_data = {'coin':active_edexcoin,'sendtoaddr':tmp_send_to_addr,'amount':tmp_send_total_amount};
+            console.log(tmp_json_data);
+            var tmp_sendtoaddr_output = EDEXSendToAddr(tmp_json_data);
+            console.log(tmp_sendtoaddr_output);
+            console.log(tmp_sendtoaddr_output[0]);
+            var edexcoin_sendto_result_tbl = '';
+            if ( tmp_sendtoaddr_output[0].error !== undefined ) {
+              //console.log(tmp_sendtoaddr_output[0].error);
+              edexcoin_sendto_result_tbl += '<tr class="active"><td>error</td><td><span class="label label-danger">' + tmp_sendtoaddr_output[0].error + '</span></td></tr>';
+            }
+            if ( tmp_sendtoaddr_output[0].complete !== undefined ) {
+              edexcoin_sendto_result_tbl += '<tr class=""><td>complete</td><td><span class="label label-info">' + tmp_sendtoaddr_output[0].complete + '</span></td></tr>'
+              edexcoin_sendto_result_tbl += '<tr><td>result</td><td><a href="javascript:void(0)" data-edexcoin="' + active_edexcoin + '" data-sendtotxresult="' + tmp_sendtoaddr_output[0].result + '" class="edexcoin_sendto_output_result">' + tmp_sendtoaddr_output[0].result + '</a></td></tr>'
+              edexcoin_sendto_result_tbl += '<tr class=""><td>sendrawtransaction</td><td><span class="label label-primary">' + tmp_sendtoaddr_output[0].sendrawtransaction + '</span></td></tr>'
+              edexcoin_sendto_result_tbl += '<tr class=""><td>signedtx</td><td><span style="display: block; width: 400px;word-wrap: break-word;">' + tmp_sendtoaddr_output[0].signedtx + '</span></td></tr>'
+            }
+            $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
+            getCoinBalance(active_edexcoin);
+            clearEdexSendFieldData();
+          });
           NProgress.done();
         }
       });

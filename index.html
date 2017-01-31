@@ -16,6 +16,7 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="assets/global/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/global/css/bootstrap-extend.min.css">
+  <link rel="stylesheet" href="assets/global/css/alertify.css">
   <link rel="stylesheet" href="assets/css/site.min.css">
   <link rel="stylesheet" href="assets/css/progress-bars.css">
   <link rel="stylesheet" href="assets/css/dashboard.css">
@@ -33,6 +34,7 @@
   <link rel="stylesheet" href="assets/global/vendor/bootstrap-select/bootstrap-select.min.css">
   <link rel="stylesheet" href="assets/global/vendor/sweetalert2/sweetalert2.min.css">
   <link rel="stylesheet" href="assets/global/vendor/waves/waves.min.css">
+  <link rel="stylesheet" href="assets/global/vendor/alertify-js/alertify.min.css">
   <link rel="stylesheet" href="assets/global/vendor/ladda-bootstrap/ladda.min.css">
   <link rel="stylesheet" href="assets/global/vendor/nprogress/nprogress.min.css">
   <link rel="stylesheet" href="assets/global/vendor/datatables-bootstrap/dataTables.bootstrap.min.css">
@@ -824,7 +826,8 @@
                     <span data-edexcoin="KMD"><b>Total (<span data-edexcoin="COIN">amount</span> - txfee):</b> <span data-edexcoin="COIN" id="edexcoin_total_value">0.000</span> <span data-edexcoin="COIN" id="edexcoin_total_coinname" data-edexcoin="COIN"></span></span>
                   </div>
                   <div class="col-lg-12">
-                    <button type="submit" class="btn btn-primary waves-effect waves-light pull-right" data-toggle="modal" id="edexcoin_send_coins_btn">Send <span data-edexcoin="COIN"></span></button>
+                    <button type="submit" class="btn btn-primary waves-effect waves-light pull-right">Send <span data-edexcoin="COIN"></span></button>
+                    
                   </div>
                 </div>
               </div>
@@ -928,24 +931,24 @@
               <div class="row">
                 <div class="col-xs-12"><b>To:</b></div>
                 <div class="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendto_addr">[coin-address-goes-here]</div>
-                <div class="col-lg-4 col-sm-4 col-xs-6"><span id="mdl_confirm_currency_send_amount">0.00000000</span> <span id="mdl_confirm_currency_coinname">[COIN]</span></div>
-                <div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_amount_fiat">$0.00</div>
+                <div class="col-lg-6 col-sm-6 col-xs-6"><span id="mdl_confirm_currency_send_amount">0.00000000</span> <span id="mdl_confirm_currency_coinname">[COIN]</span></div>
+                <!--<div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_amount_fiat">$0.00</div>-->
                 <div class="col-lg-6 col-sm-6 col-xs-12">Transaction Fee (Required by miners)</div>
-                <div class="col-lg-4 col-sm-4 col-xs-6"><span id="mdl_confirm_currency_send_fee">0.00000000</span> <span id="mdl_confirm_currency_coinname_fee">[COIN]</span></div>
-                <div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_fee_fiat">$0.00</div>
+                <div class="col-lg-6 col-sm-6 col-xs-6"><span id="mdl_confirm_currency_send_fee">0.00000000</span> <span id="mdl_confirm_currency_coinname_fee">[COIN]</span></div>
+                <!--<div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_fee_fiat">$0.00</div>-->
               </div>
               <br>
 
               <div class="row">
                 <div class="col-xs-12"><b>From:</b></div>
                 <div class="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendfrom_addr">[coin-address-goes-here]</div>
-                <div class="col-lg-4 col-sm-4 col-xs-6" style="color: #f44336;"><span id="mdl_confirm_currency_sendfrom_total_dedcut">-0.00000000</span> <span id="mdl_confirm_currency_coinname_total">[COIN]</span></div>
-                <div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_sendfrom_total_deduct_fiat" style="color: #f44336;">-$0.00</div>
+                <div class="col-lg-6 col-sm-6 col-xs-6" style="color: #f44336;"><span id="mdl_confirm_currency_sendfrom_total_dedcut">-0.00000000</span> <span id="mdl_confirm_currency_coinname_total">[COIN]</span></div>
+                <!--<div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_sendfrom_total_deduct_fiat" style="color: #f44336;">-$0.00</div>-->
               </div>
             </div>
             <div class="modal-footer">
               <a class="btn btn-default" data-target="#SendCoinModelStep1" data-toggle="modal" data-dismiss="modal">Back</a>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" onclick="ExecuteSendCurrencyAPI()">Confirm</button>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" id="edexcoin_send_coins_btn">Confirm</button>
             </div>
           </div>
         </div>
@@ -1698,6 +1701,7 @@
   <script src="assets/global/vendor/clipboard/clipboard.min.js"></script>
   <script src="assets/global/vendor/asprogress/jquery-asProgress.min.js"></script>
   <script src="assets/global/vendor/jquery-labelauty/jquery-labelauty.js"></script>
+  <script src="assets/global/vendor/alertify-js/alertify.js"></script>
   <script src="assets/global/vendor/nprogress/nprogress.js"></script>
   <script src="assets/global/vendor/ladda-bootstrap/spin.min.js"></script>
   <script src="assets/global/vendor/ladda-bootstrap/ladda.min.js"></script>
@@ -1732,6 +1736,7 @@
   <script src="assets/global/js/components/ladda-bootstrap.js"></script>
   <script src="assets/global/js/components/asprogress.min.js"></script>
   <script src="assets/global/js/components/jquery-labelauty.min.js"></script>
+  <script src="assets/global/js/components/alertify-js.js"></script>
   <script src="assets/scripts/checkie.js"></script>
   <script src="assets/scripts/iguana_api.js"></script>
   <script src="assets/scripts/login.js"></script>
