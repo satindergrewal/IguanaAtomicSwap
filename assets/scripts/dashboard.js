@@ -53,12 +53,12 @@ var Dashboard = function() {
             var coinwalletbalance = getDEXCoinBalance(active_edexcoin)
             //console.log(coinwalletbalance.total)
             coinwalletbalance = coinwalletbalance.total
-            $('#edex_total_balance').text(coinwalletbalance);
+            $('#edex_total_balance').text(coinwalletbalance.toFixed(8));
           } else {
             var tmp_get_coin_balance = EDEXlistunspent(active_edexcoin)
             if (tmp_get_coin_balance[0] != undefined) {
               //console.log(tmp_get_coin_balance[0])
-              $('#edex_total_balance').text(tmp_get_coin_balance[0].total);
+              $('#edex_total_balance').text(tmp_get_coin_balance[0].total.toFixed(8));
               //console.log(tmp_get_coin_balance[0].total)
             } else {
               $('#edex_total_balance').text('0');
@@ -111,7 +111,7 @@ var Dashboard = function() {
       $('#edexcoin_amount').keyup(function() {
         var sum_val1 = parseFloat($('#edexcoin_amount').val())
         var sum_val2 = parseFloat($('#edexcoin_fee').val())
-        var total_minus_currency_fee = sum_val1 - sum_val2;
+        var total_minus_currency_fee = sum_val1 + sum_val2;
         var mdl_send_btn = $('#edexcoin_send_coins_btn');
 
         //console.log($('#edexcoin_amount').val());
@@ -131,7 +131,7 @@ var Dashboard = function() {
       $('#edexcoin_fee').keyup(function() {
         var sum_val1 = parseFloat($('#edexcoin_amount').val())
         var sum_val2 = parseFloat($('#edexcoin_fee').val())
-        var total_minus_currency_fee = sum_val1 - sum_val2;
+        var total_minus_currency_fee = sum_val1 + sum_val2;
         var mdl_send_btn = $('#edexcoin_send_coins_btn');
 
         //console.log($('#edexcoin_amount').val());
@@ -205,11 +205,42 @@ var Dashboard = function() {
           //console.log(tmp_json_data);
           var tmp_sendtoaddr_output = EDEXSendToAddr(tmp_json_data);
           console.log(tmp_sendtoaddr_output);
+          console.log(tmp_sendtoaddr_output[0]);
+          var edexcoin_sendto_result_tbl = '';
+          if ( tmp_sendtoaddr_output[0].error !== undefined ) {
+            //console.log(tmp_sendtoaddr_output[0].error);
+            edexcoin_sendto_result_tbl += '<tr class="active"><td>error</td><td><span class="label label-danger">' + tmp_sendtoaddr_output[0].error + '</span></td></tr>';
+          }
+          if ( tmp_sendtoaddr_output[0].complete !== undefined ) {
+            edexcoin_sendto_result_tbl += '<tr class=""><td>complete</td><td><span class="label label-info">' + tmp_sendtoaddr_output[0].complete + '</span></td></tr>'
+            edexcoin_sendto_result_tbl += '<tr><td>result</td><td><a href="javascript:void(0)" data-edexcoin="' + active_edexcoin + '" data-sendtotxresult="' + tmp_sendtoaddr_output[0].result + '" class="edexcoin_sendto_output_result">' + tmp_sendtoaddr_output[0].result + '</a></td></tr>'
+            edexcoin_sendto_result_tbl += '<tr class=""><td>sendrawtransaction</td><td><span class="label label-primary">' + tmp_sendtoaddr_output[0].sendrawtransaction + '</span></td></tr>'
+            edexcoin_sendto_result_tbl += '<tr class=""><td>signedtx</td><td><span style="display: block; width: 400px;word-wrap: break-word;">' + tmp_sendtoaddr_output[0].signedtx + '</span></td></tr>'
+          }
+          $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
           getCoinBalance(active_edexcoin);
           clearEdexSendFieldData();
           NProgress.done();
         }
       });
+
+      $('.edexcoin_sendto_result').on('click', '.edexcoin_sendto_output_result', function(e){
+        var selected_coin = $(this).data('edexcoin')
+        var selected_coin_mode = sessionStorage.getItem('edexTmpMode');
+        $( "#nav-iguana-atomic-explorer" ).trigger( "click" );
+        $('#atomic_explorer_select_coin_options option[value=' + selected_coin + ']').attr('selected','selected');
+        if ( selected_coin_mode == 'Full') {
+          $('#atomic_explorer_select_command_options option[value=gettransaction]').attr('selected','selected');
+        }
+        if ( selected_coin_mode == 'Basilisk') {
+          $('#atomic_explorer_select_command_options option[value=dex_gettransaction]').attr('selected','selected');
+        }
+        $('#atomic_explorer_input_data').val($(this).data('sendtotxresult'))
+        $( "#atomic_explorer_getcoinpeers_btn" ).trigger( "click" );
+      });
+      //$('.edexcoin_sendto_output_result').click(function() {
+        
+      //});
     }
 
     var handle_edex_recieve = function() {
@@ -391,6 +422,24 @@ var Dashboard = function() {
       })
     }
 
+    var handleWalletToAtomicExplorer = function() {
+      $('#edex-tx-history-tbl').on('click', '.kmd-txid-details-btn', function(e){
+        var selected_coin = $(this).data('edexcoin')
+        var selected_coin_mode = sessionStorage.getItem('edexTmpMode');
+        var selected_txid = $(this).data('txid')
+        $( "#nav-iguana-atomic-explorer" ).trigger( "click" );
+        $('#atomic_explorer_select_coin_options option[value=' + selected_coin + ']').attr('selected','selected');
+        if ( selected_coin_mode == 'Full') {
+          $('#atomic_explorer_select_command_options option[value=gettransaction]').attr('selected','selected');
+        }
+        if ( selected_coin_mode == 'Basilisk') {
+          $('#atomic_explorer_select_command_options option[value=dex_gettransaction]').attr('selected','selected');
+        }
+        $('#atomic_explorer_input_data').val(selected_txid)
+        $( "#atomic_explorer_getcoinpeers_btn" ).trigger( "click" );
+      })
+    }
+
 
     var handleEdexWalletInfo = function() {
       //Get coin history and pupulate balance and other info to wallet widget
@@ -439,7 +488,7 @@ var Dashboard = function() {
               if ( $('[data-edexcoin]').attr("data-edexcoin") !== "COIN" ) {
                 if ( sessionStorage.getItem('edexTmpMode') !== null || sessionStorage.getItem('edexTmpMode') === "Full") {
                   if ( sessionStorage.getItem('edexTmpRefresh') === null || sessionStorage.getItem('edexTmpRefresh') === "start") {
-                    console.log('it is not COIN. '+'It is: ' + $('[data-edexcoin]').attr("data-edexcoin"));
+                    //console.log('it is not COIN. '+'It is: ' + $('[data-edexcoin]').attr("data-edexcoin"));
                     $( "#btn_edexcoin_dashboard" ).trigger( "click" );
                   }
                 }
@@ -470,6 +519,7 @@ var Dashboard = function() {
                 handleWalletWidgetBtns();
                 handleEdexWalletInfo();
                 handleBasiliskWalletActions();
+                handleWalletToAtomicExplorer();
                 //TotalFiatValue();
             }
 
@@ -503,8 +553,8 @@ jQuery(document).ready(function() {
 function resizeDashboardWindow() {
   /* set default map height */
   var navbarH = $(".site-navbar").outerHeight();
-  var footerH = $(".site-footer").outerHeight();
-  var mapH = $(window).height() - navbarH - footerH;
+  //var footerH = $(".site-footer").outerHeight();
+  var mapH = $(window).height() - navbarH + 200;
 
   $(".page-main").outerHeight(mapH);
 }
@@ -562,7 +612,7 @@ function edexCoinBtnAction() {
         var tmp_get_coin_balance = EDEXlistunspent(coincode)
         if (tmp_get_coin_balance[0] != undefined) {
           //console.log(tmp_get_coin_balance[0])
-          $('#edex_total_balance').text(tmp_get_coin_balance[0].total);
+          $('#edex_total_balance').text(tmp_get_coin_balance[0].total.toFixed(8));
           //console.log(tmp_get_coin_balance[0].total)
         } else {
           $('#edex_total_balance').text('0');
@@ -1251,7 +1301,7 @@ function EdexGetTxList(coin) {
           }
           //console.log(tmp_addr);
           //tmplisttransactions = {"category": AjaxOutputData[index].category,"confirmations": AjaxOutputData[index].confirmations,"amount": AjaxOutputData[index].amount,"time": AjaxOutputData[index].time,"address": AjaxOutputData[index].address,"txid": AjaxOutputData[index].txid}
-          tmplisttransactions = [tmp_category,AjaxOutputData[index].confirmations,tmp_amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light" data-toggle="modal" data-target="#kmd_txid_info_mdl" id="kmd-txid-details-btn" data-txid-type="public" data-txid="'+AjaxOutputData[index].txid+'" disabled><i class="icon fa-search"></i></button>']
+          tmplisttransactions = [tmp_category,AjaxOutputData[index].confirmations,tmp_amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light kmd-txid-details-btn" data-edexcoin="' + coin + '" data-txidtype="public" data-txid="'+AjaxOutputData[index].txid+'"><i class="icon fa-search"></i></button>']
           //console.log(tmplisttransactions);
           result.push(tmplisttransactions);
       });

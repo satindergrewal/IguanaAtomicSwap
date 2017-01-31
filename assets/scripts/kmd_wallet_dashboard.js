@@ -282,7 +282,7 @@ jQuery(document).ready(function() {
               if ( $('[data-data-extcoin]').attr("data-data-extcoin") !== "COIN" ) {
                 if ( sessionStorage.getItem('edexTmpMode') !== null || sessionStorage.getItem('edexTmpMode') === "Native") {
                   if ( sessionStorage.getItem('edexTmpRefresh') === null || sessionStorage.getItem('edexTmpRefresh') === "start") {
-                    console.log('it is not COIN. '+'It is: ' + $('[data-data-extcoin]').attr("data-data-extcoin"));
+                    //console.log('it is not COIN. '+'It is: ' + $('[data-data-extcoin]').attr("data-data-extcoin"));
                     $( "#btn_kmd_wallet_dashboard" ).trigger( "click" );
                   }
                 }
