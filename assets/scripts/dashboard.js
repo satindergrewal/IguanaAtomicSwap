@@ -51,9 +51,9 @@ var Dashboard = function() {
           var selected_coinmode = sessionStorage.getItem('edexTmpMode')
           if ( selected_coinmode == 'Basilisk' ) {
             var coinwalletbalance = getDEXCoinBalance(active_edexcoin)
-            //console.log(coinwalletbalance.total)
-            coinwalletbalance = coinwalletbalance.total
-            $('#edex_total_balance').text(coinwalletbalance.toFixed(8));
+            console.log(coinwalletbalance)
+            //coinwalletbalance = coinwalletbalance.total
+            $('#edex_total_balance').text(coinwalletbalance.total);
           } else {
             var tmp_get_coin_balance = EDEXlistunspent(active_edexcoin)
             if (tmp_get_coin_balance[0] != undefined) {
@@ -66,7 +66,8 @@ var Dashboard = function() {
           }
           //getCoinBalance(active_edexcoin);
           //EdexfillTxHistory(active_edexcoin);
-          clearEdexSendFieldData();
+          //clearEdexSendFieldData();
+          $('.edexcoin-send-form')[0].reset();
         });
     }
 
@@ -96,7 +97,8 @@ var Dashboard = function() {
 
         $('.showedexcoinaddrs').selectpicker({ style: 'btn-info' });
         $('.showedexcoinaddrs').selectpicker('refresh');*/
-        clearEdexSendFieldData();
+        //clearEdexSendFieldData();
+        $('.edexcoin-send-form')[0].reset();
         tmp_coinkbfee = EDEXgetinfo(active_edexcoin);
         $('#edexcoin_fee').val(tmp_coinkbfee[0].kbfee)
 
@@ -207,12 +209,22 @@ var Dashboard = function() {
           $('#mdl_confirm_currency_coinname_total').text($('[data-edexcoin]').attr("data-edexcoin"));
           $('#SendCoinModelStep2').modal('show')
 
+          console.log('==> Before confirming tx to send')
+          console.log($('[data-edexcoin]').attr("data-edexcoin"))
+          //console.log($('#edexcoin_send_from').val())
+          console.log($('#edexcoin_sendto').val())
+          console.log($('#edexcoin_total_value').text())
+
+          var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
+          //var tmp_send_from_addr = $('#edexcoin_send_from').val();
+          var tmp_send_to_addr = $('#edexcoin_sendto').val();
+          var tmp_send_total_amount = $('#edexcoin_total_value').text();
+
           $('#edexcoin_send_coins_btn').click(function() {
-            console.log('confirmed!');
-            var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
-            var tmp_send_from_addr = $('#edexcoin_send_from').val();
-            var tmp_send_to_addr = $('#edexcoin_sendto').val();
-            var tmp_send_total_amount = $('#edexcoin_total_value').text();
+            console.log('==> After confirming tx to send')
+            console.log(active_edexcoin)
+            console.log(tmp_send_to_addr)
+            console.log(tmp_send_total_amount)
             var tmp_json_data = {'coin':active_edexcoin,'sendtoaddr':tmp_send_to_addr,'amount':tmp_send_total_amount};
             console.log(tmp_json_data);
             var tmp_sendtoaddr_output = EDEXSendToAddr(tmp_json_data);
@@ -231,7 +243,7 @@ var Dashboard = function() {
             }
             $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
             getCoinBalance(active_edexcoin);
-            clearEdexSendFieldData();
+            //clearEdexSendFieldData();
           });
           NProgress.done();
         }
@@ -268,7 +280,8 @@ var Dashboard = function() {
             $('#edexcoin_recieve_section').show();
             $('#edexcoin_settings').hide();
             EdexListAllAddr(active_edexcoin);
-            clearEdexSendFieldData();
+            //clearEdexSendFieldData();
+            $('.edexcoin-send-form')[0].reset();
         });
 
         $('#edexcoin_get_new_addr').click(function() {
@@ -612,7 +625,20 @@ function edexCoinBtnAction() {
       var coinmainaddr = EDEXMainAddr(coincode);
       $('#edexcoin_active_addr').text(coinmainaddr[0]);
       $('#edexcoin_active_addr_clipboard').attr("data-clipboard-text",coinmainaddr[0])
-      new Clipboard('.btn');
+      var clipboard = new Clipboard('.btn');
+
+      clipboard.on('success', function(e) {
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+
+        e.clearSelection();
+      });
+
+      clipboard.on('error', function(e) {
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+      });
 
       //populate selected coin's balance
 
@@ -1302,8 +1328,18 @@ function EdexGetTxList(coin) {
           if(!("address" in AjaxOutputData[index])) {
               tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>'
           }
+          
+          //tmp_secondsToString = '<i class="icon fa-meh-o"></i> Unknown'
+          //if(("blocktime" in AjaxOutputData[index])) {
+            //console.log('blocktime FOUND');
+            //var tmp_secondsToString = secondsToString(AjaxOutputData[index].blocktime)
+          //}
+
           var tmp_secondsToString = secondsToString(AjaxOutputData[index].blocktime)
 
+          if (isNaN(tmp_secondsToString)) {
+            //tmp_secondsToString = 'Unknown';
+          }
           if ( AjaxOutputData[index].category == 'send' ) {
             tmp_category = '<i class="icon fa-arrow-circle-left"></i> OUT';
           }
@@ -1342,9 +1378,9 @@ function EdexGetTxList(coin) {
 
 function clearEdexSendFieldData() {
     //$('.showedexcoinaddrs').selectpicker('refresh');
-    $('#edexcoin_sendto').val('');
-    $('#edexcoin_total_value').text('');
-    $('#edexcoin_amount').val('');
+    //$('#edexcoin_sendto').val('');
+    //$('#edexcoin_total_value').text('');
+    //$('#edexcoin_amount').val('');
 }
 
 function EdexListAllAddr(coin) {

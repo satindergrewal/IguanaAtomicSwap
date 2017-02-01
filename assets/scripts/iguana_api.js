@@ -656,7 +656,8 @@ function EDEXSendToAddr(data) {
     //Get parameters values from confirm dialog and send currency
     var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
     var sendtoaddrvalues = {'userpass':tmpIguanaRPCAuth,"coin": confirm_coinname_to_send,"method":"sendtoaddress","params":[confirm_sendto_address,confirm_send_amount,"EasyDEX","EasyDEXTransaction"]};
-    //console.log(sendtoaddrvalues);
+    console.log(sendtoaddrvalues);
+    console.log(sendtoaddrvalues.params);
     $.ajax({
         async: false,
         type: 'POST',
@@ -678,6 +679,10 @@ function EDEXSendToAddr(data) {
             console.log(error);
         }
     });
+    $('#SendCoinModelStep2').modal('hide')
+    $('.edexcoin-send-form')[0].reset();
+    //$( "#btn_edexcoin_dashboard" ).trigger( "click" );
+    //$('#edexcoin_sendto_result tbody').html('');
     return result;
 }
 
