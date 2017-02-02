@@ -104,9 +104,11 @@ var Dashboard = function() {
         $('.showedexcoinaddrs').selectpicker('refresh');*/
         //clearEdexSendFieldData();
         $('.edexcoin-send-form')[0].reset();
+        var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
         var selected_coinmode = sessionStorage.getItem('edexTmpMode')
           if ( selected_coinmode == 'Full' ) {
             tmp_coinkbfee = EDEXgetinfo(active_edexcoin);
+            console.log(tmp_coinkbfee);
             $('#edexcoin_fee').val(tmp_coinkbfee[0].kbfee)
           }
 
@@ -393,9 +395,9 @@ var Dashboard = function() {
                         walletDivContent += '<!-- Wallet Widget '+AllcoinsDataOutput[value][index]+' -->';
                         walletDivContent += '<div class="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info" data-edexcoincode="'+AllcoinsDataOutput[value][index]+'">';
                           walletDivContent += '<div class="widget widget-shadow">';
-                            walletDivContent += '<div class="widget-content text-center bg-white padding-20">';
+                            walletDivContent += '<div class="widget-content text-center bg-white padding-20 edexcoin-logo" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-edexcoinmodecode="' + modecode + '" data-edexcoinname="' + coinname + '">';
                               //walletDivContent += '<a href="#" class="avatar margin-bottom-5">';
-                              walletDivContent += '<a class="avatar margin-bottom-5 edexcoin-logo" href="javascript:void(0)" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-edexcoinmodecode="' + modecode + '" data-edexcoinname="' + coinname + '" id="edexcoin-logo">';
+                              walletDivContent += '<a class="avatar margin-bottom-5" href="javascript:void(0)" id="edexcoin-logo">';
                                 walletDivContent += '<img class="img-responsive" src="assets/images/cryptologo/' + coinlogo + '.png" alt="'+coinname+'"/>';
                                 walletDivContent += '<span class="badge up badge-' + modecolor + '" id="basfull" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>';
                               walletDivContent += '</a>';
