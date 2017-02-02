@@ -666,9 +666,43 @@ function EDEXSendToAddr(data) {
         //dataType: 'text',
         success: function(data, textStatus, jqXHR) {
             var SendToAddrData = JSON.parse(data);
-            console.log('== Data OutPut ==');
+            //console.log('== Data OutPut ==');
             //console.log(SendToAddrData);
+            //console.log(SendToAddrData.error);
             result.push(SendToAddrData);
+
+            var edexcoin_sendto_result_tbl = '';
+            if ( SendToAddrData.error !== undefined ) {
+              //console.log(SendToAddrData.error);
+              edexcoin_sendto_result_tbl += '<tr class="active"><td>error</td><td><span class="label label-danger">' + SendToAddrData.error + '</span></td></tr>';
+            }
+            if ( SendToAddrData.complete !== undefined ) {
+              edexcoin_sendto_result_tbl += '<tr class=""><td>complete</td><td><span class="label label-info">' + SendToAddrData.complete + '</span></td></tr>'
+              edexcoin_sendto_result_tbl += '<tr><td>result</td><td><a href="javascript:void(0)" data-edexcoin="' + active_edexcoin + '" data-sendtotxresult="' + SendToAddrData.result + '" class="edexcoin_sendto_output_result">' + SendToAddrData.result + '</a></td></tr>'
+              edexcoin_sendto_result_tbl += '<tr class=""><td>sendrawtransaction</td><td><span class="label label-primary">' + SendToAddrData.sendrawtransaction + '</span></td></tr>'
+              edexcoin_sendto_result_tbl += '<tr class=""><td>signedtx</td><td><span style="display: block; width: 400px;word-wrap: break-word;">' + SendToAddrData.signedtx + '</span></td></tr>'
+            }
+            $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
+
+            var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
+            var selected_coinmode = sessionStorage.getItem('edexTmpMode')
+            if ( selected_coinmode == 'Basilisk' ) {
+                var coinwalletbalance = getDEXCoinBalance(active_edexcoin)
+                console.log(coinwalletbalance)
+                //coinwalletbalance = coinwalletbalance.total
+                $('#edex_total_balance').text(coinwalletbalance.total);
+            } else {
+                var tmp_get_coin_balance = EDEXlistunspent(active_edexcoin)
+                if (tmp_get_coin_balance[0] != undefined) {
+                  //console.log(tmp_get_coin_balance[0])
+                  $('#edex_total_balance').text(tmp_get_coin_balance[0].total.toFixed(8));
+                  //console.log(tmp_get_coin_balance[0].total)
+                } else {
+                  $('#edex_total_balance').text('0');
+                }
+            }
+
+            $('#edexcoin_send_coins_btn').prop('disabled', false);
         },
         error: function(xhr, textStatus, error) {
             console.log(xhr.statusText);

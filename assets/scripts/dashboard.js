@@ -227,6 +227,7 @@ var Dashboard = function() {
           $('.edexcoin-send-form')[0].reset();
 
           $('#edexcoin_send_coins_btn').click(function() {
+            $('#edexcoin_send_coins_btn').prop('disabled', true);
             console.log('==> After confirming tx to send')
             console.log(active_edexcoin)
             console.log(tmp_send_to_addr)
@@ -234,20 +235,9 @@ var Dashboard = function() {
             var tmp_json_data = {'coin':active_edexcoin,'sendtoaddr':tmp_send_to_addr,'amount':tmp_send_total_amount};
             console.log(tmp_json_data);
             var tmp_sendtoaddr_output = EDEXSendToAddr(tmp_json_data);
-            console.log(tmp_sendtoaddr_output);
-            console.log(tmp_sendtoaddr_output[0]);
-            var edexcoin_sendto_result_tbl = '';
-            if ( tmp_sendtoaddr_output[0].error !== undefined ) {
-              //console.log(tmp_sendtoaddr_output[0].error);
-              edexcoin_sendto_result_tbl += '<tr class="active"><td>error</td><td><span class="label label-danger">' + tmp_sendtoaddr_output[0].error + '</span></td></tr>';
-            }
-            if ( tmp_sendtoaddr_output[0].complete !== undefined ) {
-              edexcoin_sendto_result_tbl += '<tr class=""><td>complete</td><td><span class="label label-info">' + tmp_sendtoaddr_output[0].complete + '</span></td></tr>'
-              edexcoin_sendto_result_tbl += '<tr><td>result</td><td><a href="javascript:void(0)" data-edexcoin="' + active_edexcoin + '" data-sendtotxresult="' + tmp_sendtoaddr_output[0].result + '" class="edexcoin_sendto_output_result">' + tmp_sendtoaddr_output[0].result + '</a></td></tr>'
-              edexcoin_sendto_result_tbl += '<tr class=""><td>sendrawtransaction</td><td><span class="label label-primary">' + tmp_sendtoaddr_output[0].sendrawtransaction + '</span></td></tr>'
-              edexcoin_sendto_result_tbl += '<tr class=""><td>signedtx</td><td><span style="display: block; width: 400px;word-wrap: break-word;">' + tmp_sendtoaddr_output[0].signedtx + '</span></td></tr>'
-            }
-            $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
+            //console.log(tmp_sendtoaddr_output);
+            //console.log(tmp_sendtoaddr_output[0]);
+            
             getCoinBalance(active_edexcoin);
             //clearEdexSendFieldData();
           });
