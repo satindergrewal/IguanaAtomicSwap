@@ -64,6 +64,7 @@ var Dashboard = function() {
               $('#edex_total_balance').text('0');
             }
           }
+          EdexfillTxHistory(active_edexcoin);
           //getCoinBalance(active_edexcoin);
           //EdexfillTxHistory(active_edexcoin);
           //clearEdexSendFieldData();
@@ -99,8 +100,11 @@ var Dashboard = function() {
         $('.showedexcoinaddrs').selectpicker('refresh');*/
         //clearEdexSendFieldData();
         $('.edexcoin-send-form')[0].reset();
-        tmp_coinkbfee = EDEXgetinfo(active_edexcoin);
-        $('#edexcoin_fee').val(tmp_coinkbfee[0].kbfee)
+        var selected_coinmode = sessionStorage.getItem('edexTmpMode')
+          if ( selected_coinmode == 'Full' ) {
+            tmp_coinkbfee = EDEXgetinfo(active_edexcoin);
+            $('#edexcoin_fee').val(tmp_coinkbfee[0].kbfee)
+          }
 
       });
 
@@ -113,7 +117,7 @@ var Dashboard = function() {
       $('#edexcoin_amount').keyup(function() {
         var sum_val1 = parseFloat($('#edexcoin_amount').val())
         var sum_val2 = parseFloat($('#edexcoin_fee').val())
-        var total_minus_currency_fee = sum_val1 + sum_val2;
+        var total_minus_currency_fee = sum_val1 - sum_val2;
         var mdl_send_btn = $('#edexcoin_send_coins_btn');
 
         //console.log($('#edexcoin_amount').val());
@@ -133,7 +137,7 @@ var Dashboard = function() {
       $('#edexcoin_fee').keyup(function() {
         var sum_val1 = parseFloat($('#edexcoin_amount').val())
         var sum_val2 = parseFloat($('#edexcoin_fee').val())
-        var total_minus_currency_fee = sum_val1 + sum_val2;
+        var total_minus_currency_fee = sum_val1 - sum_val2;
         var mdl_send_btn = $('#edexcoin_send_coins_btn');
 
         //console.log($('#edexcoin_amount').val());
@@ -207,6 +211,7 @@ var Dashboard = function() {
           $('#mdl_confirm_currency_sendfrom_addr').text(coinmainaddr);
           $('#mdl_confirm_currency_sendfrom_total_dedcut').text($('#edexcoin_total_value').text());
           $('#mdl_confirm_currency_coinname_total').text($('[data-edexcoin]').attr("data-edexcoin"));
+          
           $('#SendCoinModelStep2').modal('show')
 
           console.log('==> Before confirming tx to send')
@@ -219,6 +224,7 @@ var Dashboard = function() {
           //var tmp_send_from_addr = $('#edexcoin_send_from').val();
           var tmp_send_to_addr = $('#edexcoin_sendto').val();
           var tmp_send_total_amount = $('#edexcoin_total_value').text();
+          $('.edexcoin-send-form')[0].reset();
 
           $('#edexcoin_send_coins_btn').click(function() {
             console.log('==> After confirming tx to send')
@@ -1249,6 +1255,7 @@ function ShowCoinProgressBar(coin) {
               $('div[data-edexcoin="'+coin+'"][id="currency-bundles"]').removeClass( "progress-bar-info" ).addClass( "progress-bar-indicating progress-bar-success" );
               $('#edex-footer').css("height", "11px");
               resizeDashboardWindow();
+              $('#edexcoin-wallet-waitingrt-alert').hide()
               //getCoinBalance(coin);
               //EdexfillTxHistory(coin);
             }
@@ -1270,6 +1277,7 @@ function ShowCoinProgressBar(coin) {
               $('span[data-edexcoin="'+coin+'"][id="currency-validated-percent"]').text('('+coin+') '+parseFloat(CoinInfoData.validated).toFixed(2)+'%');
               $('#edex-footer').css("height", "44px");
               resizeDashboardWindow();
+              $('#edexcoin-wallet-waitingrt-alert').show()
             }
           }
       },

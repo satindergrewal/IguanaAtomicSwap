@@ -680,7 +680,6 @@ function EDEXSendToAddr(data) {
         }
     });
     $('#SendCoinModelStep2').modal('hide')
-    $('.edexcoin-send-form')[0].reset();
     //$( "#btn_edexcoin_dashboard" ).trigger( "click" );
     //$('#edexcoin_sendto_result tbody').html('');
     return result;

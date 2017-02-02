@@ -682,6 +682,17 @@
     <!-- End page header -->
       <div class="" id="wallet-widgets" data-plugin="masonry" data-edexcoin="COIN" style="display: none;">
         <div class="col-xs-12">
+          <div class="col-xs-12">
+        <div role="alert" class="alert alert-info alert-dismissible" data-edexcoin="COIN" id="edexcoin-wallet-waitingrt-alert" style="display: none;">
+          <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
+          <h4>Activating wallet once Real Time blocks starts syncing...</h4>
+          <p data-edexcoin="COIN" id="edexcoin-wallet-waitingrt-alert-text">Iguana Full Mode coin synchronizes blockchain in entirely different format than traditional blockchain software. Iguana's Full Mode uses instead of Memory Mapped Files and stores data in bundles. That's why you see four different colored synchronizing progress bars.</p>
+
+          <p>Once all these progress bars reaches 100%, the Real Time blocks start synchronizing. Only after getting Real Time sync mode activates you'll be able to see Any data in your wallet and make any transactions.</p>
+
+          <p style="font-weight: 600">Please wait for all other progress bars to disappear and the first blue bar turned to green.<br>That would mean the wallet is in Real Time Sync mode.</p>
+        </div>
+        </div>
           <div class="col-lg-12 col-xs-12" data-edexcoin="COIN" id="edexcoin_getbalance_t">
             <!-- EasyDEX Total Balance Widget-->
             <div class="widget widget-shadow" id="widgetLineareaOne">
@@ -794,6 +805,35 @@
 
 
           <!-- EasyDEX Panel send -->
+          <!-- Example Default -->
+              <div class="example-wrap">
+                <div class="example">
+                  <div class="steps row">
+                    <div class="step col-md-4">
+                      <span class="step-number">1</span>
+                      <div class="step-desc">
+                        <span class="step-title">Shopping</span>
+                        <p>Choose what you want</p>
+                      </div>
+                    </div>
+                    <div class="step col-md-4 current">
+                      <span class="step-number">2</span>
+                      <div class="step-desc">
+                        <span class="step-title">Billing</span>
+                        <p>Pay for the bill</p>
+                      </div>
+                    </div>
+                    <div class="step col-md-4">
+                      <span class="step-number">3</span>
+                      <div class="step-desc">
+                        <span class="step-title">Getting</span>
+                        <p>Waiting for the goods</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Example Default -->
           <div class="panel" id="projects">
             <div class="panel-heading">
               <h3 data-edexcoin="COIN" class="panel-title">Send <span data-edexcoin="COIN"></span></h3>
