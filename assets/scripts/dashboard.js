@@ -237,9 +237,10 @@ var Dashboard = function() {
             var tmp_sendtoaddr_output = EDEXSendToAddr(tmp_json_data);
             //console.log(tmp_sendtoaddr_output);
             //console.log(tmp_sendtoaddr_output[0]);
-            
-            getCoinBalance(active_edexcoin);
-            //clearEdexSendFieldData();
+            $('#SendCoinModelStep2').modal('hide')
+            var edexcoin_sendto_result_tbl = '';
+            edexcoin_sendto_result_tbl += '<tr class="info"><td>Info</td><td>The transaction submitted is processing. Once processed the transaction details will be displayed here.</td></tr>';
+            $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
           });
           NProgress.done();
         }
