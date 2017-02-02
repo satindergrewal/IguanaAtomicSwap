@@ -830,8 +830,8 @@
             </div>
           </div>
           <!-- End Sending EDEXCoin Steps Default -->
-          
-          <div class="panel" id="projects">
+
+          <div class="panel" id="edexcoin-send-screen">
             <div class="panel-heading">
               <h3 data-edexcoin="COIN" class="panel-title">Send <span data-edexcoin="COIN"></span></h3>
               <!--<div class="panel-actions">
@@ -874,10 +874,42 @@
 
           </div>
 
+          <!-- EasyDEX Panel confirm send panel -->
+          <div class="col-xlg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panel" id="edexcoin-send-confirm-screen" style="display: none;">
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-xs-12"><b>To:</b></div>
+                  <div class="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendto_addr">[coin-address-goes-here]</div>
+                  <div class="col-lg-6 col-sm-6 col-xs-6"><span id="mdl_confirm_currency_send_amount">0.00000000</span> <span id="mdl_confirm_currency_coinname">[COIN]</span></div>
+                  <!--<div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_amount_fiat">$0.00</div>-->
+                  <div class="col-lg-6 col-sm-6 col-xs-12">Transaction Fee (Required by miners)</div>
+                  <div class="col-lg-6 col-sm-6 col-xs-6"><span id="mdl_confirm_currency_send_fee">0.00000000</span> <span id="mdl_confirm_currency_coinname_fee">[COIN]</span></div>
+                  <!--<div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_fee_fiat">$0.00</div>-->
+                </div>
+                <br>
+
+                <div class="row">
+                  <div class="col-xs-12"><b>From:</b></div>
+                  <div class="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendfrom_addr">[coin-address-goes-here]</div>
+                  <div class="col-lg-6 col-sm-6 col-xs-6" style="color: #f44336;"><span id="mdl_confirm_currency_sendfrom_total_dedcut">-0.00000000</span> <span id="mdl_confirm_currency_coinname_total">[COIN]</span></div>
+                  <!--<div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_sendfrom_total_deduct_fiat" style="color: #f44336;">-$0.00</div>-->
+                </div>
+                <div class="widget-body-footer">
+                    <a class="btn btn-default waves-effect waves-light" id="edexcoin_send_coins_back_btn">Back</a>
+                  <div class="widget-actions pull-right">
+                    <button type="button" class="btn btn-primary" id="edexcoin_send_coins_btn">Confirm</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- EasyDEX Panel confirm send panel -->
+
 
           <!-- EasyDEX Panel send info panel -->
           <div class="col-xlg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="panel">
+            <div class="panel" id="edexcoin-send-txdetails-screen" style="display: none;">
               <div class="panel-body">
                 <h4>Transaction Result</h4>
                 <table class="table table-hover table-striped edexcoin_sendto_result" data-edexcoin="COIN" id="edexcoin_sendto_result">
@@ -885,6 +917,11 @@
                   <tbody>
                   </tbody>
                 </table>
+                <div class="widget-body-footer">
+                  <div class="widget-actions pull-right">
+                    <button type="button" class="btn btn-primary" id="edexcoin_send_coins_anothertx_btn">Make Another Transaction</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -953,7 +990,7 @@
 
 
       <!-- Modal -->
-      <div class="modal fade modal-3d-sign" id="SendCoinModelStep2" aria-hidden="false" role="dialog"
+      <!--<div class="modal fade modal-3d-sign" id="SendCoinModelStep2" aria-hidden="false" role="dialog"
       tabindex="-1">
         <div class="modal-dialog modal-center modal-lg">
           <div class="modal-content">
@@ -969,10 +1006,10 @@
                 <div class="col-xs-12"><b>To:</b></div>
                 <div class="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendto_addr">[coin-address-goes-here]</div>
                 <div class="col-lg-6 col-sm-6 col-xs-6"><span id="mdl_confirm_currency_send_amount">0.00000000</span> <span id="mdl_confirm_currency_coinname">[COIN]</span></div>
-                <!--<div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_amount_fiat">$0.00</div>-->
+                <div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_amount_fiat">$0.00</div>
                 <div class="col-lg-6 col-sm-6 col-xs-12">Transaction Fee (Required by miners)</div>
                 <div class="col-lg-6 col-sm-6 col-xs-6"><span id="mdl_confirm_currency_send_fee">0.00000000</span> <span id="mdl_confirm_currency_coinname_fee">[COIN]</span></div>
-                <!--<div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_fee_fiat">$0.00</div>-->
+                <div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_fee_fiat">$0.00</div>
               </div>
               <br>
 
@@ -980,7 +1017,7 @@
                 <div class="col-xs-12"><b>From:</b></div>
                 <div class="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendfrom_addr">[coin-address-goes-here]</div>
                 <div class="col-lg-6 col-sm-6 col-xs-6" style="color: #f44336;"><span id="mdl_confirm_currency_sendfrom_total_dedcut">-0.00000000</span> <span id="mdl_confirm_currency_coinname_total">[COIN]</span></div>
-                <!--<div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_sendfrom_total_deduct_fiat" style="color: #f44336;">-$0.00</div>-->
+                <div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_sendfrom_total_deduct_fiat" style="color: #f44336;">-$0.00</div>
               </div>
             </div>
             <div class="modal-footer">
@@ -989,7 +1026,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
       <!-- End Modal -->
       <!-- Modal -->
       <div class="modal fade modal-3d-sign" id="ReceiveCoinModel" aria-hidden="false" role="dialog"
