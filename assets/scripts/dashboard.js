@@ -230,6 +230,11 @@ var Dashboard = function() {
           var tmp_send_total_amount = $('#edexcoin_total_value').text();
           $('#edexcoin-send-screen').hide();
           $('#edexcoin-send-confirm-screen').show();
+          $('#edexcoin_send_step_1').removeClass( " current" ).addClass( "" );
+          $('#edexcoin_send_step_2').removeClass( "" ).addClass( " current" );
+          $('#edexcoin_send_step_3').removeClass( " current" ).addClass( "" );
+
+
           NProgress.done();
         }
       });
@@ -261,6 +266,9 @@ var Dashboard = function() {
         $('#edexcoin-send-confirm-screen').hide();
         $('#edexcoin-send-txdetails-screen').show();
         edexcoin_send_form_validator.resetForm();
+        $('#edexcoin_send_step_1').removeClass( " current" ).addClass( "" );
+        $('#edexcoin_send_step_2').removeClass( " current" ).addClass( "" );
+        $('#edexcoin_send_step_3').removeClass( "" ).addClass( " current" );
       });
 
       $('#edexcoin_send_coins_back_btn').click(function() {
@@ -271,6 +279,9 @@ var Dashboard = function() {
         var tmp_send_to_addr = '';
         var tmp_send_total_amount = '';
         edexcoin_send_form_validator.resetForm();
+        $('#edexcoin_send_step_1').removeClass( "" ).addClass( " current" );
+        $('#edexcoin_send_step_2').removeClass( " current" ).addClass( "" );
+        $('#edexcoin_send_step_3').removeClass( " current" ).addClass( "" );
       });
       $('#edexcoin_send_coins_anothertx_btn').click(function() {
         $( "#edexcoin_send_coins_back_btn" ).trigger( "click" );
