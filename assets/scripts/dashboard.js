@@ -631,6 +631,7 @@ function resizeDashboardWindow() {
 
 function edexCoinBtnAction() {
   $('.edexcoin-logo').click(function() {
+    $( "#edexcoin_send_coins_back_btn" ).trigger( "click" );
     //console.log($(this).data('edexcoincode'));
     //console.log($(this).data('edexcoinmodecode'))
     var selected_coin = $(this).data('edexcoincode')
