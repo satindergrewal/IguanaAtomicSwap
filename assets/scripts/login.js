@@ -776,7 +776,7 @@ var Login = function() {
     }
 
     var handleAddCoinOSOptions = function() {
-        if ( navigator.platform == 'Win32'
+        if ( navigator.platform == 'Win32' || navigator.platform == 'MacIntel'
             //|| navigator.platform == 'Linux x86_64' || navigator.platform == 'Linux' || navigator.platform == 'Linux i686'
             ) {
             //Conditions for Login Add Coin Dialog
