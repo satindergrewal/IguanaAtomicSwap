@@ -78,6 +78,66 @@
 <!-- START ADD COIN DIV -->
     <div>
     <!-- Modal -->
+    <div class="modal fade modal-3d-sign" id="RefreshBasiliskConnectionsMdl" aria-hidden="false" role="dialog"
+    tabindex="-1">
+      <div class="modal-dialog modal-center modal-md">
+        <div class="modal-content">
+          <div class="modal-header bg-orange-a400 wallet-send-header" style="border-radius: 3px 3px 0 0;">
+            <!--<button type="button" class="close white" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>-->
+            <h4 class="modal-title white"><span class="icon fa-refresh" style="margin: 0;"></span> Refreshing Basilisk Network Connections... <span id="mdl_receive_coin_name"></span></h4>
+            <!--<span class="white">This is your default Iguana wallet address.</span>-->
+          </div>
+          <div class="modal-body" style="text-align: center;">
+            <div class="loader-wrapper active">
+              <div class="loader-layer loader-blue">
+                <div class="loader-circle-left">
+                  <div class="circle"></div>
+                </div>
+                <div class="loader-circle-gap"></div>
+                <div class="loader-circle-right">
+                  <div class="circle"></div>
+                </div>
+              </div>
+              <div class="loader-layer loader-red">
+                <div class="loader-circle-left">
+                  <div class="circle"></div>
+                </div>
+                <div class="loader-circle-gap"></div>
+                <div class="loader-circle-right">
+                  <div class="circle"></div>
+                </div>
+              </div>
+              <div class="loader-layer loader-green">
+                <div class="loader-circle-left">
+                  <div class="circle"></div>
+                </div>
+                <div class="loader-circle-gap"></div>
+                <div class="loader-circle-right">
+                  <div class="circle"></div>
+                </div>
+              </div>
+              <div class="loader-layer loader-yellow">
+                <div class="loader-circle-left">
+                  <div class="circle"></div>
+                </div>
+                <div class="loader-circle-gap"></div>
+                <div class="loader-circle-right">
+                  <div class="circle"></div>
+                </div>
+              </div>
+            </div>
+            <!--<h4><span id="basilisk-connections-refresh-title">-</span> <span class="pull-right" id="basilisk-connections-refresh-percent">-</span></h4>
+            <div class="progress progress-md">
+            <div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 0%; font-size: 80%;" role="progressbar" data-edexcoin="COIN" id="basilisk-connections-refresh-progress-bar"></div>
+            </div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Modal -->
+    <!-- Modal -->
       <div class="modal fade modal-3d-sign" id="AddCoinDilogModel" aria-hidden="true" aria-labelledby="AddCoinDilogModel" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-center modal-lg">
           <div class="modal-content">
@@ -324,7 +384,7 @@
   </div>
 
 
-  <!-- Modal -->
+      <!-- Modal -->
       <div class="modal fade modal-3d-sign" id="AddCoinDilogModel-login" aria-hidden="true" aria-labelledby="AddCoinDilogModel-login" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-center modal-lg">
           <div class="modal-content">
@@ -656,7 +716,7 @@
     <!-- Begin page header -->
       <div class="page-header page-header-bordered header-easydex" id="header-dashboard" data-edexcoin="COIN" style="display: none;">
       <ol class="breadcrumb" data-edexcoin="COIN">
-        <b>My <span data-edexcoin="COIN" id="edexcoin-active">-</span> Address: </b> <span data-edexcoin="COIN" id="edexcoin_active_addr">-</span> <button class="btn btn-xs" data-edexcoin="COIN" id="edexcoin_active_addr_clipboard" data-clipboard-text=""><i class="icon wb-copy" aria-hidden="true"></i> copy</button>
+        <b>My <span data-edexcoin="COIN" id="edexcoin-active">-</span> Address: </b> <span data-edexcoin="COIN" id="edexcoin_active_addr">-</span> <button class="btn btn-default btn-xs" data-edexcoin="COIN" id="edexcoin_active_addr_clipboard" data-clipboard-text=""><i class="icon wb-copy" aria-hidden="true"></i> copy</button>
       </ol>
       <div class="page-header-actions" data-edexcoin="COIN" id="edexcoin-actions">
         <!-- EasyDEX Coin Wallet Header button -->
@@ -702,7 +762,7 @@
                     <div class="pull-left padding-vertical-10">
                       <i class="icon fa-eye font-size-24 vertical-align-bottom margin-right-5"></i>Total Balance
                     </div>
-                    <span class="pull-right padding-top-10" data-edexcoin="COIN" id="edex_total_balance" style="font-size: 22px;">-</span>
+                    <span class="pull-right padding-top-10" data-edexcoin="COIN" style="font-size: 22px;"><span data-edexcoin="COIN" id="edex_total_balance"></span> <span data-edexcoin="COIN" id="edex_total_balance_coincode"></span></span>
                   </div>
                 </div>
               </div>
@@ -748,6 +808,8 @@
                         role="menu">
                           
                           <li role="presentation"><a href="javascript:void(0)" class="btn_edexcoin_dashboard_getnotaries" data-edexcoin="COIN" id="btn_edexcoin_dashboard_getnotaries" role="menuitem"><i class="icon fa-sitemap" aria-hidden="true"></i> Get Notary Nodes List</a></li>
+
+                          <li role="presentation"><a href="javascript:void(0)" class="btn_edexcoin_dashboard_refresh_basilisk_conn" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refresh_basilisk_conn" role="menuitem"><i class="icon wb-refresh" aria-hidden="true"></i> Refresh Basilisk Connections</a></li>
                           
                           <li data-edexcoin="COIN" role="presentation"><a href="javascript:void(0)" class="btn_edexcoin_dashboard_register" data-edexcoin="COIN" id="btn_edexcoin_dashboard_register" role="menuitem"><i class="icon fa-sign-in" aria-hidden="true"></i> Register Address on Network</a></li>
 
@@ -910,15 +972,15 @@
           <!-- EasyDEX Panel send info panel -->
           <div class="col-xlg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="panel" id="edexcoin-send-txdetails-screen" style="display: none;">
-              <div class="panel-body">
-                <h4>Transaction Result</h4>
+              <div class="panel-heading">
+                <h4 class="panel-title">Transaction Result</h4>
                 <table class="table table-hover table-striped edexcoin_sendto_result" data-edexcoin="COIN" id="edexcoin_sendto_result">
                   <thead><tr><th>Key</th><th>Info</th></tr></thead>
                   <tbody>
                   </tbody>
                 </table>
                 <div class="widget-body-footer">
-                  <div class="widget-actions pull-right">
+                  <div class="widget-actions margin-bottom-15 margin-right-15">
                     <button type="button" class="btn btn-primary" id="edexcoin_send_coins_anothertx_btn">Make Another Transaction</button>
                   </div>
                 </div>
@@ -1029,7 +1091,7 @@
       </div>-->
       <!-- End Modal -->
       <!-- Modal -->
-      <div class="modal fade modal-3d-sign" id="ReceiveCoinModel" aria-hidden="false" role="dialog"
+      <!--<div class="modal fade modal-3d-sign" id="ReceiveCoinModel" aria-hidden="false" role="dialog"
       tabindex="-1">
         <div class="modal-dialog modal-center modal-lg">
           <div class="modal-content">
@@ -1044,7 +1106,7 @@
               <div class="row">
                 <div class="col-xs-8" style="text-align: center;"><h4>Copy and Share</h4></div><div class="col-xs-4" style="text-align: center;"><h4>Scan</h4></div>
                 <span class="col-sm-8 col-xs-12" style="text-align: center;"><input type="text" class="force-select form-control empty" id="mdl_receive_coin_addr" readonly/><br>
-                <button class="btn btn-round btn-info waves-effect waves-round waves-light" data-clipboard-action="copy" data-clipboard-target="#mdl_receive_coin_addr" data-toggle="tooltip"><i class="icon md-copy" aria-hidden="true"></i>Copy to clipboard</button></span>
+                <button class="btn btn-round btn-info btn-default waves-effect waves-round waves-light" data-clipboard-action="copy" data-clipboard-target="#mdl_receive_coin_addr" data-toggle="tooltip"><i class="icon md-copy" aria-hidden="true"></i>Copy to clipboard</button></span>
                 <span class="col-sm-4 col-xs-12" id="mdl_receive_coin_addr_qr_code" style="width: 60px;"></span>
             </div>
             <div class="modal-footer">
@@ -1052,7 +1114,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
       <!-- End Modal -->
 
     </div>

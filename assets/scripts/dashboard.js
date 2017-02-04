@@ -255,6 +255,7 @@ var Dashboard = function() {
         var edexcoin_sendto_result_tbl = '';
         edexcoin_sendto_result_tbl += '<tr class="info"><td>Info</td><td>The transaction submitted is processing. Once processed the transaction details will be displayed here.</td></tr>';
         $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
+        $('#edexcoin_send_coins_anothertx_btn').hide();
 
         var tmp_json_data = {'coin':active_edexcoin,'sendtoaddr':tmp_send_to_addr,'amount':tmp_send_total_amount};
         console.log(tmp_json_data);
@@ -476,12 +477,25 @@ var Dashboard = function() {
         $('#atomic_explorer_select_command_options option[value=dex_getnotaries]').attr('selected','selected');
         $( "#atomic_explorer_getcoinpeers_btn" ).trigger( "click" );
       })
-
+      
       $(".btn_edexcoin_dashboard_register").click(function() {
         var selected_coin = $(this).data('edexcoin')
         var coinmainaddr = EDEXMainAddr(selected_coin);
         Iguana_DEXImportAddr(selected_coin,coinmainaddr[0]);
-        
+      })
+
+      $(".btn_edexcoin_dashboard_refresh_basilisk_conn").click(function() {
+        var show_mdl = setTimeout(function() {
+            var selected_coin = $(this).data('edexcoin')
+            $('#RefreshBasiliskConnectionsMdl').modal('show')
+            }, 0)
+        var start_refresh = setTimeout(function() {
+            EDEX_DEXgetinfoAll()
+            }, 3000)
+
+        Promise.all([show_mdl, start_refresh]).then(function() {
+            console.log('all promises executed!!!');
+        });
       })
 
       $(".btn_edexcoin_dashboard_validate").click(function() {
@@ -666,6 +680,7 @@ function edexCoinBtnAction() {
       $.each($('[data-edexcoinmenu]'), function(index, value) {$('[data-edexcoinmenu]').attr("data-edexcoinmenu",coincode); $('[data-edexcoinmenu="'+coincode+'"]')});
 
       $('#edexcoin-active').text(selected_coinname);
+      $('#edex_total_balance_coincode').text(coincode);
       //populate selected coin's address
       var coinmainaddr = EDEXMainAddr(coincode);
       $('#edexcoin_active_addr').text(coinmainaddr[0]);
