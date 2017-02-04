@@ -686,6 +686,7 @@ function edexCoinBtnAction() {
       $('#edexcoin_active_addr').text(coinmainaddr[0]);
       $('#edexcoin_active_addr_clipboard').attr("data-clipboard-text",coinmainaddr[0])
       var clipboard = new Clipboard('.btn');
+      $('#edexcoin_active_addr_clipboard').click(function(){alertify.success("Address Copied.");})
 
       clipboard.on('success', function(e) {
         console.info('Action:', e.action);

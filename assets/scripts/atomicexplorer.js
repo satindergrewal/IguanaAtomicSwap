@@ -74,6 +74,10 @@ var AtomicExplorer = function() {
                 ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"alladdresses","symbol":atomic_explorer_select_coin_val};
                 console.log(ExplorerInputData);
             }
+            if (atomic_explorer_select_command_val === 'dex_importaddress') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"importaddress","address":atomic_explorer_input_data_val,"symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
             if (atomic_explorer_select_command_val === 'dex_checkaddress') {
                 ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"checkaddress","address":atomic_explorer_input_data_val,"symbol":atomic_explorer_select_coin_val};
                 console.log(ExplorerInputData);
