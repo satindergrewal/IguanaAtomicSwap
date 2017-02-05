@@ -1162,20 +1162,15 @@ function EDEX_DEXgetinfoAll() {
     var get_dex_notarychains = EDEX_DEXnotarychains();
     console.log(get_dex_notarychains.length)
 
-    //var refresh_percent = '';
+    var refresh_percent = '';
     
     $.each(get_dex_notarychains, function( coin_index, coin_value ) {
         console.log(coin_index + ': ' + coin_value);
-        //var refresh_percent = parseFloat(parseInt(coin_index, 10) * 100)/ parseInt(get_dex_notarychains.length, 10);
-        //console.log(refresh_percent)
-        //$('#basilisk-connections-refresh-title').text(coin_value);
-        //$('#basilisk-connections-refresh-percent').text(refresh_percent+'%');
-        //$('#basilisk-connections-refresh-progress-bar').width(refresh_percent+'%')
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
         var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getinfo","symbol":coin_value}
         //console.log(ajax_data);
         $.ajax({
-            async: false,
+            //async: false,
             type: 'POST',
             data: JSON.stringify(ajax_data),
             url: 'http://127.0.0.1:7778',
@@ -1184,12 +1179,28 @@ function EDEX_DEXgetinfoAll() {
                 var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
                 console.log('== EDEX_DEXgetinfoAll Data OutPut ==');
                 console.log(AjaxOutputData);
+                
+                var tmp_index = parseInt(coin_index) + 1
+                var refresh_percent = parseFloat(parseInt(coin_index, 10) * 100)/ parseInt(get_dex_notarychains.length, 10);
+                console.log(refresh_percent)
+                $('#basilisk-connections-refresh-title').text('Connection status... ' + tmp_index + '/' + get_dex_notarychains.length + ': ' + coin_value);
+                $('#basilisk-connections-refresh-percent').text(refresh_percent+'%');
+                $('#basilisk-connections-refresh-progress-bar').width(refresh_percent+'%')
+                
                 if (AjaxOutputData == '' ) {
                     result.push([{"amount":0}]);
                 }
                 result.push(AjaxOutputData);
                 if (AjaxOutputData.error === 'less than required responses') {
                   toastr.info("Less than required responses for "+coin_value+".", "Basilisk Notification")
+                  $('#basilisk-connections-refresh-status-output').text('Output: ' + AjaxOutputData.error)
+                } else {
+                    $('#basilisk-connections-refresh-status-output').text('Output: Connected')
+                }
+                if ( tmp_index == get_dex_notarychains.length ) {
+                    $('#basilisk-connections-refresh-progress-bar').width('100%')
+                    $('#RefreshBasiliskConnectionsMdl').modal('hide')
+                    toastr.success("Basilsk nodes connections refreshed.", "Basilisk Notification")
                 }
             },
             error: function(xhr, textStatus, error) {
@@ -1202,9 +1213,6 @@ function EDEX_DEXgetinfoAll() {
             }
         });
     });
-    //$('#basilisk-connections-refresh-progress-bar').width('100%')
-    $('#RefreshBasiliskConnectionsMdl').modal('hide')
-    toastr.success("Basilsk nodes connections refreshed.", "Basilisk Notification")
 
     //console.log(result);
     NProgress.done();
