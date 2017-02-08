@@ -53,16 +53,6 @@ var Login = function() {
 
             submitHandler: function(form) {
                 var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-                var IguanaLoginData = {
-                    'userpass':tmpIguanaRPCAuth,
-                    'handle': $('#wallet-handle').val(),
-                    'password': $('#password').val(),
-                    'timeout': '2592000'
-                }
-                //console.log('== Data Collected ==');
-                console.log(IguanaLoginData);
-                // Use AJAX to post the object to login user
-                var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
                 var ajax_data = {'userpass':tmpIguanaRPCAuth,'handle': $('#wallet-handle').val(),'password': $('#password').val(),'timeout': '2592000',"agent":"bitcoinrpc","method":"walletpassphrase"}
                 $.ajax({
                     type: 'POST',

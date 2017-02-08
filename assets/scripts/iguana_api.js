@@ -1,3 +1,26 @@
+function IguanaAJAX(url,ajax_data) {
+
+    return $.ajax({
+        data: JSON.stringify(ajax_data),
+        url: url,
+        type: 'POST',
+        dataType: 'json',
+        //beforeSend: showLoadingImgFn
+    })
+    .fail(function(xhr, textStatus, error) {
+        // handle request failures
+        console.log(xhr.statusText);
+        if ( xhr.readyState == 0 ) {
+            Iguana_ServiceUnavailable();
+        }
+        console.log(textStatus);
+        console.log(error);
+    });
+
+}
+
+
+
 function Iguana_dumpwallet() {
     var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
 	var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"bitcoinrpc","method":"dumpwallet","filename": ""};
@@ -513,27 +536,30 @@ function EDEXlistunspent(coin) {
         template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
     });
     NProgress.start();
-    var result = [];
 
-    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-    var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"method":"listunspent","params":[]}
-    //console.log(ajax_data);
-    $.ajax({
-        async: false,
-        type: 'POST',
-        data: JSON.stringify(ajax_data),
-        url: 'http://127.0.0.1:7778',
-        //dataType: 'text',
-        success: function(data, textStatus, jqXHR) {
-            var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
-            //console.log('== Data OutPut ==');
-            //console.log(AjaxOutputData);
-            var unique_addresses  = _.keys(_.countBy(AjaxOutputData, function(data) { return data.address; })); //This code using undscore.js takes only the address into an array which are unique in that list
+    return new Promise((resolve) =>{
+        var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+        var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"method":"listunspent","params":[]}
+        var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
+
+        var ajaxCall = $.ajax({
+            data: JSON.stringify(ajax_data),
+            url: 'http://127.0.0.1:7778',
+            type: 'POST',
+            dataType: 'json',
+        });
+
+        ajaxCall.done(function(data) {
+            //console.log(data);
+            var result = [];
+
+            // This code using undscore.js takes only the address into an array which are unique in that list
+            var unique_addresses  = _.keys(_.countBy(data, function(data) { return data.address; }));
             
             // This function calls each unique address and calculates the total amount of coins in it.
             $.each(unique_addresses, function(index) {
                 //console.log(unique_addresses[index]);
-                var unique_addr_tmp_array = _.where(AjaxOutputData, {address: unique_addresses[index]});
+                var unique_addr_tmp_array = _.where(data, {address: unique_addresses[index]});
                 //console.log(unique_addr_tmp_array);
 
                 var tmpcalcnum = 0;
@@ -550,21 +576,20 @@ function EDEXlistunspent(coin) {
                 var tmp_addr_total_balance_output = {"addr": unique_addr_tmp_array[0].address, "total": tmpcalcnum};
                 //console.log(tmp_addr_total_balance_output);
                 result.push(tmp_addr_total_balance_output);
-
             });
-        },
-        error: function(xhr, textStatus, error) {
+            //console.log(result)
+            resolve(result)
+        }).fail(function(xhr, textStatus, error) {
+            // handle request failures
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
                 Iguana_ServiceUnavailable();
             }
             console.log(textStatus);
             console.log(error);
-        }
+        });
     });
-    //console.log(result);
     NProgress.done();
-    return result;
 }
 
 
@@ -581,35 +606,34 @@ function EDEXMainAddr(coin) {
         template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
     });
     NProgress.start();
-    var result = [];
+    return new Promise((resolve) =>{
+        var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+        var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"SuperNET","method":"activehandle"}
 
-    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-    var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"SuperNET","method":"activehandle"}
-    //console.log(ajax_data);
-    $.ajax({
-        async: false,
-        type: 'POST',
-        data: JSON.stringify(ajax_data),
-        url: 'http://127.0.0.1:7778',
-        //dataType: 'text',
-        success: function(data, textStatus, jqXHR) {
-            var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
-            //console.log('== Data OutPut ==');
-            //console.log(AjaxOutputData[coin]);
-            result.push(AjaxOutputData[coin]);
-        },
-        error: function(xhr, textStatus, error) {
+        var ajaxCall = $.ajax({
+            data: JSON.stringify(ajax_data),
+            url: 'http://127.0.0.1:7778',
+            type: 'POST',
+            dataType: 'json',
+        });
+
+        ajaxCall.done(function(data) {
+            tmp_coin_addr = data[coin]
+            //console.log(tmp_coin_addr)
+            resolve(tmp_coin_addr);
+            NProgress.done();
+        }).fail(function(xhr, textStatus, error) {
+            // handle request failures
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
                 Iguana_ServiceUnavailable();
             }
             console.log(textStatus);
             console.log(error);
-        }
+            NProgress.done();
+        });
     });
-    //console.log(result);
-    NProgress.done();
-    return result;
+
 }
 
 
@@ -969,6 +993,9 @@ function Iguana_DEXImportAll() {
 
                 $.each(AjaxOutputData['basilisk'], function(basilisk_index) {
                     //console.log(AjaxOutputData['basilisk'][basilisk_index]);
+                    EDEXMainAddr('KMD').then(function(result){
+                        console.log(result)
+                    });
                     tmp_coinaddr = EDEXMainAddr(AjaxOutputData['basilisk'][basilisk_index])
                     //console.log(tmp_coinaddr[index]);
                     tmp_deximport_output = Iguana_DEXImportAddr(AjaxOutputData['basilisk'][basilisk_index], tmp_coinaddr[index])
@@ -1151,7 +1178,7 @@ function EDEX_DEXnotarychains() {
 }
 
 
-function EDEX_DEXgetinfoAll() {
+function IguanaAJAX0() {
     NProgress.done(true);
     NProgress.configure({
         template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
@@ -1159,60 +1186,138 @@ function EDEX_DEXgetinfoAll() {
     NProgress.start();
     var result = [];
 
-    var get_dex_notarychains = EDEX_DEXnotarychains();
-    console.log(get_dex_notarychains.length)
-
-    var refresh_percent = '';
-    
-    $.each(get_dex_notarychains, function( coin_index, coin_value ) {
-        console.log(coin_index + ': ' + coin_value);
-        var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-        var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getinfo","symbol":coin_value}
-        //console.log(ajax_data);
-        $.ajax({
-            //async: false,
-            type: 'POST',
-            data: JSON.stringify(ajax_data),
-            url: 'http://127.0.0.1:7778',
-            //dataType: 'text',
-            success: function(data, textStatus, jqXHR) {
-                var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
-                console.log('== EDEX_DEXgetinfoAll Data OutPut ==');
-                console.log(AjaxOutputData);
-                
-                var tmp_index = parseInt(coin_index) + 1
-                var refresh_percent = parseFloat(parseInt(coin_index, 10) * 100)/ parseInt(get_dex_notarychains.length, 10);
-                console.log(refresh_percent)
-                $('#basilisk-connections-refresh-title').text('Connection status... ' + tmp_index + '/' + get_dex_notarychains.length + ': ' + coin_value);
-                $('#basilisk-connections-refresh-percent').text(refresh_percent+'%');
-                $('#basilisk-connections-refresh-progress-bar').width(refresh_percent+'%')
-                
-                if (AjaxOutputData == '' ) {
-                    result.push([{"amount":0}]);
-                }
-                result.push(AjaxOutputData);
-                if (AjaxOutputData.error === 'less than required responses') {
-                  toastr.info("Less than required responses for "+coin_value+".", "Basilisk Notification")
-                  $('#basilisk-connections-refresh-status-output').text('Output: ' + AjaxOutputData.error)
-                } else {
-                    $('#basilisk-connections-refresh-status-output').text('Output: Connected')
-                }
-                if ( tmp_index == get_dex_notarychains.length ) {
-                    $('#basilisk-connections-refresh-progress-bar').width('100%')
-                    $('#RefreshBasiliskConnectionsMdl').modal('hide')
-                    toastr.success("Basilsk nodes connections refreshed.", "Basilisk Notification")
-                }
-            },
-            error: function(xhr, textStatus, error) {
-                console.log(xhr.statusText);
-                if ( xhr.readyState == 0 ) {
-                    Iguana_ServiceUnavailable();
-                }
-                console.log(textStatus);
-                console.log(error);
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+    var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"dpow","method":"notarychains"}
+    console.log(ajax_data);
+    $.ajax({
+        //async: false,
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        //dataType: 'text',
+        /*success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
+            console.log('== EDEX_DEXnotarychains Data OutPut ==');
+            //console.log(AjaxOutputData);
+            result.push(AjaxOutputData);
+        },
+        error: function(xhr, textStatus, error) {
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
             }
-        });
+            console.log(textStatus);
+            console.log(error);
+        }*/
     });
+    //console.log(result);
+    NProgress.done();
+    return result[0];
+}
+
+
+function EDEX_DEXgetinfoAll() {
+    NProgress.done(true);
+    NProgress.configure({
+        template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+    });
+    NProgress.start();
+    var result = [];
+    
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+    var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"dpow","method":"notarychains"}
+    var get_dex_notarychains = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
+        //console.log(get_dex_notarychains.responseText);
+        get_dex_notarychains = JSON.parse(get_dex_notarychains.responseText)
+        //console.log(get_dex_notarychains)
+
+        var refresh_percent = '';
+    
+        $.each(get_dex_notarychains, function( coin_index, coin_value ) {
+            console.log(coin_index + ': ' + coin_value);
+            var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+            var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getinfo","symbol":coin_value}
+            console.log(ajax_data);
+            
+            if (coin_value !== 'MESH') {
+                var getinfo_each_chain = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
+                    getinfo_each_chain = JSON.parse(getinfo_each_chain.responseText)
+                    console.log('== EDEX_DEXgetinfoAll Data OutPut ==');
+                    console.log(getinfo_each_chain);
+                    
+                    var tmp_index = parseInt(coin_index) + 1
+                    var refresh_percent = parseFloat(parseInt(coin_index, 10) * 100)/ parseInt(get_dex_notarychains.length, 10);
+                    console.log(refresh_percent)
+                    $('#basilisk-connections-refresh-title').text('Connection status... ' + tmp_index + '/' + get_dex_notarychains.length + ': ' + coin_value);
+                    $('#basilisk-connections-refresh-percent').text(refresh_percent+'%');
+                    $('#basilisk-connections-refresh-progress-bar').width(refresh_percent+'%')
+                    
+                    if (getinfo_each_chain == '' ) {
+                        result.push([{"amount":0}]);
+                    }
+                    result.push(getinfo_each_chain);
+                    if (getinfo_each_chain.error === 'less than required responses') {
+                      toastr.info("Less than required responses for "+coin_value+".", "Basilisk Notification")
+                      $('#basilisk-connections-refresh-status-output').text('Output: ' + getinfo_each_chain.error)
+                    } else {
+                        $('#basilisk-connections-refresh-status-output').text('Output: Connected')
+                    }
+                    if ( tmp_index == get_dex_notarychains.length-1 ) {
+                        $('#basilisk-connections-refresh-progress-bar').width('100%')
+                        $('#RefreshBasiliskConnectionsMdl').modal('hide')
+                        toastr.success("Basilsk nodes connections refreshed.", "Basilisk Notification")
+                    }
+                });
+            }
+            /*$.ajax({
+                //async: false,
+                type: 'POST',
+                data: JSON.stringify(ajax_data),
+                url: 'http://127.0.0.1:7778',
+                //dataType: 'text',
+                success: function(data, textStatus, jqXHR) {
+                    var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
+                    console.log('== EDEX_DEXgetinfoAll Data OutPut ==');
+                    console.log(AjaxOutputData);
+                    
+                    var tmp_index = parseInt(coin_index) + 1
+                    var refresh_percent = parseFloat(parseInt(coin_index, 10) * 100)/ parseInt(get_dex_notarychains.length, 10);
+                    console.log(refresh_percent)
+                    $('#basilisk-connections-refresh-title').text('Connection status... ' + tmp_index + '/' + get_dex_notarychains.length + ': ' + coin_value);
+                    $('#basilisk-connections-refresh-percent').text(refresh_percent+'%');
+                    $('#basilisk-connections-refresh-progress-bar').width(refresh_percent+'%')
+                    
+                    if (AjaxOutputData == '' ) {
+                        result.push([{"amount":0}]);
+                    }
+                    result.push(AjaxOutputData);
+                    if (AjaxOutputData.error === 'less than required responses') {
+                      toastr.info("Less than required responses for "+coin_value+".", "Basilisk Notification")
+                      $('#basilisk-connections-refresh-status-output').text('Output: ' + AjaxOutputData.error)
+                    } else {
+                        $('#basilisk-connections-refresh-status-output').text('Output: Connected')
+                    }
+                    if ( tmp_index == get_dex_notarychains.length ) {
+                        $('#basilisk-connections-refresh-progress-bar').width('100%')
+                        $('#RefreshBasiliskConnectionsMdl').modal('hide')
+                        toastr.success("Basilsk nodes connections refreshed.", "Basilisk Notification")
+                    }
+                },
+                error: function(xhr, textStatus, error) {
+                    console.log(xhr.statusText);
+                    if ( xhr.readyState == 0 ) {
+                        Iguana_ServiceUnavailable();
+                    }
+                    console.log(textStatus);
+                    console.log(error);
+                }
+            });*/
+        });
+
+    });
+
+    //var get_dex_notarychains = EDEX_DEXnotarychains();
+    //console.log(get_dex_notarychains.length)
 
     //console.log(result);
     NProgress.done();
@@ -1304,4 +1409,8 @@ function Shepherd_herd(coin) {
     });
     return result;
 }
+
+
+
+
 
