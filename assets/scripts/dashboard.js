@@ -646,7 +646,8 @@ function resizeDashboardWindow() {
   /* set default map height */
   var navbarH = $(".site-navbar").outerHeight();
   //var footerH = $(".site-footer").outerHeight();
-  var mapH = $(window).height() - navbarH + 200;
+  var edexDashH = $(".edexcoin_dashoard_section_main_div").outerHeight();
+  var mapH = $(window).height() - navbarH;
 
   $(".page-main").outerHeight(mapH);
   $(".scrollable-container").outerHeight(mapH);
@@ -661,6 +662,7 @@ function edexCoinBtnAction() {
     var selected_coinmode = $(this).data('edexcoinmodecode')
     var selected_coinname = $(this).data('edexcoinname')
     sessionStorage.setItem('edexTmpMode', selected_coinmode);
+    resizeDashboardWindow()
     if ( selected_coinmode == 'Basilisk' ) {
       $('#edex-footer').hide();
       $('#btn_edexcoin_basilisk').show();
@@ -706,7 +708,7 @@ function edexCoinBtnAction() {
       if( clipboard != null ) {
         clipboard.destroy();
       }
-      
+
       var clipboard = new Clipboard('.clipboard-edexaddr');
       clipboard.on('success', function(e) {
         console.info('Action:', e.action);
