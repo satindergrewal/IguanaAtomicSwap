@@ -295,6 +295,7 @@ var Dashboard = function() {
         var active_edexcoin = '';
         var tmp_send_to_addr = '';
         var tmp_send_total_amount = '';
+        $('#edexcoin_send_coins_btn').prop('disabled', false);
         edexcoin_send_form_validator.resetForm();
       });
 
@@ -619,7 +620,7 @@ var Dashboard = function() {
                 console.log('wallet widget refereshed (every 15 seconds)');
             }, 15000);*/
 
-            RunTotalFiatValue = setInterval(function() {
+            /*RunTotalFiatValue = setInterval(function() {
                 if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
                 //console.log('=> No wallet logged in. No need to get Rates.');
                 //StopTotalFiatValue();
@@ -627,7 +628,7 @@ var Dashboard = function() {
                     //TotalFiatValue();
                     //console.log('Get Rates (every 60 seconds)');
                 }
-            }, 60000);
+            }, 60000);*/
 
         }
 
@@ -695,8 +696,18 @@ function edexCoinBtnAction() {
         $('#edexcoin_active_addr').text(result);
         $('#edexcoin_active_addr_clipboard').attr("data-clipboard-text",result)
       })
-      var clipboard = new Clipboard('.btn');
+      
       $('#edexcoin_active_addr_clipboard').click(function(){alertify.success("Address Copied.");})
+      
+      var clipboard = new Clipboard('.clipboard-edexaddr');
+      clipboard.destroy();
+
+      var clipboard = null;      
+      if( clipboard != null ) {
+        clipboard.destroy();
+      }
+      
+      var clipboard = new Clipboard('.clipboard-edexaddr');
       clipboard.on('success', function(e) {
         console.info('Action:', e.action);
         console.info('Text:', e.text);

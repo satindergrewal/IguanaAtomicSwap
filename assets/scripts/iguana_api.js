@@ -727,10 +727,10 @@ function EDEXSendToAddr(data) {
             var selected_coinmode = sessionStorage.getItem('edexTmpMode')
             if ( selected_coinmode == 'Basilisk' ) {
                 var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
-                var coinwalletbalance = getDEXCoinBalance(active_edexcoin)
-                console.log(coinwalletbalance)
-                //coinwalletbalance = coinwalletbalance.total
-                $('#edex_total_balance').text(coinwalletbalance.total);
+                getDEXGetBalance(active_edexcoin).then(function(result){
+                    //console.log(result)
+                    $('#edex_total_balance').text(result.total);
+                });
             } else {
                 var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
                 var tmp_get_coin_balance = EDEXlistunspent(active_edexcoin)
