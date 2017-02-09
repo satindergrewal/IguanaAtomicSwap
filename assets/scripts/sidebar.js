@@ -211,7 +211,7 @@ $('#nav-about-iguana').on('click', function() {
 function CommonSidebarActionsSet01() {
 	sessionStorage.setItem('DashboardActions', "start");
 	sessionStorage.setItem('NativeWalletActions', "stop");
-	$(document).ready(function() { Dashboard.init(); });
+	//$(document).ready(function() { Dashboard.init(); });
 	$("#wifkeys_passphrase").val('');
 	$('#wif-priv-keys').html('');
 }
@@ -219,7 +219,7 @@ function CommonSidebarActionsSet01() {
 function CommonSidebarActionsSet011() {
 	sessionStorage.setItem('DashboardActions', "start");
 	sessionStorage.setItem('NativeWalletActions', "stop");
-	location.reload();
+	//location.reload();
 	$("#wifkeys_passphrase").val('');
 	$('#wif-priv-keys').html('');
 }

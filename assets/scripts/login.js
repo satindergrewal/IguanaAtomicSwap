@@ -65,17 +65,17 @@ var Login = function() {
                         var LoginOutput = JSON.parse(data);
                         var LoginDataToStore = JSON.stringify(data);
                         sessionStorage.setItem('IguanaActiveAccount', LoginDataToStore);
-                        console.log(sessionStorage);
-                        console.log('== Data OutPut ==');
-                        console.log(LoginOutput);
+                        //console.log(sessionStorage);
+                        //console.log('== Data OutPut ==');
+                        //console.log(LoginOutput);
 
                         if (LoginOutput.result === 'success') {
                             console.log('Success');
                             Iguana_DEXImportAll();
                             //swal("Success", "Login Successfully.", "success");
                             toastr.success("Login Successfull", "Account Notification")
-                            var logincoinnames = []; $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); }); console.log(logincoinnames);
-                            $.each(logincoinnames, function( index, value ) {
+                            //var logincoinnames = []; $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); }); console.log(logincoinnames);
+                            /*$.each(logincoinnames, function( index, value ) {
                                 if ( value == 'BTC' ) {
                                     var logincoinmodeval = $("input[name='logincoinbtcmode']:checked").val();
                                     var logincoin_data = {"coin": value, "mode": logincoinmodeval};
@@ -91,13 +91,14 @@ var Login = function() {
                                     var logincoin_data = {"coin": value, "mode": logincoinmodeval};
                                     Iguana_addcoinLogin(logincoin_data);
                                 }
-                            });
+                            });*/
                             
                             $('#password').val('')
                             $('#wallet-login').hide();
                             $('#wallet-core').fadeIn();
                             $('body').removeClass( "page-login layout-full page-dark" ).addClass( "" );
                             $('link[id=loginStyle]')[0].disabled=true;
+                            //refreshEDEXCoinWalletList()
                             location.reload();
                         }
                         else {
@@ -542,11 +543,13 @@ var Login = function() {
         if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
             console.log('There\'s no active wallet logged in. Please Login.');
             $('#logint-another-wallet').hide();
-            var check_active_coins_status = Iguana_CheckActiveCoins()
-            if (check_active_coins_status.length !== 0 ) {
-                $('#section-login-addcoin-btn').hide();
-                $('#section-login').show();
-            }
+            Iguana_CheckActiveCoins().then(function(result){
+                //console.log(result)
+                if (result.length !== 0 ) {
+                    $('#section-login-addcoin-btn').hide();
+                    $('#section-login').show();
+                }
+            })
         } else {
             var CheckLoginData = JSON.parse(sessionStorage.getItem('IguanaActiveAccount'));
             if ( JSON.parse(CheckLoginData).pubkey != Iguana_activehandle_output.pubkey ) {
@@ -581,11 +584,13 @@ var Login = function() {
     };
 
     var handleCoinsRunningCheck = function() {
-        var check_active_coins_status = Iguana_CheckActiveCoins()
-        if (check_active_coins_status.length !== 0 ) {
-            $('#section-login-addcoin-btn').hide();
-            $('#section-login').show();
-        }
+        Iguana_CheckActiveCoins().then(function(result){
+            //console.log(result)
+            if (result.length !== 0 ) {
+                $('#section-login-addcoin-btn').hide();
+                $('#section-login').show();
+            }
+        })
         
         /*$.each([ 'basilisk', 'full', 'virtual' ], function( index, value ) {
             var allcoinsvalues = {"agent":"InstantDEX","method":"allcoins"};

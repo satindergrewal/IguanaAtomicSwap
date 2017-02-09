@@ -210,13 +210,15 @@ var Dashboard = function() {
           NProgress.start();
 
           console.log('Sent control here after clicked in form...');
-          var coinmainaddr = EDEXMainAddr($('[data-edexcoin]').attr("data-edexcoin"));
+          EDEXMainAddr($('[data-edexcoin]').attr("data-edexcoin")).then(function(result){
+            //console.log(result)
+            $('#mdl_confirm_currency_sendfrom_addr').text(result);
+          })
           $('#mdl_confirm_currency_sendto_addr').text($('#edexcoin_sendto').val());
           $('#mdl_confirm_currency_send_amount').text($('#edexcoin_amount').val());
           $('#mdl_confirm_currency_coinname').text($('[data-edexcoin]').attr("data-edexcoin"));
           $('#mdl_confirm_currency_send_fee').text($('#edexcoin_fee').val());
           $('#mdl_confirm_currency_coinname_fee').text($('[data-edexcoin]').attr("data-edexcoin"));
-          $('#mdl_confirm_currency_sendfrom_addr').text(coinmainaddr);
           $('#mdl_confirm_currency_sendfrom_total_dedcut').text($('#edexcoin_total_value').text());
           $('#mdl_confirm_currency_coinname_total').text($('[data-edexcoin]').attr("data-edexcoin"));
           
@@ -482,8 +484,10 @@ var Dashboard = function() {
       
       $(".btn_edexcoin_dashboard_register").click(function() {
         var selected_coin = $(this).data('edexcoin')
-        var coinmainaddr = EDEXMainAddr(selected_coin);
-        Iguana_DEXImportAddr(selected_coin,coinmainaddr[0]);
+        EDEXMainAddr(selected_coin).then(function(result){
+          //console.log(result)
+          Iguana_DEXImportAddr(selected_coin,result);
+        })
       })
 
       $(".btn_edexcoin_dashboard_refresh_basilisk_conn").click(function() {
@@ -502,9 +506,10 @@ var Dashboard = function() {
 
       $(".btn_edexcoin_dashboard_validate").click(function() {
         var selected_coin = $(this).data('edexcoin')
-        var coinmainaddr = EDEXMainAddr(selected_coin);
-        Iguana_DEXValidateAddr(selected_coin,coinmainaddr[0])
-        
+        EDEXMainAddr(selected_coin).then(function(result){
+          //console.log(result)
+          Iguana_DEXValidateAddr(selected_coin,result);
+        })
       })
     }
 
@@ -631,7 +636,7 @@ var Dashboard = function() {
 }();
 
 jQuery(document).ready(function() {
-    //Dashboard.init();
+    Dashboard.init();
 
 });
 
@@ -643,6 +648,7 @@ function resizeDashboardWindow() {
   var mapH = $(window).height() - navbarH + 200;
 
   $(".page-main").outerHeight(mapH);
+  $(".scrollable-container").outerHeight(mapH);
 }
 
 function edexCoinBtnAction() {
@@ -684,12 +690,13 @@ function edexCoinBtnAction() {
       $('#edexcoin-active').text(selected_coinname);
       $('#edex_total_balance_coincode').text(coincode);
       //populate selected coin's address
-      var coinmainaddr = EDEXMainAddr(coincode);
-      $('#edexcoin_active_addr').text(coinmainaddr[0]);
-      $('#edexcoin_active_addr_clipboard').attr("data-clipboard-text",coinmainaddr[0])
+      EDEXMainAddr(selected_coin).then(function(result){
+        //console.log(result)
+        $('#edexcoin_active_addr').text(result);
+        $('#edexcoin_active_addr_clipboard').attr("data-clipboard-text",result)
+      })
       var clipboard = new Clipboard('.btn');
       $('#edexcoin_active_addr_clipboard').click(function(){alertify.success("Address Copied.");})
-
       clipboard.on('success', function(e) {
         console.info('Action:', e.action);
         console.info('Text:', e.text);
@@ -702,7 +709,6 @@ function edexCoinBtnAction() {
         console.error('Action:', e.action);
         console.error('Trigger:', e.trigger);
       });
-
       //populate selected coin's balance
 
       if ( selected_coinmode == 'Basilisk' ) {
@@ -945,7 +951,7 @@ function getDEXGetBalance(coin) {
         var tmp_coin_addr = null
 
         var ajax_call_1 = $.ajax({
-                    data: JSON.stringify(ajax_data_1),
+              data: JSON.stringify(ajax_data_1),
               url: 'http://127.0.0.1:7778',
               type: 'POST',
               dataType: 'json',
