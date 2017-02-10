@@ -517,7 +517,7 @@ function Iguana_HashHex(data) {
     var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
     var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"hash","method":"hex","message":data}
     $.ajax({
-        async: false,
+        //async: false,
         type: 'POST',
         data: JSON.stringify(ajax_data),
         url: 'http://127.0.0.1:7778',
@@ -658,7 +658,7 @@ function EDEXgetBalance(coin) {
     var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"bitcoinrpc","method":"getbalance","coin": coin};
     //console.log(ajax_data);
     $.ajax({
-        async: false,
+        //async: false,
         type: 'POST',
         data: JSON.stringify(ajax_data),
         url: 'http://127.0.0.1:7778',
@@ -762,96 +762,66 @@ function EDEXSendToAddr(data) {
 
 
 function EDEXgetinfo(coin) {
-    var result = [];
-
-    //Get parameters values from confirm dialog and send currency
-    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-    var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"agent":"bitcoinrpc","method":"getinfo","immediate":100,"timeout":4000};
-    //console.log(ajax_data);
-    $.ajax({
-        async: false,
-        type: 'POST',
-        data: JSON.stringify(ajax_data),
-        url: 'http://127.0.0.1:7778',
-        //dataType: 'text',
-        success: function(data, textStatus, jqXHR) {
-            var AjaxOutputData = JSON.parse(data);
-            //console.log('== Data OutPut ==');
+    return new Promise((resolve) =>{ 
+    
+        var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+        var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"agent":"bitcoinrpc","method":"getinfo","immediate":100,"timeout":4000};
+        var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
+            //console.log(AjaxOutputData.responseText);
+            AjaxOutputData = JSON.parse(AjaxOutputData.responseText)
             //console.log(AjaxOutputData);
-            result.push(AjaxOutputData);
-        },
-        error: function(xhr, textStatus, error) {
+            resolve(AjaxOutputData);
+        }).fail(function(xhr, textStatus, error) {
+            // handle request failures
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
-                Iguana_ServiceUnavailable();
             }
             console.log(textStatus);
             console.log(error);
-        }
-    });
-    return result;
+        })
+    })
 }
 
 function EDEXgetaddrbyaccount(coin) {
-    var result = [];
-
-    //Get parameters values from confirm dialog and send currency
-    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-    var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"agent":"bitcoinrpc","method":"getaddressesbyaccount","account":"*"}
-    //console.log(ajax_data);
-    $.ajax({
-        async: false,
-        type: 'POST',
-        data: JSON.stringify(ajax_data),
-        url: 'http://127.0.0.1:7778',
-        //dataType: 'text',
-        success: function(data, textStatus, jqXHR) {
-            var AjaxOutputData = JSON.parse(data);
-            //console.log('== Data OutPut ==');
+    return new Promise((resolve) =>{ 
+    
+        var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+        var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"agent":"bitcoinrpc","method":"getaddressesbyaccount","account":"*"}
+        var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
+            //console.log(AjaxOutputData.responseText);
+            AjaxOutputData = JSON.parse(AjaxOutputData.responseText)
             //console.log(AjaxOutputData);
-            result.push(AjaxOutputData.result);
-        },
-        error: function(xhr, textStatus, error) {
+            resolve(AjaxOutputData.result);
+        }).fail(function(xhr, textStatus, error) {
+            // handle request failures
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
-                Iguana_ServiceUnavailable();
             }
             console.log(textStatus);
             console.log(error);
-        }
-    });
-    return result;
+        })
+    })
 }
 
 function EDEXgetnewaddress(coin) {
-    var result = [];
-
-    //Get parameters values from confirm dialog and send currency
-    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-    var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"agent":"bitcoinrpc","method":"getnewaddress","account":""}
-    console.log(ajax_data);
-    $.ajax({
-        async: false,
-        type: 'POST',
-        data: JSON.stringify(ajax_data),
-        url: 'http://127.0.0.1:7778',
-        //dataType: 'text',
-        success: function(data, textStatus, jqXHR) {
-            var AjaxOutputData = JSON.parse(data);
-            //console.log('== Data OutPut ==');
+    return new Promise((resolve) =>{ 
+    
+        var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+        var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"agent":"bitcoinrpc","method":"getnewaddress","account":""}
+        var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
+            //console.log(AjaxOutputData.responseText);
+            AjaxOutputData = JSON.parse(AjaxOutputData.responseText)
             //console.log(AjaxOutputData);
-            result.push(AjaxOutputData.result);
-        },
-        error: function(xhr, textStatus, error) {
+            resolve(AjaxOutputData.result);
+        }).fail(function(xhr, textStatus, error) {
+            // handle request failures
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
-                Iguana_ServiceUnavailable();
             }
             console.log(textStatus);
             console.log(error);
-        }
-    });
-    return result;
+        })
+    })
 }
 
 function Iguana_SetRPCAuth() {    
@@ -895,48 +865,6 @@ function Iguana_CheckActiveCoins() {
             console.log(error);
         })
     })
-
-
-/*
-    //Get parameters values from confirm dialog and send currency
-    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-    var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"InstantDEX","method":"allcoins"};
-    //console.log(ajax_data);
-    $.ajax({
-        async: false,
-        type: 'POST',
-        data: JSON.stringify(ajax_data),
-        url: 'http://127.0.0.1:7778',
-        //dataType: 'text',
-        success: function(data, textStatus, jqXHR) {
-            var AjaxOutputData = JSON.parse(data);
-            //console.log('== Data OutPut ==');
-            //console.log(AjaxOutputData);
-            $.each(AjaxOutputData, function( index, value ) {
-                //console.log(index)
-                //console.log(value)
-                if (index === 'tag' ) {
-                    //console.log('it is tag');
-                } else {
-                    if (AjaxOutputData[index].length !== 0 ) {
-                        result.push({"active": AjaxOutputData[index].length});
-                    }
-                    //console.log(AjaxOutputData[index]);
-                    //console.log(AjaxOutputData[index].length);
-                }
-            });
-            
-        },
-        error: function(xhr, textStatus, error) {
-            console.log(xhr.statusText);
-            if ( xhr.readyState == 0 ) {
-                Iguana_ServiceUnavailable();
-            }
-            console.log(textStatus);
-            console.log(error);
-        }
-    });
-    return result;*/
 }
 
 
@@ -948,7 +876,6 @@ function Iguana_DEXgetNotaries(coin) {
     var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getnotaries","symbol":coin};
     console.log(ajax_data);
     $.ajax({
-        async: false,
         type: 'POST',
         data: JSON.stringify(ajax_data),
         url: 'http://127.0.0.1:7778',
@@ -1111,7 +1038,7 @@ function Iguana_DEXCheckAddr(coin,addr) {
     var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"checkaddress","address":addr,"symbol":coin};
     console.log(ajax_data);
     $.ajax({
-        async: false,
+        //async: false,
         type: 'POST',
         data: JSON.stringify(ajax_data),
         url: 'http://127.0.0.1:7778',
@@ -1190,41 +1117,32 @@ function EDEX_DEXlistunspent(coin,addr) {
         template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
     });
     NProgress.start();
-    var result = [];
 
-    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-    var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listunspent","address":addr,"symbol":coin}
-    //console.log(ajax_data);
-    $.ajax({
-        async: false,
-        type: 'POST',
-        data: JSON.stringify(ajax_data),
-        url: 'http://127.0.0.1:7778',
-        //dataType: 'text',
-        success: function(data, textStatus, jqXHR) {
-            var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
-            //console.log('== EDEX_DEXlistunspent Data OutPut ==');
+    return new Promise((resolve) =>{ 
+    
+        var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+        var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listunspent","address":addr,"symbol":coin}
+        var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
+            //console.log(AjaxOutputData.responseText);
+            AjaxOutputData = JSON.parse(AjaxOutputData.responseText)
             //console.log(AjaxOutputData);
             if (AjaxOutputData == '' ) {
                 result.push([{"amount":0}]);
             }
-            result.push(AjaxOutputData);
             if (AjaxOutputData.error === 'less than required responses') {
               toastr.error("Less than required responses. Please try again.", "Basilisk Notification")
             }
-        },
-        error: function(xhr, textStatus, error) {
+            resolve(AjaxOutputData);
+        }).fail(function(xhr, textStatus, error) {
+            // handle request failures
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
-                Iguana_ServiceUnavailable();
             }
             console.log(textStatus);
             console.log(error);
-        }
-    });
-    //console.log(result);
-    NProgress.done();
-    return result[0];
+        })
+        NProgress.done();
+    })
 }
 
 
@@ -1240,7 +1158,6 @@ function EDEX_DEXnotarychains() {
     var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"dpow","method":"notarychains"}
     console.log(ajax_data);
     $.ajax({
-        async: false,
         type: 'POST',
         data: JSON.stringify(ajax_data),
         url: 'http://127.0.0.1:7778',

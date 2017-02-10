@@ -109,9 +109,10 @@ var Dashboard = function() {
         var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
         var selected_coinmode = sessionStorage.getItem('edexTmpMode')
           if ( selected_coinmode == 'Full' ) {
-            tmp_coinkbfee = EDEXgetinfo(active_edexcoin);
-            console.log(tmp_coinkbfee);
-            $('#edexcoin_fee').val(tmp_coinkbfee[0].kbfee)
+            EDEXgetinfo(active_edexcoin).then(function(result){
+              //console.log(result)
+              $('#edexcoin_fee').val(result.kbfee)
+            })
           }
 
       });
@@ -337,7 +338,9 @@ var Dashboard = function() {
         $('#edexcoin_get_new_addr').click(function() {
             var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
             console.log('get new T address button clicked...');
-            EDEXgetnewaddress(active_edexcoin);
+            EDEXgetnewaddress(active_edexcoin).then(function(result){
+                //console.log(result)
+            })
             EdexListAllAddr(active_edexcoin);
             toastr.info("Receiving Address list updated", "Wallet Notification");
         });
@@ -768,8 +771,8 @@ function getActiveEdexcoin() {
 }
 
 function hideExtCoinsinEdexDashboard(coin) {
-  var tmp_getinfo = EDEXgetinfo(coin)
-  console.log(tmp_getinfo);
+  //var tmp_getinfo = EDEXgetinfo(coin)
+  //console.log(tmp_getinfo);
 }
 
 function EdexfillTxHistory(coin) {
@@ -1037,11 +1040,13 @@ function getCoinBalance(coin) {
 }
 
 function getBasiliskCoinBalance(coin) {
-  var coinmainaddr = EDEXMainAddr(coin);
-  var coinwalletbalance = EDEX_DEXlistunspent(coin, coinmainaddr);
-  console.log(coinwalletbalance[0].amount)
-  coinwalletbalance = coinwalletbalance[0].amount
-  $('span[data-edexcoincode="' + coin + '"][id="edexcoin-balance"]').text(coinwalletbalance);
+  EDEXMainAddr(coin).then(function(result){
+    console.log(result)
+    EDEX_DEXlistunspent(coin, result).then(function(result_listunspent){
+      console.log(result_listunspent[0].amount);
+      $('span[data-edexcoincode="' + coin + '"][id="edexcoin-balance"]').text(result_listunspent[0].amount);
+    });
+  })
 }
 
 function StopShowCoinHistory() {
@@ -1474,32 +1479,32 @@ function EdexListAllAddr(coin) {
         template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
     });
     NProgress.start();
-    var only_reciving_addr_data = [];
-    var listAlladdr = EDEXgetaddrbyaccount(coin);
-    listAlladdr = listAlladdr[0];
-    console.log(listAlladdr);
 
-    $.each(listAlladdr, function(index, value) {
-        tmp_addr_label = '<span class="label label-default"><i class="icon fa-eye"></i> public</span>';
-        //var tmp_addr_action_button = '<button></button>';
-        only_reciving_addr_data.push([tmp_addr_label, listAlladdr[index]]);
-    });
-    //console.log(only_reciving_addr_data);
+    EDEXgetaddrbyaccount(coin).then(function(result){
+      //console.log(result)
+      var only_reciving_addr_data = [];
 
-    var edexcoin_recieve_table = '';
+      $.each(result, function(index, value) {
+          tmp_addr_label = '<span class="label label-default"><i class="icon fa-eye"></i> public</span>';
+          //var tmp_addr_action_button = '<button></button>';
+          only_reciving_addr_data.push([tmp_addr_label, result[index]]);
+      });
+      //console.log(only_reciving_addr_data);
 
-    edexcoin_recieve_table = $('#edexcoin-recieve-addr-tbl').DataTable( { data: only_reciving_addr_data,
-        select: false,
-        retrieve: true
-    });
+      var edexcoin_recieve_table = '';
 
-    edexcoin_recieve_table.destroy();
+      edexcoin_recieve_table = $('#edexcoin-recieve-addr-tbl').DataTable( { data: only_reciving_addr_data,
+          select: false,
+          retrieve: true
+      });
 
-    edexcoin_recieve_table = $('#edexcoin-recieve-addr-tbl').DataTable( { data: only_reciving_addr_data,
-        select: false,
-        retrieve: true
-    });
+      edexcoin_recieve_table.destroy();
+
+      edexcoin_recieve_table = $('#edexcoin-recieve-addr-tbl').DataTable( { data: only_reciving_addr_data,
+          select: false,
+          retrieve: true
+      });
+    })
 
     NProgress.done();
-    return only_reciving_addr_data;
 }
