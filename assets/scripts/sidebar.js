@@ -26,7 +26,10 @@ $(document).ready(function() {
 
 $('#nav-dashboard').on('click', function() {
 	$('#section-dashboard').show();
-	//$('#header-dashboard').show();
+	var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
+	if (active_edexcoin !== 'COIN') {
+		$('#header-dashboard').show();
+	}
 	$('#section-easydex').hide();
 	$('#section-extcoin').hide();
 	$('#section-zcash').hide();
