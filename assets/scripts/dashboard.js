@@ -56,7 +56,7 @@ var Dashboard = function() {
           var selected_coinmode = sessionStorage.getItem('edexTmpMode')
           if ( selected_coinmode == 'Basilisk' ) {
             getDEXGetBalance(active_edexcoin).then(function(result){
-              //console.log(result)
+              console.log(result)
               $('#edex_total_balance').text(result.total);
             });
           } else {
@@ -398,6 +398,9 @@ var Dashboard = function() {
                         if ( AllcoinsDataOutput[value][index] == 'CARB' ) { coinlogo = 'carboncoin'; coinname = 'Carboncoin'; }
                         if ( AllcoinsDataOutput[value][index] == 'ANC' ) { coinlogo = 'anoncoin'; coinname = 'AnonCoin'; }
                         if ( AllcoinsDataOutput[value][index] == 'FRK' ) { coinlogo = 'franko'; coinname = 'Franko'; }
+                        if ( AllcoinsDataOutput[value][index] == 'SUPERNET' ) { coinlogo = 'SUPERNET'; coinname = 'SUPERNET'; }
+                        if ( AllcoinsDataOutput[value][index] == 'REVS' ) { coinlogo = 'REVS'; coinname = 'REVS'; }
+                        if ( AllcoinsDataOutput[value][index] == 'USD' ) { coinlogo = 'USD'; coinname = 'USD'; }
 
                         //console.log(AllcoinsDataOutput[value][index]);
 
@@ -466,6 +469,14 @@ var Dashboard = function() {
             $('#addcoin_mdl_native_mode').prop('disabled', false);
             $('#addcoin_mdl_basilisk_mode').prop('disabled', false);
             $('#addcoin_mdl_full_mode').prop('disabled', false);
+            $('#addcoin_mdl_basilisk_mode').prop("checked", true);
+        }
+        if (tmp_coin_val == 'SUPERNET'
+          || tmp_coin_val == 'REVS'
+          || tmp_coin_val == 'USD') {
+            $('#addcoin_mdl_native_mode').prop('disabled', true);
+            $('#addcoin_mdl_basilisk_mode').prop('disabled', false);
+            $('#addcoin_mdl_full_mode').prop('disabled', true);
             $('#addcoin_mdl_basilisk_mode').prop("checked", true);
         }
         if (tmp_coin_val == 'BTC') {
@@ -729,7 +740,8 @@ function edexCoinBtnAction() {
 
       if ( selected_coinmode == 'Basilisk' ) {
         getDEXGetBalance(selected_coin).then(function(result){
-          //console.log(result)
+          console.log(result)
+          console.log(result.total)
           $('#edex_total_balance').text(result.total);
         });
       } else {
@@ -1007,7 +1019,7 @@ function getDEXGetBalance(coin) {
             //console.log(tmp_addr_total_balance_output);
 
           if (data == '' ) {
-            tmp_addr_total_balance_output = [{"addr": tmp_coin_addr, "amount":0}];
+            tmp_addr_total_balance_output = {"addr": tmp_coin_addr, "total":0};
           }
 
           //console.log(tmp_addr_total_balance_output)
@@ -1106,6 +1118,9 @@ function refreshEDEXCoinWalletList() {
                         if ( AllcoinsDataOutput[value][index] == 'CARB' ) { coinlogo = 'carboncoin'; coinname = 'Carboncoin'; }
                         if ( AllcoinsDataOutput[value][index] == 'ANC' ) { coinlogo = 'anoncoin'; coinname = 'AnonCoin'; }
                         if ( AllcoinsDataOutput[value][index] == 'FRK' ) { coinlogo = 'franko'; coinname = 'Franko'; }
+                        if ( AllcoinsDataOutput[value][index] == 'SUPERNET' ) { coinlogo = 'SUPERNET'; coinname = 'SUPERNET'; }
+                        if ( AllcoinsDataOutput[value][index] == 'REVS' ) { coinlogo = 'REVS'; coinname = 'REVS'; }
+                        if ( AllcoinsDataOutput[value][index] == 'USD' ) { coinlogo = 'USD'; coinname = 'USD'; }
 
                         //console.log(AllcoinsDataOutput[value][index]);
 

@@ -83,8 +83,8 @@
 
 .page-aside-inner .wallet-widgets-list {
   height: 100%;
-  height: -webkit-calc(100% - 72px);
-  height:         calc(100% - 72px);
+  /*height: -webkit-calc(100% - 72px);
+  height:         calc(100% - 72px);*/
 }
 
 .page-aside-inner .wallet-widgets-list-body {
