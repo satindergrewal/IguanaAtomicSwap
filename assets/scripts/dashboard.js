@@ -661,6 +661,7 @@ function resizeDashboardWindow() {
   var navbarH = $(".site-navbar").outerHeight();
   //var footerH = $(".site-footer").outerHeight();
   var edexDashH = $(".edexcoin_dashoard_section_main_div").outerHeight();
+  
   var mapH = $(window).height() - navbarH;
 
   $(".page-main").outerHeight(mapH);
@@ -1404,7 +1405,7 @@ function EdexGetTxList(coin) {
           tmp_coin_addr = data[coin]
           //console.log(tmp_coin_addr);
           if ( active_edexcoinmodecode == 'Basilisk' ) {
-            var ajax_data_2 = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listtransactions","address":data[coin],"count":100,"skip":0,"symbol":coin}
+            var ajax_data_2 = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listtransactions2","address":data[coin],"count":100,"skip":0,"symbol":coin}
           } else {
             var ajax_data_2 = {'userpass':tmpIguanaRPCAuth,"coin":coin,"method":"listtransactions","params":[0, 9999999, []]}
           }
@@ -1417,8 +1418,8 @@ function EdexGetTxList(coin) {
         });
 
     ajax_call_2.done(function(data) {
-      //console.log(tmp_coin_addr);
-      //console.log(data);
+      console.log(tmp_coin_addr);
+      console.log(data);
       if ( active_edexcoinmodecode == 'Full' ) {
         data = data.result;
       }
@@ -1426,46 +1427,109 @@ function EdexGetTxList(coin) {
       $.each(data, function(index, value) {
         //console.log(value);
 
-        var tmp_category = '';
-        var tmp_amount = data[index].amount;
-        if(!("amount" in data[index])) {
-          tmp_amount = '<span class="label label-dark">Unknown</span>'
-        }
-        var tmp_addr = data[index].address;
-        if(!("address" in data[index])) {
-          tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>'
+        if ( active_edexcoinmodecode == 'Full' ) {
+          var tmp_category = '';
+          var tmp_amount = data[index].amount;
+          if(!("amount" in data[index])) {
+            tmp_amount = '<span class="label label-dark">Unknown</span>'
+          }
+          var tmp_addr = data[index].address;
+          if(!("address" in data[index])) {
+            tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>'
+          }
+
+          //tmp_secondsToString = '<i class="icon fa-meh-o"></i> Unknown'
+          //if(("blocktime" in data[index])) {
+            //console.log('blocktime FOUND');
+            //var tmp_secondsToString = secondsToString(data[index].blocktime)
+          //}
+
+          var tmp_secondsToString = secondsToString(data[index].blocktime)
+
+          if (isNaN(tmp_secondsToString)) {
+            //tmp_secondsToString = 'Unknown';
+          }
+          if ( data[index].category == 'send' ) {
+            tmp_category = '<i class="icon fa-arrow-circle-left"></i> OUT';
+          }
+          if ( data[index].category == 'receive' ) {
+            tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
+          }
+          if ( data[index].category == 'generate' ) {
+            tmp_category = '<i class="icon fa-cogs"></i> Mined';
+          }if ( data[index].category == 'immature' ) {
+            tmp_category = '<i class="icon fa-clock-o"></i> Immature';
+          }
+          if ( data[index].category == 'unknown' ) {
+            tmp_category = '<i class="icon fa-meh-o"></i> Unknown';
+          }
+          //console.log(tmp_addr);
+          //tmplisttransactions = {"category": data[index].category,"confirmations": data[index].confirmations,"amount": data[index].amount,"time": data[index].time,"address": data[index].address,"txid": data[index].txid}
+          tmplisttransactions = [tmp_category,data[index].confirmations,tmp_amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light kmd-txid-details-btn" data-edexcoin="' + coin + '" data-txidtype="public" data-txid="'+data[index].txid+'"><i class="icon fa-search"></i></button>']
+          //console.log(tmplisttransactions);
+          result.push(tmplisttransactions);
         }
 
-        //tmp_secondsToString = '<i class="icon fa-meh-o"></i> Unknown'
-        //if(("blocktime" in data[index])) {
-          //console.log('blocktime FOUND');
-          //var tmp_secondsToString = secondsToString(data[index].blocktime)
-        //}
+        if ( active_edexcoinmodecode == 'Basilisk' ) {
+          var tmp_category = '';
+          var tmp_amount = data[index].amount;
+          if(!("amount" in data[index])) {
+            tmp_amount = '<span class="label label-dark">Unknown</span>'
+          }
+          var tmp_addr = null
+          if(!("paid" in data[index])) {
+            tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>'
+          }
+          if(("paid" in data[index])) {
+            var first_addr = Object.keys(data[index].paid['vouts'][0]);
+            var tmp_addr = first_addr[0];
+            //console.log(data[index].paid['vouts'][0])
 
-        var tmp_secondsToString = secondsToString(data[index].blocktime)
+          }
 
-        if (isNaN(tmp_secondsToString)) {
-          //tmp_secondsToString = 'Unknown';
+          //tmp_secondsToString = '<i class="icon fa-meh-o"></i> Unknown'
+          //if(("blocktime" in data[index])) {
+            //console.log('blocktime FOUND');
+            //var tmp_secondsToString = secondsToString(data[index].blocktime)
+          //}
+
+          var tmp_secondsToString = secondsToString(data[index].timestamp)
+
+          if (isNaN(tmp_secondsToString)) {
+            //tmp_secondsToString = 'Unknown';
+          }
+
+          console.log(data[index].type)
+          if ( data[index].type == 'sent' ) {
+            tmp_category = '<i class="icon fa-arrow-circle-left"></i> OUT';
+          }
+          if ( data[index].type == 'received' ) {
+            tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
+          }
+          if ( data[index].type == 'generate' ) {
+            tmp_category = '<i class="icon fa-cogs"></i> Mined';
+          }if ( data[index].type == 'immature' ) {
+            tmp_category = '<i class="icon fa-clock-o"></i> Immature';
+          }
+          if ( data[index].type == 'unknown' ) {
+            tmp_category = '<i class="icon fa-meh-o"></i> Unknown';
+          }
+
+
+          if(!("confirmations" in data[index])) {
+            tmp_confirms = '<i class="icon fa-meh-o"></i> Unknown';
+          }
+          if(("confirmations" in data[index])) {
+            tmp_confirms = data[index].confirmations
+          }
+
+          //console.log(tmp_addr);
+          //tmplisttransactions = {"category": data[index].category,"confirmations": data[index].confirmations,"amount": data[index].amount,"time": data[index].time,"address": data[index].address,"txid": data[index].txid}
+          tmplisttransactions = [tmp_category,tmp_confirms,tmp_amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light kmd-txid-details-btn" data-edexcoin="' + coin + '" data-txidtype="public" data-txid="'+data[index].txid+'"><i class="icon fa-search"></i></button>']
+          //console.log(tmplisttransactions);
+          result.push(tmplisttransactions);
         }
-        if ( data[index].category == 'send' ) {
-          tmp_category = '<i class="icon fa-arrow-circle-left"></i> OUT';
-        }
-        if ( data[index].category == 'receive' ) {
-          tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
-        }
-        if ( data[index].category == 'generate' ) {
-          tmp_category = '<i class="icon fa-cogs"></i> Mined';
-        }if ( data[index].category == 'immature' ) {
-          tmp_category = '<i class="icon fa-clock-o"></i> Immature';
-        }
-        if ( data[index].category == 'unknown' ) {
-          tmp_category = '<i class="icon fa-meh-o"></i> Unknown';
-        }
-        //console.log(tmp_addr);
-        //tmplisttransactions = {"category": data[index].category,"confirmations": data[index].confirmations,"amount": data[index].amount,"time": data[index].time,"address": data[index].address,"txid": data[index].txid}
-        tmplisttransactions = [tmp_category,data[index].confirmations,tmp_amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light kmd-txid-details-btn" data-edexcoin="' + coin + '" data-txidtype="public" data-txid="'+data[index].txid+'"><i class="icon fa-search"></i></button>']
-        //console.log(tmplisttransactions);
-        result.push(tmplisttransactions);
+        
       });
       //console.log(result)
       resolve(result);

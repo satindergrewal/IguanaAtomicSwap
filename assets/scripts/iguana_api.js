@@ -583,9 +583,9 @@ function Iguana_addcoin(addcoin_data) {
             logincoinmodeinfo = 'Native';
             var AddCoinData = {'userpass':tmpIguanaRPCAuth,"agent":"passthru","method":"paxfiats","mask":1}
         }
-        console.log(AddCoinData);
-        console.log(logincoinfullname);
-        console.log(logincoinmodeinfo);
+        //console.log(AddCoinData);
+        //console.log(logincoinfullname);
+        //console.log(logincoinmodeinfo);
     }
     setTimeout(function() {
         $.ajax({
