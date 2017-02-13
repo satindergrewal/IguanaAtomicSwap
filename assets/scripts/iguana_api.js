@@ -95,7 +95,7 @@ function Iguana_rmd160conv(rmd160conv_data) {
     });
 }
 
-var Iguana_activehandle_output = ''; //Storing activehandle output this variable. accessible globally.
+/*var Iguana_activehandle_output = ''; //Storing activehandle output this variable. accessible globally.
 function Iguana_activehandle() {    
 
     //comment
@@ -125,6 +125,28 @@ function Iguana_activehandle() {
         }
     });
     return 'Executed Iguana_activehandle. Check Iguana_activehandle_output var value.';
+}*/
+
+function Iguana_activehandle(callback) {
+    return new Promise((resolve) =>{
+
+        var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+        var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"SuperNET","method":"activehandle"};
+        var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
+            //console.log(AjaxOutputData.responseText);
+            AjaxOutputData = JSON.parse(AjaxOutputData.responseText)
+            //console.log(AjaxOutputData);
+            resolve(AjaxOutputData);
+        }).fail(function(xhr, textStatus, error) {
+            // handle request failures
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        })
+    })
 }
 
 function Iguana_Setactivehandle() {    
@@ -195,26 +217,30 @@ function Iguana_addcoinLogin(addcoin_data) {
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
         
         if ( addcoin_data.mode == '-1' ) {
-            var setconfig = function() {
-                        return new Promise(function(resolve, reject) {
-                            Shepherd_setConf('komodod');
-                            var result = 'setconfig: DONE'
-                            console.log(result)
-                            resolve(result);
-                        })
-                    }
-                startcoin = setconfig.then(function(data) {
-                        return new Promise(function(resolve, reject) {
-                            Shepherd_herd('komodod');
-                            var result = 'Cstartcoin: DONE'
-                            console.log(result)
-                            resolve(result);
-                        })
-                     });
+            var setconfig = function() {
 
-            startcoin.done(function(data) {
-                console.log(data);
-            });
+                return new Promise(function(resolve, reject) {
+                    Shepherd_setConf('komodod');
+                    var result = 'setconfig: DONE'
+                    console.log(result)
+                    resolve(result);
+                })
+            }
+
+            var startcoin = function() {
+
+                return new Promise(function(resolve, reject) {
+                    Shepherd_herd('komodod');
+                    var result = 'startcoin: DONE'
+                    console.log(result)
+                    resolve(result);
+                })
+            }
+
+            setconfig()
+            .then(function(result) { 
+                return startcoin();
+            })
             tmpinternval = 6000
             var AddCoinData = {"conf":"komodo.conf","path":confpath[0].path,"unitval":"20","zcash":1,"RELAY":-1,"VALIDATE":0,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","startpend":8,"endpend":8,"services":0,"maxpeers":32,"newcoin":"KMD","name":"Komodo","hasheaders":1,"useaddmultisig":0,"netmagic":"f9eee48d","p2p":7770,"rpc":7771,"pubval":60,"p2shval":85,"wifval":188,"txfee_satoshis":"10000","isPoS":0,"minoutput":10000,"minconfirms":2,"genesishash":"027e3758c3a65b12aa1046462b486d0a63bfa1beae327897f56c5cfb7daaae71","protover":170002,"genesisblock":"0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a000000000000000000000000000000000000000000000000000000000000000029ab5f490f0f0f200b00000000000000000000000000000000000000000000000000000000000000fd4005000d5ba7cda5d473947263bf194285317179d2b0d307119c2e7cc4bd8ac456f0774bd52b0cd9249be9d40718b6397a4c7bbd8f2b3272fed2823cd2af4bd1632200ba4bf796727d6347b225f670f292343274cc35099466f5fb5f0cd1c105121b28213d15db2ed7bdba490b4cedc69742a57b7c25af24485e523aadbb77a0144fc76f79ef73bd8530d42b9f3b9bed1c135ad1fe152923fafe98f95f76f1615e64c4abb1137f4c31b218ba2782bc15534788dda2cc08a0ee2987c8b27ff41bd4e31cd5fb5643dfe862c9a02ca9f90c8c51a6671d681d04ad47e4b53b1518d4befafefe8cadfb912f3d03051b1efbf1dfe37b56e93a741d8dfd80d576ca250bee55fab1311fc7b3255977558cdda6f7d6f875306e43a14413facdaed2f46093e0ef1e8f8a963e1632dcbeebd8e49fd16b57d49b08f9762de89157c65233f60c8e38a1f503a48c555f8ec45dedecd574a37601323c27be597b956343107f8bd80f3a925afaf30811df83c402116bb9c1e5231c70fff899a7c82f73c902ba54da53cc459b7bf1113db65cc8f6914d3618560ea69abd13658fa7b6af92d374d6eca9529f8bd565166e4fcbf2a8dfb3c9b69539d4d2ee2e9321b85b331925df195915f2757637c2805e1d4131e1ad9ef9bc1bb1c732d8dba4738716d351ab30c996c8657bab39567ee3b29c6d054b711495c0d52e1cd5d8e55b4f0f0325b97369280755b46a02afd54be4ddd9f77c22272b8bbb17ff5118fedbae2564524e797bd28b5f74f7079d532ccc059807989f94d267f47e724b3f1ecfe00ec9e6541c961080d8891251b84b4480bc292f6a180bea089fef5bbda56e1e41390d7c0e85ba0ef530f7177413481a226465a36ef6afe1e2bca69d2078712b3912bba1a99b1fbff0d355d6ffe726d2bb6fbc103c4ac5756e5bee6e47e17424ebcbf1b63d8cb90ce2e40198b4f4198689daea254307e52a25562f4c1455340f0ffeb10f9d8e914775e37d0edca019fb1b9c6ef81255ed86bc51c5391e0591480f66e2d88c5f4fd7277697968656a9b113ab97f874fdd5f2465e5559533e01ba13ef4a8f7a21d02c30c8ded68e8c54603ab9c8084ef6d9eb4e92c75b078539e2ae786ebab6dab73a09e0aa9ac575bcefb29e930ae656e58bcb513f7e3c17e079dce4f05b5dbc18c2a872b22509740ebe6a3903e00ad1abc55076441862643f93606e3dc35e8d9f2caef3ee6be14d513b2e062b21d0061de3bd56881713a1a5c17f5ace05e1ec09da53f99442df175a49bd154aa96e4949decd52fed79ccf7ccbce32941419c314e374e4a396ac553e17b5340336a1a25c22f9e42a243ba5404450b650acfc826a6e432971ace776e15719515e1634ceb9a4a35061b668c74998d3dfb5827f6238ec015377e6f9c94f38108768cf6e5c8b132e0303fb5a200368f845ad9d46343035a6ff94031df8d8309415bb3f6cd5ede9c135fdabcc030599858d803c0f85be7661c88984d88faa3d26fb0e9aac0056a53f1b5d0baed713c853c4a2726869a0a124a8a5bbc0fc0ef80c8ae4cb53636aa02503b86a1eb9836fcc259823e2692d921d88e1ffc1e6cb2bde43939ceb3f32a611686f539f8f7c9f0bf00381f743607d40960f06d347d1cd8ac8a51969c25e37150efdf7aa4c2037a2fd0516fb444525ab157a0ed0a7412b2fa69b217fe397263153782c0f64351fbdf2678fa0dc8569912dcd8e3ccad38f34f23bbbce14c6a26ac24911b308b82c7e43062d180baeac4ba7153858365c72c63dcf5f6a5b08070b730adb017aeae925b7d0439979e2679f45ed2f25a7edcfd2fb77a8794630285ccb0a071f5cce410b46dbf9750b0354aae8b65574501cc69efb5b6a43444074fee116641bb29da56c2b4a7f456991fc92b2","debug":0}
         } else {
@@ -238,26 +264,30 @@ function Iguana_addcoinLogin(addcoin_data) {
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
         
         if ( addcoin_data.mode == '-1' ) {
-            var setconfig = function() {
-                        return new Promise(function(resolve, reject) {
-                            Shepherd_setConf('SUPERNET');
-                            var result = 'setconfig: DONE'
-                            console.log(result)
-                            resolve(result);
-                        })
-                    }
-                startcoin = setconfig.then(function(data) {
-                        return new Promise(function(resolve, reject) {
-                            Shepherd_herd('SUPERNET');
-                            var result = 'Cstartcoin: DONE'
-                            console.log(result)
-                            resolve(result);
-                        })
-                     });
+            var setconfig = function() {
 
-            startcoin.done(function(data) {
-                console.log(data);
-            });
+                return new Promise(function(resolve, reject) {
+                    Shepherd_setConf('SUPERNET');
+                    var result = 'setconfig: DONE'
+                    console.log(result)
+                    resolve(result);
+                })
+            }
+
+            var startcoin = function() {
+
+                return new Promise(function(resolve, reject) {
+                    Shepherd_herd('SUPERNET');
+                    var result = 'startcoin: DONE'
+                    console.log(result)
+                    resolve(result);
+                })
+            }
+
+            setconfig()
+            .then(function(result) { 
+                return startcoin();
+            })
             tmpinternval = 6000
             var AddCoinData = {"conf":"SUPERNET.conf","path":confpath[0].path,"unitval":"20","zcash":1,"RELAY":-1,"VALIDATE":0,"prefetchlag":-1,"poll":100,"active":1,"agent":"iguana","method":"addcoin","startpend":4,"endpend":4,"services":129,"maxpeers":32,"newcoin":"SUPERNET","name":"SUPERNET","hasheaders":1,"useaddmultisig":0,"netmagic":"cc55d9d4","p2p":11340,"rpc":11341,"pubval":60,"p2shval":85,"wifval":188,"txfee_satoshis":"10000","isPoS":0,"minoutput":10000,"minconfirms":2,"genesishash":"027e3758c3a65b12aa1046462b486d0a63bfa1beae327897f56c5cfb7daaae71","protover":170002,"genesisblock":"0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a000000000000000000000000000000000000000000000000000000000000000029ab5f490f0f0f200b00000000000000000000000000000000000000000000000000000000000000fd4005000d5ba7cda5d473947263bf194285317179d2b0d307119c2e7cc4bd8ac456f0774bd52b0cd9249be9d40718b6397a4c7bbd8f2b3272fed2823cd2af4bd1632200ba4bf796727d6347b225f670f292343274cc35099466f5fb5f0cd1c105121b28213d15db2ed7bdba490b4cedc69742a57b7c25af24485e523aadbb77a0144fc76f79ef73bd8530d42b9f3b9bed1c135ad1fe152923fafe98f95f76f1615e64c4abb1137f4c31b218ba2782bc15534788dda2cc08a0ee2987c8b27ff41bd4e31cd5fb5643dfe862c9a02ca9f90c8c51a6671d681d04ad47e4b53b1518d4befafefe8cadfb912f3d03051b1efbf1dfe37b56e93a741d8dfd80d576ca250bee55fab1311fc7b3255977558cdda6f7d6f875306e43a14413facdaed2f46093e0ef1e8f8a963e1632dcbeebd8e49fd16b57d49b08f9762de89157c65233f60c8e38a1f503a48c555f8ec45dedecd574a37601323c27be597b956343107f8bd80f3a925afaf30811df83c402116bb9c1e5231c70fff899a7c82f73c902ba54da53cc459b7bf1113db65cc8f6914d3618560ea69abd13658fa7b6af92d374d6eca9529f8bd565166e4fcbf2a8dfb3c9b69539d4d2ee2e9321b85b331925df195915f2757637c2805e1d4131e1ad9ef9bc1bb1c732d8dba4738716d351ab30c996c8657bab39567ee3b29c6d054b711495c0d52e1cd5d8e55b4f0f0325b97369280755b46a02afd54be4ddd9f77c22272b8bbb17ff5118fedbae2564524e797bd28b5f74f7079d532ccc059807989f94d267f47e724b3f1ecfe00ec9e6541c961080d8891251b84b4480bc292f6a180bea089fef5bbda56e1e41390d7c0e85ba0ef530f7177413481a226465a36ef6afe1e2bca69d2078712b3912bba1a99b1fbff0d355d6ffe726d2bb6fbc103c4ac5756e5bee6e47e17424ebcbf1b63d8cb90ce2e40198b4f4198689daea254307e52a25562f4c1455340f0ffeb10f9d8e914775e37d0edca019fb1b9c6ef81255ed86bc51c5391e0591480f66e2d88c5f4fd7277697968656a9b113ab97f874fdd5f2465e5559533e01ba13ef4a8f7a21d02c30c8ded68e8c54603ab9c8084ef6d9eb4e92c75b078539e2ae786ebab6dab73a09e0aa9ac575bcefb29e930ae656e58bcb513f7e3c17e079dce4f05b5dbc18c2a872b22509740ebe6a3903e00ad1abc55076441862643f93606e3dc35e8d9f2caef3ee6be14d513b2e062b21d0061de3bd56881713a1a5c17f5ace05e1ec09da53f99442df175a49bd154aa96e4949decd52fed79ccf7ccbce32941419c314e374e4a396ac553e17b5340336a1a25c22f9e42a243ba5404450b650acfc826a6e432971ace776e15719515e1634ceb9a4a35061b668c74998d3dfb5827f6238ec015377e6f9c94f38108768cf6e5c8b132e0303fb5a200368f845ad9d46343035a6ff94031df8d8309415bb3f6cd5ede9c135fdabcc030599858d803c0f85be7661c88984d88faa3d26fb0e9aac0056a53f1b5d0baed713c853c4a2726869a0a124a8a5bbc0fc0ef80c8ae4cb53636aa02503b86a1eb9836fcc259823e2692d921d88e1ffc1e6cb2bde43939ceb3f32a611686f539f8f7c9f0bf00381f743607d40960f06d347d1cd8ac8a51969c25e37150efdf7aa4c2037a2fd0516fb444525ab157a0ed0a7412b2fa69b217fe397263153782c0f64351fbdf2678fa0dc8569912dcd8e3ccad38f34f23bbbce14c6a26ac24911b308b82c7e43062d180baeac4ba7153858365c72c63dcf5f6a5b08070b730adb017aeae925b7d0439979e2679f45ed2f25a7edcfd2fb77a8794630285ccb0a071f5cce410b46dbf9750b0354aae8b65574501cc69efb5b6a43444074fee116641bb29da56c2b4a7f456991fc92b2","debug":0,"seedipaddr":"78.47.196.146"}
         } else {
@@ -411,26 +441,30 @@ function Iguana_addcoin(addcoin_data) {
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
         
         if ( addcoin_data.mode == '-1' ) {
-            var setconfig = function() {
-                        return new Promise(function(resolve, reject) {
-                            Shepherd_setConf('komodod');
-                            var result = 'setconfig: DONE'
-                            console.log(result)
-                            resolve(result);
-                        })
-                    }
-                startcoin = setconfig.then(function(data) {
-                        return new Promise(function(resolve, reject) {
-                            Shepherd_herd('komodod');
-                            var result = 'Cstartcoin: DONE'
-                            console.log(result)
-                            resolve(result);
-                        })
-                     });
+            var setconfig = function() {
 
-            startcoin.done(function(data) {
-                console.log(data);
-            });
+                return new Promise(function(resolve, reject) {
+                    Shepherd_setConf('komodod');
+                    var result = 'setconfig: DONE'
+                    console.log(result)
+                    resolve(result);
+                })
+            }
+
+            var startcoin = function() {
+
+                return new Promise(function(resolve, reject) {
+                    Shepherd_herd('komodod');
+                    var result = 'startcoin: DONE'
+                    console.log(result)
+                    resolve(result);
+                })
+            }
+
+            setconfig()
+            .then(function(result) { 
+                return startcoin();
+            })
             tmpinternval = 6000
             var AddCoinData = {"conf":"komodo.conf","path":confpath[0].path,"unitval":"20","zcash":1,"RELAY":-1,"VALIDATE":0,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","startpend":8,"endpend":8,"services":0,"maxpeers":32,"newcoin":"KMD","name":"Komodo","hasheaders":1,"useaddmultisig":0,"netmagic":"f9eee48d","p2p":7770,"rpc":7771,"pubval":60,"p2shval":85,"wifval":188,"txfee_satoshis":"10000","isPoS":0,"minoutput":10000,"minconfirms":2,"genesishash":"027e3758c3a65b12aa1046462b486d0a63bfa1beae327897f56c5cfb7daaae71","protover":170002,"genesisblock":"0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a000000000000000000000000000000000000000000000000000000000000000029ab5f490f0f0f200b00000000000000000000000000000000000000000000000000000000000000fd4005000d5ba7cda5d473947263bf194285317179d2b0d307119c2e7cc4bd8ac456f0774bd52b0cd9249be9d40718b6397a4c7bbd8f2b3272fed2823cd2af4bd1632200ba4bf796727d6347b225f670f292343274cc35099466f5fb5f0cd1c105121b28213d15db2ed7bdba490b4cedc69742a57b7c25af24485e523aadbb77a0144fc76f79ef73bd8530d42b9f3b9bed1c135ad1fe152923fafe98f95f76f1615e64c4abb1137f4c31b218ba2782bc15534788dda2cc08a0ee2987c8b27ff41bd4e31cd5fb5643dfe862c9a02ca9f90c8c51a6671d681d04ad47e4b53b1518d4befafefe8cadfb912f3d03051b1efbf1dfe37b56e93a741d8dfd80d576ca250bee55fab1311fc7b3255977558cdda6f7d6f875306e43a14413facdaed2f46093e0ef1e8f8a963e1632dcbeebd8e49fd16b57d49b08f9762de89157c65233f60c8e38a1f503a48c555f8ec45dedecd574a37601323c27be597b956343107f8bd80f3a925afaf30811df83c402116bb9c1e5231c70fff899a7c82f73c902ba54da53cc459b7bf1113db65cc8f6914d3618560ea69abd13658fa7b6af92d374d6eca9529f8bd565166e4fcbf2a8dfb3c9b69539d4d2ee2e9321b85b331925df195915f2757637c2805e1d4131e1ad9ef9bc1bb1c732d8dba4738716d351ab30c996c8657bab39567ee3b29c6d054b711495c0d52e1cd5d8e55b4f0f0325b97369280755b46a02afd54be4ddd9f77c22272b8bbb17ff5118fedbae2564524e797bd28b5f74f7079d532ccc059807989f94d267f47e724b3f1ecfe00ec9e6541c961080d8891251b84b4480bc292f6a180bea089fef5bbda56e1e41390d7c0e85ba0ef530f7177413481a226465a36ef6afe1e2bca69d2078712b3912bba1a99b1fbff0d355d6ffe726d2bb6fbc103c4ac5756e5bee6e47e17424ebcbf1b63d8cb90ce2e40198b4f4198689daea254307e52a25562f4c1455340f0ffeb10f9d8e914775e37d0edca019fb1b9c6ef81255ed86bc51c5391e0591480f66e2d88c5f4fd7277697968656a9b113ab97f874fdd5f2465e5559533e01ba13ef4a8f7a21d02c30c8ded68e8c54603ab9c8084ef6d9eb4e92c75b078539e2ae786ebab6dab73a09e0aa9ac575bcefb29e930ae656e58bcb513f7e3c17e079dce4f05b5dbc18c2a872b22509740ebe6a3903e00ad1abc55076441862643f93606e3dc35e8d9f2caef3ee6be14d513b2e062b21d0061de3bd56881713a1a5c17f5ace05e1ec09da53f99442df175a49bd154aa96e4949decd52fed79ccf7ccbce32941419c314e374e4a396ac553e17b5340336a1a25c22f9e42a243ba5404450b650acfc826a6e432971ace776e15719515e1634ceb9a4a35061b668c74998d3dfb5827f6238ec015377e6f9c94f38108768cf6e5c8b132e0303fb5a200368f845ad9d46343035a6ff94031df8d8309415bb3f6cd5ede9c135fdabcc030599858d803c0f85be7661c88984d88faa3d26fb0e9aac0056a53f1b5d0baed713c853c4a2726869a0a124a8a5bbc0fc0ef80c8ae4cb53636aa02503b86a1eb9836fcc259823e2692d921d88e1ffc1e6cb2bde43939ceb3f32a611686f539f8f7c9f0bf00381f743607d40960f06d347d1cd8ac8a51969c25e37150efdf7aa4c2037a2fd0516fb444525ab157a0ed0a7412b2fa69b217fe397263153782c0f64351fbdf2678fa0dc8569912dcd8e3ccad38f34f23bbbce14c6a26ac24911b308b82c7e43062d180baeac4ba7153858365c72c63dcf5f6a5b08070b730adb017aeae925b7d0439979e2679f45ed2f25a7edcfd2fb77a8794630285ccb0a071f5cce410b46dbf9750b0354aae8b65574501cc69efb5b6a43444074fee116641bb29da56c2b4a7f456991fc92b2","debug":0}
         } else {
@@ -494,26 +528,30 @@ function Iguana_addcoin(addcoin_data) {
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
         
         if ( addcoin_data.mode == '-1' ) {
-            var setconfig = function() {
-                        return new Promise(function(resolve, reject) {
-                            Shepherd_setConf('SUPERNET');
-                            var result = 'setconfig: DONE'
-                            console.log(result)
-                            resolve(result);
-                        })
-                    }
-                startcoin = setconfig.then(function(data) {
-                        return new Promise(function(resolve, reject) {
-                            Shepherd_herd('SUPERNET');
-                            var result = 'Cstartcoin: DONE'
-                            console.log(result)
-                            resolve(result);
-                        })
-                     });
+            var setconfig = function() {
 
-            startcoin.done(function(data) {
-                console.log(data);
-            });
+                return new Promise(function(resolve, reject) {
+                    Shepherd_setConf('SUPERNET');
+                    var result = 'setconfig: DONE'
+                    console.log(result)
+                    resolve(result);
+                })
+            }
+
+            var startcoin = function() {
+
+                return new Promise(function(resolve, reject) {
+                    Shepherd_herd('SUPERNET');
+                    var result = 'startcoin: DONE'
+                    console.log(result)
+                    resolve(result);
+                })
+            }
+
+            setconfig()
+            .then(function(result) { 
+                return startcoin();
+            })
             tmpinternval = 6000
             var AddCoinData = {"conf":"SUPERNET.conf","path":confpath[0].path,"unitval":"20","zcash":1,"RELAY":-1,"VALIDATE":0,"prefetchlag":-1,"poll":100,"active":1,"agent":"iguana","method":"addcoin","startpend":4,"endpend":4,"services":129,"maxpeers":32,"newcoin":"SUPERNET","name":"SUPERNET","hasheaders":1,"useaddmultisig":0,"netmagic":"cc55d9d4","p2p":11340,"rpc":11341,"pubval":60,"p2shval":85,"wifval":188,"txfee_satoshis":"10000","isPoS":0,"minoutput":10000,"minconfirms":2,"genesishash":"027e3758c3a65b12aa1046462b486d0a63bfa1beae327897f56c5cfb7daaae71","protover":170002,"genesisblock":"0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a000000000000000000000000000000000000000000000000000000000000000029ab5f490f0f0f200b00000000000000000000000000000000000000000000000000000000000000fd4005000d5ba7cda5d473947263bf194285317179d2b0d307119c2e7cc4bd8ac456f0774bd52b0cd9249be9d40718b6397a4c7bbd8f2b3272fed2823cd2af4bd1632200ba4bf796727d6347b225f670f292343274cc35099466f5fb5f0cd1c105121b28213d15db2ed7bdba490b4cedc69742a57b7c25af24485e523aadbb77a0144fc76f79ef73bd8530d42b9f3b9bed1c135ad1fe152923fafe98f95f76f1615e64c4abb1137f4c31b218ba2782bc15534788dda2cc08a0ee2987c8b27ff41bd4e31cd5fb5643dfe862c9a02ca9f90c8c51a6671d681d04ad47e4b53b1518d4befafefe8cadfb912f3d03051b1efbf1dfe37b56e93a741d8dfd80d576ca250bee55fab1311fc7b3255977558cdda6f7d6f875306e43a14413facdaed2f46093e0ef1e8f8a963e1632dcbeebd8e49fd16b57d49b08f9762de89157c65233f60c8e38a1f503a48c555f8ec45dedecd574a37601323c27be597b956343107f8bd80f3a925afaf30811df83c402116bb9c1e5231c70fff899a7c82f73c902ba54da53cc459b7bf1113db65cc8f6914d3618560ea69abd13658fa7b6af92d374d6eca9529f8bd565166e4fcbf2a8dfb3c9b69539d4d2ee2e9321b85b331925df195915f2757637c2805e1d4131e1ad9ef9bc1bb1c732d8dba4738716d351ab30c996c8657bab39567ee3b29c6d054b711495c0d52e1cd5d8e55b4f0f0325b97369280755b46a02afd54be4ddd9f77c22272b8bbb17ff5118fedbae2564524e797bd28b5f74f7079d532ccc059807989f94d267f47e724b3f1ecfe00ec9e6541c961080d8891251b84b4480bc292f6a180bea089fef5bbda56e1e41390d7c0e85ba0ef530f7177413481a226465a36ef6afe1e2bca69d2078712b3912bba1a99b1fbff0d355d6ffe726d2bb6fbc103c4ac5756e5bee6e47e17424ebcbf1b63d8cb90ce2e40198b4f4198689daea254307e52a25562f4c1455340f0ffeb10f9d8e914775e37d0edca019fb1b9c6ef81255ed86bc51c5391e0591480f66e2d88c5f4fd7277697968656a9b113ab97f874fdd5f2465e5559533e01ba13ef4a8f7a21d02c30c8ded68e8c54603ab9c8084ef6d9eb4e92c75b078539e2ae786ebab6dab73a09e0aa9ac575bcefb29e930ae656e58bcb513f7e3c17e079dce4f05b5dbc18c2a872b22509740ebe6a3903e00ad1abc55076441862643f93606e3dc35e8d9f2caef3ee6be14d513b2e062b21d0061de3bd56881713a1a5c17f5ace05e1ec09da53f99442df175a49bd154aa96e4949decd52fed79ccf7ccbce32941419c314e374e4a396ac553e17b5340336a1a25c22f9e42a243ba5404450b650acfc826a6e432971ace776e15719515e1634ceb9a4a35061b668c74998d3dfb5827f6238ec015377e6f9c94f38108768cf6e5c8b132e0303fb5a200368f845ad9d46343035a6ff94031df8d8309415bb3f6cd5ede9c135fdabcc030599858d803c0f85be7661c88984d88faa3d26fb0e9aac0056a53f1b5d0baed713c853c4a2726869a0a124a8a5bbc0fc0ef80c8ae4cb53636aa02503b86a1eb9836fcc259823e2692d921d88e1ffc1e6cb2bde43939ceb3f32a611686f539f8f7c9f0bf00381f743607d40960f06d347d1cd8ac8a51969c25e37150efdf7aa4c2037a2fd0516fb444525ab157a0ed0a7412b2fa69b217fe397263153782c0f64351fbdf2678fa0dc8569912dcd8e3ccad38f34f23bbbce14c6a26ac24911b308b82c7e43062d180baeac4ba7153858365c72c63dcf5f6a5b08070b730adb017aeae925b7d0439979e2679f45ed2f25a7edcfd2fb77a8794630285ccb0a071f5cce410b46dbf9750b0354aae8b65574501cc69efb5b6a43444074fee116641bb29da56c2b4a7f456991fc92b2","debug":0,"seedipaddr":"78.47.196.146"}
         } else {
@@ -537,26 +575,30 @@ function Iguana_addcoin(addcoin_data) {
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
         
         if ( addcoin_data.mode == '-1' ) {
-            var setconfig = function() {
-                        return new Promise(function(resolve, reject) {
-                            Shepherd_setConf('REVS');
-                            var result = 'setconfig: DONE'
-                            console.log(result)
-                            resolve(result);
-                        })
-                    }
-                startcoin = setconfig.then(function(data) {
-                        return new Promise(function(resolve, reject) {
-                            Shepherd_herd('REVS');
-                            var result = 'Cstartcoin: DONE'
-                            console.log(result)
-                            resolve(result);
-                        })
-                     });
+            var setconfig = function() {
 
-            startcoin.done(function(data) {
-                console.log(data);
-            });
+                return new Promise(function(resolve, reject) {
+                    Shepherd_setConf('REVS');
+                    var result = 'setconfig: DONE'
+                    console.log(result)
+                    resolve(result);
+                })
+            }
+
+            var startcoin = function() {
+
+                return new Promise(function(resolve, reject) {
+                    Shepherd_herd('REVS');
+                    var result = 'startcoin: DONE'
+                    console.log(result)
+                    resolve(result);
+                })
+            }
+
+            setconfig()
+            .then(function(result) { 
+                return startcoin();
+            })
             tmpinternval = 6000
             var AddCoinData = {"conf":"SUPERNET.conf","path":confpath[0].path,"unitval":"20","zcash":1,"RELAY":-1,"VALIDATE":0,"prefetchlag":-1,"poll":100,"active":1,"agent":"iguana","method":"addcoin","startpend":4,"endpend":4,"services":129,"maxpeers":8,"newcoin":"REVS","name":"REVS","hasheaders":1,"useaddmultisig":0,"netmagic":"905c3498","p2p":10195,"rpc":10196,"pubval":60,"p2shval":85,"wifval":188,"txfee_satoshis":"10000","isPoS":0,"minoutput":10000,"minconfirms":2,"genesishash":"027e3758c3a65b12aa1046462b486d0a63bfa1beae327897f56c5cfb7daaae71","protover":170002,"genesisblock":"0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a000000000000000000000000000000000000000000000000000000000000000029ab5f490f0f0f200b00000000000000000000000000000000000000000000000000000000000000fd4005000d5ba7cda5d473947263bf194285317179d2b0d307119c2e7cc4bd8ac456f0774bd52b0cd9249be9d40718b6397a4c7bbd8f2b3272fed2823cd2af4bd1632200ba4bf796727d6347b225f670f292343274cc35099466f5fb5f0cd1c105121b28213d15db2ed7bdba490b4cedc69742a57b7c25af24485e523aadbb77a0144fc76f79ef73bd8530d42b9f3b9bed1c135ad1fe152923fafe98f95f76f1615e64c4abb1137f4c31b218ba2782bc15534788dda2cc08a0ee2987c8b27ff41bd4e31cd5fb5643dfe862c9a02ca9f90c8c51a6671d681d04ad47e4b53b1518d4befafefe8cadfb912f3d03051b1efbf1dfe37b56e93a741d8dfd80d576ca250bee55fab1311fc7b3255977558cdda6f7d6f875306e43a14413facdaed2f46093e0ef1e8f8a963e1632dcbeebd8e49fd16b57d49b08f9762de89157c65233f60c8e38a1f503a48c555f8ec45dedecd574a37601323c27be597b956343107f8bd80f3a925afaf30811df83c402116bb9c1e5231c70fff899a7c82f73c902ba54da53cc459b7bf1113db65cc8f6914d3618560ea69abd13658fa7b6af92d374d6eca9529f8bd565166e4fcbf2a8dfb3c9b69539d4d2ee2e9321b85b331925df195915f2757637c2805e1d4131e1ad9ef9bc1bb1c732d8dba4738716d351ab30c996c8657bab39567ee3b29c6d054b711495c0d52e1cd5d8e55b4f0f0325b97369280755b46a02afd54be4ddd9f77c22272b8bbb17ff5118fedbae2564524e797bd28b5f74f7079d532ccc059807989f94d267f47e724b3f1ecfe00ec9e6541c961080d8891251b84b4480bc292f6a180bea089fef5bbda56e1e41390d7c0e85ba0ef530f7177413481a226465a36ef6afe1e2bca69d2078712b3912bba1a99b1fbff0d355d6ffe726d2bb6fbc103c4ac5756e5bee6e47e17424ebcbf1b63d8cb90ce2e40198b4f4198689daea254307e52a25562f4c1455340f0ffeb10f9d8e914775e37d0edca019fb1b9c6ef81255ed86bc51c5391e0591480f66e2d88c5f4fd7277697968656a9b113ab97f874fdd5f2465e5559533e01ba13ef4a8f7a21d02c30c8ded68e8c54603ab9c8084ef6d9eb4e92c75b078539e2ae786ebab6dab73a09e0aa9ac575bcefb29e930ae656e58bcb513f7e3c17e079dce4f05b5dbc18c2a872b22509740ebe6a3903e00ad1abc55076441862643f93606e3dc35e8d9f2caef3ee6be14d513b2e062b21d0061de3bd56881713a1a5c17f5ace05e1ec09da53f99442df175a49bd154aa96e4949decd52fed79ccf7ccbce32941419c314e374e4a396ac553e17b5340336a1a25c22f9e42a243ba5404450b650acfc826a6e432971ace776e15719515e1634ceb9a4a35061b668c74998d3dfb5827f6238ec015377e6f9c94f38108768cf6e5c8b132e0303fb5a200368f845ad9d46343035a6ff94031df8d8309415bb3f6cd5ede9c135fdabcc030599858d803c0f85be7661c88984d88faa3d26fb0e9aac0056a53f1b5d0baed713c853c4a2726869a0a124a8a5bbc0fc0ef80c8ae4cb53636aa02503b86a1eb9836fcc259823e2692d921d88e1ffc1e6cb2bde43939ceb3f32a611686f539f8f7c9f0bf00381f743607d40960f06d347d1cd8ac8a51969c25e37150efdf7aa4c2037a2fd0516fb444525ab157a0ed0a7412b2fa69b217fe397263153782c0f64351fbdf2678fa0dc8569912dcd8e3ccad38f34f23bbbce14c6a26ac24911b308b82c7e43062d180baeac4ba7153858365c72c63dcf5f6a5b08070b730adb017aeae925b7d0439979e2679f45ed2f25a7edcfd2fb77a8794630285ccb0a071f5cce410b46dbf9750b0354aae8b65574501cc69efb5b6a43444074fee116641bb29da56c2b4a7f456991fc92b2","debug":0,"seedipaddr":"78.47.196.146"}
         } else {
@@ -604,10 +646,11 @@ function Iguana_addcoin(addcoin_data) {
                         console.log('command NOT executed from login. RELOADING WALLET WIDGETS...');
                         refreshEDEXCoinWalletList()
                         //Iguana_DEXImportAll();
-                        EDEXMainAddr(addcoin_data.coin).then(function(result){
+                        //EDEXMainAddr(addcoin_data.coin).then(function(result){
                             //console.log(result)
-                            Iguana_DEXImportAddr(addcoin_data.coin,result);
-                        })
+                            //Iguana_DEXImportAddr(addcoin_data.coin,result);
+                        //})
+                        Iguana_DEXImportAllWalletAddr(addcoin_data.coin)
                         //$(document).ready(function() { window.location.reload(); });
                     } else {
                         Iguana_CheckActiveCoins().then(function(result){
@@ -1119,6 +1162,74 @@ function Iguana_DEXImportAddr(coin,addr) {
     });    
 }
 
+function Iguana_DEXImportAllWalletAddr(coin) {
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+    var ajax_data_2 = {'userpass':tmpIguanaRPCAuth,"coin":coin,"agent":"bitcoinrpc","method":"getaddressesbyaccount","account":"*"}
+    var tmp_coin_addr = null
+
+    var ajax_call_2 = $.ajax({
+        data: JSON.stringify(ajax_data_2),
+        url: 'http://127.0.0.1:7778',
+        type: 'POST',
+        dataType: 'json',
+    }),
+    ajax_call_3 = ajax_call_2.then(function(data) {
+        //console.log(data.result)
+        $.each(data.result, function(coinaddr_index,coinaddr_value){
+            console.log(coinaddr_index)
+            console.log(coinaddr_value)
+            //tmp_coin_addr = data[coin]
+            //tmp_coin_addr = coinaddr_value
+            //console.log(tmp_coin_addr);
+            var ajax_data_4 = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"checkaddress","address":coinaddr_value,"symbol":coin}
+            var ajax_call_4 = $.ajax({
+                        data: JSON.stringify(ajax_data_4),
+                        url: 'http://127.0.0.1:7778',
+                        type: 'POST',
+                        dataType: 'json',
+                    }),
+                ajax_call_5 = ajax_call_4.then(function(data) {
+                        console.log(data)
+                        console.log(coinaddr_value);
+                        if(("error" in data) || !("address" in data)) {
+                            var ajax_data_4 ={'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"importaddress","address":coinaddr_value,"symbol":coin}
+                            return $.ajax({
+                                data: JSON.stringify(ajax_data_4),
+                                url: 'http://127.0.0.1:7778',
+                                type: 'POST',
+                                dataType: 'json',
+                            });
+                        } else {
+                            var tmp_result = "already in list"
+                            return tmp_result
+                        }
+                    });
+
+            ajax_call_5.done(function(data) {
+                console.log(coin)
+                console.log(data);
+                if (data == 'already in list') {
+                    toastr.info(coinaddr_value+" already registered on network.", "Basilisk Notification - "+coin)
+                } else {
+                    if (data.iswatchonly == true) {
+                        toastr.success("Registered "+coinaddr_value+" on network.", "Basilisk Notification - "+coin)
+                    }
+                    if (data.iswatchonly == false) {
+                        toastr.success(coinaddr_value+" Registeration failed. Please try again.", "Basilisk Notification - "+coin)
+                    }
+                    if (data.iswatchonly == undefined) {
+                        toastr.error("Invalid query sent for "+coinaddr_value+". Please try again.", "Basilisk Notification - "+coin)
+                    }
+                    if (data.error === 'less than required responses') {
+                        toastr.error("Less than required responses. Please try again.", "Basilisk Notification - "+coin)
+                    }
+                }
+            });
+        })
+    })
+}
+
+
 function Iguana_DEXImportAll() {
     var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
     var ajax_data_1 = {'userpass':tmpIguanaRPCAuth,"agent":"InstantDEX","method":"allcoins"};
@@ -1137,7 +1248,7 @@ function Iguana_DEXImportAll() {
             $.each(data[data_value], function(mode_index,mode_value) {
                 //console.log(mode_index);
                 //console.log(mode_value);
-            var ajax_data_2 = {'userpass':tmpIguanaRPCAuth,"agent":"SuperNET","method":"activehandle"}
+            var ajax_data_2 = {'userpass':tmpIguanaRPCAuth,"coin":mode_value,"agent":"bitcoinrpc","method":"getaddressesbyaccount","account":"*"}
                 var tmp_coin_addr = null
 
                 var ajax_call_2 = $.ajax({
@@ -1147,52 +1258,62 @@ function Iguana_DEXImportAll() {
                     dataType: 'json',
                 }),
               ajax_call_3 = ajax_call_2.then(function(data) {
-                    tmp_coin_addr = data[mode_value]
-                    //console.log(tmp_coin_addr);
-                    var ajax_data_3 = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"checkaddress","address":tmp_coin_addr,"symbol":mode_value}
-                    return $.ajax({
-                        data: JSON.stringify(ajax_data_3),
-                        url: 'http://127.0.0.1:7778',
-                        type: 'POST',
-                        dataType: 'json',
-                    });
-                }),
-              ajax_call_4 = ajax_call_3.then(function(data) {
-                    //console.log(data)
-                    //console.log(tmp_coin_addr);
-                    if(("error" in data)) {
-                        var ajax_data_4 ={'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"importaddress","address":tmp_coin_addr,"symbol":mode_value}
-                        return $.ajax({
-                            data: JSON.stringify(ajax_data_4),
-                            url: 'http://127.0.0.1:7778',
-                            type: 'POST',
-                            dataType: 'json',
-                        });
-                    } else {
-                        var tmp_result = "already in list"
-                        return tmp_result
-                    }
-                });
+                    //console.log(data.result)
+                    $.each(data.result, function(coinaddr_index,coinaddr_value){
+                        console.log(coinaddr_index)
+                        console.log(coinaddr_value)
+                        //tmp_coin_addr = data[mode_value]
+                        //tmp_coin_addr = coinaddr_value
+                        //console.log(tmp_coin_addr);
+                        var ajax_data_4 = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"checkaddress","address":coinaddr_value,"symbol":mode_value}
+                        var ajax_call_4 = $.ajax({
+                                    data: JSON.stringify(ajax_data_4),
+                                    url: 'http://127.0.0.1:7778',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                }),
+                            ajax_call_5 = ajax_call_4.then(function(data) {
+                                    console.log(data)
+                                    console.log(coinaddr_value);
+                                    if(("error" in data) || !("address" in data)) {
+                                        var ajax_data_4 ={'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"importaddress","address":coinaddr_value,"symbol":mode_value}
+                                        return $.ajax({
+                                            data: JSON.stringify(ajax_data_4),
+                                            url: 'http://127.0.0.1:7778',
+                                            type: 'POST',
+                                            dataType: 'json',
+                                        });
+                                    } else {
+                                        var tmp_result = "already in list"
+                                        return tmp_result
+                                    }
+                                });
 
-                ajax_call_4.done(function(data) {
-                    //console.log(mode_value)
-                    //console.log(data);
-                    if (data == 'already in list') {
-                        toastr.info(mode_value+" address already registered on network.", "Basilisk Notification")
-                    } else {
-                        if (data.iswatchonly == true) {
-                            toastr.success("Registered "+mode_value+" address  on network.", "Basilisk Notification")
-                        }
-                        if (data.iswatchonly == false) {
-                            toastr.success(mode_value+" address Registeration failed. Please try again.", "Basilisk Notification")
-                        }
-                        if (data.iswatchonly == undefined) {
-                            toastr.error("Invalid query sent for "+mode_value+". Please try again.", "Basilisk Notification")
-                        }
-                        if (data.error === 'less than required responses') {
-                            toastr.error("Less than required responses. Please try again.", "Basilisk Notification")
-                        }
-                    }
+                        ajax_call_5.done(function(data) {
+                            console.log(mode_value)
+                            console.log(data);
+                            if (data == 'already in list') {
+                                toastr.info(coinaddr_value+" already registered on network.", "Basilisk Notification - "+mode_value)
+                            } else {
+                                if (data.iswatchonly == true) {
+                                    toastr.success("Registered "+coinaddr_value+" on network.", "Basilisk Notification - "+mode_value)
+                                }
+                                if (data.iswatchonly == false) {
+                                    toastr.success(coinaddr_value+" Registeration failed. Please try again.", "Basilisk Notification - "+mode_value)
+                                }
+                                if (data.iswatchonly == undefined) {
+                                    toastr.error("Invalid query sent for "+coinaddr_value+". Please try again.", "Basilisk Notification - "+mode_value)
+                                }
+                                if (data.error === 'less than required responses') {
+                                    toastr.error("Less than required responses. Please try again.", "Basilisk Notification - "+mode_value)
+                                }
+                            }
+                        });
+                    })
+                })
+
+                ajax_call_3.done(function() {
+                    console.log('Registered addresses from all active coin wallets.')
                 })
             });
         });
@@ -1504,5 +1625,20 @@ function Shepherd_herd(coin) {
 
 
 
-
+function Shepherd_herdlist(data) {
+    return new Promise((resolve) =>{
+        var ajax_data_1 = {"herdname":data}
+        //console.log(ajax_data_1)
+        var ajax_call_1 = $.ajax({
+                    data: JSON.stringify(ajax_data_1),
+                    url: 'http://127.0.0.1:17777/shepherd/herdlist',
+                    type: 'POST',
+                    contentType: "application/json",
+                })
+        ajax_call_1.done(function(data) {
+            //console.log(data);
+            resolve(data);
+        });
+    })
+}
 

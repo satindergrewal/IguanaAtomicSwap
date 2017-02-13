@@ -94,8 +94,20 @@ var AtomicExplorer = function() {
                 ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listtransactions","address":atomic_explorer_input_data_val,"count":100,"skip":0,"symbol":atomic_explorer_select_coin_val};
                 console.log(ExplorerInputData);
             }
+            if (atomic_explorer_select_command_val === 'dex_listtransactions2') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listtransactions2","address":atomic_explorer_input_data_val,"count":100,"skip":0,"symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
             if (atomic_explorer_select_command_val === 'dex_listunspent') {
                 ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listunspent","address":atomic_explorer_input_data_val,"symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
+            if (atomic_explorer_select_command_val === 'dex_listspent') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listspent","address":atomic_explorer_input_data_val,"symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
+            if (atomic_explorer_select_command_val === 'dex_listunspent2') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listunspent2","address":atomic_explorer_input_data_val,"symbol":atomic_explorer_select_coin_val};
                 console.log(ExplorerInputData);
             }
             if (atomic_explorer_select_command_val === 'dex_getblockhash') {
@@ -106,12 +118,24 @@ var AtomicExplorer = function() {
                 ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getblock","hash":atomic_explorer_input_data_val,"symbol":atomic_explorer_select_coin_val};
                 console.log(ExplorerInputData);
             }
+            if (atomic_explorer_select_command_val === 'dex_gettxin') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"gettxin","vout":0,"txid":atomic_explorer_input_data_val,"symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
             if (atomic_explorer_select_command_val === 'dex_gettxout') {
                 ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"gettxout","vout":0,"txid":atomic_explorer_input_data_val,"symbol":atomic_explorer_select_coin_val};
                 console.log(ExplorerInputData);
             }
             if (atomic_explorer_select_command_val === 'dex_gettransaction') {
                 ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"gettransaction","txid":atomic_explorer_input_data_val,"symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
+            if (atomic_explorer_select_command_val === 'dex_getbalance') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getbalance","address":atomic_explorer_input_data_val,"symbol":atomic_explorer_select_coin_val};
+                console.log(ExplorerInputData);
+            }
+            if (atomic_explorer_select_command_val === 'dex_getsupply') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getbalance","address":"*","symbol":atomic_explorer_select_coin_val,"timeout":600000};
                 console.log(ExplorerInputData);
             }
 

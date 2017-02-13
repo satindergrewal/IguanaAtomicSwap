@@ -552,12 +552,16 @@ var Login = function() {
             })
         } else {
             var CheckLoginData = JSON.parse(sessionStorage.getItem('IguanaActiveAccount'));
-            if ( JSON.parse(CheckLoginData).pubkey != Iguana_activehandle_output.pubkey ) {
-                //console.log("Login: sessionStorage data and activehandle data doesn't match");
-                //console.log('Iguana_activehandle_output: '+Iguana_activehandle_output.rmd160);
-                //console.log('CheckLoginData: ' + JSON.parse(CheckLoginData).rmd160);
-                ClearOnLogout(false, false);
-            }
+
+            Iguana_activehandle().then(function(result){
+                //console.log(result)
+                if ( JSON.parse(CheckLoginData).pubkey != result.pubkey ) {
+                    //console.log("Login: sessionStorage data and activehandle data doesn't match");
+                    //console.log('result: '+result.rmd160);
+                    //console.log('CheckLoginData: ' + JSON.parse(CheckLoginData).rmd160);
+                    ClearOnLogout(false, false);
+                }
+            })
             if ( JSON.parse(CheckLoginData).status === 'unlocked' ) {
                 console.log(JSON.parse(CheckLoginData).status);
                 $('#password').val('')

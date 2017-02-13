@@ -501,7 +501,8 @@ var Dashboard = function() {
         var selected_coin = $(this).data('edexcoin')
         EDEXMainAddr(selected_coin).then(function(result){
           //console.log(result)
-          Iguana_DEXImportAddr(selected_coin,result);
+          Iguana_DEXImportAllWalletAddr(selected_coin);
+          //Iguana_DEXImportAddr(selected_coin,result);
         })
       })
 
@@ -570,7 +571,7 @@ var Dashboard = function() {
                 }
                 if ( sessionStorage.getItem('Activate'+active_edexcoin+'History') === 'Yes' ) {
                   //console.log('Show coin history');
-                  var historyvalues = {"timeout":20000,"immediate":100,"agent":"basilisk","method":"history","vals":{"coin":"" + active_edexcoin + ""}};
+                  //var historyvalues = {"timeout":20000,"immediate":100,"agent":"basilisk","method":"history","vals":{"coin":"" + active_edexcoin + ""}};
                   //ShowCoinHistory(historyvalues);
                 //}
               }
@@ -1418,8 +1419,8 @@ function EdexGetTxList(coin) {
         });
 
     ajax_call_2.done(function(data) {
-      console.log(tmp_coin_addr);
-      console.log(data);
+      //console.log(tmp_coin_addr);
+      //console.log(data);
       if ( active_edexcoinmodecode == 'Full' ) {
         data = data.result;
       }
