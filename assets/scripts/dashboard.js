@@ -1407,10 +1407,29 @@ function EdexGetTxList(coin) {
           tmp_coin_addr = data[coin]
           //console.log(tmp_coin_addr);
           if ( active_edexcoinmodecode == 'Basilisk' ) {
-            var ajax_data_2 = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listtransactions2","address":data[coin],"count":100,"skip":0,"symbol":coin}
+            if ( coin == 'BTC'
+                  || coin == 'BTCD'
+                  || coin == 'LTC'
+                  || coin == 'DOGE'
+                  || coin == 'DGB'
+                  || coin == 'SYS'
+                  || coin == 'MZC'
+                  || coin == 'UNO'
+                  || coin == 'ZET'
+                  || coin == 'BTM'
+                  || coin == 'CARB'
+                  || coin == 'ANC'
+                  || coin == 'FRK') {
+              console.log(coin)
+              var ajax_data_2 = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listtransactions","address":data[coin],"count":100,"skip":0,"symbol":coin}
+            } else {
+              console.log(coin)
+              var ajax_data_2 = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listtransactions2","address":data[coin],"count":100,"skip":0,"symbol":coin}
+            }
           } else {
             var ajax_data_2 = {'userpass':tmpIguanaRPCAuth,"coin":coin,"method":"listtransactions","params":[0, 9999999, []]}
           }
+          console.log(ajax_data_2)
           return $.ajax({
             data: JSON.stringify(ajax_data_2),
             url: 'http://127.0.0.1:7778',
@@ -1429,7 +1448,20 @@ function EdexGetTxList(coin) {
       $.each(data, function(index, value) {
         //console.log(value);
 
-        if ( active_edexcoinmodecode == 'Full' ) {
+        if ( active_edexcoinmodecode == 'Full' 
+          || ( active_edexcoinmodecode == 'Basilisk' && coin == 'BTC')
+          || ( active_edexcoinmodecode == 'Basilisk' && coin == 'BTCD' )
+          || ( active_edexcoinmodecode == 'Basilisk' && coin == 'LTC' )
+          || ( active_edexcoinmodecode == 'Basilisk' && coin == 'DOGE' )
+          || ( active_edexcoinmodecode == 'Basilisk' && coin == 'DGB' )
+          || ( active_edexcoinmodecode == 'Basilisk' && coin == 'SYS' )
+          || ( active_edexcoinmodecode == 'Basilisk' && coin == 'MZC' )
+          || ( active_edexcoinmodecode == 'Basilisk' && coin == 'UNO' )
+          || ( active_edexcoinmodecode == 'Basilisk' && coin == 'ZET' )
+          || ( active_edexcoinmodecode == 'Basilisk' && coin == 'BTM' )
+          || ( active_edexcoinmodecode == 'Basilisk' && coin == 'CARB' )
+          || ( active_edexcoinmodecode == 'Basilisk' && coin == 'ANC' )
+          || ( active_edexcoinmodecode == 'Basilisk' && coin == 'FRK' ) ) {
           var tmp_category = '';
           var tmp_amount = data[index].amount;
           if(!("amount" in data[index])) {
@@ -1472,7 +1504,20 @@ function EdexGetTxList(coin) {
           result.push(tmplisttransactions);
         }
 
-        if ( active_edexcoinmodecode == 'Basilisk' ) {
+        if ( active_edexcoinmodecode == 'Basilisk' 
+          && coin !== 'BTC' 
+          && coin !== 'BTCD'
+          && coin !== 'LTC'
+          && coin !== 'DOGE'
+          && coin !== 'DGB'
+          && coin !== 'SYS'
+          && coin !== 'MZC'
+          && coin !== 'UNO'
+          && coin !== 'ZET'
+          && coin !== 'BTM'
+          && coin !== 'CARB'
+          && coin !== 'ANC'
+          && coin !== 'FRK' ) {
           var tmp_category = '';
           var tmp_amount = data[index].amount;
           if(!("amount" in data[index])) {
