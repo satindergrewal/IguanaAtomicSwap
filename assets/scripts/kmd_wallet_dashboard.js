@@ -283,7 +283,8 @@ jQuery(document).ready(function() {
                 if ( sessionStorage.getItem('edexTmpMode') !== null || sessionStorage.getItem('edexTmpMode') === "Native") {
                   if ( sessionStorage.getItem('edexTmpRefresh') === null || sessionStorage.getItem('edexTmpRefresh') === "start") {
                     //console.log('it is not COIN. '+'It is: ' + $('[data-data-extcoin]').attr("data-data-extcoin"));
-                    $( "#btn_kmd_wallet_dashboard" ).trigger( "click" );
+                    var action_btn_code = getHeaderActionMenuButtonCoinCode();
+                    $( '#btn_'+action_btn_code+'_wallet_dashboard' ).trigger( "click" );
                   }
                 }
               }
@@ -380,7 +381,7 @@ function getTotalKMDBalance() {
             //console.log(AjaxOutputData);
             if (AjaxOutputData.interest != undefined) {
                 console.log('show interest..');
-                $('#kmd_total_interest_balance').text(AjaxOutputData.interest+' '+extcoin);
+                $('#kmd_total_interest_balance').text(parseFloat(AjaxOutputData.interest).toFixed(8)+' '+extcoin);
                 $('#kmd_widget_get_total_balance_i').show();
                 $('#kmd_widget_get_total_balance_t').addClass(' col-lg-3');
                 $('#kmd_widget_get_total_balance_t').removeClass('col-lg-4');
@@ -398,9 +399,9 @@ function getTotalKMDBalance() {
                 $('#kmd_widget_get_total_balance_tzi').addClass(' col-lg-4');
                 $('#kmd_widget_get_total_balance_tzi').removeClass(' col-lg-3');
             }
-            $('#kmd_transparent_balance').text(AjaxOutputData.transparent+' '+extcoin);
-            $('#kmd_private_balance').text(AjaxOutputData.private+' '+extcoin);
-            $('#kmd_total_tz_balance').text(AjaxOutputData.total+' '+extcoin);
+            $('#kmd_transparent_balance').text(parseFloat(AjaxOutputData.transparent).toFixed(8)+' '+extcoin);
+            $('#kmd_private_balance').text(parseFloat(AjaxOutputData.private).toFixed(8)+' '+extcoin);
+            $('#kmd_total_tz_balance').text(parseFloat(AjaxOutputData.total).toFixed(8)+' '+extcoin);
         },
         error: function(xhr, textStatus, error) {
             console.log('failed getting Coin History.');
@@ -699,7 +700,7 @@ function KMDGetPublicTransactions() {
         success: function(data, textStatus, jqXHR) {
             var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
             //console.log('== Data OutPut of listtransactions ==');
-            //console.log(AjaxOutputData);
+            console.log(AjaxOutputData);
 
             $.each(AjaxOutputData, function(index, value) {
 				//console.log(value);
@@ -778,11 +779,15 @@ function KMDGetProtectedTransactions() {
 	            //console.log(AjaxOutputData);
 
 	            $.each(AjaxOutputData, function(index, txidvalue) {
-					//console.log(txidvalue);
+					console.log(txidvalue);
 
 					var tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
 	                var tmp_addr = value.addr.slice(0, 30)+'...';
-	                var tmp_amount = txidvalue.amount;
+	                if(!("amount" in txidvalue)) {
+                        var tmp_amount = 0;
+                    } else {
+                        var tmp_amount = txidvalue.amount;
+                    }
 	                var tmp_addr_txid_info = KMDGetTransactionIDInfo(AjaxOutputData[index].txid);
 	                //console.log(tmp_addr_txid_info);
 	                var tmp_confirmations = tmp_addr_txid_info[0].confirmations;
@@ -822,8 +827,9 @@ function KMDfillTxHistoryT() {
 	});
 	NProgress.start();
     var txhistorydataT = KMDGetPublicTransactions();
-    var txhistorydataZ = KMDGetProtectedTransactions();
-    var txhistorydata = $.merge( txhistorydataT, txhistorydataZ );
+    //var txhistorydataZ = KMDGetProtectedTransactions();
+    //var txhistorydata = $.merge( txhistorydataT, txhistorydataZ );
+    var txhistorydata = txhistorydataT;
     //console.log(txhistorydata);
 
     var kmd_txhistory_table = '';

@@ -18,9 +18,9 @@
 	box-shadow: 0 3px 10px 0px rgba(0, 0, 0, 0.32);
 }
 
-#section-iguana-wallet-settings, #section-iguana-atomic-explorer, #section-extcoin {
+/*#section-iguana-wallet-settings, #section-iguana-atomic-explorer, #section-extcoin {
 	padding-top: 0;
-}
+}*/
 
 .kmd-wallet-header {
 	background: url("assets/images/bg/kmd_transparent_header_bg.png") !important;
