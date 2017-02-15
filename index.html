@@ -1857,7 +1857,40 @@
                             <label class="floating-label" for="wifkeys_passphrase">Passphrase</label>
                           </div>
                           <div class="col-sm-12 col-xs-12" style="text-align: center;">
-                            <button type="submit" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="settings_getcoinpeers_btn">Get Wif Keys</button>
+                            <button type="submit" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="wifkeys_passphrase_btn">Get Wif Keys</button>
+                          </div>
+                        </form>
+
+                        <div class="col-sm-12" style="padding-top: 15px;">
+                          <div class="row" id="wif-priv-keys" data-plugin="masonry">
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="panel">
+                    <div class="panel-heading" id="ImportKeys" role="tab">
+                      <a class="panel-title collapsed" data-toggle="collapse" href="#ImportKeysTab"
+                      data-parent="#SettingsAccordion" aria-expanded="false"
+                      aria-controls="ImportKeysTab">
+                      <i class="icon md-key" aria-hidden="true"></i>Import Keys
+                    </a>
+                    </div>
+                    <div class="panel-collapse collapse" id="ImportKeysTab" aria-labelledby="ImportKeys"
+                    role="tabpanel">
+                      <div class="panel-body">
+                        <p>This section allows you to import private key of all iguana supported coins, Assetchain, Geckochain, or PAXchain by the wallet.<br>It is not mandatory to have that coin active in the wallet for which you are executing import private key process.<br>You'll also notice the private key you imported for one coin or chain will also be showing a new address in all other coin wallets' receiving address section. It is normal. <b><i>Please keep these keys extra safe and secure.</i></b></p>
+                        <div class="col-sm-12"></div>
+                        <form class="wifkeys-import-form" method="post" action="javascript:;" autocomplete="off" onsubmit="return false;">
+                          <div class="form-group form-material floating">
+                            <input type="text" class="form-control" name="import_wifkey" id="import_wifkey">
+                            <label class="floating-label" for="import_wifkey">Input Private Key</label>
+                          </div>
+                          <div class="col-sm-12 col-xs-12" style="text-align: center;">
+                            <button type="submit" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="import_wifkey_btn">Import Private Key</button>
                           </div>
                         </form>
 

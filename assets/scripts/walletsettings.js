@@ -125,11 +125,57 @@ var WalletSettings = function() {
 
     };
 
+    var handleWalletImportKeys = function() {
+        $('.wifkeys-import-form').validate({
+            //errorElement: 'span', //default input error message container
+            //errorClass: 'help-block', // default input error message class
+            //focusInvalid: false, // do not focus the last invalid input
+            rules: {
+                import_wifkey: {
+                    required: true
+                }
+            },
+
+            messages: {
+                import_wifkey: {
+                    required: "Private Key is required."
+                }
+            },
+
+            submitHandler: function(form) {
+                var Getimport_wifkey = $("#import_wifkey").val();
+                //console.log(Getimport_wifkey);
+                EDEXimportprivkey(Getimport_wifkey).then(function(result){
+                    console.log(result)
+                    if ( result.result !== undefined && result.result == 'success' ) {
+                        toastr.success("Private Key Imported Successfully!", "Settings Notification");
+                    }
+                    if ( result.error !== undefined && result.error == 'null return from iguana_bitcoinRPC' ) {
+                        toastr.info("Private Key is not imported.", "Settings Notification");
+                        toastr.error("null return from iguana_bitcoinRPC", "Settings Notification");
+                    }
+                })
+            }
+        });
+
+        $('.wifkeys-import-form input').keypress(function(e) {
+            if (e.which == 13) {
+                if ($('.wifkeys-import-form').validate().form()) {
+                    $('.wifkeys-import-form').submit(); //form validation success, call ajax form submit
+                }
+                return false;
+            }
+        });
+
+
+    };
+
     return {
         //main function to initiate the module
         init: function() {
 
             handleWalletExportKeys();
+            handleWalletImportKeys();
         }
 
     };
