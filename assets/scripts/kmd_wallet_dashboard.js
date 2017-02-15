@@ -1204,6 +1204,7 @@ function CheckIfConnected() {
         success: function(data, textStatus, jqXHR) {
             var AjaxOutputData = JSON.parse(data);
             console.log('== Data OutPut ==');
+            console.log(AjaxOutputData);
             console.log(AjaxOutputData.error);
             //console.log(AjaxOutputData['error'].message);
             if ( AjaxOutputData.errors != undefined ) {
