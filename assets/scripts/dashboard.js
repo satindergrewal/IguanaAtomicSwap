@@ -578,14 +578,17 @@ var Dashboard = function() {
           }
       }, 1000);
 
-      /*var RefreshEdexWalletList = setInterval(function() {
-          if ( sessionStorage.getItem('IguanaActiveAccount') === null || sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "stop" ) {
-              clearInterval(RefreshEdexWalletList);
+      var CheckIfIguanaRunning = setInterval(function() {
+          if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
+              //clearInterval(CheckIfIguanaRunning);
               //console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
-          } else if ( sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "start") {
-              refreshEDEXCoinWalletList()
+          } else {
+              Iguana_activehandle().then(function(result){
+                //console.log(result)
+                console.log("Iguana is running");
+              })
           }
-      }, 30000);*/
+      }, 1000);
 
       var RefreshEdexWalletDashboard = setInterval(function() {
           if ( sessionStorage.getItem('IguanaActiveAccount') === null || sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "stop" ) {
