@@ -37,6 +37,9 @@ var Dashboard = function() {
         });
 
         $('#btn_edexcoin_dashboard').click(function() {
+          $('#btn_edexcoin_dashboard').hide();
+          $('#btn_edexcoin_send').show();
+          $('#btn_edexcoin_recieve').show();
           var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
           //console.log('EasyDEX dashbaord button clicked...');
           //console.log($(this).data());
@@ -57,14 +60,54 @@ var Dashboard = function() {
           if ( selected_coinmode == 'Basilisk' ) {
             getDEXGetBalance(active_edexcoin).then(function(result){
               console.log(result)
+              if ( result.interest !== undefined ) {
+                $('#edexcoin_getbalance_interest').show()
+                $('#edexcoin_getbalance_total_interest').show()
+                $('#edexcoin_getbalance_t').removeClass( "col-lg-12 " ).addClass( " col-lg-4" );
+                $('#edex_interest_balance').text(result.interest)
+                $('#edex_total_balance_interest').text(result.totalbalance)
+                $('#edex_total_interest_coincode').text(active_edexcoin);
+                $('#edex_total_balance_interest_coincode').text(active_edexcoin);
+              }
+
+              if ( result.interest === undefined ) {
+                $('#edexcoin_getbalance_interest').hide()
+                $('#edexcoin_getbalance_total_interest').hide()
+                $('#edexcoin_getbalance_t').removeClass( " col-lg-4" ).addClass( " col-lg-12" );
+                $('#edex_interest_balance').text('-')
+                $('#edex_total_balance_interest').text('-')
+              }
+
               $('#edex_total_balance').text(result.total);
+              $('#edex_total_balance_coincode').text(active_edexcoin);
             });
           } else {
             EDEXlistunspent(active_edexcoin).then(function(result){
               //console.log(result)
               if (result[0] != undefined) {
                 //console.log(result[0])
-                $('#edex_total_balance').text(result[0].total.toFixed(8));
+                if ( result[0].interest !== undefined ) {
+                  $('#edexcoin_getbalance_interest').show()
+                  $('#edexcoin_getbalance_total_interest').show()
+                  $('#edexcoin_getbalance_t').removeClass( "col-lg-12 " ).addClass( " col-lg-4" );
+                  $('#edex_interest_balance').text(result[0].interest)
+                  $('#edex_total_balance_interest').text(result[0].totalbalance)
+                  $('#edex_total_interest_coincode').text(active_edexcoin);
+                  $('#edex_total_balance_interest_coincode').text(active_edexcoin);
+                }
+
+                if ( result[0].interest === undefined ) {
+                  $('#edexcoin_getbalance_interest').hide()
+                  $('#edexcoin_getbalance_total_interest').hide()
+                  $('#edexcoin_getbalance_t').removeClass( " col-lg-4" ).addClass( " col-lg-12" );
+                  $('#edex_interest_balance').text('-')
+                  $('#edex_total_balance_interest').text('-')
+                }
+
+                $('#edex_total_balance').text(result[0].total);
+                $('#edex_total_balance_coincode').text(active_edexcoin);
+
+                //$('#edex_total_balance').text(result[0].total.toFixed(8));
                 //console.log(result[0].total)
               } else {
                 $('#edex_total_balance').text('0');
@@ -82,6 +125,9 @@ var Dashboard = function() {
     var handle_edex_send = function() {
       $('#btn_edexcoin_send').click(function() {
         //console.log(active_edexcoin);
+        $('#btn_edexcoin_dashboard').show();
+        $('#btn_edexcoin_send').hide();
+        $('#btn_edexcoin_recieve').show();
         sessionStorage.setItem('edexTmpRefresh', "stop");
 
 
@@ -321,6 +367,9 @@ var Dashboard = function() {
 
     var handle_edex_recieve = function() {
         $('#btn_edexcoin_recieve').click(function() {
+            $('#btn_edexcoin_dashboard').show();
+            $('#btn_edexcoin_send').show();
+            $('#btn_edexcoin_recieve').hide();
             var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
             //console.log('wallet receive button clicked...');
             sessionStorage.setItem('edexTmpRefresh', "stop");
@@ -747,15 +796,55 @@ function edexCoinBtnAction() {
       if ( selected_coinmode == 'Basilisk' ) {
         getDEXGetBalance(selected_coin).then(function(result){
           console.log(result)
+          if ( result.interest !== undefined ) {
+            $('#edexcoin_getbalance_interest').show()
+            $('#edexcoin_getbalance_total_interest').show()
+            $('#edexcoin_getbalance_t').removeClass( "col-lg-12 " ).addClass( " col-lg-4" );
+            $('#edex_interest_balance').text(result.interest)
+            $('#edex_total_balance_interest').text(result.totalbalance)
+            $('#edex_total_interest_coincode').text(selected_coin);
+            $('#edex_total_balance_interest_coincode').text(selected_coin);
+          }
+
+          if ( result.interest === undefined ) {
+            $('#edexcoin_getbalance_interest').hide()
+            $('#edexcoin_getbalance_total_interest').hide()
+            $('#edexcoin_getbalance_t').removeClass( " col-lg-4" ).addClass( " col-lg-12" );
+            $('#edex_interest_balance').text('-')
+            $('#edex_total_balance_interest').text('-')
+          }
+
           console.log(result.total)
           $('#edex_total_balance').text(result.total);
+          $('#edex_total_balance_coincode').text(selected_coin);
         });
       } else {
         EDEXlistunspent(selected_coin).then(function(result){
           //console.log(result)
           if (result[0] != undefined) {
             //console.log(result[0])
-            $('#edex_total_balance').text(result[0].total.toFixed(8));
+            if ( result[0].interest !== undefined ) {
+              $('#edexcoin_getbalance_interest').show()
+              $('#edexcoin_getbalance_total_interest').show()
+              $('#edexcoin_getbalance_t').removeClass( "col-lg-12 " ).addClass( " col-lg-4" );
+              $('#edex_interest_balance').text(result[0].interest)
+              $('#edex_total_balance_interest').text(result[0].totalbalance)
+              $('#edex_total_interest_coincode').text(selected_coin);
+              $('#edex_total_balance_interest_coincode').text(selected_coin);
+            }
+
+            if ( result[0].interest === undefined ) {
+              $('#edexcoin_getbalance_interest').hide()
+              $('#edexcoin_getbalance_total_interest').hide()
+              $('#edexcoin_getbalance_t').removeClass( " col-lg-4" ).addClass( " col-lg-12" );
+              $('#edex_interest_balance').text('-')
+              $('#edex_total_balance_interest').text('-')
+            }
+
+            $('#edex_total_balance').text(result[0].total);
+            $('#edex_total_balance_coincode').text(selected_coin);
+
+            //$('#edex_total_balance').text(result[0].total.toFixed(8));
             //console.log(result[0].total)
           } else {
             $('#edex_total_balance').text('0');
@@ -1011,18 +1100,29 @@ function getDEXGetBalance(coin) {
           }
 
           var tmpcalcnum = 0;
+          var tmpcalcinterest = 0;
+          var interest_enable = false
+          var tmptotalbalance = 0;
           $.each(data, function(index) {
             if ( data[index].interest !== undefined ) {
               //console.log('interest is available for this currency. Adding to total balance.');
-              tmpcalcnum = tmpcalcnum + data[index].amount + data[index].interest;
+              tmpcalcnum = tmpcalcnum + data[index].amount
+              tmpcalcinterest = tmpcalcinterest + data[index].interest
+              interest_enable = true
             }
             if ( data[index].interest === undefined ) {
               tmpcalcnum = tmpcalcnum + data[index].amount;
             }
           });
 
-          var tmp_addr_total_balance_output = {"addr": tmp_coin_addr, "total": tmpcalcnum.toFixed(8)};
-            //console.log(tmp_addr_total_balance_output);
+          if ( coin == 'KMD' ) {
+            tmptotalbalance = parseFloat(tmpcalcnum) + parseFloat(tmpcalcinterest)
+            var tmp_addr_total_balance_output = {"addr": tmp_coin_addr, "total": tmpcalcnum.toFixed(8), "interest": tmpcalcinterest.toFixed(8), "totalbalance": tmptotalbalance.toFixed(8)};
+          }
+          if ( coin !== 'KMD' ) {
+            var tmp_addr_total_balance_output = {"addr": tmp_coin_addr, "total": tmpcalcnum.toFixed(8)};
+          }
+            console.log(tmp_addr_total_balance_output);
 
           if (data == '' ) {
             tmp_addr_total_balance_output = {"addr": tmp_coin_addr, "total":0};
@@ -1049,7 +1149,28 @@ function getCoinBalance(coin) {
     console.log(result)
     if (result[0] != undefined) {
       //console.log(result[0])
-      $('span[data-edexcoincode="' + coin + '"][id="edexcoin-balance"]').text(result[0].total);
+      if ( result[0].interest !== undefined ) {
+        $('#edexcoin_getbalance_interest').show()
+        $('#edexcoin_getbalance_total_interest').show()
+        $('#edexcoin_getbalance_t').removeClass( "col-lg-12 " ).addClass( " col-lg-4" );
+        $('#edex_interest_balance').text(result[0].interest)
+        $('#edex_total_balance_interest').text(result[0].totalbalance)
+        $('#edex_total_interest_coincode').text(active_edexcoin);
+        $('#edex_total_balance_interest_coincode').text(active_edexcoin);
+      }
+
+      if ( result[0].interest === undefined ) {
+        $('#edexcoin_getbalance_interest').hide()
+        $('#edexcoin_getbalance_total_interest').hide()
+        $('#edexcoin_getbalance_t').removeClass( " col-lg-4" ).addClass( " col-lg-12" );
+        $('#edex_interest_balance').text('-')
+        $('#edex_total_balance_interest').text('-')
+      }
+
+      $('#edex_total_balance').text(result[0].total);
+      $('#edex_total_balance_coincode').text(active_edexcoin);
+
+      //$('span[data-edexcoincode="' + coin + '"][id="edexcoin-balance"]').text(result[0].total);
       //console.log(result[0].total)
     } else {
       $('span[data-edexcoincode="' + coin + '"][id="edexcoin-balance"]').text('0');
@@ -1423,10 +1544,8 @@ function EdexGetTxList(coin) {
                   || coin == 'CARB'
                   || coin == 'ANC'
                   || coin == 'FRK') {
-              console.log(coin)
               var ajax_data_2 = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listtransactions","address":data[coin],"count":100,"skip":0,"symbol":coin}
             } else {
-              console.log(coin)
               var ajax_data_2 = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listtransactions2","address":data[coin],"count":100,"skip":0,"symbol":coin}
             }
           } else {

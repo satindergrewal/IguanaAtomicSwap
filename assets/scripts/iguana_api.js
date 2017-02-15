@@ -786,6 +786,30 @@ function EDEXlistunspent(coin) {
                 //console.log(unique_addr_tmp_array);
 
                 var tmpcalcnum = 0;
+                var tmpcalcinterest = 0;
+                var interest_enable = false
+                var tmptotalbalance = 0;
+                $.each(data, function(index) {
+                    if ( data[index].interest !== undefined ) {
+                        //console.log('interest is available for this currency. Adding to total balance.');
+                        tmpcalcnum = tmpcalcnum + data[index].amount
+                        tmpcalcinterest = tmpcalcinterest + data[index].interest
+                        interest_enable = true
+                    }
+                    if ( data[index].interest === undefined ) {
+                        tmpcalcnum = tmpcalcnum + data[index].amount;
+                    }
+                });
+
+                if ( coin == 'KMD' ) {
+                tmptotalbalance = parseFloat(tmpcalcnum) + parseFloat(tmpcalcinterest)
+                var tmp_addr_total_balance_output = {"addr": unique_addr_tmp_array[0].address, "total": tmpcalcnum.toFixed(8), "interest": tmpcalcinterest.toFixed(8), "totalbalance": tmptotalbalance.toFixed(8)};
+                }
+                if ( coin !== 'KMD' ) {
+                var tmp_addr_total_balance_output = {"addr": unique_addr_tmp_array[0].address, "total": tmpcalcnum.toFixed(8)};
+                }
+
+                /*var tmpcalcnum = 0;
                 $.each(unique_addr_tmp_array, function(index, value) {
                     //console.log(value.amount);
                     if ( value.interest !== undefined ) {
@@ -796,8 +820,8 @@ function EDEXlistunspent(coin) {
                     }
                 });
                 //console.log(tmpcalcnum);
-                var tmp_addr_total_balance_output = {"addr": unique_addr_tmp_array[0].address, "total": tmpcalcnum};
-                //console.log(tmp_addr_total_balance_output);
+                var tmp_addr_total_balance_output = {"addr": unique_addr_tmp_array[0].address, "total": tmpcalcnum};*/
+                console.log(tmp_addr_total_balance_output);
                 result.push(tmp_addr_total_balance_output);
             });
             //console.log(result)
