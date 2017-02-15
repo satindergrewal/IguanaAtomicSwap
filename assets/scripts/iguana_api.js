@@ -1036,6 +1036,28 @@ function EDEXgetnewaddress(coin) {
     })
 }
 
+
+function EDEXimportprivkey(params_data) {
+    return new Promise((resolve) =>{ 
+    
+        var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+        var ajax_data = {'userpass':tmpIguanaRPCAuth,"method":"importprivkey","params":[params_data, "imported"]}
+        var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
+            //console.log(AjaxOutputData.responseText);
+            AjaxOutputData = JSON.parse(AjaxOutputData.responseText)
+            //console.log(AjaxOutputData);
+            resolve(AjaxOutputData);
+        }).fail(function(xhr, textStatus, error) {
+            // handle request failures
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+            }
+            console.log(textStatus);
+            console.log(error);
+        })
+    })
+}
+
 function Iguana_SetRPCAuth() {    
     var tmpPass = md5(PassPhraseGenerator.generatePassPhrase(128));
     sessionStorage.setItem('IguanaRPCAuth', tmpPass);

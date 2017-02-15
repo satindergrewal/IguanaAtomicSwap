@@ -44,6 +44,8 @@ $('#nav-dashboard').on('click', function() {
 	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
 	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
 	$(".header-easydex-section").text("Dashboard");
+	$.each($('.nav-top-menu'), function(index, value) { $(value).removeClass('active') });
+	$(this.parentElement).addClass('active')
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
 	CommonSidebarActionsSet011();
@@ -287,7 +289,13 @@ function applyDashboardStyle() {
 	var mapH = $(window).height() - navbarH - footerH;
 	$(".page-main").outerHeight(mapH);
 	$('#easydex-header-div').hide();
-	$('#edex-footer').show();
+	var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
+	console.log(active_edexcoinmodecode)
+	if (active_edexcoinmodecode == 'Basilisk') {
+		$('#edex-footer').hide();
+	} else {
+		$('#edex-footer').show();
+	}
 }
 
 function removeDashboardStyle() {

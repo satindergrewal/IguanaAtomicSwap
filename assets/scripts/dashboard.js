@@ -682,6 +682,7 @@ function edexCoinBtnAction() {
     if ( selected_coinmode == 'Basilisk' ) {
       $('#edex-footer').hide();
       $('#btn_edexcoin_basilisk').show();
+      $('#edexcoin-wallet-waitingrt-alert').hide()
       StopShowCoinHistory();
       sessionStorage.setItem('edexTmpRefresh', "stop");
     }
