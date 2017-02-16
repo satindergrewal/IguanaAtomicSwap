@@ -1029,8 +1029,6 @@ function EDEXgetaddrbyaccount(coin) {
             data = JSON.parse(AjaxOutputData.responseText)
             console.log(data);
             //resolve(data.result);
-            var total_balance = 0
-            var total_interest = 0
             Promise.all(data.result.map((coinaddr_value,coinaddr_index) => {
                 let params =  {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getbalance","address":coinaddr_value,"symbol":coin};
                     return new Promise((resolve, reject) => {
@@ -1040,13 +1038,11 @@ function EDEXgetaddrbyaccount(coin) {
                                 type: 'POST',
                                 dataType: 'json',
                             }).then(data => {
-                                total_balance = total_balance + data.balance
                                 if (data.interest !== undefined) {
-                                    total_interest = total_interest + data.interest
-                                    pass_data = {"label":tmp_addr_label,"addr":coinaddr_value,"total":total_balance.toFixed(8),"interest":total_interest.toFixed(8)}
+                                    pass_data = {"label":tmp_addr_label,"addr":coinaddr_value,"total":data.balance.toFixed(8),"interest":data.interest.toFixed(8)}
                                 }
                                 if (data.interest == undefined) {
-                                    pass_data = {"label":tmp_addr_label,"addr":coinaddr_value,"total":total_balance}
+                                    pass_data = {"label":tmp_addr_label,"addr":coinaddr_value,"total":data.balance}
                                 }
                                 resolve(pass_data)
                             })
