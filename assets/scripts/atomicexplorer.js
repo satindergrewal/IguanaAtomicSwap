@@ -138,6 +138,10 @@ var AtomicExplorer = function() {
                 ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getbalance","address":"*","symbol":atomic_explorer_select_coin_val,"timeout":600000};
                 console.log(ExplorerInputData);
             }
+            if (atomic_explorer_select_command_val === 'basilisk_refresh') {
+                ExplorerInputData = {'userpass':tmpIguanaRPCAuth,"agent":"basilisk","method":"refresh","address":atomic_explorer_input_data_val,"symbol":atomic_explorer_select_coin_val,"timeout":600000}
+                console.log(ExplorerInputData);
+            }
 
             $.ajax({
                 type: 'POST',
