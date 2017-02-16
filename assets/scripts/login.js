@@ -71,7 +71,7 @@ var Login = function() {
 
                         if (LoginOutput.result === 'success') {
                             console.log('Success');
-                            Iguana_DEXImportAll();
+                            //Iguana_DEXImportAll();
                             //swal("Success", "Login Successfully.", "success");
                             toastr.success("Login Successfull", "Account Notification")
                             //var logincoinnames = []; $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); }); console.log(logincoinnames);
@@ -271,7 +271,7 @@ var Login = function() {
                                 console.log('Success');
                                 //swal("Success", "Login Successfully.", "success");
                                 toastr.success("Wallet created successfully", "Account Notification")
-                                Iguana_DEXImportAll();
+                                //Iguana_DEXImportAll();
 
                                 $('#wallet-handle').val('')
                                 $('#password').val('')

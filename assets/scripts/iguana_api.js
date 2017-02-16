@@ -650,7 +650,7 @@ function Iguana_addcoin(addcoin_data) {
                             //console.log(result)
                             //Iguana_DEXImportAddr(addcoin_data.coin,result);
                         //})
-                        Iguana_DEXImportAllWalletAddr(addcoin_data.coin)
+                        //Iguana_DEXImportAllWalletAddr(addcoin_data.coin)
                         //$(document).ready(function() { window.location.reload(); });
                     } else {
                         Iguana_CheckActiveCoins().then(function(result){
@@ -1023,11 +1023,42 @@ function EDEXgetaddrbyaccount(coin) {
     
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
         var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"agent":"bitcoinrpc","method":"getaddressesbyaccount","account":"*"}
+        var tmp_addr_label = '<span class="label label-default"><i class="icon fa-eye"></i> public</span>';
         var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
             //console.log(AjaxOutputData.responseText);
-            AjaxOutputData = JSON.parse(AjaxOutputData.responseText)
-            //console.log(AjaxOutputData);
-            resolve(AjaxOutputData.result);
+            data = JSON.parse(AjaxOutputData.responseText)
+            console.log(data);
+            //resolve(data.result);
+            var total_balance = 0
+            var total_interest = 0
+            Promise.all(data.result.map((coinaddr_value,coinaddr_index) => {
+                let params =  {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getbalance","address":coinaddr_value,"symbol":coin};
+                    return new Promise((resolve, reject) => {
+                        $.ajax({
+                                data: JSON.stringify(params),
+                                url: 'http://127.0.0.1:7778',
+                                type: 'POST',
+                                dataType: 'json',
+                            }).then(data => {
+                                total_balance = total_balance + data.balance
+                                if (data.interest !== undefined) {
+                                    total_interest = total_interest + data.interest
+                                    pass_data = {"label":tmp_addr_label,"addr":coinaddr_value,"total":total_balance.toFixed(8),"interest":total_interest.toFixed(8)}
+                                }
+                                if (data.interest == undefined) {
+                                    pass_data = {"label":tmp_addr_label,"addr":coinaddr_value,"total":total_balance}
+                                }
+                                resolve(pass_data)
+                            })
+                    })
+                    
+            })).then(result => {
+                //console.log(result)
+                //console.log(result[result.length-1])
+                //resolve(result[result.length-1])
+                resolve(result)
+                NProgress.done();
+            })
         }).fail(function(xhr, textStatus, error) {
             // handle request failures
             console.log(xhr.statusText);

@@ -149,6 +149,7 @@ var WalletSettings = function() {
                     console.log(result)
                     if ( result.result !== undefined && result.result == 'success' ) {
                         toastr.success("Private Key Imported Successfully!", "Settings Notification");
+                        $("#import_wifkey").val('')
                     }
                     if ( result.error !== undefined && result.error == 'null return from iguana_bitcoinRPC' ) {
                         toastr.info("Private Key is not imported.", "Settings Notification");
