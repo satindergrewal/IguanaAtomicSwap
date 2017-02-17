@@ -753,7 +753,7 @@ function Iguana_HashHex(data) {
 }
 
 
-function EDEXlistunspent(coin) {
+function EDEXlistunspent(coin,addr) {
     NProgress.done(true);
     NProgress.configure({
         template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
@@ -762,8 +762,14 @@ function EDEXlistunspent(coin) {
 
     return new Promise((resolve) =>{
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-        var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"method":"listunspent","params":[]}
+        if (addr == undefined) {
+            addr = '';
+            var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"method":"listunspent","params":[1, 9999999, []]}
+        } else {
+            var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"method":"listunspent","params":[1, 9999999, [addr]]}
+        }
         var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
+        //console.log(ajax_data);
 
         var ajaxCall = $.ajax({
             data: JSON.stringify(ajax_data),
@@ -1024,13 +1030,30 @@ function EDEXgetaddrbyaccount(coin) {
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
         var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"agent":"bitcoinrpc","method":"getaddressesbyaccount","account":"*"}
         var tmp_addr_label = '<span class="label label-default"><i class="icon fa-eye"></i> public</span>';
+        active_edexcoinmodecode =  sessionStorage.getItem('edexTmpMode')
+
         var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
             //console.log(AjaxOutputData.responseText);
             data = JSON.parse(AjaxOutputData.responseText)
             console.log(data);
             //resolve(data.result);
-            Promise.all(data.result.map((coinaddr_value,coinaddr_index) => {
-                let params =  {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getbalance","address":coinaddr_value,"symbol":coin};
+            if (active_edexcoinmodecode == 'Basilisk'
+                    && coin !== 'BTC' 
+                    && coin !== 'BTCD'
+                    && coin !== 'LTC'
+                    && coin !== 'DOGE'
+                    && coin !== 'DGB'
+                    && coin !== 'SYS'
+                    && coin !== 'MZC'
+                    && coin !== 'UNO'
+                    && coin !== 'ZET'
+                    && coin !== 'BTM'
+                    && coin !== 'CARB'
+                    && coin !== 'ANC'
+                    && coin !== 'FRK' ) {
+                Promise.all(data.result.map((coinaddr_value,coinaddr_index) => {
+                    let params =  {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getbalance","address":coinaddr_value,"symbol":coin};
+                    console.log(params)
                     return new Promise((resolve, reject) => {
                         $.ajax({
                                 data: JSON.stringify(params),
@@ -1042,19 +1065,112 @@ function EDEXgetaddrbyaccount(coin) {
                                     pass_data = {"label":tmp_addr_label,"addr":coinaddr_value,"total":data.balance.toFixed(8),"interest":data.interest.toFixed(8)}
                                 }
                                 if (data.interest == undefined) {
-                                    pass_data = {"label":tmp_addr_label,"addr":coinaddr_value,"total":data.balance}
+                                    pass_data = {"label":tmp_addr_label,"addr":coinaddr_value,"total":data.balance.toFixed(8)}
                                 }
                                 resolve(pass_data)
                             })
                     })
-                    
-            })).then(result => {
-                //console.log(result)
-                //console.log(result[result.length-1])
-                //resolve(result[result.length-1])
-                resolve(result)
-                NProgress.done();
-            })
+                        
+                })).then(result => {
+                    //console.log(result)
+                    //console.log(result[result.length-1])
+                    //resolve(result[result.length-1])
+                    resolve(result)
+                    NProgress.done();
+                })
+            } else if (active_edexcoinmodecode == 'Basilisk' ) {
+                Promise.all(data.result.map((coinaddr_value,coinaddr_index) => {
+                    let params =  {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listunspent","address":coinaddr_value,"symbol":coin};
+                    console.log(params)
+                    return new Promise((resolve, reject) => {
+                        $.ajax({
+                                data: JSON.stringify(params),
+                                url: 'http://127.0.0.1:7778',
+                                type: 'POST',
+                                dataType: 'json',
+                            }).then(data => {
+
+
+                            console.log(coinaddr_value);
+                            console.log(data);
+                            if (data.error === 'less than required responses') {
+                                toastr.error("Less than required responses. Please try again.", "Basilisk Notification")
+                            }
+
+                            var tmpcalcnum = 0;
+                            $.each(data, function(index) {
+                                tmpcalcnum = tmpcalcnum + data[index].amount;
+                            });
+
+                            var tmp_addr_total_balance_output = {"label":tmp_addr_label,"addr": coinaddr_value, "total": tmpcalcnum.toFixed(8)};
+                            console.log(tmp_addr_total_balance_output);
+
+                            if (data == '' ) {
+                                tmp_addr_total_balance_output = {"label":tmp_addr_label,"addr": coinaddr_value, "total":0};
+                            }
+
+                            //console.log(tmp_addr_total_balance_output)
+                            resolve(tmp_addr_total_balance_output)
+
+                                //pass_data = {"label":tmp_addr_label,"addr":coinaddr_value,"total":data.balance.toFixed(8)}
+                                //resolve(pass_data)
+                            })
+                    })
+                        
+                })).then(result => {
+                    //console.log(result)
+                    //console.log(result[result.length-1])
+                    //resolve(result[result.length-1])
+                    resolve(result)
+                    NProgress.done();
+                })
+            }
+
+            if (active_edexcoinmodecode == 'Full'
+                && coin !== 'BTC' 
+                && coin !== 'BTCD'
+                && coin !== 'LTC'
+                && coin !== 'DOGE'
+                && coin !== 'DGB'
+                && coin !== 'SYS'
+                && coin !== 'MZC'
+                && coin !== 'UNO'
+                && coin !== 'ZET'
+                && coin !== 'BTM'
+                && coin !== 'CARB'
+                && coin !== 'ANC'
+                && coin !== 'FRK' ) {
+                //console.log(data.result);
+                Promise.all(data.result.map((coinaddr_value,coinaddr_index) => {
+                    return new Promise((resolve, reject) => {
+                        EDEXlistunspent(coin,coinaddr_value).then(function(data){
+                            console.log(data)
+                            //console.log(data.length)
+                            if (data.length !== 0) {
+                                //console.log(data[0].interest);
+                                if (data[0].interest !== undefined) {
+                                pass_data = {"label":tmp_addr_label,"addr":coinaddr_value,"total":data[0].total,"interest":data[0].interest}
+                                }
+                                if (data[0].interest == undefined) {
+                                    pass_data = {"label":tmp_addr_label,"addr":coinaddr_value,"total":data[0].total}
+                                }
+                            } else {
+                                pass_data = {"label":tmp_addr_label,"addr":coinaddr_value,"total":0.00000000}
+                            }
+                            console.log(pass_data)
+                            resolve(pass_data)
+                        })
+                    })
+                })).then(result => {
+                    console.log(result)
+                    //console.log(final_result)
+                    //console.log(result[result.length-1])
+                    //resolve(result[result.length-1])
+                    resolve(result)
+                    NProgress.done();
+                })
+
+            }
         }).fail(function(xhr, textStatus, error) {
             // handle request failures
             console.log(xhr.statusText);
