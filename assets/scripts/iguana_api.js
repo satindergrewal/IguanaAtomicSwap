@@ -821,7 +821,7 @@ function EDEXlistunspent(coin) {
                 });
                 //console.log(tmpcalcnum);
                 var tmp_addr_total_balance_output = {"addr": unique_addr_tmp_array[0].address, "total": tmpcalcnum};*/
-                console.log(tmp_addr_total_balance_output);
+                //console.log(tmp_addr_total_balance_output);
                 result.push(tmp_addr_total_balance_output);
             });
             //console.log(result)

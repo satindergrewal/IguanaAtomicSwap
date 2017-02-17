@@ -907,7 +907,6 @@ function EdexfillTxHistory(coin) {
           select: true,
           retrieve: true
       });
-      NProgress.done();
     });
 }
 
@@ -1580,6 +1579,7 @@ function EdexGetTxList(coin) {
         type: 'POST',
         dataType: 'json',
     }).then(data => {
+      //console.log(data)
         var total_utxos = []
         let params = ''
         Promise.all(data.result.map((coinaddr_value,coinaddr_index) => {
@@ -1613,6 +1613,9 @@ function EdexGetTxList(coin) {
                         type: 'POST',
                         dataType: 'json',
                     }).then(data => {
+                        if ( active_edexcoinmodecode == 'Full' ) {
+                          data = data.result;
+                        }
                         //console.log(data)
                         total_utxos = $.merge(total_utxos, data)
                         resolve(total_utxos)
