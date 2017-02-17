@@ -1943,13 +1943,24 @@
                       <div class="panel-body">
                         <p>This section allows you to read last N lines from debug log file.</i></b></p>
                         <div class="col-sm-12"></div>
-                        <form class="wifkeys-import-form" method="post" action="javascript:;" autocomplete="off" onsubmit="return false;">
+                        <form class="read-debug-log-import-form" method="post" action="javascript:;" autocomplete="off" onsubmit="return false;">
                           <div class="form-group form-material floating">
-                            <input type="text" class="form-control" name="import_wifkey" id="import_wifkey">
-                            <label class="floating-label" for="import_wifkey">Input Private Key</label>
+                            <input type="text" class="form-control" name="read_debug_log_lines" id="read_debug_log_lines" value="10">
+                            <label class="floating-label" for="read_debug_log_lines">Input number of lines to read</label>
+                          </div>
+                          <div class="form-group form-material floating">
+                            <select class="form-control form-material" id="settings_select_debuglog_options">
+                              <option value="iguana">Iguana</option>
+                              <option value="komodo">Komodo</option>
+                            </select>
+                            <label class="floating-label" for="settings_select_debuglog_options">Target</label>                  
                           </div>
                           <div class="col-sm-12 col-xs-12" style="text-align: center;">
                             <button type="submit" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="read_debug_log_btn" onclick="Settings_LoadDebugLog()">Load debug log</button>
+                          </div>
+                          <div class="col-sm-12 col-xs-12" style="text-align: center;">
+                            <br/>
+                            <textarea id="read_debug_log_textarea" style="width:100%;height:200px"></textarea>
                           </div>
                         </form>
 

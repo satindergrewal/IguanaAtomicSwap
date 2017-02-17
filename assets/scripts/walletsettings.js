@@ -294,31 +294,28 @@ function Settings_AddCoinPeers() {
 }
 
 function Settings_LoadDebugLog() {
-    console.log("wait till peer ip added to selected coin...")
-    var settings_selected_coinname_code_val = $("option:selected","#settings_select_coin_addpeer_options").val();
-    var settings_add_peer_ip_val = $("#settings_add_peer_ip").val();
-    var ajax_data = { 'herdname': 'iguana', 'lastLines': 5 };
+
+    var settings_selected_targed_val = $("option:selected","#settings_select_debuglog_options").val();
+    var numLinesToRead = $('#read_debug_log_lines').val();
+    var ajax_data = { 'herdname': settings_selected_targed_val, 'lastLines': numLinesToRead };
     $.ajax({
         type: 'POST',
-        data: JSON.stringify(ajax_data),
+        data: ajax_data,
         url: 'http://127.0.0.1:17777/shepherd/debuglog',
         //dataType: 'text',
         success: function(data, textStatus, jqXHR) {
-            //var getAddCoinPeers = JSON.parse(data);
+            $('#read_debug_log_textarea').text(JSON.parse(data).result.replace('\n', '<br/>'));
             console.log(data);
-            /*if ( getAddCoinPeers.result == 'addnode submitted' ) {
-                toastr.success(settings_add_peer_ip_val + " added to " + settings_selected_coinname_code_val + " Successfully", "Coin Notification");
-                $("#settings_add_peer_ip").val('');
-            }*/
         },
         error: function(xhr, textStatus, error) {
-            console.log('failed getting.');
+            console.log('failed getting debug.log');
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
                 Iguana_ServiceUnavailable();
             }
             console.log(textStatus);
             console.log(error);
+            $('#read_debug_log_textarea').text(error);
         }
     });
 }
