@@ -21,7 +21,7 @@ var WalletSettings = function() {
                 console.log("wait till peer ip added to selected coin...")
 
                 var Getwifkeys_passphrase = $("#wifkeys_passphrase").val();
-    
+
                 var WifKeyDivContent = '';
 
                 //First check which coins are active. Execute API for each mode of wallet
@@ -189,7 +189,7 @@ jQuery(document).ready(function() {
 
 // DOM Ready =============================================================
 $(document).ready(function() {
-    
+
 });
 
 // Functions =============================================================
@@ -223,7 +223,7 @@ function Settings_ShowCoinPeers() {
         success: function(data, textStatus, jqXHR) {
             var getCoinPeers = JSON.parse(data);
             console.log(getCoinPeers);
-            
+
             if (getCoinPeers.supernet[0].peers !== undefined ) {
             	var supernet_peers_list = getCoinPeers.supernet[0].peers;
 	            if (supernet_peers_list != 0 ) {
@@ -283,6 +283,36 @@ function Settings_AddCoinPeers() {
         },
         error: function(xhr, textStatus, error) {
             console.log('failed getting Coin History.');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+}
+
+function Settings_LoadDebugLog() {
+    console.log("wait till peer ip added to selected coin...")
+    var settings_selected_coinname_code_val = $("option:selected","#settings_select_coin_addpeer_options").val();
+    var settings_add_peer_ip_val = $("#settings_add_peer_ip").val();
+    var ajax_data = { 'herdname': 'iguana', 'lastLines': 5 };
+    $.ajax({
+        type: 'POST',
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:17777/shepherd/debuglog',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            //var getAddCoinPeers = JSON.parse(data);
+            console.log(data);
+            /*if ( getAddCoinPeers.result == 'addnode submitted' ) {
+                toastr.success(settings_add_peer_ip_val + " added to " + settings_selected_coinname_code_val + " Successfully", "Coin Notification");
+                $("#settings_add_peer_ip").val('');
+            }*/
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting.');
             console.log(xhr.statusText);
             if ( xhr.readyState == 0 ) {
                 Iguana_ServiceUnavailable();
