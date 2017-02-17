@@ -21,7 +21,7 @@ var WalletSettings = function() {
                 console.log("wait till peer ip added to selected coin...")
 
                 var Getwifkeys_passphrase = $("#wifkeys_passphrase").val();
-    
+
                 var WifKeyDivContent = '';
 
                 //First check which coins are active. Execute API for each mode of wallet
@@ -189,7 +189,7 @@ jQuery(document).ready(function() {
 
 // DOM Ready =============================================================
 $(document).ready(function() {
-    
+
 });
 
 // Functions =============================================================
@@ -223,7 +223,7 @@ function Settings_ShowCoinPeers() {
         success: function(data, textStatus, jqXHR) {
             var getCoinPeers = JSON.parse(data);
             console.log(getCoinPeers);
-            
+
             if (getCoinPeers.supernet[0].peers !== undefined ) {
             	var supernet_peers_list = getCoinPeers.supernet[0].peers;
 	            if (supernet_peers_list != 0 ) {
@@ -289,6 +289,33 @@ function Settings_AddCoinPeers() {
             }
             console.log(textStatus);
             console.log(error);
+        }
+    });
+}
+
+function Settings_LoadDebugLog() {
+
+    var settings_selected_targed_val = $("option:selected","#settings_select_debuglog_options").val();
+    var numLinesToRead = $('#read_debug_log_lines').val();
+    var ajax_data = { 'herdname': settings_selected_targed_val, 'lastLines': numLinesToRead };
+    $.ajax({
+        type: 'POST',
+        data: ajax_data,
+        url: 'http://127.0.0.1:17777/shepherd/debuglog',
+        //dataType: 'text',
+        success: function(data, textStatus, jqXHR) {
+            $('#read_debug_log_textarea').text(JSON.parse(data).result.replace('\n', '<br/>'));
+            console.log(data);
+        },
+        error: function(xhr, textStatus, error) {
+            console.log('failed getting debug.log');
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+            }
+            console.log(textStatus);
+            console.log(error);
+            $('#read_debug_log_textarea').text(error);
         }
     });
 }
