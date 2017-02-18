@@ -299,6 +299,10 @@ function applyDashboardStyle() {
 	} else {
 		$('#edex-footer').show();
 	}
+
+	setTimeout(function() {
+		$('.page-aside .wallet-widgets-list .list-group .list-group-item a').click();
+	}, 1000);
 }
 
 function removeDashboardStyle() {
