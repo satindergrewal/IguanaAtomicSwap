@@ -320,6 +320,65 @@ function RunKMDInitFunctions() {
         $('#extcoin-wallet').show();
         $('#extcoin-wallet-connection-alert').hide();
 
+        function getRemoteCurrentHeight() {
+            $.ajax({
+                type: 'GET',
+                url: 'http://kmd.explorer.supernet.org/insight-api-komodo/status?q=getInfo ',
+                //dataType: 'text',
+                success: function(data, textStatus, jqXHR) {
+                    //$('#read_debug_log_textarea').text(JSON.parse(data));
+                    if (data && data.info && data.info.blocks) {
+                        totalBlocksInExplorer = data.info.blocks;
+                    }
+                },
+                error: function(xhr, textStatus, error) {
+                    console.log('failed data from official KMD block explorer');
+                    console.log(xhr.statusText);
+                    console.log(textStatus);
+                    console.log(error);
+                }
+            });            
+        }
+        getRemoteCurrentHeight();
+
+        var totalBlocksInExplorer = 0;
+        var totalBlocksInExplorerInterval = setInterval(function() {
+            getRemoteCurrentHeight();
+        }, 60000);
+
+        var currentBestBlockInterval = setInterval(function() {
+            $.ajax({
+                type: 'POST',
+                data: { 'herdname': 'komodo', 'lastLines': 1 },
+                url: 'http://127.0.0.1:17777/shepherd/debuglog',
+                //dataType: 'text',
+                success: function(data, textStatus, jqXHR) {
+                    //$('#read_debug_log_textarea').text(JSON.parse(data));
+                    if (data.indexOf('UpdateTip') > -1) {
+                        var temp = data.split(' ');
+                        for (var i = 0; i < temp.length; i++) {
+                            if (temp[i].indexOf('height=') > -1) {
+                                var currentBestChain = temp[i].replace('height=', '');
+                                $('#activating-komodod-tridot').hide();
+                                $('#activating-komodod-progress').html(': ' + Math.floor(currentBestChain * 100 / totalBlocksInExplorer) + '% (blocks ' + currentBestChain + ' / ' + totalBlocksInExplorer + ')');
+                                
+                                if (currentBestChain === totalBlocksInExplorer) {
+                                    clearInterval(totalBlocksInExplorerInterval);
+                                    clearInterval(currentBestBlockInterval);
+                                }
+                            }
+                        }
+                    }
+                },
+                error: function(xhr, textStatus, error) {
+                    console.log('failed getting debug.log');
+                    console.log(xhr.statusText);
+                    console.log(textStatus);
+                    console.log(error);
+                }
+            });            
+        }, 1000);
+
         $('#kmd_wallet_dashoard_section').show();
         $('#kmd_wallet_dashboardinfo').show();
         $('#kmd_wallet_send').hide();
@@ -399,9 +458,9 @@ function getTotalKMDBalance() {
                 $('#kmd_widget_get_total_balance_tzi').addClass(' col-lg-4');
                 $('#kmd_widget_get_total_balance_tzi').removeClass(' col-lg-3');
             }
-            $('#kmd_transparent_balance').text(parseFloat(AjaxOutputData.transparent).toFixed(8)+' '+extcoin);
-            $('#kmd_private_balance').text(parseFloat(AjaxOutputData.private).toFixed(8)+' '+extcoin);
-            $('#kmd_total_tz_balance').text(parseFloat(AjaxOutputData.total).toFixed(8)+' '+extcoin);
+            $('#kmd_transparent_balance').text((AjaxOutputData.transparent ? parseFloat(AjaxOutputData.transparent).toFixed(8) : 0) + ' ' + extcoin);
+            $('#kmd_private_balance').text((AjaxOutputData.private ? parseFloat(AjaxOutputData.private).toFixed(8) : 0) + ' ' + extcoin);
+            $('#kmd_total_tz_balance').text((AjaxOutputData.total ? parseFloat(AjaxOutputData.total).toFixed(8) : 0) + ' ' + extcoin);
         },
         error: function(xhr, textStatus, error) {
             console.log('failed getting Coin History.');
