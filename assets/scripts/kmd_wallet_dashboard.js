@@ -323,7 +323,7 @@ function RunKMDInitFunctions() {
         function getRemoteCurrentHeight() {
             $.ajax({
                 type: 'GET',
-                url: 'http://kmd.explorer.supernet.org/insight-api-komodo/status?q=getInfo ',
+                url: 'http://localhost:7778/api/dex/getinfo?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth') + '&symbol=KMD',
                 //dataType: 'text',
                 success: function(data, textStatus, jqXHR) {
                     //$('#read_debug_log_textarea').text(JSON.parse(data));
@@ -337,7 +337,7 @@ function RunKMDInitFunctions() {
                     console.log(textStatus);
                     console.log(error);
                 }
-            });            
+            });
         }
         getRemoteCurrentHeight();
 
@@ -361,7 +361,7 @@ function RunKMDInitFunctions() {
                                 var currentBestChain = temp[i].replace('height=', '');
                                 $('#activating-komodod-tridot').hide();
                                 $('#activating-komodod-progress').html(': ' + Math.floor(currentBestChain * 100 / totalBlocksInExplorer) + '% (blocks ' + currentBestChain + ' / ' + totalBlocksInExplorer + ')');
-                                
+
                                 if (currentBestChain === totalBlocksInExplorer) {
                                     clearInterval(totalBlocksInExplorerInterval);
                                     clearInterval(currentBestBlockInterval);
@@ -376,7 +376,7 @@ function RunKMDInitFunctions() {
                     console.log(textStatus);
                     console.log(error);
                 }
-            });            
+            });
         }, 1000);
 
         $('#kmd_wallet_dashoard_section').show();
