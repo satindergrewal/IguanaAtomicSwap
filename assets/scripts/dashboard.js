@@ -55,7 +55,7 @@ var Dashboard = function() {
           $('#edexcoin_recieve').hide();
           $('#edexcoin_recieve_section').hide();
           $('#edexcoin_settings').hide();
-          
+
           var selected_coinmode = sessionStorage.getItem('edexTmpMode')
           if ( selected_coinmode == 'Basilisk' ) {
             getDEXGetBalance(active_edexcoin).then(function(result){
@@ -268,7 +268,7 @@ var Dashboard = function() {
           $('#mdl_confirm_currency_coinname_fee').text($('[data-edexcoin]').attr("data-edexcoin"));
           $('#mdl_confirm_currency_sendfrom_total_dedcut').text($('#edexcoin_total_value').text());
           $('#mdl_confirm_currency_coinname_total').text($('[data-edexcoin]').attr("data-edexcoin"));
-          
+
           //$('#SendCoinModelStep2').modal('show')
 
           console.log('==> Before confirming tx to send')
@@ -302,7 +302,7 @@ var Dashboard = function() {
         console.log(active_edexcoin)
         console.log(tmp_send_to_addr)
         console.log(tmp_send_total_amount)
-        
+
         var edexcoin_sendto_result_tbl = '';
         edexcoin_sendto_result_tbl += '<tr class="info"><td>Info</td><td>The transaction submitted is processing. Once processed the transaction details will be displayed here.</td></tr>';
         $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
@@ -361,7 +361,7 @@ var Dashboard = function() {
         $( "#atomic_explorer_getcoinpeers_btn" ).trigger( "click" );
       });
       //$('.edexcoin_sendto_output_result').click(function() {
-        
+
       //});
     }
 
@@ -492,7 +492,6 @@ var Dashboard = function() {
                 }
             });
         });
-
     }
 
     var handleWalletWidgetBtns = function() {
@@ -507,7 +506,7 @@ var Dashboard = function() {
 
       $( "#addcoin_select_coin_mdl_options" ).change(function() {
         var tmp_coin_val = $('#addcoin_select_coin_mdl_options').val()
-        
+
         if (tmp_coin_val !== 'KMD' || tmp_coin_val !== 'KMD' ) {
             $('#addcoin_mdl_native_mode').prop('disabled', true);
             $('#addcoin_mdl_basilisk_mode').prop('disabled', true);
@@ -545,7 +544,7 @@ var Dashboard = function() {
         $('#atomic_explorer_select_command_options option[value=dex_getnotaries]').attr('selected','selected');
         $( "#atomic_explorer_getcoinpeers_btn" ).trigger( "click" );
       })
-      
+
       $(".btn_edexcoin_dashboard_register").click(function() {
         var selected_coin = $(this).data('edexcoin')
         EDEXMainAddr(selected_coin).then(function(result){
@@ -714,7 +713,7 @@ function resizeDashboardWindow() {
   var navbarH = $(".site-navbar").outerHeight();
   //var footerH = $(".site-footer").outerHeight();
   var edexDashH = $(".edexcoin_dashoard_section_main_div").outerHeight();
-  
+
   var mapH = $(window).height() - navbarH;
 
   $(".page-main").outerHeight(mapH);
@@ -770,13 +769,13 @@ function edexCoinBtnAction() {
         $('#edexcoin_active_addr').text(result);
         $('#edexcoin_active_addr_clipboard').attr("data-clipboard-text",result)
       })
-      
+
       $('#edexcoin_active_addr_clipboard').click(function(){alertify.success("Address Copied.");})
-      
+
       var clipboard = new Clipboard('.clipboard-edexaddr');
       clipboard.destroy();
 
-      var clipboard = null;      
+      var clipboard = null;
       if( clipboard != null ) {
         clipboard.destroy();
       }
@@ -797,7 +796,7 @@ function edexCoinBtnAction() {
       //populate selected coin's balance
 
       if ( selected_coinmode == 'Basilisk'
-          && selected_coin !== 'BTC' 
+          && selected_coin !== 'BTC'
           && selected_coin !== 'BTCD'
           && selected_coin !== 'LTC'
           && selected_coin !== 'DOGE'
@@ -908,7 +907,7 @@ function edexCoinBtnAction() {
         $( "#nav-zcash-wallet" ).trigger( "click" );
       }
     }
-    
+
 
   });
 }
@@ -995,7 +994,7 @@ function getDEXGetBalance(coin) {
                             resolve(pass_data)
                         })
                 })
-                
+
         })).then(result => {
             //console.log(result[result.length-1])
             resolve(result[result.length-1])
@@ -1012,7 +1011,7 @@ function getDEXGetBalance2(coin) {
       template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
   });
   NProgress.start();
-    return new Promise((resolve) =>{ 
+    return new Promise((resolve) =>{
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
         var ajax_data_1 = {'userpass':tmpIguanaRPCAuth,"agent":"SuperNET","method":"activehandle"}
         var tmp_coin_addr = null
@@ -1219,7 +1218,7 @@ function refreshEDEXCoinWalletList() {
                           $('span[data-edexcoincode="' + AllcoinsDataOutput[value][index] + '"][id="edexcoin-balance"]').parent().hide();
                           //getBasiliskCoinBalance(AllcoinsDataOutput[value][index])
                         }*/
-                        
+
                         $('.scrollbar-dynamic').scrollbar(); //Make sure widget-body has scrollbar for transactions history
                         $('[data-toggle="tooltip"]').tooltip(); //Make sure tooltips are working for wallet widgets and anywhere else in wallet.
                         //console.log(walletDivContent);
@@ -1496,7 +1495,7 @@ function EdexGetTxList(coin) {
             } else {
                 params = {'userpass':tmpIguanaRPCAuth,"coin":coin,"method":"listtransactions","params":[0, 9999999, []]}
             }
-            
+
             //console.log(params)
             return new Promise((resolve, reject) => {
                 $.ajax({
@@ -1513,7 +1512,7 @@ function EdexGetTxList(coin) {
                         resolve(total_utxos)
                     })
             })
-                
+
         })).then(result => {
             let result_data = result[result.length-1]
             //console.log(result_data)
@@ -1521,7 +1520,7 @@ function EdexGetTxList(coin) {
             let compiled_result = []
             $.each(result_data, function(index, value) {
                 //console.log(value)
-                if ( active_edexcoinmodecode == 'Full' 
+                if ( active_edexcoinmodecode == 'Full'
                   || ( active_edexcoinmodecode == 'Basilisk' && coin == 'BTC')
                   || ( active_edexcoinmodecode == 'Basilisk' && coin == 'BTCD' )
                   || ( active_edexcoinmodecode == 'Basilisk' && coin == 'LTC' )
@@ -1577,8 +1576,8 @@ function EdexGetTxList(coin) {
                   compiled_result.push(tmplisttransactions);
                 }
 
-                if ( active_edexcoinmodecode == 'Basilisk' 
-                  && coin !== 'BTC' 
+                if ( active_edexcoinmodecode == 'Basilisk'
+                  && coin !== 'BTC'
                   && coin !== 'BTCD'
                   && coin !== 'LTC'
                   && coin !== 'DOGE'
@@ -1717,7 +1716,7 @@ function EdexGetTxList(coin) {
       $.each(data, function(index, value) {
         //console.log(value);
 
-        if ( active_edexcoinmodecode == 'Full' 
+        if ( active_edexcoinmodecode == 'Full'
           || ( active_edexcoinmodecode == 'Basilisk' && coin == 'BTC')
           || ( active_edexcoinmodecode == 'Basilisk' && coin == 'BTCD' )
           || ( active_edexcoinmodecode == 'Basilisk' && coin == 'LTC' )
@@ -1773,8 +1772,8 @@ function EdexGetTxList(coin) {
           result.push(tmplisttransactions);
         }
 
-        if ( active_edexcoinmodecode == 'Basilisk' 
-          && coin !== 'BTC' 
+        if ( active_edexcoinmodecode == 'Basilisk'
+          && coin !== 'BTC'
           && coin !== 'BTCD'
           && coin !== 'LTC'
           && coin !== 'DOGE'
@@ -1845,7 +1844,7 @@ function EdexGetTxList(coin) {
           //console.log(tmplisttransactions);
           result.push(tmplisttransactions);
         }
-        
+
       });
       //console.log(result)
       resolve(result);

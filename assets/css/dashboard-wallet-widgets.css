@@ -67,9 +67,6 @@
   height: 100%;
   margin-left: 450px !important;
 }
-#edex-footer {
-  /*margin-left: 450px !important;*/
-}
 
 .page-aside-inner {
   height: 100%;
@@ -83,8 +80,6 @@
 
 .page-aside-inner .wallet-widgets-list {
   height: 100%;
-  /*height: -webkit-calc(100% - 72px);
-  height:         calc(100% - 72px);*/
 }
 
 .page-aside-inner .wallet-widgets-list-body {
