@@ -33,7 +33,7 @@ var Login = function() {
                 }
             },
 
-            invalidHandler: function(event, validator) { //display error alert on form submit   
+            invalidHandler: function(event, validator) { //display error alert on form submit
                 $('.alert-danger', $('.login-form')).show();
             },
 
@@ -92,7 +92,7 @@ var Login = function() {
                                     Iguana_addcoinLogin(logincoin_data);
                                 }
                             });*/
-                            
+
                             $('#password').val('')
                             $('#wallet-login').hide();
                             $('#wallet-core').fadeIn();
@@ -146,7 +146,7 @@ var Login = function() {
                         //toastr.warning("Opps... Something went wrong!", "Account Notification")
                     }
                 });
-                
+
                 $('#section-dashboard').show();
                 $('#section-easydex').hide();
                 $('#section-about-iguana').hide();
@@ -206,7 +206,7 @@ var Login = function() {
                     equalTo: "#register_password"
                 },*/
 
-                
+
             },
 
             messages: {
@@ -215,9 +215,9 @@ var Login = function() {
                 }
             },
 
-            
 
-            invalidHandler: function(event, validator) { //display error alert on form submit   
+
+            invalidHandler: function(event, validator) { //display error alert on form submit
 
             },
 
@@ -232,7 +232,7 @@ var Login = function() {
             },
 
             errorPlacement: function(error, element) {
-                if (element.attr("name") == "backupconfirm") { // insert checkbox errors after the container                  
+                if (element.attr("name") == "backupconfirm") { // insert checkbox errors after the container
                     error.insertAfter($('#register_backupconfirm_error'));
                 } else if (element.closest('.input-icon').size() === 1) {
                     error.insertAfter(element.closest('.input-icon'));
@@ -328,7 +328,7 @@ var Login = function() {
                             console.log(error);
                             //swal("Oops...", "Something went wrong!", "error");
                             toastr.warning("Opps... Something went wrong!", "Account Notification")
-                            
+
                         }
                     });
 
@@ -435,7 +435,7 @@ var Login = function() {
                     console.log(error);
                     //swal("Oops...", "Something went wrong!", "error");
                     toastr.warning("Opps... Something went wrong!", "Account Notification")
-                    
+
                 }
             });
         });
@@ -512,7 +512,7 @@ var Login = function() {
                             console.log(error);
                             //swal("Oops...", "Something went wrong!", "error");
                             toastr.warning("Opps... Something went wrong!", "Account Notification")
-                            
+
                         }
                     });
                     //End Check Active Wallet's status
@@ -530,7 +530,7 @@ var Login = function() {
                     console.log(error);
                     //swal("Oops...", "Something went wrong!", "error");
                     toastr.warning("Opps... Something went wrong!", "Account Notification")
-                    
+
                 }
             });
         });
@@ -584,7 +584,7 @@ var Login = function() {
             var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
             console.log(tmpIguanaRPCAuth)
         }
-        
+
     };
 
     var handleCoinsRunningCheck = function() {
@@ -595,7 +595,7 @@ var Login = function() {
                 $('#section-login').show();
             }
         })
-        
+
         /*$.each([ 'basilisk', 'full', 'virtual' ], function( index, value ) {
             var allcoinsvalues = {"agent":"InstantDEX","method":"allcoins"};
             $.ajax({
@@ -613,7 +613,7 @@ var Login = function() {
                         var coinvals = {"coin":"BTCD","portp2p":14631,"mode":0}
                         Iguana_addcoin(coinvals);
                     });
-                    
+
                 },
                 error: function(xhr, textStatus, error) {
                     console.log('failed getting Coin History.');
@@ -624,7 +624,7 @@ var Login = function() {
                 }
             });
         });
-        
+
 
         if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
             $.each([ 'BTC', 'BTCD' ], function( index, value ) {
@@ -675,8 +675,8 @@ var Login = function() {
                 });
             });
         }*/
-        
-            
+
+
     }
 
     var handleLoginAnotherWallet = function() {

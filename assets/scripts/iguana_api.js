@@ -96,7 +96,7 @@ function Iguana_rmd160conv(rmd160conv_data) {
 }
 
 /*var Iguana_activehandle_output = ''; //Storing activehandle output this variable. accessible globally.
-function Iguana_activehandle() {    
+function Iguana_activehandle() {
 
     //comment
     var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
@@ -149,7 +149,7 @@ function Iguana_activehandle(callback) {
     })
 }
 
-function Iguana_Setactivehandle() {    
+function Iguana_Setactivehandle() {
 
     //comment
     var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
@@ -166,7 +166,7 @@ function Iguana_Setactivehandle() {
             sessionStorage.setItem('IguanaActiveAccount', AjaxOutputDataToStore);
             //console.log('== SetActiveHandle Data OutPut ==');
             //console.log(AjaxOutputData);
-            
+
         },
         error: function(xhr, textStatus, error) {
             console.log(xhr.statusText);
@@ -215,7 +215,7 @@ function Iguana_addcoinLogin(addcoin_data) {
             console.log(confpath[0].path);
         }
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-        
+
         if ( addcoin_data.mode == '-1' ) {
             var setconfig = function() {
 
@@ -238,7 +238,7 @@ function Iguana_addcoinLogin(addcoin_data) {
             }
 
             setconfig()
-            .then(function(result) { 
+            .then(function(result) {
                 return startcoin();
             })
             tmpinternval = 6000
@@ -262,7 +262,7 @@ function Iguana_addcoinLogin(addcoin_data) {
             console.log(confpath[0].path);
         }
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-        
+
         if ( addcoin_data.mode == '-1' ) {
             var setconfig = function() {
 
@@ -285,7 +285,7 @@ function Iguana_addcoinLogin(addcoin_data) {
             }
 
             setconfig()
-            .then(function(result) { 
+            .then(function(result) {
                 return startcoin();
             })
             tmpinternval = 6000
@@ -439,7 +439,7 @@ function Iguana_addcoin(addcoin_data) {
             console.log(confpath[0].path);
         }
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-        
+
         if ( addcoin_data.mode == '-1' ) {
             var setconfig = function() {
 
@@ -462,7 +462,7 @@ function Iguana_addcoin(addcoin_data) {
             }
 
             setconfig()
-            .then(function(result) { 
+            .then(function(result) {
                 return startcoin();
             })
             tmpinternval = 6000
@@ -526,7 +526,7 @@ function Iguana_addcoin(addcoin_data) {
             console.log(confpath[0].path);
         }
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-        
+
         if ( addcoin_data.mode == '-1' ) {
             var setconfig = function() {
 
@@ -549,7 +549,7 @@ function Iguana_addcoin(addcoin_data) {
             }
 
             setconfig()
-            .then(function(result) { 
+            .then(function(result) {
                 return startcoin();
             })
             tmpinternval = 6000
@@ -573,7 +573,7 @@ function Iguana_addcoin(addcoin_data) {
             console.log(confpath[0].path);
         }
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-        
+
         if ( addcoin_data.mode == '-1' ) {
             var setconfig = function() {
 
@@ -596,7 +596,7 @@ function Iguana_addcoin(addcoin_data) {
             }
 
             setconfig()
-            .then(function(result) { 
+            .then(function(result) {
                 return startcoin();
             })
             tmpinternval = 6000
@@ -660,7 +660,7 @@ function Iguana_addcoin(addcoin_data) {
                                 $('#section-login').show();
                             }
                         })
-                        
+
                     }
                     $('#addcoin_mdl_full_mode').prop("checked", false);
                     $('#addcoin_mdl_basilisk_mode').prop("checked", false);
@@ -784,7 +784,7 @@ function EDEXlistunspent(coin,addr) {
 
             // This code using undscore.js takes only the address into an array which are unique in that list
             var unique_addresses  = _.keys(_.countBy(data, function(data) { return data.address; }));
-            
+
             // This function calls each unique address and calculates the total amount of coins in it.
             $.each(unique_addresses, function(index) {
                 //console.log(unique_addresses[index]);
@@ -1004,8 +1004,8 @@ function EDEXSendToAddr(data) {
 
 
 function EDEXgetinfo(coin) {
-    return new Promise((resolve) =>{ 
-    
+    return new Promise((resolve) =>{
+
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
         var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"agent":"bitcoinrpc","method":"getinfo","immediate":100,"timeout":4000};
         var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
@@ -1025,8 +1025,8 @@ function EDEXgetinfo(coin) {
 }
 
 function EDEXgetaddrbyaccount(coin) {
-    return new Promise((resolve) =>{ 
-    
+    return new Promise((resolve) =>{
+
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
         var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"agent":"bitcoinrpc","method":"getaddressesbyaccount","account":"*"}
         var tmp_addr_label = '<span class="label label-default"><i class="icon fa-eye"></i> public</span>';
@@ -1038,7 +1038,7 @@ function EDEXgetaddrbyaccount(coin) {
             console.log(data);
             //resolve(data.result);
             if (active_edexcoinmodecode == 'Basilisk'
-                    && coin !== 'BTC' 
+                    && coin !== 'BTC'
                     && coin !== 'BTCD'
                     && coin !== 'LTC'
                     && coin !== 'DOGE'
@@ -1070,7 +1070,7 @@ function EDEXgetaddrbyaccount(coin) {
                                 resolve(pass_data)
                             })
                     })
-                        
+
                 })).then(result => {
                     //console.log(result)
                     //console.log(result[result.length-1])
@@ -1116,7 +1116,7 @@ function EDEXgetaddrbyaccount(coin) {
                                 //resolve(pass_data)
                             })
                     })
-                        
+
                 })).then(result => {
                     //console.log(result)
                     //console.log(result[result.length-1])
@@ -1127,7 +1127,7 @@ function EDEXgetaddrbyaccount(coin) {
             }
 
             if (active_edexcoinmodecode == 'Full'
-                && coin !== 'BTC' 
+                && coin !== 'BTC'
                 && coin !== 'BTCD'
                 && coin !== 'LTC'
                 && coin !== 'DOGE'
@@ -1183,8 +1183,8 @@ function EDEXgetaddrbyaccount(coin) {
 }
 
 function EDEXgetnewaddress(coin) {
-    return new Promise((resolve) =>{ 
-    
+    return new Promise((resolve) =>{
+
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
         var ajax_data = {'userpass':tmpIguanaRPCAuth,"coin":coin,"agent":"bitcoinrpc","method":"getnewaddress","account":""}
         var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
@@ -1205,8 +1205,8 @@ function EDEXgetnewaddress(coin) {
 
 
 function EDEXimportprivkey(params_data) {
-    return new Promise((resolve) =>{ 
-    
+    return new Promise((resolve) =>{
+
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
         var ajax_data = {'userpass':tmpIguanaRPCAuth,"method":"importprivkey","params":[params_data, "imported"]}
         var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
@@ -1225,16 +1225,16 @@ function EDEXimportprivkey(params_data) {
     })
 }
 
-function Iguana_SetRPCAuth() {    
-    var tmpPass = md5(PassPhraseGenerator.generatePassPhrase(128));
+function Iguana_SetRPCAuth() {
+    var tmpPass = 1234;//md5(PassPhraseGenerator.generatePassPhrase(128));
     sessionStorage.setItem('IguanaRPCAuth', tmpPass);
 }
 
 
 
 function Iguana_CheckActiveCoins() {
-    return new Promise((resolve) =>{ 
-        
+    return new Promise((resolve) =>{
+
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
         var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"InstantDEX","method":"allcoins"};
         var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
@@ -1289,7 +1289,7 @@ function Iguana_DEXgetNotaries(coin) {
             if (AjaxOutputData.error === 'less than required responses') {
               toastr.error("Less than required responses. Please try again.", "Basilisk Notification")
             }
-            
+
         },
         error: function(xhr, textStatus, error) {
             console.log(xhr.statusText);
@@ -1348,7 +1348,7 @@ function Iguana_DEXImportAddr(coin,addr) {
                 toastr.error("Less than required responses. Please try again.", "Basilisk Notification")
             }
         }
-    });    
+    });
 }
 
 function Iguana_DEXImportAllWalletAddr(coin) {
@@ -1530,7 +1530,7 @@ function Iguana_DEXCheckAddr(coin,addr) {
             if (AjaxOutputData.error === 'less than required responses') {
               toastr.error("Less than required responses. Please try again.", "Basilisk Notification")
             }
-            
+
         },
         error: function(xhr, textStatus, error) {
             console.log(xhr.statusText);
@@ -1575,7 +1575,7 @@ function Iguana_DEXValidateAddr(coin,addr) {
             if (AjaxOutputData.error === 'less than required responses') {
               toastr.error("Less than required responses. Please try again.", "Basilisk Notification")
             }
-            
+
         },
         error: function(xhr, textStatus, error) {
             console.log(xhr.statusText);
@@ -1597,8 +1597,8 @@ function EDEX_DEXlistunspent(coin,addr) {
     });
     NProgress.start();
 
-    return new Promise((resolve) =>{ 
-    
+    return new Promise((resolve) =>{
+
         var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
         var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listunspent","address":addr,"symbol":coin}
         var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
@@ -1668,7 +1668,7 @@ function EDEX_DEXgetinfoAll() {
     });
     NProgress.start();
     var result = [];
-    
+
     var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
     var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"dpow","method":"notarychains"}
     var get_dex_notarychains = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
@@ -1677,26 +1677,26 @@ function EDEX_DEXgetinfoAll() {
         //console.log(get_dex_notarychains)
 
         var refresh_percent = '';
-    
+
         $.each(get_dex_notarychains, function( coin_index, coin_value ) {
             console.log(coin_index + ': ' + coin_value);
             var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
             var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getinfo","symbol":coin_value}
             console.log(ajax_data);
-            
+
             if (coin_value !== 'MESH') {
                 var getinfo_each_chain = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
                     getinfo_each_chain = JSON.parse(getinfo_each_chain.responseText)
                     console.log('== EDEX_DEXgetinfoAll Data OutPut ==');
                     console.log(getinfo_each_chain);
-                    
+
                     var tmp_index = parseInt(coin_index) + 1
                     var refresh_percent = parseFloat(parseInt(coin_index, 10) * 100)/ parseInt(get_dex_notarychains.length, 10);
                     console.log(refresh_percent)
                     $('#basilisk-connections-refresh-title').text('Connection status... ' + tmp_index + '/' + get_dex_notarychains.length + ': ' + coin_value);
                     $('#basilisk-connections-refresh-percent').text(refresh_percent+'%');
                     $('#basilisk-connections-refresh-progress-bar').width(refresh_percent+'%')
-                    
+
                     if (getinfo_each_chain == '' ) {
                         result.push([{"amount":0}]);
                     }

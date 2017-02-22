@@ -332,7 +332,7 @@ function RunKMDInitFunctions() {
                     }
                 },
                 error: function(xhr, textStatus, error) {
-                    console.log('failed data from official KMD block explorer');
+                    console.log('failed getinfo from dex api');
                     console.log(xhr.statusText);
                     console.log(textStatus);
                     console.log(error);

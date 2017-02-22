@@ -16,28 +16,27 @@
 .page-login a {
   color: #9fa8da;
 }
-@media (max-width: 767px) {
-  .page-login form {
-    width: auto;
-  }
-}
 
-.style-addcoin-lbl-mdl-login > label, .style-addcoin-lbl-mdl > label {
+.style-addcoin-lbl-mdl-login > label,
+.style-addcoin-lbl-mdl > label {
   margin: auto;
 }
 
-#register-btn, #register-back-btn, #logint-another-wallet {
+#register-btn, #register-back-btn,
+#logint-another-wallet {
 	border: 1px solid #5d5d5d;
 	color: #fff;
 }
 
-#register-btn:hover, #register-back-btn:hover, #logint-another-wallet:hover {
+#register-btn:hover,
+#register-back-btn:hover,
+#logint-another-wallet:hover {
 	border: 1px solid #a7a7a7;
 	color: #fff;
 }
 
 .page-register:before {
-  background-image: url("../images/DAY_TO_NIGHT_SERENGETI_Master_172.jpg");
+  background-image: url('../images/DAY_TO_NIGHT_SERENGETI_Master_172.jpg');
 }
 .page-register a {
   color: #9fa8da;
@@ -50,6 +49,12 @@
 .page-register .floating-label,
 .page-register .form-control:focus + .floating-label {
   color: #bdbdbd;
+}
+
+@media (max-width: 767px) {
+  .page-login form {
+    width: auto;
+  }
 }
 @media (max-width: 480px) {
   .page-register form {
