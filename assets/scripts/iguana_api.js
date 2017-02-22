@@ -1225,8 +1225,8 @@ function EDEXimportprivkey(params_data) {
     })
 }
 
-function Iguana_SetRPCAuth() {
-    var tmpPass = 1234;//md5(PassPhraseGenerator.generatePassPhrase(128));
+function Iguana_SetRPCAuth() {    
+    var tmpPass = 1234; //md5(PassPhraseGenerator.generatePassPhrase(128));
     sessionStorage.setItem('IguanaRPCAuth', tmpPass);
 }
 

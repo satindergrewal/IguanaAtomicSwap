@@ -327,8 +327,9 @@ function RunKMDInitFunctions() {
                 //dataType: 'text',
                 success: function(data, textStatus, jqXHR) {
                     //$('#read_debug_log_textarea').text(JSON.parse(data));
-                    if (data && data.info && data.info.blocks) {
-                        totalBlocksInExplorer = data.info.blocks;
+                    data = JSON.parse(data);
+                    if (data && data.blocks) {
+                        totalBlocksInExplorer = data.blocks;
                     }
                 },
                 error: function(xhr, textStatus, error) {
