@@ -646,6 +646,9 @@ function Iguana_addcoin(addcoin_data) {
                         console.log('command NOT executed from login. RELOADING WALLET WIDGETS...');
                         refreshEDEXCoinWalletList()
                         //Iguana_DEXImportAll();
+                        Shepherd_FetchBasiliskData().then(function(result){
+                            console.log(result)
+                        })
                         //EDEXMainAddr(addcoin_data.coin).then(function(result){
                             //console.log(result)
                             //Iguana_DEXImportAddr(addcoin_data.coin,result);
@@ -1830,4 +1833,50 @@ function Shepherd_herdlist(data) {
         });
     })
 }
+
+
+
+function Shepherd_FetchBasiliskData() {
+    return new Promise((resolve) =>{
+        var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
+            parse_session_data = sessionStorage.getItem('IguanaActiveAccount')
+            parse_session_data = JSON.parse(JSON.parse(parse_session_data))
+            session_pubkey = parse_session_data.pubkey
+        
+        var ajax_data = {'userpass':tmpIguanaRPCAuth,'pubkey':session_pubkey}
+        
+        $.ajax({
+            type: 'GET',
+            data: ajax_data,
+            url: 'http://127.0.0.1:17777/shepherd/allcoins',
+            contentType: 'application/json', // send as JSON
+        }).done(function(data) {
+            //console.log(data)
+            resolve(data)
+        })
+    })
+}
+
+
+
+function Shepherd_GetBasiliskCache() {
+    return new Promise((resolve) =>{
+        var parse_session_data = sessionStorage.getItem('IguanaActiveAccount')
+            parse_session_data = JSON.parse(JSON.parse(parse_session_data))
+            session_pubkey = parse_session_data.pubkey
+        
+        var ajax_data = {'pubkey':session_pubkey}
+        
+        $.ajax({
+            type: 'GET',
+            data: ajax_data,
+            url: 'http://127.0.0.1:17777/shepherd/cache',
+            contentType: 'application/json', // send as JSON
+        }).done(function(data) {
+            //console.log(data)
+            resolve(data)
+        })
+    })
+}
+
 
