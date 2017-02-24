@@ -281,6 +281,7 @@ var Dashboard = function() {
 			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin'),
 					tmp_send_to_addr = $('#edexcoin_sendto').val(),
 					tmp_send_total_amount = $('#edexcoin_total_value').text();
+
 			console.log(active_edexcoin)
 			console.log(tmp_send_to_addr)
 			console.log(tmp_send_total_amount)
@@ -545,7 +546,7 @@ var Dashboard = function() {
 						console.log(textStatus);
 						console.log(error);
 						if (xhr.readyState == '0' ) {
-							toastr.error('Unable to connect to Iguana', "Account Notification")
+							toastr.error('Unable to connect to Iguana', 'Account Notification')
 						}
 					}
 				});
@@ -556,54 +557,54 @@ var Dashboard = function() {
 			$('#addcoin_mdl_native_mode').prop('disabled', true);
 			$('#addcoin_mdl_basilisk_mode').prop('disabled', true);
 			$('#addcoin_mdl_full_mode').prop('disabled', true);
-			$('#addcoin_mdl_full_mode').prop("checked", false);
+			$('#addcoin_mdl_full_mode').prop('checked', false);
 
-			$('.mdl_addcoin_done_btn').click(function(){
+			$('.mdl_addcoin_done_btn').click(function() {
 				ExecuteAddCoinFn();
 			});
 
 			$( "#addcoin_select_coin_mdl_options" ).change(function() {
-				var tmp_coin_val = $('#addcoin_select_coin_mdl_options').val()
+				var tmp_coin_val = $('#addcoin_select_coin_mdl_options').val();
 
-				if (tmp_coin_val !== 'KMD' || tmp_coin_val !== 'KMD' ) {
-						$('#addcoin_mdl_native_mode').prop('disabled', true);
-						$('#addcoin_mdl_basilisk_mode').prop('disabled', true);
-						$('#addcoin_mdl_full_mode').prop('disabled', false);
-						$('#addcoin_mdl_full_mode').prop("checked", true);
+				if (tmp_coin_val !== 'KMD' || tmp_coin_val !== 'KMD') {
+					$('#addcoin_mdl_native_mode').prop('disabled', true);
+					$('#addcoin_mdl_basilisk_mode').prop('disabled', true);
+					$('#addcoin_mdl_full_mode').prop('disabled', false);
+					$('#addcoin_mdl_full_mode').prop('checked', true);
 				}
 				if (tmp_coin_val == 'KMD') {
-						$('#addcoin_mdl_native_mode').prop('disabled', false);
-						$('#addcoin_mdl_basilisk_mode').prop('disabled', false);
-						$('#addcoin_mdl_full_mode').prop('disabled', false);
-						$('#addcoin_mdl_basilisk_mode').prop("checked", true);
+					$('#addcoin_mdl_native_mode').prop('disabled', false);
+					$('#addcoin_mdl_basilisk_mode').prop('disabled', false);
+					$('#addcoin_mdl_full_mode').prop('disabled', false);
+					$('#addcoin_mdl_basilisk_mode').prop('checked', true);
 				}
-				if (tmp_coin_val == 'SUPERNET'
-					|| tmp_coin_val == 'REVS'
-					|| tmp_coin_val == 'USD') {
+				if (tmp_coin_val == 'SUPERNET' ||
+						tmp_coin_val == 'REVS' ||
+						tmp_coin_val == 'USD') {
 						$('#addcoin_mdl_native_mode').prop('disabled', true);
 						$('#addcoin_mdl_basilisk_mode').prop('disabled', false);
 						$('#addcoin_mdl_full_mode').prop('disabled', true);
-						$('#addcoin_mdl_basilisk_mode').prop("checked", true);
+						$('#addcoin_mdl_basilisk_mode').prop('checked', true);
 				}
 				if (tmp_coin_val == 'BTC') {
-						$('#addcoin_mdl_basilisk_mode').prop('disabled', false);
-						$('#addcoin_mdl_native_mode').prop('disabled', true);
-						$('#addcoin_mdl_full_mode').prop('disabled', false);
-						$('#addcoin_mdl_basilisk_mode').prop("checked", true);
+					$('#addcoin_mdl_basilisk_mode').prop('disabled', false);
+					$('#addcoin_mdl_native_mode').prop('disabled', true);
+					$('#addcoin_mdl_full_mode').prop('disabled', false);
+					$('#addcoin_mdl_basilisk_mode').prop('checked' true);
 				}
 			});
 		}
 
 		var handleBasiliskWalletActions = function() {
-			$(".btn_edexcoin_dashboard_getnotaries").click(function() {
-				var selected_coin = $(this).data('edexcoin')
-				$( "#nav-iguana-atomic-explorer" ).trigger( "click" );
-				$('#atomic_explorer_select_coin_options option[value=' + selected_coin + ']').attr('selected','selected');
-				$('#atomic_explorer_select_command_options option[value=dex_getnotaries]').attr('selected','selected');
-				$( "#atomic_explorer_getcoinpeers_btn" ).trigger( "click" );
+			$('.btn_edexcoin_dashboard_getnotaries').click(function() {
+				var selected_coin = $(this).data('edexcoin');
+				$( '#nav-iguana-atomic-explorer' ).trigger( 'click' );
+				$('#atomic_explorer_select_coin_options option[value=' + selected_coin + ']').attr('selected', 'selected');
+				$('#atomic_explorer_select_command_options option[value=dex_getnotaries]').attr('selected', 'selected');
+				$( '#atomic_explorer_getcoinpeers_btn' ).trigger( 'click' );
 			})
 
-			$(".btn_edexcoin_dashboard_register").click(function() {
+			$('.btn_edexcoin_dashboard_register').click(function() {
 				var selected_coin = $(this).data('edexcoin')
 				EDEXMainAddr(selected_coin).then(function(result){
 					//console.log(result)
@@ -612,196 +613,186 @@ var Dashboard = function() {
 				})
 			})
 
-			$(".btn_edexcoin_dashboard_refresh_basilisk_conn").click(function() {
+			$('.btn_edexcoin_dashboard_refresh_basilisk_conn').click(function() {
 				var show_mdl = setTimeout(function() {
-						var selected_coin = $(this).data('edexcoin')
-						$('#RefreshBasiliskConnectionsMdl').modal('show')
-						}, 0)
+											 	 var selected_coin = $(this).data('edexcoin');
+												 $('#RefreshBasiliskConnectionsMdl').modal('show');
+											 }, 0);
 				var start_refresh = setTimeout(function() {
-						EDEX_DEXgetinfoAll()
-						}, 3000)
+															EDEX_DEXgetinfoAll();
+														}, 3000);
 
-				Promise.all([show_mdl, start_refresh]).then(function() {
-						console.log('all promises executed!!!');
+				Promise.all([
+					show_mdl,
+					start_refresh
+				]).then(function() {
+					console.log('all promises executed!!!');
 				});
 			})
 
-			$(".btn_edexcoin_dashboard_validate").click(function() {
+			$('.btn_edexcoin_dashboard_validate').click(function() {
 				var selected_coin = $(this).data('edexcoin')
-				EDEXMainAddr(selected_coin).then(function(result){
+				EDEXMainAddr(selected_coin).then(function(result) {
 					//console.log(result)
-					Iguana_DEXValidateAddr(selected_coin,result);
+					Iguana_DEXValidateAddr(selected_coin, result);
 				})
 			})
 		}
 
 		var handleWalletToAtomicExplorer = function() {
-			$('#edex-tx-history-tbl').on('click', '.kmd-txid-details-btn', function(e){
-				var selected_coin = $(this).data('edexcoin')
-				var selected_coin_mode = sessionStorage.getItem('edexTmpMode');
-				var selected_txid = $(this).data('txid')
-				$( "#nav-iguana-atomic-explorer" ).trigger( "click" );
-				$('#atomic_explorer_select_coin_options option[value=' + selected_coin + ']').attr('selected','selected');
+			$('#edex-tx-history-tbl').on('click', '.kmd-txid-details-btn', function(e) {
+				var selected_coin = $(this).data('edexcoin'),
+						selected_coin_mode = sessionStorage.getItem('edexTmpMode'),
+						selected_txid = $(this).data('txid');
+
+				$( '#nav-iguana-atomic-explorer' ).trigger( 'click' );
+				$('#atomic_explorer_select_coin_options option[value=' + selected_coin + ']').attr('selected', 'selected');
 				if ( selected_coin_mode == 'Full') {
-					$('#atomic_explorer_select_command_options option[value=gettransaction]').attr('selected','selected');
+					$('#atomic_explorer_select_command_options option[value=gettransaction]').attr('selected', 'selected');
 				}
 				if ( selected_coin_mode == 'Basilisk') {
-					$('#atomic_explorer_select_command_options option[value=dex_gettransaction]').attr('selected','selected');
+					$('#atomic_explorer_select_command_options option[value=dex_gettransaction]').attr('selected', 'selected');
 				}
-				$('#atomic_explorer_input_data').val(selected_txid)
-				$( "#atomic_explorer_getcoinpeers_btn" ).trigger( "click" );
-			})
+				$('#atomic_explorer_input_data').val(selected_txid);
+				$( '#atomic_explorer_getcoinpeers_btn' ).trigger( 'click' );
+			});
 		}
-
 
 		var handleEdexWalletInfo = function() {
 			//Get coin history and pupulate balance and other info to wallet widget
 			var ExecuteShowCoinHistory = setInterval(function() {
-					if ( sessionStorage.getItem('IguanaActiveAccount') === null || sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "stop" ) {
-							clearInterval(ExecuteShowCoinHistory);
-							console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
-					} else if ( sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "start") {
-							//if ( value == "basilisk") {
-								//console.log("ShowCoinHistory and ShowCoinProgressBar not executing for basilisk...");
-							//} else {
-								//console.log('wallet widget refereshed (every 1 seconds)');
-								//Show Coin Progress Bars
-								var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
-								var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
+				if ( sessionStorage.getItem('IguanaActiveAccount') === null ||
+						 sessionStorage.getItem('DashboardActions') === null ||
+						 sessionStorage.getItem('DashboardActions') === 'stop' ) {
+					clearInterval(ExecuteShowCoinHistory);
+					console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
+				} else if ( sessionStorage.getItem('DashboardActions') === null ||
+										sessionStorage.getItem('DashboardActions') === 'start') {
+						// Show Coin Progress Bars
+						var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin'),
+								active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 
-								if ( active_edexcoinmodecode == 'Basilisk' || active_edexcoinmodecode == 'Native' ) {
-									//console.log(active_edexcoinmodecode)
-									//console.log('No need to show Progress bar for Native or Basilisk mode.')
-								} else {
-									ShowCoinProgressBar(active_edexcoin);
-								}
-								if ( sessionStorage.getItem('Activate'+active_edexcoin+'History') === 'Yes' ) {
-									//console.log('Show coin history');
-									//var historyvalues = {"timeout":20000,"immediate":100,"agent":"basilisk","method":"history","vals":{"coin":"" + active_edexcoin + ""}};
-									//ShowCoinHistory(historyvalues);
-								//}
-							}
-					}
+						if ( active_edexcoinmodecode == 'Basilisk' || active_edexcoinmodecode == 'Native' ) {
+						} else {
+							ShowCoinProgressBar(active_edexcoin);
+						}
+				}
 			}, 1000);
 
+			// TODO: refactor
 			var CheckIfIguanaRunning = setInterval(function() {
-					if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
-							//clearInterval(CheckIfIguanaRunning);
-							//console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
-					} else {
-							Iguana_activehandle().then(function(result){
-								//console.log(result)
-								//console.log("Iguana is running");
-							})
-					}
+				if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
+					//clearInterval(CheckIfIguanaRunning);
+					//console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
+				} else {
+					Iguana_activehandle().then(function(result) {
+						//console.log(result)
+						//console.log("Iguana is running");
+					});
+				}
 			}, 1000);
 
 			var RefreshEdexWalletDashboard = setInterval(function() {
-					if ( sessionStorage.getItem('IguanaActiveAccount') === null || sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "stop" ) {
-							clearInterval(RefreshEdexWalletDashboard);
-							//console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
-					} else if ( sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === "start") {
-							if ( $('[data-edexcoin]').attr("data-edexcoin") !== "COIN" ) {
-								if ( sessionStorage.getItem('edexTmpMode') !== null || sessionStorage.getItem('edexTmpMode') === "Full") {
-									if ( sessionStorage.getItem('edexTmpRefresh') === null || sessionStorage.getItem('edexTmpRefresh') === "start") {
-										//console.log('it is not COIN. '+'It is: ' + $('[data-edexcoin]').attr("data-edexcoin"));
-										$( "#btn_edexcoin_dashboard" ).trigger( "click" );
-									}
-								}
+				if ( sessionStorage.getItem('IguanaActiveAccount') === null ||
+						 sessionStorage.getItem('DashboardActions') === null ||
+						 sessionStorage.getItem('DashboardActions') === 'stop' ) {
+					clearInterval(RefreshEdexWalletDashboard);
+					//console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
+				} else if ( sessionStorage.getItem('DashboardActions') === null ||
+										sessionStorage.getItem('DashboardActions') === 'start') {
+					if ( $('[data-edexcoin]').attr('data-edexcoin') !== 'COIN' ) {
+						if ( sessionStorage.getItem('edexTmpMode') !== null || sessionStorage.getItem('edexTmpMode') === 'Full') {
+							if ( sessionStorage.getItem('edexTmpRefresh') === null || sessionStorage.getItem('edexTmpRefresh') === 'start') {
+								$( '#btn_edexcoin_dashboard' ).trigger( 'click' );
 							}
+						}
 					}
+				}
 			}, 30000);
 		}
 
-
 		return {
-				//main function to initiate the module
-				init: function() {
+			//main function to initiate the module
+			init: function() {
+				resizeDashboardWindow();
+				handle_edex_wallet();
+				handle_edex_dashboard();
+				handle_edex_send();
+				handle_edex_recieve();
 
+				window.onresize = function(event) {
 					resizeDashboardWindow();
-					handle_edex_wallet();
-					handle_edex_dashboard();
-					handle_edex_send();
-					handle_edex_recieve();
+				};
 
-
-
-					window.onresize = function(event) { resizeDashboardWindow(); };
-
-						if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
-								console.log('=> No wallet logged in. No need to run Dashboard JS.');
-						} else {
-								handleWalletWidgets();
-								handleWalletWidgetBtns();
-								handleEdexWalletInfo();
-								handleBasiliskWalletActions();
-								handleWalletToAtomicExplorer();
-								//TotalFiatValue();
-						}
-
-						/*setInterval(function() {
-								handleWalletWidgets();
-								console.log('wallet widget refereshed (every 15 seconds)');
-						}, 15000);*/
-
-						/*RunTotalFiatValue = setInterval(function() {
-								if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
-								//console.log('=> No wallet logged in. No need to get Rates.');
-								//StopTotalFiatValue();
-								} else {
-										//TotalFiatValue();
-										//console.log('Get Rates (every 60 seconds)');
-								}
-						}, 60000);*/
-
+				if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
+					console.log('=> No wallet logged in. No need to run Dashboard JS.');
+				} else {
+					handleWalletWidgets();
+					handleWalletWidgetBtns();
+					handleEdexWalletInfo();
+					handleBasiliskWalletActions();
+					handleWalletToAtomicExplorer();
+					//TotalFiatValue();
 				}
 
-		};
+				/*setInterval(function() {
+						handleWalletWidgets();
+						console.log('wallet widget refereshed (every 15 seconds)');
+				}, 15000);*/
 
+				/*RunTotalFiatValue = setInterval(function() {
+						if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
+						//console.log('=> No wallet logged in. No need to get Rates.');
+						//StopTotalFiatValue();
+						} else {
+								//TotalFiatValue();
+								//console.log('Get Rates (every 60 seconds)');
+						}
+				}, 60000);*/
+			}
+	};
 }();
 
 jQuery(document).ready(function() {
-		Dashboard.init();
-
+	Dashboard.init();
 });
 
 
 function resizeDashboardWindow() {
 	/* set default map height */
-	var navbarH = $(".site-navbar").outerHeight();
-	//var footerH = $(".site-footer").outerHeight();
-	var edexDashH = $(".edexcoin_dashoard_section_main_div").outerHeight();
+	var navbarH = $('.site-navbar').outerHeight();
+			edexDashH = $('.edexcoin_dashoard_section_main_div').outerHeight();
+			mapH = $(window).height() - navbarH;
 
-	var mapH = $(window).height() - navbarH;
-
-	$(".page-main").outerHeight(mapH);
-	$(".scrollable-container").outerHeight(mapH);
+	$('.page-main').outerHeight(mapH);
+	$('.scrollable-container').outerHeight(mapH);
 }
 
 function edexCoinBtnAction() {
 	$('.edexcoin-logo').click(function() {
-		$( "#edexcoin_send_coins_back_btn" ).trigger( "click" );
+		$( '#edexcoin_send_coins_back_btn' ).trigger( 'click' );
 		$('#btn_edexcoin_dashboard').hide();
 		$('#btn_edexcoin_send').show();
 		$('#btn_edexcoin_recieve').show();
-		//console.log($(this).data('edexcoincode'));
-		//console.log($(this).data('edexcoinmodecode'))
-		var selected_coin = $(this).data('edexcoincode')
-		var selected_coinmode = $(this).data('edexcoinmodecode')
-		var selected_coinname = $(this).data('edexcoinname')
+
+		var selected_coin = $(this).data('edexcoincode'),
+				selected_coinmode = $(this).data('edexcoinmodecode'),
+				selected_coinname = $(this).data('edexcoinname');
+
 		sessionStorage.setItem('edexTmpMode', selected_coinmode);
-		resizeDashboardWindow()
+		resizeDashboardWindow();
+
 		if ( selected_coinmode == 'Basilisk' ) {
 			$('#edex-footer').hide();
 			$('#btn_edexcoin_basilisk').show();
-			$('#edexcoin-wallet-waitingrt-alert').hide()
+			$('#edexcoin-wallet-waitingrt-alert').hide();
 			StopShowCoinHistory();
-			sessionStorage.setItem('edexTmpRefresh', "stop");
+			sessionStorage.setItem('edexTmpRefresh', 'stop');
 		}
 		if ( selected_coinmode == 'Full' ) {
 			$('#edex-footer').show();
 			$('#btn_edexcoin_basilisk').hide();
-			sessionStorage.setItem('edexTmpRefresh', "start");
+			sessionStorage.setItem('edexTmpRefresh', 'start');
 		}
 		if ( selected_coinmode !== 'Native' ) {
 			$('#edexcoin_dashoard_section').show();
@@ -816,19 +807,26 @@ function edexCoinBtnAction() {
 
 			//get selected coin's code and populate in easydex wallet widget's html elements
 			var coincode = $(this).data('edexcoincode');
-			$.each($('[data-edexcoin]'), function(index, value) {$('[data-edexcoin]').attr("data-edexcoin",coincode); $('[data-edexcoin="'+coincode+'"]')});
-			$.each($('[data-edexcoinmenu]'), function(index, value) {$('[data-edexcoinmenu]').attr("data-edexcoinmenu",coincode); $('[data-edexcoinmenu="'+coincode+'"]')});
+			$.each($('[data-edexcoin]'), function(index, value) {
+				$('[data-edexcoin]').attr('data-edexcoin', coincode);
+				$('[data-edexcoin="' + coincode + '"]');
+			});
+			$.each($('[data-edexcoinmenu]'), function(index, value) {
+				$('[data-edexcoinmenu]').attr('data-edexcoinmenu', coincode);
+				$('[data-edexcoinmenu="' + coincode + '"]');
+			});
 
 			$('#edexcoin-active').text(selected_coinname);
 			$('#edex_total_balance_coincode').text(coincode);
 			//populate selected coin's address
-			EDEXMainAddr(selected_coin).then(function(result){
-				//console.log(result)
+			EDEXMainAddr(selected_coin).then(function(result) {
 				$('#edexcoin_active_addr').text(result);
-				$('#edexcoin_active_addr_clipboard').attr("data-clipboard-text",result)
+				$('#edexcoin_active_addr_clipboard').attr('data-clipboard-text', result);
 			})
 
-			$('#edexcoin_active_addr_clipboard').click(function(){alertify.success("Address Copied.");})
+			$('#edexcoin_active_addr_clipboard').click(function() {
+				alertify.success('Address Copied.');
+			});
 
 			var clipboard = new Clipboard('.clipboard-edexaddr');
 			clipboard.destroy();
@@ -840,51 +838,51 @@ function edexCoinBtnAction() {
 
 			var clipboard = new Clipboard('.clipboard-edexaddr');
 			clipboard.on('success', function(e) {
-				console.info('Action:', e.action);
-				console.info('Text:', e.text);
-				console.info('Trigger:', e.trigger);
+				console.info('Action: ', e.action);
+				console.info('Text: ', e.text);
+				console.info('Trigger: ', e.trigger);
 
 				e.clearSelection();
 			});
 
 			clipboard.on('error', function(e) {
-				console.error('Action:', e.action);
-				console.error('Trigger:', e.trigger);
+				console.error('Action: ', e.action);
+				console.error('Trigger: ', e.trigger);
 			});
 			//populate selected coin's balance
 
-			if ( selected_coinmode == 'Basilisk'
-					&& selected_coin !== 'BTC'
-					&& selected_coin !== 'BTCD'
-					&& selected_coin !== 'LTC'
-					&& selected_coin !== 'DOGE'
-					&& selected_coin !== 'DGB'
-					&& selected_coin !== 'SYS'
-					&& selected_coin !== 'MZC'
-					&& selected_coin !== 'UNO'
-					&& selected_coin !== 'ZET'
-					&& selected_coin !== 'BTM'
-					&& selected_coin !== 'CARB'
-					&& selected_coin !== 'ANC'
-					&& selected_coin !== 'FRK') {
-				getDEXGetBalance(selected_coin).then(function(result){
+			if ( selected_coinmode == 'Basilisk' &&
+					 selected_coin !== 'BTC' &&
+				   selected_coin !== 'BTCD' &&
+					 selected_coin !== 'LTC' &&
+					 selected_coin !== 'DOGE' &&
+					 selected_coin !== 'DGB' &&
+					 selected_coin !== 'SYS' &&
+					 selected_coin !== 'MZC' &&
+					 selected_coin !== 'UNO' &&
+					 selected_coin !== 'ZET' &&
+					 selected_coin !== 'BTM' &&
+					 selected_coin !== 'CARB' &&
+					 selected_coin !== 'ANC' &&
+					 selected_coin !== 'FRK') {
+				getDEXGetBalance(selected_coin).then(function(result) {
 					//console.log(result)
 					if ( result.interest !== undefined ) {
-						$('#edexcoin_getbalance_interest').show()
-						$('#edexcoin_getbalance_total_interest').show()
-						$('#edexcoin_getbalance_t').removeClass( "col-lg-12 " ).addClass( " col-lg-4" );
-						$('#edex_interest_balance').text(result.interest)
-						$('#edex_total_balance_interest').text(result.totalbalance)
+						$('#edexcoin_getbalance_interest').show();
+						$('#edexcoin_getbalance_total_interest').show();
+						$('#edexcoin_getbalance_t').removeClass( 'col-lg-12' ).addClass( 'col-lg-4' );
+						$('#edex_interest_balance').text(result.interest);
+						$('#edex_total_balance_interest').text(result.totalbalance);
 						$('#edex_total_interest_coincode').text(selected_coin);
 						$('#edex_total_balance_interest_coincode').text(selected_coin);
 					}
 
 					if ( result.interest === undefined || selected_coin !== 'KMD') {
-						$('#edexcoin_getbalance_interest').hide()
-						$('#edexcoin_getbalance_total_interest').hide()
-						$('#edexcoin_getbalance_t').removeClass( " col-lg-4" ).addClass( " col-lg-12" );
-						$('#edex_interest_balance').text('-')
-						$('#edex_total_balance_interest').text('-')
+						$('#edexcoin_getbalance_interest').hide();
+						$('#edexcoin_getbalance_total_interest').hide();
+						$('#edexcoin_getbalance_t').removeClass( 'col-lg-4' ).addClass( 'col-lg-12' );
+						$('#edex_interest_balance').text('-');
+						$('#edex_total_balance_interest').text('-');
 					}
 
 					//console.log(result.total)
@@ -892,58 +890,51 @@ function edexCoinBtnAction() {
 					$('#edex_total_balance_coincode').text(selected_coin);
 				});
 			} else if (selected_coinmode == 'Basilisk') {
-				getDEXGetBalance2(selected_coin).then(function(result){
-					//console.log(result)
+				getDEXGetBalance2(selected_coin).then(function(result) {
 					if ( result.interest !== undefined ) {
-						$('#edexcoin_getbalance_interest').show()
-						$('#edexcoin_getbalance_total_interest').show()
-						$('#edexcoin_getbalance_t').removeClass( "col-lg-12 " ).addClass( " col-lg-4" );
-						$('#edex_interest_balance').text(result.interest)
-						$('#edex_total_balance_interest').text(result.totalbalance)
+						$('#edexcoin_getbalance_interest').show();
+						$('#edexcoin_getbalance_total_interest').show();
+						$('#edexcoin_getbalance_t').removeClass( 'col-lg-12' ).addClass( 'col-lg-4' );
+						$('#edex_interest_balance').text(result.interest);
+						$('#edex_total_balance_interest').text(result.totalbalance);
 						$('#edex_total_interest_coincode').text(selected_coin);
 						$('#edex_total_balance_interest_coincode').text(selected_coin);
 					}
 
 					if ( result.interest === undefined || selected_coin !== 'KMD') {
-						$('#edexcoin_getbalance_interest').hide()
-						$('#edexcoin_getbalance_total_interest').hide()
-						$('#edexcoin_getbalance_t').removeClass( " col-lg-4" ).addClass( " col-lg-12" );
-						$('#edex_interest_balance').text('-')
-						$('#edex_total_balance_interest').text('-')
+						$('#edexcoin_getbalance_interest').hide();
+						$('#edexcoin_getbalance_total_interest').hide();
+						$('#edexcoin_getbalance_t').removeClass( 'col-lg-4' ).addClass( 'col-lg-12' );
+						$('#edex_interest_balance').text('-');
+						$('#edex_total_balance_interest').text('-');
 					}
 
-					//console.log(result.total)
 					$('#edex_total_balance').text(result.total);
 					$('#edex_total_balance_coincode').text(selected_coin);
 				});
 			} else {
 				EDEXlistunspent(selected_coin).then(function(result){
-					//console.log(result)
 					if (result[0] != undefined) {
-						//console.log(result[0])
 						if ( result[0].interest !== undefined ) {
-							$('#edexcoin_getbalance_interest').show()
-							$('#edexcoin_getbalance_total_interest').show()
-							$('#edexcoin_getbalance_t').removeClass( "col-lg-12 " ).addClass( " col-lg-4" );
-							$('#edex_interest_balance').text(result[0].interest)
-							$('#edex_total_balance_interest').text(result[0].totalbalance)
+							$('#edexcoin_getbalance_interest').show();
+							$('#edexcoin_getbalance_total_interest').show();
+							$('#edexcoin_getbalance_t').removeClass( 'col-lg-12' ).addClass( 'col-lg-4' );
+							$('#edex_interest_balance').text(result[0].interest);
+							$('#edex_total_balance_interest').text(result[0].totalbalance);
 							$('#edex_total_interest_coincode').text(selected_coin);
 							$('#edex_total_balance_interest_coincode').text(selected_coin);
 						}
 
 						if ( result[0].interest === undefined ) {
-							$('#edexcoin_getbalance_interest').hide()
-							$('#edexcoin_getbalance_total_interest').hide()
-							$('#edexcoin_getbalance_t').removeClass( " col-lg-4" ).addClass( " col-lg-12" );
-							$('#edex_interest_balance').text('-')
-							$('#edex_total_balance_interest').text('-')
+							$('#edexcoin_getbalance_interest').hide();
+							$('#edexcoin_getbalance_total_interest').hide();
+							$('#edexcoin_getbalance_t').removeClass( 'col-lg-4' ).addClass( 'col-lg-12' );
+							$('#edex_interest_balance').text('-');
+							$('#edex_total_balance_interest').text('-');
 						}
 
 						$('#edex_total_balance').text(result[0].total);
 						$('#edex_total_balance_coincode').text(selected_coin);
-
-						//$('#edex_total_balance').text(result[0].total.toFixed(8));
-						//console.log(result[0].total)
 					} else {
 						$('#edex_total_balance').text('0');
 					}
@@ -956,223 +947,247 @@ function edexCoinBtnAction() {
 			$('#currency-progressbars').hide();
 			if ( selected_coin == 'KMD' ) {
 				sessionStorage.setItem('edexTmpMode', selected_coinmode);
-				sessionStorage.setItem('edexTmpRefresh', "start");
-				$( "#nav-komodo-wallet" ).trigger( "click" );
+				sessionStorage.setItem('edexTmpRefresh', 'start');
+				$( '#nav-komodo-wallet' ).trigger( 'click' );
 			}
 			if ( selected_coin == 'ZEC' ) {
 				sessionStorage.setItem('edexTmpMode', selected_coinmode);
-				sessionStorage.setItem('edexTmpRefresh', "start");
-				$( "#nav-zcash-wallet" ).trigger( "click" );
+				sessionStorage.setItem('edexTmpRefresh', 'start');
+				$( '#nav-zcash-wallet' ).trigger( 'click' );
 			}
 		}
-
-
 	});
 }
 
 function getActiveEdexcoin() {
-		var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
-		return active_edexcoin;
-}
-
-function hideExtCoinsinEdexDashboard(coin) {
-	//var tmp_getinfo = EDEXgetinfo(coin)
-	//console.log(tmp_getinfo);
+	var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin"';
+	return active_edexcoin;
 }
 
 function EdexfillTxHistory(coin) {
 	NProgress.done(true);
 	NProgress.configure({
-		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
+							'<div class="spinner" role="spinner">' +
+								'<div class="spinner-icon"></div>' +
+							'</div>'
 	});
 	NProgress.start();
-		EdexGetTxList(coin).then(function(result){
-			//console.log(result)
-
+		EdexGetTxList(coin).then(function(result) {
 			var edex_txhistory_table = '';
-			edex_txhistory_table = $('#edex-tx-history-tbl').DataTable( { data: result,
-					"order": [[ 3, "desc" ]],
-					select: true,
-					retrieve: true
+			edex_txhistory_table = $('#edex-tx-history-tbl').DataTable({
+				data: result,
+				'order': [
+					[ 3, 'desc' ]
+				],
+				select: true,
+				retrieve: true
 			});
 
 			edex_txhistory_table.destroy();
-			edex_txhistory_table = $('#edex-tx-history-tbl').DataTable( { data: result,
-					"order": [[ 3, "desc" ]],
-					select: true,
-					retrieve: true
+			edex_txhistory_table = $('#edex-tx-history-tbl').DataTable({
+				data: result,
+				'order': [
+					[ 3, "desc" ]
+				],
+				select: true,
+				retrieve: true
 			});
 		});
 }
 
 function getDEXCoinBalance(coin) {
-	getDEXGetBalance(coin).then(function(result){
-			console.log(result)
+	getDEXGetBalance(coin).then(function(result) {
+		console.log(result)
 	});
 }
-
 
 function getDEXGetBalance(coin) {
 	NProgress.done(true);
 	NProgress.configure({
-			template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
+							'<div class="spinner" role="spinner">' +
+								'<div class="spinner-icon"></div>' +
+							'</div>'
 	});
 	NProgress.start();
-	return new Promise((resolve) =>{
-
-		var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data_2 = {'userpass':tmpIguanaRPCAuth,"coin":coin,"agent":"bitcoinrpc","method":"getaddressesbyaccount","account":"*"}
+	return new Promise((resolve) => {
+		var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+				ajax_data_2 = {
+					'userpass': tmpIguanaRPCAuth,
+					'coin': coin,
+					'agent': 'bitcoinrpc',
+					'method': 'getaddressesbyaccount',
+					'account': '*'
+				};
+		
 		$.ajax({
-				data: JSON.stringify(ajax_data_2),
-				url: 'http://127.0.0.1:7778',
-				type: 'POST',
-				dataType: 'json',
+			data: JSON.stringify(ajax_data_2),
+			url: 'http://127.0.0.1:7778',
+			type: 'POST',
+			dataType: 'json'
 		}).then(data => {
-				var total_balance = 0
-				var total_interest = 0
-				Promise.all(data.result.map((coinaddr_value,coinaddr_index) => {
-						let params =  {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getbalance","address":coinaddr_value,"symbol":coin};
-								return new Promise((resolve, reject) => {
-										$.ajax({
-														data: JSON.stringify(params),
-														url: 'http://127.0.0.1:7778',
-														type: 'POST',
-														dataType: 'json',
-												}).then(data => {
-														total_balance = total_balance + data.balance
-														if (data.interest !== undefined) {
-																total_interest = total_interest + data.interest
-																pass_data = {"total":total_balance.toFixed(8),"interest":total_interest.toFixed(8)}
-														}
-														if (data.interest == undefined) {
-																pass_data = {"total":total_balance}
-														}
-														console.log(pass_data)
-
-														resolve(pass_data)
-												})
-								})
-
-				})).then(result => {
-						//console.log(result[result.length-1])
-						resolve(result[result.length-1])
-						NProgress.done();
-				})
-		})
-	})
+			var total_balance = 0,
+					total_interest = 0;
+			Promise.all(data.result.map((coinaddr_value,coinaddr_index) => {
+				let params =  {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"getbalance","address":coinaddr_value,"symbol":coin};
+					return new Promise((resolve, reject) => {
+						$.ajax({
+							data: JSON.stringify(params),
+							url: 'http://127.0.0.1:7778',
+							type: 'POST',
+							dataType: 'json'
+						}).then(data => {
+							total_balance = total_balance + data.balance;
+							if (data.interest !== undefined) {
+								total_interest = total_interest + data.interest;
+								pass_data = {
+									'total': total_balance.toFixed(8),
+									'interest': total_interest.toFixed(8)
+								};
+							}
+							if (data.interest == undefined) {
+								pass_data = { 'total': total_balance };
+							}
+							console.log(pass_data);
+							resolve(pass_data);
+						});
+					});
+			}))
+			.then(result => {
+				resolve(result[result.length-1]);
+				NProgress.done();
+			});
+		});
+	});
 }
 
 
 function getDEXGetBalance2(coin) {
 	NProgress.done(true);
 	NProgress.configure({
-			template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
+							'<div class="spinner" role="spinner">' +
+								'<div class="spinner-icon"></div>' +
+							'</div>'
 	});
 	NProgress.start();
-		return new Promise((resolve) =>{
-				var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-				var ajax_data_1 = {'userpass':tmpIguanaRPCAuth,"agent":"SuperNET","method":"activehandle"}
-				var tmp_coin_addr = null
-
-				var ajax_call_1 = $.ajax({
-							data: JSON.stringify(ajax_data_1),
+		return new Promise((resolve) => {
+			var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+					ajax_data_1 = {
+						'userpass': tmpIguanaRPCAuth,
+						'agent': 'SuperNET',
+						'method': 'activehandle'
+					},
+					tmp_coin_addr = null,
+					ajax_call_1 = $.ajax({
+						data: JSON.stringify(ajax_data_1),
+						url: 'http://127.0.0.1:7778',
+						type: 'POST',
+						dataType: 'json'
+					}),
+					ajax_call_2 = ajax_call_1.then(function(data) {
+						tmp_coin_addr = data[coin];
+						var ajax_data_2 = {
+							'userpass': tmpIguanaRPCAuth,
+							'agent': 'dex',
+							'method': 'listunspent',
+							'address': data[coin],
+							'symbol': coin
+						};
+						
+						return $.ajax({
+							data: JSON.stringify(ajax_data_2),
 							url: 'http://127.0.0.1:7778',
 							type: 'POST',
-							dataType: 'json',
-						}),
-					ajax_call_2 = ajax_call_1.then(function(data) {
-							// .then() returns a new promise
-							tmp_coin_addr = data[coin]
-							//console.log(tmp_coin_addr);
-							var ajax_data_2 = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listunspent","address":data[coin],"symbol":coin}
-							return $.ajax({
-								data: JSON.stringify(ajax_data_2),
-								url: 'http://127.0.0.1:7778',
-								type: 'POST',
-								dataType: 'json',
-							});
+							dataType: 'json'
 						});
-
-				ajax_call_2.done(function(data) {
-					//console.log(tmp_coin_addr);
-						//console.log(data);
-						if (data.error === 'less than required responses') {
-							toastr.error("Less than required responses. Please try again.", "Basilisk Notification")
-						}
-
-					var tmpcalcnum = 0;
-					var tmpcalcinterest = 0;
-					var interest_enable = false
-					var tmptotalbalance = 0;
-					$.each(data, function(index) {
-						if ( data[index].interest !== undefined ) {
-							//console.log('interest is available for this currency. Adding to total balance.');
-							tmpcalcnum = tmpcalcnum + data[index].amount
-							tmpcalcinterest = tmpcalcinterest + data[index].interest
-							interest_enable = true
-						}
-						if ( data[index].interest === undefined ) {
-							tmpcalcnum = tmpcalcnum + data[index].amount;
-						}
 					});
 
-					if ( coin == 'KMD' ) {
-						tmptotalbalance = parseFloat(tmpcalcnum) + parseFloat(tmpcalcinterest)
-						var tmp_addr_total_balance_output = {"addr": tmp_coin_addr, "total": tmpcalcnum.toFixed(8), "interest": tmpcalcinterest.toFixed(8), "totalbalance": tmptotalbalance.toFixed(8)};
-					}
-					if ( coin !== 'KMD' ) {
-						var tmp_addr_total_balance_output = {"addr": tmp_coin_addr, "total": tmpcalcnum.toFixed(8)};
-					}
-						console.log(tmp_addr_total_balance_output);
+			ajax_call_2.done(function(data) {
+				if (data.error === 'less than required responses') {
+					toastr.error('Less than required responses. Please try again.', 'Basilisk Notification');
+				}
 
-					if (data == '' ) {
-						tmp_addr_total_balance_output = {"addr": tmp_coin_addr, "total":0};
+				var tmpcalcnum = 0,
+						tmpcalcinterest = 0,
+						interest_enable = false,
+						tmptotalbalance = 0;
+				
+				$.each(data, function(index) {
+					if ( data[index].interest !== undefined ) {
+						tmpcalcnum = tmpcalcnum + data[index].amount;
+						tmpcalcinterest = tmpcalcinterest + data[index].interest;
+						interest_enable = true;
 					}
-
-					//console.log(tmp_addr_total_balance_output)
-					resolve(tmp_addr_total_balance_output)
-					NProgress.done();
-				}).fail(function(xhr, textStatus, error) {
-						// handle request failures
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-								Iguana_ServiceUnavailable();
-						}
-						console.log(textStatus);
-						console.log(error);
+					if ( data[index].interest === undefined ) {
+						tmpcalcnum = tmpcalcnum + data[index].amount;
+					}
 				});
-		})
+
+				if ( coin == 'KMD' ) {
+					tmptotalbalance = parseFloat(tmpcalcnum) + parseFloat(tmpcalcinterest);
+					var tmp_addr_total_balance_output = {
+						'addr': tmp_coin_addr,
+						'total': tmpcalcnum.toFixed(8),
+						'interest': tmpcalcinterest.toFixed(8),
+						'totalbalance': tmptotalbalance.toFixed(8)
+					};
+				}
+				if ( coin !== 'KMD' ) {
+					var tmp_addr_total_balance_output = {
+						'addr': tmp_coin_addr,
+						'total': tmpcalcnum.toFixed(8)
+					};
+				}
+				console.log(tmp_addr_total_balance_output);
+
+				if (data == '' ) {
+					tmp_addr_total_balance_output = {
+						'addr': tmp_coin_addr,
+						'total': 0
+					};
+				}
+
+				resolve(tmp_addr_total_balance_output);
+				NProgress.done();
+			}).fail(function(xhr, textStatus, error) {
+				// handle request failures
+				console.log(xhr.statusText);
+				if ( xhr.readyState == 0 ) {
+					Iguana_ServiceUnavailable();
+				}
+				console.log(textStatus);
+				console.log(error);
+			});
+	});
 }
 
 function getCoinBalance(coin) {
-	var active_edexcoin = $('[data-edexcoin]').attr("data-edexcoin");
-	EDEXlistunspent(active_edexcoin).then(function(result){
-		console.log(result)
+	var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
+	EDEXlistunspent(active_edexcoin).then(function(result) {
+		console.log(result);
 		if (result[0] != undefined) {
-			//console.log(result[0])
 			if ( result[0].interest !== undefined ) {
-				$('#edexcoin_getbalance_interest').show()
-				$('#edexcoin_getbalance_total_interest').show()
-				$('#edexcoin_getbalance_t').removeClass( "col-lg-12 " ).addClass( " col-lg-4" );
-				$('#edex_interest_balance').text(result[0].interest)
-				$('#edex_total_balance_interest').text(result[0].totalbalance)
+				$('#edexcoin_getbalance_interest').show();
+				$('#edexcoin_getbalance_total_interest').show();
+				$('#edexcoin_getbalance_t').removeClass( 'col-lg-12' ).addClass( 'col-lg-4' );
+				$('#edex_interest_balance').text(result[0].interest);
+				$('#edex_total_balance_interest').text(result[0].totalbalance);
 				$('#edex_total_interest_coincode').text(active_edexcoin);
 				$('#edex_total_balance_interest_coincode').text(active_edexcoin);
 			}
 
 			if ( result[0].interest === undefined ) {
-				$('#edexcoin_getbalance_interest').hide()
-				$('#edexcoin_getbalance_total_interest').hide()
-				$('#edexcoin_getbalance_t').removeClass( " col-lg-4" ).addClass( " col-lg-12" );
-				$('#edex_interest_balance').text('-')
-				$('#edex_total_balance_interest').text('-')
+				$('#edexcoin_getbalance_interest').hide();
+				$('#edexcoin_getbalance_total_interest').hide();
+				$('#edexcoin_getbalance_t').removeClass( 'col-lg-4' ).addClass( 'col-lg-12' );
+				$('#edex_interest_balance').text('-');
+				$('#edex_total_balance_interest').text('-');
 			}
 
 			$('#edex_total_balance').text(result[0].total);
 			$('#edex_total_balance_coincode').text(active_edexcoin);
-
-			//$('span[data-edexcoincode="' + coin + '"][id="edexcoin-balance"]').text(result[0].total);
-			//console.log(result[0].total)
 		} else {
 			$('span[data-edexcoincode="' + coin + '"][id="edexcoin-balance"]').text('0');
 		}
@@ -1180,214 +1195,296 @@ function getCoinBalance(coin) {
 }
 
 function getBasiliskCoinBalance(coin) {
-	EDEXMainAddr(coin).then(function(result){
+	EDEXMainAddr(coin).then(function(result) {
 		console.log(result)
-		EDEX_DEXlistunspent(coin, result).then(function(result_listunspent){
+		EDEX_DEXlistunspent(coin, result).then(function(result_listunspent) {
 			console.log(result_listunspent[0].amount);
 			$('span[data-edexcoincode="' + coin + '"][id="edexcoin-balance"]').text(result_listunspent[0].amount);
 		});
-	})
+	});
 }
 
 function StopShowCoinHistory() {
-		clearInterval(ExecuteShowCoinHistory);
-		console.log('Stopped executing History and ProgressBar API.');
+	clearInterval(ExecuteShowCoinHistory);
+	console.log('Stopped executing History and ProgressBar API.');
 }
 
 
 function refreshEDEXCoinWalletList() {
-	var walletDivContent = '';
-				var AddColumnDiv = 0
-				$.each([ 'native', 'basilisk', 'full' ], function( index, value ) {
+	var walletDivContent = '',
+			AddColumnDiv = 0
+	$.each([
+		'native',
+		'basilisk',
+		'full'
+	], function( index, value ) {
+		var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+				ajax_data = {
+					'userpass': tmpIguanaRPCAuth,
+					'agent': 'InstantDEX',
+					'method': 'allcoins'
+				};
 
-						var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-						var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"InstantDEX","method":"allcoins"};
-						//console.log(ajax_data);
-						$.ajax({
-								type: 'POST',
-								data: JSON.stringify(ajax_data),
-								url: 'http://127.0.0.1:7778',
-								//dataType: 'JSON',
-								success: function(data, textStatus, jqXHR) {
-										var AllcoinsDataOutput = JSON.parse(data);
-										//console.log('== AllCoins Data OutPut ==');
-										//console.log(value);
-										//console.log(AllcoinsDataOutput[value]);
+		$.ajax({
+			type: 'POST',
+			data: JSON.stringify(ajax_data),
+			url: 'http://127.0.0.1:7778',
+			success: function(data, textStatus, jqXHR) {
+				var AllcoinsDataOutput = JSON.parse(data);
 
-										$.each(AllcoinsDataOutput[value], function(index) {
+				$.each(AllcoinsDataOutput[value], function(index) {
+					var coinlogo = '',
+							coinname = '',
+							modecode = '',
+							modetip = '',
+							modecolor = '';
 
-												var coinlogo = '';
-												var coinname = '';
-												var modecode = '';
-												var modetip = '';
-												var modecolor = '';
+					switch(value) {
+						case 'native':
+							modecode = 'Native';
+							modetip = 'Native';
+							modecolor = 'primary';
+							break;
+						case 'basilisk':
+							modecode = 'Basilisk';
+							modetip = 'Basilisk';
+							modecolor = 'info';
+							break;
+						case 'full':
+							modecode = 'Full';
+							modetip = 'Full';
+							modecolor = 'success';
+							break;
+						case 'virtual':
+							modecode = 'Virtual';
+							modetip = 'Virtual';
+							modecolor = 'danger';
+							break;
+						case 'notarychains':
+							modecode = 'Notarychains';
+							modetip = 'Notarychains';
+							modecolor = 'dark';
+							break;
+					}
 
-												if ( value == 'native' ) { modecode = 'Native'; modetip = 'Native'; modecolor = 'primary'; }
-												if ( value == 'basilisk' ) { modecode = 'Basilisk'; modetip = 'Basilisk'; modecolor = 'info'; }
-												if ( value == 'full' ) { modecode = 'Full'; modetip = 'Full'; modecolor = 'success'; }
-												if ( value == 'virtual' ) { modecode = 'Virtual'; modetip = 'Virtual'; modecolor = 'danger'; }
-												if ( value == 'notarychains' ) { modecode = 'Notarychains'; modetip = 'Notarychains'; modecolor = 'dark'; }
+					switch (AllcoinsDataOutput[value][index]) {
+						case 'BTC':
+							coinlogo = 'bitcoin';
+							coinname = 'Bitcoin';
+							break;
+						case 'BTCD':
+							coinlogo = 'bitcoindark';
+							coinname = 'BitcoinDark';
+							break;
+						case 'LTC':
+							coinlogo = 'litecoin';
+							coinname = 'Litecoin';
+							break;
+						case 'VPN':
+							coinlogo = 'vpncoin';
+							coinname = 'VPNcoin';
+							break;
+						case 'SYS':
+							coinlogo = 'syscoin';
+							coinname = 'Syscoin';
+							break;
+						case 'ZEC':
+							coinlogo = 'zcash';
+							coinname = 'Zcash';
+							break;
+						case 'NMC':
+							coinlogo = 'namecoin';
+							coinname = 'Namecoin';
+							break;
+						case 'DEX':
+							coinlogo = 'dex';
+							coinname = 'DEX';
+							break;
+						case 'DOGE':
+							coinlogo = 'dogecoin';
+							coinname = 'Dogecoin';
+							break;
+						case 'DGB':
+							coinlogo = 'digibyte';
+							coinname = 'Digibyte';
+							break;
+						case 'MZC':
+							coinlogo = 'mazacoin';
+							coinname = 'Mazacoin';
+							break;
+						case 'UNO':
+							coinlogo = 'unobtanium';
+							coinname = 'Unobtanium';
+							break;
+						case 'ZET':
+							coinlogo = 'zetacoin';
+							coinname = 'Zetacoin';
+							break;
+						case 'KMD':
+							coinlogo = 'komodo';
+							coinname = 'Komodo';
+							break;
+						case 'BTM':
+							coinlogo = 'bitmark';
+							coinname = 'Bitmark';
+							break;
+						case 'CARB':
+							coinlogo = 'carboncoin';
+							coinname = 'Carboncoin';
+							break;
+						case 'ANC':
+							coinlogo = 'anoncoin';
+							coinname = 'AnonCoin';
+							break;
+						case 'FRK':
+							coinlogo = 'franko';
+							coinname = 'Franko';
+							break;
+						case 'SUPERNET':
+							coinlogo = 'SUPERNET';
+							coinname = 'SUPERNET';
+							break;
+						case 'REVS':
+							coinlogo = 'REVS';
+							coinname = 'REVS';
+							break;
+						case 'USD':
+							coinlogo = 'USD';
+							coinname = 'USD';
+							break;
+					}
 
-												if ( AllcoinsDataOutput[value][index] == 'BTC' ) { coinlogo = 'bitcoin'; coinname = 'Bitcoin'; }
-												if ( AllcoinsDataOutput[value][index] == 'BTCD' ) { coinlogo = 'bitcoindark'; coinname = 'BitcoinDark'; }
-												if ( AllcoinsDataOutput[value][index] == 'LTC' ) { coinlogo = 'litecoin'; coinname = 'Litecoin'; }
-												if ( AllcoinsDataOutput[value][index] == 'VPN' ) { coinlogo = 'vpncoin'; coinname = 'VPNcoin'; }
-												if ( AllcoinsDataOutput[value][index] == 'SYS' ) { coinlogo = 'syscoin'; coinname = 'Syscoin'; }
-												if ( AllcoinsDataOutput[value][index] == 'ZEC' ) { coinlogo = 'zcash'; coinname = 'Zcash'; }
-												if ( AllcoinsDataOutput[value][index] == 'NMC' ) { coinlogo = 'namecoin'; coinname = 'Namecoin'; }
-												if ( AllcoinsDataOutput[value][index] == 'DEX' ) { coinlogo = 'dex'; coinname = 'DEX'; }
-												if ( AllcoinsDataOutput[value][index] == 'DOGE' ) { coinlogo = 'dogecoin'; coinname = 'Dogecoin'; }
-												if ( AllcoinsDataOutput[value][index] == 'DGB' ) { coinlogo = 'digibyte'; coinname = 'Digibyte'; }
-												if ( AllcoinsDataOutput[value][index] == 'MZC' ) { coinlogo = 'mazacoin'; coinname = 'Mazacoin'; }
-												if ( AllcoinsDataOutput[value][index] == 'UNO' ) { coinlogo = 'unobtanium'; coinname = 'Unobtanium'; }
-												if ( AllcoinsDataOutput[value][index] == 'ZET' ) { coinlogo = 'zetacoin'; coinname = 'Zetacoin'; }
-												if ( AllcoinsDataOutput[value][index] == 'KMD' ) { coinlogo = 'komodo'; coinname = 'Komodo'; }
-												if ( AllcoinsDataOutput[value][index] == 'BTM' ) { coinlogo = 'bitmark'; coinname = 'Bitmark'; }
-												if ( AllcoinsDataOutput[value][index] == 'CARB' ) { coinlogo = 'carboncoin'; coinname = 'Carboncoin'; }
-												if ( AllcoinsDataOutput[value][index] == 'ANC' ) { coinlogo = 'anoncoin'; coinname = 'AnonCoin'; }
-												if ( AllcoinsDataOutput[value][index] == 'FRK' ) { coinlogo = 'franko'; coinname = 'Franko'; }
-												if ( AllcoinsDataOutput[value][index] == 'SUPERNET' ) { coinlogo = 'SUPERNET'; coinname = 'SUPERNET'; }
-												if ( AllcoinsDataOutput[value][index] == 'REVS' ) { coinlogo = 'REVS'; coinname = 'REVS'; }
-												if ( AllcoinsDataOutput[value][index] == 'USD' ) { coinlogo = 'USD'; coinname = 'USD'; }
+					walletDivContent += '<!-- Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->';
+					walletDivContent += '<div class="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '">';
+						walletDivContent += '<div class="widget widget-shadow">';
+							walletDivContent += '<div class="widget-content text-center bg-white padding-20">';
+								walletDivContent += '<a class="avatar margin-bottom-5 edexcoin-logo" href="javascript:void(0)" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-edexcoinmodecode="' + modecode + '" data-edexcoinname="' + coinname + '" id="edexcoin-logo">';
+									walletDivContent += '<img class="img-responsive" src="assets/images/cryptologo/' + coinlogo + '.png" alt="'+coinname+'"/>';
+									walletDivContent += '<span class="badge up badge-' + modecolor + '" id="basfull" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>';
+								walletDivContent += '</a>';
+								walletDivContent += '<div class="coin-name">' + coinname + '</div>';
+							walletDivContent += '</div>';
+						walletDivContent += '</div>';
+					walletDivContent += '</div>';
+					walletDivContent += '<!-- End Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->';
 
-												//console.log(AllcoinsDataOutput[value][index]);
-
-												walletDivContent += '<!-- Wallet Widget '+AllcoinsDataOutput[value][index]+' -->';
-												walletDivContent += '<div class="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info" data-edexcoincode="'+AllcoinsDataOutput[value][index]+'">';
-													walletDivContent += '<div class="widget widget-shadow">';
-														walletDivContent += '<div class="widget-content text-center bg-white padding-20">';
-															//walletDivContent += '<a href="#" class="avatar margin-bottom-5">';
-															walletDivContent += '<a class="avatar margin-bottom-5 edexcoin-logo" href="javascript:void(0)" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-edexcoinmodecode="' + modecode + '" data-edexcoinname="' + coinname + '" id="edexcoin-logo">';
-																walletDivContent += '<img class="img-responsive" src="assets/images/cryptologo/' + coinlogo + '.png" alt="'+coinname+'"/>';
-																walletDivContent += '<span class="badge up badge-' + modecolor + '" id="basfull" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>';
-															walletDivContent += '</a>';
-															walletDivContent += '<div class="coin-name">'+coinname+'</div>';
-															//walletDivContent += '<div class="coin-title margin-bottom-20 blue-grey-400"><span data-edexcoincode="'+AllcoinsDataOutput[value][index]+'" id="edexcoin-balance">-</span> '+AllcoinsDataOutput[value][index]+'</div>';
-														walletDivContent += '</div>';
-													walletDivContent += '</div>';
-												walletDivContent += '</div>';
-												walletDivContent += '<!-- End Wallet Widget '+AllcoinsDataOutput[value][index]+' -->';
-
-												$('.wallet-widgets-row').html(walletDivContent);
-												//getCoinBalance(AllcoinsDataOutput[value][index]);
-												//getCoinBalance_altfn('KMD');
-												//getCoinBalance('KMD');
-												/*if ( modecode == 'Basilisk' ) {
-													$('span[data-edexcoincode="' + AllcoinsDataOutput[value][index] + '"][id="edexcoin-balance"]').parent().hide();
-													//getBasiliskCoinBalance(AllcoinsDataOutput[value][index])
-												}*/
-
-												$('.scrollbar-dynamic').scrollbar(); //Make sure widget-body has scrollbar for transactions history
-												$('[data-toggle="tooltip"]').tooltip(); //Make sure tooltips are working for wallet widgets and anywhere else in wallet.
-												//console.log(walletDivContent);
-												edexCoinBtnAction();
-										});
-								},
-								error: function(xhr, textStatus, error) {
-										console.log('failed starting BitcoinDark.');
-										console.log(xhr.statusText);
-										if ( xhr.readyState == 0 ) {
-												Iguana_ServiceUnavailable();
-										}
-										console.log(textStatus);
-										console.log(error);
-										//swal("Oops...", "Something went wrong!", "error");
-										if (xhr.readyState == '0' ) {
-												toastr.error("Unable to connect to Iguana", "Account Notification")
-										}
-								}
-						});
+					$('.wallet-widgets-row').html(walletDivContent);
+					$('.scrollbar-dynamic').scrollbar(); //Make sure widget-body has scrollbar for transactions history
+					$('[data-toggle="tooltip"]').tooltip(); //Make sure tooltips are working for wallet widgets and anywhere else in wallet.
+					edexCoinBtnAction();
 				});
+			},
+			error: function(xhr, textStatus, error) {
+				console.log('failed starting BitcoinDark.');
+				console.log(xhr.statusText);
+				if ( xhr.readyState == 0 ) {
+						Iguana_ServiceUnavailable();
+				}
+				console.log(textStatus);
+				console.log(error);
+				if (xhr.readyState == '0' ) {
+					toastr.error('Unable to connect to Iguana', 'Account Notification');
+				}
+			}
+		});
+	});
 }
 
 
 function SwitchBasicliskFull(switch_data) {
-	//console.log(switch_data.currency);
-	//console.log(switch_data.modecode);
-	var relay_value = '';
-	var validate_value = '';
-	var mode_value = '';
+	var relay_value = '',
+			validate_value = '',
+			mode_value = '';
 
-	if ( switch_data.modecode == 'B' ) { relay_value = 1; validate_value = 1; mode_value = 'Basilisk'; }
-	if ( switch_data.modecode == 'F' ) { relay_value = 0; validate_value = 0; mode_value = 'Full'; }
-
-	var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-	var SwitchCoinModeData = {
-			'userpass':tmpIguanaRPCAuth,
-			"poll": 100,
-			"immediate":100,
-			"active": 1,
-			"newcoin": switch_data.currency,
-			"startpend": 1,
-			"endpend": 1,
-			"services": 128,
-			"maxpeers": 16,
-			"RELAY": relay_value,
-			"VALIDATE": validate_value,
-			"portp2p": 14631
+	if ( switch_data.modecode == 'B' ) {
+		relay_value = 1;
+		validate_value = 1;
+		mode_value = 'Basilisk';
 	}
-	//console.log(SwitchCoinModeData);
-	//Switch selected coins' mode
+	if ( switch_data.modecode == 'F' ) {
+		relay_value = 0;
+		validate_value = 0;
+		mode_value = 'Full';
+	}
+
+	var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			SwitchCoinModeData = {
+				'userpass': tmpIguanaRPCAuth,
+				'poll': 100,
+				'immediate':100,
+				'active': 1,
+				'newcoin': switch_data.currency,
+				'startpend': 1,
+				'endpend': 1,
+				'services': 128,
+				'maxpeers': 16,
+				'RELAY': relay_value,
+				'VALIDATE': validate_value,
+				'portp2p': 14631
+			};
+	// Switch selected coins' mode
 	$.ajax({
 			type: 'GET',
 			data: SwitchCoinModeData,
 			url: 'http://127.0.0.1:7778/api/iguana/addcoin',
 			dataType: 'text',
 			success: function(data, textStatus, jqXHR) {
-					var SwitchCoinDataOutput = JSON.parse(data);
-					//console.log('== Data OutPut ==');
-					//console.log(SwitchCoinDataOutput);
+				var SwitchCoinDataOutput = JSON.parse(data);
 
-					if (SwitchCoinDataOutput.result === 'coin added') {
-							console.log('coin added');
-							toastr.success(switch_data.currency + " switched to " + mode_value + " Mode", "Coin Notification");
-					} else if (SwitchCoinDataOutput.result === 'coin already there') {
-							console.log('coin already there');
-							//toastr.info("Looks like" + switch_data.currency + "already running.", "Coin Notification");
-					} else if (SwitchCoinDataOutput.result === null) {
-							console.log('coin already there');
-							//toastr.info("Looks like" + switch_data.currency + "already running.", "Coin Notification");
-					}
+				if (SwitchCoinDataOutput.result === 'coin added') {
+					console.log('coin added');
+					toastr.success(switch_data.currency + ' switched to ' + mode_value + ' Mode', 'Coin Notification');
+				} else if (SwitchCoinDataOutput.result === 'coin already there') {
+					console.log('coin already there');
+				} else if (SwitchCoinDataOutput.result === null) {
+					console.log('coin already there');
+				}
 			},
 			error: function(xhr, textStatus, error) {
-					console.log('failed starting BitcoinDark.');
-					console.log(xhr.statusText);
-					if ( xhr.readyState == 0 ) {
-							Iguana_ServiceUnavailable();
-					}
-					console.log(textStatus);
-					console.log(error);
-					//swal("Oops...", "Something went wrong!", "error");
-					if (xhr.readyState == '0' ) {
-							toastr.error("Unable to connect to Iguana", "Account Notification")
-					}
+				console.log('failed starting BitcoinDark.');
+				console.log(xhr.statusText);
+				if ( xhr.readyState == 0 ) {
+					Iguana_ServiceUnavailable();
+				}
+				console.log(textStatus);
+				console.log(error);
+				if (xhr.readyState == '0' ) {
+					toastr.error('Unable to connect to Iguana', 'Account Notification');
+				}
 			}
 	});
 }
 
 function TotalFiatValue() {
-	var BTC_balance = $('span[data-currency="BTC"][id="currency-balance"]').text();
-	var BTCD_balance = $('span[data-currency="BTCD"][id="currency-balance"]').text();
-	var Fiat_Currency = localStorage.getItem('EasyDEX_FiatCurrency');
-	var BTC_Fiat_pair_value = '';
-	var Conversion_Fiat_Pair = '';
-	var BTCD_Fiat_pair_value = '';
+	var BTC_balance = $('span[data-currency="BTC"][id="currency-balance"]').text(),
+			BTCD_balance = $('span[data-currency="BTCD"][id="currency-balance"]').text(),
+			Fiat_Currency = localStorage.getItem('EasyDEX_FiatCurrency'),
+			BTC_Fiat_pair_value = '',
+			Conversion_Fiat_Pair = '',
+			BTCD_Fiat_pair_value = '';
 
 	$('span[data-currency="BTC"][id="header_coinname_balance"]').text(BTC_balance + ' BTC');
 	$('span[data-currency="BTCD"][id="header_coinname_balance"]').text(BTCD_balance + ' BTCD' );
 
 	if ( Fiat_Currency == 'USD' ) {
-		BTC_Fiat_pair_value = 'BTC/'+Fiat_Currency;
+		BTC_Fiat_pair_value = 'BTC/' + Fiat_Currency;
 		Conversion_Fiat_Pair = 'EUR/USD';
 	} else {
 		BTC_Fiat_pair_value = 'BTC/USD';
-		Conversion_Fiat_Pair = Fiat_Currency+'/USD';
+		Conversion_Fiat_Pair = Fiat_Currency + '/USD';
 	}
 
-	//console.log(BTC_balance); console.log(BTCD_balance);
-
-	var TotalFiatValueData = {"agent":"iguana","method":"rates","quotes":["BTCD/BTC", BTC_Fiat_pair_value, Conversion_Fiat_Pair],"immediate":100,"timeout":5000};
-	//console.log(TotalFiatValueData);
+	var TotalFiatValueData = {
+				'agent': 'iguana',
+				'method': 'rates',
+				'quotes': [
+					'BTCD/BTC',
+					BTC_Fiat_pair_value,
+					Conversion_Fiat_Pair
+				],
+				'immediate': 100,
+				'timeout': 5000
+			};
 
 	if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
 		console.log('=> No wallet logged in. No need to get Rates.');
@@ -1399,42 +1496,40 @@ function TotalFiatValue() {
 			url: 'http://127.0.0.1:7778',
 			//dataType: 'text',
 			success: function(data, textStatus, jqXHR) {
-						var RatesData = JSON.parse(data);
-						var label_color = '';
-						var label_icon = '';
-						var wallettblContent = '';
-						//console.log('== Rates Data OutPut ==');
-						//console.log(RatesData.rates[2]);
-						localStorage.setItem('EasyDEX_BTCD_BTC_pair_value', RatesData.rates[0]['BTCD/BTC']); //e.g BTCD/BTC
-						localStorage.setItem('EasyDEX_BTC_Fiat_pair_value', RatesData.rates[1][BTC_Fiat_pair_value]); //e.g BTC/USD
-						localStorage.setItem('EasyDEX_Conversion_Fiat_Pair', Conversion_Fiat_Pair); //e.g EUR/USD
-						localStorage.setItem('EasyDEX_Conversion_Fiat_Pair_value', RatesData.rates[2][Conversion_Fiat_Pair]); //e.g EUR/USD: 1.11830926
+				var RatesData = JSON.parse(data),
+						label_color = '',
+						label_icon = '',
+						wallettblContent = '';
 
-						var tmp_btcd_btc = RatesData.rates[0];
-						var tmp_btc_fiat = RatesData.rates[1];
-						//console.log(tmp_btcd_btc['BTCD/BTC']); console.log(tmp_btc_fiat[BTC_Fiat_pair_value]);
+				localStorage.setItem('EasyDEX_BTCD_BTC_pair_value', RatesData.rates[0]['BTCD/BTC']); //e.g BTCD/BTC
+				localStorage.setItem('EasyDEX_BTC_Fiat_pair_value', RatesData.rates[1][BTC_Fiat_pair_value]); //e.g BTC/USD
+				localStorage.setItem('EasyDEX_Conversion_Fiat_Pair', Conversion_Fiat_Pair); //e.g EUR/USD
+				localStorage.setItem('EasyDEX_Conversion_Fiat_Pair_value', RatesData.rates[2][Conversion_Fiat_Pair]); //e.g EUR/USD: 1.11830926
 
-						BTCD_Fiat_pair_value = parseFloat(tmp_btcd_btc['BTCD/BTC']) * parseFloat(tmp_btc_fiat[BTC_Fiat_pair_value]);
-						//console.log(BTCD_Fiat_pair_value);
-						localStorage.setItem('EasyDEX_BTCD_Fiat_pair_value', BTCD_Fiat_pair_value); //e.g BTCD/USD: 2.0873619962
+				var tmp_btcd_btc = RatesData.rates[0];
+				var tmp_btc_fiat = RatesData.rates[1];
+				//console.log(tmp_btcd_btc['BTCD/BTC']); console.log(tmp_btc_fiat[BTC_Fiat_pair_value]);
 
-						var tmp_btcd_fiat_toal = parseFloat(BTCD_balance) * parseFloat(BTCD_Fiat_pair_value);
-						var tmp_btc_fiat_toal = parseFloat(BTC_balance) * parseFloat(tmp_btc_fiat[BTC_Fiat_pair_value]);
-						//console.log('total btc btcd usd value')
-						//console.log(tmp_btcd_fiat_toal); console.log(tmp_btc_fiat_toal);
+				BTCD_Fiat_pair_value = parseFloat(tmp_btcd_btc['BTCD/BTC']) * parseFloat(tmp_btc_fiat[BTC_Fiat_pair_value]);
+				//console.log(BTCD_Fiat_pair_value);
+				localStorage.setItem('EasyDEX_BTCD_Fiat_pair_value', BTCD_Fiat_pair_value); //e.g BTCD/USD: 2.0873619962
 
-						$('span[data-currency="BTC"][id="header_coinfiatbalance"]').text(tmp_btc_fiat_toal.toFixed(2) + ' ' + Fiat_Currency);
-						$('span[data-currency="BTCD"][id="header_coinfiatbalance"]').text(tmp_btcd_fiat_toal.toFixed(2) + ' ' + Fiat_Currency);
+				var tmp_btcd_fiat_toal = parseFloat(BTCD_balance) * parseFloat(BTCD_Fiat_pair_value);
+				var tmp_btc_fiat_toal = parseFloat(BTC_balance) * parseFloat(tmp_btc_fiat[BTC_Fiat_pair_value]);
+				//console.log('total btc btcd usd value')
+				//console.log(tmp_btcd_fiat_toal); console.log(tmp_btc_fiat_toal);
 
+				$('span[data-currency="BTC"][id="header_coinfiatbalance"]').text(tmp_btc_fiat_toal.toFixed(2) + ' ' + Fiat_Currency);
+				$('span[data-currency="BTCD"][id="header_coinfiatbalance"]').text(tmp_btcd_fiat_toal.toFixed(2) + ' ' + Fiat_Currency);
 			},
 			error: function(xhr, textStatus, error) {
-					console.log('failed getting Coin History.');
-					console.log(xhr.statusText);
-					if ( xhr.readyState == 0 ) {
-							Iguana_ServiceUnavailable();
-					}
-					console.log(textStatus);
-					console.log(error);
+				console.log('failed getting Coin History.');
+				console.log(xhr.statusText);
+				if ( xhr.readyState == 0 ) {
+					Iguana_ServiceUnavailable();
+				}
+				console.log(textStatus);
+				console.log(error);
 			}
 		});
 	}
