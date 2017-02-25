@@ -105,7 +105,7 @@ var Dashboard = function() {
 					}
 				});
 			}
-
+			
 			EdexfillTxHistory(active_edexcoin);
 			$('.edexcoin-send-form')[0].reset();
 		});
@@ -930,7 +930,7 @@ function edexCoinBtnAction() {
 					}
 				});
 			}
-
+			
 			EdexfillTxHistory(coincode);
 		} else {
 			$('#currency-progressbars').hide();
@@ -959,6 +959,7 @@ function getActiveEdexcoin() {
 }*/
 
 function EdexfillTxHistory(coin) {
+	$('#edexcoin_txhistory').data('panel-api').load()
 	NProgress.done(true);
 	NProgress.configure({
 		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
@@ -991,6 +992,7 @@ function EdexfillTxHistory(coin) {
 				select: true,
 				retrieve: true
 			});
+			$('#edexcoin_txhistory').data('panel-api').done()
 		});
 	}
 
@@ -1015,6 +1017,7 @@ function EdexfillTxHistory(coin) {
 				select: true,
 				retrieve: true
 			});
+			$('#edexcoin_txhistory').data('panel-api').done()
 		});
 	}
 }
