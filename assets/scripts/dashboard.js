@@ -2252,15 +2252,15 @@ function EdexListAllAddr(coin) {
 	NProgress.start();
 
 	EDEXgetaddrbyaccount(coin).then(function(result) {
-		console.log(result)
+		console.log(result);
 		var only_reciving_addr_data = [];
 
 		$.each(result, function(index, value) {
 			if(value.interest == undefined || coin !== 'KMD') {
-				console.log('interest is undefined')
-				tmp_interest = 'NA'
+				console.log('interest is undefined');
+				tmp_interest = 'NA';
 			} else {
-				tmp_interest = value.interest
+				tmp_interest = value.interest;
 			}
 			only_reciving_addr_data.push([
 				value.label,
