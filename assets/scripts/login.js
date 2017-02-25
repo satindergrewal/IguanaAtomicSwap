@@ -99,7 +99,10 @@ var Login = function() {
                             $('body').removeClass( "page-login layout-full page-dark" ).addClass( "" );
                             $('link[id=loginStyle]')[0].disabled=true;
                             //refreshEDEXCoinWalletList()
-                            location.reload();
+                            Shepherd_FetchBasiliskData().then(function(result){
+                                console.log(result)
+                                location.reload();
+                            })
                         }
                         else {
                             // If something goes wrong, alert the error message that our service returned
@@ -821,7 +824,7 @@ var Login = function() {
             handleCheckLogin();
             handleLoginAnotherWallet();
             handleAddCoinLoginBtn();
-            handleAddCoinOSOptions();
+            //handleAddCoinOSOptions();
 
         }
 
