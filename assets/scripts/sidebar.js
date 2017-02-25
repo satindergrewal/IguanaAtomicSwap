@@ -1,27 +1,25 @@
 // DOM Ready =============================================================
 $(document).ready(function() {
-
-    $('#section-dashboard').show();
-    //$('#header-dashboard').show();
+  $('#section-dashboard').show();
 	$('#section-easydex').hide();
 	$('#section-extcoin').hide();
 	$('#section-zcash').hide();
 	$('#section-iguana-atomic-explorer').hide();
 	$('#section-iguana-wallet-settings').hide();
 	$('#section-about-iguana').hide();
-	$('#nav-dashboard').removeClass( "" ).addClass( "active open" );
-	$('#nav-easydex').removeClass( " active open" ).addClass( "" );
-	$('#nav-komodo-wallet').removeClass( " active open" ).addClass( "" );
-	$('#nav-zcash-wallet').removeClass( " active open" ).addClass( "" );
-	$('#nav-iguana-atomic-explorer').removeClass( " active open" ).addClass( "" );
-	$('#nav-iguana-wallet-settings').removeClass( " active open" ).addClass( "" );
-	$('#nav-about-iguana').removeClass( " active open" ).addClass( "" );
-	$(".header-easydex-section").text("Dashboard");
+	$('#nav-dashboard').removeClass( '' ).addClass( 'active open' );
+	$('#nav-easydex').removeClass( 'active open' ).addClass( '' );
+	$('#nav-komodo-wallet').removeClass( 'active open' ).addClass( '' );
+	$('#nav-zcash-wallet').removeClass( 'active open' ).addClass( '' );
+	$('#nav-iguana-atomic-explorer').removeClass( 'active open' ).addClass( '' );
+	$('#nav-iguana-wallet-settings').removeClass( 'active open' ).addClass( '' );
+	$('#nav-about-iguana').removeClass( 'active open' ).addClass( '' );
+	$(".header-easydex-section").text('Dashboard');
+
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
 	CommonSidebarActionsSet01();
 	applyDashboardStyle();
-
 });
 
 $('#nav-dashboard').on('click', function() {
