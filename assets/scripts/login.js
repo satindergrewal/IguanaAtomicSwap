@@ -99,10 +99,11 @@ var Login = function() {
                             $('body').removeClass( "page-login layout-full page-dark" ).addClass( "" );
                             $('link[id=loginStyle]')[0].disabled=true;
                             //refreshEDEXCoinWalletList()
-                            Shepherd_FetchBasiliskData().then(function(result){
+                            /*Shepherd_FetchBasiliskData().then(function(result){
                                 console.log(result)
                                 location.reload();
-                            })
+                            })*/
+                            location.reload();
                         }
                         else {
                             // If something goes wrong, alert the error message that our service returned

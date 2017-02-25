@@ -1101,53 +1101,64 @@ function getDEXGetBalance(coin) {
 
 
 function getDEXGetBalance_cache(coin) {
-	NProgress.done(true);
-	NProgress.configure({
-			template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
-								'<div class="spinner" role="spinner">' +
-									'<div class="spinner-icon"></div>' +
-								'</div>'
-	});
-	NProgress.start();
+  NProgress.done(true);
+  NProgress.configure({
+      template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+  });
+  NProgress.start();
+  return new Promise((resolve) =>{
+    Shepherd_GetBasiliskCache().then(function(result){
+    var _data = JSON.parse(result)
+    var query = _data.result.basilisk
+    //console.log(query[coin].addresses)
 
-	return new Promise((resolve) => {
-		Shepherd_GetBasiliskCache().then(function(result) {
-			var _data = JSON.parse(result),
-					query = _data.result.basilisk,
-					total_balance = 0,
-					total_interest = 0;
-
-			Promise.all(query[coin].addresses.map((coinaddr_value,coinaddr_index) => {
-				return new Promise((resolve, reject) => {
-					if ( query[coin][coinaddr_value].getbalance !== undefined ) {
-						var data = query[coin][coinaddr_value].getbalance;
-						total_balance = parseFloat(total_balance) + parseFloat(data.balance);
-
-						if (data.interest !== undefined) {
-							total_interest = parseFloat(total_interest) + parseFloat(data.interest);
-							total_final = parseFloat(total_balance) + parseFloat(total_interest);
-							pass_data = {
-								'total': total_balance.toFixed(8),
-								'interest': total_interest.toFixed(8),
-								'totalbalance': total_final.toFixed(8)
-							}
-						}
-
-						if (data.interest == undefined) {
-							pass_data = { 'total': total_balance.toFixed(8) };
-						}
-					} else {
-						pass_data = { 'total': 0.00000000 };
-					}
-
-					resolve(pass_data);
-				});
-			})).then(result => {
-				resolve(result[result.length-1]);
-				NProgress.done();
-			});
-		});
-	});
+    var total_balance = 0
+    var total_interest = 0
+    Promise.all(query[coin].addresses.map((coinaddr_value,coinaddr_index) => {
+        return new Promise((resolve, reject) => {
+            //console.log(coinaddr_index)
+            //console.log(coinaddr_value)
+            if ( query[coin][coinaddr_value].getbalance !== undefined ) {
+              var data = query[coin][coinaddr_value].getbalance
+              //console.log(data)
+              total_balance = parseFloat(total_balance) + parseFloat(data.balance)
+              if (data.interest !== undefined) {
+                  //console.log('interest is found')
+                  //console.log(data)
+                  total_interest = parseFloat(total_interest) + parseFloat(data.interest)
+                  total_final = parseFloat(total_balance) + parseFloat(total_interest)
+                  pass_data = {"total":total_balance.toFixed(8),"interest":total_interest.toFixed(8),"totalbalance":total_final.toFixed(8)}
+              }
+              if (data.interest == undefined) {
+                  //console.log('interest NOT found')
+                  //console.log(data)
+                  //console.log(total_balance)
+                  if(isNaN(total_balance)) {
+                    total_balance = parseFloat(0)
+                  }
+                  pass_data = {"total":total_balance.toFixed(8)}
+              }
+            } else {
+              //console.log('Balance NOT found')
+              //console.log(data)
+              pass_data = {"total":0.00000000}
+            }
+            //console.log(pass_data)
+            //return pass_data
+            resolve(pass_data)
+            })
+        })).then(result => {
+          //console.log(result)
+          //console.log(result[result.length-1])
+          if ( result[result.length-1].total == 0 ) {
+            resolve(result[result.length-2])
+          } else {
+            resolve(result[result.length-1])
+          }
+          NProgress.done();
+      })
+    })
+  })
 }
 
 function getDEXGetBalance2(coin) {
