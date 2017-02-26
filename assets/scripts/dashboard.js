@@ -105,7 +105,7 @@ var Dashboard = function() {
 					}
 				});
 			}
-			
+
 			EdexfillTxHistory(active_edexcoin);
 			$('.edexcoin-send-form')[0].reset();
 		});
@@ -247,7 +247,7 @@ var Dashboard = function() {
 				NProgress.start();
 
 				console.log('Sent control here after clicked in form...');
-				EDEXMainAddr($('[data-edexcoin]').attr("data-edexcoin")).then(function(result) {
+				EDEXMainAddr($('[data-edexcoin]').attr('data-edexcoin')).then(function(result) {
 					$('#mdl_confirm_currency_sendfrom_addr').text(result);
 				});
 				$('#mdl_confirm_currency_sendto_addr').text($('#edexcoin_sendto').val());
@@ -564,7 +564,7 @@ var Dashboard = function() {
 			ExecuteAddCoinFn();
 		});
 
-		$( "#addcoin_select_coin_mdl_options" ).change(function() {
+		$( '#addcoin_select_coin_mdl_options' ).change(function() {
 			var tmp_coin_val = $('#addcoin_select_coin_mdl_options').val();
 
 			if (tmp_coin_val !== 'KMD' || tmp_coin_val !== 'KMD' ) {
@@ -626,7 +626,7 @@ var Dashboard = function() {
 			});
 		});
 
-		$(".btn_edexcoin_dashboard_validate").click(function() {
+		$('.btn_edexcoin_dashboard_validate').click(function() {
 			var selected_coin = $(this).data('edexcoin');
 			EDEXMainAddr(selected_coin).then(function(result) {
 				Iguana_DEXValidateAddr(selected_coin,result);
@@ -639,6 +639,7 @@ var Dashboard = function() {
 			var selected_coin = $(this).data('edexcoin'),
 					selected_coin_mode = sessionStorage.getItem('edexTmpMode'),
 					selected_txid = $(this).data('txid');
+
 			$( '#nav-iguana-atomic-explorer' ).trigger( 'click' );
 			$('#atomic_explorer_select_coin_options option[value=' + selected_coin + ']').attr('selected', 'selected');
 			if ( selected_coin_mode == 'Full') {
@@ -930,7 +931,7 @@ function edexCoinBtnAction() {
 					}
 				});
 			}
-			
+
 			EdexfillTxHistory(coincode);
 		} else {
 			$('#currency-progressbars').hide();
@@ -959,7 +960,7 @@ function getActiveEdexcoin() {
 }*/
 
 function EdexfillTxHistory(coin) {
-	$('#edexcoin_txhistory').data('panel-api').load()
+	$('#edexcoin_txhistory').data('panel-api').load();
 	NProgress.done(true);
 	NProgress.configure({
 		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
@@ -992,7 +993,8 @@ function EdexfillTxHistory(coin) {
 				select: true,
 				retrieve: true
 			});
-			$('#edexcoin_txhistory').data('panel-api').done()
+			$('#edexcoin_txhistory').data('panel-api').done();
+			$('.panel-loading').remove();
 		});
 	}
 
@@ -1017,7 +1019,8 @@ function EdexfillTxHistory(coin) {
 				select: true,
 				retrieve: true
 			});
-			$('#edexcoin_txhistory').data('panel-api').done()
+			$('#edexcoin_txhistory').data('panel-api').done();
+			$('.panel-loading').remove();
 		});
 	}
 }
@@ -1031,10 +1034,10 @@ function getDEXCoinBalance(coin) {
 function getDEXGetBalance(coin) {
 	NProgress.done(true);
 	NProgress.configure({
-			template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
-								'<div class="spinner" role="spinner">' +
-									'<div class="spinner-icon"></div>' +
-								'</div>'
+		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
+							'<div class="spinner" role="spinner">' +
+								'<div class="spinner-icon"></div>' +
+							'</div>'
 	});
 	NProgress.start();
 	return new Promise((resolve) => {
@@ -1102,66 +1105,61 @@ function getDEXGetBalance(coin) {
 	});
 }
 
-
 function getDEXGetBalance_cache(coin) {
   NProgress.done(true);
   NProgress.configure({
-      template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+    template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
+    					'<div class="spinner" role="spinner">' +
+    						'<div class="spinner-icon"></div>' +
+    					'</div>'
   });
   NProgress.start();
-  return new Promise((resolve) =>{
-    Shepherd_GetBasiliskCache().then(function(result){
-    var _data = JSON.parse(result)
-    var query = _data.result.basilisk
-    //console.log(query[coin].addresses)
 
-    var total_balance = 0
-    var total_interest = 0
-    Promise.all(query[coin].addresses.map((coinaddr_value,coinaddr_index) => {
+  return new Promise((resolve) => {
+    Shepherd_GetBasiliskCache().then(function(result) {
+	    var _data = JSON.parse(result),
+	    		query = _data.result.basilisk,
+					total_balance = 0,
+	    		total_interest = 0;
+
+	    Promise.all(query[coin].addresses.map((coinaddr_value,coinaddr_index) => {
         return new Promise((resolve, reject) => {
-            //console.log(coinaddr_index)
-            //console.log(coinaddr_value)
-            if ( query[coin][coinaddr_value].getbalance !== undefined ) {
-              var data = query[coin][coinaddr_value].getbalance
-              //console.log(data)
-              total_balance = parseFloat(total_balance) + parseFloat(data.balance)
-              if (data.interest !== undefined) {
-                  //console.log('interest is found')
-                  //console.log(data)
-                  total_interest = parseFloat(total_interest) + parseFloat(data.interest)
-                  total_final = parseFloat(total_balance) + parseFloat(total_interest)
-                  pass_data = {"total":total_balance.toFixed(8),"interest":total_interest.toFixed(8),"totalbalance":total_final.toFixed(8)}
-              }
-              if (data.interest == undefined) {
-                  //console.log('interest NOT found')
-                  //console.log(data)
-                  //console.log(total_balance)
-                  if(isNaN(total_balance)) {
-                    total_balance = parseFloat(0)
-                  }
-                  pass_data = {"total":total_balance.toFixed(8)}
-              }
-            } else {
-              //console.log('Balance NOT found')
-              //console.log(data)
-              pass_data = {"total":0.00000000}
+          if ( query[coin][coinaddr_value].getbalance !== undefined ) {
+            var data = query[coin][coinaddr_value].getbalance;
+
+            total_balance = parseFloat(total_balance) + parseFloat(data.balance);
+            if (data.interest !== undefined) {
+              total_interest = parseFloat(total_interest) + parseFloat(data.interest);
+              total_final = parseFloat(total_balance) + parseFloat(total_interest);
+              pass_data = {
+              	'total': total_balance.toFixed(8),
+              	'interest': total_interest.toFixed(8),
+              	'totalbalance': total_final.toFixed(8)
+              };
             }
-            //console.log(pass_data)
-            //return pass_data
-            resolve(pass_data)
-            })
-        })).then(result => {
-          //console.log(result)
-          //console.log(result[result.length-1])
-          if ( result[result.length-1].total == 0 ) {
-            resolve(result[result.length-2])
+            if (data.interest == undefined) {
+              if (isNaN(total_balance)) {
+                total_balance = parseFloat(0);
+              }
+              pass_data = { 'total': total_balance.toFixed(8) };
+            }
           } else {
-            resolve(result[result.length-1])
+            pass_data = { 'total': 0.00000000 };
           }
-          NProgress.done();
-      })
-    })
-  })
+
+          resolve(pass_data)
+        })
+       })).then(result => {
+        if ( result[result.length - 1].total == 0 ) {
+          resolve(result[result.length - 2]);
+        } else {
+          resolve(result[result.length - 1]);
+        }
+
+        NProgress.done();
+    	});
+    });
+  });
 }
 
 function getDEXGetBalance2(coin) {
@@ -1792,9 +1790,9 @@ function EdexGetTxList(coin) {
 				} else {
 						params = {
 							'userpass': tmpIguanaRPCAuth,
-							"coin": coin,
-							"method": "listtransactions",
-							"params": [
+							'coin': coin,
+							'method': 'listtransactions',
+							'params': [
 								0,
 								9999999,
 								[]
@@ -1836,8 +1834,10 @@ function EdexGetTxList(coin) {
 							( active_edexcoinmodecode == 'Basilisk' && coin == 'CARB' ) ||
 							( active_edexcoinmodecode == 'Basilisk' && coin == 'ANC' ) ||
 							( active_edexcoinmodecode == 'Basilisk' && coin == 'FRK' ) ) {
+
 						var tmp_category = '',
 								tmp_amount = result_data[index].amount;
+
 						if (!('amount' in result_data[index])) {
 							tmp_amount = '<span class="label label-dark">Unknown</span>';
 						}
