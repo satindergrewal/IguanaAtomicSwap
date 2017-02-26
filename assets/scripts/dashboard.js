@@ -993,6 +993,7 @@ function EdexfillTxHistory(coin) {
 				retrieve: true
 			});
 			$('#edexcoin_txhistory').data('panel-api').done()
+			$('.panel-loading').remove()
 		});
 	}
 
@@ -1018,6 +1019,7 @@ function EdexfillTxHistory(coin) {
 				retrieve: true
 			});
 			$('#edexcoin_txhistory').data('panel-api').done()
+			$('.panel-loading').remove()
 		});
 	}
 }
