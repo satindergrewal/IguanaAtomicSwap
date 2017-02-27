@@ -36,7 +36,17 @@ var Dashboard = function() {
 			$('#btn_edexcoin_dashboard').hide();
 			$('#btn_edexcoin_send').show();
 			$('#btn_edexcoin_recieve').show();
+
 			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
+			
+			$('#edexcoin_getbalance_interest').hide();
+			$('#edexcoin_getbalance_total_interest').hide();
+			$('#edexcoin_getbalance_t').removeClass( 'col-lg-4' ).addClass( 'col-lg-12' );
+			$('#edex_interest_balance').text('-');
+			$('#edex_total_balance_interest').text('-');
+			$('#edex_total_balance').text('-');
+			$('#edex_total_balance_coincode').text(active_edexcoin);
+
 			if ( sessionStorage.getItem('edexTmpMode') === 'Full') {
 				sessionStorage.setItem('edexTmpRefresh', 'start');
 			}
@@ -54,7 +64,7 @@ var Dashboard = function() {
 			if ( selected_coinmode == 'Basilisk' ) {
 				getDEXGetBalance_cache(active_edexcoin).then(function(result) {
 					console.log(result)
-					if ( result.interest !== undefined ) {
+					if ( result.interest !== undefined && active_edexcoin == 'KMD') {
 						$('#edexcoin_getbalance_interest').show();
 						$('#edexcoin_getbalance_total_interest').show();
 						$('#edexcoin_getbalance_t').removeClass( 'col-lg-12' ).addClass( 'col-lg-4' );
@@ -773,6 +783,14 @@ function edexCoinBtnAction() {
 				selected_coinmode = $(this).data('edexcoinmodecode'),
 				selected_coinname = $(this).data('edexcoinname');
 
+		$('#edexcoin_getbalance_interest').hide();
+		$('#edexcoin_getbalance_total_interest').hide();
+		$('#edexcoin_getbalance_t').removeClass( 'col-lg-4' ).addClass( 'col-lg-12' );
+		$('#edex_interest_balance').text('-');
+		$('#edex_total_balance_interest').text('-');
+		$('#edex_total_balance').text('-');
+		$('#edex_total_balance_coincode').text(selected_coin);
+
 		sessionStorage.setItem('edexTmpMode', selected_coinmode);
 		resizeDashboardWindow();
 
@@ -859,7 +877,7 @@ function edexCoinBtnAction() {
 					 selected_coin !== 'ANC' &&
 					 selected_coin !== 'FRK') {
 				getDEXGetBalance_cache(selected_coin).then(function(result) {
-					if ( result.interest !== undefined ) {
+					if ( result.interest !== undefined && selected_coin == 'KMD') {
 						$('#edexcoin_getbalance_interest').show();
 						$('#edexcoin_getbalance_total_interest').show();
 						$('#edexcoin_getbalance_t').removeClass( 'col-lg-12' ).addClass( 'col-lg-4' );
@@ -1120,10 +1138,10 @@ function getDEXGetBalance_cache(coin) {
 		console.log(result)
 		console.log(result.coin)
 		if (result.coin == false || result.addresses == false) {
-			var call_data = {"allcoins": false,"coin":coin,"calls":"listunspent:listtransactions:getbalance:refresh"}
+			var call_data = {"allcoins": false,"coin":coin,"calls":"listunspent:listtransactions:getbalance"}
 			console.log(call_data)
-		} else if (result.getbalance == false) {
-			var call_data = {"allcoins": false,"coin":coin,"calls":"getbalance"}
+		} else if (result.getbalance == false || result.listtransactions == false) {
+			var call_data = {"allcoins": false,"coin":coin,"calls":"getbalance:listtransactions"}
 			console.log(call_data)
 		}
 
