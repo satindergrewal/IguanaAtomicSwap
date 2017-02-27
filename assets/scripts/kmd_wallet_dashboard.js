@@ -472,9 +472,11 @@ function getPassthruAgent() {
 }
 
 function getTotalKMDBalance() {
+	var extcoin = $('[data-extcoin]').attr('data-extcoin'),
+			passthru_agent = '';
+
 	console.log($('[data-extcoin]').attr('data-extcoin'));
-	var extcoin = $('[data-extcoin]').attr('data-extcoin');
-	var passthru_agent = '';
+
 	if ( extcoin == 'KMD') { passthru_agent = 'komodo'; };
 	if ( extcoin == 'ZEC') { passthru_agent = 'zcash'; };
 
