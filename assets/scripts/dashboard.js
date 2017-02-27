@@ -1138,7 +1138,7 @@ function getDEXGetBalance_cache(coin) {
 		console.log(result)
 		console.log(result.coin)
 		if (result.coin == false || result.addresses == false) {
-			var call_data = {"allcoins": false,"coin":coin,"calls":"listunspent:listtransactions:getbalance"}
+			var call_data = {"allcoins": false,"coin":coin,"calls":"listtransactions:getbalance"}
 			console.log(call_data)
 		} else if (result.getbalance == false || result.listtransactions == false) {
 			var call_data = {"allcoins": false,"coin":coin,"calls":"getbalance:listtransactions"}
