@@ -1943,7 +1943,7 @@ function Shepherd_herdlist(data) {
 	});
 }
 
-function Shepherd_FetchBasiliskData() {
+function Shepherd_FetchBasiliskData(req_data) {
 	return new Promise((resolve) => {
 		var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
 				parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
@@ -1956,10 +1956,20 @@ function Shepherd_FetchBasiliskData() {
 					'pubkey': session_pubkey
 				};
 
+        if (req_data.allcoins !== false ) {
+            var req_url = 'http://127.0.0.1:17777/shepherd/allcoins'
+        } else {
+            var req_url = 'http://127.0.0.1:17777/shepherd/cache-one'
+            ajax_data.coin = req_data.coin
+            ajax_data.calls = req_data.calls
+        }
+
+        console.log(ajax_data)
+
 		$.ajax({
 			type: 'GET',
 			data: ajax_data,
-			url: 'http://127.0.0.1:17777/shepherd/allcoins',
+			url: req_url,
 			contentType: 'application/json', // send as JSON
 		}).done(function(data) {
 			resolve(data);
@@ -1984,4 +1994,80 @@ function Shepherd_GetBasiliskCache() {
 			resolve(data);
 		});
 	});
+}
+
+
+function Shepherd_CheckBasiliskCacheData(coin) {
+    return new Promise((resolve) => {
+        Shepherd_GetBasiliskCache().then(function(result){
+            var _data = JSON.parse(result)
+            var query = _data.result.basilisk
+                coin_exists = true
+                addresses_exists = true
+                getbalance_exists = true
+                listtransactions_exists = true
+                listunspent_exists = true
+                refresh_exists = true
+            //console.log(query)
+
+            if (!query) {
+                console.log('data not found.')
+                res_data = {"coin":false, "addresses":false, "getbalance": false,"listtransactions": false,"listunspent": false,"refresh": false}
+                //console.log(res_data)
+                resolve(res_data)
+            } else if (!query[coin]) {
+                console.log(coin + ' not found.')
+                coin_exists = false
+                res_data = {"coin":coin_exists, "addresses":false, "getbalance": false,"listtransactions": false,"listunspent": false,"refresh": false}
+                //console.log(res_data)
+                resolve(res_data)
+            } else if (!('addresses' in query[coin])) {
+                console.log(coin + ' addresses not found.')
+                addresses_exists = false
+                res_data = {"coin":coin_exists, "addresses":false, "getbalance": false,"listtransactions": false,"listunspent": false,"refresh": false}
+                //console.log(res_data)
+                resolve(res_data)
+            } else {
+                Promise.all(query[coin].addresses.map((coinaddr_value,coinaddr_index) => {
+                    return new Promise((resolve, reject) => {
+                        //console.log(coinaddr_index)
+                        //console.log(coinaddr_value)
+                        var data = query[coin][coinaddr_value].getbalance
+
+                        if (!('getbalance' in query[coin][coinaddr_value])) {
+                            //console.log(coin + '>>>' + coinaddr_value + ' => getbalance not found.')
+                            getbalance_exists = false
+                        }
+
+                        if (!('listtransactions' in query[coin][coinaddr_value])) {
+                            //console.log(coin + '>>>' + coinaddr_value + ' => listtransactions not found.')
+                            listtransactions_exists = false
+                        }
+
+                        if (!('listunspent' in query[coin][coinaddr_value])) {
+                            //console.log(coin + '>>>' + coinaddr_value + ' => listunspent not found.')
+                            listunspent_exists = false
+                        }
+
+                        if (!('refresh' in query[coin][coinaddr_value])) {
+                            //console.log(coin + '>>>' + coinaddr_value + ' => refresh not found.')
+                            refresh_exists = false
+                        }
+
+                        pass_data = {"getbalance": getbalance_exists,"listtransactions": listtransactions_exists,"listunspent": listunspent_exists,"refresh": refresh_exists}
+                        resolve(pass_data)
+                    })
+                })).then(result => {
+                    //console.log(result)
+                    //console.log(result[result.length-1])
+                    var res_data = result[result.length-1]
+                    res_data.coin = coin_exists
+                    res_data.addresses = addresses_exists
+                    //console.log(res_data)
+                    resolve(res_data)
+                })
+            }
+            
+        })
+    })
 }
