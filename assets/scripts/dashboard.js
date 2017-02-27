@@ -1116,6 +1116,22 @@ function getDEXGetBalance_cache(coin) {
   NProgress.start();
 
   return new Promise((resolve) => {
+	Shepherd_CheckBasiliskCacheData(coin).then(function(result){
+		console.log(result)
+		console.log(result.coin)
+		if (result.coin == false || result.addresses == false) {
+			var call_data = {"allcoins": false,"coin":coin,"calls":"listunspent:listtransactions:getbalance:refresh"}
+			console.log(call_data)
+		} else if (result.getbalance == false) {
+			var call_data = {"allcoins": false,"coin":coin,"calls":"getbalance"}
+			console.log(call_data)
+		}
+
+		Shepherd_FetchBasiliskData(call_data).then(function(result){
+			console.log(result)
+		})
+	})
+
     Shepherd_GetBasiliskCache().then(function(result) {
 	    var _data = JSON.parse(result),
 	    		query = _data.result.basilisk,
@@ -1124,8 +1140,8 @@ function getDEXGetBalance_cache(coin) {
 
 	    Promise.all(query[coin].addresses.map((coinaddr_value,coinaddr_index) => {
         return new Promise((resolve, reject) => {
-          if ( query[coin][coinaddr_value].getbalance !== undefined ) {
-            var data = query[coin][coinaddr_value].getbalance;
+          if ( query[coin][coinaddr_value].getbalance.data !== undefined ) {
+            var data = query[coin][coinaddr_value].getbalance.data;
 
             total_balance = parseFloat(total_balance) + parseFloat(data.balance);
             if (data.interest !== undefined) {
@@ -1973,7 +1989,7 @@ function EdexGetTxList_cache(coin) {
 
 			Promise.all(query[coin].addresses.map((coinaddr_value, coinaddr_index) => {
 				return new Promise((resolve, reject) => {
-					var data = query[coin][coinaddr_value].listtransactions;
+					var data = query[coin][coinaddr_value].listtransactions.data;
 
 					total_utxos = $.merge(total_utxos, data);
 					resolve(total_utxos);
