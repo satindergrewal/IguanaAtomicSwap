@@ -299,7 +299,11 @@ function applyDashboardStyle() {
 	}
 
 	setTimeout(function() {
-		$('.page-aside .wallet-widgets-list .list-group .list-group-item a').click();
+		var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
+		console.log(active_edexcoin)
+		if (active_edexcoin == 'COIN') {
+			$('.page-aside .wallet-widgets-list .list-group .list-group-item a').click();
+		}
 	}, 1000);
 }
 
