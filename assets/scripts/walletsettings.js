@@ -1,9 +1,9 @@
 var WalletSettings = function() {
 	var handleWalletExportKeys = function() {
 		$('.wifkeys-form').validate({
-			//errorElement: 'span', //default input error message container
-			//errorClass: 'help-block', // default input error message class
-			//focusInvalid: false, // do not focus the last invalid input
+			// errorElement: 'span', //default input error message container
+			// errorClass: 'help-block', // default input error message class
+			// focusInvalid: false, // do not focus the last invalid input
 			rules: {
 				wifkeys_passphrase: {
 					required: true
@@ -20,7 +20,7 @@ var WalletSettings = function() {
 				var Getwifkeys_passphrase = $('#wifkeys_passphrase').val(),
 						WifKeyDivContent = '';
 
-				//First check which coins are active. Execute API for each mode of wallet
+				// First check which coins are active. Execute API for each mode of wallet
 				$.each([
 					'native',
 					'basilisk',
@@ -38,13 +38,13 @@ var WalletSettings = function() {
 								url: 'http://127.0.0.1:7778',
 								success: function(data, textStatus, jqXHR) {
 									var AllcoinsDataOutput = JSON.parse(data);
-									//Only execute further code if that mode has any coins active it. if none, skill checking on them.
+									// Only execute further code if that mode has any coins active it. if none, skill checking on them.
 									if (AllcoinsDataOutput[value].length !== 0 ) {
 										console.log('== AllCoins Data OutPut ==');
 										console.log(value);
 										console.log(AllcoinsDataOutput[value]);
 
-										//First Run Encryptwallet API to get wif keys for each active coin
+										// First Run Encryptwallet API to get wif keys for each active coin
 										$.each(AllcoinsDataOutput[value], function(index) {
 
 												var wifkey_coin_handle = AllcoinsDataOutput[value][index];
@@ -125,7 +125,7 @@ var WalletSettings = function() {
 		$('.wifkeys-form input').keypress(function(e) {
 			if (e.which == 13) {
 				if ($('.wifkeys-form').validate().form()) {
-					$('.wifkeys-form').submit(); //form validation success, call ajax form submit
+					$('.wifkeys-form').submit(); // form validation success, call ajax form submit
 				}
 
 				return false;
@@ -135,9 +135,9 @@ var WalletSettings = function() {
 
 	var handleWalletImportKeys = function() {
 		$('.wifkeys-import-form').validate({
-			//errorElement: 'span', //default input error message container
-			//errorClass: 'help-block', // default input error message class
-			//focusInvalid: false, // do not focus the last invalid input
+			// errorElement: 'span', //default input error message container
+			// errorClass: 'help-block', // default input error message class
+			// focusInvalid: false, // do not focus the last invalid input
 			rules: {
 				import_wifkey: {
 					required: true
@@ -150,7 +150,7 @@ var WalletSettings = function() {
 			},
 			submitHandler: function(form) {
 				var Getimport_wifkey = $('#import_wifkey').val();
-				//console.log(Getimport_wifkey);
+				// console.log(Getimport_wifkey);
 				EDEXimportprivkey(Getimport_wifkey).then(function(result){
 					console.log(result)
 					if ( result.result !== undefined && result.result == 'success' ) {
@@ -168,7 +168,7 @@ var WalletSettings = function() {
 		$('.wifkeys-import-form input').keypress(function(e) {
 			if (e.which == 13) {
 				if ($('.wifkeys-import-form').validate().form()) {
-					$('.wifkeys-import-form').submit(); //form validation success, call ajax form submit
+					$('.wifkeys-import-form').submit(); // form validation success, call ajax form submit
 				}
 
 				return false;
@@ -177,7 +177,7 @@ var WalletSettings = function() {
 	};
 
 	return {
-		//main function to initiate the module
+		// main function to initiate the module
 		init: function() {
 			handleWalletExportKeys();
 			handleWalletImportKeys();
@@ -221,7 +221,6 @@ function Settings_ShowCoinPeers() {
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
 		url: 'http://127.0.0.1:7778',
-		//dataType: 'text',
 		success: function(data, textStatus, jqXHR) {
 			var getCoinPeers = JSON.parse(data);
 			console.log(getCoinPeers);
@@ -270,12 +269,10 @@ function Settings_ShowCoinPeers() {
 	});
 }
 
-
-
 function Settings_AddCoinPeers() {
 	console.log('wait till peer ip added to selected coin...')
 	var settings_selected_coinname_code_val = $('option:selected', '#settings_select_coin_addpeer_options').val(),
-			settings_add_peer_ip_val = $("#settings_add_peer_ip").val(),
+			settings_add_peer_ip_val = $('#settings_add_peer_ip').val(),
 			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
 			ajax_data = {
 				'userpass': tmpIguanaRPCAuth,
@@ -289,7 +286,6 @@ function Settings_AddCoinPeers() {
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
 		url: 'http://127.0.0.1:7778',
-		//dataType: 'text',
 		success: function(data, textStatus, jqXHR) {
 			var getAddCoinPeers = JSON.parse(data);
 			console.log(getAddCoinPeers);
@@ -302,7 +298,7 @@ function Settings_AddCoinPeers() {
 			console.log('failed getting Coin History.');
 			console.log(xhr.statusText);
 			if ( xhr.readyState == 0 ) {
-					Iguana_ServiceUnavailable();
+				Iguana_ServiceUnavailable();
 			}
 			console.log(textStatus);
 			console.log(error);
@@ -322,9 +318,8 @@ function Settings_LoadDebugLog() {
 		type: 'POST',
 		data: ajax_data,
 		url: 'http://127.0.0.1:17777/shepherd/debuglog',
-		//dataType: 'text',
 		success: function(data, textStatus, jqXHR) {
-			$('#read_debug_log_textarea').text(JSON.parse(data).result.replace('\n', '<br/>'));
+			$('#read_debug_log_textarea').text(JSON.parse(data).result.replace('\n', '\r\n'));
 			console.log(data);
 		},
 		error: function(xhr, textStatus, error) {

@@ -913,588 +913,642 @@ function KMDGetProtectedTransactions() {
 			get_zaddr_list = KMDListaddrZ();
 
 	$.each(get_zaddr_list, function(index, value) {
-		//console.log(value.addr);
+		var ajax_data_to_hex = '["' + value.addr + '",0]',
+				tmpzaddr_hex_input = Iguana_HashHex(ajax_data_to_hex),
+				passthru_agent = getPassthruAgent(),
+				tmpIguanaRPCAuth = 'tmpIgRPCUser@ '+ sessionStorage.getItem('IguanaRPCAuth'),
+				ajax_data = {
+					'userpass': tmpIguanaRPCAuth,
+					"agent": passthru_agent,
+					"method": "passthru",
+					"function": "z_listreceivedbyaddress",
+					"hex": tmpzaddr_hex_input
+				};
 
-		var ajax_data_to_hex = '["'+ value.addr +'",0]'
-		var tmpzaddr_hex_input = Iguana_HashHex(ajax_data_to_hex)
-		//console.log(tmpzaddr_hex_input);
+		$.ajax({
+			async: false,
+			type: 'POST',
+			data: JSON.stringify(ajax_data),
+			url: 'http://127.0.0.1:7778',
+			success: function(data, textStatus, jqXHR) {
+				var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
 
-		var passthru_agent = getPassthruAgent();
-				var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-				var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":"z_listreceivedbyaddress","hex":tmpzaddr_hex_input}
-			//console.log(ajax_data);
-			$.ajax({
-				async: false,
-					type: 'POST',
-					data: JSON.stringify(ajax_data),
-					url: 'http://127.0.0.1:7778',
-					//dataType: 'text',
-					success: function(data, textStatus, jqXHR) {
-							var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
-							//console.log('== Data OutPut of z_listreceivedbyaddress ==');
-							//console.log(AjaxOutputData);
-
-							$.each(AjaxOutputData, function(index, txidvalue) {
-					console.log(txidvalue);
-
+				$.each(AjaxOutputData, function(index, txidvalue) {
 					var tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
-									var tmp_addr = value.addr.slice(0, 30)+'...';
-									if(!("amount" in txidvalue)) {
-												var tmp_amount = 0;
-										} else {
-												var tmp_amount = txidvalue.amount;
-										}
-									var tmp_addr_txid_info = KMDGetTransactionIDInfo(AjaxOutputData[index].txid);
-									//console.log(tmp_addr_txid_info);
-									var tmp_confirmations = tmp_addr_txid_info[0].confirmations;
-									var tmp_secondsToString = secondsToString(tmp_addr_txid_info[0].time)
+					var tmp_addr = value.addr.slice(0, 30) + '...';
+					if (!('amount' in txidvalue)) {
+						var tmp_amount = 0;
+					} else {
+						var tmp_amount = txidvalue.amount;
+					}
 
-									/*if(!("address" in AjaxOutputData[index])) {
-											tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>'
-									}*/
-
-
-
-									tmplistZtransactions = ['<span class="label label-dark"><i class="icon fa-eye-slash"></i> private</span>',tmp_category,tmp_confirmations,tmp_amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light" data-toggle="modal" data-target="#kmd_txid_info_mdl" id="kmd-txid-details-btn" data-txid-type="private" data-txid="'+txidvalue.txid+'"><i class="icon fa-search"></i></button>']
-					//console.log(tmplistZtransactions);
+					var tmp_addr_txid_info = KMDGetTransactionIDInfo(AjaxOutputData[index].txid),
+							tmp_confirmations = tmp_addr_txid_info[0].confirmations,
+							tmp_secondsToString = secondsToString(tmp_addr_txid_info[0].time),
+							tmplistZtransactions = [
+								'<span class="label label-dark">' +
+									'<i class="icon fa-eye-slash"></i> private' +
+								'</span>',
+								tmp_category,
+								tmp_confirmations,
+								tmp_amount,
+								tmp_secondsToString,
+								tmp_addr,
+								'<button type="button" class="btn btn-xs white btn-info waves-effect waves-light" data-toggle="modal" data-target="#kmd_txid_info_mdl" id="kmd-txid-details-btn" data-txid-type="private" data-txid="' + txidvalue.txid + '"><i class="icon fa-search"></i></button>'
+							];
 					result.push(tmplistZtransactions);
 				});
-					},
-					error: function(xhr, textStatus, error) {
-							console.log('failed getting Coin History.');
-							console.log(xhr.statusText);
-							if ( xhr.readyState == 0 ) {
-									Iguana_ServiceUnavailable();
-							}
-							console.log(textStatus);
-							console.log(error);
-					}
-			});
+			},
+			error: function(xhr, textStatus, error) {
+				console.log('failed getting Coin History.');
+				console.log(xhr.statusText);
+				if ( xhr.readyState == 0 ) {
+					Iguana_ServiceUnavailable();
+				}
+				console.log(textStatus);
+				console.log(error);
+			}
+		});
 	});
-		//console.log(result);
-		NProgress.done();
-		return result;
+
+	NProgress.done();
+	return result;
 }
 
 function KMDfillTxHistoryT() {
 	NProgress.done(true);
 	NProgress.configure({
-		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
+							'<div class="spinner" role="spinner">' +
+								'<div class="spinner-icon"></div>' +
+							'</div>'
 	});
 	NProgress.start();
-		var txhistorydataT = KMDGetPublicTransactions();
-		//var txhistorydataZ = KMDGetProtectedTransactions();
-		//var txhistorydata = $.merge( txhistorydataT, txhistorydataZ );
-		var txhistorydata = txhistorydataT;
-		//console.log(txhistorydata);
 
-		var kmd_txhistory_table = '';
-		kmd_txhistory_table = $('#kmd-tx-history-tbl').DataTable( { data: txhistorydata,
-				"order": [[ 4, "desc" ]],
-				select: true,
-				retrieve: true
-		});
+	var txhistorydataT = KMDGetPublicTransactions();
+	//var txhistorydataZ = KMDGetProtectedTransactions();
+	//var txhistorydata = $.merge( txhistorydataT, txhistorydataZ );
+	var txhistorydata = txhistorydataT,
+			kmd_txhistory_table = '';
 
-		kmd_txhistory_table.destroy();
-		kmd_txhistory_table = $('#kmd-tx-history-tbl').DataTable( { data: txhistorydata,
-				"order": [[ 4, "desc" ]],
-				select: true,
-				retrieve: true
-		});
+	kmd_txhistory_table = $('#kmd-tx-history-tbl').DataTable({
+		data: txhistorydata,
+		'order': [
+			[
+				4,
+				'desc'
+			]
+		],
+		select: true,
+		retrieve: true
+	});
 
-		NProgress.done();
+	kmd_txhistory_table.destroy();
+	kmd_txhistory_table = $('#kmd-tx-history-tbl').DataTable({
+		data: txhistorydata,
+		'order': [
+			[
+				4,
+				'desc'
+				]
+			],
+		select: true,
+		retrieve: true
+	});
+
+	NProgress.done();
 }
 
-
 function KMDListAddresses(pubpriv) {
-		NProgress.done(true);
-		NProgress.configure({
-				template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
-		});
-		NProgress.start();
-		var result = [];
+	NProgress.done(true);
+	NProgress.configure({
+		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
+							'<div class="spinner" role="spinner">' +
+								'<div class="spinner-icon"></div>' +
+							'</div>'
+	});
+	NProgress.start();
 
-		var ajax_data_to_hex = '""'
-		var ajax_function_input = '';
-		var tmplistaddr_hex_input = '';
-		if ( pubpriv === 'public' ) {
-				ajax_function_input = 'getaddressesbyaccount';
-				tmplistaddr_hex_input = Iguana_HashHex(ajax_data_to_hex)
+	var result = [],
+			ajax_data_to_hex = '""',
+			ajax_function_input = '',
+			tmplistaddr_hex_input = '';
+	
+	if ( pubpriv === 'public' ) {
+		ajax_function_input = 'getaddressesbyaccount';
+		tmplistaddr_hex_input = Iguana_HashHex(ajax_data_to_hex);
+	}
+	if ( pubpriv === 'private' ) {
+		ajax_function_input = 'z_listaddresses';
+		tmplistaddr_hex_input = '';
+	}
+
+	var passthru_agent = getPassthruAgent(),
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'function': ajax_function_input,
+				'hex': tmplistaddr_hex_input
+			};
+
+	$.ajax({
+		async: false,
+		type: 'POST',
+		data: JSON.stringify(ajax_data),
+		url: 'http://127.0.0.1:7778',
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
+			result = AjaxOutputData;
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
 		}
-		if ( pubpriv === 'private' ) {
-				ajax_function_input = 'z_listaddresses';
-				tmplistaddr_hex_input = "";
-		}
+	});
 
-		//console.log(tmpzaddr_hex_input);
-
-		var passthru_agent = getPassthruAgent();
-		var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":ajax_function_input,"hex":tmplistaddr_hex_input}
-		//console.log(ajax_data);
-		$.ajax({
-				async: false,
-				type: 'POST',
-				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
-				//dataType: 'text',
-				success: function(data, textStatus, jqXHR) {
-						var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
-						//console.log('== Data OutPut of getaddressesbyaccount ==');
-						//console.log(AjaxOutputData);
-						result = AjaxOutputData;
-				},
-				error: function(xhr, textStatus, error) {
-						console.log('failed getting Coin History.');
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-								Iguana_ServiceUnavailable();
-						}
-						console.log(textStatus);
-						console.log(error);
-				}
-		});
-		//console.log(result);
-		NProgress.done();
-		return result;
+	NProgress.done();
+	return result;
 }
 
 
 function KMDGetNewAddresses(pubpriv) {
-		NProgress.done(true);
-		NProgress.configure({
-				template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
-		});
-		NProgress.start();
-		var result = [];
+	NProgress.done(true);
+	NProgress.configure({
+		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
+							'<div class="spinner" role="spinner">' +
+								'<div class="spinner-icon"></div>' +
+							'</div>'
+	});
+	NProgress.start();
 
-		var ajax_function_input = '';
-		if ( pubpriv === 'public' ) {
-				ajax_function_input = 'getnewaddress';
-		}
-		if ( pubpriv === 'private' ) {
-				ajax_function_input = 'z_getnewaddress';
-		}
+	var result = [],
+			ajax_function_input = '';
 
-		var passthru_agent = getPassthruAgent();
-		var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":ajax_function_input,"hex":""}
-		//console.log(ajax_data);
-		$.ajax({
-				async: false,
-				type: 'POST',
-				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
-				//dataType: 'text',
-				success: function(data, textStatus, jqXHR) {
-						//console.log('== Data OutPut of get new address ==');
-						//console.log(data);
-						result = data;
-						toastr.success("New address generated successfully", "Wallet Notification");
-				},
-				error: function(xhr, textStatus, error) {
-						console.log('failed getting Coin History.');
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-								Iguana_ServiceUnavailable();
-						}
-						console.log(textStatus);
-						console.log(error);
-				}
-		});
-		//console.log(result);
-		NProgress.done();
-		return result;
+	if ( pubpriv === 'public' ) {
+		ajax_function_input = 'getnewaddress';
+	}
+	if ( pubpriv === 'private' ) {
+		ajax_function_input = 'z_getnewaddress';
+	}
+
+	var passthru_agent = getPassthruAgent(),
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'function': ajax_function_input,
+				'hex': ''
+			};
+
+	$.ajax({
+		async: false,
+		type: 'POST',
+		data: JSON.stringify(ajax_data),
+		url: 'http://127.0.0.1:7778',
+		success: function(data, textStatus, jqXHR) {
+			result = data;
+			toastr.success('New address generated successfully', 'Wallet Notification');
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
+		}
+	});
+
+	NProgress.done();
+	return result;
 }
 
-
 function KMDListAllAddr() {
-		NProgress.done(true);
-		NProgress.configure({
-				template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
-		});
-		NProgress.start();
-		var only_reciving_addr_data = [];
-		var listTaddr = KMDListAddresses('public');
-		var listZaddr = KMDListAddresses('private');
-		var listAlladdr = $.merge( listTaddr, listZaddr );
-		//console.log(listAlladdr[5].slice(0, 2));
+	NProgress.done(true);
+	NProgress.configure({
+			template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+	});
+	NProgress.start();
 
-		$.each(listAlladdr, function(index, value) {
-				tmp_addr_label = '<span class="label label-default"><i class="icon fa-eye"></i> public</span>';
-				if ( listAlladdr[index].slice(0, 2) == 'zc' || listAlladdr[index].slice(0, 2) == 'zt' ) { tmp_addr_label = '<span class="label label-dark"><i class="icon fa-eye-slash"></i> private</span>'; }
-				//var tmp_addr_action_button = '<button></button>';
-				only_reciving_addr_data.push([tmp_addr_label, listAlladdr[index]]);
-		});
-		//console.log(only_reciving_addr_data);
+	var only_reciving_addr_data = [],
+			listTaddr = KMDListAddresses('public'),
+			listZaddr = KMDListAddresses('private'),
+			listAlladdr = $.merge( listTaddr, listZaddr );
 
-		var kmd_recieve_table = '';
+	$.each(listAlladdr, function(index, value) {
+		tmp_addr_label = '<span class="label label-default">' +
+										 	 '<i class="icon fa-eye"></i> public' +
+										 '</span>';
+		if ( listAlladdr[index].slice(0, 2) == 'zc' || listAlladdr[index].slice(0, 2) == 'zt' ) {
+			tmp_addr_label = '<span class="label label-dark">' +
+											   '<i class="icon fa-eye-slash"></i> private' +
+											 '</span>';
+		}
+		//var tmp_addr_action_button = '<button></button>';
+		only_reciving_addr_data.push([
+			tmp_addr_label,
+			listAlladdr[index]
+		]);
+	});
 
-		kmd_recieve_table = $('#kmd-recieve-addr-tbl').DataTable( { data: only_reciving_addr_data,
-				select: false,
-				retrieve: true
-		});
+	var kmd_recieve_table = '';
 
-		kmd_recieve_table.destroy();
+	kmd_recieve_table = $('#kmd-recieve-addr-tbl').DataTable({
+		data: only_reciving_addr_data,
+		select: false,
+		retrieve: true
+	});
 
-		kmd_recieve_table = $('#kmd-recieve-addr-tbl').DataTable( { data: only_reciving_addr_data,
-				select: false,
-				retrieve: true
-		});
+	kmd_recieve_table.destroy();
 
-		NProgress.done();
-		return only_reciving_addr_data;
+	kmd_recieve_table = $('#kmd-recieve-addr-tbl').DataTable({
+		data: only_reciving_addr_data,
+		select: false,
+		retrieve: true
+	});
+
+	NProgress.done();
+	return only_reciving_addr_data;
 }
 
 function KMDGetTransactionIDInfo(txid) {
-	var result = [];
+	var result = [],
+			ajax_data_to_hex = '["' + txid + '"]',
+			tmptxid_output = Iguana_HashHex(ajax_data_to_hex),
+			passthru_agent = getPassthruAgent(),
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data_txid_input = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'function': 'gettransaction',
+				'hex': tmptxid_output
+			};
 
-	var ajax_data_to_hex = '["'+ txid +'"]'
-	var tmptxid_output = Iguana_HashHex(ajax_data_to_hex)
-	//console.log(tmptxid_output);
-
-	var passthru_agent = getPassthruAgent();
-		var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data_txid_input = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":"gettransaction","hex":tmptxid_output}
-		//console.log(ajax_data_txid_input);
-		$.ajax({
-			async: false,
-				type: 'POST',
-				data: JSON.stringify(ajax_data_txid_input),
-				url: 'http://127.0.0.1:7778',
-				//dataType: 'text',
-				success: function(data, textStatus, jqXHR) {
-						var AjaxOutputData = JSON.parse(data);
-						//console.log('== Data OutPut of z_getbalance ==');
-						//console.log(value);
-						//console.log(AjaxOutputData);
+	$.ajax({
+		async: false,
+		type: 'POST',
+		data: JSON.stringify(ajax_data_txid_input),
+		url: 'http://127.0.0.1:7778',
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data);
 			result.push(AjaxOutputData);
-				},
-				error: function(xhr, textStatus, error) {
-						console.log('failed getting Coin History.');
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-								Iguana_ServiceUnavailable();
-						}
-						console.log(textStatus);
-						console.log(error);
-				}
-		});
-		//console.log(result);
-		return result;
-}
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
+		}
+	});
 
+	return result;
+}
 
 function KMDGetOPIDInfo(opid) {
-		var result = [];
-		var tmpopid_output = '';
+	var result = [],
+			tmpopid_output = '';
 
-		if ( opid === undefined ) {
-				tmpopid_output = '';
-		} else {
-				var ajax_data_to_hex = '["'+ opid +'"]'
-				var tmpopid_output = Iguana_HashHex(ajax_data_to_hex)
-				//console.log(tmpopid_output);
+	if ( opid === undefined ) {
+		tmpopid_output = '';
+	} else {
+		var ajax_data_to_hex = '["' + opid + '"]',
+				tmpopid_output = Iguana_HashHex(ajax_data_to_hex);
+	}
+
+	var passthru_agent = getPassthruAgent(),
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data_txid_input = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'function': 'z_getoperationstatus',
+				'hex': tmpopid_output
+			};
+
+	$.ajax({
+		async: false,
+		type: 'POST',
+		data: JSON.stringify(ajax_data_txid_input),
+		url: 'http://127.0.0.1:7778',
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data);
+			result.push(AjaxOutputData);
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
 		}
+	});
 
-		var passthru_agent = getPassthruAgent();
-		var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data_txid_input = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":"z_getoperationstatus","hex":tmpopid_output}
-		//console.log(ajax_data_txid_input);
-		$.ajax({
-				async: false,
-				type: 'POST',
-				data: JSON.stringify(ajax_data_txid_input),
-				url: 'http://127.0.0.1:7778',
-				//dataType: 'text',
-				success: function(data, textStatus, jqXHR) {
-						var AjaxOutputData = JSON.parse(data);
-						//console.log('== Data OutPut of z_getoperationstatus ==');
-						//console.log(value);
-						//console.log(AjaxOutputData);
-						result.push(AjaxOutputData);
-				},
-				error: function(xhr, textStatus, error) {
-						console.log('failed getting Coin History.');
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-								Iguana_ServiceUnavailable();
-						}
-						console.log(textStatus);
-						console.log(error);
-				}
-		});
-		//console.log(result);
-		return result;
+	return result;
 }
 
-
 function KMDListAllOPIDs() {
-		NProgress.done(true);
-		NProgress.configure({
-				template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
-		});
-		NProgress.start();
-		var opids_statuses_data = [];
-		var listOPIDs = KMDGetOPIDInfo();
-		var tmp_results = 'Waiting...';
-		var tmp_status_label = '';
-		var tmp_creation_time = '';
-		var tmp_id = '';
+	NProgress.done(true);
+	NProgress.configure({
+		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
+							'<div class="spinner" role="spinner">' +
+								'<div class="spinner-icon"></div>' +
+							'</div>'
+	});
+	NProgress.start();
 
-		console.log(listOPIDs);
-		$.each(listOPIDs[0], function(index, value) {
+	var opids_statuses_data = [],
+			listOPIDs = KMDGetOPIDInfo(),
+			tmp_results = 'Waiting...',
+			tmp_status_label = '',
+			tmp_creation_time = '',
+			tmp_id = '';
 
-				tmp_id = listOPIDs[0][index].id;
-				tmp_creation_time = secondsToString(listOPIDs[0][index].creation_time);
+	console.log(listOPIDs);
+	$.each(listOPIDs[0], function(index, value) {
+		tmp_id = listOPIDs[0][index].id;
+		tmp_creation_time = secondsToString(listOPIDs[0][index].creation_time);
 
-				if (listOPIDs[0][index].status === 'queued') {
-						tmp_status_label = '<span class="label label-warning"><i class="icon fa-eye"></i> Queued</span>';
-						tmp_results = '<i>Please press refresh button in a minute or so to see updated status...</i>';
-				}
-				if (listOPIDs[0][index].status === 'executing') {
-						tmp_status_label = '<span class="label label-info"><i class="icon fa-eye"></i> Executing</span>';
-						tmp_results = '<i>Please press refresh button in a minute or so to see updated status...</i>';
-				}
-				if (listOPIDs[0][index].status === 'failed') {
-						tmp_status_label = '<span class="label label-danger"><i class="icon fa-eye"></i> Failed</span>';
-						tmp_results = '<b>Error Code:</b> '+listOPIDs[0][index].error.code+'<br> <b>Message:</b> '+listOPIDs[0][index].error.message;
-				}
-				if (listOPIDs[0][index].status === 'success') {
-						tmp_status_label = '<span class="label label-success"><i class="icon fa-eye"></i> Success</span>';
-						tmp_results = '<b>txid:</b> '+listOPIDs[0][index].result.txid+'<br> <b>Execution Seconds:</b> '+listOPIDs[0][index].execution_secs;
-				}
+		if (listOPIDs[0][index].status === 'queued') {
+			tmp_status_label = '<span class="label label-warning">' +
+												 	 '<i class="icon fa-eye"></i> Queued' +
+												 '</span>';
+			tmp_results = '<i>Please press refresh button in a minute or so to see updated status...</i>';
+		}
+		if (listOPIDs[0][index].status === 'executing') {
+			tmp_status_label = '<span class="label label-info">' +
+												   '<i class="icon fa-eye"></i> Executing' +
+												 '</span>';
+			tmp_results = '<i>Please press refresh button in a minute or so to see updated status...</i>';
+		}
+		if (listOPIDs[0][index].status === 'failed') {
+			tmp_status_label = '<span class="label label-danger">' +
+												   '<i class="icon fa-eye"></i> Failed' +
+												 '</span>';
+			tmp_results = '<b>Error Code:</b> ' + listOPIDs[0][index].error.code + '<br> <b>Message:</b> ' + listOPIDs[0][index].error.message;
+		}
+		if (listOPIDs[0][index].status === 'success') {
+			tmp_status_label = '<span class="label label-success">' +
+												   '<i class="icon fa-eye"></i> Success' +
+												 '</span>';
+			tmp_results = '<b>txid:</b> ' + listOPIDs[0][index].result.txid + '<br> <b>Execution Seconds:</b> ' + listOPIDs[0][index].execution_secs;
+		}
 
-				//console.log(tmp_status_label);
-				//console.log(tmp_id);
-				//console.log(tmp_creation_time);
-				//console.log(tmp_results);
+		opids_statuses_data.push([
+			tmp_status_label,
+			tmp_id,
+			tmp_creation_time,
+			tmp_results
+		]);
+	});
 
-				opids_statuses_data.push([tmp_status_label, tmp_id, tmp_creation_time, tmp_results]);
-		});
-		//console.log(opids_statuses_data);
+	var kmd_opids_statuses_table = '';
 
-		var kmd_opids_statuses_table = '';
+	kmd_opids_statuses_table = $('#kmd-opid-status-tbl').DataTable({
+		data: opids_statuses_data,
+		'order': [
+			[
+				2,
+				'desc'
+			]
+		],
+		select: false,
+		retrieve: true
+	});
 
-		kmd_opids_statuses_table = $('#kmd-opid-status-tbl').DataTable( { data: opids_statuses_data,
-				"order": [[ 2, "desc" ]],
-				select: false,
-				retrieve: true
-		});
+	kmd_opids_statuses_table.destroy();
 
-		kmd_opids_statuses_table.destroy();
+	kmd_opids_statuses_table = $('#kmd-opid-status-tbl').DataTable({
+		data: opids_statuses_data,
+		'order': [
+			[
+				2,
+				'desc'
+			]
+		],
+		select: false,
+		retrieve: true
+	});
 
-		kmd_opids_statuses_table = $('#kmd-opid-status-tbl').DataTable( { data: opids_statuses_data,
-				"order": [[ 2, "desc" ]],
-				select: false,
-				retrieve: true
-		});
-
-
-		NProgress.done();
-		return opids_statuses_data;
+	NProgress.done();
+	return opids_statuses_data;
 }
 
 function KMDZSendManyTransaction() {
-		var result = [];
-		var zsendmoney_output = '';
+	var result = [],
+			zsendmoney_output = '',
+			tmp_zsendmany_from_addr = $('#kmd_wallet_send_from').val(),
+			tmp_zsendmany_to_addr = $('#kmd_wallet_sendto').val(),
+			tmp_zsendmany_total_amount = $('#kmd_wallet_total_value').text(),
+			ajax_data_to_hex = '["' + tmp_zsendmany_from_addr + '",[{"address":"' + tmp_zsendmany_to_addr + '","amount":' + tmp_zsendmany_total_amount + '}]]',
+			zsendmoney_output = Iguana_HashHex(ajax_data_to_hex),
+			passthru_agent = getPassthruAgent(),
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data_txid_input = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'function': 'z_sendmany',
+				'hex': zsendmoney_output
+			};
 
-		var tmp_zsendmany_from_addr = $('#kmd_wallet_send_from').val();
-		var tmp_zsendmany_to_addr = $('#kmd_wallet_sendto').val();
-		var tmp_zsendmany_total_amount = $('#kmd_wallet_total_value').text();
+	$.ajax({
+		async: false,
+		type: 'POST',
+		data: JSON.stringify(ajax_data_txid_input),
+		url: 'http://127.0.0.1:7778',
+		success: function(data, textStatus, jqXHR) {
+			console.log('== Data OutPut of z_sendmany ==');
+			console.log(data);
+			result.push(data);
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
+		}
+	});
 
-		//console.log(tmp_zsendmany_from_addr);
-		//console.log(tmp_zsendmany_to_addr);
-		//console.log(tmp_zsendmany_total_amount);
-
-		var ajax_data_to_hex = '["'+tmp_zsendmany_from_addr+'",[{"address":"'+tmp_zsendmany_to_addr+'","amount":'+tmp_zsendmany_total_amount+'}]]'
-		var zsendmoney_output = Iguana_HashHex(ajax_data_to_hex)
-		//console.log(zsendmoney_output);
-
-		var passthru_agent = getPassthruAgent();
-		var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data_txid_input = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":"z_sendmany","hex":zsendmoney_output}
-		//console.log(ajax_data_txid_input);
-		$.ajax({
-				async: false,
-				type: 'POST',
-				data: JSON.stringify(ajax_data_txid_input),
-				url: 'http://127.0.0.1:7778',
-				//dataType: 'text',
-				success: function(data, textStatus, jqXHR) {
-						console.log('== Data OutPut of z_sendmany ==');
-						console.log(data);
-						result.push(data);
-				},
-				error: function(xhr, textStatus, error) {
-						console.log('failed getting Coin History.');
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-								Iguana_ServiceUnavailable();
-						}
-						console.log(textStatus);
-						console.log(error);
-				}
-		});
-		//console.log(result);
-		KMDListAllOPIDs();
-		return result;
+	KMDListAllOPIDs();
+	return result;
 }
 
 function clearSendManyFieldData() {
-		$('.showkmdwalletaddrs').selectpicker('refresh');
-		$('#kmd_wallet_sendto').val('');
-		$('#kmd_wallet_total_value').text('');
-		$('#kmd_wallet_amount').val('');
+	$('.showkmdwalletaddrs').selectpicker('refresh');
+	$('#kmd_wallet_sendto').val('');
+	$('#kmd_wallet_total_value').text('');
+	$('#kmd_wallet_amount').val('');
 }
 
-
 function CheckIfConnected() {
-		var result = [];
-		var extcoin = $('[data-extcoin]').attr("data-extcoin");
+	var result = [],
+			extcoin = $('[data-extcoin]').attr('data-extcoin'),
+			passthru_agent = getPassthruAgent(),
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'function': 'getinfo',
+				'hex': ''
+			};
+	
+	console.log(ajax_data);
+	$.ajax({
+		async: false,
+		type: 'POST',
+		data: JSON.stringify(ajax_data),
+		url: 'http://127.0.0.1:7778',
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data);
+			console.log('== Data OutPut ==');
+			console.log(AjaxOutputData);
+			console.log(AjaxOutputData.error);
 
-		var passthru_agent = getPassthruAgent();
-		var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":"getinfo","hex":""}
-		console.log(ajax_data);
-		$.ajax({
-				async: false,
-				type: 'POST',
-				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
-				//dataType: 'text',
-				success: function(data, textStatus, jqXHR) {
-						var AjaxOutputData = JSON.parse(data);
-						console.log('== Data OutPut ==');
-						console.log(AjaxOutputData);
-						console.log(AjaxOutputData.error);
-						//console.log(AjaxOutputData['error'].message);
-						if ( AjaxOutputData.errors != undefined ) {
-								//console.log('connected');
-								result.push('connected');
-						} else if ( AjaxOutputData['error'].message = 'Activating best chain...' ) {
-								result.push('activating');
-						} else if ( AjaxOutputData.errors == undefined) {
-								result.push('not active');
-						} else {
-								result.push(AjaxOutputData.errors);
-						}
-
-				},
-				error: function(xhr, textStatus, error) {
-						console.log('failed getting Coin History.');
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-								Iguana_ServiceUnavailable();
-						}
-						console.log(textStatus);
-						console.log(error);
-				}
-		});
-		return result;
+			if ( AjaxOutputData.errors != undefined ) {
+				result.push('connected');
+			} else if ( AjaxOutputData['error'].message = 'Activating best chain...' ) {
+				result.push('activating');
+			} else if ( AjaxOutputData.errors == undefined) {
+				result.push('not active');
+			} else {
+				result.push(AjaxOutputData.errors);
+			}
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
+		}
+	});
+	
+	return result;
 }
 
 function CheckIfWalletEncrypted() {
-		var result = [];
+	var result = [],
+			passthru_agent = getPassthruAgent(),
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'function': 'walletlock',
+				'hex': ''
+			};
+	
+	console.log(ajax_data);
+	$.ajax({
+		async: false,
+		type: 'POST',
+		data: JSON.stringify(ajax_data),
+		url: 'http://127.0.0.1:7778',
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data);
+			console.log('== Data OutPut ==');
+			console.log(AjaxOutputData.error);
+			
+			if ( AjaxOutputData.errors != undefined ) {
+				result.push('encrypted');
+			} else {
+				result.push(AjaxOutputData.error);
+			}
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
+		}
+	});
 
-		var passthru_agent = getPassthruAgent();
-		var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":"walletlock","hex":""}
-		console.log(ajax_data);
-		$.ajax({
-				async: false,
-				type: 'POST',
-				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
-				//dataType: 'text',
-				success: function(data, textStatus, jqXHR) {
-						var AjaxOutputData = JSON.parse(data);
-						console.log('== Data OutPut ==');
-						console.log(AjaxOutputData.error);
-						if ( AjaxOutputData.errors != undefined ) {
-								//console.log('encrypted');
-								result.push('encrypted');
-						} else {
-								result.push(AjaxOutputData.error);
-						}
-
-				},
-				error: function(xhr, textStatus, error) {
-						console.log('failed getting Coin History.');
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-								Iguana_ServiceUnavailable();
-						}
-						console.log(textStatus);
-						console.log(error);
-				}
-		});
-		return result;
+	return result;
 }
 
 function KMD_getInfo_rtrn() {
-		var result = [];
-		var extcoin = $('[data-extcoin]').attr("data-extcoin");
+	var result = [],
+			extcoin = $('[data-extcoin]').attr('data-extcoin'),
+			passthru_agent = getPassthruAgent(),
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'function': 'getinfo',
+				'hex': ''
+			};
 
-		var passthru_agent = getPassthruAgent();
-		var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":"getinfo","hex":""}
-		//console.log(ajax_data);
-		$.ajax({
-				async: false,
-				type: 'POST',
-				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
-				//dataType: 'text',
-				success: function(data, textStatus, jqXHR) {
-						var AjaxOutputData = JSON.parse(data);
-						//console.log('== Data OutPut ==');
-						//console.log(AjaxOutputData);
-						if ( AjaxOutputData.errors != undefined ) {
-								//console.log('connected');
-								result.push(AjaxOutputData);
-						} else if ( AjaxOutputData['error'].message = 'Activating best chain...' ) {
-								result.push('activating');
-						} else if ( AjaxOutputData.errors == undefined) {
-								result.push('not active');
-						} else {
-								result.push(AjaxOutputData.errors);
-						}
+	$.ajax({
+		async: false,
+		type: 'POST',
+		data: JSON.stringify(ajax_data),
+		url: 'http://127.0.0.1:7778',
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data);
 
-				},
-				error: function(xhr, textStatus, error) {
-						console.log('failed getting Coin History.');
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-								Iguana_ServiceUnavailable();
-						}
-						console.log(textStatus);
-						console.log(error);
-				}
-		});
-		return result[0];
+			if ( AjaxOutputData.errors != undefined ) {
+				result.push(AjaxOutputData);
+			} else if ( AjaxOutputData['error'].message = 'Activating best chain...' ) {
+				result.push('activating');
+			} else if ( AjaxOutputData.errors == undefined) {
+				result.push('not active');
+			} else {
+				result.push(AjaxOutputData.errors);
+			}
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
+		}
+	});
+
+	return result[0];
 }
-
 
 function KMD_ProgressBar() {
-		var result = [];
-		var extcoin = $('[data-extcoin]').attr("data-extcoin");
+	var result = [],
+			extcoin = $('[data-extcoin]').attr('data-extcoin'),
+			getinfotmp = KMD_getInfo_rtrn();
 
-		var getinfotmp = KMD_getInfo_rtrn()
-		//console.log(getinfotmp);
-		//console.log(getinfotmp.blocks);
-		//console.log(getinfotmp.connections);
-		//console.log(getinfotmp.longestchain);
-		if ( getinfotmp == 'activating') {
-				$('span[data-extcoin="'+extcoin+'"][id="extcoin-sync-percent"]').text('Activating...');
-		} else {
-				var sync_percent = parseFloat(parseInt(getinfotmp.blocks, 10) * 100)/ parseInt(getinfotmp.longestchain, 10);
-				//console.log(parseFloat(sync_percent).toFixed(2)+'%')
-				$('div[data-extcoin="'+extcoin+'"][id="extcoin-sync"]').width(parseFloat(sync_percent).toFixed(2)+'%');
-				$('span[data-extcoin="'+extcoin+'"][id="extcoin-sync-percent"]').text(parseFloat(sync_percent).toFixed(2)+'%');
-				$('span[data-extcoin="'+extcoin+'"][id="extcoin-synced-blocks"]').text(getinfotmp.blocks);
-				$('span[data-extcoin="'+extcoin+'"][id="extcoin-longestchain"]').text(getinfotmp.longestchain);
-				$('span[data-extcoin="'+extcoin+'"][id="extcoin-connections"]').text(getinfotmp.connections);
-		}
+	if ( getinfotmp == 'activating') {
+		$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text('Activating...');
+	} else {
+		var sync_percent = parseFloat(parseInt(getinfotmp.blocks, 10) * 100) / parseInt(getinfotmp.longestchain, 10);
+
+		$('div[data-extcoin="' + extcoin + '"][id="extcoin-sync"]').width(parseFloat(sync_percent).toFixed(2) + '%');
+		$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text(parseFloat(sync_percent).toFixed(2) + '%');
+		$('span[data-extcoin="' + extcoin + '"][id="extcoin-synced-blocks"]').text(getinfotmp.blocks);
+		$('span[data-extcoin="' + extcoin + '"][id="extcoin-longestchain"]').text(getinfotmp.longestchain);
+		$('span[data-extcoin="' + extcoin + '"][id="extcoin-connections"]').text(getinfotmp.connections);
+	}
 }
-
