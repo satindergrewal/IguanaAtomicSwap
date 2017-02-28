@@ -1,7 +1,6 @@
 var KMDWalletDashboard = function() {
 	var handle_KMD_Dashboard = function() {
-
-				var action_btn_code = getHeaderActionMenuButtonCoinCode();
+		var action_btn_code = getHeaderActionMenuButtonCoinCode();
 		$('#btn_' + action_btn_code + '_wallet_dashboard').click(function() {
 			console.log('kmd wallet dashbaord button clicked...');
 			console.log($(this).data());
@@ -416,7 +415,7 @@ function RunKMDInitFunctions() {
 						console.log(error);
 					}
 				});
-			}, 5000);
+			}, 30000);
 		}
 
 		getRemoteCurrentHeight();
