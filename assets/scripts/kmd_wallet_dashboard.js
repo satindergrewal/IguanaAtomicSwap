@@ -415,7 +415,7 @@ function RunKMDInitFunctions() {
 						console.log(error);
 					}
 				});
-			}, 30000);
+			}, 2000);
 		}
 
 		getRemoteCurrentHeight();
