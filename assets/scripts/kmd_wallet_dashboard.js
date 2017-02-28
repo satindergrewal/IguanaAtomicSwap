@@ -480,394 +480,437 @@ function getTotalKMDBalance() {
 	if ( extcoin == 'KMD') { passthru_agent = 'komodo'; };
 	if ( extcoin == 'ZEC') { passthru_agent = 'zcash'; };
 
-	var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":"z_gettotalbalance","hex":"3000"}
-		console.log(ajax_data);
-		$.ajax({
-				type: 'POST',
-				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
-				//dataType: 'text',
-				success: function(data, textStatus, jqXHR) {
-						var AjaxOutputData = JSON.parse(data);
-						//console.log('== Data OutPut ==');
-						//console.log(AjaxOutputData);
-						if (AjaxOutputData.interest != undefined) {
-								console.log('show interest..');
-								$('#kmd_total_interest_balance').text(parseFloat(AjaxOutputData.interest).toFixed(8)+' '+extcoin);
-								$('#kmd_widget_get_total_balance_i').show();
-								$('#kmd_widget_get_total_balance_t').addClass(' col-lg-3');
-								$('#kmd_widget_get_total_balance_t').removeClass('col-lg-4');
-								$('#kmd_widget_get_total_balance_z').addClass(' col-lg-3');
-								$('#kmd_widget_get_total_balance_z').removeClass(' col-lg-4');
-								$('#kmd_widget_get_total_balance_tzi').addClass(' col-lg-3');
-								$('#kmd_widget_get_total_balance_tzi').removeClass(' col-lg-4');
-						} else {
-								console.log('do not show interest...');
-								$('#kmd_widget_get_total_balance_i').hide();
-								$('#kmd_widget_get_total_balance_t').addClass(' col-lg-4');
-								$('#kmd_widget_get_total_balance_t').removeClass(' col-lg-3');
-								$('#kmd_widget_get_total_balance_z').addClass(' col-lg-4');
-								$('#kmd_widget_get_total_balance_z').removeClass(' col-lg-3');
-								$('#kmd_widget_get_total_balance_tzi').addClass(' col-lg-4');
-								$('#kmd_widget_get_total_balance_tzi').removeClass(' col-lg-3');
-						}
-						$('#kmd_transparent_balance').text((AjaxOutputData.transparent ? parseFloat(AjaxOutputData.transparent).toFixed(8) : 0) + ' ' + extcoin);
-						$('#kmd_private_balance').text((AjaxOutputData.private ? parseFloat(AjaxOutputData.private).toFixed(8) : 0) + ' ' + extcoin);
-						$('#kmd_total_tz_balance').text((AjaxOutputData.total ? parseFloat(AjaxOutputData.total).toFixed(8) : 0) + ' ' + extcoin);
-				},
-				error: function(xhr, textStatus, error) {
-						console.log('failed getting Coin History.');
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-								Iguana_ServiceUnavailable();
-						}
-						console.log(textStatus);
-						console.log(error);
-				}
-		});
+	var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'function': 'z_gettotalbalance',
+				'hex': '3000'
+			};
+
+	console.log(ajax_data);
+	$.ajax({
+		type: 'POST',
+		data: JSON.stringify(ajax_data),
+		url: 'http://127.0.0.1:7778',
+		//dataType: 'text',
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data);
+
+			if (AjaxOutputData.interest != undefined) {
+				console.log('show interest..');
+				$('#kmd_total_interest_balance').text(parseFloat(AjaxOutputData.interest).toFixed(8) + ' ' + extcoin);
+				$('#kmd_widget_get_total_balance_i').show();
+				$('#kmd_widget_get_total_balance_t').addClass(' col-lg-3');
+				$('#kmd_widget_get_total_balance_t').removeClass('col-lg-4');
+				$('#kmd_widget_get_total_balance_z').addClass(' col-lg-3');
+				$('#kmd_widget_get_total_balance_z').removeClass(' col-lg-4');
+				$('#kmd_widget_get_total_balance_tzi').addClass(' col-lg-3');
+				$('#kmd_widget_get_total_balance_tzi').removeClass(' col-lg-4');
+			} else {
+				console.log('do not show interest...');
+				$('#kmd_widget_get_total_balance_i').hide();
+				$('#kmd_widget_get_total_balance_t').addClass(' col-lg-4');
+				$('#kmd_widget_get_total_balance_t').removeClass(' col-lg-3');
+				$('#kmd_widget_get_total_balance_z').addClass(' col-lg-4');
+				$('#kmd_widget_get_total_balance_z').removeClass(' col-lg-3');
+				$('#kmd_widget_get_total_balance_tzi').addClass(' col-lg-4');
+				$('#kmd_widget_get_total_balance_tzi').removeClass(' col-lg-3');
+			}
+			$('#kmd_transparent_balance').text((AjaxOutputData.transparent ? parseFloat(AjaxOutputData.transparent).toFixed(8) : 0) + ' ' + extcoin);
+			$('#kmd_private_balance').text((AjaxOutputData.private ? parseFloat(AjaxOutputData.private).toFixed(8) : 0) + ' ' + extcoin);
+			$('#kmd_total_tz_balance').text((AjaxOutputData.total ? parseFloat(AjaxOutputData.total).toFixed(8) : 0) + ' ' + extcoin);
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
+		}
+	});
 }
 
 function getKMDBalanceT() {
-		var passthru_agent = getPassthruAgent();
-	var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":"getbalance","hex":""}
-		console.log(ajax_data);
-		$.ajax({
-				type: 'POST',
-				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
-				//dataType: 'text',
-				success: function(data, textStatus, jqXHR) {
-						var AjaxOutputData = JSON.parse(data);
-						//console.log('== Data OutPut ==');
-						//console.log(AjaxOutputData);
-						//$('#kmd_transparent_balance').text(AjaxOutputData);
-				},
-				error: function(xhr, textStatus, error) {
-						console.log('failed getting Coin History.');
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-								Iguana_ServiceUnavailable();
-						}
-						console.log(textStatus);
-						console.log(error);
-				}
-		});
+	var passthru_agent = getPassthruAgent(),
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'function': 'getbalance',
+				'hex': ''
+			};
+
+	console.log(ajax_data);
+	$.ajax({
+		type: 'POST',
+		data: JSON.stringify(ajax_data),
+		url: 'http://127.0.0.1:7778',
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data);
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
+		}
+	});
 }
 
 
 function getKMDBalanceZ() {
-		var passthru_agent = getPassthruAgent();
-	var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":"z_getbalance","hex":""}
-		console.log(ajax_data);
-		$.ajax({
-				type: 'POST',
-				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
-				//dataType: 'text',
-				success: function(data, textStatus, jqXHR) {
-						var AjaxOutputData = JSON.parse(data);
-						//console.log('== Data OutPut ==');
-						//console.log(AjaxOutputData);
-						//$('#kmd_private_balance').text(AjaxOutputData);
-				},
-				error: function(xhr, textStatus, error) {
-						console.log('failed getting Coin History.');
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-								Iguana_ServiceUnavailable();
-						}
-						console.log(textStatus);
-						console.log(error);
-				}
-		});
-}
+	var passthru_agent = getPassthruAgent(),
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'function': 'z_getbalance',
+				'hex': ''
+			};
 
+	console.log(ajax_data);
+	$.ajax({
+		type: 'POST',
+		data: JSON.stringify(ajax_data),
+		url: 'http://127.0.0.1:7778',
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data);
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
+		}
+	});
+}
 
 function getKMDWalletInfo() {
-	var passthru_agent = getPassthruAgent();
-		var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":"getwalletinfo","hex":""}
-		console.log(ajax_data);
-		$.ajax({
-				type: 'POST',
-				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
-				//dataType: 'text',
-				success: function(data, textStatus, jqXHR) {
-						var AjaxOutputData = JSON.parse(data);
-						//console.log('== Data OutPut ==');
-						//console.log(AjaxOutputData);
-						$('#kmd_walletversion').text(AjaxOutputData.walletversion);
-						$('#kmd_balance').text(AjaxOutputData.balance);
-						$('#kmd_unconfirmed_balance').text(AjaxOutputData.unconfirmed_balance);
-						$('#kmd_immature_balance').text(AjaxOutputData.immature_balance);
-						$('#KMDTotalTransactionsCount').text(AjaxOutputData.txcount);
-				},
-				error: function(xhr, textStatus, error) {
-						console.log('failed getting Coin History.');
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-								Iguana_ServiceUnavailable();
-						}
-						console.log(textStatus);
-						console.log(error);
-				}
-		});
-}
+	var passthru_agent = getPassthruAgent(),
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'function': 'getwalletinfo',
+				'hex': ''
+			};
 
+	console.log(ajax_data);
+	$.ajax({
+		type: 'POST',
+		data: JSON.stringify(ajax_data),
+		url: 'http://127.0.0.1:7778',
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data);
+			$('#kmd_walletversion').text(AjaxOutputData.walletversion);
+			$('#kmd_balance').text(AjaxOutputData.balance);
+			$('#kmd_unconfirmed_balance').text(AjaxOutputData.unconfirmed_balance);
+			$('#kmd_immature_balance').text(AjaxOutputData.immature_balance);
+			$('#KMDTotalTransactionsCount').text(AjaxOutputData.txcount);
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
+		}
+	});
+}
 
 function getKMDInfo() {
-	var passthru_agent = getPassthruAgent();
-		var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":"getinfo","hex":""}
-		console.log(ajax_data);
-		$.ajax({
-				type: 'POST',
-				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
-				//dataType: 'text',
-				success: function(data, textStatus, jqXHR) {
-						var AjaxOutputData = JSON.parse(data);
-						//console.log('== Data OutPut ==');
-						//console.log(AjaxOutputData);
-						$('#kmd_version').text(AjaxOutputData.version);
-						$('#kmd_protocolversion').text(AjaxOutputData.protocolversion);
-						$('#kmd_notarized').text(AjaxOutputData.notarized);
-						$('#kmd_notarizedhash').text(AjaxOutputData.notarizedhash);
-						$('#kmd_notarizedbtc').text(AjaxOutputData.notarizedbtc);
-						$('#kmd_blocks').text(AjaxOutputData.blocks);
-						$('#kmd_connections').text(AjaxOutputData.connections);
-						$('#kmd_difficulty').text(AjaxOutputData.difficulty);
-						$('#kmd_testnet').text(AjaxOutputData.testnet);
-						$('#kmd_paytxfee').text(AjaxOutputData.paytxfee);
-						$('#kmd_relayfee').text(AjaxOutputData.relayfee);
-						$('#kmd_errors').text(AjaxOutputData.errors);
-				},
-				error: function(xhr, textStatus, error) {
-						console.log('failed getting Coin History.');
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-								Iguana_ServiceUnavailable();
-						}
-						console.log(textStatus);
-						console.log(error);
-				}
-		});
-}
+	var passthru_agent = getPassthruAgent(),
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'function': 'getinfo',
+				'hex': ''
+			};
 
+	console.log(ajax_data);
+	$.ajax({
+		type: 'POST',
+		data: JSON.stringify(ajax_data),
+		url: 'http://127.0.0.1:7778',
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data);
+			$('#kmd_version').text(AjaxOutputData.version);
+			$('#kmd_protocolversion').text(AjaxOutputData.protocolversion);
+			$('#kmd_notarized').text(AjaxOutputData.notarized);
+			$('#kmd_notarizedhash').text(AjaxOutputData.notarizedhash);
+			$('#kmd_notarizedbtc').text(AjaxOutputData.notarizedbtc);
+			$('#kmd_blocks').text(AjaxOutputData.blocks);
+			$('#kmd_connections').text(AjaxOutputData.connections);
+			$('#kmd_difficulty').text(AjaxOutputData.difficulty);
+			$('#kmd_testnet').text(AjaxOutputData.testnet);
+			$('#kmd_paytxfee').text(AjaxOutputData.paytxfee);
+			$('#kmd_relayfee').text(AjaxOutputData.relayfee);
+			$('#kmd_errors').text(AjaxOutputData.errors);
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
+		}
+	});
+}
 
 function KMDlistunspentT() {
 	NProgress.done(true);
 	NProgress.configure({
-		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
+							'<div class="spinner" role="spinner">' +
+								'<div class="spinner-icon"></div>' +
+							'</div>'
 	});
 	NProgress.start();
-	var result = [];
 
-	var passthru_agent = getPassthruAgent();
-		var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":"listunspent","hex":""}
-		//console.log(ajax_data);
-		$.ajax({
-			async: false,
-				type: 'POST',
-				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
-				//dataType: 'text',
-				success: function(data, textStatus, jqXHR) {
-						var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
-						//console.log('== Data OutPut ==');
-						//console.log(AjaxOutputData);
-						var unique_addresses  = _.keys(_.countBy(AjaxOutputData, function(data) { return data.address; })); //This code using undscore.js takes only the address into an array which are unique in that list
+	var result = [],
+			passthru_agent = getPassthruAgent(),
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'function': 'listunspent',
+				'hex': ''
+			};
 
-						// This function calls each unique address and calculates the total amount of coins in it.
-						$.each(unique_addresses, function(index) {
-				//console.log(unique_addresses[index]);
-				var unique_addr_tmp_array = _.where(AjaxOutputData, {address: unique_addresses[index]});
-				//console.log(unique_addr_tmp_array);
+	$.ajax({
+		async: false,
+		type: 'POST',
+		data: JSON.stringify(ajax_data),
+		url: 'http://127.0.0.1:7778',
+		//dataType: 'text',
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data), // Ajax output gets the whole list of unspent coin with addresses
+					unique_addresses  = _.keys(_.countBy(AjaxOutputData, function(data) { return data.address; })); // This code using underscore.js takes only the address into an array which are unique in that list
 
-				var tmpcalcnum = 0;
+			// This function calls each unique address and calculates the total amount of coins in it.
+			$.each(unique_addresses, function(index) {
+				var unique_addr_tmp_array = _.where(AjaxOutputData, { address: unique_addresses[index] }),
+						tmpcalcnum = 0;
+
 				$.each(unique_addr_tmp_array, function(index, value) {
-					//console.log(value.amount);
 					tmpcalcnum = tmpcalcnum + value.amount;
 				});
-				//console.log(tmpcalcnum);
-				var tmp_addr_total_balance_output = {"addr": unique_addr_tmp_array[0].address, "total": tmpcalcnum};
-				//console.log(tmp_addr_total_balance_output);
+
+				var tmp_addr_total_balance_output = {
+					'addr': unique_addr_tmp_array[0].address,
+					'total': tmpcalcnum
+				};
 				result.push(tmp_addr_total_balance_output);
-
 			});
-				},
-				error: function(xhr, textStatus, error) {
-						console.log('failed getting Coin History.');
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-								Iguana_ServiceUnavailable();
-						}
-						console.log(textStatus);
-						console.log(error);
-				}
-		});
-		//console.log(result);
-		NProgress.done();
-		return result;
-}
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
+		}
+	});
 
+	NProgress.done();
+	return result;
+}
 
 function KMDListaddrZ() {
 	var result = [];
 
-	var passthru_agent = getPassthruAgent();
-		var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":"z_listaddresses","hex":""}
-		//console.log(ajax_data);
-		$.ajax({
-			async: false,
-				type: 'POST',
-				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
-				//dataType: 'text',
-				success: function(data, textStatus, jqXHR) {
-						var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
-						//console.log('== Data OutPut of z_listaddresses ==');
-						//console.log(AjaxOutputData);
-						//This code gets list of all z_addresses into an array
+	var passthru_agent = getPassthruAgent(),
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'function': 'z_listaddresses',
+				'hex': ''
+			};
 
-						// This function calls each address and then gets the total amount of coins in it.
-						$.each(AjaxOutputData, function(index, value) {
-				//console.log(value);
-				var ajax_data_to_hex = '["'+ value +'",0]';
-				var tmpZaddrs_output = Iguana_HashHex(ajax_data_to_hex);
-				//console.log(tmpZaddrs_output);
+	$.ajax({
+		async: false,
+		type: 'POST',
+		data: JSON.stringify(ajax_data),
+		url: 'http://127.0.0.1:7778',
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
+			// This code gets list of all z_addresses into an array
+			// This function calls each address and then gets the total amount of coins in it.
+			$.each(AjaxOutputData, function(index, value) {
+				var ajax_data_to_hex = '["' + value + '",0]',
+						tmpZaddrs_output = Iguana_HashHex(ajax_data_to_hex),
+						passthru_agent = getPassthruAgent(),
+						tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+						ajax_data_zaddrbalance = {
+							'userpass': tmpIguanaRPCAuth,
+							'agent': passthru_agent,
+							'method': 'passthru',
+							'function': 'z_getbalance',
+							'hex': tmpZaddrs_output
+						};
 
-				var passthru_agent = getPassthruAgent();
-								var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-								var ajax_data_zaddrbalance = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":"z_getbalance","hex":tmpZaddrs_output}
-					//console.log(ajax_data_zaddrbalance);
-					$.ajax({
-						async: false,
-							type: 'POST',
-							data: JSON.stringify(ajax_data_zaddrbalance),
-							url: 'http://127.0.0.1:7778',
-							//dataType: 'text',
-							success: function(data, textStatus, jqXHR) {
-									var AjaxOutputData = JSON.parse(data);
-									//console.log('== Data OutPut of z_getbalance ==');
-									//console.log(value);
-									//console.log(AjaxOutputData);
-									if(AjaxOutputData.hasOwnProperty('error')){
-										AjaxOutputData = 0;
-									}
-									var tmp_Zaddr_total_balance_output = {"addr": value, "total": AjaxOutputData};
-						//console.log(tmp_Zaddr_total_balance_output);
+				$.ajax({
+					async: false,
+					type: 'POST',
+					data: JSON.stringify(ajax_data_zaddrbalance),
+					url: 'http://127.0.0.1:7778',
+					success: function(data, textStatus, jqXHR) {
+						var AjaxOutputData = JSON.parse(data);
+
+						if (AjaxOutputData.hasOwnProperty('error')) {
+							AjaxOutputData = 0;
+						}
+						var tmp_Zaddr_total_balance_output = {
+									'addr': value,
+									'total': AjaxOutputData
+								};
+
 						result.push(tmp_Zaddr_total_balance_output);
-							},
-							error: function(xhr, textStatus, error) {
-									console.log('failed getting Coin History.');
-									console.log(xhr.statusText);
-									if ( xhr.readyState == 0 ) {
-											Iguana_ServiceUnavailable();
-									}
-									console.log(textStatus);
-									console.log(error);
-							}
-					});
-			});
-				},
-				error: function(xhr, textStatus, error) {
+					},
+					error: function(xhr, textStatus, error) {
 						console.log('failed getting Coin History.');
 						console.log(xhr.statusText);
 						if ( xhr.readyState == 0 ) {
-								Iguana_ServiceUnavailable();
+							Iguana_ServiceUnavailable();
 						}
 						console.log(textStatus);
 						console.log(error);
-				}
-		});
-		//console.log(result);
-		return result;
+					}
+				});
+			});
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
+		}
+	});
+
+	return result;
 }
 
 
 function KMDGetPublicTransactions() {
 	NProgress.done(true);
 	NProgress.configure({
-		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
+							'<div class="spinner" role="spinner">' +
+								'<div class="spinner-icon"></div>' +
+							'</div>'
 	});
 	NProgress.start();
-	var result = [];
 
-	var passthru_agent = getPassthruAgent();
-		var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":passthru_agent,"method":"passthru","function":"listtransactions","hex":""}
-		//console.log(ajax_data);
-		$.ajax({
-			async: false,
-				type: 'POST',
-				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
-				//dataType: 'text',
-				success: function(data, textStatus, jqXHR) {
-						var AjaxOutputData = JSON.parse(data); //Ajax output gets the whole list of unspent coin with addresses
-						//console.log('== Data OutPut of listtransactions ==');
-						console.log(AjaxOutputData);
+	var result = [],
+			passthru_agent = getPassthruAgent(),
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'function': 'listtransactions',
+				'hex': ''
+			};
 
-						$.each(AjaxOutputData, function(index, value) {
-				//console.log(value);
+	$.ajax({
+		async: false,
+		type: 'POST',
+		data: JSON.stringify(ajax_data),
+		url: 'http://127.0.0.1:7778',
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
+			console.log(AjaxOutputData);
 
-				var tmp_category = '';
-								var tmp_addr = AjaxOutputData[index].address;
-								if(!("address" in AjaxOutputData[index])) {
-										tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>'
-								}
-								var tmp_secondsToString = secondsToString(AjaxOutputData[index].time)
+			$.each(AjaxOutputData, function(index, value) {
+				var tmp_category = '',
+						tmp_addr = AjaxOutputData[index].address;
 
-								if ( AjaxOutputData[index].category == 'send' ) {
-									tmp_category = '<i class="icon fa-arrow-circle-left"></i> OUT';
-								}
-								if ( AjaxOutputData[index].category == 'receive' ) {
-									tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
-								}
-								if ( AjaxOutputData[index].category == 'generate' ) {
-									tmp_category = '<i class="icon fa-cogs"></i> Mined';
-								}if ( AjaxOutputData[index].category == 'immature' ) {
-									tmp_category = '<i class="icon fa-clock-o"></i> Immature';
-								}
-								//console.log(tmp_addr);
-				//tmplisttransactions = {"type":"public","category": AjaxOutputData[index].category,"confirmations": AjaxOutputData[index].confirmations,"amount": AjaxOutputData[index].amount,"time": AjaxOutputData[index].time,"address": AjaxOutputData[index].address,"txid": AjaxOutputData[index].txid}
-								tmplisttransactions = ['<span class="label label-default"><i class="icon fa-eye"></i> public</span>',tmp_category,AjaxOutputData[index].confirmations,AjaxOutputData[index].amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light btn-kmdtxid" data-toggle="modal" data-target="#kmd_txid_info_mdl" id="kmd-txid-details-btn" data-txid-type="public" data-txid="'+AjaxOutputData[index].txid+'"><i class="icon fa-search"></i></button>']
-				//console.log(tmplisttransactions);
+				if (!('address' in AjaxOutputData[index])) {
+					tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>';
+				}
+				var tmp_secondsToString = secondsToString(AjaxOutputData[index].time);
+
+				if ( AjaxOutputData[index].category == 'send' ) {
+					tmp_category = '<i class="icon fa-arrow-circle-left"></i> OUT';
+				}
+				if ( AjaxOutputData[index].category == 'receive' ) {
+					tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
+				}
+				if ( AjaxOutputData[index].category == 'generate' ) {
+					tmp_category = '<i class="icon fa-cogs"></i> Mined';
+				}
+				if ( AjaxOutputData[index].category == 'immature' ) {
+					tmp_category = '<i class="icon fa-clock-o"></i> Immature';
+				}
+
+				tmplisttransactions = [
+					'<span class="label label-default">' +
+						'<i class="icon fa-eye"></i> public' +
+					'</span>',
+					tmp_category,
+					AjaxOutputData[index].confirmations,
+					AjaxOutputData[index].amount,
+					tmp_secondsToString,
+					tmp_addr,
+					'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light btn-kmdtxid" data-toggle="modal" data-target="#kmd_txid_info_mdl" id="kmd-txid-details-btn" data-txid-type="public" data-txid="' + AjaxOutputData[index].txid + '"><i class="icon fa-search"></i></button>'
+				];
 				result.push(tmplisttransactions);
 			});
-				},
-				error: function(xhr, textStatus, error) {
-						console.log('failed getting Coin History.');
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-								Iguana_ServiceUnavailable();
-						}
-						console.log(textStatus);
-						console.log(error);
-				}
-		});
-		//console.log(result);
-		NProgress.done();
-		return result;
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
+		}
+	});
+
+	NProgress.done();
+	return result;
 }
 
 function KMDGetProtectedTransactions() {
 	NProgress.done(true);
 	NProgress.configure({
-		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
+							'<div class="spinner" role="spinner">' +
+								'<div class="spinner-icon"></div>' +
+							'</div>'
 	});
 	NProgress.start();
-	var result = [];
 
-	var get_zaddr_list = KMDListaddrZ();
-	//console.log(get_zaddr_list);
+	var result = [],
+			get_zaddr_list = KMDListaddrZ();
 
 	$.each(get_zaddr_list, function(index, value) {
 		//console.log(value.addr);
