@@ -38,7 +38,7 @@ var Dashboard = function() {
 			$('#btn_edexcoin_recieve').show();
 
 			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
-			
+
 			$('#edexcoin_getbalance_interest').hide();
 			$('#edexcoin_getbalance_total_interest').hide();
 			$('#edexcoin_getbalance_t').removeClass( 'col-lg-4' ).addClass( 'col-lg-12' );
@@ -207,9 +207,9 @@ var Dashboard = function() {
 		});
 
 		edexcoin_send_form_validator = $('.edexcoin-send-form').validate({
-			//errorElement: 'span', //default input error message container
-			//errorClass: 'help-block', // default input error message class
-			//focusInvalid: false, // do not focus the last invalid input
+			// errorElement: 'span', //default input error message container
+			// errorClass: 'help-block', // default input error message class
+			// focusInvalid: false, // do not focus the last invalid input
 			rules: {
 				edexcoin_send_from: {
 					required: true
@@ -325,9 +325,9 @@ var Dashboard = function() {
 			$('#edexcoin-send-confirm-screen').hide();
 			$('#edexcoin-send-txdetails-screen').hide();
 			$('#edexcoin-send-screen').show();
-			var active_edexcoin = '';
-			var tmp_send_to_addr = '';
-			var tmp_send_total_amount = '';
+			var active_edexcoin = '',
+					tmp_send_to_addr = '',
+					tmp_send_total_amount = '';
 			edexcoin_send_form_validator.resetForm();
 			$('#edexcoin_send_step_1').removeClass( '' ).addClass( 'current' );
 			$('#edexcoin_send_step_2').removeClass( 'current' ).addClass( '' );
@@ -639,7 +639,7 @@ var Dashboard = function() {
 		$('.btn_edexcoin_dashboard_validate').click(function() {
 			var selected_coin = $(this).data('edexcoin');
 			EDEXMainAddr(selected_coin).then(function(result) {
-				Iguana_DEXValidateAddr(selected_coin,result);
+				Iguana_DEXValidateAddr(selected_coin, result);
 			});
 		});
 	}
@@ -829,7 +829,7 @@ function edexCoinBtnAction() {
 
 			$('#edexcoin-active').text(selected_coinname);
 			$('#edex_total_balance_coincode').text(coincode);
-			//populate selected coin's address
+			// populate selected coin's address
 			EDEXMainAddr(selected_coin).then(function(result) {
 				$('#edexcoin_active_addr').text(result);
 				$('#edexcoin_active_addr_clipboard').attr('data-clipboard-text', result);
@@ -1078,7 +1078,7 @@ function getDEXGetBalance(coin) {
 			var total_balance = 0,
 					total_interest = 0;
 
-			Promise.all(data.result.map((coinaddr_value,coinaddr_index) => {
+			Promise.all(data.result.map((coinaddr_value, coinaddr_index) => {
 				let params = {
 							'userpass': tmpIguanaRPCAuth,
 							'agent': 'dex',
@@ -1134,20 +1134,29 @@ function getDEXGetBalance_cache(coin) {
   NProgress.start();
 
   return new Promise((resolve) => {
-	Shepherd_CheckBasiliskCacheData(coin).then(function(result){
-		console.log(result)
-		console.log(result.coin)
+	Shepherd_CheckBasiliskCacheData(coin).then(function(result) {
+		console.log(result);
+		console.log(result.coin);
+
 		if (result.coin == false || result.addresses == false) {
-			var call_data = {"allcoins": false,"coin":coin,"calls":"listtransactions:getbalance"}
+			var call_data = {
+				'allcoins': false,
+				'coin': coin,
+				'calls': 'listunspent:listtransactions:getbalance'
+			};
 			console.log(call_data)
-		} else if (result.getbalance == false || result.listtransactions == false) {
-			var call_data = {"allcoins": false,"coin":coin,"calls":"getbalance:listtransactions"}
-			console.log(call_data)
+		} else if (result.getbalance == false) {
+			var call_data = {
+				'allcoins': false,
+				'coin': coin,
+				'calls': 'getbalance:listtransactions'
+			};
+			console.log(call_data);
 		}
 
-		Shepherd_FetchBasiliskData(call_data).then(function(result){
-			console.log(result)
-		})
+		Shepherd_FetchBasiliskData(call_data).then(function(result) {
+			console.log(result);
+		});
 	})
 
     Shepherd_GetBasiliskCache().then(function(result) {
@@ -1156,7 +1165,7 @@ function getDEXGetBalance_cache(coin) {
 					total_balance = 0,
 	    		total_interest = 0;
 
-	    Promise.all(query[coin].addresses.map((coinaddr_value,coinaddr_index) => {
+	    Promise.all(query[coin].addresses.map((coinaddr_value, coinaddr_index) => {
         return new Promise((resolve, reject) => {
           if ( query[coin][coinaddr_value].getbalance.data !== undefined ) {
             var data = query[coin][coinaddr_value].getbalance.data;
@@ -1207,7 +1216,7 @@ function getDEXGetBalance2(coin) {
 	NProgress.start();
 
 	return new Promise((resolve) => {
-		var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+		var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
 				ajax_data_1 = {
 					'userpass': tmpIguanaRPCAuth,
 					'agent': 'SuperNET',
@@ -1719,7 +1728,7 @@ function ShowCoinProgressBar(coin) {
 					$('div[data-edexcoin="'+coin+'"][id="currency-bundles"]').removeClass( 'progress-bar-info' ).addClass( 'progress-bar-indicating progress-bar-success' );
 					$('#edex-footer').css('height', '11px');
 					resizeDashboardWindow();
-					$('#edexcoin-wallet-waitingrt-alert').hide()
+					$('#edexcoin-wallet-waitingrt-alert').hide();
 				}
 				if ( parseInt(CoinInfoData.RTheight) == 0 ) {
 					var coin_blocks = parseInt(CoinInfoData.blocks),
@@ -2000,9 +2009,8 @@ function EdexGetTxList_cache(coin) {
 	return new Promise((resolve) => {
 		Shepherd_GetBasiliskCache().then(function(result) {
 			var _data = JSON.parse(result)
-					query = _data.result.basilisk;
-
-			var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode'),
+					query = _data.result.basilisk,
+					active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode'),
 					total_utxos = [];
 
 			Promise.all(query[coin].addresses.map((coinaddr_value, coinaddr_index) => {
@@ -2304,7 +2312,7 @@ function EdexListAllAddr(coin) {
 		var only_reciving_addr_data = [];
 
 		$.each(result, function(index, value) {
-			if(value.interest == undefined || coin !== 'KMD') {
+			if (value.interest == undefined || coin !== 'KMD') {
 				console.log('interest is undefined');
 				tmp_interest = 'NA';
 			} else {
