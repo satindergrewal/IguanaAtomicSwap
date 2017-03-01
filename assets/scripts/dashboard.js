@@ -158,6 +158,8 @@ var Dashboard = function() {
 				})
 			} else {
 				$('.edexcoin_send_from_for_basilisk').hide()
+				$('.edexcoin_send_coins_btn_step1').removeClass('disabled');
+				$('.edexcoin_send_coins_btn_step1').removeAttr('disabled');
 			}
 
 			//clearEdexSendFieldData();
