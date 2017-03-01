@@ -1311,6 +1311,53 @@ function EDEXgetinfo(coin) {
 	})
 }
 
+function EDEXgetaddrbyaccount_cache(coin) {
+    return new Promise((resolve) => {
+        Shepherd_GetBasiliskCache().then(function(result){
+            var _data = JSON.parse(result)
+                query = _data.result.basilisk
+                tmp_addr_label = '<span class="label label-default">' +
+                                                   '<i class="icon fa-eye"></i> public' +
+                                                 '</span>';
+                active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
+
+            //console.log(query[coin].addresses)
+            
+            Promise.all(query[coin].addresses.map((coinaddr_value, coinaddr_index) => {
+                return new Promise((resolve, reject) => {
+                    //console.log(coinaddr_index)
+                    //console.log(coinaddr_value)
+                    coinaddr_balances = query[coin][coinaddr_value].getbalance.data
+
+                    if (coinaddr_balances.interest !== undefined) {
+                        var pass_data = {
+                                    'label': tmp_addr_label,
+                                    'addr': coinaddr_value,
+                                    'total': coinaddr_balances.balance.toFixed(8),
+                                    'interest': coinaddr_balances.interest.toFixed(8)
+                                };
+                    }
+                    if (coinaddr_balances.interest == undefined) {
+                        var pass_data = {
+                            'label': tmp_addr_label,
+                            'addr': coinaddr_value,
+                            'total': coinaddr_balances.balance.toFixed(8)
+                        };
+                    }
+
+                    //console.log(pass_data)
+                    resolve(pass_data)
+                })
+
+            })).then(result => {
+                //console.log(result)
+                resolve(result)
+            })
+
+        })
+    })
+}
+
 function EDEXgetaddrbyaccount(coin) {
 	return new Promise((resolve) => {
 		var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
