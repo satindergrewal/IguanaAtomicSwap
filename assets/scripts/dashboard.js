@@ -522,6 +522,10 @@ var Dashboard = function() {
                   coinlogo = 'REVS';
                   coinname = 'REVS';
                   break;
+                case 'WIRELESS':
+                  coinlogo = 'WIRELESS';
+                  coinname = 'WIRELESS';
+                  break;
                 case 'USD':
                   coinlogo = 'USD';
                   coinname = 'USD';
@@ -591,6 +595,7 @@ var Dashboard = function() {
 			}
 			if (tmp_coin_val == 'SUPERNET' ||
 					tmp_coin_val == 'REVS' ||
+					tmp_coin_val == 'WIRELESS' ||
 					tmp_coin_val == 'USD') {
 					$('#addcoin_mdl_native_mode').prop('disabled', true);
 					$('#addcoin_mdl_basilisk_mode').prop('disabled', false);
@@ -620,6 +625,21 @@ var Dashboard = function() {
 			EDEXMainAddr(selected_coin).then(function(result){
 				Iguana_DEXImportAllWalletAddr(selected_coin);
 			});
+		});
+
+		$('.btn_edexcoin_dashboard_fetchdata').click(function() {
+			var selected_coin = $(this).data('edexcoin');
+			Shepherd_CheckBasiliskCacheData(selected_coin).then(function(result){
+				console.log(result)
+				console.log(result.coin)
+				var call_data = {"allcoins": false,"coin":selected_coin,"calls":"listtransactions:getbalance"}
+				console.log(call_data)
+
+				Shepherd_FetchBasiliskData(call_data).then(function(result){
+					console.log(result)
+					toastr.info('Fetching Data. Please wait for a minute to complete this task.', 'Basilisk Notification');
+				})
+			})
 		});
 
 		$('.btn_edexcoin_dashboard_refresh_basilisk_conn').click(function() {
@@ -676,6 +696,7 @@ var Dashboard = function() {
 						active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 
 				// TODO: refactor
+				
 				if ( active_edexcoinmodecode == 'Basilisk' || active_edexcoinmodecode == 'Native' ) {
 					//console.log(active_edexcoinmodecode)
 					//console.log('No need to show Progress bar for Native or Basilisk mode.')
@@ -697,6 +718,24 @@ var Dashboard = function() {
 				});
 			}
 		}, 1000);
+
+
+		var CheckIfIguanaRunning = setInterval(function() {
+			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin'),
+						active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
+			// TODO: refactor
+			if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
+				//clearInterval(CheckIfIguanaRunning);
+				//console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
+			} else {
+				if ( active_edexcoinmodecode == 'Basilisk') {
+					var call_data = {"allcoins": false,"coin":active_edexcoin,"calls":"listtransactions:getbalance"}
+					Shepherd_FetchBasiliskData(call_data).then(function(result){
+						console.log(result)
+					})
+				}
+			}
+		}, 300000);
 
 		var RefreshEdexWalletDashboard = setInterval(function() {
 			if ( sessionStorage.getItem('IguanaActiveAccount') === null ||
@@ -1142,7 +1181,7 @@ function getDEXGetBalance_cache(coin) {
 			var call_data = {
 				'allcoins': false,
 				'coin': coin,
-				'calls': 'listunspent:listtransactions:getbalance'
+				'calls': 'listtransactions:getbalance'
 			};
 			console.log(call_data)
 		} else if (result.getbalance == false) {
@@ -1496,6 +1535,10 @@ function refreshEDEXCoinWalletList() {
                 coinlogo = 'REVS';
                 coinname = 'REVS';
                 break;
+              case 'WIRELESS':
+                  coinlogo = 'WIRELESS';
+                  coinname = 'WIRELESS';
+                  break;
               case 'USD':
                 coinlogo = 'USD';
                 coinname = 'USD';

@@ -730,6 +730,7 @@ var Login = function() {
       }
       if (tmp_coin_val == 'SUPERNET' ||
           tmp_coin_val == 'REVS' ||
+          tmp_coin_val == 'WIRELESS' ||
           tmp_coin_val == 'USD') {
         $('#addcoin_mdl_native_mode_login').prop('disabled', true);
         $('#addcoin_mdl_basilisk_mode_login').prop('disabled', false);
