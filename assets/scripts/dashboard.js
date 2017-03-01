@@ -50,7 +50,7 @@ var Dashboard = function() {
 			if ( sessionStorage.getItem('edexTmpMode') === 'Full') {
 				sessionStorage.setItem('edexTmpRefresh', 'start');
 			}
-			if ( sessionStorage.getItem('edexTmpMode') === 'Basilisk' || sessionStorage.getItem('edexTmpMode') === 'Native' ) {
+			if ( /*sessionStorage.getItem('edexTmpMode') === 'Basilisk' ||*/ sessionStorage.getItem('edexTmpMode') === 'Native' ) {
 				sessionStorage.setItem('edexTmpRefresh', 'stop');
 			}
 			$('#edexcoin_dashoard_section').show();
@@ -63,7 +63,7 @@ var Dashboard = function() {
 			var selected_coinmode = sessionStorage.getItem('edexTmpMode');
 			if ( selected_coinmode == 'Basilisk' ) {
 				getDEXGetBalance_cache(active_edexcoin).then(function(result) {
-					console.log(result)
+					//console.log(result)
 					if ( result.interest !== undefined && active_edexcoin == 'KMD') {
 						$('#edexcoin_getbalance_interest').show();
 						$('#edexcoin_getbalance_total_interest').show();
@@ -708,6 +708,8 @@ var Dashboard = function() {
 
 		var CheckIfIguanaRunning = setInterval(function() {
 			// TODO: refactor
+			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin'),
+						active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 			if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
 				//clearInterval(CheckIfIguanaRunning);
 				//console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
@@ -721,8 +723,6 @@ var Dashboard = function() {
 
 
 		var CheckIfIguanaRunning = setInterval(function() {
-			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin'),
-						active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 			// TODO: refactor
 			if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
 				//clearInterval(CheckIfIguanaRunning);
@@ -752,6 +752,21 @@ var Dashboard = function() {
 				}
 			}
 		}, 30000);
+
+		var RefreshBasiliskTable = setInterval(function() {
+			if ( sessionStorage.getItem('IguanaActiveAccount') === null || sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === 'stop' ) {
+				clearInterval(RefreshBasiliskTable);
+			} else if ( sessionStorage.getItem('DashboardActions') === null || sessionStorage.getItem('DashboardActions') === 'start') {
+				if ( $('[data-edexcoin]').attr('data-edexcoin') !== 'COIN' ) {
+					if ( sessionStorage.getItem('edexTmpMode') !== null || sessionStorage.getItem('edexTmpMode') === 'Basilisk') {
+						if ( sessionStorage.getItem('edexTmpRefresh') === null || sessionStorage.getItem('edexTmpRefresh') === 'start') {
+							var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin')
+							ShowBasiliskFetchDataProgress(active_edexcoin);
+						}
+					}
+				}
+			}
+		}, 1000);
 	}
 
 	return {
@@ -1174,8 +1189,8 @@ function getDEXGetBalance_cache(coin) {
 
   return new Promise((resolve) => {
 	Shepherd_CheckBasiliskCacheData(coin).then(function(result) {
-		console.log(result);
-		console.log(result.coin);
+		//console.log(result);
+		//console.log(result.coin);
 
 		if (result.coin == false || result.addresses == false) {
 			var call_data = {
@@ -1183,19 +1198,21 @@ function getDEXGetBalance_cache(coin) {
 				'coin': coin,
 				'calls': 'listtransactions:getbalance'
 			};
-			console.log(call_data)
+			//console.log(call_data)
+			Shepherd_FetchBasiliskData(call_data).then(function(result) {
+				console.log(result);
+			});
 		} else if (result.getbalance == false) {
 			var call_data = {
 				'allcoins': false,
 				'coin': coin,
 				'calls': 'getbalance:listtransactions'
 			};
-			console.log(call_data);
+			//console.log(call_data);
+			Shepherd_FetchBasiliskData(call_data).then(function(result) {
+				console.log(result);
+			});
 		}
-
-		Shepherd_FetchBasiliskData(call_data).then(function(result) {
-			console.log(result);
-		});
 	})
 
     Shepherd_GetBasiliskCache().then(function(result) {
@@ -2388,4 +2405,182 @@ function EdexListAllAddr(coin) {
 
 		NProgress.done();
 	});
+}
+
+
+function ShowBasiliskFetchDataProgress(coin) {
+	Shepherd_GetBasiliskCache().then(function(result){
+	    var _data = JSON.parse(result)
+	    var query = _data.result.basilisk
+	        coin_exists = true
+	        addresses_exists = true
+	        getbalance_exists = true
+	        listtransactions_exists = true
+	        listunspent_exists = true
+	        refresh_exists = true
+	        getbalance_status = 'NOT FOUND'
+	        listtransactions_status = 'NOT FOUND'
+	        listunspent_status = 'NOT FOUND'
+	        refresh_status = 'NOT FOUND'
+	    //console.log(query)
+
+	    if (!query) {
+	        //console.log('data not found.')
+	        res_data = {"coin":false, "addresses":false, "getbalance": false,"listtransactions": false,"listunspent": false,"refresh": false}
+	        //console.log(res_data)
+	    } else if (!query[coin]) {
+	        //console.log(coin + ' not found.')
+	        coin_exists = false
+	        res_data = {"coin":coin_exists, "addresses":false, "getbalance": false,"listtransactions": false,"listunspent": false,"refresh": false}
+	        //console.log(res_data)
+	    } else if (!('addresses' in query[coin])) {
+	        //console.log(coin + ' addresses not found.')
+	        addresses_exists = false
+	        res_data = {"coin":coin_exists, "addresses":false, "getbalance": false,"listtransactions": false,"listunspent": false,"refresh": false}
+	        //console.log(res_data)
+	    } else {
+	        Promise.all(query[coin].addresses.map((coinaddr_value,coinaddr_index) => {
+	            return new Promise((resolve, reject) => {
+	                //console.log(coinaddr_index)
+	                //console.log(coinaddr_value)
+	                var data = query[coin][coinaddr_value].getbalance
+	                //console.log(data)
+
+	                if (!('getbalance' in query[coin][coinaddr_value])) {
+	                    //console.log(coin + '>>>' + coinaddr_value + ' => getbalance not found.')
+	                    getbalance_exists = false
+	                } else {
+	                    //console.log(query[coin][coinaddr_value].getbalance.status)
+	                    getbalance_status = query[coin][coinaddr_value].getbalance.status
+	                }
+
+	                if (!('listtransactions' in query[coin][coinaddr_value])) {
+	                    //console.log(coin + '>>>' + coinaddr_value + ' => listtransactions not found.')
+	                    listtransactions_exists = false
+	                } else {
+	                    //console.log(query[coin][coinaddr_value].listtransactions.status)
+	                    listtransactions_status = query[coin][coinaddr_value].listtransactions.status
+	                }
+
+	                if (!('listunspent' in query[coin][coinaddr_value])) {
+	                    //console.log(coin + '>>>' + coinaddr_value + ' => listunspent not found.')
+	                    listunspent_exists = false
+	                } else {
+	                    //console.log(query[coin][coinaddr_value].listunspent.status)
+	                    listunspent_status = query[coin][coinaddr_value].listunspent.status
+	                }
+
+	                if (!('refresh' in query[coin][coinaddr_value])) {
+	                    //console.log(coin + '>>>' + coinaddr_value + ' => refresh not found.')
+	                    refresh_exists = false
+	                } else {
+	                    //console.log(query[coin][coinaddr_value].refresh.status)
+	                    refresh_status = query[coin][coinaddr_value].refresh.status
+	                }
+
+	                pass_data = {
+	                                "addr_index":coinaddr_index,
+	                                "addr_value":coinaddr_value,
+	                                "getbalance": getbalance_exists,
+	                                "getbalance_status": getbalance_status,
+	                                "listtransactions": listtransactions_exists,
+	                                "listtransactions_status": listtransactions_status,
+	                                "listunspent": listunspent_exists,
+	                                "listunspent_status": listunspent_status,
+	                                "refresh": refresh_exists,
+	                                "refresh_status": refresh_status
+	                            }
+	                resolve(pass_data)
+	            })
+	        })).then(result => {
+	            //console.log(result)
+	            //res_data.coin = coin_exists
+	            //res_data.addresses = addresses_exists
+	            BasiliskFetchData = ''
+	            
+	            $.each(result, function(result_index, result_val) {
+	                //console.log(result_index)
+	                //console.log(result_val)
+
+	                var tmp_listunspent_lable_color = ''
+	                var tmp_listtransactions_lable_color = ''
+	                var tmp_getbalance_lable_color = ''
+	                var tmp_refresh_lable_color = ''
+
+	                switch (result_val.listunspent_status) {
+	                    case 'waiting':
+	                        tmp_listunspent_lable_color = 'dark'
+	                        break;
+	                    case 'in progress':
+	                        tmp_listunspent_lable_color = 'primary'
+	                        break;
+	                    case 'done':
+	                        tmp_listunspent_lable_color = 'success'
+	                        break;
+	                    case 'NOT FOUND':
+	                        tmp_listunspent_lable_color = 'danger'
+	                        break;
+	                }
+
+	                switch (result_val.listtransactions_status) {
+	                    case 'waiting':
+	                        tmp_listtransactions_lable_color = 'dark'
+	                        break;
+	                    case 'in progress':
+	                        tmp_listtransactions_lable_color = 'primary'
+	                        break;
+	                    case 'done':
+	                        tmp_listtransactions_lable_color = 'success'
+	                        break;
+	                    case 'NOT FOUND':
+	                        tmp_listtransactions_lable_color = 'danger'
+	                        break;
+	                }
+
+	                switch (result_val.getbalance_status) {
+	                    case 'waiting':
+	                        tmp_getbalance_lable_color = 'dark'
+	                        break;
+	                    case 'in progress':
+	                        tmp_getbalance_lable_color = 'primary'
+	                        break;
+	                    case 'done':
+	                        tmp_getbalance_lable_color = 'success'
+	                        break;
+	                    case 'NOT FOUND':
+	                        tmp_getbalance_lable_color = 'danger'
+	                        break;
+	                }
+
+	                switch (result_val.refresh_status) {
+	                    case 'waiting':
+	                        tmp_refresh_lable_color = 'dark'
+	                        break;
+	                    case 'in progress':
+	                        tmp_refresh_lable_color = 'primary'
+	                        break;
+	                    case 'done':
+	                        tmp_refresh_lable_color = 'success'
+	                        break;
+	                    case 'NOT FOUND':
+	                        tmp_refresh_lable_color = 'danger'
+	                        break;
+	                }
+
+	                
+	                BasiliskFetchData += '<tr>';
+	                BasiliskFetchData += '<td>'+ result_val.addr_value.substring(0,5) +'...</td>';
+	                BasiliskFetchData += '<td><span class="label label-'+tmp_listunspent_lable_color+' text-uppercase">'+result_val.listunspent_status+'</span></td>';
+	                BasiliskFetchData += '<td><span class="label label-'+tmp_listtransactions_lable_color+' text-uppercase">'+result_val.listtransactions_status+'</span></td>';
+	                BasiliskFetchData += '<td><span class="label label-'+tmp_getbalance_lable_color+' text-uppercase">'+result_val.getbalance_status+'</span></td>';
+	                BasiliskFetchData += '<td><span class="label label-'+tmp_refresh_lable_color+' text-uppercase">'+result_val.refresh_status+'</span></td>';
+	                BasiliskFetchData += '</tr>';
+	                $('.tbl_edexcoin_dashboard_basilisk_refresh_status tbody').html(BasiliskFetchData);
+	            })
+	        })
+	    }
+	    
+	})
+
+
 }

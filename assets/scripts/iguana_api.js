@@ -2239,8 +2239,9 @@ function Shepherd_FetchBasiliskData(req_data) {
 					'pubkey': session_pubkey
 				};
 
+    console.log(req_data)
     if (req_data.allcoins !== false ) {
-      var req_url = 'http://127.0.0.1:17777/shepherd/allcoins';
+      var req_url = 'http://127.0.0.1:17777/shepherd/cache-all';
     } else {
       var req_url = 'http://127.0.0.1:17777/shepherd/cache-one';
       ajax_data.coin = req_data.coin;
