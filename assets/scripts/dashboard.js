@@ -133,23 +133,32 @@ var Dashboard = function() {
 			$('#edexcoin_recieve_section').hide();
 			$('#edexcoin_settings').hide();
 
-			//Disabled dropdown list address in EasyDEX's main send option, as it's using sendtoaddress at the moment.
-			//This option can be enabled later for other section where user can select particular address to send funds from.
-			/*var edexcoin_addr_list_with_balance = EDEXlistunspent(active_edexcoin);
-			console.log(edexcoin_addr_list_with_balance);
-			var tmpoptions = '';
-			tmpoptions += '<option> - Select Address - </option>';
-			$.each(edexcoin_addr_list_with_balance, function(index) {
-				tmpoptions += '<option value="' + edexcoin_addr_list_with_balance[index].addr + '" data-total="' + edexcoin_addr_list_with_balance[index].total.toFixed(8) + '">[ ' + edexcoin_addr_list_with_balance[index].total.toFixed(8) + ' KMD ] &emsp;' + edexcoin_addr_list_with_balance[index].addr + '</option>';
-				$('#edexcoin_send_from').html(tmpoptions);
-			});
-
-			$('.showedexcoinaddrs').selectpicker({ style: 'btn-info' });
-			$('.showedexcoinaddrs').selectpicker('refresh');*/
-			//clearEdexSendFieldData();
-			$('.edexcoin-send-form')[0].reset();
 			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
 			var selected_coinmode = sessionStorage.getItem('edexTmpMode')
+
+			// This send from part is only enabled now for Basilisk coins except BTC and SYS.
+			if (selected_coinmode == 'Basilisk' && active_edexcoin !== 'BTC' && active_edexcoin !== 'SYS' ) {
+				$('.edexcoin_send_from_for_basilisk').show()
+				EDEXgetaddrbyaccount_cache(active_edexcoin).then(function(result){
+					//console.log(result)
+					edexcoin_addr_list_with_balance = result
+					console.log(edexcoin_addr_list_with_balance);
+					var tmpoptions = '';
+					tmpoptions += '<option> - Select Address - </option>';
+					$.each(edexcoin_addr_list_with_balance, function(index) {
+						tmpoptions += '<option value="' + edexcoin_addr_list_with_balance[index].addr + '" data-total="' + edexcoin_addr_list_with_balance[index].total + '">[ ' + edexcoin_addr_list_with_balance[index].total + ' KMD ] &emsp;' + edexcoin_addr_list_with_balance[index].addr + '</option>';
+						$('#edexcoin_send_from').html(tmpoptions);
+					});
+
+					$('.showedexcoinaddrs').selectpicker({ style: 'btn-info' });
+					$('.showedexcoinaddrs').selectpicker('refresh');
+				})
+			} else {
+				$('.edexcoin_send_from_for_basilisk').hide()
+			}
+
+			//clearEdexSendFieldData();
+			$('.edexcoin-send-form')[0].reset();
 			if ( selected_coinmode == 'Full' ) {
 				EDEXgetinfo(active_edexcoin).then(function(result) {
 					$('#edexcoin_fee').val(result.kbfee);
@@ -2013,10 +2022,10 @@ function EdexGetTxList(coin) {
 						var tmp_secondsToString = secondsToString(result_data[index].timestamp);
 
 						if ( result_data[index].type == 'sent' ) {
-							tmp_category = '<i class="icon fa-arrow-circle-left"></i> OUT';
+							tmp_category = '<span class="label label-danger"><i class="icon fa-arrow-circle-left"></i> OUT</span>';
 						}
 						if ( result_data[index].type == 'received' ) {
-							tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
+							tmp_category = '<span class="label label-success"><i class="icon fa-arrow-circle-right"></i> IN</span>';
 						}
 						if ( result_data[index].type == 'generate' ) {
 							tmp_category = '<i class="icon fa-cogs"></i> Mined';
@@ -2105,10 +2114,10 @@ function EdexGetTxList_cache(coin) {
 						var tmp_secondsToString = secondsToString(result_data[index].timestamp);
 
 						if ( result_data[index].type == 'sent' ) {
-							tmp_category = '<i class="icon fa-arrow-circle-left"></i> OUT';
+							tmp_category = '<span class="label label-danger"><i class="icon fa-arrow-circle-left"></i> OUT</span>';
 						}
 						if ( result_data[index].type == 'received' ) {
-							tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
+							tmp_category = '<span class="label label-success"><i class="icon fa-arrow-circle-right"></i> IN</span>';
 						}
 						if ( result_data[index].type == 'generate' ) {
 							tmp_category = '<i class="icon fa-cogs"></i> Mined';
