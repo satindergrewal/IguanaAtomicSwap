@@ -2383,7 +2383,7 @@ function EdexListAllAddr(coin) {
 	active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 
 	if (active_edexcoinmodecode == 'Basilisk' && coin !== 'BTC' && coin !== 'SYS') {
-		EDEXgetaddrbyaccount(coin).then(function(result) {
+		EDEXgetaddrbyaccount_cache(coin).then(function(result) {
 			console.log(result);
 			var only_reciving_addr_data = [];
 
@@ -2422,7 +2422,7 @@ function EdexListAllAddr(coin) {
 			NProgress.done();
 		});
 	} else if (active_edexcoinmodecode == 'Basilisk' ) {
-		EDEXgetaddrbyaccount_cache(coin).then(function(result){
+		EDEXgetaddrbyaccount(coin).then(function(result){
 			console.log(result);
 			var only_reciving_addr_data = [];
 
