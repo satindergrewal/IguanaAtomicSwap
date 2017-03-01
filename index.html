@@ -77,7 +77,7 @@
             <!--<button type="button" class="close white" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>-->
-            <h4 class="modal-title white"><span class="icon fa-refresh" style="margin: 0"></span> Refreshing Basilisk Network Connections... <span id="mdl_receive_coin_name"></span></h4>
+            <h4 class="modal-title white"><span class="icon fa-refresh" style="margin: 0"></span> <span data-lang="INDEX.REFRESHING_BASILISK_NET"></span>... <span id="mdl_receive_coin_name"></span></h4>
             <!--<span class="white">This is your default Iguana wallet address.</span>-->
           </div>
           <div class="modal-body" style="text-align: center">
@@ -137,13 +137,13 @@
               <button type="button" class="close white" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
               </button>
-              <h4 class="modal-title white">Select Coin to add to EasyDEX</h4>
+              <h4 class="modal-title white" data-lang="INDEX.SELECT_A_COIN"></h4>
             </div>
             <div class="modal-body">
               <div class="col-sm-8">
                 <div class="form-group">
                   <select class="form-control form-material" id="addcoin_select_coin_mdl_options">
-                    <option>-Select-</option>
+                    <option>-<span data-lang="INDEX.SELECT"></span>-</option>
                     <option value="BTC">Bitcoin</option>
                     <option value="BTCD">BitcoinDark</option>
                     <option value="LTC">Litecoin</option>
@@ -166,7 +166,7 @@
                 </div>
               </div>
               <div class="col-sm-4" style="text-align: center">
-              <button type="button" class="btn btn-primary mdl_addcoin_done_btn" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn">Activate Coin</button>
+              <button type="button" class="btn btn-primary mdl_addcoin_done_btn" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn" data-lang="INDEX.ACTIVATE_COIN"></button>
               </div>
               <div class="col-sm-12" style="text-align: center">
                 <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl">
@@ -180,9 +180,9 @@
                 </div>
               </div>
               <div class="col-sm-12" style="color: #333">
-              <p><strong>Full Mode:</strong> Adding a coin in Full mode will download its complete blockchain to your local machine. This is the most optimum mode for performance, but will require higher system requirements to have one or multiple coins running in Full mode on your local machine.</p>
-              <p><strong>Basilisk Mode:</strong> In Basilisk Mode, a coin will not download its Full blockchain to the local machine. This mode is best if you have less disk space on your machine, or your system has slower performance. It will be fully functional, but a bit slower to perform as compared to Full mode.</p>
-              <p><strong>Native Mode:</strong> This mode is ONLY available for KOMODO Coin, PAX FIAT Chains, Assetchains, and Geckochains. This mode uses the <strong>Komodo Daemon</strong> instead of the <i>Iguana Daemon</i> to query blockchain data.</p>
+              <p><strong><span data-lang="INDEX.FULL_MODE"></span>:</strong> <span data-lang="INDEX.FULL_MODE_DESC"></span>></p>
+              <p><strong><span data="INDEX.BASILISK_MODE"></span>:</strong> <span data-lang="INDEX.BASILISK_MODE_DESC"></span></p>
+              <p><strong><span data-lang="INDEX.NATIVE_MODE"></span>:</strong> This mode is ONLY available for KOMODO Coin, PAX FIAT Chains, Assetchains, and Geckochains. This mode uses the <strong>Komodo Daemon</strong> instead of the <i>Iguana Daemon</i> to query blockchain data.</p>
                 <div class="alert alert-icon alert-primary" role="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <i class="icon md-info-outline" aria-hidden="true"></i> <strong>Native Mode</strong> is the so far mode which will allow you to do <strong>Z Transactions</strong>, the <i>Private Transactions</i>.
@@ -325,18 +325,17 @@
 
       <!-- BEGIN section login add coin -->
       <div id="section-login-addcoin-btn">
-        <h4 style="color: #fff" id="login-welcome">Welcome. Please add coin to start.</h4>
+        <h4 style="color: #fff" id="login-welcome" data-lang="INDEX.WELCOME_PLEASE_ADD"></h4>
         <div class="form-group form-material floating" style="width: 540px; margin: 30px 0">
-        <button class="btn btn-lg btn-primary btn-block ladda-button" id="start-coin-login" role="menuitem" data-edexcoinmenu="COIN" data-target="#AddCoinDilogModel-login" data-toggle="modal" data-style="expand-left" data-plugin="ladda"><span class="ladda-label">Activate Coin</span></button>
+        <button class="btn btn-lg btn-primary btn-block ladda-button" id="start-coin-login" role="menuitem" data-edexcoinmenu="COIN" data-target="#AddCoinDilogModel-login" data-toggle="modal" data-style="expand-left" data-plugin="ladda"><span class="ladda-label" data-lang="INDEX.ACTIVATE_COIN"></span></button>
         </div>
       </div>
       <!-- END section login add coin -->
 
-
       <!-- BEGIN section register -->
       <div id="section-register" style="display: none">
       <form class="register-form" method="post" role="form" autocomplete="off" onsubmit="return false">
-        <h4 class="hint" style="color: #fff"> Please select compatible wallet seed type: </h4>
+        <h4 class="hint" style="color: #fff"><span data-lang="INDEX.SELECT_SEED_TYPE"></span>: </h4>
         <div class="form-group form-material floating">
           <div class="radio-custom radio-default radio-inline">
             <input type="radio" id="PassPhraseOptionsIguana" value="PassPhraseOptionsIguana" name="PassPhraseOptions" checked="">
@@ -487,7 +486,7 @@
                 </i>
             </a>
           </li>
-          <li class="active nav-top-menu"><a href="javascript:void(0)" id="nav-dashboard"><i class="site-menu-icon" aria-hidden="true"></i> Wallets</a></li>
+          <li class="active nav-top-menu"><a href="javascript:void(0)" id="nav-dashboard"><i class="site-menu-icon" aria-hidden="true"></i> <span data-lang="INDEX.WALLETS"></span></a></li>
           <li class="nav-top-menu"><a href="javascript:void(0)" id="nav-easydex"><i class="site-menu-icon" aria-hidden="true"></i> EasyDEX</a></li>
           <!--<li class="nav-top-menu"><a href="javascript:void(0)" id="nav-assetchains"><i class="site-menu-icon" aria-hidden="true"></i> Assetchains</a></li>
           <li class="nav-top-menu"><a href="javascript:void(0)" id="nav-pax"><i class="site-menu-icon" aria-hidden="true"></i> PAX</a></li>-->
@@ -2148,6 +2147,9 @@
     <script src="assets/scripts/kmd_wallet_dashboard.js"></script>
     <!-- End Native KMD Wallet Scripts -->
 
+    <script src="assets/scripts/lang.js"></script>
+    <script src="assets/scripts/lang/en.js"></script>
+
     <script type="text/javascript">
       (function(document, window, $) {
         'use strict';
@@ -2160,11 +2162,13 @@
           });
           socket.on('messages', function(data) {
             console.log(data);
-          });      
+          });
+
+          lang();
         });
       })(document, window, jQuery);
 
-      jQuery(document).ready(function(){
+      jQuery(document).ready(function() {
         jQuery('.scrollbar-dynamic').scrollbar();
       });
       
