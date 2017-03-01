@@ -2409,6 +2409,8 @@ function EdexListAllAddr(coin) {
 
 
 function ShowBasiliskFetchDataProgress(coin) {
+	var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode')
+
 	Shepherd_GetBasiliskCache().then(function(result){
 	    var _data = JSON.parse(result)
 	    var query = _data.result.basilisk
@@ -2576,6 +2578,12 @@ function ShowBasiliskFetchDataProgress(coin) {
 	                BasiliskFetchData += '<td><span class="label label-'+tmp_refresh_lable_color+' text-uppercase">'+result_val.refresh_status+'</span></td>';
 	                BasiliskFetchData += '</tr>';
 	                $('.tbl_edexcoin_dashboard_basilisk_refresh_status tbody').html(BasiliskFetchData);
+
+	                if (result[result.length-1] == result_val && result_val.listtransactions_status !== 'done' && result_val.getbalance_status !== 'done' ) {
+	                    $('#edexcoin_dashboard_basilisk_refresh_status').show()
+	                } else {
+	                    $('#edexcoin_dashboard_basilisk_refresh_status').hide()
+	                }
 	            })
 	        })
 	    }
