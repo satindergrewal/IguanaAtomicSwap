@@ -275,7 +275,7 @@ function Iguana_addcoinLogin(addcoin_data) {
 				return new Promise(function(resolve, reject) {
 					Shepherd_herd('komodod', {
 						'ac_name': 'komodod',
-						'ac_options': [ '-addnode=78.47.196.146' ]
+						'ac_options': [ '-daemon=0', '-addnode=78.47.196.146' ]
 					});
 					var result = 'startcoin: DONE';
 					console.log(result);
@@ -321,6 +321,7 @@ function Iguana_addcoinLogin(addcoin_data) {
 					Shepherd_herd('SUPERNET', {
 						'ac_name': 'SUPERNET',
 						'ac_options': [
+                            '-daemon=0',
 							'-server',
 							'-ac_name=SUPERNET',
 							'-addnode=78.47.196.146'
@@ -529,10 +530,10 @@ function Iguana_addcoin(addcoin_data) {
 					Shepherd_herd('komodod', {
 						'ac_name': 'komodod',
 						'ac_options': [
+                            '-daemon=0',
 							'-addnode=78.47.196.146'
 						]
 					});
-
 					var result = 'startcoin: DONE';
 					console.log(result);
 					resolve(result);
@@ -631,7 +632,8 @@ function Iguana_addcoin(addcoin_data) {
 					Shepherd_herd('SUPERNET', {
 						'ac_name': 'SUPERNET',
 						'ac_options': [
-							'-server',
+							'-daemon=0',
+                            '-server',
 							'-ac_name=SUPERNET',
 							'-addnode=78.47.196.146'
 						]
@@ -683,7 +685,8 @@ function Iguana_addcoin(addcoin_data) {
 					Shepherd_herd('REVS', {
 						'ac_name': 'REVS',
 						'ac_options': [
-							'-server',
+							'-daemon=0',
+                            '-server',
 							'-ac_name=REVS',
 							'-addnode=78.47.196.146'
 						]
@@ -736,6 +739,7 @@ function Iguana_addcoin(addcoin_data) {
                     Shepherd_herd('WIRELESS', {
                         'ac_name': 'WIRELESS',
                         'ac_options': [
+                            '-daemon=0',
                             '-server',
                             '-ac_name=WIRELESS',
                             '-addnode=78.47.196.146'
@@ -808,6 +812,7 @@ function Iguana_addcoin(addcoin_data) {
                     Shepherd_herd('USD', {
                         'ac_name': 'USD',
                         'ac_options': [
+                            '-daemon=0',
                             '-server',
                             '-ac_name=USD',
                             '-addnode=78.47.196.146'
