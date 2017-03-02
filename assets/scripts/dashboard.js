@@ -133,23 +133,37 @@ var Dashboard = function() {
 			$('#edexcoin_recieve_section').hide();
 			$('#edexcoin_settings').hide();
 
-			//Disabled dropdown list address in EasyDEX's main send option, as it's using sendtoaddress at the moment.
-			//This option can be enabled later for other section where user can select particular address to send funds from.
-			/*var edexcoin_addr_list_with_balance = EDEXlistunspent(active_edexcoin);
-			console.log(edexcoin_addr_list_with_balance);
-			var tmpoptions = '';
-			tmpoptions += '<option> - Select Address - </option>';
-			$.each(edexcoin_addr_list_with_balance, function(index) {
-				tmpoptions += '<option value="' + edexcoin_addr_list_with_balance[index].addr + '" data-total="' + edexcoin_addr_list_with_balance[index].total.toFixed(8) + '">[ ' + edexcoin_addr_list_with_balance[index].total.toFixed(8) + ' KMD ] &emsp;' + edexcoin_addr_list_with_balance[index].addr + '</option>';
-				$('#edexcoin_send_from').html(tmpoptions);
-			});
-
-			$('.showedexcoinaddrs').selectpicker({ style: 'btn-info' });
-			$('.showedexcoinaddrs').selectpicker('refresh');*/
-			//clearEdexSendFieldData();
-			$('.edexcoin-send-form')[0].reset();
 			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
 			var selected_coinmode = sessionStorage.getItem('edexTmpMode')
+
+			// This send from part is only enabled now for Basilisk coins except BTC and SYS.
+			if (selected_coinmode == 'Basilisk' && active_edexcoin !== 'BTC' && active_edexcoin !== 'SYS' ) {
+				$('.edexcoin_send_from_for_basilisk').show()
+				EDEXgetaddrbyaccount_cache(active_edexcoin).then(function(result){
+					//console.log(result)
+					edexcoin_addr_list_with_balance = result
+					console.log(edexcoin_addr_list_with_balance);
+					var tmpoptions = '';
+					tmpoptions += '<option> - Select Address - </option>';
+					$.each(edexcoin_addr_list_with_balance, function(index) {
+						tmpoptions += '<option value="' + edexcoin_addr_list_with_balance[index].addr + '" data-total="' + edexcoin_addr_list_with_balance[index].total + '">[ ' + edexcoin_addr_list_with_balance[index].total + ' KMD ] &emsp;' + edexcoin_addr_list_with_balance[index].addr + '</option>';
+						$('#edexcoin_send_from').html(tmpoptions);
+					});
+
+					$('.showedexcoinaddrs').selectpicker({ style: 'btn-info' });
+					$('.showedexcoinaddrs').selectpicker('refresh');
+					
+					$('.edexcoin_send_coins_btn_step1').addClass('disabled');
+					$('.edexcoin_send_coins_btn_step1').attr('disabled','disabled');
+				})
+			} else {
+				$('.edexcoin_send_from_for_basilisk').hide()
+				$('.edexcoin_send_coins_btn_step1').removeClass('disabled');
+				$('.edexcoin_send_coins_btn_step1').removeAttr('disabled');
+			}
+
+			//clearEdexSendFieldData();
+			$('.edexcoin-send-form')[0].reset();
 			if ( selected_coinmode == 'Full' ) {
 				EDEXgetinfo(active_edexcoin).then(function(result) {
 					$('#edexcoin_fee').val(result.kbfee);
@@ -159,7 +173,19 @@ var Dashboard = function() {
 
 		$('.showedexcoinaddrs').on('change', function() {
 			var selected = $(this).find('option:selected').val();
+			//console.log(selected)
 		});
+
+		$('#edexcoin_send_from').change(function() {
+			if ($('#edexcoin_send_from').val() !== '' || $('#edexcoin_send_from').val() !== '- Select Address -') {
+				$('.edexcoin_send_coins_btn_step1').removeClass('disabled');
+				$('.edexcoin_send_coins_btn_step1').removeAttr('disabled');
+			}
+			if ($('#edexcoin_send_from').val() === '' || $('#edexcoin_send_from').val() === '- Select Address -') {
+				$('.edexcoin_send_coins_btn_step1').addClass(' disabled');
+				$('.edexcoin_send_coins_btn_step1').attr('disabled','disabled');
+			}
+		})
 
 		$('#edexcoin_amount').keyup(function() {
 			var sum_val1 = parseFloat($('#edexcoin_amount').val()),
@@ -168,19 +194,6 @@ var Dashboard = function() {
 					mdl_send_btn = $('#edexcoin_send_coins_btn');
 
 			$('#edexcoin_total_value').text(total_minus_currency_fee.toFixed(8));
-
-			if ($('#edexcoin_send_from').val() != '- Select Transparent or Private KMD Address -' &&
-					$('#edexcoin_amount').val() != '' &&
-					$('#edexcoin_sendto') != '' &&
-					$('#edexcoin_fee') != '' ) {
-				mdl_send_btn.removeClass('disabled');
-				//mdl_send_btn.attr('data-dismiss','modal');
-				//mdl_send_btn.attr('data-target','#SendCoinModelStep2');
-			} else {
-				mdl_send_btn.addClass('disabled');
-				mdl_send_btn.removeAttr('data-dismiss');
-				mdl_send_btn.removeAttr('data-target');
-			}
 		});
 
 		$('#edexcoin_fee').keyup(function() {
@@ -192,18 +205,7 @@ var Dashboard = function() {
 			//console.log($('#edexcoin_amount').val());
 			$('#edexcoin_total_value').text(total_minus_currency_fee.toFixed(8));
 
-			if ($('#edexcoin_send_from').val() != '- Select Transparent or Private KMD Address -' &&
-					$('#edexcoin_amount').val() != '' &&
-					$('#edexcoin_sendto') != '' &&
-					$('#edexcoin_fee') != '' ) {
-				mdl_send_btn.removeClass('disabled');
-				//mdl_send_btn.attr('data-dismiss','modal');
-				//mdl_send_btn.attr('data-target','#SendCoinModelStep2');
-			} else {
-				mdl_send_btn.addClass('disabled');
-				mdl_send_btn.removeAttr('data-dismiss');
-				mdl_send_btn.removeAttr('data-target');
-			}
+			
 		});
 
 		edexcoin_send_form_validator = $('.edexcoin-send-form').validate({
@@ -255,11 +257,20 @@ var Dashboard = function() {
 											'</div>'
 				});
 				NProgress.start();
+				
+				var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
+				var selected_coinmode = sessionStorage.getItem('edexTmpMode')
 
 				console.log('Sent control here after clicked in form...');
-				EDEXMainAddr($('[data-edexcoin]').attr('data-edexcoin')).then(function(result) {
-					$('#mdl_confirm_currency_sendfrom_addr').text(result);
-				});
+				
+				if (selected_coinmode == 'Basilisk' && active_edexcoin !== 'BTC' && active_edexcoin !== 'SYS' ) {
+					$('#mdl_confirm_currency_sendfrom_addr').text($('#edexcoin_send_from').val());
+				} else {
+					EDEXMainAddr($('[data-edexcoin]').attr('data-edexcoin')).then(function(result) {
+						$('#mdl_confirm_currency_sendfrom_addr').text(result);
+					});
+				}
+				
 				$('#mdl_confirm_currency_sendto_addr').text($('#edexcoin_sendto').val());
 				$('#mdl_confirm_currency_send_amount').text($('#edexcoin_amount').val());
 				$('#mdl_confirm_currency_coinname').text($('[data-edexcoin]').attr('data-edexcoin'));
@@ -271,9 +282,11 @@ var Dashboard = function() {
 				console.log('==> Before confirming tx to send');
 				console.log($('[data-edexcoin]').attr('data-edexcoin'));
 				console.log($('#edexcoin_sendto').val());
+				console.log($('#mdl_confirm_currency_sendfrom_addr').text());
 				console.log($('#edexcoin_total_value').text());
 
 				var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin'),
+						tmp_send_from_addr = $('#edexcoin_send_from').val()
 						tmp_send_to_addr = $('#edexcoin_sendto').val(),
 						tmp_send_total_amount = $('#edexcoin_total_value').text();
 				$('#edexcoin-send-screen').hide();
@@ -290,9 +303,11 @@ var Dashboard = function() {
 			$('#edexcoin_send_coins_btn').prop('disabled', true);
 			console.log('==> After confirming tx to send')
 			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin'),
+					tmp_send_from_addr = $('#edexcoin_send_from').val()
 					tmp_send_to_addr = $('#edexcoin_sendto').val(),
 					tmp_send_total_amount = $('#edexcoin_total_value').text();
 			console.log(active_edexcoin);
+			console.log(tmp_send_from_addr);
 			console.log(tmp_send_to_addr);
 			console.log(tmp_send_total_amount);
 
@@ -2013,10 +2028,10 @@ function EdexGetTxList(coin) {
 						var tmp_secondsToString = secondsToString(result_data[index].timestamp);
 
 						if ( result_data[index].type == 'sent' ) {
-							tmp_category = '<i class="icon fa-arrow-circle-left"></i> OUT';
+							tmp_category = '<span class="label label-danger"><i class="icon fa-arrow-circle-left"></i> OUT</span>';
 						}
 						if ( result_data[index].type == 'received' ) {
-							tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
+							tmp_category = '<span class="label label-success"><i class="icon fa-arrow-circle-right"></i> IN</span>';
 						}
 						if ( result_data[index].type == 'generate' ) {
 							tmp_category = '<i class="icon fa-cogs"></i> Mined';
@@ -2105,10 +2120,10 @@ function EdexGetTxList_cache(coin) {
 						var tmp_secondsToString = secondsToString(result_data[index].timestamp);
 
 						if ( result_data[index].type == 'sent' ) {
-							tmp_category = '<i class="icon fa-arrow-circle-left"></i> OUT';
+							tmp_category = '<span class="label label-danger"><i class="icon fa-arrow-circle-left"></i> OUT</span>';
 						}
 						if ( result_data[index].type == 'received' ) {
-							tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
+							tmp_category = '<span class="label label-success"><i class="icon fa-arrow-circle-right"></i> IN</span>';
 						}
 						if ( result_data[index].type == 'generate' ) {
 							tmp_category = '<i class="icon fa-cogs"></i> Mined';
@@ -2370,7 +2385,7 @@ function EdexListAllAddr(coin) {
 	active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 
 	if (active_edexcoinmodecode == 'Basilisk' && coin !== 'BTC' && coin !== 'SYS') {
-		EDEXgetaddrbyaccount(coin).then(function(result) {
+		EDEXgetaddrbyaccount_cache(coin).then(function(result) {
 			console.log(result);
 			var only_reciving_addr_data = [];
 
@@ -2409,7 +2424,7 @@ function EdexListAllAddr(coin) {
 			NProgress.done();
 		});
 	} else if (active_edexcoinmodecode == 'Basilisk' ) {
-		EDEXgetaddrbyaccount_cache(coin).then(function(result){
+		EDEXgetaddrbyaccount(coin).then(function(result){
 			console.log(result);
 			var only_reciving_addr_data = [];
 
@@ -2674,6 +2689,4 @@ function ShowBasiliskFetchDataProgress(coin) {
 	    }
 	    
 	})
-
-
 }
