@@ -275,7 +275,7 @@ function Iguana_addcoinLogin(addcoin_data) {
 				return new Promise(function(resolve, reject) {
 					Shepherd_herd('komodod', {
 						'ac_name': 'komodod',
-						'ac_options': [ '-addnode=78.47.196.146' ]
+						'ac_options': [ '-daemon=0', '-addnode=78.47.196.146' ]
 					});
 					var result = 'startcoin: DONE';
 					console.log(result);
