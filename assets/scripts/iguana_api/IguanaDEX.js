@@ -374,6 +374,30 @@ function Iguana_DEXValidateAddr(coin, addr) {
 	return result;
 }
 
+function Iguana_DEXsendrawtx(data) {
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+        ajax_data = {
+                        'userpass': tmpIguanaRPCAuth,
+                        'agent': 'dex',
+                        'method': 'sendrawtransaction',
+                        'signedtx': data.signedtx,
+                        'symbol': data.coin
+                    }
+    return new Promise((resolve) => {
+        console.log(ajax_data);
+        $.ajax({
+            data: JSON.stringify(ajax_data),
+            url: 'http://127.0.0.1:7778',
+            type: 'POST',
+            dataType: 'json'
+        }).then(result => {
+            console.log(result);
+            resolve(result);
+        });
+    })
+
+}
+
 function EDEX_DEXlistunspent(coin, addr) {
 	NProgress.done(true);
 	NProgress.configure({

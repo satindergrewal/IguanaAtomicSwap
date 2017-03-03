@@ -38,19 +38,25 @@ function Iguana_activehandle(callback) {
 					'userpass': tmpIguanaRPCAuth,
 					'agent': 'SuperNET',
 					'method': 'activehandle'
-				},
-				AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778', ajax_data).done(function(data) {
-					AjaxOutputData = AjaxOutputData && AjaxOutputData.responseText ? JSON.parse(AjaxOutputData.responseText) : '';
-					resolve(AjaxOutputData);
-				}).fail(function(xhr, textStatus, error) {
-					// handle request failures
-					console.log(xhr.statusText);
-					if ( xhr.readyState == 0 ) {
-						Iguana_ServiceUnavailable();
-					}
-					console.log(textStatus);
-					console.log(error);
-				});
+				};
+
+                $.ajax({
+                    data: JSON.stringify(ajax_data),
+                    url: 'http://127.0.0.1:7778',
+                    type: 'POST',
+                    dataType: 'json'
+                }).then(result => {
+                    //console.log(result);
+                    resolve(result);
+                }).fail(function(xhr, textStatus, error) {
+                    // handle request failures
+                    console.log(xhr.statusText);
+                    if ( xhr.readyState == 0 ) {
+                        Iguana_ServiceUnavailable();
+                    }
+                    console.log(textStatus);
+                    console.log(error);
+                });
 	});
 }
 

@@ -18,7 +18,7 @@ var Dashboard = function() {
 		'hideEasing': 'linear',
 		'showMethod': 'fadeIn',
 		'hideMethod': 'fadeOut'
-	}
+	};
 
 	var handle_edex_wallet = function() {
 		$('#btn_edexcoin_wallet_dashboard').click(function() {
