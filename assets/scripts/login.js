@@ -49,7 +49,9 @@ var Login = function() {
       },
 
       submitHandler: function(form) {
-        Iguana_Jumblr_SetPassphrase({'passphrase':$('#password').val()}).then(function(result){
+        var jumblr_setpassphrase_val = 'jumblr '+$('#password').val()
+        console.log(jumblr_setpassphrase_val)
+        Iguana_Jumblr_SetPassphrase({'passphrase':jumblr_setpassphrase_val}).then(function(result){
           console.log(result)
         }).then(function(){
           var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
