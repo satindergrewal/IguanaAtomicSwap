@@ -52,31 +52,32 @@
     <!--<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>-->
     <!--[if lt IE 9]>
       <script src="assets/global/vendor/html5shiv/html5shiv.min.js"></script>
-      <![endif]-->
+    <![endif]-->
     <!--[if lt IE 10]>
       <script src="assets/global/vendor/media-match/media.match.min.js"></script>
       <script src="assets/global/vendor/respond/respond.min.js"></script>
-      <![endif]-->
+    <![endif]-->
 
     <!-- Scripts -->
-    <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
+    <script>
+    	if (typeof module === 'object') {
+    		window.module = module;
+    		module = undefined;
+    		}
+    </script>
     <script src="assets/global/vendor/modernizr/modernizr.min.js"></script>
     <script src="assets/global/vendor/breakpoints/breakpoints.min.js"></script>
     <script>if (window.module) module = window.module;</script>
   </head>
-<body class="page-login layout-full page-dark">
-
-<!-- START ADD COIN DIV -->
-    <div>
+	<body class="page-login layout-full page-dark">
+	<!-- START ADD COIN DIV -->
+  <div>
     <!-- Modal -->
     <div class="modal fade modal-3d-sign" id="RefreshBasiliskConnectionsMdl" aria-hidden="false" role="dialog"
     tabindex="-1">
       <div class="modal-dialog modal-center modal-md">
         <div class="modal-content">
           <div class="modal-header bg-orange-a400 wallet-send-header" style="border-radius: 3px 3px 0 0">
-            <!--<button type="button" class="close white" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>-->
             <h4 class="modal-title white"><span class="icon fa-refresh" style="margin: 0"></span> <span data-lang="INDEX.REFRESHING_BASILISK_NET"></span>... <span id="mdl_receive_coin_name"></span></h4>
             <!--<span class="white">This is your default Iguana wallet address.</span>-->
           </div>
@@ -143,7 +144,7 @@
               <div class="col-sm-8">
                 <div class="form-group">
                   <select class="form-control form-material" id="addcoin_select_coin_mdl_options">
-                    <option>-<span data-lang="INDEX.SELECT"></span>-</option>
+                    <option data-lang="INDEX.SELECT"></option>
                     <option value="BTC">Bitcoin</option>
                     <option value="BTCD">BitcoinDark</option>
                     <option value="LTC">Litecoin</option>
@@ -180,12 +181,12 @@
                 </div>
               </div>
               <div class="col-sm-12" style="color: #333">
-              <p><strong><span data-lang="INDEX.FULL_MODE"></span>:</strong> <span data-lang="INDEX.FULL_MODE_DESC"></span>></p>
-              <p><strong><span data="INDEX.BASILISK_MODE"></span>:</strong> <span data-lang="INDEX.BASILISK_MODE_DESC"></span></p>
-              <p><strong><span data-lang="INDEX.NATIVE_MODE"></span>:</strong> This mode is ONLY available for KOMODO Coin, PAX FIAT Chains, Assetchains, and Geckochains. This mode uses the <strong>Komodo Daemon</strong> instead of the <i>Iguana Daemon</i> to query blockchain data.</p>
-                <div class="alert alert-icon alert-primary" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <i class="icon md-info-outline" aria-hidden="true"></i> <strong>Native Mode</strong> is the so far mode which will allow you to do <strong>Z Transactions</strong>, the <i>Private Transactions</i>.
+	              <p><strong><span data-lang="INDEX.FULL_MODE"></span>:</strong> <span data-lang="INDEX.FULL_MODE_DESC"></span>></p>
+	              <p><strong><span data="INDEX.BASILISK_MODE"></span>:</strong> <span data-lang="INDEX.BASILISK_MODE_DESC"></span></p>
+	              <p><strong><span data-lang="INDEX.NATIVE_MODE"></span>:</strong> <span data-lang="INDEX.NATIVE_MODE_DESC1"></span> <strong>Komodo Daemon</strong> <span data-lang="INDEX.NATIVE_MODE_DESC2"></span> <i>Iguana Daemon</i> <span data-lang="INDEX.NATIVE_MODE_DESC3"></span>.</p>
+	                <div class="alert alert-icon alert-primary" role="alert">
+	                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+	                <i class="icon md-info-outline" aria-hidden="true"></i> <strong data-lang="INDEX.NATIVE_MODE"></strong> <span data-lang="INDEX.NATIVE_MODE_DESC4"></span> <strong data-lang="INDEX.NATIVE_MODE_DESC5"></strong>, <i data-lang="INDEX.NATIVE_MODE_DESC5"></i>.
                 </div>
               </div>
             </div>
@@ -202,8 +203,7 @@
     <![endif]-->
   <!-- BEGIN Login Page -->
   <div id="wallet-login">
-  <div class="page animsition vertical-align text-center" data-animsition-in="fade-in"
-  data-animsition-out="fade-out">
+  <div class="page animsition vertical-align text-center" data-animsition-in="fade-in" data-animsition-out="fade-out">
     <div class="page-content vertical-align-middle">
       <div class="brand">
         <img class="brand-img" src="assets/images/easydex-logo-big.png" alt="SuperNET Iguana">
@@ -213,17 +213,17 @@
           <!-- Example Panel Alert -->
           <div class="panel">
             <div class="panel-heading">
-              <h3 class="panel-title">Uh Oh! Unsupported Web Browser :-(</h3>
+              <h3 class="panel-title" data-lang="INDEX.UNSUPPORTED_BROWSER"></h3>
             </div>
             <div class="alert alert-danger alert-dismissible" role="alert">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
-                <span class="sr-only">Close</span>
+                <span class="sr-only" data-lang="INDEX.CLOSE">Close</span>
               </button>
-              The current version of EasyDEX-GUI doesn't support Internet Explorer.
+              <span data-lang="INDEX.IE_UNSUPPORTED"></span>
             </div>
             <div class="panel-body">
-              <p style="color: #424242">Please use either <a href="https://www.google.com/chrome/">Google Chrome</a> or <a href="https://www.firefox.com">Mozilla FireFox</a> to use EasyDEX-GUI. Please click on browser's logo to visit website for installation instructions.</p>
+              <p style="color: #424242"><span data-lang="INDEX.PLEASE_USE"></span> <a href="https://www.google.com/chrome/">Google Chrome</a> <span data-lang="INDEX.OR"></span> <a href="https://www.firefox.com">Mozilla FireFox</a> <span data-lang="INDEX.TO_USE"></span> EasyDEX-GUI. <span data-lang="INDEX.PLEASE_CLICK_ON"></span>.</p>
               <div class="col-sm-6 col-xs-6">
                 <a href="https://www.google.com/chrome/"><img class="brand-img" src="assets/images/browsers/chrome.png" alt="Google Chrome"></a>
               </div>
@@ -237,16 +237,16 @@
       <!-- END IE Warning -->
       <!-- BEGIN section login -->
       <div id="section-login" style="display: none">
-      <h4 style="color: #fff" id="login-welcome">Welcome. Please login.</h4>
+      <h4 style="color: #fff" id="login-welcome" data-lang="INDEX.WELCOME_LOGIN"></h4>
       <form class="login-form" method="post" action="javascript:" autocomplete="off" onsubmit="return false">
         <div class="form-group form-material floating">
           <input type="password" class="form-control" name="password" id="password">
-          <label class="floating-label" for="inputPassword">Wallet Seed</label>
+          <label class="floating-label" for="inputPassword" data-lang="INDEX.WALLET_SEED"></label>
         </div>
-        <button type="submit" class="btn btn-primary btn-block" id="loginbtn">Sign in</button>
+        <button type="submit" class="btn btn-primary btn-block" id="loginbtn" data-lang="INDEX.SIGN_IN"></button>
         <div class="form-group form-material floating">
-          <button class="btn btn-lg btn-flat btn-block waves-effect" id="register-btn">Create new wallet</button>
-          <button class="btn btn-lg btn-flat btn-block waves-effect" id="logint-another-wallet">Login to another wallet</button>
+          <button class="btn btn-lg btn-flat btn-block waves-effect" id="register-btn" data-lang="INDEX.CREATE_WALLET"></button>
+          <button class="btn btn-lg btn-flat btn-block waves-effect" id="logint-another-wallet" data-lang="INDEX.LOGIN_ANOTHER_WALLET"></button>
         </div>
         <!-- START ADVANCED OPTIONS TO SELECT COINS -->
         <!--<div class="form-group form-material row" id="logincoinslist">-->
@@ -339,7 +339,7 @@
         <div class="form-group form-material floating">
           <div class="radio-custom radio-default radio-inline">
             <input type="radio" id="PassPhraseOptionsIguana" value="PassPhraseOptionsIguana" name="PassPhraseOptions" checked="">
-            <label for="PassPhraseOptionsIguana">Iguana (256bits)</label>
+            <label for="PassPhraseOptionsIguana">Iguana (256 bits)</label>
           </div>
           <div class="radio-custom radio-default radio-inline">
             <input type="radio" id="PassPhraseOptionsWaves" value="PassPhraseOptionsWaves" name="PassPhraseOptions">
@@ -352,11 +352,11 @@
         </div>
         <div class="form-group form-material floating">
           <textarea class="form-control placeholder-no-fix" type="text" placeholder="" name="walletseed" id="walletseed" style="height: 100px"></textarea>
-          <label class="floating-label" for="walletseed">Wallet Seed</label>
+          <label class="floating-label" for="walletseed" data-lang="INDEX.WALLET_SEED"></label>
         </div>
         <div class="form-group form-material floating">
           <textarea class="form-control placeholder-no-fix" type="text" placeholder="" name="rwalletseed" id="rwalletseed" style="height: 100px"></textarea>
-          <label class="floating-label" for="rwalletseed">Confirm Wallet Seed</label>
+          <label class="floating-label" for="rwalletseed" data-lang="INDEX.CONFIRM_SEED"></label>
         </div>
         <!--<h4 class="hint" style="color: #fff"> Please enter password for new wallet: </h4>
         <div class="form-group form-material floating">
@@ -367,9 +367,9 @@
           <input type="text" class="form-control" id="rpassword" name="rpassword">
           <label class="floating-label" for="rpassword">Retype Password</label>
         </div>-->
-        <button type="submit" id="register-submit-btn" class="btn btn-primary btn-block">Register</button>
+        <button type="submit" id="register-submit-btn" class="btn btn-primary btn-block" data-lang="INDEX.REGISTER"></button>
         <div class="form-group form-material floating">
-          <button class="btn btn-lg btn-flat btn-block waves-effect" id="register-back-btn">Back to Login</button>
+          <button class="btn btn-lg btn-flat btn-block waves-effect" id="register-back-btn" data-lang="INDEX.BACK_TO_LOGIN"></button>
         </div>
       </form>
       </div>
@@ -377,7 +377,6 @@
     </div>
   </div>
   </div>
-
 
       <!-- Modal -->
       <div class="modal fade modal-3d-sign" id="AddCoinDilogModel-login" aria-hidden="true" aria-labelledby="AddCoinDilogModel-login" role="dialog" tabindex="-1">
@@ -387,13 +386,13 @@
               <button type="button" class="close white" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
               </button>
-              <h4 class="modal-title white">Select Coin to add to EasyDEX</h4>
+              <h4 class="modal-title white" data-lang="INDEX.SELECT_A_COIN"></h4>
             </div>
             <div class="modal-body">
               <div class="col-sm-8">
                 <div class="form-group">
                   <select class="form-control form-material" id="addcoin_select_coin_mdl_options-login">
-                    <option>-Select-</option>
+                    <option data-lang="INDEX.SELECT"></option>
                     <option value="BTC">Bitcoin</option>
                     <option value="BTCD">BitcoinDark</option>
                     <option value="LTC">Litecoin</option>
@@ -417,7 +416,7 @@
                 </div>
               </div>
               <div class="col-sm-4" style="text-align: center">
-              <button type="button" class="btn btn-primary mdl_addcoin_done_btn-login" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn-login">Activate Coin</button>
+              <button type="button" class="btn btn-primary mdl_addcoin_done_btn-login" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn-login" data-lang="INDEX.ACTIVATE_COIN"></button>
               </div>
               <div class="col-sm-12 text-center">
                 <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login">
@@ -431,12 +430,12 @@
                 </div>
               </div>
               <div class="col-sm-12" style="color: #333">
-              <p><strong>Full Mode:</strong> Adding a coin in Full mode will download its complete blockchain to your local machine. This is the most optimum mode for performance, but will require higher system requirements to have one or multiple coins running in Full mode on your local machine.</p>
-              <p><strong>Basilisk Mode:</strong> In Basilisk Mode, a coin will not download its Full blockchain to the local machine. This mode is best if you have less disk space on your machine, or your system has slower performance. It will be fully functional, but a bit slower to perform as compared to Full mode.</p>
-              <p><strong>Native Mode:</strong> This mode is ONLY available for KOMODO Coin, PAX FIAT Chains, Assetchains, and Geckochains. This mode uses the <strong>Komodo Daemon</strong> instead of the <i>Iguana Daemon</i> to query blockchain data.</p>
-                <div class="alert alert-icon alert-primary" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <i class="icon md-info-outline" aria-hidden="true"></i> <strong>Native Mode</strong> is the so far mode which will allow you to do <strong>Z Transactions</strong>, the <i>Private Transactions</i>.
+              	<p><strong><span data-lang="INDEX.FULL_MODE"></span>:</strong> <span data-lang="INDEX.FULL_MODE_DESC"></span></p>
+	              <p><strong><span data-lang="INDEX.BASILISK_MODE"></span>:</strong> <span data-lang="INDEX.BASILISK_MODE_DESC"></span></p>
+	              <p><strong><span data-lang="INDEX.NATIVE_MODE"></span>:</strong> <span data-lang="INDEX.NATIVE_MODE_DESC1"></span> <strong>Komodo Daemon</strong> <span data-lang="INDEX.NATIVE_MODE_DESC2"></span> <i>Iguana Daemon</i> <span data-lang="INDEX.NATIVE_MODE_DESC3"></span>.</p>
+	                <div class="alert alert-icon alert-primary" role="alert">
+	                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+	                <i class="icon md-info-outline" aria-hidden="true"></i> <strong data-lang="INDEX.NATIVE_MODE"></strong> <span data-lang="INDEX.NATIVE_MODE_DESC4"></span> <strong data-lang="INDEX.NATIVE_MODE_DESC5"></strong>, <i data-lang="INDEX.NATIVE_MODE_DESC5"></i>.
                 </div>
               </div>
             </div>
@@ -448,14 +447,13 @@
     <!-- START ADD COIN DIV -->
   <!-- END Login Page -->
 
-
   <!-- BEGIN Wallet Core Pages -->
   <div id="wallet-core" style="display: none">
   <nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided"
       data-toggle="menubar">
-        <span class="sr-only">Toggle navigation</span>
+        <span class="sr-only" data-lang="INDEX.TOGGLE_NAV"></span>
         <span class="hamburger-bar"></span>
       </button>
       <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-collapse"
@@ -469,7 +467,7 @@
       </div>
       <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-search"
       data-toggle="collapse">
-        <span class="sr-only">Toggle Search</span>
+        <span class="sr-only" data-lang="INDEX.TOGGLE_SEARCH"></span>
         <i class="icon md-search" aria-hidden="true"></i>
       </button>
     </div>
@@ -481,7 +479,7 @@
           <li class="hidden-float" id="toggleMenubar" style="display: none">
             <a data-toggle="menubar" href="#" role="button">
               <i class="icon hamburger hamburger-arrow-left">
-                  <span class="sr-only">Toggle menubar</span>
+                  <span class="sr-only" data-lang="INDEX.TOGGLE_MENUBAR"></span>
                   <span class="hamburger-bar"></span>
                 </i>
             </a>
@@ -512,17 +510,17 @@
             </a>
             <ul class="dropdown-menu" role="menu">
               <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem" id="nav-iguana-wallet-settings"><i class="icon md-settings" aria-hidden="true"></i> Settings</a>
+                <a href="javascript:void(0)" role="menuitem" id="nav-iguana-wallet-settings"><i class="icon md-settings" aria-hidden="true"></i> <span data-lang="INDEX.SETTINGS"></span>></a>
               </li>
               <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem" id="nav-about-iguana"><i class="icon md-settings" aria-hidden="true"></i> About Iguana</a>
+                <a href="javascript:void(0)" role="menuitem" id="nav-about-iguana"><i class="icon md-settings" aria-hidden="true"></i> <span data-lang="INDEX.ABOUT_IGUANA"></span>></a>
               </li>
               <li class="divider" role="presentation"></li>
               <!--<li role="presentation">
                 <a href="javascript:void(0)" role="menuitem" id="lock-screen"><i class="icon md-lock" aria-hidden="true"></i> Lock Screen</a>
               </li>-->
               <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem" id="logout-account"><i class="icon md-power" aria-hidden="true"></i> Logout</a>
+                <a href="javascript:void(0)" role="menuitem" id="logout-account"><i class="icon md-power" aria-hidden="true"></i> <span data-lang="INDEX.LOGOUT"></span>></a>
               </li>
             </ul>
           </li>
@@ -538,7 +536,7 @@
         <li class="site-menu-item" id="nav-dashboard">
           <a class="animsition-link" href="javascript:">
             <i class="site-menu-icon md-view-dashboard" aria-hidden="true"></i>
-            <span class="site-menu-title">Dashboard</span>
+            <span class="site-menu-title" data-lang="INDEX.DASHBOARD"></span>
           </a>
         </li>
         <li class="site-menu-item" id="nav-easydex">
@@ -550,13 +548,13 @@
         <li class="site-menu-item" id="nav-komodo-wallet">
           <a class="animsition-link" href="javascript:">
             <i class="site-menu-icon" aria-hidden="true"><img src="assets/images/icons/komodo_icon_grey.png" alt="" style="width: 25px"></i>
-            <span class="site-menu-title">Komodo Wallet</span>
+            <span class="site-menu-title" data-lang="INDEX.KMD_WALLET"></span>
           </a>
         </li>
         <li class="site-menu-item" id="nav-zcash-wallet">
           <a class="animsition-link" href="javascript:">
             <i class="site-menu-icon" aria-hidden="true"><img src="assets/images/icons/zcash_icon_grey.png" alt="" style="width: 25px"></i>
-            <span class="site-menu-title">Zcash Wallet</span>
+            <span class="site-menu-title" data-lang="INDEX.ZC_WALLET"></span>
           </a>
         </li>
         <li class="site-menu-item" id="nav-iguana-atomic-explorer">
@@ -568,13 +566,13 @@
         <li class="site-menu-item" id="nav-iguana-wallet-settings">
           <a class="animsition-link" href="javascript:">
             <i class="site-menu-icon icon md-settings" aria-hidden="true"></i>
-            <span class="site-menu-title">Wallet Settings</span>
+            <span class="site-menu-title" data-lang="INDEX.WALLET_SETTINGS"></span>
           </a>
         </li>
         <li class="site-menu-item" id="nav-about-iguana">
           <a class="animsition-link" href="javascript:">
             <i class="site-menu-icon fa-info-circle" aria-hidden="true"></i>
-            <span class="site-menu-title">About Iguana</span>
+            <span class="site-menu-title" data-lang="INDEX.ABOUT_IGUANA"></span>
           </a>
         </li>
       </ul>
@@ -600,7 +598,7 @@
                 <input type="text" class="form-control" name="" placeholder="Search..." disabled>
               </div>
             </div>
-            <h3 class="panel-title">Active Coins</h3>
+            <h3 class="panel-title" data-lang="INDEX.ACTIVE_COINS"></h3>
           </div>
         </div>
         <!-- End Search Panel -->
@@ -626,7 +624,7 @@
     <div class="page-header page-header-bordered header-easydex" id="easydex-header-div">
       <h1 class="page-title">EasyDEX</h1>
       <ol class="breadcrumb">
-        <li class="header-easydex-section">Dashboard</li>
+        <li class="header-easydex-section" data-lang="INDEX.DASHBOARD"></li>
         <!--<li class="active">You are Here</li>-->
       </ol>
       <div class="page-header-actions" style="z-index: 1">
@@ -634,12 +632,12 @@
         <div id="kmd_header_button">
           <button type="button" id="easydex_kmd_wallet_actions_header" class="bg-teal-500 btn btn-floating white waves-effect waves-float waves-light" data-toggle="dropdown" aria-expanded="false" style="display: none"><i class="icon md-plus" aria-hidden="true"></i></button>
           <ul class="dropdown-menu animate dropdown-menu-right" aria-labelledby="easydex_kmd_wallet_actions_header" role="menu" style="">
-            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_dashboard">Dashboard</a></li>
-            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_send">Send</a></li>
-            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_recieve">Receive</a></li>
-            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_transactions">Transactions</a></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_dashboard" data-lang="INDEX.DASHBOARD"></a></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_send" data-lang="INDEX.SEND"></a></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_recieve" data-lang="INDEX.RECEIVE"></a></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_transactions" data-lang="INDEX.TRANSACTIONS"></a></li>
             <li class="divider" role="presentation"></li>
-            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_settings">Settings</a></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_settings" data-lang="INDEX.SETTINGS"></a></li>
           </ul>
         </div>
         <!-- End KMD Wallet Header button -->
@@ -647,12 +645,12 @@
         <div id="zec_header_button">
           <button type="button" id="easydex_zec_wallet_actions_header" class="bg-yellow-600 btn btn-floating white waves-effect waves-float waves-light" data-toggle="dropdown" aria-expanded="false" style="display: none"><i class="icon md-plus" aria-hidden="true"></i></button>
           <ul class="dropdown-menu animate dropdown-menu-right" aria-labelledby="easydex_zec_wallet_actions_header" role="menu" style="">
-            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="ZEC" id="btn_zec_wallet_dashboard">Dashboard</a></li>
-            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="ZEC" id="btn_zec_wallet_send">Send</a></li>
-            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="ZEC" id="btn_zec_wallet_recieve">Receive</a></li>
-            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="ZEC" id="btn_zec_wallet_transactions">Transactions</a></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="ZEC" id="btn_zec_wallet_dashboard" data-lang="INDEX.DASHBOARD"></a></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="ZEC" id="btn_zec_wallet_send" data-lang="INDEX.SEND"></a></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="ZEC" id="btn_zec_wallet_recieve" data-lang="INDEX.RECEIVE"></a></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="ZEC" id="btn_zec_wallet_transactions" data-lang="INDEX.TRANSACTIONS"></a></li>
             <li class="divider" role="presentation"></li>
-            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="ZEC" id="btn_zec_wallet_settings">Settings</a></li>
+            <li role="presentation"><a href="javascript:void(0)" role="menuitem" data-extcoin-menu="ZEC" id="btn_zec_wallet_settings" data-lang="INDEX.SETTINGS"></a></li>
           </ul>
         </div>
         <!-- End ZEC Wallet Header button -->
@@ -686,7 +684,7 @@
         <div class="row no-space " data-edexcoin="COIN">
           <div data-edexcoin="COIN" id="currency-progressbars" style="display: none">
             <div class="progress progress-sm">
-            <div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 0%; font-size: 80%" role="progressbar" data-edexcoin="COIN" id="currency-bundles">Bundles <span data-edexcoin="COIN" id="currency-bundles-percent">0%</span></div>
+            <div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 0%; font-size: 80%" role="progressbar" data-edexcoin="COIN" id="currency-bundles"><span data-lang="INDEX.BUNDLES"></span> <span data-edexcoin="COIN" id="currency-bundles-percent">0%</span></div>
             </div>
           </div>
           <div data-edexcoin="COIN" id="additional-progress-bars" style="display: none">
@@ -694,10 +692,10 @@
               <div class="progress-bar progress-bar-warning progress-bar-striped active" style="width: 0%; font-size: 80%" role="progressbar" data-edexcoin="COIN" id="currency-utxo">utxo <span data-edexcoin="COIN" id="currency-utxo-percent">0%</span></div>
             </div>
               <div class="progress progress-sm">
-              <div class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 0%; font-size: 80%" role="progressbar" data-edexcoin="COIN" id="currency-balances">Balances <span data-edexcoin="COIN" id="currency-balances-percent">0%</span></div>
+              <div class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 0%; font-size: 80%" role="progressbar" data-edexcoin="COIN" id="currency-balances"><span data-lang="INDEX.BALANCES"></span> <span data-edexcoin="COIN" id="currency-balances-percent">0%</span></div>
             </div>
               <div class="progress progress-sm">
-              <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: 0%; font-size: 80%" role="progressbar" data-edexcoin="COIN" id="currency-validated">Validated <span data-edexcoin="COIN" id="currency-validated-percent">0%</span></div>
+              <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: 0%; font-size: 80%" role="progressbar" data-edexcoin="COIN" id="currency-validated"><span data-lang="INDEX.VALIDATED"></span> <span data-edexcoin="COIN" id="currency-validated-percent">0%</span></div>
             </div>
           </div>
         </div><!-- END additional-progress-bars -->
@@ -709,21 +707,21 @@
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <span style="font-size:24px; text-align: center"><i class="icon fa-paw" aria-hidden="true"></i> NO WALLET SELECTED</span><br>Please select a wallet from active coins list on left</a>.
+          <span style="font-size:24px; text-align: center"><i class="icon fa-paw" aria-hidden="true"></i> <span data-lang="INDEX.NO_WALLET_CAPS"></span></span><br><span data-lang="INDEX.PLEASE_SELECT_A_WALLET"></span></a>.
         </div>
       </div>
 
     <!-- Begin page header -->
       <div class="page-header page-header-bordered header-easydex" id="header-dashboard" data-edexcoin="COIN" style="display: none">
       <ol class="breadcrumb" data-edexcoin="COIN">
-        <b>My <span data-edexcoin="COIN" id="edexcoin-active">-</span> Address: </b> <span data-edexcoin="COIN" id="edexcoin_active_addr">-</span> <button class="btn btn-default btn-xs clipboard-edexaddr" data-edexcoin="COIN" id="edexcoin_active_addr_clipboard" data-clipboard-text=""><i class="icon wb-copy" aria-hidden="true"></i> copy</button>
+        <b><span data-lang="INDEX.MY"></span> <span data-edexcoin="COIN" id="edexcoin-active">-</span> <span data-lang="INDEX.ADDRESS"></span>: </b> <span data-edexcoin="COIN" id="edexcoin_active_addr">-</span> <button class="btn btn-default btn-xs clipboard-edexaddr" data-edexcoin="COIN" id="edexcoin_active_addr_clipboard" data-clipboard-text=""><i class="icon wb-copy" aria-hidden="true"></i> <span data-lang="INDEX.COPY"></span></button>
       </ol>
       <div class="page-header-actions" data-edexcoin="COIN" id="edexcoin-actions">
         <!-- EasyDEX Coin Wallet Header button -->
         <div id="kmd_header_button">
-          <button type="button" class="btn btn-dark waves-effect waves-light" data-edexcoinmenu="COIN" id="btn_edexcoin_dashboard" style="display: none"><i class="icon md-view-dashboard" aria-hidden="true"></i> Dashboard</button>
-          <button type="button" class="btn btn-primary waves-effect waves-light" data-edexcoinmenu="COIN" id="btn_edexcoin_send"><i class="icon fa-send" aria-hidden="true"></i> Send</button>
-          <button type="button" class="btn btn-info waves-effect waves-light" data-edexcoinmenu="COIN" id="btn_edexcoin_recieve"><i class="icon fa-inbox" aria-hidden="true"></i> Receive</button>
+          <button type="button" class="btn btn-dark waves-effect waves-light" data-edexcoinmenu="COIN" id="btn_edexcoin_dashboard" style="display: none"><i class="icon md-view-dashboard" aria-hidden="true"></i> <span data-lang="INDEX.DASHBOARD"></span></button>
+          <button type="button" class="btn btn-primary waves-effect waves-light" data-edexcoinmenu="COIN" id="btn_edexcoin_send"><i class="icon fa-send" aria-hidden="true"></i> <span data-lang="INDEX.SEND"></span></button>
+          <button type="button" class="btn btn-info waves-effect waves-light" data-edexcoinmenu="COIN" id="btn_edexcoin_recieve"><i class="icon fa-inbox" aria-hidden="true"></i> <span data-lang="INDEX.RECEIVE"></span></button>
 
           <!--<button type="button" id="edexcoin_wallet_menu" class="btn btn-floating btn-primary btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="icon md-plus" aria-hidden="true"></i></button>
           <ul class="dropdown-menu animate dropdown-menu-right" aria-labelledby="edexcoin_wallet_menu" role="menu" style="">
@@ -749,22 +747,18 @@
           <div class="col-xs-12">
         <div role="alert" class="alert alert-info alert-dismissible" data-edexcoin="COIN" id="edexcoin-wallet-waitingrt-alert" style="display: none">
           <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
-          <h4>Activating wallet once Real Time blocks starts syncing...</h4>
-        <p data-edexcoin="COIN" id="edexcoin-wallet-waitingrt-alert-text">An Iguana Full Mode coin synchronizes the blockchain using an entirely different format than traditional blockchain software. Iguana's Full Mode uses Memory Mapped Files and stores data in bundles. That's why you see four different colored synchronizing progress bars.</p>
-
-      <p>Once all these progress bars reach 100%, the Real Time blocks start synchronizing. Only after the Real Time sync mode activates will you be able to see current data in your wallet and make any transactions.</p>
-
-        <p style="font-weight: 600">Please wait for all other progress bars to disappear and the first blue bar turns to green.<br>That would mean the wallet is in Real Time Sync mode.</p>
+          <h4 data-lang="INDEX.ACTIVATING_WALLET_RT"></h4>
+	        <p data-edexcoin="COIN" id="edexcoin-wallet-waitingrt-alert-text" data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P1"></p>
+		      <p data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P1"></p>
+	        <p style="font-weight: 600" data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P1"></p>
         </div>
 
         <div role="alert" class="alert alert-info alert-dismissible" data-edexcoin="COIN" id="edexcoin-wallet-waitingcache-alert" style="display: none">
           <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
-          <h4>Fetching coin data from network. Please wait...</h4>
-        <p data-edexcoin="COIN" id="edexcoin-wallet-waitingcache-alert-text">An Iguana Full Mode coin synchronizes the blockchain using an entirely different format than traditional blockchain software. Iguana's Full Mode uses Memory Mapped Files and stores data in bundles. That's why you see four different colored synchronizing progress bars.</p>
-
-      <p>Once all these progress bars reach 100%, the Real Time blocks start synchronizing. Only after the Real Time sync mode activates will you be able to see current data in your wallet and make any transactions.</p>
-
-        <p style="font-weight: 600">Please wait for all other progress bars to disappear and the first blue bar turns to green.<br>That would mean the wallet is in Real Time Sync mode.</p>
+          <h4 data-lang="INDEX.FETCHING_COIN_DATA"></h4>
+	        <p data-edexcoin="COIN" id="edexcoin-wallet-waitingcache-alert-text" data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P1"></p>
+		      <p data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P1"></p>
+	        <p style="font-weight: 600" data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P1"></p>
         </div>
 
         </div>
@@ -775,7 +769,7 @@
                 <div class="padding-20 padding-top-10">
                   <div class="clearfix">
                     <div class="pull-left padding-vertical-10">
-                      <i class="icon fa-eye font-size-24 vertical-align-bottom margin-right-5"></i>Balance
+                      <i class="icon fa-eye font-size-24 vertical-align-bottom margin-right-5"></i><span data-lang="INDEX.BALANCE"></span>
                     </div>
                     <span class="pull-right padding-top-10" data-edexcoin="COIN" style="font-size: 22px"><span data-edexcoin="COIN" id="edex_total_balance"></span> <span data-edexcoin="COIN" id="edex_total_balance_coincode"></span></span>
                   </div>
@@ -792,7 +786,7 @@
                 <div class="padding-20 padding-top-10">
                   <div class="clearfix">
                     <div class="pull-left padding-vertical-10">
-                      <i class="icon fa-money font-size-24 vertical-align-bottom margin-right-5"></i>Interest Earned
+                      <i class="icon fa-money font-size-24 vertical-align-bottom margin-right-5"></i><span data-lang="INDEX.INTEREST_EARNED"></span>
                     </div>
                     <span class="pull-right padding-top-10" data-edexcoin="COIN" style="font-size: 22px"><span data-edexcoin="COIN" id="edex_interest_balance"></span> <span data-edexcoin="COIN" id="edex_total_interest_coincode"></span></span>
                   </div>
@@ -809,7 +803,7 @@
                 <div class="padding-20 padding-top-10">
                   <div class="clearfix">
                     <div class="pull-left padding-vertical-10">
-                      <i class="icon fa-bullseye font-size-24 vertical-align-bottom margin-right-5"></i>Total Balance
+                      <i class="icon fa-bullseye font-size-24 vertical-align-bottom margin-right-5"></i><span data-lang="INDEX.TOTAL_BALANCE"></span>
                     </div>
                     <span class="pull-right padding-top-10" data-edexcoin="COIN" style="font-size: 22px"><span data-edexcoin="COIN" id="edex_total_balance_interest"></span> <span data-edexcoin="COIN" id="edex_total_balance_interest_coincode"></span></span>
                   </div>
@@ -828,7 +822,7 @@
           <!-- Panel Tasks -->
           <div class="panel">
             <div class="panel-heading">
-              <h3 class="panel-title">Fetching Basilisk Data...</h3>
+              <h3 class="panel-title" data-lang="INDEX.FETCHING_BASILISK_DATA"></h3>
               <div class="panel-actions">
                 <a class="panel-action icon md-refresh-alt" data-toggle="panel-refresh" data-load-type="blue-only" aria-hidden="true"></a>
               </div>
@@ -837,11 +831,11 @@
               <table class="table table-hover table-striped tbl_edexcoin_dashboard_basilisk_refresh_status">
                 <thead>
                   <tr>
-                    <th>Address</th>
-                    <th>List Unspent</th>
-                    <th>List Transactions</th>
-                    <th>Get Balance</th>
-                    <th>Refresh</th>
+                    <th data-lang="INDEX.ADDRESS"></th>
+                    <th data-lang="INDEX.LIST_UNSPENT"></th>
+                    <th data-lang="INDEX.LIST_TRANSACTIONS"></th>
+                    <th data-lang="INDEX.GET_BALANCE"></th>
+                    <th data-lang="INDEX.REFRESH"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -866,18 +860,18 @@
                   <header class="panel-heading" style="z-index: 10">
 
                     <div class="panel-actions">
-                      <a href="javascript:void(0)" class="dropdown-toggle white btn-xs btn-info btn_refresh_edexcoin_dashboard" data-edexcoin="COIN" aria-expanded="false" role="button"><i class="icon fa-refresh margin-right-10" aria-hidden="true"></i> Refresh</a>
+                      <a href="javascript:void(0)" class="dropdown-toggle white btn-xs btn-info btn_refresh_edexcoin_dashboard" data-edexcoin="COIN" aria-expanded="false" role="button"><i class="icon fa-refresh margin-right-10" aria-hidden="true"></i> <span data-lang="INDEX.REFRESH"></span></a>
                       <div class="dropdown">
                         <a class="dropdown-toggle btn-xs btn-default" data-edexcoin="COIN" id="btn_edexcoin_basilisk" data-toggle="dropdown" href="javascript:void(0)"
-                        aria-expanded="false" role="button" style="display: none"><i class="icon fa-magic margin-right-10" aria-hidden="true"></i> Basilisk Actions <span class="caret"></span></a>
+                        aria-expanded="false" role="button" style="display: none"><i class="icon fa-magic margin-right-10" aria-hidden="true"></i> <span data-lang="INDEX.BASILISK_ACTIONS"></span> <span class="caret"></span></a>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="btn_edexcoin_basilisk"
                         role="menu">
 
-                          <li role="presentation"><a href="javascript:void(0)" class="btn_edexcoin_dashboard_getnotaries" data-edexcoin="COIN" id="btn_edexcoin_dashboard_getnotaries" role="menuitem"><i class="icon fa-sitemap" aria-hidden="true"></i> Get Notary Nodes List</a></li>
+                          <li role="presentation"><a href="javascript:void(0)" class="btn_edexcoin_dashboard_getnotaries" data-edexcoin="COIN" id="btn_edexcoin_dashboard_getnotaries" role="menuitem"><i class="icon fa-sitemap" aria-hidden="true"></i> <span data-lang="INDEX.GET_NOTARY_NODES_LIST"></span></a></li>
 
-                          <li role="presentation"><a href="javascript:void(0)" class="btn_edexcoin_dashboard_refresh_basilisk_conn" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refresh_basilisk_conn" role="menuitem"><i class="icon wb-refresh" aria-hidden="true"></i> Refresh Basilisk Connections</a></li>
+                          <li role="presentation"><a href="javascript:void(0)" class="btn_edexcoin_dashboard_refresh_basilisk_conn" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refresh_basilisk_conn" role="menuitem"><i class="icon wb-refresh" aria-hidden="true"></i> <span data-lang="INDEX.REFRESH_BASILISK_CONNECTIONS"></span></a></li>
 
-                          <li data-edexcoin="COIN" role="presentation"><a href="javascript:void(0)" class="btn_edexcoin_dashboard_fetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_fetchdata" role="menuitem"><i class="icon fa-cloud-download" aria-hidden="true"></i> Fetch Wallet Data</a></li>
+                          <li data-edexcoin="COIN" role="presentation"><a href="javascript:void(0)" class="btn_edexcoin_dashboard_fetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_fetchdata" role="menuitem"><i class="icon fa-cloud-download" aria-hidden="true"></i> <span data-lang="INDEX.FETCH_WALLET_DATA"></span></a></li>
 
                           <!--<li data-edexcoin="COIN" role="presentation"><a href="javascript:void(0)" class="btn_edexcoin_dashboard_register" data-edexcoin="COIN" id="btn_edexcoin_dashboard_register" role="menuitem"><i class="icon fa-sign-in" aria-hidden="true"></i> Register All Wallet Address</a></li>-->
 
@@ -890,29 +884,29 @@
                     </div>
 
 
-                    <h4 class="panel-title">Transactions History<!--<br><span class="label label-default font-size-10 margin-left-0"></span>--></h4>
+                    <h4 class="panel-title" data-lang="INDEX.TRANSACTION_HISTORY"></h4>
                   </header>
                   <div class="panel-body">
                     <!--<p>Transaction History info goes here...</p>-->
                     <table class="table table-hover dataTable table-striped" data-edexcoin="COIN" id="edex-tx-history-tbl" width="100%">
                       <thead>
                         <tr>
-                          <th>Direction</th>
-                          <th class="hidden-xs hidden-sm">Confirmations</th>
-                          <th>Amount</th>
-                          <th>Time</th>
-                          <th>Dest. Address</th>
-                          <th class="hidden-xs hidden-sm">Tx Detail</th>
+                          <th data-lang="INDEX.DIRECTION"></th>
+                          <th class="hidden-xs hidden-sm" data-lang="INDEX.CONFIRMATIONS"></th>
+                          <th data-lang="INDEX.AMOUNT"></th>
+                          <th data-lang="INDEX.TIME"></th>
+                          <th data-lang="INDEX.DEST_ADDRESS"></th>
+                          <th class="hidden-xs hidden-sm" data-lang="INDEX.TX_DETAIL"></th>
                         </tr>
                       </thead>
                       <tfoot>
                         <tr>
-                          <th>Direction</th>
-                          <th>Confirmations</th>
-                          <th>Amount</th>
-                          <th>Time</th>
-                          <th>Dest. Address</th>
-                          <th>Tx Detail</th>
+                          <th data-lang="INDEX.DIRECTION"></th>
+                          <th data-lang="INDEX.CONFIRMATIONS"></th>
+                          <th data-lang="INDEX.AMOUNT"></th>
+                          <th data-lang="INDEX.TIME"></th>
+                          <th data-lang="INDEX.DEST_ADDRESS"></th>
+                          <th data-lang="INDEX.TX_DETAIL"></th>
                         </tr>
                       </tfoot>
 
@@ -934,29 +928,28 @@
       <div class="col-sm-12 padding-top-10" data-edexcoin="COIN" id="edexcoin_send" style="display: none">
           <div class="col-xlg-12 col-md-12 col-sm-12 col-xs-12">
 
-
           <!-- EasyDEX Panel send -->
           <!-- Sending EDEXCoin Steps Default -->
           <div class="steps row" style="margin-top: 10px">
             <div class="step col-md-4 current" id="edexcoin_send_step_1">
               <span class="step-number">1</span>
               <div class="step-desc">
-                <span class="step-title">Fill Send Form</span>
-                <p>Fill sending transaction details</p>
+                <span class="step-title" data-lang="INDEX.FILL_SEND_FORM"></span>
+                <p data-lang="INDEX.FILL_SEND_DETAILS"></p>
               </div>
             </div>
             <div class="step col-md-4" id="edexcoin_send_step_2">
               <span class="step-number">2</span>
               <div class="step-desc">
-                <span class="step-title">Confirming</span>
-                <p>Confirm if detials are correct</p>
+                <span class="step-title" data-lang="INDEX.CONFIRMING"></span>
+                <p data-lang="INDEX.CONFIRM_DETAILS"></p>
               </div>
             </div>
             <div class="step col-md-4" id="edexcoin_send_step_3">
               <span class="step-number">3</span>
               <div class="step-desc">
-                <span class="step-title">Processing Tx</span>
-                <p>Processing and showing details</p>
+                <span class="step-title" data-lang="INDEX.PROCESSING_TX"></span>
+                <p data-lang="INDEX.PROCESSING_DETAILS"></p>
               </div>
             </div>
           </div>
@@ -964,7 +957,7 @@
 
           <div class="panel" id="edexcoin-send-screen">
             <div class="panel-heading">
-              <h3 data-edexcoin="COIN" class="panel-title">Send <span data-edexcoin="COIN"></span></h3>
+              <h3 data-edexcoin="COIN" class="panel-title"><span data-lang="INDEX.SEND"></span> <span data-edexcoin="COIN"></span></h3>
               <!--<div class="panel-actions">
                 <a class="panel-action icon md-refresh-alt" data-toggle="panel-refresh" data-load-type="blue-only"
                 data-load-callback="KMDSendScreenRefreshCallback" aria-hidden="true"></a>
@@ -974,12 +967,12 @@
               <form class="edexcoin-send-form" data-edexcoin="COIN" method="post" role="form" autocomplete="off" onsubmit="return false">
                 <div class="row">
                   <div class="col-xlg-12 form-group form-material edexcoin_send_from_for_basilisk">
-                    <label class="control-label" data-edexcoin="COIN" for="edexcoin_send_from">Send From</label>
+                    <label class="control-label" data-edexcoin="COIN" for="edexcoin_send_from" data-lang="INDEX.SEND_FROM"></label>
                     <select class="form-control form-material showedexcoinaddrs show-tick" data-edexcoin="COIN" id="edexcoin_send_from" title="Select Transparent or Private Address" data-size="5">
                     </select>
                   </div>
                   <div class="col-xlg-12 form-group form-material">
-                    <label class="control-label" data-edexcoin="COIN" for="edexcoin_sendto">Send To</label>
+                    <label class="control-label" data-edexcoin="COIN" for="edexcoin_sendto" data-lang="INDEX.SEND_TO"></label>
                     <input type="text" class="form-control" data-edexcoin="COIN" id="edexcoin_sendto" name="edexcoin_sendto" placeholder="Enter address" autocomplete="off" required/>
                   </div>
                   <div class="col-lg-6 form-group form-material">
@@ -987,21 +980,20 @@
                     <input type="text" class="form-control" data-edexcoin="COIN" id="edexcoin_amount" name="edexcoin_amount" placeholder="0.000" autocomplete="off"/>
                   </div>
                   <div class="col-lg-6 form-group form-material">
-                    <label class="control-label" data-edexcoin="COIN" for="edexcoin_fee">Fee</label>
+                    <label class="control-label" data-edexcoin="COIN" for="edexcoin_fee" data-lang="INDEX.FEE">Fee</label>
                     <input type="text" class="form-control" data-edexcoin="COIN" id="edexcoin_fee" name="edexcoin_fee" placeholder="0.000" value="0.0001" autocomplete="off"/>
                   </div>
                   <div class="col-lg-12">
-                    <span data-edexcoin="KMD"><b>Total (<span data-edexcoin="COIN">amount</span> - txfee):</b> <span data-edexcoin="COIN" id="edexcoin_total_value">0.000</span> <span data-edexcoin="COIN" id="edexcoin_total_coinname" data-edexcoin="COIN"></span></span>
+                    <span data-edexcoin="KMD"><b><span data-lang="INDEX.TOTAL"></span> (<span data-edexcoin="COIN" data-lang="INDEX.AMOUNT_SM"></span> - txfee):</b> <span data-edexcoin="COIN" id="edexcoin_total_value">0.000</span> <span data-edexcoin="COIN" id="edexcoin_total_coinname" data-edexcoin="COIN"></span></span>
                   </div>
                   <div class="col-lg-10 margin-top-10">
                     <div class="pull-left margin-right-10">
                       <input type="checkbox" id="edexcoin_send_sig" name="edexcoin_send_sig" data-plugin="switchery" data-size="small"/>
                     </div>
-                    <label class="padding-top-3" for="edexcoin_send_sig">Don't Send Transaction. Just give me signed transaction bytes.</label>
+                    <label class="padding-top-3" for="edexcoin_send_sig" data-lang="INDEX.DONT_SEND"></label>
                   </div>
                   <div class="col-lg-2">
-                    <button type="submit" class="btn btn-primary waves-effect waves-light pull-right edexcoin_send_coins_btn_step1">Send <span data-edexcoin="COIN"></span></button>
-
+                    <button type="submit" class="btn btn-primary waves-effect waves-light pull-right edexcoin_send_coins_btn_step1"><span data-lang="INDEX.SEND"></span> <span data-edexcoin="COIN"></span></button>
                   </div>
                 </div>
               </div>
@@ -1016,26 +1008,26 @@
             <div class="panel" id="edexcoin-send-confirm-screen" style="display: none">
               <div class="panel-body">
                 <div class="row">
-                  <div class="col-xs-12"><b>To:</b></div>
+                  <div class="col-xs-12"><b data-lang="INDEX.TO"></b></div>
                   <div class="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendto_addr">[coin-address-goes-here]</div>
                   <div class="col-lg-6 col-sm-6 col-xs-6"><span id="mdl_confirm_currency_send_amount">0.00000000</span> <span id="mdl_confirm_currency_coinname">[COIN]</span></div>
                   <!--<div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_amount_fiat">$0.00</div>-->
-                  <div class="col-lg-6 col-sm-6 col-xs-12">Transaction Fee (Required by miners)</div>
+                  <div class="col-lg-6 col-sm-6 col-xs-12" data-lang="INDEX.TX_FEE_REQ"></div>
                   <div class="col-lg-6 col-sm-6 col-xs-6"><span id="mdl_confirm_currency_send_fee">0.00000000</span> <span id="mdl_confirm_currency_coinname_fee">[COIN]</span></div>
                   <!--<div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_fee_fiat">$0.00</div>-->
                 </div>
                 <br>
 
                 <div class="row">
-                  <div class="col-xs-12"><b>From:</b></div>
+                  <div class="col-xs-12"><b data-lang="INDEX.FROM"></b></div>
                   <div class="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendfrom_addr">[coin-address-goes-here]</div>
                   <div class="col-lg-6 col-sm-6 col-xs-6" style="color: #f44336"><span id="mdl_confirm_currency_sendfrom_total_dedcut">-0.00000000</span> <span id="mdl_confirm_currency_coinname_total">[COIN]</span></div>
                   <!--<div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_sendfrom_total_deduct_fiat" style="color: #f44336">-$0.00</div>-->
                 </div>
                 <div class="widget-body-footer">
-                    <a class="btn btn-default waves-effect waves-light" id="edexcoin_send_coins_back_btn">Back</a>
+                    <a class="btn btn-default waves-effect waves-light" id="edexcoin_send_coins_back_btn" data-lang="INDEX.BACK"></a>
                   <div class="widget-actions pull-right">
-                    <button type="button" class="btn btn-primary" id="edexcoin_send_coins_btn">Confirm</button>
+                    <button type="button" class="btn btn-primary" id="edexcoin_send_coins_btn" data-lang="INDEX.CONFIRM"></button>
                   </div>
                 </div>
               </div>
@@ -1043,20 +1035,24 @@
           </div>
           <!-- EasyDEX Panel confirm send panel -->
 
-
           <!-- EasyDEX Panel send info panel -->
           <div class="col-xlg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="panel" id="edexcoin-send-txdetails-screen" style="display: none">
               <div class="panel-heading">
-                <h4 class="panel-title">Transaction Result</h4>
+                <h4 class="panel-title" data-lang="INDEX.TRANSACTION_RESULT"></h4>
                 <table class="table table-hover table-striped edexcoin_sendto_result" data-edexcoin="COIN" id="edexcoin_sendto_result">
-                  <thead><tr><th>Key</th><th>Info</th></tr></thead>
+                  <thead>
+                  	<tr>
+                  		<th data-lang="INDEX.KEY"></th>
+                  		<th data-lang="INDEX.INFO"></th>
+                  	</tr>
+                  </thead>
                   <tbody>
                   </tbody>
                 </table>
                 <div class="widget-body-footer">
                   <div class="widget-actions margin-bottom-15 margin-right-15">
-                    <button type="button" class="btn btn-primary" id="edexcoin_send_coins_anothertx_btn">Make Another Transaction</button>
+                    <button type="button" class="btn btn-primary" id="edexcoin_send_coins_anothertx_btn" data-lang="INDEX.MAKE_ANOTHER_TX"></button>
                   </div>
                 </div>
               </div>
@@ -1064,12 +1060,8 @@
           </div>
           <!-- EasyDEX Panel send info panel -->
 
-
           </div>
           <!-- End EasyDEX Panel send -->
-
-
-
 
       <div data-edexcoin="COIN" id="edexcoin_recieve" style="display: none">
       <div class="col-xs-12 margin-top-20">
@@ -1087,28 +1079,26 @@
                         aria-expanded="false" role="button"><i class="icon md-arrows margin-right-10" aria-hidden="true"></i> Get New Address</a>
                       </div>-->
                     </div>
-                    <h3 class="panel-title">
-                      Receiving Addresses
-                    </h3>
+                    <h3 class="panel-title" data-lang="INDEX.RECEIVING_ADDRESS"></h3>
                   </header>
                   <div class="panel-body">
                     <!--<p>Receiving addresses info goes here...</p>-->
                     <table class="table table-hover dataTable table-striped" data-edexcoin="COIN" id="edexcoin-recieve-addr-tbl">
                       <thead>
                         <tr>
-                          <th>Type</th>
-                          <th>Address</th>
-                          <th>Balance</th>
-                          <th>Interest</th>
+                          <th data-lang="INDEX.TYPE">Type</th>
+                          <th data-lang="INDEX.ADDRESS">Address</th>
+                          <th data-lang="INDEX.BALANCE">Balance</th>
+                          <th data-lang="INDEX.INTEREST">Interest</th>
                           <!--<th>Actions</th>-->
                         </tr>
                       </thead>
                       <tfoot>
                         <tr>
-                          <th>Type</th>
-                          <th>Address</th>
-                          <th>Balance</th>
-                          <th>Interest</th>
+                          <th data-lang="INDEX.TYPE">Type</th>
+                          <th data-lang="INDEX.ADDRESS">Address</th>
+                          <th data-lang="INDEX.BALANCE">Balance</th>
+                          <th data-lang="INDEX.INTEREST">Interest</th>
                           <!--<th>Actions</th>-->
                         </tr>
                       </tfoot>
@@ -1221,23 +1211,23 @@
     <div class="page-content" data-extcoin="COIN" id="section-extcoin">
       <div role="alert" class="alert alert-danger alert-dismissible" data-extcoin="COIN" id="extcoin-wallet-connection-alert" style="display: none">
         <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
-        <h4>Opps! Something is not right...</h4>
-        <p data-extcoin="COIN" id="extcoin-wallet-connection-alert-text">Could not connect to external wallet. Reasons can be:<br> - Your External Wallet/daemon isn't running<br>
-         - Your External Wallet/daemon is running, but iguana is not given command to connect to External Wallet/daemon<br>
-         - Your External Wallet/daemon is setup, but is not setup with config settings like<br><code>server=1</code><br><code>rpcport=</code><br><code>rpcuser=</code><br><code>rpcpassword=</code></p>
+        <h4 data-lang="INDEX.OOPS_ERROR"></h4>
+        <p data-extcoin="COIN" id="extcoin-wallet-connection-alert-text"><span data-lang="INDEX.OOPS_ERROR_DESC1"></span>:<br> - <span data-lang="INDEX.OOPS_ERROR_DESC2"></span><br>
+         - <span data-lang="INDEX.OOPS_ERROR_DESC3"></span><br>
+         - <span data-lang="INDEX.OOPS_ERROR_DESC4"></span><br><code>server=1</code><br><code>rpcport=</code><br><code>rpcuser=</code><br><code>rpcpassword=</code></p>
         <!--<p class="margin-top-15"><button class="btn btn-success btn-inverse" type="button" id="extcoin-wallet-connection-alert-btn">Refresh Again</button></p>-->
       </div>
 
       <div role="alert" class="alert alert-info alert-dismissible" data-extcoin="COIN" id="extcoin-wallet-activating-alert" style="display: none">
         <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
-        <h4>Activating best chain<span id="activating-komodod-tridot">...</span><span id="activating-komodod-progress"></span></h4>
-        <p data-extcoin="COIN" id="extcoin-wallet-connection-alert-text">Komodo daemon has been started and is processing.<br>Please wait while the best chain is being activated.</p>
+        <h4><span data-lang="INDEX.ACTIVATING_CHAIN"></span><span id="activating-komodod-tridot">...</span><span id="activating-komodod-progress"></span></h4>
+        <p data-extcoin="COIN" id="extcoin-wallet-connection-alert-text"><span data-lang="INDEX.KMD_STARTED"></span><br><span data-lang="INDEX.WAIT_BEST_CHAIN"></span></p>
       </div>
 
       <div class="row" data-extcoin="COIN" style="margin: -20px 0px 10px 0px">
         <div class="col-xs-12" data-extcoin="COIN" id="extcoin-progressbars" >
           <div class="progress">
-            <div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 0%; font-size: 80%" role="progressbar" data-extcoin="COIN" id="extcoin-sync"><span data-extcoin="COIN" id="extcoin-sync-percent">-</span> | <span data-extcoin="COIN" id="extcoin-synced-blocks">-</span> / <span data-extcoin="COIN" id="extcoin-longestchain">-</span> | Connections: <span data-extcoin="COIN" id="extcoin-connections">-</span></div>
+            <div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 0%; font-size: 80%" role="progressbar" data-extcoin="COIN" id="extcoin-sync"><span data-extcoin="COIN" id="extcoin-sync-percent">-</span> | <span data-extcoin="COIN" id="extcoin-synced-blocks">-</span> / <span data-extcoin="COIN" id="extcoin-longestchain">-</span> | <span data-lang="INDEX.CONNECTIONS"></span>: <span data-extcoin="COIN" id="extcoin-connections">-</span></div>
           </div>
         </div>
       </div>
@@ -1251,7 +1241,7 @@
               <div class="padding-20 padding-top-10">
                 <div class="clearfix">
                   <div class="pull-left padding-vertical-10">
-                    <i class="icon fa-eye font-size-24 vertical-align-bottom margin-right-5"></i>Transparent Balance
+                    <i class="icon fa-eye font-size-24 vertical-align-bottom margin-right-5"></i><span data-lang="INDEX.TRANSPARENT_BALANCE"></span>
                   </div>
                   <span class="pull-right padding-top-10" data-extcoin="COIN" id="kmd_transparent_balance" style="font-size: 22px">-</span>
                 </div>
@@ -1267,7 +1257,7 @@
               <div class="padding-20 padding-top-10">
                 <div class="clearfix">
                   <div class="pull-left padding-vertical-10">
-                    <i class="icon fa-eye-slash font-size-24 vertical-align-bottom margin-right-5"></i>Private (Z) Balance
+                    <i class="icon fa-eye-slash font-size-24 vertical-align-bottom margin-right-5"></i><span data-lang="INDEX.Z_BALANCE"></span>
                   </div>
                   <span class="pull-right padding-top-10" data-extcoin="COIN" id="kmd_private_balance" style="font-size: 22px">-</span>
                 </div>
@@ -1283,7 +1273,7 @@
               <div class="padding-20 padding-top-10">
                 <div class="clearfix">
                   <div class="pull-left padding-vertical-10">
-                    <i class="icon fa-money font-size-24 vertical-align-bottom margin-right-5"></i>Interest Earned
+                    <i class="icon fa-money font-size-24 vertical-align-bottom margin-right-5"></i><span data-lang="INDEX.INTEREST_EARNED"></span>
                   </div>
                   <span class="pull-right padding-top-10" data-extcoin="COIN" id="kmd_total_interest_balance" style="font-size: 22px">-</span>
                 </div>
@@ -1299,7 +1289,7 @@
               <div class="padding-20 padding-top-10">
                 <div class="clearfix">
                   <div class="pull-left padding-vertical-10">
-                    <i class="icon fa-bullseye font-size-24 vertical-align-bottom margin-right-5"></i>Total (Z+T) Balance
+                    <i class="icon fa-bullseye font-size-24 vertical-align-bottom margin-right-5"></i><span data-lang="INDEX.ZT_BALANCE"></span>
                   </div>
                   <span class="pull-right padding-top-10" data-extcoin="COIN" id="kmd_total_tz_balance" style="font-size: 22px">-</span>
                 </div>
@@ -1320,33 +1310,31 @@
                 <!-- Panel FixedHeader -->
                 <div class="panel">
                   <header class="panel-heading">
-                    <h3 class="panel-title">
-                      Transactions History
-                    </h3>
+                    <h3 class="panel-title" data-lang="INDEX.TRANSACTION_HISTORY"></h3>
                   </header>
                   <div class="panel-body">
                     <!--<p>Transaction History info goes here...</p>-->
                     <table class="table table-hover dataTable table-striped" data-extcoin="COIN" id="kmd-tx-history-tbl" width="100%">
                       <thead>
                         <tr>
-                          <th>Type</th>
-                          <th>Direction</th>
-                          <th>Confirmations</th>
-                          <th>Amount</th>
-                          <th>Time</th>
-                          <th>Dest. Address</th>
-                          <th>Tx Detail</th>
+                          <th data-lang="INDEX.TYPE">Type</th>
+                          <th data-lang="INDEX.DIRECTION">Direction</th>
+                          <th data-lang="INDEX.CONFIRMATIONS">Confirmations</th>
+                          <th data-lang="INDEX.AMOUNT">Amount</th>
+                          <th data-lang="INDEX.TIME">Time</th>
+                          <th data-lang="INDEX.DEST_ADDRESS">Dest. Address</th>
+                          <th data-lang="INDEX.TX_DETAIL">Tx Detail</th>
                         </tr>
                       </thead>
                       <tfoot>
                         <tr>
-                          <th>Type</th>
-                          <th>Direction</th>
-                          <th>Confirmations</th>
-                          <th>Amount</th>
-                          <th>Time</th>
-                          <th>Dest. Address</th>
-                          <th>Tx Detail</th>
+                          <th data-lang="INDEX.TYPE">Type</th>
+                          <th data-lang="INDEX.DIRECTION">Direction</th>
+                          <th data-lang="INDEX.CONFIRMATIONS">Confirmations</th>
+                          <th data-lang="INDEX.AMOUNT">Amount</th>
+                          <th data-lang="INDEX.TIME">Time</th>
+                          <th data-lang="INDEX.DEST_ADDRESS">Dest. Address</th>
+                          <th data-lang="INDEX.TX_DETAIL">Tx Detail</th>
                         </tr>
                       </tfoot>
 
@@ -1356,7 +1344,6 @@
                 <!-- End Panel FixedHeader -->
               </div>
 
-
             </div>
             <!-- End KMD Wallet Dashboard -->
 
@@ -1364,7 +1351,6 @@
           <!-- End Iguana Wallet Settings Box Tab -->
         </div>
         </div>
-
 
       <div data-extcoin="COIN" id="kmd_wallet_recieve">
       <div class="col-xs-12 margin-top-20">
@@ -1379,32 +1365,30 @@
                     <div class="panel-actions">
                       <div class="dropdown">
                         <a class="dropdown-toggle white btn btn-warning" data-extcoin="COIN" id="GetNewRecievingAddress" data-toggle="dropdown" href="javascript:void(0)"
-                        aria-expanded="false" role="button"><i class="icon md-arrows margin-right-10" aria-hidden="true"></i> Get New Address <span class="caret"></span></a>
+                        aria-expanded="false" role="button"><i class="icon md-arrows margin-right-10" aria-hidden="true"></i> <span data-lang="INDEX.GET_NEW_ADDRESS"></span> <span class="caret"></span></a>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="GetNewRecievingAddress"
                         role="menu">
-                          <li role="presentation"><a href="javascript:void(0)" data-extcoin="COIN" id="kmd_get_new_taddr" role="menuitem"><i class="icon fa-eye" aria-hidden="true"></i> Transparent Address</a></li>
-                          <li data-extcoin="COIN" role="presentation"><a href="javascript:void(0)" data-extcoin="COIN" id="kmd_get_new_zaddr" role="menuitem"><i class="icon fa-eye-slash" aria-hidden="true"></i> Private (Z) Address</a></li>
+                          <li role="presentation"><a href="javascript:void(0)" data-extcoin="COIN" id="kmd_get_new_taddr" role="menuitem"><i class="icon fa-eye" aria-hidden="true"></i> <span data-lang="INDEX.TRANSPARENT_ADDRESS"></span></a></li>
+                          <li data-extcoin="COIN" role="presentation"><a href="javascript:void(0)" data-extcoin="COIN" id="kmd_get_new_zaddr" role="menuitem"><i class="icon fa-eye-slash" aria-hidden="true"></i> <span data-lang="INDEX.PRIVATE_Z_ADDRESS"></span></a></li>
                         </ul>
                       </div>
                     </div>
-                    <h3 class="panel-title">
-                      Receiving Addresses
-                    </h3>
+                    <h3 class="panel-title" data-lang="INDEX.RECEIVING_ADDRESS"></h3>
                   </header>
                   <div class="panel-body">
                     <!--<p>Receiving addresses info goes here...</p>-->
                     <table class="table table-hover dataTable table-striped" data-extcoin="COIN" id="kmd-recieve-addr-tbl">
                       <thead>
                         <tr>
-                          <th>Type</th>
-                          <th>Address</th>
+                          <th data-lang="INDEX.TYPE"></th>
+                          <th data-lang="INDEX.ADDRESS"></th>
                           <!--<th>Actions</th>-->
                         </tr>
                       </thead>
                       <tfoot>
                         <tr>
-                          <th>Type</th>
-                          <th>Address</th>
+                          <th data-lang="INDEX.TYPE"></th>
+                          <th data-lang="INDEX.ADDRESS"></th>
                           <!--<th>Actions</th>-->
                         </tr>
                       </tfoot>
@@ -1415,7 +1399,6 @@
                 <!-- End Panel FixedHeader -->
               </div>
 
-
             </div>
             <!-- End KMD Wallet Receive -->
 
@@ -1424,13 +1407,12 @@
         </div>
         </div>
 
-
         <div data-extcoin="COIN" id="kmd_wallet_send" style="display: none">
           <div class="col-xlg-12 col-md-12 col-sm-12 col-xs-12">
           <!-- Panel getinfo -->
           <div class="panel" id="projects">
             <div class="panel-heading">
-              <h3 data-extcoin="COIN" class="panel-title">Send <span data-extcoinname="COIN"></span></h3>
+              <h3 data-extcoin="COIN" class="panel-title"><span data-lang="INDEX.SEND"></span> <span data-extcoinname="COIN"></span></h3>
               <!--<div class="panel-actions">
                 <a class="panel-action icon md-refresh-alt" data-toggle="panel-refresh" data-load-type="blue-only"
                 data-load-callback="KMDSendScreenRefreshCallback" aria-hidden="true"></a>
@@ -1440,12 +1422,12 @@
               <form class="extcoin-send-form" data-extcoin="COIN" method="post" role="form" autocomplete="off" onsubmit="return false">
                 <div class="row">
                   <div class="col-xlg-12 form-group form-material">
-                    <label class="control-label" data-extcoin="COIN" for="kmd_wallet_send_from">Send From</label>
+                    <label class="control-label" data-extcoin="COIN" for="kmd_wallet_send_from" data-lang="INDEX.SEND_FROM"></label>
                     <select class="form-control form-material showkmdwalletaddrs show-tick" data-extcoin="COIN" id="kmd_wallet_send_from" title="Select Transparent or Private Address" data-size="5">
                     </select>
                   </div>
                   <div class="col-xlg-12 form-group form-material">
-                    <label class="control-label" data-extcoin="COIN" for="kmd_wallet_sendto">Send To</label>
+                    <label class="control-label" data-extcoin="COIN" for="kmd_wallet_sendto" data-lang="INDEX.SEND_TO"></label>
                     <input type="text" class="form-control" data-extcoin="COIN" id="kmd_wallet_sendto" name="kmd_wallet_sendto" placeholder="Enter Transparent or Private address" autocomplete="off" required/>
                   </div>
                   <div class="col-lg-6 form-group form-material">
@@ -1453,14 +1435,14 @@
                     <input type="text" class="form-control" data-extcoin="COIN" id="kmd_wallet_amount" name="kmd_wallet_amount" placeholder="0.000" autocomplete="off"/>
                   </div>
                   <div class="col-lg-6 form-group form-material">
-                    <label class="control-label" data-extcoin="COIN" for="kmd_wallet_fee">Fee</label>
+                    <label class="control-label" data-extcoin="COIN" for="kmd_wallet_fee" data-lang="INDEX.FEE"></label>
                     <input type="text" class="form-control" data-extcoin="COIN" id="kmd_wallet_fee" name="kmd_wallet_fee" placeholder="0.000" value="0.0001" autocomplete="off"/>
                   </div>
                   <div class="col-lg-12">
-                    <span data-extcoin="KMD"><b>Total (<span data-extcoinname="COIN"></span> - txfee):</b> <span data-extcoin="COIN" id="kmd_wallet_total_value">0.000</span> <span data-extcoin="COIN" id="kmd_wallet_total_coinname" data-extcoinname="COIN"></span></span>
+                    <span data-extcoin="KMD"><b><span data-lang="INDEX.TOTAL"></span> (<span data-extcoinname="COIN"></span> - txfee):</b> <span data-extcoin="COIN" id="kmd_wallet_total_value">0.000</span> <span data-extcoin="COIN" id="kmd_wallet_total_coinname" data-extcoinname="COIN"></span></span>
                   </div>
                   <div class="col-lg-12">
-                    <button type="submit" class="btn btn-primary waves-effect waves-light pull-right" data-toggle="modal" id="kmd_wallet_send_coins_btn">Send <span data-extcoinname="COIN"></span></button>
+                    <button type="submit" class="btn btn-primary waves-effect waves-light pull-right" data-toggle="modal" id="kmd_wallet_send_coins_btn"><span data-lang="INDEX.SEND"></span> <span data-extcoinname="COIN"></span></button>
                   </div>
                 </div>
               </div>
@@ -1468,10 +1450,7 @@
           </div>
           <!-- End Panel getinfo -->
 
-
-
           </div>
-
 
           <div class="col-xs-12">
           <!-- Komodo Wallet send opid status tab -->
@@ -1484,29 +1463,27 @@
                 <div class="panel">
                   <header class="panel-heading">
                     <div class="panel-actions">
-                      <button class="btn btn-info btn-block" id="kmd_opids_status_btn" type="button"><i class="icon fa-repeat" aria-hidden="true"></i> Refresh</button>
+                      <button class="btn btn-info btn-block" id="kmd_opids_status_btn" type="button"><i class="icon fa-repeat" aria-hidden="true"></i> <span data-lang="INDEX.REFRESH"></span></button>
                     </div>
-                    <h3 class="panel-title">
-                      Operations Statuses
-                    </h3>
+                    <h3 class="panel-title" data-lang="INDEX.OPERATIONS_STATUSES"></h3>
                   </header>
                   <div class="panel-body">
                     <!--<p>Receiving addresses info goes here...</p>-->
                     <table class="table table-hover dataTable table-striped" data-extcoin="COIN" id="kmd-opid-status-tbl" width="100%">
                       <thead>
                         <tr>
-                          <th>Status</th>
+                          <th data-lang="INDEX.STATUS"></th>
                           <th>ID</th>
-                          <th>Time</th>
-                          <th>Result</th>
+                          <th data-lang="INDEX.TIME"></th>
+                          <th data-lang="INDEX.RESULT"></th>
                         </tr>
                       </thead>
                       <tfoot>
                         <tr>
-                          <th>Status</th>
+                          <th data-lang="INDEX.STATUS"></th>
                           <th>ID</th>
-                          <th>Time</th>
-                          <th>Result</th>
+                          <th data-lang="INDEX.TIME"></th>
+                          <th data-lang="INDEX.RESULT"></th>
                         </tr>
                       </tfoot>
 
@@ -1515,7 +1492,6 @@
                 </div>
                 <!-- End Panel FixedHeader -->
               </div>
-
 
             </div>
             <!-- End KMD opid status -->
@@ -1531,23 +1507,22 @@
           <!-- Panel Wallet Info -->
           <div class="panel" id="projects">
             <div class="panel-heading">
-              <h3 class="panel-title">Wallet Info</h3>
+              <h3 class="panel-title" data-lang="INDEX.WALLET_INFO"></h3>
             </div>
             <div class="table-responsive">
               <table class="table table-striped">
                 <tbody>
-                  <tr><td>Wallet Version</td><td><span data-extcoin="COIN" id="kmd_walletversion"></span></td></tr>
-                  <tr><td>Balance</td><td><span data-extcoin="COIN" id="kmd_balance"></span></td></tr>
-                  <tr><td>Unconfirmed Balance</td><td><span data-extcoin="COIN" id="kmd_unconfirmed_balance"></span></td></tr>
-                  <tr><td>Immature Balance</td><td><span data-extcoin="COIN" id="kmd_immature_balance"></span></td></tr>
-                  <tr><td>Total Transactions Count</td><td><span data-extcoin="COIN" id="KMDTotalTransactionsCount"></span></td></tr>
+                  <tr><td data-lang="INDEX.WALLET_VERSION"></td><td><span data-extcoin="COIN" id="kmd_walletversion"></span></td></tr>
+                  <tr><td data-lang="INDEX.BALANCE"></td><td><span data-extcoin="COIN" id="kmd_balance"></span></td></tr>
+                  <tr><td data-lang="INDEX.UNCONFIRMED_BALANCE"></td><td><span data-extcoin="COIN" id="kmd_unconfirmed_balance"></span></td></tr>
+                  <tr><td data-lang="INDEX.IMMATURE_BALANCE"></td><td><span data-extcoin="COIN" id="kmd_immature_balance"></span></td></tr>
+                  <tr><td data-lang="INDEX.TOTAL_TX_COUNT"></td><td><span data-extcoin="COIN" id="KMDTotalTransactionsCount"></span></td></tr>
                 </tbody>
               </table>
             </div>
           </div>
           <!-- End Panel Wallet Info -->
           </div>
-
 
           <div class="col-xlg-6 col-md-8">
           <!-- Panel getinfo -->
@@ -1558,18 +1533,18 @@
             <div class="table-responsive">
               <table class="table table-striped">
                 <tbody>
-                  <tr><td>Version</td><td><span data-extcoin="COIN" id="kmd_version"></span></td></tr>
-                  <tr><td>Protocol Version</td><td><span data-extcoin="COIN" id="kmd_protocolversion"></span></td></tr>
-                  <tr><td>Notarized</td><td><span data-extcoin="COIN" id="kmd_notarized"></span></td></tr>
-                  <tr><td>Notarized Hash</td><td><span data-extcoin="COIN" id="kmd_notarizedhash"></span></td></tr>
-                  <tr><td>Notarized BTC</td><td><span data-extcoin="COIN" id="kmd_notarizedbtc"></span></td></tr>
-                  <tr><td>Blocks</td><td><span data-extcoin="COIN" id="kmd_blocks"></span></td></tr>
-                  <tr><td>Connections</td><td><span data-extcoin="COIN" id="kmd_connections"></span></td></tr>
-                  <tr><td>Difficulty</td><td><span data-extcoin="COIN" id="kmd_difficulty"></span></td></tr>
+                  <tr><td data-lang="INDEX.VERSION"></td><td><span data-extcoin="COIN" id="kmd_version"></span></td></tr>
+                  <tr><td data-lang="INDEX.PROTOCOL_VERSION"></td><td><span data-extcoin="COIN" id="kmd_protocolversion"></span></td></tr>
+                  <tr><td data-lang="INDEX.NOTARIZED"></td><td><span data-extcoin="COIN" id="kmd_notarized"></span></td></tr>
+                  <tr><td><span data-lang="INDEX.NOTARIZED"></span> Hash</td><td><span data-extcoin="COIN" id="kmd_notarizedhash"></span></td></tr>
+                  <tr><td><span data-lang="INDEX.NOTARIZED"></span> BTC</td><td><span data-extcoin="COIN" id="kmd_notarizedbtc"></span></td></tr>
+                  <tr><td data-lang="INDEX.BLOCKS"></td><td><span data-extcoin="COIN" id="kmd_blocks"></span></td></tr>
+                  <tr><td data-lang="INDEX.CONNECTIONS"></td><td><span data-extcoin="COIN" id="kmd_connections"></span></td></tr>
+                  <tr><td data-lang="INDEX.DIFFICULTY"></td><td><span data-extcoin="COIN" id="kmd_difficulty"></span></td></tr>
                   <tr><td>Testnet</td><td><span data-extcoin="COIN" id="kmd_testnet"></span></td></tr>
-                  <tr><td>Pay Transaction Fee</td><td><span data-extcoin="COIN" id="kmd_paytxfee"></span></td></tr>
-                  <tr><td>Relay Fee</td><td><span data-extcoin="COIN" id="kmd_relayfee"></span></td></tr>
-                  <tr><td>Errors</td><td><span data-extcoin="COIN" id="kmd_errors"></span></td></tr>
+                  <tr><td data-lang="INDEX.PAY_TX_FEE"></td><td><span data-extcoin="COIN" id="kmd_paytxfee"></span></td></tr>
+                  <tr><td data-lang="INDEX.RELAY_FEE"></td><td><span data-extcoin="COIN" id="kmd_relayfee"></span></td></tr>
+                  <tr><td data-lang="INDEX.ERRORS"></td><td><span data-extcoin="COIN" id="kmd_errors"></span></td></tr>
                 </tbody>
               </table>
             </div>
@@ -1577,7 +1552,6 @@
           <!-- End Panel getinfo -->
           </div>
         </div>
-
 
       </div>
 
@@ -1759,7 +1733,7 @@
           <!-- Iguana Wallet Settings Box -->
             <div class="row" id="iguana-wallet-settings" data-plugin="masonry">
               <div class="col-xlg-12 col-md-12">
-              <h4 class="font-size-14 text-uppercase">Wallet Settings</h4>
+              <h4 class="font-size-14 text-uppercase" data-lang="INDEX.WALLET_SETTINGS"></h4>
                 <div class="panel-group" id="SettingsAccordion" aria-multiselectable="true"
                 role="tablist">
                   <div class="panel">
@@ -1767,7 +1741,7 @@
                       <a class="panel-title" data-toggle="collapse" href="#WalletInfoTab"
                       data-parent="#SettingsAccordion" aria-expanded="true"
                       aria-controls="WalletInfoTab">
-                      <i class="icon md-balance-wallet" aria-hidden="true"></i>Wallet Info
+                      <i class="icon md-balance-wallet" aria-hidden="true"></i><span data-lang="INDEX.WALLET_INFO"></span>
                     </a>
                     </div>
                     <div class="panel-collapse collapse in" id="WalletInfoTab" aria-labelledby="WalletInfo"
@@ -1775,7 +1749,7 @@
                       <div class="panel-body">
                         <table class="table" id="wallet-info-table">
                           <thead>
-                            <tr><th width="10%">Key</th><th>Value</th></tr>
+                            <tr><th width="10%" data-lang="INDEX.KEY"></th><th data-lang="INDEX.VALUE"></th></tr>
                           </thead>
                           <tbody>
                             <tr><td style="font-weight: bold">pubkey</td><td><div id="winfo_pubkey_value"></div></td></tr>
@@ -1796,7 +1770,7 @@
                       <a class="panel-title collapsed" data-toggle="collapse" href="#AddNodeforCoinTab"
                       data-parent="#SettingsAccordion" aria-expanded="false"
                       aria-controls="AddNodeforCoinTab">
-                      <i class="icon md-plus-square" aria-hidden="true"></i>Add Node
+                      <i class="icon md-plus-square" aria-hidden="true"></i><span data-lang="INDEX.ADD_NODE"></span>
                     </a>
                     </div>
                     <div class="panel-collapse collapse" id="AddNodeforCoinTab" aria-labelledby="AddNodeforCoin"
@@ -1805,11 +1779,11 @@
                         <div class="row">
 
                           <div class="col-sm-6">
-                            <div class="col-sm-12"><p>Use this section to check if the node IP you wish to add is allready active as peer of your coin:</p></div>
+                            <div class="col-sm-12"><p data-lang="INDEX.USE_THIS_SECTION"></p></div>
                             <div class="col-sm-8 col-xs-12">
                             <div class="form-group">
                               <select class="form-control form-material" id="settings_select_coin_options">
-                                <option>-Select Coin-</option>
+                                <option data-lang="INDEX.SELECT_COIN"></option>
                                 <option value="BTC">Bitcoin</option>
                                 <option value="BTCD">BitcoinDark</option>
                                 <option value="LTC">Litecoin</option>
@@ -1832,7 +1806,7 @@
                             </div>
                             </div>
                             <div class="col-sm-4 col-xs-12" style="text-align: center">
-                                <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="settings_getcoinpeers_btn" onclick="Settings_ShowCoinPeers()">Check Nodes</button>
+                                <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="settings_getcoinpeers_btn" onclick="Settings_ShowCoinPeers()" data-lang="INDEX.CHECK_NODES"></button>
                             </div>
                             <div class="col-sm-12">
                               <h5>SuperNET Peers: <span id="coin_supernetpeers_h"></span></h5>
@@ -1843,11 +1817,11 @@
                           </div>
 
                           <div class="col-sm-6">
-                            <div class="col-sm-12"><p>Use this section to add a peer IP to a selected coin:</p></div>
+                            <div class="col-sm-12"><p data-lang="INDEX.USE_THIS_SECTION_PEER"></p></div>
                             <div class="col-sm-8 col-xs-12">
                             <div class="form-group">
                               <select class="form-control form-material" id="settings_select_coin_addpeer_options">
-                                <option>-Select Coin-</option>
+                                <option data-lang="INDEX.SELECT_COIN"></option>
                                 <option value="BTC">Bitcoin</option>
                                 <option value="BTCD">BitcoinDark</option>
                                 <option value="LTC">Litecoin</option>
@@ -1873,7 +1847,7 @@
                             </div>
                             </div>
                             <div class="col-sm-4 col-xs-12" style="text-align: center">
-                                <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="settings_addcoinpeers_btn" onclick="Settings_AddCoinPeers()">Add Node</button>
+                                <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="settings_addcoinpeers_btn" onclick="Settings_AddCoinPeers()" data-lang="INDEX.ADD_NODE"></button>
                             </div>
                           </div>
 
@@ -1887,7 +1861,7 @@
                       <a class="panel-title collapsed" data-toggle="collapse" href="#DumpWalletTab"
                       data-parent="#SettingsAccordion" aria-expanded="false"
                       aria-controls="DumpWalletTab">
-                      <i class="icon wb-briefcase" aria-hidden="true"></i>Wallet Backup
+                      <i class="icon wb-briefcase" aria-hidden="true"></i><span data-lang="INDEX.WALLET_BACKUP"></span>
                     </a>
                     </div>
                     <div class="panel-collapse collapse" id="DumpWalletTab" aria-labelledby="DumpWallet"
@@ -1898,13 +1872,12 @@
                     </div>
                   </div>
 
-
                   <div class="panel">
                     <div class="panel-heading" id="FiatCurrencySettings" role="tab">
                       <a class="panel-title collapsed" data-toggle="collapse" href="#FiatCurrencySettingsTab"
                       data-parent="#SettingsAccordion" aria-expanded="false"
                       aria-controls="FiatCurrencySettingsTab">
-                      <i class="icon fa-money" aria-hidden="true"></i>Fiat Currency
+                      <i class="icon fa-money" aria-hidden="true"></i><span data-lang="INDEX.FIAT_CURRENCY"></span>
                     </a>
                     </div>
                     <div class="panel-collapse collapse" id="FiatCurrencySettingsTab" aria-labelledby="FiatCurrencySettings"
@@ -1921,21 +1894,21 @@
                       <a class="panel-title collapsed" data-toggle="collapse" href="#ExportKeysTab"
                       data-parent="#SettingsAccordion" aria-expanded="false"
                       aria-controls="ExportKeysTab">
-                      <i class="icon md-key" aria-hidden="true"></i>Export Keys
+                      <i class="icon md-key" aria-hidden="true"></i><span data-lang="INDEX.EXPORT_KEYS"></span>
                     </a>
                     </div>
                     <div class="panel-collapse collapse" id="ExportKeysTab" aria-labelledby="ExportKeys"
                     role="tabpanel">
                       <div class="panel-body">
-                        <p>Only the active coin wallet wif keys will be shown here.<br>If you don't see a wif key for the coin you are looking for please active it by adding it from EasyDEX Dashboard.<br>You can use these wif keys to import to another coin wallets. <b><i>Please keep these keys extra safe and secure.</i></b></p>
+                        <p><span data-lang="INDEX.ONLY_ACTIVE_WIF_KEYS"></span> <b><i data-lang="INDEX.PLEASE_KEEP_KEYS_SAFE"></i></b></p>
                         <div class="col-sm-12"></div>
                         <form class="wifkeys-form" method="post" action="javascript:" autocomplete="off" onsubmit="return false">
                           <div class="form-group form-material floating">
                             <input type="password" class="form-control" name="wifkeys_passphrase" id="wifkeys_passphrase">
-                            <label class="floating-label" for="wifkeys_passphrase">Passphrase</label>
+                            <label class="floating-label" for="wifkeys_passphrase" data-lang="INDEX.PASSPHRASE"></label>
                           </div>
                           <div class="col-sm-12 col-xs-12" style="text-align: center">
-                            <button type="submit" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="wifkeys_passphrase_btn">Get Wif Keys</button>
+                            <button type="submit" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="wifkeys_passphrase_btn" data-lang="INDEX.GET_WIF_KEYS"></button>
                           </div>
                         </form>
 
@@ -1947,28 +1920,27 @@
                       </div>
                     </div>
                   </div>
-
 
                   <div class="panel">
                     <div class="panel-heading" id="ImportKeys" role="tab">
                       <a class="panel-title collapsed" data-toggle="collapse" href="#ImportKeysTab"
                       data-parent="#SettingsAccordion" aria-expanded="false"
                       aria-controls="ImportKeysTab">
-                      <i class="icon md-key" aria-hidden="true"></i>Import Keys
+                      <i class="icon md-key" aria-hidden="true"></i><span data-lang="INDEX.IMPORT_KEYS"></span>
                     </a>
                     </div>
                     <div class="panel-collapse collapse" id="ImportKeysTab" aria-labelledby="ImportKeys"
                     role="tabpanel">
                       <div class="panel-body">
-                        <p>This section allows you to import private key of all iguana supported coins, Assetchain, Geckochain, or PAXchain by the wallet.<br>It is not mandatory to have that coin active in the wallet for which you are executing import private key process.<br>You'll also notice the private key you imported for one coin or chain will also be showing a new address in all other coin wallets' receiving address section. It is normal. <b><i>Please keep these keys extra safe and secure.</i></b></p>
+                        <p><span data-lang="INDEX.IMPORT_KEYS_DESC"></span> <b><i data-lang="INDEX.PLEASE_KEEP_KEYS_SAFE"></i></b></p>
                         <div class="col-sm-12"></div>
                         <form class="wifkeys-import-form" method="post" action="javascript:" autocomplete="off" onsubmit="return false">
                           <div class="form-group form-material floating">
                             <input type="text" class="form-control" name="import_wifkey" id="import_wifkey">
-                            <label class="floating-label" for="import_wifkey">Input Private Key</label>
+                            <label class="floating-label" for="import_wifkey" data-lang="INDEX.INPUT_PRIV_KEY"></label>
                           </div>
                           <div class="col-sm-12 col-xs-12" style="text-align: center">
-                            <button type="submit" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="import_wifkey_btn">Import Private Key</button>
+                            <button type="submit" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="import_wifkey_btn" data-lang="INDEX.IMPORT_PRIV_KEY"></button>
                           </div>
                         </form>
 
@@ -1981,34 +1953,33 @@
                     </div>
                   </div>
 
-
                   <div class="panel">
                     <div class="panel-heading" id="DebugLog" role="tab">
                       <a class="panel-title collapsed" data-toggle="collapse" href="#DebugLogTab"
                       data-parent="#SettingsAccordion" aria-expanded="false"
                       aria-controls="DebugLogTab">
-                      <i class="icon md-info" aria-hidden="true"></i>Debug Log
+                      <i class="icon md-info" aria-hidden="true"></i><span data-lang="INDEX.DEBUG_LOG"></span>
                     </a>
                     </div>
                     <div class="panel-collapse collapse" id="DebugLogTab" aria-labelledby="DebugLog"
                     role="tabpanel">
                       <div class="panel-body">
-                        <p>This section allows you to read last N lines from debug log file.</i></b></p>
+                        <p data-lang="INDEX.DEBUG_LOG_DESC"></p>
                         <div class="col-sm-12"></div>
                         <form class="read-debug-log-import-form" method="post" action="javascript:" autocomplete="off" onsubmit="return false">
                           <div class="form-group form-material floating">
                             <input type="text" class="form-control" name="read_debug_log_lines" id="read_debug_log_lines" value="10">
-                            <label class="floating-label" for="read_debug_log_lines">Input number of lines to read</label>
+                            <label class="floating-label" for="read_debug_log_lines" data-lang="INDEX.DEBUG_LOG_LINES"></label>
                           </div>
                           <div class="form-group form-material floating">
                             <select class="form-control form-material" id="settings_select_debuglog_options">
                               <option value="iguana">Iguana</option>
                               <option value="komodo">Komodo</option>
                             </select>
-                            <label class="floating-label" for="settings_select_debuglog_options">Target</label>
+                            <label class="floating-label" for="settings_select_debuglog_options" data-lang="INDEX.TARGET"></label>
                           </div>
                           <div class="col-sm-12 col-xs-12" style="text-align: center">
-                            <button type="submit" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="read_debug_log_btn" onclick="Settings_LoadDebugLog()">Load debug log</button>
+                            <button type="submit" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="read_debug_log_btn" onclick="Settings_LoadDebugLog()" data-lang="INDEX.LOAD_DEBUG_LOG"></button>
                           </div>
                           <div class="col-sm-12 col-xs-12" style="text-align: center">
                             <br/>
@@ -2017,9 +1988,7 @@
                         </form>
 
                         <div class="col-sm-12" style="padding-top: 15px">
-                          <div class="row" id="wif-priv-keys" data-plugin="masonry">
-
-                          </div>
+                          <div class="row" id="wif-priv-keys" data-plugin="masonry"></div>
                         </div>
                       </div>
                     </div>
@@ -2036,10 +2005,10 @@
 
     <!-- BEGIN ABOUT SUPERNET IGUANA CONTENT BODY -->
     <div class="page animsition" data-animsition-in="fade-in" data-animsition-out="fade-out" style="margin-left: 0px">
-    <div class="page-content" id="section-about-iguana">
-      <h2>About Iguana</h2>
-      <p>Page content goes here</p>
-    </div>
+	    <div class="page-content" id="section-about-iguana">
+	      <h2>About Iguana</h2>
+	      <p>Page content goes here</p>
+	    </div>
     </div>
     <!-- END ABOUT SUPERNET IGUANA CONTENT BODY -->
 
@@ -2163,6 +2132,7 @@
         var Site = window.Site;
         $(document).ready(function() {
           Site.run();
+
           var socket = io.connect('http://localhost:17777');
           socket.on('connect', function(data) {
             socket.emit('join', 'EDEX GUI joined');
