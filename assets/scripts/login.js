@@ -2,7 +2,7 @@ var Login = function() {
   toastr.options = {
     'closeButton': true,
     'debug': false,
-    'positionClass': 'toast-top-right',
+    'positionClass': 'toast-bottom-right',
     'showDuration': '5000',
     'hideDuration': '1000',
     'timeOut': '5000',
