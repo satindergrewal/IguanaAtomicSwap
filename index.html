@@ -760,7 +760,7 @@
         <div role="alert" class="alert alert-info alert-dismissible" data-edexcoin="COIN" id="edexcoin-wallet-waitingcache-alert" style="display: none">
           <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
           <h4>Fetching coin data from network. Please wait...</h4>
-        <p data-edexcoin="COIN" id="edexcoin-wallet-waitingrt-alert-text">An Iguana Full Mode coin synchronizes the blockchain using an entirely different format than traditional blockchain software. Iguana's Full Mode uses Memory Mapped Files and stores data in bundles. That's why you see four different colored synchronizing progress bars.</p>
+        <p data-edexcoin="COIN" id="edexcoin-wallet-waitingcache-alert-text">An Iguana Full Mode coin synchronizes the blockchain using an entirely different format than traditional blockchain software. Iguana's Full Mode uses Memory Mapped Files and stores data in bundles. That's why you see four different colored synchronizing progress bars.</p>
 
       <p>Once all these progress bars reach 100%, the Real Time blocks start synchronizing. Only after the Real Time sync mode activates will you be able to see current data in your wallet and make any transactions.</p>
 
@@ -993,7 +993,13 @@
                   <div class="col-lg-12">
                     <span data-edexcoin="KMD"><b>Total (<span data-edexcoin="COIN">amount</span> - txfee):</b> <span data-edexcoin="COIN" id="edexcoin_total_value">0.000</span> <span data-edexcoin="COIN" id="edexcoin_total_coinname" data-edexcoin="COIN"></span></span>
                   </div>
-                  <div class="col-lg-12">
+                  <div class="col-lg-10 margin-top-10">
+                    <div class="pull-left margin-right-10">
+                      <input type="checkbox" id="edexcoin_send_sig" name="edexcoin_send_sig" data-plugin="switchery" data-size="small"/>
+                    </div>
+                    <label class="padding-top-3" for="edexcoin_send_sig">Don't Send Transaction. Just give me signed transaction bytes.</label>
+                  </div>
+                  <div class="col-lg-2">
                     <button type="submit" class="btn btn-primary waves-effect waves-light pull-right edexcoin_send_coins_btn_step1">Send <span data-edexcoin="COIN"></span></button>
 
                   </div>
@@ -1692,18 +1698,13 @@
                     <option value="blockash">Block Hash</option>
                     <option value="chaintip">Chain Tip</option>
                     <option value="gettransaction">Get Transaction</option>
-                    <option value="dex_getinfo">DEX Get Info</option>
-                    <option value="dex_getnotaries">DEX Get Notaries</option>
                     <option value="dex_alladdresses">DEX All Addresses</option>
                     <option value="dex_importaddress">DEX Import Address</option>
                     <option value="dex_checkaddress">DEX Check Address</option>
                     <option value="dex_validateaddress">DEX Validate Address</option>
+                    <option value="dex_getinfo">DEX Get Info</option>
+                    <option value="dex_getnotaries">DEX Get Notaries</option>
                     <option value="dex_getbestblockhash">DEX Get Best Block Hash</option>
-                    <option value="dex_listtransactions">DEX List Transactions</option>
-                    <option value="dex_listtransactions2">DEX List Transactions 2</option>
-                    <option value="dex_listspent">DEX List Spent</option>
-                    <option value="dex_listunspent">DEX List Unspent</option>
-                    <option value="dex_listunspent2">DEX List Unspent 2</option>
                     <option value="dex_getblockhash">DEX Get Block Hash</option>
                     <option value="dex_getblock">DEX Get Block</option>
                     <option value="dex_gettxin">DEX Get txin</option>
@@ -1711,6 +1712,12 @@
                     <option value="dex_gettransaction">DEX Get Transaction</option>
                     <option value="dex_getbalance">DEX Get Balance</option>
                     <option value="dex_getsupply">DEX Get Supply</option>
+                    <option value="dex_listtransactions">DEX List Transactions</option>
+                    <option value="dex_listtransactions2">DEX List Transactions 2</option>
+                    <option value="dex_listspent">DEX List Spent</option>
+                    <option value="dex_listunspent">DEX List Unspent</option>
+                    <option value="dex_listunspent2">DEX List Unspent 2</option>
+                    <option value="dex_sendrawtransaction">DEX Send Raw Transaction</option>
                     <option value="basilisk_refresh">Basilisk Refresh</option>
                   </select>
                 </div>

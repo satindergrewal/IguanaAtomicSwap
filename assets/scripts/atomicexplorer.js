@@ -2,7 +2,7 @@ var AtomicExplorer = function() {
 	toastr.options = {
 		'closeButton': true,
 		'debug': false,
-		'positionClass': 'toast-top-right',
+		'positionClass': 'toast-bottom-right',
 		'showDuration': '5000',
 		'hideDuration': '1000',
 		'timeOut': '5000',
@@ -272,6 +272,15 @@ var AtomicExplorer = function() {
 						'timeout': 600000
 					};
 					break;
+				case 'dex_sendrawtransaction':
+					ExplorerInputData = {
+						'userpass': tmpIguanaRPCAuth,
+						'agent': 'dex',
+						'method': 'sendrawtransaction',
+						'signedtx': atomic_explorer_input_data_val,
+						'symbol': atomic_explorer_select_coin_val
+					};
+					break;
 				case 'basilisk_refresh':
 					ExplorerInputData = {
 						'userpass': tmpIguanaRPCAuth,
@@ -293,6 +302,7 @@ var AtomicExplorer = function() {
 					console.log(data);
 					if (atomic_explorer_select_command_val === 'txid' ||
 							atomic_explorer_select_command_val === 'dex_getbestblockhash' ||
+							atomic_explorer_select_command_val === 'dex_sendrawtransaction' ||
 							atomic_explorer_select_command_val === 'dex_getblockhash') {
 						$('#atomic-explorer-commands-output').html(data);
 					} else {
