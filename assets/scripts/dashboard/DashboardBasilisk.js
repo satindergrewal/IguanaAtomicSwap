@@ -1,72 +1,5 @@
-function SwitchBasicliskFull(switch_data) {
-	var relay_value = '',
-			validate_value = '',
-			mode_value = '';
-
-	if ( switch_data.modecode == 'B' ) {
-		relay_value = 1;
-		validate_value = 1;
-		mode_value = 'Basilisk';
-	}
-	if ( switch_data.modecode == 'F' ) {
-		relay_value = 0;
-		validate_value = 0;
-		mode_value = 'Full';
-	}
-
-	var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-			SwitchCoinModeData = {
-				'userpass': tmpIguanaRPCAuth,
-				'poll': 100,
-				'immediate':100,
-				'active': 1,
-				'newcoin': switch_data.currency,
-				'startpend': 1,
-				'endpend': 1,
-				'services': 128,
-				'maxpeers': 16,
-				'RELAY': relay_value,
-				'VALIDATE': validate_value,
-				'portp2p': 14631
-			};
-
-	// Switch selected coins' mode
-	$.ajax({
-		type: 'GET',
-		data: SwitchCoinModeData,
-		url: 'http://127.0.0.1:7778/api/iguana/addcoin',
-		dataType: 'text',
-		success: function(data, textStatus, jqXHR) {
-			var SwitchCoinDataOutput = JSON.parse(data);
-
-			if (SwitchCoinDataOutput.result === 'coin added') {
-				console.log('coin added');
-				toastr.success(switch_data.currency + ' switched to ' + mode_value + ' Mode', 'Coin Notification');
-			} else if (SwitchCoinDataOutput.result === 'coin already there') {
-				console.log('coin already there');
-				//toastr.info("Looks like" + switch_data.currency + "already running.", "Coin Notification");
-			} else if (SwitchCoinDataOutput.result === null) {
-				console.log('coin already there');
-				//toastr.info("Looks like" + switch_data.currency + "already running.", "Coin Notification");
-			}
-		},
-		error: function(xhr, textStatus, error) {
-			console.log('failed starting BitcoinDark.');
-			console.log(xhr.statusText);
-			if ( xhr.readyState == 0 ) {
-				Iguana_ServiceUnavailable();
-			}
-			console.log(textStatus);
-			console.log(error);
-			if (xhr.readyState == '0' ) {
-				toastr.error('Unable to connect to Iguana', 'Account Notification');
-			}
-		}
-	});
-}
-
 function ShowBasiliskFetchDataProgress(coin) {
-	var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
+	var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode')
 
 	Shepherd_GetBasiliskCache().then(function(result){
 	    var _data = JSON.parse(result)
@@ -236,7 +169,7 @@ function ShowBasiliskFetchDataProgress(coin) {
 	                BasiliskFetchData += '</tr>';
 	                $('.tbl_edexcoin_dashboard_basilisk_refresh_status tbody').html(BasiliskFetchData);
 
-	                if (result[result.length-1] == result_val && result_val.listtransactions_status !== 'done' && result_val.getbalance_status !== 'done' ) {
+	                if (result[result.length-1] == result_val && result_val.listtransactions_status !== 'done' && result_val.getbalance_status !== 'done' && result_val.refresh_status !== 'done' ) {
 	                    $('#edexcoin_dashboard_basilisk_refresh_status').show()
 	                } else {
 	                    $('#edexcoin_dashboard_basilisk_refresh_status').hide()
@@ -245,5 +178,82 @@ function ShowBasiliskFetchDataProgress(coin) {
 	        })
 	    }
 	    
+	})
+}
+
+function SwitchBasicliskFull(switch_data) {
+	var relay_value = '',
+			validate_value = '',
+			mode_value = '';
+
+	if ( switch_data.modecode == 'B' ) {
+		relay_value = 1;
+		validate_value = 1;
+		mode_value = 'Basilisk';
+	}
+	if ( switch_data.modecode == 'F' ) {
+		relay_value = 0;
+		validate_value = 0;
+		mode_value = 'Full';
+	}
+
+	var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			SwitchCoinModeData = {
+				'userpass': tmpIguanaRPCAuth,
+				'poll': 100,
+				'immediate':100,
+				'active': 1,
+				'newcoin': switch_data.currency,
+				'startpend': 1,
+				'endpend': 1,
+				'services': 128,
+				'maxpeers': 16,
+				'RELAY': relay_value,
+				'VALIDATE': validate_value,
+				'portp2p': 14631
+			};
+
+	// Switch selected coins' mode
+	$.ajax({
+		type: 'GET',
+		data: SwitchCoinModeData,
+		url: 'http://127.0.0.1:7778/api/iguana/addcoin',
+		dataType: 'text',
+		success: function(data, textStatus, jqXHR) {
+			var SwitchCoinDataOutput = JSON.parse(data);
+
+			if (SwitchCoinDataOutput.result === 'coin added') {
+				console.log('coin added');
+				toastr.success(switch_data.currency + ' switched to ' + mode_value + ' Mode', 'Coin Notification');
+			} else if (SwitchCoinDataOutput.result === 'coin already there') {
+				console.log('coin already there');
+				//toastr.info("Looks like" + switch_data.currency + "already running.", "Coin Notification");
+			} else if (SwitchCoinDataOutput.result === null) {
+				console.log('coin already there');
+				//toastr.info("Looks like" + switch_data.currency + "already running.", "Coin Notification");
+			}
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed starting BitcoinDark.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
+			if (xhr.readyState == '0' ) {
+				toastr.error('Unable to connect to Iguana', 'Account Notification');
+			}
+		}
 	});
+}
+
+function getBasiliskCoinBalance(coin) {
+	EDEXMainAddr(coin).then(function(result){
+		console.log(result)
+		EDEX_DEXlistunspent(coin, result).then(function(result_listunspent) {
+			console.log(result_listunspent[0].amount);
+			$('span[data-edexcoincode="' + coin + '"][id="edexcoin-balance"]').text(result_listunspent[0].amount);
+		});
+	})
 }

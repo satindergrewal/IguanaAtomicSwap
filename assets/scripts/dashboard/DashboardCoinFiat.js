@@ -30,90 +30,9 @@ function getCoinBalance(coin) {
 	});
 }
 
-function getBasiliskCoinBalance(coin) {
-	EDEXMainAddr(coin).then(function(result){
-		console.log(result)
-		EDEX_DEXlistunspent(coin, result).then(function(result_listunspent) {
-			console.log(result_listunspent[0].amount);
-			$('span[data-edexcoincode="' + coin + '"][id="edexcoin-balance"]').text(result_listunspent[0].amount);
-		});
-	})
-}
-
 function StopShowCoinHistory() {
 	clearInterval(ExecuteShowCoinHistory);
 	console.log('Stopped executing History and ProgressBar API.');
-}
-
-function ShowCoinProgressBar(coin) {
-	var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
-			getinfoValues = {
-				'userpass': tmpIguanaRPCAuth,
-				'coin': coin,
-				'agent': 'bitcoinrpc',
-				'method': 'getinfo',
-				'immediate': 100,
-				'timeout': 4000
-			};
-
-	$.ajax({
-		type: 'POST',
-		data: JSON.stringify(getinfoValues),
-		url: 'http://127.0.0.1:7778',
-		success: function(data, textStatus, jqXHR) {
-			var CoinInfoData = JSON.parse(data);
-
-			// TODO: refactor
-			if (typeof CoinInfoData.bundles == 'undefined') {
-				//console.log(coin+' is undefined');
-			} else {
-				if ( parseInt(CoinInfoData.RTheight) != 0 ) {
-					var coin_blocks = parseInt(CoinInfoData.blocks),
-							coin_blocks_plus1 = coin_blocks + 1;
-
-					sessionStorage.setItem('Activate' + coin + 'History', 'Yes');
-					$('div[data-edexcoin="'+coin+'"][id="currency-progressbars"]').show();
-					$('div[data-edexcoin="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2) + '%');
-					$('span[data-edexcoin="'+coin+'"][id="currency-bundles-percent"]').text('(' + coin + ') ' + parseFloat(CoinInfoData.bundles).toFixed(2) + '% - ( ' + coin_blocks_plus1 + ' / '+ CoinInfoData.longestchain + ' ) ==>> RT' + CoinInfoData.RTheight);
-					$('div[data-edexcoin="'+coin+'"][id="additional-progress-bars"]').hide();
-					$('div[data-edexcoin="'+coin+'"][id="currency-bundles"]').removeClass( 'progress-bar-info' ).addClass( 'progress-bar-indicating progress-bar-success' );
-					$('#edex-footer').css('height', '11px');
-					resizeDashboardWindow();
-					$('#edexcoin-wallet-waitingrt-alert').hide();
-				}
-				if ( parseInt(CoinInfoData.RTheight) == 0 ) {
-					var coin_blocks = parseInt(CoinInfoData.blocks),
-							coin_blocks_plus1 = coin_blocks + 1;
-
-					sessionStorage.setItem('Activate' + coin + 'History', 'No');
-					console.log(coin + ': ' + CoinInfoData.bundles);
-					$('div[data-edexcoin="' + coin + '"][id="additional-progress-bars"]').show();
-					$('div[data-edexcoin="' + coin + '"][id="currency-progressbars"]').show();
-					$('div[data-edexcoin="' + coin + '"][id="currency-bundles"]').removeClass( 'progress-bar-indicating progress-bar-success' ).addClass( 'progress-bar-info' );
-					$('div[data-edexcoin="' + coin + '"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2) + '%');
-					$('span[data-edexcoin="' + coin + '"][id="currency-bundles-percent"]').text('(' + coin + ') ' + parseFloat(CoinInfoData.bundles).toFixed(2) + '% - ( ' + coin_blocks_plus1 + ' / ' + CoinInfoData.longestchain + ' )');
-					$('div[data-edexcoin="' + coin + '"][id="currency-utxo"]').width(parseFloat(CoinInfoData.utxo).toFixed(2) + '%');
-					$('span[data-edexcoin="' + coin + '"][id="currency-utxo-percent"]').text('(' + coin + ') ' + parseFloat(CoinInfoData.utxo).toFixed(2) + '%');
-					$('div[data-edexcoin="' + coin + '"][id="currency-balances"]').width(parseFloat(CoinInfoData.balances).toFixed(2) + '%');
-					$('span[data-edexcoin="' + coin + '"][id="currency-balances-percent"]').text('(' + coin + ') '+parseFloat(CoinInfoData.balances).toFixed(2) + '%');
-					$('div[data-edexcoin="' + coin + '"][id="currency-validated"]').width(parseFloat(CoinInfoData.validated).toFixed(2) + '%');
-					$('span[data-edexcoin="' + coin + '"][id="currency-validated-percent"]').text('(' + coin + ') '+parseFloat(CoinInfoData.validated).toFixed(2) + '%');
-					$('#edex-footer').css('height', '44px');
-					resizeDashboardWindow();
-					$('#edexcoin-wallet-waitingrt-alert').show();
-				}
-			}
-		},
-		error: function(xhr, textStatus, error) {
-			console.log('failed getting Coin History.');
-			console.log(xhr.statusText);
-			if ( xhr.readyState == 0 ) {
-				Iguana_ServiceUnavailable();
-			}
-			console.log(textStatus);
-			console.log(error);
-		}
-	});
 }
 
 function TotalFiatValue() {
@@ -194,4 +113,75 @@ function TotalFiatValue() {
 function StopTotalFiatValue() {
 	clearInterval(RunTotalFiatValue);
 	console.log('Stopped executing Total Fiat Value API with Rates');
+}
+
+function ShowCoinProgressBar(coin) {
+	var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+			getinfoValues = {
+				'userpass': tmpIguanaRPCAuth,
+				'coin': coin,
+				'agent': 'bitcoinrpc',
+				'method': 'getinfo',
+				'immediate': 100,
+				'timeout': 4000
+			};
+
+	$.ajax({
+		type: 'POST',
+		data: JSON.stringify(getinfoValues),
+		url: 'http://127.0.0.1:7778',
+		success: function(data, textStatus, jqXHR) {
+			var CoinInfoData = JSON.parse(data);
+
+			// TODO: refactor
+			if (typeof CoinInfoData.bundles == 'undefined') {
+				//console.log(coin+' is undefined');
+			} else {
+				if ( parseInt(CoinInfoData.RTheight) != 0 ) {
+					var coin_blocks = parseInt(CoinInfoData.blocks),
+							coin_blocks_plus1 = coin_blocks + 1;
+
+					sessionStorage.setItem('Activate' + coin + 'History', 'Yes');
+					$('div[data-edexcoin="'+coin+'"][id="currency-progressbars"]').show();
+					$('div[data-edexcoin="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2) + '%');
+					$('span[data-edexcoin="'+coin+'"][id="currency-bundles-percent"]').text('(' + coin + ') ' + parseFloat(CoinInfoData.bundles).toFixed(2) + '% - ( ' + coin_blocks_plus1 + ' / '+ CoinInfoData.longestchain + ' ) ==>> RT' + CoinInfoData.RTheight);
+					$('div[data-edexcoin="'+coin+'"][id="additional-progress-bars"]').hide();
+					$('div[data-edexcoin="'+coin+'"][id="currency-bundles"]').removeClass( 'progress-bar-info' ).addClass( 'progress-bar-indicating progress-bar-success' );
+					$('#edex-footer').css('height', '11px');
+					resizeDashboardWindow();
+					$('#edexcoin-wallet-waitingrt-alert').hide();
+				}
+				if ( parseInt(CoinInfoData.RTheight) == 0 ) {
+					var coin_blocks = parseInt(CoinInfoData.blocks),
+							coin_blocks_plus1 = coin_blocks + 1;
+
+					sessionStorage.setItem('Activate' + coin + 'History', 'No');
+					console.log(coin + ': ' + CoinInfoData.bundles);
+					$('div[data-edexcoin="' + coin + '"][id="additional-progress-bars"]').show();
+					$('div[data-edexcoin="' + coin + '"][id="currency-progressbars"]').show();
+					$('div[data-edexcoin="' + coin + '"][id="currency-bundles"]').removeClass( 'progress-bar-indicating progress-bar-success' ).addClass( 'progress-bar-info' );
+					$('div[data-edexcoin="' + coin + '"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2) + '%');
+					$('span[data-edexcoin="' + coin + '"][id="currency-bundles-percent"]').text('(' + coin + ') ' + parseFloat(CoinInfoData.bundles).toFixed(2) + '% - ( ' + coin_blocks_plus1 + ' / ' + CoinInfoData.longestchain + ' )');
+					$('div[data-edexcoin="' + coin + '"][id="currency-utxo"]').width(parseFloat(CoinInfoData.utxo).toFixed(2) + '%');
+					$('span[data-edexcoin="' + coin + '"][id="currency-utxo-percent"]').text('(' + coin + ') ' + parseFloat(CoinInfoData.utxo).toFixed(2) + '%');
+					$('div[data-edexcoin="' + coin + '"][id="currency-balances"]').width(parseFloat(CoinInfoData.balances).toFixed(2) + '%');
+					$('span[data-edexcoin="' + coin + '"][id="currency-balances-percent"]').text('(' + coin + ') '+parseFloat(CoinInfoData.balances).toFixed(2) + '%');
+					$('div[data-edexcoin="' + coin + '"][id="currency-validated"]').width(parseFloat(CoinInfoData.validated).toFixed(2) + '%');
+					$('span[data-edexcoin="' + coin + '"][id="currency-validated-percent"]').text('(' + coin + ') '+parseFloat(CoinInfoData.validated).toFixed(2) + '%');
+					$('#edex-footer').css('height', '44px');
+					resizeDashboardWindow();
+					$('#edexcoin-wallet-waitingrt-alert').show();
+				}
+			}
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
+		}
+	});
 }
