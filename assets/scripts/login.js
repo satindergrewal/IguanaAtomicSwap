@@ -49,92 +49,95 @@ var Login = function() {
       },
 
       submitHandler: function(form) {
-        var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-        		ajax_data = {
-        			'userpass': tmpIguanaRPCAuth,
-        			'handle': $('#wallet-handle').val(),
-        			'password': $('#password').val(),
-        			'timeout': '2592000',
-        			'agent': 'bitcoinrpc',
-        			'method': 'walletpassphrase'
-        		};
-        
-        $.ajax({
-          type: 'POST',
-          data: ajax_data,
-          data: JSON.stringify(ajax_data),
-          url: 'http://127.0.0.1:7778',
-          success: function(data, textStatus, jqXHR) {
-            var LoginOutput = JSON.parse(data);
-            		LoginDataToStore = JSON.stringify(data),
-            sessionStorage.setItem('IguanaActiveAccount', LoginDataToStore);
+        Iguana_Jumblr_SetPassphrase({'passphrase':$('#password').val()}).then(function(result){
+          console.log(result)
+        }).then(function(){
+          var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+              ajax_data = {
+                'userpass': tmpIguanaRPCAuth,
+                'handle': $('#wallet-handle').val(),
+                'password': $('#password').val(),
+                'timeout': '2592000',
+                'agent': 'bitcoinrpc',
+                'method': 'walletpassphrase'
+              };
+          
+          $.ajax({
+            type: 'POST',
+            data: ajax_data,
+            data: JSON.stringify(ajax_data),
+            url: 'http://127.0.0.1:7778',
+            success: function(data, textStatus, jqXHR) {
+              var LoginOutput = JSON.parse(data);
+                  LoginDataToStore = JSON.stringify(data),
+              sessionStorage.setItem('IguanaActiveAccount', LoginDataToStore);
+              if (LoginOutput.result === 'success') {
+                console.log('Success');
+                toastr.success('Login Successfull', 'Account Notification')
 
-            if (LoginOutput.result === 'success') {
-              console.log('Success');
-              toastr.success('Login Successfull', 'Account Notification')
+                $('#password').val('')
+                $('#wallet-login').hide();
+                $('#wallet-core').fadeIn();
+                $('body').removeClass( 'page-login layout-full page-dark' ).addClass( '' );
+                $('link[id=loginStyle]')[0].disabled = true;
 
-              $('#password').val('')
-              $('#wallet-login').hide();
-              $('#wallet-core').fadeIn();
-              $('body').removeClass( 'page-login layout-full page-dark' ).addClass( '' );
-              $('link[id=loginStyle]')[0].disabled = true;
-
-              location.reload();
-            } else {
-	            // If something goes wrong, alert the error message that our service returned
-	            if (LoginOutput.error === 'bitcoinrpc needs coin that is active') {
-                toastr.info('Seems like there\'s no coin running. Activating BTC.', 'Coin Notification');
-                var logincoinnames = [];
-                $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); });
-                console.log(logincoinnames);
-                
-                $.each(logincoinnames, function( index, value ) {
-                  if ( value == 'BTC' ) {
-                    var logincoinmodeval = $('input[name="logincoinbtcmode"]:checked').val(),
-                    		logincoin_data = {
-                    			'coin': value,
-                    			'mode': logincoinmodeval
-                    		};
-                    Iguana_addcoinLogin(logincoin_data);
-                  }
-                  if ( value == 'BTCD' ) {
-                    var logincoinmodeval = $('input[name="logincoinbtcdmode"]:checked').val(),
-                    		logincoin_data = {
-                    			'coin': value,
-                    			'mode': logincoinmodeval
-                    		};
-                    Iguana_addcoinLogin(logincoin_data);
-                  }
-                  if ( value == 'KMD' ) {
-                    var logincoinmodeval = $('input[name="logincoinkmdmode"]:checked').val(),
-                    		logincoin_data = {
-                    			'coin': value,
-                    			'mode': logincoinmodeval
-                    		};
-                    Iguana_addcoinLogin(logincoin_data);
-                  }
-                });
-              } else if ( LoginOutput.error === 'invalid passphrase' ) {
-                toastr.info('Invalid Passphrase. Make sure your passphrase is correct, or create new wallet.', 'Login Notification');
+                location.reload();
               } else {
-                toastr.warning('Opps... Something went wrong!', 'Account Notification');
-              }
+                // If something goes wrong, alert the error message that our service returned
+                if (LoginOutput.error === 'bitcoinrpc needs coin that is active') {
+                  toastr.info('Seems like there\'s no coin running. Activating BTC.', 'Coin Notification');
+                  var logincoinnames = [];
+                  $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); });
+                  console.log(logincoinnames);
+                  
+                  $.each(logincoinnames, function( index, value ) {
+                    if ( value == 'BTC' ) {
+                      var logincoinmodeval = $('input[name="logincoinbtcmode"]:checked').val(),
+                          logincoin_data = {
+                            'coin': value,
+                            'mode': logincoinmodeval
+                          };
+                      Iguana_addcoinLogin(logincoin_data);
+                    }
+                    if ( value == 'BTCD' ) {
+                      var logincoinmodeval = $('input[name="logincoinbtcdmode"]:checked').val(),
+                          logincoin_data = {
+                            'coin': value,
+                            'mode': logincoinmodeval
+                          };
+                      Iguana_addcoinLogin(logincoin_data);
+                    }
+                    if ( value == 'KMD' ) {
+                      var logincoinmodeval = $('input[name="logincoinkmdmode"]:checked').val(),
+                          logincoin_data = {
+                            'coin': value,
+                            'mode': logincoinmodeval
+                          };
+                      Iguana_addcoinLogin(logincoin_data);
+                    }
+                  });
+                } else if ( LoginOutput.error === 'invalid passphrase' ) {
+                  toastr.info('Invalid Passphrase. Make sure your passphrase is correct, or create new wallet.', 'Login Notification');
+                } else {
+                  toastr.warning('Opps... Something went wrong!', 'Account Notification');
+                }
 
-              console.log(data.statusText);
+                console.log(data.statusText);
+                console.log(textStatus);
+                console.log(jqXHR);
+              }
+            },
+            error: function(xhr, textStatus, error) {
+              console.log('failure');
+              console.log(xhr.statusText);
+              if ( xhr.readyState == 0 ) {
+                Iguana_ServiceUnavailable();
+              }
               console.log(textStatus);
-              console.log(jqXHR);
+              console.log(error);
             }
-          },
-          error: function(xhr, textStatus, error) {
-            console.log('failure');
-            console.log(xhr.statusText);
-            if ( xhr.readyState == 0 ) {
-              Iguana_ServiceUnavailable();
-            }
-            console.log(textStatus);
-            console.log(error);
-          }
-        });
+          });
+        })
 
         $('#section-dashboard').show();
         $('#section-easydex').hide();

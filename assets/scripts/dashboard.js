@@ -777,6 +777,8 @@ var Dashboard = function() {
 
 
 		var FetchBasiliskData = setInterval(function() {
+			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin'),
+						active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 			// TODO: refactor
 			if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
 				//clearInterval(FetchBasiliskData);
@@ -784,6 +786,7 @@ var Dashboard = function() {
 			} else {
 				if ( active_edexcoinmodecode == 'Basilisk') {
 					var call_data = {"allcoins": false,"coin":active_edexcoin,"calls":"listtransactions:getbalance"}
+					//console.log(call_data)
 					if ( sessionStorage.getItem('edexTmpRefresh') === null || sessionStorage.getItem('edexTmpRefresh') === 'start') {
 						Shepherd_FetchBasiliskData(call_data).then(function(result){
 							console.log(result)
