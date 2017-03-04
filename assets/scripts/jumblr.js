@@ -5,9 +5,14 @@ var Jumblr = function() {
 			//clearInterval(CheckIfIguanaRunning);
 			//console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
 		} else {
-			Jumblr_DisplayAddresses();
-			Jumblr_DisplayStatus();
-			Jumblr_ShowHideAlert();
+			Jumblr_CheckIfConnected().then(function(result){
+				console.log(result)
+				if (result == 'connected') {
+					Jumblr_DisplayAddresses();
+					Jumblr_DisplayStatus();
+					Jumblr_ShowHideAlert();
+				}
+			})
 		}
 		
 		$('#jumblr_actions_header').click(function(){
@@ -97,6 +102,41 @@ function Jumblr_LookforNativeKomodo() {
 		})
 	});
 }
+
+
+function Jumblr_CheckIfConnected() {
+	return new Promise((resolve) => {
+		var extcoin = $('[data-extcoin]').attr('data-extcoin'),
+			passthru_agent = getPassthruAgent(),
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'function': 'getinfo',
+				'hex': ''
+			};
+		
+		//console.log(ajax_data);
+		$.ajax({
+			type: 'POST',
+			data: JSON.stringify(ajax_data),
+			url: 'http://127.0.0.1:7778'
+		}).done(function(data){
+			data = JSON.parse(data)
+			if ( data.errors != undefined ) {
+				resolve('connected');
+			} else if (data.errors == '' ) {
+				resolve('connected');
+			} else if ( data.errors == undefined) {
+				resolve('not active');
+			} else {
+				resolve(data.errors);
+			}
+		})
+	})
+}
+
 
 jQuery(document).ready(function() {
 	Jumblr.init();
