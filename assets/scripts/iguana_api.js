@@ -2285,7 +2285,7 @@ function Iguana_DEXsendrawtx(data) {
             data: JSON.stringify(ajax_data),
             url: 'http://127.0.0.1:7778',
             type: 'POST',
-            dataType: 'json'
+            //dataType: 'json'
         }).then(result => {
             console.log(result);
             resolve(result);
@@ -2449,10 +2449,16 @@ function EDEX_DEXgetinfoAll() {
 }
 
 function EDEX_ProcessRefreshData(gettxdata,refreshdata){
+    console.log(gettxdata)
+    console.log(refreshdata)
     return new Promise((resolve, reject) => {
         Promise.all(gettxdata.vin.map((vin_value,vin_index) => {
+            console.log(vin_index)
+            console.log(vin_value)
             return new Promise((resolve, reject) => {
                 Promise.all(refreshdata.map((refresh_value,refresh_index) => {
+                    console.log(refresh_index)
+                    console.log(refresh_value)
                     if (refreshdata[refresh_index] !== undefined && refresh_value.txid == vin_value.txid) {
                         delete refreshdata[refresh_index]
                         refreshdata = refreshdata
@@ -2462,6 +2468,7 @@ function EDEX_ProcessRefreshData(gettxdata,refreshdata){
             })
         })).then(result=>{
             var res_data = result[result.length - 1];
+            console.log(res_data)
             var refresh_final = []
             
             $.each(res_data,function(index){
