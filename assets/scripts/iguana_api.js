@@ -1259,13 +1259,39 @@ function EDEXSendutxoRawTx(data) {
                                     $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
                                     $('#edexcoin_send_coins_anothertx_btn').show();
                                     $('#edexcoin-send-txdetails-screen').data('panel-api').done();
-                                    
-                                    var call_data = {"allcoins": false,"coin":'KMD',"calls":"refresh"}
-                                    console.log(call_data)
-                                    Shepherd_FetchBasiliskData(call_data).then(function(result){
+
+                                    var gettxiddata = function() {
+                                        return new Promise(function(resolve, reject) {
+                                            EDEXgettransaction(ajax_data_dexrawtx.coin,result.rawtx).then(function(result){
+                                                //console.log(result)
+                                                resolve(result)
+                                            })
+                                        });
+                                    }
+
+                                    var process_refresh_utxos = function(gettxdata) {
+                                        return new Promise(function(resolve, reject) {
+                                            console.log(gettxdata)
+                                            console.log(utxos_set)
+                                            EDEX_ProcessRefreshData(gettxdata,utxos_set).then(function(new_utxos_set){
+                                                console.log(new_utxos_set)
+                                                resolve(new_utxos_set)
+                                            })
+                                        });
+                                    }
+
+                                    gettxiddata()
+                                    .then(function(gettxdata) {
+                                        return process_refresh_utxos(gettxdata);
+                                    });
+
+                                    //var call_data = {"allcoins": false,"coin":ajax_data_dexrawtx.coin,"calls":"refresh"}
+                                    //console.log(call_data)
+                                    /*Shepherd_FetchBasiliskData(call_data).then(function(result){
                                         console.log(result)
                                         toastr.info('Refreshing Wallet Funds.', 'Wallet Notification');
-                                    })
+                                    })*/
+
                             } else {
                                 var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
                                     toastr.success('Signed transaction sent successfully!', 'Wallet Notification');
@@ -1479,6 +1505,33 @@ function EDEXgetinfo(coin) {
 					console.log(error);
 				});
 	})
+}
+
+
+function EDEXgettransaction(coin,txid) {
+    return new Promise((resolve) => {
+        var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+                ajax_data = {
+                    'userpass': tmpIguanaRPCAuth,
+                    'symbol': coin,
+                    'agent': 'dex',
+                    'method': 'gettransaction',
+                    'vout':1,
+                    'txid': txid
+                };
+                console.log(ajax_data)
+        var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
+            AjaxOutputData = JSON.parse(AjaxOutputData.responseText)
+            resolve(AjaxOutputData);
+        }).fail(function(xhr, textStatus, error) {
+            // handle request failures
+            console.log(xhr.statusText);
+            if ( xhr.readyState == 0 ) {
+            }
+            console.log(textStatus);
+            console.log(error);
+        });
+    })
 }
 
 function EDEXgetaddrbyaccount_cache(coin) {
