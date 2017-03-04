@@ -122,6 +122,16 @@ var Dashboard = function() {
 	}
 
 	var handle_edex_send = function() {
+		$('.btn_refresh_edexcoin_send').click(function() {
+			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
+			var call_data = {"allcoins": false,"coin":'KMD',"calls":"refresh"}
+			console.log(call_data)
+			Shepherd_FetchBasiliskData(call_data).then(function(result){
+				console.log(result)
+				toastr.info('Refreshing Wallet Funds.', 'Wallet Notification');
+			})
+		});
+
 		$('#btn_edexcoin_send').click(function() {
 			$('#btn_edexcoin_dashboard').show();
 			$('#btn_edexcoin_send').hide();
@@ -2639,9 +2649,9 @@ function ShowBasiliskFetchDataProgress(coin) {
 	            })
 	        })).then(result => {
 	            //console.log(result)
-	            //res_data.coin = coin_exists
-	            //res_data.addresses = addresses_exists
-	            BasiliskFetchData = ''
+					//var res_data.coin = coin_exists
+					//var res_data.addresses = addresses_exists
+					var BasiliskFetchData = ''
 	            
 	            $.each(result, function(result_index, result_val) {
 	                //console.log(result_index)
@@ -2670,45 +2680,57 @@ function ShowBasiliskFetchDataProgress(coin) {
 	                switch (result_val.listtransactions_status) {
 	                    case 'waiting':
 	                        tmp_listtransactions_lable_color = 'dark'
+	                        $('#edexcoin_dashboard_basilisk_refresh_status').show()
 	                        break;
 	                    case 'in progress':
 	                        tmp_listtransactions_lable_color = 'primary'
+	                        $('#edexcoin_dashboard_basilisk_refresh_status').show()
 	                        break;
 	                    case 'done':
 	                        tmp_listtransactions_lable_color = 'success'
+	                        $('#edexcoin_dashboard_basilisk_refresh_status').hide()
 	                        break;
 	                    case 'NOT FOUND':
 	                        tmp_listtransactions_lable_color = 'danger'
+	                        $('#edexcoin_dashboard_basilisk_refresh_status').show()
 	                        break;
 	                }
 
 	                switch (result_val.getbalance_status) {
 	                    case 'waiting':
 	                        tmp_getbalance_lable_color = 'dark'
+	                        $('#edexcoin_dashboard_basilisk_refresh_status').show()
 	                        break;
 	                    case 'in progress':
 	                        tmp_getbalance_lable_color = 'primary'
+	                        $('#edexcoin_dashboard_basilisk_refresh_status').show()
 	                        break;
 	                    case 'done':
 	                        tmp_getbalance_lable_color = 'success'
+	                        $('#edexcoin_dashboard_basilisk_refresh_status').hide()
 	                        break;
 	                    case 'NOT FOUND':
 	                        tmp_getbalance_lable_color = 'danger'
+	                        $('#edexcoin_dashboard_basilisk_refresh_status').show()
 	                        break;
 	                }
 
 	                switch (result_val.refresh_status) {
 	                    case 'waiting':
 	                        tmp_refresh_lable_color = 'dark'
+	                        $('#edexcoin_dashboard_basilisk_refresh_status').show()
 	                        break;
 	                    case 'in progress':
 	                        tmp_refresh_lable_color = 'primary'
+	                        $('#edexcoin_dashboard_basilisk_refresh_status').show()
 	                        break;
 	                    case 'done':
 	                        tmp_refresh_lable_color = 'success'
+	                        $('#edexcoin_dashboard_basilisk_refresh_status').hide()
 	                        break;
 	                    case 'NOT FOUND':
 	                        tmp_refresh_lable_color = 'danger'
+	                        //$('#edexcoin_dashboard_basilisk_refresh_status').show()
 	                        break;
 	                }
 
@@ -2721,12 +2743,13 @@ function ShowBasiliskFetchDataProgress(coin) {
 	                BasiliskFetchData += '<td><span class="label label-'+tmp_refresh_lable_color+' text-uppercase">'+result_val.refresh_status+'</span></td>';
 	                BasiliskFetchData += '</tr>';
 	                $('.tbl_edexcoin_dashboard_basilisk_refresh_status tbody').html(BasiliskFetchData);
+	                //console.log(result_val.refresh_status)
 
-	                if (result[result.length-1] == result_val && result_val.listtransactions_status !== 'done' && result_val.getbalance_status !== 'done' && result_val.refresh_status !== 'done' ) {
+	                /*if (result[result.length-1] == result_val && result_val.listtransactions_status !== 'done' && result_val.getbalance_status !== 'done' && result_val.refresh_status !== 'done' ) {
 	                    $('#edexcoin_dashboard_basilisk_refresh_status').show()
 	                } else {
 	                    $('#edexcoin_dashboard_basilisk_refresh_status').hide()
-	                }
+	                }*/
 	            })
 	        })
 	    } 

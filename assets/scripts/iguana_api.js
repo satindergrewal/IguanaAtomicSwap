@@ -1262,7 +1262,8 @@ function EDEXSendutxoRawTx(data) {
 
                                     var gettxiddata = function() {
                                         return new Promise(function(resolve, reject) {
-                                            EDEXgettransaction(ajax_data_dexrawtx.coin,result.rawtx).then(function(result){
+                                            toastr.info('Getting txid info for updating funds data.', 'Wallet Notification');
+                                            EDEXgettransaction(ajax_data_dexrawtx.coin,dexrwatx_result).then(function(result){
                                                 //console.log(result)
                                                 resolve(result)
                                             })
@@ -1271,8 +1272,8 @@ function EDEXSendutxoRawTx(data) {
 
                                     var process_refresh_utxos = function(gettxdata) {
                                         return new Promise(function(resolve, reject) {
-                                            console.log(gettxdata)
-                                            console.log(utxos_set)
+                                            //console.log(gettxdata)
+                                            //console.log(utxos_set)
                                             EDEX_ProcessRefreshData(gettxdata,utxos_set).then(function(new_utxos_set){
                                                 console.log(new_utxos_set)
                                                 resolve(new_utxos_set)
@@ -1280,9 +1281,41 @@ function EDEXSendutxoRawTx(data) {
                                         });
                                     }
 
+                                    var get_data_cache_contents = function(new_utxos_set) {
+                                        return new Promise(function(resolve, reject) {
+                                            console.log(new_utxos_set)
+                                            console.log(send_data)
+                                            console.log(send_data.sendfrom)
+                                            Shepherd_GroomData_Get().then(function(result){
+                                                console.log(result)
+                                                console.log(result.basilisk.KMD[send_data.sendfrom].refresh)
+                                                delete result.basilisk.KMD[send_data.sendfrom].refresh.data
+                                                console.log(result.basilisk.KMD[send_data.sendfrom].refresh)
+                                                result.basilisk.KMD[send_data.sendfrom].refresh.data = new_utxos_set
+                                                console.log(result.basilisk.KMD[send_data.sendfrom].refresh)
+                                                var save_this_data = result
+                                                resolve(result);
+                                            })
+                                        });
+                                    }
+
+                                    var save_new_cache_data = function(save_this_data) {
+                                        return new Promise(function(resolve, reject) {
+                                            console.log(save_this_data)
+                                            Shepherd_GroomData_Post(save_this_data).then(function(result){
+                                                console.log(result)
+                                                resolve(result);
+                                            })
+                                        });
+                                    }
+
                                     gettxiddata()
                                     .then(function(gettxdata) {
                                         return process_refresh_utxos(gettxdata);
+                                    }).then(function(new_utxos_set) {
+                                        return get_data_cache_contents(new_utxos_set)
+                                    }).then(function(save_this_data) {
+                                        return save_new_cache_data(save_this_data)
                                     });
 
                                     //var call_data = {"allcoins": false,"coin":ajax_data_dexrawtx.coin,"calls":"refresh"}
@@ -1519,8 +1552,26 @@ function EDEXgettransaction(coin,txid) {
                     'vout':1,
                     'txid': txid
                 };
-                console.log(ajax_data)
-        var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
+            //console.log(ajax_data)
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify(ajax_data),
+                url: 'http://127.0.0.1:7778'
+            }).then(function(data) {
+                //console.log(data)
+                res_data = JSON.parse(data)
+                //console.log(res_data)
+                resolve(res_data)
+            }).fail(function(xhr, textStatus, error) {
+                // handle request failures
+                console.log(xhr.statusText);
+                if ( xhr.readyState == 0 ) {
+                }
+                console.log(textStatus);
+                console.log(error);
+            });
+
+        /*var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
             AjaxOutputData = JSON.parse(AjaxOutputData.responseText)
             resolve(AjaxOutputData);
         }).fail(function(xhr, textStatus, error) {
@@ -1530,7 +1581,7 @@ function EDEXgettransaction(coin,txid) {
             }
             console.log(textStatus);
             console.log(error);
-        });
+        });*/
     })
 }
 
@@ -2285,7 +2336,7 @@ function Iguana_DEXsendrawtx(data) {
             data: JSON.stringify(ajax_data),
             url: 'http://127.0.0.1:7778',
             type: 'POST',
-            dataType: 'json'
+            //dataType: 'json'
         }).then(result => {
             console.log(result);
             resolve(result);
@@ -2449,10 +2500,16 @@ function EDEX_DEXgetinfoAll() {
 }
 
 function EDEX_ProcessRefreshData(gettxdata,refreshdata){
+    console.log(gettxdata)
+    console.log(refreshdata)
     return new Promise((resolve, reject) => {
         Promise.all(gettxdata.vin.map((vin_value,vin_index) => {
+            console.log(vin_index)
+            console.log(vin_value)
             return new Promise((resolve, reject) => {
                 Promise.all(refreshdata.map((refresh_value,refresh_index) => {
+                    console.log(refresh_index)
+                    console.log(refresh_value)
                     if (refreshdata[refresh_index] !== undefined && refresh_value.txid == vin_value.txid) {
                         delete refreshdata[refresh_index]
                         refreshdata = refreshdata
@@ -2462,6 +2519,7 @@ function EDEX_ProcessRefreshData(gettxdata,refreshdata){
             })
         })).then(result=>{
             var res_data = result[result.length - 1];
+            console.log(res_data)
             var refresh_final = []
             
             $.each(res_data,function(index){
@@ -2651,6 +2709,55 @@ function Shepherd_FetchBasiliskData(req_data) {
 			resolve(data);
 		});
 	});
+}
+
+
+function Shepherd_GroomData_Get() {
+    return new Promise((resolve) => {
+        var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
+            parse_session_data = JSON.parse(JSON.parse(parse_session_data));
+        var request_method = '';
+        var session_pubkey = parse_session_data.pubkey;
+        var ajax_data = {'filename': session_pubkey};
+          
+        var req_url = 'http://127.0.0.1:17777/shepherd/groom';
+        console.log(ajax_data)
+
+        $.ajax({
+            type: 'GET',
+            data: ajax_data,
+            url: req_url,
+            contentType: 'application/json', // send as JSON
+        }).done(function(data) {
+            var res_data = JSON.parse(data)
+            resolve(res_data.result);
+        });
+    });
+}
+
+function Shepherd_GroomData_Post(req_data) {
+    return new Promise((resolve) => {
+        var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
+            parse_session_data = JSON.parse(JSON.parse(parse_session_data));
+        var request_method = '';
+        var session_pubkey = parse_session_data.pubkey;
+
+        console.log(req_data)
+        var ajax_data = {'filename': session_pubkey,'payload':req_data};
+          
+        var req_url = 'http://127.0.0.1:17777/shepherd/groom';
+        console.log(ajax_data)
+
+        $.ajax({
+            type: 'POST',
+            data: ajax_data,
+            url: req_url,
+            dataType: 'json'
+        }).done(function(data) {
+            var res_data = JSON.parse(data)
+            resolve(res_data);
+        });
+    });
 }
 
 function Shepherd_GetBasiliskCache() {
