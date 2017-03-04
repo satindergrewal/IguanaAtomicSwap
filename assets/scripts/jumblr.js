@@ -1,6 +1,17 @@
 var Jumblr = function() {
 
 	var handleJumblr = function() {
+
+		$( ".jumblr_show_hide_addr_btc_btn" ).click(function() {
+			$( "#jumblr_BTCjumblr" ).toggle();
+			$( "#jumblr_BTCjumblr_showhide" ).toggle();
+		});
+
+		$( ".jumblr_show_hide_addr_kmd_btn" ).click(function() {
+			$( "#jumblr_KMDjumblr" ).toggle();
+			$( "#jumblr_KMDjumblr_showhide" ).toggle();
+		});
+
 		if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
 			//clearInterval(CheckIfIguanaRunning);
 			//console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
@@ -58,10 +69,15 @@ function Jumblr_DisplayAddresses() {
 function Jumblr_DisplayStatus() {
 	Iguana_Jumblr_Status().then(function(result){
 		//console.log(result)
-		$('#jumblr_status_BTCdeposit').text(result.BTCdeposit)
+		/*$('#jumblr_status_BTCdeposit').text(result.BTCdeposit)
 		$('#jumblr_status_BTCjumblr').text(result.BTCjumblr)
 		$('#jumblr_status_KMDdeposit').text(result.KMDdeposit)
-		$('#jumblr_status_KMDjumblr').text(result.KMDjumblr)
+		$('#jumblr_status_KMDjumblr').text(result.KMDjumblr)*/
+		if (result.result == 'success') {
+			$('#jumblr_status_result').addClass('label-success').removeClass('label-danger')
+		} else {
+			$('#jumblr_status_result').addClass('label-danger').removeClass('label-success')
+		}
 		$('#jumblr_status_result').text(result.result)
 		$('#jumblr_status_deposited').text(result.deposited)
 		$('#jumblr_status_t_to_z').text(result.t_to_z)

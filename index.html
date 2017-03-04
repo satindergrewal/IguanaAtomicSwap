@@ -1247,10 +1247,22 @@
             <div class="table-responsive">
               <table class="table table-striped">
                 <tbody>
-                  <tr><td>BTC Deposit</td><td><span id="jumblr_BTCdeposit"></span></td></tr>
-                  <tr><td>BTC Jumblr</td><td><span id="jumblr_BTCjumblr"></span></td></tr>
+                  <tr><td width="30%">BTC Deposit</td><td><span id="jumblr_BTCdeposit"></span></td></tr>
+                  <tr><td>BTC Jumblr</td><td>
+                    <span class="label label-outline label-success" id="jumblr_BTCjumblr" style="display: none;"></span>
+                    <span class="label label-outline label-default" id="jumblr_BTCjumblr_showhide">Hidden for security reason.</span>
+                    <button type="button" class="btn btn-animate btn-animate-side btn-default waves-effect waves-light jumblr_show_hide_addr_btc_btn" data-jumblr="BTCjumblr">
+                      <span><i class="icon fa-eye" aria-hidden="true"></i> Show/Hide</span>
+                    </button>
+                  </td></tr>
                   <tr><td>KMD Deposit</td><td><span id="jumblr_KMDdeposit"></span></td></tr>
-                  <tr><td>KMD Jumblr</td><td><span id="jumblr_KMDjumblr"></span></td></tr>
+                  <tr><td>KMD Jumblr</td><td>
+                    <span class="label label-outline label-success" id="jumblr_KMDjumblr" style="display: none;"></span>
+                    <span class="label label-outline label-default" id="jumblr_KMDjumblr_showhide">Hidden for security reason.</span>
+                    <button type="button" class="btn btn-animate btn-animate-side btn-default waves-effect waves-light jumblr_show_hide_addr_kmd_btn" data-jumblr="KMDjumblr">
+                      <span><i class="icon fa-eye" aria-hidden="true"></i> Show/Hide</span>
+                    </button>
+                  </td></tr>
                 </tbody>
               </table>
             </div>
@@ -1265,11 +1277,11 @@
             <div class="table-responsive">
               <table class="table table-striped">
                 <tbody>
-                  <tr><td>BTC Deposit</td><td><span id="jumblr_status_BTCdeposit"></span></td></tr>
+                  <!--<tr><td>BTC Deposit</td><td><span id="jumblr_status_BTCdeposit"></span></td></tr>
                   <tr><td>BTC Jumblr</td><td><span id="jumblr_status_BTCjumblr"></span></td></tr>
                   <tr><td>KMD Deposit</td><td><span id="jumblr_status_KMDdeposit"></span></td></tr>
-                  <tr><td>KMD Jumblr</td><td><span id="jumblr_status_KMDjumblr"></span></td></tr>
-                  <tr><td>Result</td><td><span id="jumblr_status_result"></span></td></tr>
+                  <tr><td>KMD Jumblr</td><td><span id="jumblr_status_KMDjumblr"></span></td></tr>-->
+                  <tr><td width="30%">Result</td><td><span id="jumblr_status_result" class="label label-success"></span></td></tr>
                   <tr><td>Deposited</td><td><span id="jumblr_status_deposited"></span></td></tr>
                   <tr><td>Public to Private</td><td><span id="jumblr_status_t_to_z"></span></td></tr>
                   <tr><td>Private to Private</td><td><span id="jumblr_status_z_to_z"></span></td></tr>
