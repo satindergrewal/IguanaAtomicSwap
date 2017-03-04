@@ -2395,6 +2395,32 @@ function EDEX_DEXgetinfoAll() {
 	return result[0];
 }
 
+function EDEX_ProcessRefreshData(gettxdata,refreshdata){
+    return new Promise((resolve, reject) => {
+        Promise.all(gettxdata.vin.map((vin_value,vin_index) => {
+            return new Promise((resolve, reject) => {
+                Promise.all(refreshdata.map((refresh_value,refresh_index) => {
+                    if (refreshdata[refresh_index] !== undefined && refresh_value.txid == vin_value.txid) {
+                        delete refreshdata[refresh_index]
+                        refreshdata = refreshdata
+                        resolve(refreshdata)
+                    }
+                }))
+            })
+        })).then(result=>{
+            var res_data = result[result.length - 1];
+            var refresh_final = []
+            
+            $.each(res_data,function(index){
+                if(res_data[index] !== undefined) {
+                    refresh_final.push(res_data[index])
+                }
+            })
+            //console.log(refresh_final)
+            resolve(refresh_final);
+        })
+    })
+}
 
 function Iguana_Jumblr_SetPassphrase(data) {
     return new Promise((resolve) => {
