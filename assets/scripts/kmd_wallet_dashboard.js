@@ -2,8 +2,8 @@ var KMDWalletDashboard = function() {
 	var handle_KMD_Dashboard = function() {
 		var action_btn_code = getHeaderActionMenuButtonCoinCode();
 		$('#btn_' + action_btn_code + '_wallet_dashboard').click(function() {
-			console.log('kmd wallet dashbaord button clicked...');
-			console.log($(this).data());
+			//console.log('kmd wallet dashbaord button clicked...');
+			//console.log($(this).data());
 			if ( sessionStorage.getItem('edexTmpMode') === 'Native') {
 				sessionStorage.setItem('edexTmpRefresh', 'start');
 			}
@@ -488,7 +488,7 @@ function getTotalKMDBalance() {
 				'hex': '3000'
 			};
 
-	console.log(ajax_data);
+	//console.log(ajax_data);
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
@@ -845,7 +845,7 @@ function KMDGetPublicTransactions() {
 		url: 'http://127.0.0.1:7778',
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
-			console.log(AjaxOutputData);
+			//console.log(AjaxOutputData);
 
 			$.each(AjaxOutputData, function(index, value) {
 				var tmp_category = '',
@@ -1029,13 +1029,13 @@ function KMDListAddresses(pubpriv) {
 	NProgress.start();
 
 	var result = [],
-			ajax_data_to_hex = '""',
+			ajax_data_to_hex = '',
 			ajax_function_input = '',
 			tmplistaddr_hex_input = '';
 
 	if ( pubpriv === 'public' ) {
 		ajax_function_input = 'getaddressesbyaccount';
-		tmplistaddr_hex_input = Iguana_HashHex(ajax_data_to_hex);
+		tmplistaddr_hex_input = '222200';
 	}
 	if ( pubpriv === 'private' ) {
 		ajax_function_input = 'z_listaddresses';
@@ -1051,7 +1051,6 @@ function KMDListAddresses(pubpriv) {
 				'function': ajax_function_input,
 				'hex': tmplistaddr_hex_input
 			};
-
 	$.ajax({
 		async: false,
 		type: 'POST',
@@ -1418,9 +1417,9 @@ function CheckIfConnected() {
 		url: 'http://127.0.0.1:7778',
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
-			console.log('== Data OutPut ==');
-			console.log(AjaxOutputData);
-			console.log(AjaxOutputData.error);
+			//console.log('== Data OutPut ==');
+			//console.log(AjaxOutputData);
+			//console.log(AjaxOutputData.error);
 
 			if ( AjaxOutputData.errors != undefined ) {
 				result.push('connected');

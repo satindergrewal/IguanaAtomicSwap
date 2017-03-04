@@ -159,6 +159,9 @@ const _lang = {
       'DEBUG_LOG_LINES': 'Input number of lines to read',
       'TARGET': 'Target',
       'LOAD_DEBUG_LOG': 'Load debug log'
+    },
+    'DASHBOARD': {
+      'SELECT_ADDRESS': '- Select Address -'
     }
   }
 };
