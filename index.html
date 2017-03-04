@@ -2223,6 +2223,7 @@
 
     <script src="assets/scripts/lang.js"></script>
     <script src="assets/scripts/lang/en.js"></script>
+    <script src="assets/scripts/payloadtest.js"></script>
 
     <script type="text/javascript">
       (function(document, window, $) {
@@ -2241,6 +2242,80 @@
 
           lang();
         });
+
+        console.log(payloadtest);
+        /*$.ajax({
+          async: false,
+          type: 'POST',
+          data: JSON.stringify({ 'filename': 'test', 'payload': JSON.stringify(payloadtest) }),
+          url: 'http://127.0.0.1:17777/shepherd/groom',
+          contentType: 'application/json', // send as JSON
+          success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data);
+            console.log(AjaxOutputData);
+          },
+          error: function(xhr, textStatus, error) {
+            console.log(error);
+            //console.log(xhr.statusText);
+            //if ( xhr.readyState == 0 ) {
+            //}
+            //console.log(textStatus);
+            //console.log(error);
+          }
+        });*/
+
+        function removeTXID(_obj, txidArray) {
+          var txidToStr = txidArray.join(':');
+              console.log(txidToStr);
+
+          if (_obj, _obj.basilisk) {
+            if (Object.keys(_obj.basilisk).length === 0) {
+              console.log('no coin nodes to parse');
+            } else {
+              for (var key in _obj.basilisk) {
+                for (var coinAddr in _obj.basilisk[key]) {
+                  if (_obj.basilisk[key][coinAddr] !== 'addresses') {
+                    if (_obj.basilisk[key][coinAddr].refresh &&
+                        _obj.basilisk[key][coinAddr].refresh.data &&
+                        _obj.basilisk[key][coinAddr].refresh.data.length > 0) {
+                      for (var i = 0; i < _obj.basilisk[key][coinAddr].refresh.data.length; i++) {
+                        if (txidToStr.indexOf(_obj.basilisk[key][coinAddr].refresh.data[i].txid) > -1) {
+                          delete _obj.basilisk[key][coinAddr].refresh.data[i];
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          } else {
+            console.log('basilisk node is missing');
+          }
+
+          return _obj;
+        }
+
+        var txid = ['9252eaea4c03d31f1aa83baeebe6253d8ca4a1d6d5ddca3ef4af9afc8da99e03', '243a70ca3e549b40582a57d82cfc85e57f48c8f39966db9ed020d6e6d4bef3f7'];
+        var newpayload = removeTXID(payloadtest, txid);
+        $.ajax({
+          async: false,
+          type: 'POST',
+          data: JSON.stringify({ 'filename': 'test', 'payload': JSON.stringify(newpayload) }),
+          url: 'http://127.0.0.1:17777/shepherd/groom',
+          contentType: 'application/json', // send as JSON
+          success: function(data, textStatus, jqXHR) {
+            var AjaxOutputData = JSON.parse(data);
+            console.log(AjaxOutputData);
+          },
+          error: function(xhr, textStatus, error) {
+            console.log(error);
+            //console.log(xhr.statusText);
+            //if ( xhr.readyState == 0 ) {
+            //}
+            //console.log(textStatus);
+            //console.log(error);
+          }
+        });          
       })(document, window, jQuery);
 
       jQuery(document).ready(function() {
