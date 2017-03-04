@@ -743,16 +743,17 @@ var Login = function() {
         $('#addcoin_mdl_basilisk_mode_login').prop('checked', true);
       }
       if (tmp_coin_val == 'BTC') {
-        $('#addcoin_mdl_basilisk_mode_login').prop('disabled', false);
+        $('#addcoin_mdl_basilisk_mode_login').prop('disabled', true);
         $('#addcoin_mdl_native_mode_login').prop('disabled', true);
         $('#addcoin_mdl_full_mode_login').prop('disabled', false);
-        $('#addcoin_mdl_basilisk_mode_login').prop('checked', true);
+        $('#addcoin_mdl_full_mode_login').prop('checked', true);
       }
     });
   }
 
   var handleAddCoinOSOptions = function() {
-    if ( navigator.platform == 'Win32' // || navigator.platform == 'MacIntel'
+    if ( navigator.platform == 'Win32'
+      // || navigator.platform == 'MacIntel'
       // || navigator.platform == 'Linux x86_64' || navigator.platform == 'Linux' || navigator.platform == 'Linux i686'
       ) {
       // Conditions for Login Add Coin Dialog
@@ -788,7 +789,7 @@ var Login = function() {
       handleCheckLogin();
       handleLoginAnotherWallet();
       handleAddCoinLoginBtn();
-      // handleAddCoinOSOptions();
+       handleAddCoinOSOptions();
     }
   };
 }();
