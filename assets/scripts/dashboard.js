@@ -830,7 +830,10 @@ var Dashboard = function() {
 					if ( sessionStorage.getItem('edexTmpMode') !== null || sessionStorage.getItem('edexTmpMode') === 'Basilisk') {
 						if ( sessionStorage.getItem('edexTmpRefresh') === null || sessionStorage.getItem('edexTmpRefresh') === 'start') {
 							var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin')
-							ShowBasiliskFetchDataProgress(active_edexcoin);
+							var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
+							if (active_edexcoinmodecode === 'Basilisk') {
+								ShowBasiliskFetchDataProgress(active_edexcoin);
+							}
 						}
 					}
 				}

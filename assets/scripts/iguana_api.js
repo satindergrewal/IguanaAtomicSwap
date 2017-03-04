@@ -1481,6 +1481,7 @@ function EDEXSendToAddr(data) {
 																			'</tr>';
 				$('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
 				$('#edexcoin_send_coins_anothertx_btn').show();
+                $('#edexcoin-send-txdetails-screen').data('panel-api').done();
 			}
 
 			var selected_coinmode = sessionStorage.getItem('edexTmpMode');
@@ -1509,6 +1510,7 @@ function EDEXSendToAddr(data) {
 			}
 			console.log(textStatus);
 			console.log(error);
+            $('#edexcoin-send-txdetails-screen').data('panel-api').done();
 		}
 	});
 
