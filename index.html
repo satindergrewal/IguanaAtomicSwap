@@ -1240,6 +1240,107 @@
           <p>This screen does not auto refresh. You will need to hit the Refresh button on the top right corner of the screen to get latest Jumblr data.</p>
         </div>
 
+        <div class="col-xs-12">
+          <div class="panel-group" id="jumber_quick_info" aria-multiselectable="true"
+          role="tablist">
+            <div class="panel">
+              <div class="panel-heading" id="jumblr_security_notes" role="tab">
+                <a class="panel-title" data-toggle="collapse" href="#jumblr_security_notes_1"
+                data-parent="#jumber_quick_info" aria-expanded="true"
+                aria-controls="jumblr_security_notes_1">
+                Few Security Notes for your Privacy and Anonymity of funds
+              </a>
+              </div>
+              <div class="panel-collapse collapse in" id="jumblr_security_notes_1" aria-labelledby="jumblr_security_notes"
+              role="tabpanel">
+                <div class="panel-body">
+                  <ul>
+                    <li>Jumblr addresses (BTC Jumbler and KMD Jumbler) addresses are your Private Addresses.</li>
+                    <li>DO NOT SHARE your Jumblr addresses with anyone.</li>
+                    <li>Jumblr addresses are like YOUR PASSWORD. Keep them safe, secure and hidden.</li>
+                    <li>Only YOU should know your Jumblr Address. Nobody else.</li>
+                    <li>Sharing your Jumblr Addresses with ANYONE will defeat the purpose of using Jumblr, and your funds and transactions will not be private anymore.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-heading" id="jumblr_access_funds" role="tab">
+                <a class="panel-title collapsed" data-toggle="collapse" href="#jumblr_access_funds_2"
+                data-parent="#jumber_quick_info" aria-expanded="false"
+                aria-controls="jumblr_access_funds_2">
+                How to Access your Jumblr Funds
+              </a>
+              </div>
+              <div class="panel-collapse collapse" id="jumblr_access_funds_2" aria-labelledby="jumblr_access_funds"
+              role="tabpanel">
+                <div class="panel-body">
+                  <p>Your Jumbler Addresses are accessible easily.
+                  For example you logged into your wallet with passphrase</p>
+                  
+                  <ul><code>duck dog cat donkey</code></ul>
+                  
+                  <ol>
+                    <li>To access your Jumbler address funds Logout.</li>
+                    <li>Close Iguana App.</li>
+                    <li>Start Iguana App again.</li>
+                    <li>Start Komodo in either Full Mode or Basilisk Mode.</li>
+                    <li>Then add word 'jumblr ' before your passphrase.
+                    <ul>
+                      <li>"jumblr" is all in small letters.</li>
+                      <li>There is a white space after "jumblr ".</li>
+                    </ul>
+                    </li>
+                    <li>So as per this example, your Jumbler Addresses are accessible with:<br>
+                    <code>jumblr duck dog cat donkey</code>
+                    </li>
+                    <li>You'll login with your Jumblr passphrase to access funds and will be able to use it just like any other wallet address.</li>
+                  </ol>
+
+                  <h4>Again, DO NOT SHARE YOUR JUMBLR ADDRESS WITH ANYONE.</h4>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-heading" id="jumblr_using_jumblr" role="tab">
+                <a class="panel-title collapsed" data-toggle="collapse" href="#jumblr_using_jumblr_3"
+                data-parent="#jumber_quick_info" aria-expanded="false"
+                aria-controls="jumblr_using_jumblr_3">
+                Using Jumblr
+              </a>
+              </div>
+              <div class="panel-collapse collapse" id="jumblr_using_jumblr_3" aria-labelledby="jumblr_using_jumblr"
+              role="tabpanel">
+                <div class="panel-body">
+                  <ul>
+                    <li>Run Komodo in Native Mode</li>
+                    <li>Loging with your passphrase</li>
+                    <li>Go to Jumblr Menu</li>
+                    <li>There find your Deposit Address for coin you want to anonymise your funds. (For a start only KMD is supported. BTC support will come in later versions)</li>
+                    <li>You send your funds to deposit address.</li>
+                    <li>Keep your wallet open</li>
+                    <li>[IMPORTANT] Funds are processed in lot sizes 100 KMD, 1000 KMD, and 10,000 KMD.</li>
+                    <li>The large lot sizes will process first, and then smaller.</li>
+                  </ul>
+
+                  <p>
+                  For example, you sent 1393 KMD to KMD Deposit Address.<br>
+                  First it will process 1000 KMD<br>
+                  then 100 KMD<br>
+                  then 100 KMD<br>
+                  then 100 KMD</p>
+
+                  <p>93 KMD will keep waiting in deposit address.</p>
+
+                  <p>To clear them you'll have to send 7 KMD more to your KMD Deposit Address.</p>
+
+                  <p>When it totals to 100 KMD, it will process to your KMD Jumblr Address.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Jumblr Tab -->
         <div class="col-xlg-12 col-md-12">
           <h4 class="font-size-14 text-uppercase">Jumblr Addresses</h4>
@@ -1247,21 +1348,21 @@
             <div class="table-responsive">
               <table class="table table-striped">
                 <tbody>
-                  <tr><td width="30%">BTC Deposit</td><td><span id="jumblr_BTCdeposit"></span></td></tr>
+                  <tr><td width="20%">BTC Deposit</td><td><span id="jumblr_BTCdeposit"></span></td></tr>
                   <tr><td>BTC Jumblr</td><td>
-                    <span class="label label-outline label-success" id="jumblr_BTCjumblr" style="display: none;"></span>
-                    <span class="label label-outline label-default" id="jumblr_BTCjumblr_showhide">Hidden for security reason.</span>
-                    <button type="button" class="btn btn-animate btn-animate-side btn-default waves-effect waves-light jumblr_show_hide_addr_btc_btn" data-jumblr="BTCjumblr">
+                    <button type="button" class="btn btn-animate btn-animate-side btn-default btn-sm waves-effect waves-light jumblr_show_hide_addr_btc_btn" data-jumblr="BTCjumblr">
                       <span><i class="icon fa-eye" aria-hidden="true"></i> Show/Hide</span>
                     </button>
+                    <span class="label label-lg label-outline label-success" id="jumblr_BTCjumblr" style="display: none;"></span>
+                    <span class="label label-lg label-outline label-default" id="jumblr_BTCjumblr_showhide">Hidden for security reason.</span>
                   </td></tr>
                   <tr><td>KMD Deposit</td><td><span id="jumblr_KMDdeposit"></span></td></tr>
                   <tr><td>KMD Jumblr</td><td>
-                    <span class="label label-outline label-success" id="jumblr_KMDjumblr" style="display: none;"></span>
-                    <span class="label label-outline label-default" id="jumblr_KMDjumblr_showhide">Hidden for security reason.</span>
-                    <button type="button" class="btn btn-animate btn-animate-side btn-default waves-effect waves-light jumblr_show_hide_addr_kmd_btn" data-jumblr="KMDjumblr">
+                    <button type="button" class="btn btn-animate btn-animate-side btn-default btn-sm waves-effect waves-light jumblr_show_hide_addr_kmd_btn" data-jumblr="KMDjumblr">
                       <span><i class="icon fa-eye" aria-hidden="true"></i> Show/Hide</span>
                     </button>
+                    <span class="label label-lg label-outline label-success" id="jumblr_KMDjumblr" style="display: none;"></span>
+                    <span class="label label-lg label-outline label-default" id="jumblr_KMDjumblr_showhide">Hidden for security reason.</span>
                   </td></tr>
                 </tbody>
               </table>
@@ -1281,7 +1382,7 @@
                   <tr><td>BTC Jumblr</td><td><span id="jumblr_status_BTCjumblr"></span></td></tr>
                   <tr><td>KMD Deposit</td><td><span id="jumblr_status_KMDdeposit"></span></td></tr>
                   <tr><td>KMD Jumblr</td><td><span id="jumblr_status_KMDjumblr"></span></td></tr>-->
-                  <tr><td width="30%">Result</td><td><span id="jumblr_status_result" class="label label-success"></span></td></tr>
+                  <tr><td width="20%">Result</td><td><span id="jumblr_status_result" class="label label-success"></span></td></tr>
                   <tr><td>Deposited</td><td><span id="jumblr_status_deposited"></span></td></tr>
                   <tr><td>Public to Private</td><td><span id="jumblr_status_t_to_z"></span></td></tr>
                   <tr><td>Private to Private</td><td><span id="jumblr_status_z_to_z"></span></td></tr>
