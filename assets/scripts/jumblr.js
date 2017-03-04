@@ -1,7 +1,14 @@
 var Jumblr = function() {
 
 	var handleJumblr = function() {
-		Jumblr_DisplayAddresses();
+		if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
+			//clearInterval(CheckIfIguanaRunning);
+			//console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
+		} else {
+			Jumblr_DisplayAddresses();
+			Jumblr_DisplayStatus();
+		}
+		
 		$('#jumblr_actions_header').click(function(){
 			Jumblr_DisplayAddresses();
 			Jumblr_DisplayStatus();
