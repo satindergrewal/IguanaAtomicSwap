@@ -60,6 +60,7 @@ $('#nav-easydex').on('click', function() {
 	$('#section-dashboard').hide();
 	$('#header-dashboard').hide();
 	$('#section-easydex').show();
+	$('#section-jumblr').hide();
 	$('#section-extcoin').hide();
 	$('#section-zcash').hide();
 	$('#section-about-iguana').hide();
@@ -102,7 +103,7 @@ $('#nav-jumblr').on('click', function() {
 	$('#nav-iguana-wallet-settings').removeClass( 'active open' ).addClass( '' );
 	$('#nav-about-iguana').removeClass( 'active open' ).addClass( '' );
 	$('.page-header-bordered h1').text('Jumblr')
-	$(".header-easydex-section").text('Secure, Native and Decentralised Coin Shuffling');
+	//$(".header-easydex-section").text('Secure, Native and Decentralised Coin Shuffling');
 	$.each($('.nav-top-menu'), function(index, value) { $(value).removeClass('active'); });
 	$(this.parentElement).addClass('active')
 	removeKMDWalletStyle();
@@ -356,7 +357,7 @@ function removeZECWalletStyle() {
 }
 
 function applyJumblrStyle() {
-	$('.header-easydex-section').html('<img src="assets/images/jumblr_header_title_logo.png">');
+	$('.header-easydex-section').html('<img src="assets/images/jumblr_header_title_logo.png"><br>Secure, Native and Decentralised Coin Shuffling');
 	$('.page-title').hide();
 	$('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
 	$('#easydex-header-div').css('background-repeat', 'no-repeat');

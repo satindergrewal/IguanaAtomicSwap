@@ -7,11 +7,13 @@ var Jumblr = function() {
 		} else {
 			Jumblr_DisplayAddresses();
 			Jumblr_DisplayStatus();
+			Jumblr_ShowHideAlert();
 		}
 		
 		$('#jumblr_actions_header').click(function(){
 			Jumblr_DisplayAddresses();
 			Jumblr_DisplayStatus();
+			Jumblr_ShowHideAlert()
 		})
 	};
 
@@ -22,6 +24,17 @@ var Jumblr = function() {
 		}
 	};
 }();
+
+function Jumblr_ShowHideAlert() {
+	Jumblr_LookforNativeKomodo().then(function(result){
+		//console.log(result)
+		if (result === 'isnative') {
+			$('#jumblr_no_native_kmd_alert').hide()
+		} else {
+			$('#jumblr_no_native_kmd_alert').show()
+		}
+	})
+}
 
 function Jumblr_DisplayAddresses() {
 	var jumblr_session_data = JSON.parse(JSON.parse(sessionStorage.getItem('IguanaActiveAccount')));
@@ -47,6 +60,42 @@ function Jumblr_DisplayStatus() {
 		$('#jumblr_status_finished').text(result.finished)
 		$('#jumblr_status_pending').text(result.pending)
 	})
+}
+
+function Jumblr_LookforNativeKomodo() {
+	return new Promise((resolve) => {
+		var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+				ajax_data = {
+					'userpass': tmpIguanaRPCAuth,
+					'agent': 'InstantDEX',
+					'method': 'allcoins'
+				},
+				AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778', ajax_data).done(function(data) {
+					AjaxOutputData = JSON.parse(AjaxOutputData.responseText);
+					if (AjaxOutputData['native'].length !== 0 ) {
+						$.each(AjaxOutputData.native, function( index, value ) {
+						//console.log(index)
+						//console.log(value)
+								if (value !== 'KMD') {
+									console.log('Native KMD not found')
+									resolve('notfound');
+								} else {
+									console.log('Native KMD found')
+									resolve('isnative');
+								}
+						});
+					} else {
+						resolve('notnative');
+					}
+		}).fail(function(xhr, textStatus, error) {
+				// handle request failures
+				console.log(xhr.statusText);
+				if ( xhr.readyState == 0 ) {
+				}
+				console.log(textStatus);
+				console.log(error);
+		})
+	});
 }
 
 jQuery(document).ready(function() {
