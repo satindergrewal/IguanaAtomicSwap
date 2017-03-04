@@ -16,9 +16,14 @@ var Jumblr = function() {
 		}
 		
 		$('#jumblr_actions_header').click(function(){
-			Jumblr_DisplayAddresses();
-			Jumblr_DisplayStatus();
-			Jumblr_ShowHideAlert()
+			Jumblr_CheckIfConnected().then(function(result){
+				console.log(result)
+				if (result == 'connected') {
+					Jumblr_DisplayAddresses();
+					Jumblr_DisplayStatus();
+					Jumblr_ShowHideAlert();
+				}
+			})
 		})
 	};
 
