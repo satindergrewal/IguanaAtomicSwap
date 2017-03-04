@@ -89,6 +89,13 @@ var AtomicExplorer = function() {
 						'method': 'getbestblockhash'
 					};
 					break;
+				case 'activehandle':
+					ExplorerInputData = {
+						'userpass': tmpIguanaRPCAuth,
+						'agent': 'SuperNET',
+						'method': 'activehandle'
+					};
+					break;
 				case 'gettransaction':
 					ExplorerInputData = {
 						'userpass': tmpIguanaRPCAuth,
@@ -289,6 +296,13 @@ var AtomicExplorer = function() {
 						'address': atomic_explorer_input_data_val,
 						'symbol': atomic_explorer_select_coin_val,
 						'timeout': 600000
+					};
+					break;
+				case 'jumblr_status':
+					ExplorerInputData = {
+						'userpass': tmpIguanaRPCAuth,
+						'agent': 'jumblr',
+						'method': 'status'
 					};
 					break;
 			}
