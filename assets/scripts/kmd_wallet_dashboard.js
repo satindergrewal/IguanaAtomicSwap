@@ -1032,7 +1032,7 @@ function KMDListAddresses(pubpriv) {
 			ajax_data_to_hex = '',
 			ajax_function_input = '',
 			tmplistaddr_hex_input = '';
-	
+
 	if ( pubpriv === 'public' ) {
 		ajax_function_input = 'getaddressesbyaccount';
 		tmplistaddr_hex_input = '222200';
@@ -1408,8 +1408,8 @@ function CheckIfConnected() {
 				'function': 'getinfo',
 				'hex': ''
 			};
-	
-	//console.log(ajax_data);
+
+	console.log(ajax_data);
 	$.ajax({
 		async: false,
 		type: 'POST',
@@ -1441,7 +1441,7 @@ function CheckIfConnected() {
 			console.log(error);
 		}
 	});
-	
+
 	return result;
 }
 
@@ -1456,7 +1456,7 @@ function CheckIfWalletEncrypted() {
 				'function': 'walletlock',
 				'hex': ''
 			};
-	
+
 	console.log(ajax_data);
 	$.ajax({
 		async: false,
@@ -1467,7 +1467,7 @@ function CheckIfWalletEncrypted() {
 			var AjaxOutputData = JSON.parse(data);
 			console.log('== Data OutPut ==');
 			console.log(AjaxOutputData.error);
-			
+
 			if ( AjaxOutputData.errors != undefined ) {
 				result.push('encrypted');
 			} else {

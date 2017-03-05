@@ -154,11 +154,12 @@ var Dashboard = function() {
 					edexcoin_addr_list_with_balance = result
 					console.log(edexcoin_addr_list_with_balance);
 					var tmpoptions = '';
-					tmpoptions += '<option> - Select Address - </option>';
+					tmpoptions += '<option> <span data-lang="DASHBOARD.SELECT_ADDRESS"></span> </option>';
 					$.each(edexcoin_addr_list_with_balance, function(index) {
 						tmpoptions += '<option value="' + edexcoin_addr_list_with_balance[index].addr + '" data-total="' + edexcoin_addr_list_with_balance[index].total + '">[ ' + edexcoin_addr_list_with_balance[index].total + ' KMD ] &emsp;' + edexcoin_addr_list_with_balance[index].addr + '</option>';
 						$('#edexcoin_send_from').html(tmpoptions);
 					});
+					lang();
 
 					$('.showedexcoinaddrs').selectpicker({ style: 'btn-info' });
 					$('.showedexcoinaddrs').selectpicker('refresh');
@@ -192,10 +193,10 @@ var Dashboard = function() {
 				$('.edexcoin_send_coins_btn_step1').prop('disabled', false);
 				
 				Shepherd_GetBasiliskCache().then(function(result){
-					var _data = JSON.parse(result)
-						query = _data.result.basilisk
-						active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
-						coin_addr = $('#edexcoin_send_from').val()
+					var _data = JSON.parse(result),
+							query = _data.result.basilisk,
+							active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin'),
+							coin_addr = $('#edexcoin_send_from').val();
 
 					if (!('refresh' in query[active_edexcoin][coin_addr])) {
 						console.log(active_edexcoin + '>>>' + coin_addr + ' => refresh not found.')
@@ -2561,9 +2562,7 @@ function EdexListAllAddr(coin) {
 			NProgress.done();
 		});
 	}
-	
 }
-
 
 function ShowBasiliskFetchDataProgress(coin) {
 	var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode')
@@ -2756,9 +2755,6 @@ function ShowBasiliskFetchDataProgress(coin) {
 	                }*/
 	            })
 	        })
-	    }
-	    
-	})
-
-
+	    } 
+	});
 }
