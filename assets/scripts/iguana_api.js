@@ -67,7 +67,6 @@ function Iguana_dumpwallet() {
 		//return datareturn;*/
 }
 
-
 function Iguana_rmd160conv(rmd160conv_data) {
 	// comment
 	var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
@@ -142,23 +141,23 @@ function Iguana_activehandle(callback) {
 					'method': 'activehandle'
 				};
 
-                $.ajax({
-                    data: JSON.stringify(ajax_data),
-                    url: 'http://127.0.0.1:7778',
-                    type: 'POST',
-                    dataType: 'json'
-                }).then(result => {
-                    //console.log(result);
-                    resolve(result);
-                }).fail(function(xhr, textStatus, error) {
-                    // handle request failures
-                    console.log(xhr.statusText);
-                    if ( xhr.readyState == 0 ) {
-                        Iguana_ServiceUnavailable();
-                    }
-                    console.log(textStatus);
-                    console.log(error);
-                });
+    $.ajax({
+      data: JSON.stringify(ajax_data),
+      url: 'http://127.0.0.1:7778',
+      type: 'POST',
+      dataType: 'json'
+    }).then(result => {
+      //console.log(result);
+      resolve(result);
+    }).fail(function(xhr, textStatus, error) {
+      // handle request failures
+      console.log(xhr.statusText);
+      if ( xhr.readyState == 0 ) {
+          Iguana_ServiceUnavailable();
+      }
+      console.log(textStatus);
+      console.log(error);
+    });
 	});
 }
 
@@ -194,11 +193,13 @@ function Iguana_Setactivehandle() {
 }
 
 function Iguana_addcoinLogin(addcoin_data) {
-	var tmpinternval = 0;
+	var tmpinternval = 0,
+			logincoinfullname = '',
+			logincoinmodeinfo = '';
 
 	if ( addcoin_data.coin == 'BTC' ) {
-		var logincoinfullname = 'Bitcoin',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'Bitcoin';
+		logincoinmodeinfo = '';
 
 		if ( addcoin_data.mode == '1' ) {
 			logincoinmodeinfo = 'Full';
@@ -225,8 +226,8 @@ function Iguana_addcoinLogin(addcoin_data) {
 				};
 	}
 	if ( addcoin_data.coin == 'BTCD' ) {
-			var logincoinfullname = 'BitcoinDark',
-					logincoinmodeinfo = '';
+			logincoinfullname = 'BitcoinDark';
+			logincoinmodeinfo = '';
 
 			if ( addcoin_data.mode == '1' ) {
 				logincoinmodeinfo = 'Full';
@@ -255,8 +256,8 @@ function Iguana_addcoinLogin(addcoin_data) {
 	}
 
 	if ( addcoin_data.coin == 'KMD' ) {
-		var logincoinfullname = 'Komodo',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'Komodo';
+		logincoinmodeinfo = '';
 
 		if ( addcoin_data.mode == '1' ) { logincoinmodeinfo = 'Full'; }
 		if ( addcoin_data.mode == '0' ) { logincoinmodeinfo = 'Basilisk'; }
@@ -281,7 +282,10 @@ function Iguana_addcoinLogin(addcoin_data) {
 				return new Promise(function(resolve, reject) {
 					Shepherd_herd('komodod', {
 						'ac_name': 'komodod',
-						'ac_options': [ '-daemon=0', '-addnode=78.47.196.146' ]
+						'ac_options': [
+							'-daemon=0',
+							'-addnode=78.47.196.146'
+						]
 					});
 					var result = 'startcoin: DONE';
 					console.log(result);
@@ -300,8 +304,8 @@ function Iguana_addcoinLogin(addcoin_data) {
 		}
 	}
 	if ( addcoin_data.coin == 'SUPERNET' ) {
-		var logincoinfullname = 'SUPERNET',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'SUPERNET';
+		logincoinmodeinfo = '';
 
 		if ( addcoin_data.mode == '1' ) { logincoinmodeinfo = 'Full'; }
 		if ( addcoin_data.mode == '0' ) { logincoinmodeinfo = 'Basilisk'; }
@@ -327,7 +331,7 @@ function Iguana_addcoinLogin(addcoin_data) {
 					Shepherd_herd('SUPERNET', {
 						'ac_name': 'SUPERNET',
 						'ac_options': [
-                            '-daemon=0',
+              '-daemon=0',
 							'-server',
 							'-ac_name=SUPERNET',
 							'-addnode=78.47.196.146'
@@ -362,17 +366,17 @@ function Iguana_addcoinLogin(addcoin_data) {
 
 				if (addcoinData.result === 'coin added') {
 					console.log('coin added');
-					toastr.success(logincoinfullname + ' started in ' + logincoinmodeinfo + ' Mode', 'Coin Notification');
+					toastr.success(logincoinfullname + ' ' + _lang[defaultLang].TOASTR.STARTED_IN + ' ' + logincoinmodeinfo + ' ' + _lang[defaultLang].TOASTR.MODE, COIN_NOTIFICATION);
 					//if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
 						$( '.login-form' ).submit();
 						console.log('There was no wallet logged in. Logged in now.');
 					//}
 				} else if (addcoinData.result === 'coin already there') {
 					console.log('coin already there');
-					toastr.info('Looks like ' + logincoinfullname + ' already running.', 'Coin Notification');
+					toastr.info(_lang[defaultLang].TOASTR.LOOKS_LIKE + ' ' + logincoinfullname + ' ' + _lang[defaultLang].TOASTR.ALREADY_RUNNING + '.', COIN_NOTIFICATION);
 				} else if (addcoinData.result === null) {
 					console.log('coin already there');
-					toastr.info('Looks like ' + logincoinfullname + ' already running.', 'Coin Notification');
+					toastr.info(_lang[defaultLang].TOASTR.LOOKS_LIKE + ' ' + logincoinfullname + ' ' + _lang[defaultLang].TOASTR.ALREADY_RUNNING + '.', COIN_NOTIFICATION);
 				}
 			},
 			error: function(xhr, textStatus, error) {
@@ -388,11 +392,12 @@ function Iguana_addcoinLogin(addcoin_data) {
 }
 
 function Iguana_addcoin(addcoin_data) {
-	var tmpinternval = 0;
+	var tmpinternval = 0,
+			logincoinfullname = '',
+			logincoinmodeinfo = '';
 
 	if ( addcoin_data.coin == 'BTC' ) {
-		var logincoinfullname = 'Bitcoin',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'Bitcoin';
 
 		if ( addcoin_data.mode == '1' ) {
 			logincoinmodeinfo = 'Full';
@@ -404,8 +409,7 @@ function Iguana_addcoin(addcoin_data) {
 				AddCoinData = {'userpass':tmpIguanaRPCAuth,"prefetchlag":5,"poll":1,"active":1,"agent":"iguana","method":"addcoin","newcoin":"BTC","startpend":64,"endpend":2,"services":128,"maxpeers":512,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"portp2p":8333}
 	}
 	if ( addcoin_data.coin == 'BTCD' ) {
-		var logincoinfullname = 'BitcoinDark',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'BitcoinDark';
 
 		if ( addcoin_data.mode == '1' ) {
 			logincoinmodeinfo = 'Full';
@@ -417,8 +421,7 @@ function Iguana_addcoin(addcoin_data) {
 				AddCoinData = {'userpass':tmpIguanaRPCAuth,"prefetchlag":-1,"poll":50,"active":1,"agent":"iguana","method":"addcoin","newcoin":"BTCD","startpend":8,"endpend":4,"services":129,"maxpeers":64,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"portp2p":14631,"rpc":14632}
 	}
 	if ( addcoin_data.coin == 'LTC' ) {
-		var logincoinfullname = 'Litecoin',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'Litecoin';
 
 		if ( addcoin_data.mode == '1' ) {
 			logincoinmodeinfo = 'Full';
@@ -430,8 +433,7 @@ function Iguana_addcoin(addcoin_data) {
 				AddCoinData = {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","startpend":8,"endpend":8,"services":129,"maxpeers":256,"newcoin":"LTC","name":"Litecoin","hasheaders":1,"useaddmultisig":0,"netmagic":"fbc0b6db","p2p":9333,"rpc":9332,"pubval":48,"p2shval":5,"wifval":176,"txfee_satoshis":"100000","isPoS":0,"minoutput":10000,"minconfirms":2,"genesishash":"12a765e31ffd4059bada1e25190f6e98c99d9714d334efa41a195a7e7e04bfe2","genesis":{"hashalgo":"scrypt","version":1,"timestamp":1317972665,"nBits":"1e0ffff0","nonce":2084524493,"merkle_root":"97ddfbbae6be97fd6cdf3e7ca13232a3afff2353e29badfab7f73011edd4ced9"},"alertpubkey":"040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9","protover":70002}
 	}
 	if ( addcoin_data.coin == 'DOGE' ) {
-		var logincoinfullname = 'Dogecoin',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'Dogecoin';
 
 		if ( addcoin_data.mode == '1' ) {
 			logincoinmodeinfo = 'Full';
@@ -443,8 +445,7 @@ function Iguana_addcoin(addcoin_data) {
 				AddCoinData = {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"startpend":8,"endpend":4,"services":129,"auxpow":1,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","maxpeers":256,"newcoin":"DOGE","name":"Dogecoin","netmagic":"C0C0C0C0","p2p":22556,"rpc":22555,"pubval":30,"p2shval":5,"wifval":128,"txfee_satoshis":"100000000","minconfirms":2,"genesishash":"1a91e3dace36e2be3bf030a65679fe821aa1d6ef92e7c9902eb318182c355691","genesis":{"hashalgo": "scrypt","version":1,"timestamp":1386325540,"nBits":"1e0ffff0","nonce":99943,"merkle_root":"5b2a3f53f605d62c53e62932dac6925e3d74afa5a4b459745c36d42d0ed26a69"},"alertpubkey":"04d4da7a5dae4db797d9b0644d57a5cd50e05a70f36091cd62e2fc41c98ded06340be5a43a35e185690cd9cde5d72da8f6d065b499b06f51dcfba14aad859f443a"}
 	}
 	if ( addcoin_data.coin == 'DGB' ) {
-		var logincoinfullname = 'Digibyte',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'Digibyte';
 
 		if ( addcoin_data.mode == '1' ) {
 			logincoinmodeinfo = 'Full';
@@ -456,8 +457,7 @@ function Iguana_addcoin(addcoin_data) {
 				AddCoinData = {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"startpend":16,"endpend":8,"services":129,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","maxpeers":256,"newcoin":"DGB","name":"Digibyte","netmagic":"FAC3B6DA","p2p":12024,"rpc":14022,"pubval":30,"p2shval":5,"wifval":128,"txfee_satoshis":"10000","minconfirms":2,"genesishash":"7497ea1b465eb39f1c8f507bc877078fe016d6fcb6dfad3a64c98dcc6e1e8496","genesis":{"version":1,"timestamp":1389388394,"nBits":"1e0ffff0","nonce":2447652,"merkle_root":"72ddd9496b004221ed0557358846d9248ecd4c440ebd28ed901efc18757d0fad"},"alertpubkey":"04F04441C4757F356290A37C313C3772C5BC5003E898EB2E0CF365795543A7BF690C8BBBFA32EE3A3325477CE2000B7D0453EFBB203329D0F9DF34D5927D022BC9"}
 	}
 	if ( addcoin_data.coin == 'MZC' ) {
-		var logincoinfullname = 'MazaCoin',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'MazaCoin';
 
 		if ( addcoin_data.mode == '1' ) {
 			logincoinmodeinfo = 'Full';
@@ -469,8 +469,7 @@ function Iguana_addcoin(addcoin_data) {
 				AddCoinData = {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"services":129,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","maxpeers":256,"newcoin":"MZC","name":"MazaCoin","netmagic":"f8b503df","p2p":12835,"rpc":12832,"pubval":50,"p2shval":9,"wifval":224,"txfee_satoshis":"0","minconfirms":2,"genesishash":"00000c7c73d8ce604178dae13f0fc6ec0be3275614366d44b1b4b5c6e238c60c","genesis":{"version":1,"timestamp":1390747675,"nBits":"1e0ffff0","nonce":2091390249,"merkle_root":"62d496378e5834989dd9594cfc168dbb76f84a39bbda18286cddc7d1d1589f4f"},"alertpubkey":"04f09702847840aaf195de8442ebecedf5b095cdbb9bc716bda9110971b28a49e0ead8564ff0db22209e0374782c093bb899692d524e9d6a6956e7c5ecbcd68284"}
 	}
 	if ( addcoin_data.coin == 'SYS' ) {
-		var logincoinfullname = 'SysCoin',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'SysCoin';
 
 		if ( addcoin_data.mode == '1' ) {
 			logincoinmodeinfo = 'Full';
@@ -482,8 +481,7 @@ function Iguana_addcoin(addcoin_data) {
 				AddCoinData = {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","startpend":18,"endpend":18,"services":129,"maxpeers":256,"newcoin":"SYS","name":"SysCoin","hasheaders":0,"useaddmultisig":0,"netmagic":"f9beb4d9","p2p":8369,"rpc":8370,"pubval":0,"p2shval":5,"wifval":128,"txfee_satoshis":"100000","isPoS":0,"minoutput":10000,"minconfirms":2,"genesishash":"0000072d66e51ab87de265765cc8bdd2d229a4307c672a1b3d5af692519cf765","genesis":{"version":1,"timestamp":1450473723,"nBits":"1e0ffff0","nonce":5258726,"merkle_root":"5215c5a2af9b63f2550b635eb2b354bb13645fd8fa31275394eb161944303065"},"protover":70012,"auxpow":1}
 	}
 	if ( addcoin_data.coin == 'UNO' ) {
-		var logincoinfullname = 'Unobtanium',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'Unobtanium';
 
 		if ( addcoin_data.mode == '1' ) {
 			logincoinmodeinfo = 'Full';
@@ -495,8 +493,7 @@ function Iguana_addcoin(addcoin_data) {
 				AddCoinData = {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"services":129,"auxpow":1,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","maxpeers":256,"newcoin":"UNO","name":"Unobtanium","netmagic":"03d5b503","p2p":65534,"rpc":65535,"pubval":130,"p2shval":30,"wifval":224,"txfee_satoshis":"1000000","minconfirms":2,"genesishash":"000004c2fc5fffb810dccc197d603690099a68305232e552d96ccbe8e2c52b75","genesis":{"version":1,"timestamp":1375548986,"nBits":"1e0fffff","nonce":1211565,"merkle_root":"36a192e90f70131a884fe541a1e8a5643a28ba4cb24cbb2924bd0ee483f7f484"},"alertpubkey":"04fd68acb6a895f3462d91b43eef0da845f0d531958a858554feab3ac330562bf76910700b3f7c29ee273ddc4da2bb5b953858f6958a50e8831eb43ee30c32f21d"}
 	}
 	if ( addcoin_data.coin == 'ZET' ) {
-		var logincoinfullname = 'Zetacoin',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'Zetacoin';
 
 		if ( addcoin_data.mode == '1' ) {
 			logincoinmodeinfo = 'Full';
@@ -508,8 +505,7 @@ function Iguana_addcoin(addcoin_data) {
 				AddCoinData = {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"services":129,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","maxpeers":256,"newcoin":"ZET","name":"Zetacoin","netmagic":"fab503df","p2p":17333,"rpc":17335,"pubval":80,"p2shval":9,"wifval":224,"txfee_satoshis":"10000","minconfirms":2,"genesishash":"000006cab7aa2be2da91015902aa4458dd5fbb8778d175c36d429dc986f2bff4","genesis":{"version":1,"timestamp":1375548986,"nBits":"1e0fffff","nonce":2089928209,"merkle_root":"d0227b8c3e3d07bce9656b3d9e474f050d23458aaead93357dcfdac9ab9b79f9"},"alertpubkey":"045337216002ca6a71d63edf062895417610a723d453e722bf4728996c58661cdac3d4dec5cecd449b9086e9602b35cc726a9e0163e1a4d40f521fbdaebb674658"}
 	}
 	if ( addcoin_data.coin == 'KMD' ) {
-		var logincoinfullname = 'Komodo',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'Komodo';
 
 		if ( addcoin_data.mode == '1' ) { logincoinmodeinfo = 'Full'; }
 		if ( addcoin_data.mode == '0' ) { logincoinmodeinfo = 'Basilisk'; }
@@ -536,7 +532,7 @@ function Iguana_addcoin(addcoin_data) {
 					Shepherd_herd('komodod', {
 						'ac_name': 'komodod',
 						'ac_options': [
-                            '-daemon=0',
+              '-daemon=0',
 							'-addnode=78.47.196.146'
 						]
 					});
@@ -558,8 +554,7 @@ function Iguana_addcoin(addcoin_data) {
 		}
 	}
 	if ( addcoin_data.coin == 'BTM' ) {
-		var logincoinfullname = 'Bitmark',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'Bitmark';
 
 		if ( addcoin_data.mode == '1' ) {
 			logincoinmodeinfo = 'Full';
@@ -571,8 +566,7 @@ function Iguana_addcoin(addcoin_data) {
 				AddCoinData = {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","maxpeers":256,"newcoin":"BTM","name":"Bitmark","netmagic":"f9beb4d9","p2p":9265,"rpc":9266,"pubval":85,"p2shval":5,"wifval":213,"txfee_satoshis":"0","minconfirms":2,"genesishash":"c1fb746e87e89ae75bdec2ef0639a1f6786744639ce3d0ece1dcf979b79137cb","genesis":{"hashalgo":"scrypt","version":1,"timestamp":1405274442,"nBits":"1d00ffff","nonce":14385103,"merkle_root":"d4715adf41222fae3d4bf41af30c675bc27228233d0f3cfd4ae0ae1d3e760ba8"},"alertpubkey":"04bf5a75ff0f823840ef512b08add20bb4275ff6e097f2830ad28645e28cb5ea4dc2cfd0972b94019ad46f331b45ef4ba679f2e6c87fd19c864365fadb4f8d2269"}
 	}
 	if ( addcoin_data.coin == 'CARB' ) {
-		var logincoinfullname = 'Carboncoin',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'Carboncoin';
 
 		if ( addcoin_data.mode == '1' ) {
 			logincoinmodeinfo = 'Full';
@@ -584,8 +578,7 @@ function Iguana_addcoin(addcoin_data) {
 				AddCoinData = {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","maxpeers":256,"newcoin":"CARB","name":"Carboncoin","netmagic":"abccbbdf","p2p":9350,"rpc":9351,"pubval":47,"p2shval":5,"wifval":175,"txfee_satoshis":"0","minconfirms":2,"genesishash":"a94f1aae8c409a0bd1e53cbca92d7e506b61c51d955cf56f76da501718d48d6c","genesis":{"hashalgo":"scrypt","version":1,"timestamp":1389199888,"nBits":"1e0ffff0","nonce":605268,"merkle_root":"074bbb9d355731bfa8f67130e2179db7518d1387ad52e55309d4debe7d4e6383"},"alertpubkey":"046d6918a7c0c053aa942dbb8861499be4bd915c8bfb6a2b77b3787e207097cc2734b9321226ff107c1a95dae98570a66baec66e350d78ceba091b54411654d33f"}
 	}
 	if ( addcoin_data.coin == 'ANC' ) {
-		var logincoinfullname = 'AnonCoin',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'AnonCoin';
 
 		if ( addcoin_data.mode == '1' ) {
 			logincoinmodeinfo = 'Full';
@@ -597,8 +590,7 @@ function Iguana_addcoin(addcoin_data) {
 				AddCoinData = {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","maxpeers":256,"newcoin":"ANC","name":"AnonCoin","netmagic":"facabada","p2p":9377,"rpc":28332,"pubval":23,"p2shval":5,"wifval":151,"txfee_satoshis":"2000000","minconfirms":2,"genesishash":"00000be19c5a519257aa921349037d55548af7cabf112741eb905a26bb73e468","genesis":{"version":1,"timestamp":1370190760,"nBits":"1e0ffff0","nonce":347089008,"merkle_root":"7ce7004d764515f9b43cb9f07547c8e2e00d94c9348b3da33c8681d350f2c736"},"alertpubkey":"04c6db35c11724e526f6725cc5bd5293b4bc9382397856e1bcef7111fb44ce357fd12442b34c496d937a348c1dca1e36ae0c0e128905eb3d301433887e8f0b4536"}
 	}
 	if ( addcoin_data.coin == 'FRK' ) {
-		var logincoinfullname = 'Franko',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'Franko';
 
 		if ( addcoin_data.mode == '1' ) {
 			logincoinmodeinfo = 'Full';
@@ -610,8 +602,7 @@ function Iguana_addcoin(addcoin_data) {
 				AddCoinData = {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","maxpeers":256,"newcoin":"FRK","name":"Franko","netmagic":"7defaced","p2p":7912,"rpc":7913,"pubval":35,"p2shval":5,"wifval":163,"txfee_satoshis":"0","minconfirms":2,"genesishash":"19225ae90d538561217b5949e98ca4964ac91af39090d1a4407c892293e4f44f","genesis":{"hashalgo":"scrypt","version":1,"timestamp":1368144664,"nBits":"1e0ffff0","nonce":731837,"merkle_root":"b78f79f1d10029cc45ed3d5a1db7bd423d4ee170c03baf110a62565d16a21dca"},"alertpubkey":"04d4da7a5dae4db797d9b0644d57a5cd50e05a70f36091cd62e2fc41c98ded06340be5a43a35e185690cd9cde5d72da8f6d065b499b06f51dcfba14aad859f443a"}
 	}
 	if ( addcoin_data.coin == 'SUPERNET' ) {
-		var logincoinfullname = 'SUPERNET',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'SUPERNET';
 
 		if ( addcoin_data.mode == '1' ) { logincoinmodeinfo = 'Full'; }
 		if ( addcoin_data.mode == '0' ) { logincoinmodeinfo = 'Basilisk'; }
@@ -639,7 +630,7 @@ function Iguana_addcoin(addcoin_data) {
 						'ac_name': 'SUPERNET',
 						'ac_options': [
 							'-daemon=0',
-                            '-server',
+              '-server',
 							'-ac_name=SUPERNET',
 							'-addnode=78.47.196.146'
 						]
@@ -663,8 +654,7 @@ function Iguana_addcoin(addcoin_data) {
 		}
 	}
 	if ( addcoin_data.coin == 'REVS' ) {
-		var logincoinfullname = 'REVS',
-				logincoinmodeinfo = '';
+		logincoinfullname = 'REVS';
 
 		if ( addcoin_data.mode == '1' ) { logincoinmodeinfo = 'Full'; }
 		if ( addcoin_data.mode == '0' ) { logincoinmodeinfo = 'Basilisk'; }
@@ -692,7 +682,7 @@ function Iguana_addcoin(addcoin_data) {
 						'ac_name': 'REVS',
 						'ac_options': [
 							'-daemon=0',
-                            '-server',
+              '-server',
 							'-ac_name=REVS',
 							'-addnode=78.47.196.146'
 						]
@@ -715,133 +705,127 @@ function Iguana_addcoin(addcoin_data) {
 			var AddCoinData = {'userpass':tmpIguanaRPCAuth,"unitval":"20","zcash":1,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"prefetchlag":-1,"poll":100,"active":1,"agent":"iguana","method":"addcoin","startpend":4,"endpend":4,"services":129,"maxpeers":8,"newcoin":"REVS","name":"REVS","hasheaders":1,"useaddmultisig":0,"netmagic":"905c3498","p2p":10195,"rpc":10196,"pubval":60,"p2shval":85,"wifval":188,"txfee_satoshis":"10000","isPoS":0,"minoutput":10000,"minconfirms":2,"genesishash":"027e3758c3a65b12aa1046462b486d0a63bfa1beae327897f56c5cfb7daaae71","protover":170002,"genesisblock":"0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a000000000000000000000000000000000000000000000000000000000000000029ab5f490f0f0f200b00000000000000000000000000000000000000000000000000000000000000fd4005000d5ba7cda5d473947263bf194285317179d2b0d307119c2e7cc4bd8ac456f0774bd52b0cd9249be9d40718b6397a4c7bbd8f2b3272fed2823cd2af4bd1632200ba4bf796727d6347b225f670f292343274cc35099466f5fb5f0cd1c105121b28213d15db2ed7bdba490b4cedc69742a57b7c25af24485e523aadbb77a0144fc76f79ef73bd8530d42b9f3b9bed1c135ad1fe152923fafe98f95f76f1615e64c4abb1137f4c31b218ba2782bc15534788dda2cc08a0ee2987c8b27ff41bd4e31cd5fb5643dfe862c9a02ca9f90c8c51a6671d681d04ad47e4b53b1518d4befafefe8cadfb912f3d03051b1efbf1dfe37b56e93a741d8dfd80d576ca250bee55fab1311fc7b3255977558cdda6f7d6f875306e43a14413facdaed2f46093e0ef1e8f8a963e1632dcbeebd8e49fd16b57d49b08f9762de89157c65233f60c8e38a1f503a48c555f8ec45dedecd574a37601323c27be597b956343107f8bd80f3a925afaf30811df83c402116bb9c1e5231c70fff899a7c82f73c902ba54da53cc459b7bf1113db65cc8f6914d3618560ea69abd13658fa7b6af92d374d6eca9529f8bd565166e4fcbf2a8dfb3c9b69539d4d2ee2e9321b85b331925df195915f2757637c2805e1d4131e1ad9ef9bc1bb1c732d8dba4738716d351ab30c996c8657bab39567ee3b29c6d054b711495c0d52e1cd5d8e55b4f0f0325b97369280755b46a02afd54be4ddd9f77c22272b8bbb17ff5118fedbae2564524e797bd28b5f74f7079d532ccc059807989f94d267f47e724b3f1ecfe00ec9e6541c961080d8891251b84b4480bc292f6a180bea089fef5bbda56e1e41390d7c0e85ba0ef530f7177413481a226465a36ef6afe1e2bca69d2078712b3912bba1a99b1fbff0d355d6ffe726d2bb6fbc103c4ac5756e5bee6e47e17424ebcbf1b63d8cb90ce2e40198b4f4198689daea254307e52a25562f4c1455340f0ffeb10f9d8e914775e37d0edca019fb1b9c6ef81255ed86bc51c5391e0591480f66e2d88c5f4fd7277697968656a9b113ab97f874fdd5f2465e5559533e01ba13ef4a8f7a21d02c30c8ded68e8c54603ab9c8084ef6d9eb4e92c75b078539e2ae786ebab6dab73a09e0aa9ac575bcefb29e930ae656e58bcb513f7e3c17e079dce4f05b5dbc18c2a872b22509740ebe6a3903e00ad1abc55076441862643f93606e3dc35e8d9f2caef3ee6be14d513b2e062b21d0061de3bd56881713a1a5c17f5ace05e1ec09da53f99442df175a49bd154aa96e4949decd52fed79ccf7ccbce32941419c314e374e4a396ac553e17b5340336a1a25c22f9e42a243ba5404450b650acfc826a6e432971ace776e15719515e1634ceb9a4a35061b668c74998d3dfb5827f6238ec015377e6f9c94f38108768cf6e5c8b132e0303fb5a200368f845ad9d46343035a6ff94031df8d8309415bb3f6cd5ede9c135fdabcc030599858d803c0f85be7661c88984d88faa3d26fb0e9aac0056a53f1b5d0baed713c853c4a2726869a0a124a8a5bbc0fc0ef80c8ae4cb53636aa02503b86a1eb9836fcc259823e2692d921d88e1ffc1e6cb2bde43939ceb3f32a611686f539f8f7c9f0bf00381f743607d40960f06d347d1cd8ac8a51969c25e37150efdf7aa4c2037a2fd0516fb444525ab157a0ed0a7412b2fa69b217fe397263153782c0f64351fbdf2678fa0dc8569912dcd8e3ccad38f34f23bbbce14c6a26ac24911b308b82c7e43062d180baeac4ba7153858365c72c63dcf5f6a5b08070b730adb017aeae925b7d0439979e2679f45ed2f25a7edcfd2fb77a8794630285ccb0a071f5cce410b46dbf9750b0354aae8b65574501cc69efb5b6a43444074fee116641bb29da56c2b4a7f456991fc92b2","debug":0,"seedipaddr":"78.47.196.146"}
 		}
 	}
+  if ( addcoin_data.coin == 'WIRELESS' ) {
+    logincoinfullname = 'WIRELESS';
 
-    if ( addcoin_data.coin == 'WIRELESS' ) {
-        var logincoinfullname = 'WIRELESS',
-                logincoinmodeinfo = '';
-
-        if ( addcoin_data.mode == '1' ) { logincoinmodeinfo = 'Full'; }
-        if ( addcoin_data.mode == '0' ) { logincoinmodeinfo = 'Basilisk'; }
-        if ( addcoin_data.mode == '-1' ) {
-            logincoinmodeinfo = 'Native';
-            var confpath = Shepherd_getConf('WIRELESS');
-            console.log(confpath[0].path);
-        }
-
-        var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
-
-        if ( addcoin_data.mode == '-1' ) {
-            var setconfig = function() {
-                return new Promise(function(resolve, reject) {
-                    Shepherd_setConf('WIRELESS');
-                    var result = 'setconfig: DONE';
-                    console.log(result);
-                    resolve(result);
-                });
-            }
-
-            var startcoin = function() {
-                return new Promise(function(resolve, reject) {
-                    Shepherd_herd('WIRELESS', {
-                        'ac_name': 'WIRELESS',
-                        'ac_options': [
-                            '-daemon=0',
-                            '-server',
-                            '-ac_name=WIRELESS',
-                            '-addnode=78.47.196.146'
-                        ]
-                    });
-
-                    var result = 'startcoin: DONE';
-                    console.log(result);
-                    resolve(result);
-                });
-            }
-
-            setconfig()
-            .then(function(result) {
-                return startcoin();
-            });
-
-            var tmpinternval = 6000,
-                    AddCoinData = {"conf":"WIRELESS.conf","path":confpath[0].path,"unitval":"20","zcash":1,"RELAY":-1,"VALIDATE":0,"prefetchlag":-1,"poll":100,"active":1,"agent":"iguana","method":"addcoin","startpend":4,"endpend":4,"services":129,"maxpeers":8,"newcoin":"WIRELESS","name":"WIRELESS","hasheaders":1,"useaddmultisig":0,"netmagic":"62071ed3","p2p":11666,"rpc":11667,"pubval":60,"p2shval":85,"wifval":188,"txfee_satoshis":"10000","isPoS":0,"minoutput":10000,"minconfirms":2,"genesishash":"027e3758c3a65b12aa1046462b486d0a63bfa1beae327897f56c5cfb7daaae71","protover":170002,"genesisblock":"0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a000000000000000000000000000000000000000000000000000000000000000029ab5f490f0f0f200b00000000000000000000000000000000000000000000000000000000000000fd4005000d5ba7cda5d473947263bf194285317179d2b0d307119c2e7cc4bd8ac456f0774bd52b0cd9249be9d40718b6397a4c7bbd8f2b3272fed2823cd2af4bd1632200ba4bf796727d6347b225f670f292343274cc35099466f5fb5f0cd1c105121b28213d15db2ed7bdba490b4cedc69742a57b7c25af24485e523aadbb77a0144fc76f79ef73bd8530d42b9f3b9bed1c135ad1fe152923fafe98f95f76f1615e64c4abb1137f4c31b218ba2782bc15534788dda2cc08a0ee2987c8b27ff41bd4e31cd5fb5643dfe862c9a02ca9f90c8c51a6671d681d04ad47e4b53b1518d4befafefe8cadfb912f3d03051b1efbf1dfe37b56e93a741d8dfd80d576ca250bee55fab1311fc7b3255977558cdda6f7d6f875306e43a14413facdaed2f46093e0ef1e8f8a963e1632dcbeebd8e49fd16b57d49b08f9762de89157c65233f60c8e38a1f503a48c555f8ec45dedecd574a37601323c27be597b956343107f8bd80f3a925afaf30811df83c402116bb9c1e5231c70fff899a7c82f73c902ba54da53cc459b7bf1113db65cc8f6914d3618560ea69abd13658fa7b6af92d374d6eca9529f8bd565166e4fcbf2a8dfb3c9b69539d4d2ee2e9321b85b331925df195915f2757637c2805e1d4131e1ad9ef9bc1bb1c732d8dba4738716d351ab30c996c8657bab39567ee3b29c6d054b711495c0d52e1cd5d8e55b4f0f0325b97369280755b46a02afd54be4ddd9f77c22272b8bbb17ff5118fedbae2564524e797bd28b5f74f7079d532ccc059807989f94d267f47e724b3f1ecfe00ec9e6541c961080d8891251b84b4480bc292f6a180bea089fef5bbda56e1e41390d7c0e85ba0ef530f7177413481a226465a36ef6afe1e2bca69d2078712b3912bba1a99b1fbff0d355d6ffe726d2bb6fbc103c4ac5756e5bee6e47e17424ebcbf1b63d8cb90ce2e40198b4f4198689daea254307e52a25562f4c1455340f0ffeb10f9d8e914775e37d0edca019fb1b9c6ef81255ed86bc51c5391e0591480f66e2d88c5f4fd7277697968656a9b113ab97f874fdd5f2465e5559533e01ba13ef4a8f7a21d02c30c8ded68e8c54603ab9c8084ef6d9eb4e92c75b078539e2ae786ebab6dab73a09e0aa9ac575bcefb29e930ae656e58bcb513f7e3c17e079dce4f05b5dbc18c2a872b22509740ebe6a3903e00ad1abc55076441862643f93606e3dc35e8d9f2caef3ee6be14d513b2e062b21d0061de3bd56881713a1a5c17f5ace05e1ec09da53f99442df175a49bd154aa96e4949decd52fed79ccf7ccbce32941419c314e374e4a396ac553e17b5340336a1a25c22f9e42a243ba5404450b650acfc826a6e432971ace776e15719515e1634ceb9a4a35061b668c74998d3dfb5827f6238ec015377e6f9c94f38108768cf6e5c8b132e0303fb5a200368f845ad9d46343035a6ff94031df8d8309415bb3f6cd5ede9c135fdabcc030599858d803c0f85be7661c88984d88faa3d26fb0e9aac0056a53f1b5d0baed713c853c4a2726869a0a124a8a5bbc0fc0ef80c8ae4cb53636aa02503b86a1eb9836fcc259823e2692d921d88e1ffc1e6cb2bde43939ceb3f32a611686f539f8f7c9f0bf00381f743607d40960f06d347d1cd8ac8a51969c25e37150efdf7aa4c2037a2fd0516fb444525ab157a0ed0a7412b2fa69b217fe397263153782c0f64351fbdf2678fa0dc8569912dcd8e3ccad38f34f23bbbce14c6a26ac24911b308b82c7e43062d180baeac4ba7153858365c72c63dcf5f6a5b08070b730adb017aeae925b7d0439979e2679f45ed2f25a7edcfd2fb77a8794630285ccb0a071f5cce410b46dbf9750b0354aae8b65574501cc69efb5b6a43444074fee116641bb29da56c2b4a7f456991fc92b2","debug":0,"seedipaddr":"78.47.196.146"}
-        } else {
-            var AddCoinData = 
-            {'userpass':tmpIguanaRPCAuth,"unitval":"20","zcash":1,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"prefetchlag":-1,"poll":100,"active":1,"agent":"iguana","method":"addcoin","startpend":4,"endpend":4,"services":129,"maxpeers":8,"newcoin":"WIRELESS","name":"WIRELESS","hasheaders":1,"useaddmultisig":0,"netmagic":"62071ed3","p2p":11666,"rpc":11667,"pubval":60,"p2shval":85,"wifval":188,"txfee_satoshis":"10000","isPoS":0,"minoutput":10000,"minconfirms":2,"genesishash":"027e3758c3a65b12aa1046462b486d0a63bfa1beae327897f56c5cfb7daaae71","protover":170002,"genesisblock":"0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a000000000000000000000000000000000000000000000000000000000000000029ab5f490f0f0f200b00000000000000000000000000000000000000000000000000000000000000fd4005000d5ba7cda5d473947263bf194285317179d2b0d307119c2e7cc4bd8ac456f0774bd52b0cd9249be9d40718b6397a4c7bbd8f2b3272fed2823cd2af4bd1632200ba4bf796727d6347b225f670f292343274cc35099466f5fb5f0cd1c105121b28213d15db2ed7bdba490b4cedc69742a57b7c25af24485e523aadbb77a0144fc76f79ef73bd8530d42b9f3b9bed1c135ad1fe152923fafe98f95f76f1615e64c4abb1137f4c31b218ba2782bc15534788dda2cc08a0ee2987c8b27ff41bd4e31cd5fb5643dfe862c9a02ca9f90c8c51a6671d681d04ad47e4b53b1518d4befafefe8cadfb912f3d03051b1efbf1dfe37b56e93a741d8dfd80d576ca250bee55fab1311fc7b3255977558cdda6f7d6f875306e43a14413facdaed2f46093e0ef1e8f8a963e1632dcbeebd8e49fd16b57d49b08f9762de89157c65233f60c8e38a1f503a48c555f8ec45dedecd574a37601323c27be597b956343107f8bd80f3a925afaf30811df83c402116bb9c1e5231c70fff899a7c82f73c902ba54da53cc459b7bf1113db65cc8f6914d3618560ea69abd13658fa7b6af92d374d6eca9529f8bd565166e4fcbf2a8dfb3c9b69539d4d2ee2e9321b85b331925df195915f2757637c2805e1d4131e1ad9ef9bc1bb1c732d8dba4738716d351ab30c996c8657bab39567ee3b29c6d054b711495c0d52e1cd5d8e55b4f0f0325b97369280755b46a02afd54be4ddd9f77c22272b8bbb17ff5118fedbae2564524e797bd28b5f74f7079d532ccc059807989f94d267f47e724b3f1ecfe00ec9e6541c961080d8891251b84b4480bc292f6a180bea089fef5bbda56e1e41390d7c0e85ba0ef530f7177413481a226465a36ef6afe1e2bca69d2078712b3912bba1a99b1fbff0d355d6ffe726d2bb6fbc103c4ac5756e5bee6e47e17424ebcbf1b63d8cb90ce2e40198b4f4198689daea254307e52a25562f4c1455340f0ffeb10f9d8e914775e37d0edca019fb1b9c6ef81255ed86bc51c5391e0591480f66e2d88c5f4fd7277697968656a9b113ab97f874fdd5f2465e5559533e01ba13ef4a8f7a21d02c30c8ded68e8c54603ab9c8084ef6d9eb4e92c75b078539e2ae786ebab6dab73a09e0aa9ac575bcefb29e930ae656e58bcb513f7e3c17e079dce4f05b5dbc18c2a872b22509740ebe6a3903e00ad1abc55076441862643f93606e3dc35e8d9f2caef3ee6be14d513b2e062b21d0061de3bd56881713a1a5c17f5ace05e1ec09da53f99442df175a49bd154aa96e4949decd52fed79ccf7ccbce32941419c314e374e4a396ac553e17b5340336a1a25c22f9e42a243ba5404450b650acfc826a6e432971ace776e15719515e1634ceb9a4a35061b668c74998d3dfb5827f6238ec015377e6f9c94f38108768cf6e5c8b132e0303fb5a200368f845ad9d46343035a6ff94031df8d8309415bb3f6cd5ede9c135fdabcc030599858d803c0f85be7661c88984d88faa3d26fb0e9aac0056a53f1b5d0baed713c853c4a2726869a0a124a8a5bbc0fc0ef80c8ae4cb53636aa02503b86a1eb9836fcc259823e2692d921d88e1ffc1e6cb2bde43939ceb3f32a611686f539f8f7c9f0bf00381f743607d40960f06d347d1cd8ac8a51969c25e37150efdf7aa4c2037a2fd0516fb444525ab157a0ed0a7412b2fa69b217fe397263153782c0f64351fbdf2678fa0dc8569912dcd8e3ccad38f34f23bbbce14c6a26ac24911b308b82c7e43062d180baeac4ba7153858365c72c63dcf5f6a5b08070b730adb017aeae925b7d0439979e2679f45ed2f25a7edcfd2fb77a8794630285ccb0a071f5cce410b46dbf9750b0354aae8b65574501cc69efb5b6a43444074fee116641bb29da56c2b4a7f456991fc92b2","debug":0,"seedipaddr":"78.47.196.146"}
-        }
+    if ( addcoin_data.mode == '1' ) { logincoinmodeinfo = 'Full'; }
+    if ( addcoin_data.mode == '0' ) { logincoinmodeinfo = 'Basilisk'; }
+    if ( addcoin_data.mode == '-1' ) {
+      logincoinmodeinfo = 'Native';
+      var confpath = Shepherd_getConf('WIRELESS');
+      console.log(confpath[0].path);
     }
 
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
 
-    if ( addcoin_data.coin == 'USD' ) {
-        var logincoinfullname = 'USD',
-                logincoinmodeinfo = '',
-                tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+    if ( addcoin_data.mode == '-1' ) {
+      var setconfig = function() {
+        return new Promise(function(resolve, reject) {
+          Shepherd_setConf('WIRELESS');
+          var result = 'setconfig: DONE';
+          console.log(result);
+          resolve(result);
+        });
+      }
 
-        if ( addcoin_data.mode == '1' ) {
-            logincoinmodeinfo = 'Full';
-            var AddCoinData = {
-                'userpass': tmpIguanaRPCAuth,
-                'agent': 'iguana',
-                'method': 'paxfiats',
-                'mask': 1
-            };
-        }
-        if ( addcoin_data.mode == '0' ) {
-            logincoinmodeinfo = 'Basilisk';
-            var AddCoinData = {
-                'userpass': tmpIguanaRPCAuth,
-                'agent': 'basilisk',
-                'method': 'paxfiats',
-                'mask': 1
-            };
-        }
-        if ( addcoin_data.mode == '-1' ) {
-            logincoinmodeinfo = 'Native';
-            var confpath = Shepherd_getConf('USD');
-            console.log(confpath[0].path);
-        }
+      var startcoin = function() {
+        return new Promise(function(resolve, reject) {
+          Shepherd_herd('WIRELESS', {
+            'ac_name': 'WIRELESS',
+            'ac_options': [
+              '-daemon=0',
+              '-server',
+              '-ac_name=WIRELESS',
+              '-addnode=78.47.196.146'
+            ]
+          });
 
-        var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+          var result = 'startcoin: DONE';
+          console.log(result);
+          resolve(result);
+        });
+      }
 
-        if ( addcoin_data.mode == '-1' ) {
-            var setconfig = function() {
-                return new Promise(function(resolve, reject) {
-                    Shepherd_setConf('USD');
-                    var result = 'setconfig: DONE';
-                    console.log(result);
-                    resolve(result);
-                });
-            }
+      setconfig()
+      .then(function(result) {
+        return startcoin();
+      });
 
-            var startcoin = function() {
-                return new Promise(function(resolve, reject) {
-                    Shepherd_herd('USD', {
-                        'ac_name': 'USD',
-                        'ac_options': [
-                            '-daemon=0',
-                            '-server',
-                            '-ac_name=USD',
-                            '-addnode=78.47.196.146'
-                        ]
-                    });
-
-                    var result = 'startcoin: DONE';
-                    console.log(result);
-                    resolve(result);
-                });
-            }
-
-            setconfig()
-            .then(function(result) {
-                return startcoin();
-            });
-
-            var tmpinternval = 6000,
-                    AddCoinData = {"conf":"USD.conf","path":confpath[0].path,"unitval":"20","zcash":1,"RELAY":-1,"VALIDATE":1,"prefetchlag":-1,"poll":100,"active":1,"agent":"iguana","method":"addcoin","startpend":4,"endpend":4,"services":129,"maxpeers":8,"newcoin":"USD","name":"USD","hasheaders":1,"useaddmultisig":0,"netmagic":"2d8e7803","p2p":13966,"rpc":13967,"pubval":60,"p2shval":85,"wifval":188,"txfee_satoshis":"10000","isPoS":0,"minoutput":10000,"minconfirms":2,"genesishash":"027e3758c3a65b12aa1046462b486d0a63bfa1beae327897f56c5cfb7daaae71","protover":170002,"genesisblock":"0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a000000000000000000000000000000000000000000000000000000000000000029ab5f490f0f0f200b00000000000000000000000000000000000000000000000000000000000000fd4005000d5ba7cda5d473947263bf194285317179d2b0d307119c2e7cc4bd8ac456f0774bd52b0cd9249be9d40718b6397a4c7bbd8f2b3272fed2823cd2af4bd1632200ba4bf796727d6347b225f670f292343274cc35099466f5fb5f0cd1c105121b28213d15db2ed7bdba490b4cedc69742a57b7c25af24485e523aadbb77a0144fc76f79ef73bd8530d42b9f3b9bed1c135ad1fe152923fafe98f95f76f1615e64c4abb1137f4c31b218ba2782bc15534788dda2cc08a0ee2987c8b27ff41bd4e31cd5fb5643dfe862c9a02ca9f90c8c51a6671d681d04ad47e4b53b1518d4befafefe8cadfb912f3d03051b1efbf1dfe37b56e93a741d8dfd80d576ca250bee55fab1311fc7b3255977558cdda6f7d6f875306e43a14413facdaed2f46093e0ef1e8f8a963e1632dcbeebd8e49fd16b57d49b08f9762de89157c65233f60c8e38a1f503a48c555f8ec45dedecd574a37601323c27be597b956343107f8bd80f3a925afaf30811df83c402116bb9c1e5231c70fff899a7c82f73c902ba54da53cc459b7bf1113db65cc8f6914d3618560ea69abd13658fa7b6af92d374d6eca9529f8bd565166e4fcbf2a8dfb3c9b69539d4d2ee2e9321b85b331925df195915f2757637c2805e1d4131e1ad9ef9bc1bb1c732d8dba4738716d351ab30c996c8657bab39567ee3b29c6d054b711495c0d52e1cd5d8e55b4f0f0325b97369280755b46a02afd54be4ddd9f77c22272b8bbb17ff5118fedbae2564524e797bd28b5f74f7079d532ccc059807989f94d267f47e724b3f1ecfe00ec9e6541c961080d8891251b84b4480bc292f6a180bea089fef5bbda56e1e41390d7c0e85ba0ef530f7177413481a226465a36ef6afe1e2bca69d2078712b3912bba1a99b1fbff0d355d6ffe726d2bb6fbc103c4ac5756e5bee6e47e17424ebcbf1b63d8cb90ce2e40198b4f4198689daea254307e52a25562f4c1455340f0ffeb10f9d8e914775e37d0edca019fb1b9c6ef81255ed86bc51c5391e0591480f66e2d88c5f4fd7277697968656a9b113ab97f874fdd5f2465e5559533e01ba13ef4a8f7a21d02c30c8ded68e8c54603ab9c8084ef6d9eb4e92c75b078539e2ae786ebab6dab73a09e0aa9ac575bcefb29e930ae656e58bcb513f7e3c17e079dce4f05b5dbc18c2a872b22509740ebe6a3903e00ad1abc55076441862643f93606e3dc35e8d9f2caef3ee6be14d513b2e062b21d0061de3bd56881713a1a5c17f5ace05e1ec09da53f99442df175a49bd154aa96e4949decd52fed79ccf7ccbce32941419c314e374e4a396ac553e17b5340336a1a25c22f9e42a243ba5404450b650acfc826a6e432971ace776e15719515e1634ceb9a4a35061b668c74998d3dfb5827f6238ec015377e6f9c94f38108768cf6e5c8b132e0303fb5a200368f845ad9d46343035a6ff94031df8d8309415bb3f6cd5ede9c135fdabcc030599858d803c0f85be7661c88984d88faa3d26fb0e9aac0056a53f1b5d0baed713c853c4a2726869a0a124a8a5bbc0fc0ef80c8ae4cb53636aa02503b86a1eb9836fcc259823e2692d921d88e1ffc1e6cb2bde43939ceb3f32a611686f539f8f7c9f0bf00381f743607d40960f06d347d1cd8ac8a51969c25e37150efdf7aa4c2037a2fd0516fb444525ab157a0ed0a7412b2fa69b217fe397263153782c0f64351fbdf2678fa0dc8569912dcd8e3ccad38f34f23bbbce14c6a26ac24911b308b82c7e43062d180baeac4ba7153858365c72c63dcf5f6a5b08070b730adb017aeae925b7d0439979e2679f45ed2f25a7edcfd2fb77a8794630285ccb0a071f5cce410b46dbf9750b0354aae8b65574501cc69efb5b6a43444074fee116641bb29da56c2b4a7f456991fc92b2","debug":0,"seedipaddr":"78.47.196.146"}
-        } else {
-            var AddCoinData = {'userpass':tmpIguanaRPCAuth,"unitval":"20","zcash":1,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"prefetchlag":-1,"poll":100,"active":1,"agent":"iguana","method":"addcoin","startpend":4,"endpend":4,"services":129,"maxpeers":8,"newcoin":"USD","name":"USD","hasheaders":1,"useaddmultisig":0,"netmagic":"2d8e7803","p2p":13966,"rpc":13967,"pubval":60,"p2shval":85,"wifval":188,"txfee_satoshis":"10000","isPoS":0,"minoutput":10000,"minconfirms":2,"genesishash":"027e3758c3a65b12aa1046462b486d0a63bfa1beae327897f56c5cfb7daaae71","protover":170002,"genesisblock":"0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a000000000000000000000000000000000000000000000000000000000000000029ab5f490f0f0f200b00000000000000000000000000000000000000000000000000000000000000fd4005000d5ba7cda5d473947263bf194285317179d2b0d307119c2e7cc4bd8ac456f0774bd52b0cd9249be9d40718b6397a4c7bbd8f2b3272fed2823cd2af4bd1632200ba4bf796727d6347b225f670f292343274cc35099466f5fb5f0cd1c105121b28213d15db2ed7bdba490b4cedc69742a57b7c25af24485e523aadbb77a0144fc76f79ef73bd8530d42b9f3b9bed1c135ad1fe152923fafe98f95f76f1615e64c4abb1137f4c31b218ba2782bc15534788dda2cc08a0ee2987c8b27ff41bd4e31cd5fb5643dfe862c9a02ca9f90c8c51a6671d681d04ad47e4b53b1518d4befafefe8cadfb912f3d03051b1efbf1dfe37b56e93a741d8dfd80d576ca250bee55fab1311fc7b3255977558cdda6f7d6f875306e43a14413facdaed2f46093e0ef1e8f8a963e1632dcbeebd8e49fd16b57d49b08f9762de89157c65233f60c8e38a1f503a48c555f8ec45dedecd574a37601323c27be597b956343107f8bd80f3a925afaf30811df83c402116bb9c1e5231c70fff899a7c82f73c902ba54da53cc459b7bf1113db65cc8f6914d3618560ea69abd13658fa7b6af92d374d6eca9529f8bd565166e4fcbf2a8dfb3c9b69539d4d2ee2e9321b85b331925df195915f2757637c2805e1d4131e1ad9ef9bc1bb1c732d8dba4738716d351ab30c996c8657bab39567ee3b29c6d054b711495c0d52e1cd5d8e55b4f0f0325b97369280755b46a02afd54be4ddd9f77c22272b8bbb17ff5118fedbae2564524e797bd28b5f74f7079d532ccc059807989f94d267f47e724b3f1ecfe00ec9e6541c961080d8891251b84b4480bc292f6a180bea089fef5bbda56e1e41390d7c0e85ba0ef530f7177413481a226465a36ef6afe1e2bca69d2078712b3912bba1a99b1fbff0d355d6ffe726d2bb6fbc103c4ac5756e5bee6e47e17424ebcbf1b63d8cb90ce2e40198b4f4198689daea254307e52a25562f4c1455340f0ffeb10f9d8e914775e37d0edca019fb1b9c6ef81255ed86bc51c5391e0591480f66e2d88c5f4fd7277697968656a9b113ab97f874fdd5f2465e5559533e01ba13ef4a8f7a21d02c30c8ded68e8c54603ab9c8084ef6d9eb4e92c75b078539e2ae786ebab6dab73a09e0aa9ac575bcefb29e930ae656e58bcb513f7e3c17e079dce4f05b5dbc18c2a872b22509740ebe6a3903e00ad1abc55076441862643f93606e3dc35e8d9f2caef3ee6be14d513b2e062b21d0061de3bd56881713a1a5c17f5ace05e1ec09da53f99442df175a49bd154aa96e4949decd52fed79ccf7ccbce32941419c314e374e4a396ac553e17b5340336a1a25c22f9e42a243ba5404450b650acfc826a6e432971ace776e15719515e1634ceb9a4a35061b668c74998d3dfb5827f6238ec015377e6f9c94f38108768cf6e5c8b132e0303fb5a200368f845ad9d46343035a6ff94031df8d8309415bb3f6cd5ede9c135fdabcc030599858d803c0f85be7661c88984d88faa3d26fb0e9aac0056a53f1b5d0baed713c853c4a2726869a0a124a8a5bbc0fc0ef80c8ae4cb53636aa02503b86a1eb9836fcc259823e2692d921d88e1ffc1e6cb2bde43939ceb3f32a611686f539f8f7c9f0bf00381f743607d40960f06d347d1cd8ac8a51969c25e37150efdf7aa4c2037a2fd0516fb444525ab157a0ed0a7412b2fa69b217fe397263153782c0f64351fbdf2678fa0dc8569912dcd8e3ccad38f34f23bbbce14c6a26ac24911b308b82c7e43062d180baeac4ba7153858365c72c63dcf5f6a5b08070b730adb017aeae925b7d0439979e2679f45ed2f25a7edcfd2fb77a8794630285ccb0a071f5cce410b46dbf9750b0354aae8b65574501cc69efb5b6a43444074fee116641bb29da56c2b4a7f456991fc92b2","debug":0,"seedipaddr":"78.47.196.146"}
-        }
+      var tmpinternval = 6000,
+          AddCoinData = {"conf":"WIRELESS.conf","path":confpath[0].path,"unitval":"20","zcash":1,"RELAY":-1,"VALIDATE":0,"prefetchlag":-1,"poll":100,"active":1,"agent":"iguana","method":"addcoin","startpend":4,"endpend":4,"services":129,"maxpeers":8,"newcoin":"WIRELESS","name":"WIRELESS","hasheaders":1,"useaddmultisig":0,"netmagic":"62071ed3","p2p":11666,"rpc":11667,"pubval":60,"p2shval":85,"wifval":188,"txfee_satoshis":"10000","isPoS":0,"minoutput":10000,"minconfirms":2,"genesishash":"027e3758c3a65b12aa1046462b486d0a63bfa1beae327897f56c5cfb7daaae71","protover":170002,"genesisblock":"0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a000000000000000000000000000000000000000000000000000000000000000029ab5f490f0f0f200b00000000000000000000000000000000000000000000000000000000000000fd4005000d5ba7cda5d473947263bf194285317179d2b0d307119c2e7cc4bd8ac456f0774bd52b0cd9249be9d40718b6397a4c7bbd8f2b3272fed2823cd2af4bd1632200ba4bf796727d6347b225f670f292343274cc35099466f5fb5f0cd1c105121b28213d15db2ed7bdba490b4cedc69742a57b7c25af24485e523aadbb77a0144fc76f79ef73bd8530d42b9f3b9bed1c135ad1fe152923fafe98f95f76f1615e64c4abb1137f4c31b218ba2782bc15534788dda2cc08a0ee2987c8b27ff41bd4e31cd5fb5643dfe862c9a02ca9f90c8c51a6671d681d04ad47e4b53b1518d4befafefe8cadfb912f3d03051b1efbf1dfe37b56e93a741d8dfd80d576ca250bee55fab1311fc7b3255977558cdda6f7d6f875306e43a14413facdaed2f46093e0ef1e8f8a963e1632dcbeebd8e49fd16b57d49b08f9762de89157c65233f60c8e38a1f503a48c555f8ec45dedecd574a37601323c27be597b956343107f8bd80f3a925afaf30811df83c402116bb9c1e5231c70fff899a7c82f73c902ba54da53cc459b7bf1113db65cc8f6914d3618560ea69abd13658fa7b6af92d374d6eca9529f8bd565166e4fcbf2a8dfb3c9b69539d4d2ee2e9321b85b331925df195915f2757637c2805e1d4131e1ad9ef9bc1bb1c732d8dba4738716d351ab30c996c8657bab39567ee3b29c6d054b711495c0d52e1cd5d8e55b4f0f0325b97369280755b46a02afd54be4ddd9f77c22272b8bbb17ff5118fedbae2564524e797bd28b5f74f7079d532ccc059807989f94d267f47e724b3f1ecfe00ec9e6541c961080d8891251b84b4480bc292f6a180bea089fef5bbda56e1e41390d7c0e85ba0ef530f7177413481a226465a36ef6afe1e2bca69d2078712b3912bba1a99b1fbff0d355d6ffe726d2bb6fbc103c4ac5756e5bee6e47e17424ebcbf1b63d8cb90ce2e40198b4f4198689daea254307e52a25562f4c1455340f0ffeb10f9d8e914775e37d0edca019fb1b9c6ef81255ed86bc51c5391e0591480f66e2d88c5f4fd7277697968656a9b113ab97f874fdd5f2465e5559533e01ba13ef4a8f7a21d02c30c8ded68e8c54603ab9c8084ef6d9eb4e92c75b078539e2ae786ebab6dab73a09e0aa9ac575bcefb29e930ae656e58bcb513f7e3c17e079dce4f05b5dbc18c2a872b22509740ebe6a3903e00ad1abc55076441862643f93606e3dc35e8d9f2caef3ee6be14d513b2e062b21d0061de3bd56881713a1a5c17f5ace05e1ec09da53f99442df175a49bd154aa96e4949decd52fed79ccf7ccbce32941419c314e374e4a396ac553e17b5340336a1a25c22f9e42a243ba5404450b650acfc826a6e432971ace776e15719515e1634ceb9a4a35061b668c74998d3dfb5827f6238ec015377e6f9c94f38108768cf6e5c8b132e0303fb5a200368f845ad9d46343035a6ff94031df8d8309415bb3f6cd5ede9c135fdabcc030599858d803c0f85be7661c88984d88faa3d26fb0e9aac0056a53f1b5d0baed713c853c4a2726869a0a124a8a5bbc0fc0ef80c8ae4cb53636aa02503b86a1eb9836fcc259823e2692d921d88e1ffc1e6cb2bde43939ceb3f32a611686f539f8f7c9f0bf00381f743607d40960f06d347d1cd8ac8a51969c25e37150efdf7aa4c2037a2fd0516fb444525ab157a0ed0a7412b2fa69b217fe397263153782c0f64351fbdf2678fa0dc8569912dcd8e3ccad38f34f23bbbce14c6a26ac24911b308b82c7e43062d180baeac4ba7153858365c72c63dcf5f6a5b08070b730adb017aeae925b7d0439979e2679f45ed2f25a7edcfd2fb77a8794630285ccb0a071f5cce410b46dbf9750b0354aae8b65574501cc69efb5b6a43444074fee116641bb29da56c2b4a7f456991fc92b2","debug":0,"seedipaddr":"78.47.196.146"}
+    } else {
+      var AddCoinData = {'userpass':tmpIguanaRPCAuth,"unitval":"20","zcash":1,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"prefetchlag":-1,"poll":100,"active":1,"agent":"iguana","method":"addcoin","startpend":4,"endpend":4,"services":129,"maxpeers":8,"newcoin":"WIRELESS","name":"WIRELESS","hasheaders":1,"useaddmultisig":0,"netmagic":"62071ed3","p2p":11666,"rpc":11667,"pubval":60,"p2shval":85,"wifval":188,"txfee_satoshis":"10000","isPoS":0,"minoutput":10000,"minconfirms":2,"genesishash":"027e3758c3a65b12aa1046462b486d0a63bfa1beae327897f56c5cfb7daaae71","protover":170002,"genesisblock":"0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a000000000000000000000000000000000000000000000000000000000000000029ab5f490f0f0f200b00000000000000000000000000000000000000000000000000000000000000fd4005000d5ba7cda5d473947263bf194285317179d2b0d307119c2e7cc4bd8ac456f0774bd52b0cd9249be9d40718b6397a4c7bbd8f2b3272fed2823cd2af4bd1632200ba4bf796727d6347b225f670f292343274cc35099466f5fb5f0cd1c105121b28213d15db2ed7bdba490b4cedc69742a57b7c25af24485e523aadbb77a0144fc76f79ef73bd8530d42b9f3b9bed1c135ad1fe152923fafe98f95f76f1615e64c4abb1137f4c31b218ba2782bc15534788dda2cc08a0ee2987c8b27ff41bd4e31cd5fb5643dfe862c9a02ca9f90c8c51a6671d681d04ad47e4b53b1518d4befafefe8cadfb912f3d03051b1efbf1dfe37b56e93a741d8dfd80d576ca250bee55fab1311fc7b3255977558cdda6f7d6f875306e43a14413facdaed2f46093e0ef1e8f8a963e1632dcbeebd8e49fd16b57d49b08f9762de89157c65233f60c8e38a1f503a48c555f8ec45dedecd574a37601323c27be597b956343107f8bd80f3a925afaf30811df83c402116bb9c1e5231c70fff899a7c82f73c902ba54da53cc459b7bf1113db65cc8f6914d3618560ea69abd13658fa7b6af92d374d6eca9529f8bd565166e4fcbf2a8dfb3c9b69539d4d2ee2e9321b85b331925df195915f2757637c2805e1d4131e1ad9ef9bc1bb1c732d8dba4738716d351ab30c996c8657bab39567ee3b29c6d054b711495c0d52e1cd5d8e55b4f0f0325b97369280755b46a02afd54be4ddd9f77c22272b8bbb17ff5118fedbae2564524e797bd28b5f74f7079d532ccc059807989f94d267f47e724b3f1ecfe00ec9e6541c961080d8891251b84b4480bc292f6a180bea089fef5bbda56e1e41390d7c0e85ba0ef530f7177413481a226465a36ef6afe1e2bca69d2078712b3912bba1a99b1fbff0d355d6ffe726d2bb6fbc103c4ac5756e5bee6e47e17424ebcbf1b63d8cb90ce2e40198b4f4198689daea254307e52a25562f4c1455340f0ffeb10f9d8e914775e37d0edca019fb1b9c6ef81255ed86bc51c5391e0591480f66e2d88c5f4fd7277697968656a9b113ab97f874fdd5f2465e5559533e01ba13ef4a8f7a21d02c30c8ded68e8c54603ab9c8084ef6d9eb4e92c75b078539e2ae786ebab6dab73a09e0aa9ac575bcefb29e930ae656e58bcb513f7e3c17e079dce4f05b5dbc18c2a872b22509740ebe6a3903e00ad1abc55076441862643f93606e3dc35e8d9f2caef3ee6be14d513b2e062b21d0061de3bd56881713a1a5c17f5ace05e1ec09da53f99442df175a49bd154aa96e4949decd52fed79ccf7ccbce32941419c314e374e4a396ac553e17b5340336a1a25c22f9e42a243ba5404450b650acfc826a6e432971ace776e15719515e1634ceb9a4a35061b668c74998d3dfb5827f6238ec015377e6f9c94f38108768cf6e5c8b132e0303fb5a200368f845ad9d46343035a6ff94031df8d8309415bb3f6cd5ede9c135fdabcc030599858d803c0f85be7661c88984d88faa3d26fb0e9aac0056a53f1b5d0baed713c853c4a2726869a0a124a8a5bbc0fc0ef80c8ae4cb53636aa02503b86a1eb9836fcc259823e2692d921d88e1ffc1e6cb2bde43939ceb3f32a611686f539f8f7c9f0bf00381f743607d40960f06d347d1cd8ac8a51969c25e37150efdf7aa4c2037a2fd0516fb444525ab157a0ed0a7412b2fa69b217fe397263153782c0f64351fbdf2678fa0dc8569912dcd8e3ccad38f34f23bbbce14c6a26ac24911b308b82c7e43062d180baeac4ba7153858365c72c63dcf5f6a5b08070b730adb017aeae925b7d0439979e2679f45ed2f25a7edcfd2fb77a8794630285ccb0a071f5cce410b46dbf9750b0354aae8b65574501cc69efb5b6a43444074fee116641bb29da56c2b4a7f456991fc92b2","debug":0,"seedipaddr":"78.47.196.146"}
     }
+  }
+  if ( addcoin_data.coin == 'USD' ) {
+    logincoinfullname = 'USD';
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+
+    if ( addcoin_data.mode == '1' ) {
+      logincoinmodeinfo = 'Full';
+      var AddCoinData = {
+            'userpass': tmpIguanaRPCAuth,
+            'agent': 'iguana',
+            'method': 'paxfiats',
+            'mask': 1
+      		};
+    }
+    if ( addcoin_data.mode == '0' ) {
+      logincoinmodeinfo = 'Basilisk';
+      var AddCoinData = {
+            'userpass': tmpIguanaRPCAuth,
+            'agent': 'basilisk',
+            'method': 'paxfiats',
+            'mask': 1
+      		};
+    }
+    if ( addcoin_data.mode == '-1' ) {
+      logincoinmodeinfo = 'Native';
+      var confpath = Shepherd_getConf('USD');
+      console.log(confpath[0].path);
+    }
+
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+
+    if ( addcoin_data.mode == '-1' ) {
+      var setconfig = function() {
+        return new Promise(function(resolve, reject) {
+          Shepherd_setConf('USD');
+          var result = 'setconfig: DONE';
+          console.log(result);
+          resolve(result);
+        });
+      }
+
+      var startcoin = function() {
+        return new Promise(function(resolve, reject) {
+          Shepherd_herd('USD', {
+            'ac_name': 'USD',
+            'ac_options': [
+              '-daemon=0',
+              '-server',
+              '-ac_name=USD',
+              '-addnode=78.47.196.146'
+            ]
+          });
+
+          var result = 'startcoin: DONE';
+          console.log(result);
+          resolve(result);
+        });
+      }
+
+      setconfig()
+      .then(function(result) {
+        return startcoin();
+      });
+
+      var tmpinternval = 6000,
+          AddCoinData = {"conf":"USD.conf","path":confpath[0].path,"unitval":"20","zcash":1,"RELAY":-1,"VALIDATE":1,"prefetchlag":-1,"poll":100,"active":1,"agent":"iguana","method":"addcoin","startpend":4,"endpend":4,"services":129,"maxpeers":8,"newcoin":"USD","name":"USD","hasheaders":1,"useaddmultisig":0,"netmagic":"2d8e7803","p2p":13966,"rpc":13967,"pubval":60,"p2shval":85,"wifval":188,"txfee_satoshis":"10000","isPoS":0,"minoutput":10000,"minconfirms":2,"genesishash":"027e3758c3a65b12aa1046462b486d0a63bfa1beae327897f56c5cfb7daaae71","protover":170002,"genesisblock":"0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a000000000000000000000000000000000000000000000000000000000000000029ab5f490f0f0f200b00000000000000000000000000000000000000000000000000000000000000fd4005000d5ba7cda5d473947263bf194285317179d2b0d307119c2e7cc4bd8ac456f0774bd52b0cd9249be9d40718b6397a4c7bbd8f2b3272fed2823cd2af4bd1632200ba4bf796727d6347b225f670f292343274cc35099466f5fb5f0cd1c105121b28213d15db2ed7bdba490b4cedc69742a57b7c25af24485e523aadbb77a0144fc76f79ef73bd8530d42b9f3b9bed1c135ad1fe152923fafe98f95f76f1615e64c4abb1137f4c31b218ba2782bc15534788dda2cc08a0ee2987c8b27ff41bd4e31cd5fb5643dfe862c9a02ca9f90c8c51a6671d681d04ad47e4b53b1518d4befafefe8cadfb912f3d03051b1efbf1dfe37b56e93a741d8dfd80d576ca250bee55fab1311fc7b3255977558cdda6f7d6f875306e43a14413facdaed2f46093e0ef1e8f8a963e1632dcbeebd8e49fd16b57d49b08f9762de89157c65233f60c8e38a1f503a48c555f8ec45dedecd574a37601323c27be597b956343107f8bd80f3a925afaf30811df83c402116bb9c1e5231c70fff899a7c82f73c902ba54da53cc459b7bf1113db65cc8f6914d3618560ea69abd13658fa7b6af92d374d6eca9529f8bd565166e4fcbf2a8dfb3c9b69539d4d2ee2e9321b85b331925df195915f2757637c2805e1d4131e1ad9ef9bc1bb1c732d8dba4738716d351ab30c996c8657bab39567ee3b29c6d054b711495c0d52e1cd5d8e55b4f0f0325b97369280755b46a02afd54be4ddd9f77c22272b8bbb17ff5118fedbae2564524e797bd28b5f74f7079d532ccc059807989f94d267f47e724b3f1ecfe00ec9e6541c961080d8891251b84b4480bc292f6a180bea089fef5bbda56e1e41390d7c0e85ba0ef530f7177413481a226465a36ef6afe1e2bca69d2078712b3912bba1a99b1fbff0d355d6ffe726d2bb6fbc103c4ac5756e5bee6e47e17424ebcbf1b63d8cb90ce2e40198b4f4198689daea254307e52a25562f4c1455340f0ffeb10f9d8e914775e37d0edca019fb1b9c6ef81255ed86bc51c5391e0591480f66e2d88c5f4fd7277697968656a9b113ab97f874fdd5f2465e5559533e01ba13ef4a8f7a21d02c30c8ded68e8c54603ab9c8084ef6d9eb4e92c75b078539e2ae786ebab6dab73a09e0aa9ac575bcefb29e930ae656e58bcb513f7e3c17e079dce4f05b5dbc18c2a872b22509740ebe6a3903e00ad1abc55076441862643f93606e3dc35e8d9f2caef3ee6be14d513b2e062b21d0061de3bd56881713a1a5c17f5ace05e1ec09da53f99442df175a49bd154aa96e4949decd52fed79ccf7ccbce32941419c314e374e4a396ac553e17b5340336a1a25c22f9e42a243ba5404450b650acfc826a6e432971ace776e15719515e1634ceb9a4a35061b668c74998d3dfb5827f6238ec015377e6f9c94f38108768cf6e5c8b132e0303fb5a200368f845ad9d46343035a6ff94031df8d8309415bb3f6cd5ede9c135fdabcc030599858d803c0f85be7661c88984d88faa3d26fb0e9aac0056a53f1b5d0baed713c853c4a2726869a0a124a8a5bbc0fc0ef80c8ae4cb53636aa02503b86a1eb9836fcc259823e2692d921d88e1ffc1e6cb2bde43939ceb3f32a611686f539f8f7c9f0bf00381f743607d40960f06d347d1cd8ac8a51969c25e37150efdf7aa4c2037a2fd0516fb444525ab157a0ed0a7412b2fa69b217fe397263153782c0f64351fbdf2678fa0dc8569912dcd8e3ccad38f34f23bbbce14c6a26ac24911b308b82c7e43062d180baeac4ba7153858365c72c63dcf5f6a5b08070b730adb017aeae925b7d0439979e2679f45ed2f25a7edcfd2fb77a8794630285ccb0a071f5cce410b46dbf9750b0354aae8b65574501cc69efb5b6a43444074fee116641bb29da56c2b4a7f456991fc92b2","debug":0,"seedipaddr":"78.47.196.146"}
+    } else {
+      var AddCoinData = {'userpass':tmpIguanaRPCAuth,"unitval":"20","zcash":1,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"prefetchlag":-1,"poll":100,"active":1,"agent":"iguana","method":"addcoin","startpend":4,"endpend":4,"services":129,"maxpeers":8,"newcoin":"USD","name":"USD","hasheaders":1,"useaddmultisig":0,"netmagic":"2d8e7803","p2p":13966,"rpc":13967,"pubval":60,"p2shval":85,"wifval":188,"txfee_satoshis":"10000","isPoS":0,"minoutput":10000,"minconfirms":2,"genesishash":"027e3758c3a65b12aa1046462b486d0a63bfa1beae327897f56c5cfb7daaae71","protover":170002,"genesisblock":"0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a000000000000000000000000000000000000000000000000000000000000000029ab5f490f0f0f200b00000000000000000000000000000000000000000000000000000000000000fd4005000d5ba7cda5d473947263bf194285317179d2b0d307119c2e7cc4bd8ac456f0774bd52b0cd9249be9d40718b6397a4c7bbd8f2b3272fed2823cd2af4bd1632200ba4bf796727d6347b225f670f292343274cc35099466f5fb5f0cd1c105121b28213d15db2ed7bdba490b4cedc69742a57b7c25af24485e523aadbb77a0144fc76f79ef73bd8530d42b9f3b9bed1c135ad1fe152923fafe98f95f76f1615e64c4abb1137f4c31b218ba2782bc15534788dda2cc08a0ee2987c8b27ff41bd4e31cd5fb5643dfe862c9a02ca9f90c8c51a6671d681d04ad47e4b53b1518d4befafefe8cadfb912f3d03051b1efbf1dfe37b56e93a741d8dfd80d576ca250bee55fab1311fc7b3255977558cdda6f7d6f875306e43a14413facdaed2f46093e0ef1e8f8a963e1632dcbeebd8e49fd16b57d49b08f9762de89157c65233f60c8e38a1f503a48c555f8ec45dedecd574a37601323c27be597b956343107f8bd80f3a925afaf30811df83c402116bb9c1e5231c70fff899a7c82f73c902ba54da53cc459b7bf1113db65cc8f6914d3618560ea69abd13658fa7b6af92d374d6eca9529f8bd565166e4fcbf2a8dfb3c9b69539d4d2ee2e9321b85b331925df195915f2757637c2805e1d4131e1ad9ef9bc1bb1c732d8dba4738716d351ab30c996c8657bab39567ee3b29c6d054b711495c0d52e1cd5d8e55b4f0f0325b97369280755b46a02afd54be4ddd9f77c22272b8bbb17ff5118fedbae2564524e797bd28b5f74f7079d532ccc059807989f94d267f47e724b3f1ecfe00ec9e6541c961080d8891251b84b4480bc292f6a180bea089fef5bbda56e1e41390d7c0e85ba0ef530f7177413481a226465a36ef6afe1e2bca69d2078712b3912bba1a99b1fbff0d355d6ffe726d2bb6fbc103c4ac5756e5bee6e47e17424ebcbf1b63d8cb90ce2e40198b4f4198689daea254307e52a25562f4c1455340f0ffeb10f9d8e914775e37d0edca019fb1b9c6ef81255ed86bc51c5391e0591480f66e2d88c5f4fd7277697968656a9b113ab97f874fdd5f2465e5559533e01ba13ef4a8f7a21d02c30c8ded68e8c54603ab9c8084ef6d9eb4e92c75b078539e2ae786ebab6dab73a09e0aa9ac575bcefb29e930ae656e58bcb513f7e3c17e079dce4f05b5dbc18c2a872b22509740ebe6a3903e00ad1abc55076441862643f93606e3dc35e8d9f2caef3ee6be14d513b2e062b21d0061de3bd56881713a1a5c17f5ace05e1ec09da53f99442df175a49bd154aa96e4949decd52fed79ccf7ccbce32941419c314e374e4a396ac553e17b5340336a1a25c22f9e42a243ba5404450b650acfc826a6e432971ace776e15719515e1634ceb9a4a35061b668c74998d3dfb5827f6238ec015377e6f9c94f38108768cf6e5c8b132e0303fb5a200368f845ad9d46343035a6ff94031df8d8309415bb3f6cd5ede9c135fdabcc030599858d803c0f85be7661c88984d88faa3d26fb0e9aac0056a53f1b5d0baed713c853c4a2726869a0a124a8a5bbc0fc0ef80c8ae4cb53636aa02503b86a1eb9836fcc259823e2692d921d88e1ffc1e6cb2bde43939ceb3f32a611686f539f8f7c9f0bf00381f743607d40960f06d347d1cd8ac8a51969c25e37150efdf7aa4c2037a2fd0516fb444525ab157a0ed0a7412b2fa69b217fe397263153782c0f64351fbdf2678fa0dc8569912dcd8e3ccad38f34f23bbbce14c6a26ac24911b308b82c7e43062d180baeac4ba7153858365c72c63dcf5f6a5b08070b730adb017aeae925b7d0439979e2679f45ed2f25a7edcfd2fb77a8794630285ccb0a071f5cce410b46dbf9750b0354aae8b65574501cc69efb5b6a43444074fee116641bb29da56c2b4a7f456991fc92b2","debug":0,"seedipaddr":"78.47.196.146"}
+    }
+  }
 	setTimeout(function() {
 		$.ajax({
 			type: 'POST',
@@ -853,7 +837,7 @@ function Iguana_addcoin(addcoin_data) {
 				if (addcoinData.result === 'coin added') {
 					Iguana_Setactivehandle();
 					console.log('coin added');
-					toastr.success(logincoinfullname + ' started in ' + logincoinmodeinfo + ' Mode', 'Coin Notification');
+					toastr.success(logincoinfullname + ' ' + _lang[defaultLang].TOASTR.COIN_STARTED + ' ' + logincoinmodeinfo + ' ' + _lang[defaultLang].TOASTR.MODE, _lang[defaultLang].TOASTR.COIN_NOTIFICATION);
 
 					if (addcoin_data.logincmd == undefined) {
 						console.log('command NOT executed from login. RELOADING WALLET WIDGETS...');
@@ -880,13 +864,13 @@ function Iguana_addcoin(addcoin_data) {
 					$('#addcoin_mdl_full_mode').prop('checked', false);
 					$('#addcoin_mdl_basilisk_mode').prop('checked', false);
 					$('#addcoin_mdl_native_mode').prop('checked', false);
-					$('#addcoin_select_coin_mdl_options').val('-Select-');
+					$('#addcoin_select_coin_mdl_options').val(_lang[defaultLang].DASHBOARD.SELECT);
 				} else if (addcoinData.result === 'coin already there') {
 					console.log('coin already there');
-					toastr.info('Looks like ' + logincoinfullname + ' already running.', 'Coin Notification');
+					toastr.info(_lang[defaultLang].TOASTR.LOOKS_LIKE + ' ' + logincoinfullname + ' ' + _lang[defaultLang].TOASTR.ALREADY_RUNNING + '.', _lang[defaultLang].TOASTR.COIN_NOTIFICATION);
 				} else if (addcoinData.result === null) {
 					console.log('coin already there');
-					toastr.info('Looks like ' + logincoinfullname + ' already running.', 'Coin Notification');
+					toastr.info(_lang[defaultLang].TOASTR.LOOKS_LIKE + ' ' + logincoinfullname + ' ' + _lang[defaultLang].TOASTR.ALREADY_RUNNING + '.', _lang[defaultLang].TOASTR.COIN_NOTIFICATION);
 				}
 			},
 			error: function(xhr, textStatus, error) {
@@ -925,9 +909,9 @@ function ExecuteAddCoinLoginFn() {
 }
 
 function Iguana_ServiceUnavailable() {
-	console.log('Network Error api');
-	toastr.error('Unable to connect with iguana service. 127.0.0.1:7778', 'Service Notification');
-	toastr.info('Are you sure Iguana is running?', 'Account Notification');
+	console.log('Network Error api');_lang[defaultLang]
+	toastr.error(_lang[defaultLang].TOASTR.IGUANA_CONN_ERR_ALT, _lang[defaultLang].TOASTR.SERVICE_NOTIFICATION);
+	toastr.info(_lang[defaultLang].TOASTR.IGUANA_ARE_YOU_SURE, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
 	ClearOnLogout(true, true);
 }
 
@@ -954,6 +938,7 @@ function secondsToString(seconds) {
 			min = a.getMinutes(),
 			sec = a.getSeconds(),
 			time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+
 	return time;
 }
 
@@ -966,6 +951,7 @@ function Iguana_HashHex(data) {
 				'method': 'hex',
 				'message': data
 			};
+
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
@@ -986,7 +972,6 @@ function Iguana_HashHex(data) {
 
 	return result;
 }
-
 
 function EDEXlistunspent(coin, addr) {
 	NProgress.done(true);
@@ -1026,14 +1011,14 @@ function EDEXlistunspent(coin, addr) {
 				]
 			};
 		}
-		var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 
-		var ajaxCall = $.ajax({
-			data: JSON.stringify(ajax_data),
-			url: 'http://127.0.0.1:7778',
-			type: 'POST',
-			dataType: 'json'
-		});
+		var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode'),
+				ajaxCall = $.ajax({
+					data: JSON.stringify(ajax_data),
+					url: 'http://127.0.0.1:7778',
+					type: 'POST',
+					dataType: 'json'
+				});
 
 		ajaxCall.done(function(data) {
 			var result = [];
@@ -1191,221 +1176,233 @@ function EDEXgetBalance(coin) {
 }
 
 function EDEXSendutxoRawTx(data) {
-    Shepherd_GetBasiliskCache().then(function(result){
-        var _data = JSON.parse(result)
-            query = _data.result.basilisk
-            utxos_set = query[data.coin][data.sendfrom].refresh.data
+  Shepherd_GetBasiliskCache().then(function(result) {
+		var _data = JSON.parse(result),
+	    	query = _data.result.basilisk,
+	    	utxos_set = query[data.coin][data.sendfrom].refresh.data,
+		    send_data = {
+          'coin': data.coin,
+          'sendfrom': data.sendfrom,
+          'sendtoaddr': data.sendtoaddr,
+          'amount': data.amount,
+          'txfee': data.txfee,
+          'sendsig': (data.sendsig == true ? 0 : 1 ),
+          'utxos': utxos_set
+	      };
 
-            send_data = {
-                    'coin': data.coin,
-                    'sendfrom': data.sendfrom,
-                    'sendtoaddr': data.sendtoaddr,
-                    'amount': data.amount,
-                    'txfee': data.txfee,
-                    'sendsig': (data.sendsig == true ? 0 : 1 ),
-                    'utxos': utxos_set
-                };
-                //console.log(send_data)
-                Iguana_utxorawtx(send_data).then(function(result){
-                    console.log(result);
-                    var edexcoin_sendto_result_tbl = '';
+    // console.log(send_data)
+    Iguana_utxorawtx(send_data).then(function(result) {
+      console.log(result);
+      var edexcoin_sendto_result_tbl = '';
 
-                    if (result.result == 'success') {
-                        console.log(send_data)
-                        toastr.success('Signed transaction generated.', 'Wallet Notification');
-                    }
-                    if (send_data.sendsig == 1) {
-                        console.log(send_data)
-                        toastr.info('Sending Transaction to Network.', 'Wallet Notification');
-                        ajax_data_dexrawtx = {
-                                                'signedtx': result.signedtx,
-                                                'coin': send_data.coin
-                                            };
-                        Iguana_DEXsendrawtx(ajax_data_dexrawtx).then(function(dexrwatx_result){
-                            console.log(dexrwatx_result);
-                            if (dexrwatx_result.error == undefined) {
-                                var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
-                                    toastr.success('Signed transaction sent successfully!', 'Wallet Notification');
-                                    edexcoin_sendto_result_tbl += '<tr class="">' +
-                                                                    '<td>result</td>' +
-                                                                    '<td>' +
-                                                                        '<span class="label label-success">' + result.result + '</span>' +
-                                                                    '</td>' +
-                                                                '</tr>';
-                                    edexcoin_sendto_result_tbl += '<tr class="">' +
-                                                                    '<td>completed</td>' +
-                                                                    '<td>' +
-                                                                        '<span class="label label-primary">' + result.completed + '</span>' +
-                                                                    '</td>' +
-                                                                '</tr>';
-                                    edexcoin_sendto_result_tbl += '<tr class="">' +
-                                                                    '<td>rawtx</td>' +
-                                                                    '<td>' +
-                                                                        '<span style="display: block; width: 400px;word-wrap: break-word;">' + result.rawtx + '</span>' +
-                                                                    '</td>' +
-                                                                '</tr>';
-                                    edexcoin_sendto_result_tbl += '<tr>' +
-                                                                    '<td>txid</td>' +
-                                                                    '<td>' +
-                                                                        '<a href="javascript:void(0)" data-edexcoin="' + active_edexcoin + '" data-sendtotxresult="' + dexrwatx_result + '" class="edexcoin_sendto_output_result">' + dexrwatx_result + '</a>' +
-                                                                    '</td>' +
-                                                                '</tr>';
-                                    edexcoin_sendto_result_tbl += '<tr class="">' +
-                                                                    '<td>signedtx</td>' +
-                                                                    '<td>' +
-                                                                        '<span style="display: block; width: 400px;word-wrap: break-word;">' + result.signedtx + '</span>' +
-                                                                    '</td>' +
-                                                                '</tr>';
-                                    $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
-                                    $('#edexcoin_send_coins_anothertx_btn').show();
-                                    $('#edexcoin-send-txdetails-screen').data('panel-api').done();
+      if (result.result == 'success') {
+        console.log(send_data)
+        toastr.success(_lang[defaultLang].TOASTR.SIGNED_TX_GENERATED + '.', _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
+      }
+      if (send_data.sendsig == 1) {
+        console.log(send_data)
+        toastr.info(_lang[defaultLang].TOASTR.SENDING_TX + '.', _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
+        ajax_data_dexrawtx = {
+          'signedtx': result.signedtx,
+          'coin': send_data.coin
+        };
+        Iguana_DEXsendrawtx(ajax_data_dexrawtx).then(function(dexrwatx_result) {
+          console.log(dexrwatx_result);
+          if (dexrwatx_result.error == undefined) {
+            var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
 
-                                    var gettxiddata = function() {
-                                        return new Promise(function(resolve, reject) {
-                                            toastr.info('Getting txid info for updating funds data.', 'Wallet Notification');
-                                            EDEXgettransaction(ajax_data_dexrawtx.coin,dexrwatx_result).then(function(result){
-                                                //console.log(result)
-                                                resolve(result)
-                                            })
-                                        });
-                                    }
+            toastr.success(_lang[defaultLang].TOASTR.SIGNED_TX_SENT, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
+            edexcoin_sendto_result_tbl += '<tr class="">' +
+                                            '<td>result</td>' +
+                                            '<td>' +
+                                              '<span class="label label-success">' + result.result + '</span>' +
+                                            '</td>' +
+                                        	'</tr>';
+            edexcoin_sendto_result_tbl += '<tr class="">' +
+                                            '<td>completed</td>' +
+                                            '<td>' +
+                                              '<span class="label label-primary">' + result.completed + '</span>' +
+                                            '</td>' +
+                                        	'</tr>';
+            edexcoin_sendto_result_tbl += '<tr class="">' +
+                                            '<td>rawtx</td>' +
+                                            '<td>' +
+                                              '<span style="display: block; width: 400px;word-wrap: break-word;">' + result.rawtx + '</span>' +
+                                            '</td>' +
+                                        	'</tr>';
+            edexcoin_sendto_result_tbl += '<tr>' +
+                                            '<td>txid</td>' +
+                                            '<td>' +
+                                              '<a href="javascript:void(0)" data-edexcoin="' + active_edexcoin + '" data-sendtotxresult="' + dexrwatx_result + '" class="edexcoin_sendto_output_result">' + dexrwatx_result + '</a>' +
+                                            '</td>' +
+                                        	'</tr>';
+            edexcoin_sendto_result_tbl += '<tr class="">' +
+                                            '<td>signedtx</td>' +
+                                            '<td>' +
+                                              '<span style="display: block; width: 400px;word-wrap: break-word;">' + result.signedtx + '</span>' +
+                                            '</td>' +
+                                        	'</tr>';
+            $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
+            $('#edexcoin_send_coins_anothertx_btn').show();
+            $('#edexcoin-send-txdetails-screen').data('panel-api').done();
 
-                                    var process_refresh_utxos = function(gettxdata) {
-                                        return new Promise(function(resolve, reject) {
-                                            //console.log(gettxdata)
-                                            //console.log(utxos_set)
-                                            EDEX_ProcessRefreshData(gettxdata,utxos_set).then(function(new_utxos_set){
-                                                console.log(new_utxos_set)
-                                                resolve(new_utxos_set)
-                                            })
-                                        });
-                                    }
+            var gettxiddata = function() {
+              return new Promise(function(resolve, reject) {
+                toastr.info(_lang[defaultLang].TOASTR.GETTING_TXID_INFO + '.', _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
+                EDEXgettransaction(ajax_data_dexrawtx.coin,dexrwatx_result).then(function(result) {
+                  //console.log(result);
+                  resolve(result);
+                });
+              });
+            }
 
-                                    var get_data_cache_contents = function(new_utxos_set) {
-                                        return new Promise(function(resolve, reject) {
-                                            console.log(new_utxos_set)
-                                            console.log(send_data)
-                                            console.log(send_data.sendfrom)
-                                            Shepherd_GroomData_Get().then(function(result){
-                                                console.log(result)
-                                                console.log(result.basilisk.KMD[send_data.sendfrom].refresh)
-                                                delete result.basilisk.KMD[send_data.sendfrom].refresh.data
-                                                console.log(result.basilisk.KMD[send_data.sendfrom].refresh)
-                                                result.basilisk.KMD[send_data.sendfrom].refresh.data = new_utxos_set
-                                                console.log(result.basilisk.KMD[send_data.sendfrom].refresh)
-                                                var save_this_data = result
-                                                resolve(result);
-                                            })
-                                        });
-                                    }
+            var process_refresh_utxos = function(gettxdata) {
+              return new Promise(function(resolve, reject) {
+                //console.log(gettxdata)
+                //console.log(utxos_set)
+                EDEX_ProcessRefreshData(gettxdata,utxos_set).then(function(new_utxos_set) {
+                  console.log(new_utxos_set);
+                  resolve(new_utxos_set);
+                });
+              });
+            }
 
-                                    var save_new_cache_data = function(save_this_data) {
-                                        return new Promise(function(resolve, reject) {
-                                            console.log(save_this_data)
-                                            Shepherd_GroomData_Post(save_this_data).then(function(result){
-                                                console.log(result)
-                                                resolve(result);
-                                            })
-                                        });
-                                    }
+            var get_data_cache_contents = function(new_utxos_set) {
+              return new Promise(function(resolve, reject) {
+                console.log(new_utxos_set)
+                console.log(send_data)
+                console.log(send_data.sendfrom)
+                Shepherd_GroomData_Get().then(function(result) {
+                  console.log(result);
+                  console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
+                  delete result.basilisk.KMD[send_data.sendfrom].refresh.data;
+                  console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
+                  result.basilisk.KMD[send_data.sendfrom].refresh.data = new_utxos_set;
+                  console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
+                  var save_this_data = result;
+                  resolve(result);
+                });
+              });
+            }
 
-                                    gettxiddata()
-                                    .then(function(gettxdata) {
-                                        return process_refresh_utxos(gettxdata);
-                                    }).then(function(new_utxos_set) {
-                                        return get_data_cache_contents(new_utxos_set)
-                                    }).then(function(save_this_data) {
-                                        return save_new_cache_data(save_this_data)
-                                    });
+            var save_new_cache_data = function(save_this_data) {
+              return new Promise(function(resolve, reject) {
+                console.log(save_this_data);
+                Shepherd_GroomData_Post(save_this_data).then(function(result) {
+                  console.log(result);
+                  resolve(result);
+                });
+              });
+            }
 
-                                    //var call_data = {"allcoins": false,"coin":ajax_data_dexrawtx.coin,"calls":"refresh"}
-                                    //console.log(call_data)
-                                    /*Shepherd_FetchBasiliskData(call_data).then(function(result){
-                                        console.log(result)
-                                        toastr.info('Refreshing Wallet Funds.', 'Wallet Notification');
-                                    })*/
+            gettxiddata()
+	            .then(function(gettxdata) {
+	              return process_refresh_utxos(gettxdata);
+	            })
+	            .then(function(new_utxos_set) {
+	              return get_data_cache_contents(new_utxos_set);
+	            })
+	            .then(function(save_this_data) {
+	              return save_new_cache_data(save_this_data);
+	            });
 
-                            } else {
-                                var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
-                                    toastr.success('Signed transaction sent successfully!', 'Wallet Notification');
-                                    edexcoin_sendto_result_tbl += '<tr class="">' +
-                                                                    '<td>result</td>' +
-                                                                    '<td>' +
-                                                                        '<span class="label label-dark">' + dexrwatx_result.result + '</span>' +
-                                                                    '</td>' +
-                                                                '</tr>';
-                                    edexcoin_sendto_result_tbl += '<tr class="">' +
-                                                                    '<td>error</td>' +
-                                                                    '<td>' +
-                                                                        '<span class="label label-danger">' + dexrwatx_result.error + '</span>' +
-                                                                    '</td>' +
-                                                                '</tr>';
-                                    edexcoin_sendto_result_tbl += '<tr class="">' +
-                                                                    '<td>signedtx</td>' +
-                                                                    '<td>' +
-                                                                        '<span style="display: block; width: 400px;word-wrap: break-word;">' + ajax_data_dexrawtx.signedtx + '</span>' +
-                                                                    '</td>' +
-                                                                '</tr>';
-                                    $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
-                                    $('#edexcoin_send_coins_anothertx_btn').show();
-                                    $('#edexcoin-send-txdetails-screen').data('panel-api').done();
-                                    
-                                    var call_data = {"allcoins": false,"coin":'KMD',"calls":"refresh"}
-                                    console.log(call_data)
-                                    Shepherd_FetchBasiliskData(call_data).then(function(result){
-                                        console.log(result)
-                                        toastr.info('Refreshing Wallet Funds.', 'Wallet Notification');
-                                    })
-                            }
-                        })
-                    }
-                    if (send_data.sendsig == 0) {
-                        console.log(send_data)
-                        var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
-                            //toastr.success('Signed Transaction Generated.', 'Wallet Notification');
-                            edexcoin_sendto_result_tbl += '<tr class="">' +
-                                                            '<td>result</td>' +
-                                                            '<td>' +
-                                                                '<span class="label label-success">' + result.result + '</span>' +
-                                                            '</td>' +
-                                                        '</tr>';
-                            edexcoin_sendto_result_tbl += '<tr class="">' +
-                                                            '<td>completed</td>' +
-                                                            '<td>' +
-                                                                '<span class="label label-primary">' + result.completed + '</span>' +
-                                                            '</td>' +
-                                                        '</tr>';
-                            edexcoin_sendto_result_tbl += '<tr class="">' +
-                                                            '<td>rawtx</td>' +
-                                                            '<td>' +
-                                                                '<span style="display: block; width: 400px;word-wrap: break-word;">' + result.rawtx + '</span>' +
-                                                            '</td>' +
-                                                        '</tr>';
-                            edexcoin_sendto_result_tbl += '<tr>' +
-                                                            '<td>txid</td>' +
-                                                            '<td>' +
-                                                                '<a href="javascript:void(0)" data-edexcoin="' + active_edexcoin + '" data-sendtotxresult="' + result.txid + '" class="edexcoin_sendto_output_result">' + result.txid + '</a>' +
-                                                            '</td>' +
-                                                        '</tr>';
-                            edexcoin_sendto_result_tbl += '<tr class="">' +
-                                                            '<td>signedtx</td>' +
-                                                            '<td>' +
-                                                                '<span style="display: block; width: 400px;word-wrap: break-word;">' + result.signedtx + '</span>' +
-                                                            '</td>' +
-                                                        '</tr>';
-                            $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
-                            $('#edexcoin_send_coins_anothertx_btn').show();
-                            $('#edexcoin-send-txdetails-screen').data('panel-api').done();
+            //var call_data = {"allcoins": false,"coin":ajax_data_dexrawtx.coin,"calls":"refresh"}
+            //console.log(call_data)
+            /*Shepherd_FetchBasiliskData(call_data).then(function(result){
+                console.log(result)
+                toastr.info('Refreshing Wallet Funds.', 'Wallet Notification');
+            })*/
+          } else {
+            var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
 
-                            var call_data = {"allcoins": false,"coin":'KMD',"calls":"refresh"}
-                            console.log(call_data)
-                            Shepherd_FetchBasiliskData(call_data).then(function(result){
-                                console.log(result)
-                                toastr.info('Refreshing Wallet Funds.', 'Wallet Notification');
-                            })
-                    }
-                })
-    })
+            toastr.success(_lang[defaultLang].TOASTR.SIGNED_TX_SENT, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
+            edexcoin_sendto_result_tbl += '<tr class="">' +
+                                            '<td>result</td>' +
+                                            '<td>' +
+                                              '<span class="label label-dark">' + dexrwatx_result.result + '</span>' +
+                                            '</td>' +
+                                        	'</tr>';
+            edexcoin_sendto_result_tbl += '<tr class="">' +
+                                            '<td>error</td>' +
+                                            '<td>' +
+                                              '<span class="label label-danger">' + dexrwatx_result.error + '</span>' +
+                                            '</td>' +
+                                        	'</tr>';
+            edexcoin_sendto_result_tbl += '<tr class="">' +
+                                            '<td>signedtx</td>' +
+                                            '<td>' +
+                                              '<span style="display: block; width: 400px;word-wrap: break-word;">' + ajax_data_dexrawtx.signedtx + '</span>' +
+                                            '</td>' +
+                                        	'</tr>';
+            $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
+            $('#edexcoin_send_coins_anothertx_btn').show();
+            $('#edexcoin-send-txdetails-screen').data('panel-api').done();
+            
+            var call_data = {
+            	'allcoins': false,
+            	'coin': 'KMD',
+            	'calls': 'refresh'
+            };
+            console.log(call_data);
+            Shepherd_FetchBasiliskData(call_data).then(function(result) {
+              console.log(result);
+              toastr.info(_lang[defaultLang].TOASTR.REFRESHING_FUNDS + '.', _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
+            });
+          }
+        });
+      }
+      if (send_data.sendsig == 0) {
+        console.log(send_data);
+        var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
+
+        //toastr.success('Signed Transaction Generated.', 'Wallet Notification');
+        edexcoin_sendto_result_tbl += '<tr class="">' +
+                                        '<td>result</td>' +
+                                        '<td>' +
+                                          '<span class="label label-success">' + result.result + '</span>' +
+                                        '</td>' +
+                                    	'</tr>';
+        edexcoin_sendto_result_tbl += '<tr class="">' +
+                                        '<td>completed</td>' +
+                                        '<td>' +
+                                          '<span class="label label-primary">' + result.completed + '</span>' +
+                                        '</td>' +
+                                    	'</tr>';
+        edexcoin_sendto_result_tbl += '<tr class="">' +
+                                        '<td>rawtx</td>' +
+                                        '<td>' +
+                                          '<span style="display: block; width: 400px;word-wrap: break-word;">' + result.rawtx + '</span>' +
+                                        '</td>' +
+                                    	'</tr>';
+        edexcoin_sendto_result_tbl += '<tr>' +
+                                        '<td>txid</td>' +
+                                        '<td>' +
+                                          '<a href="javascript:void(0)" data-edexcoin="' + active_edexcoin + '" data-sendtotxresult="' + result.txid + '" class="edexcoin_sendto_output_result">' + result.txid + '</a>' +
+                                        '</td>' +
+                                    	'</tr>';
+        edexcoin_sendto_result_tbl += '<tr class="">' +
+                                        '<td>signedtx</td>' +
+                                        '<td>' +
+                                          '<span style="display: block; width: 400px;word-wrap: break-word;">' + result.signedtx + '</span>' +
+                                        '</td>' +
+                                    	'</tr>';
+        $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
+        $('#edexcoin_send_coins_anothertx_btn').show();
+        $('#edexcoin-send-txdetails-screen').data('panel-api').done();
+
+        var call_data = {
+        	'allcoins': false,
+        	'coin': 'KMD',
+        	'calls': 'refresh'
+        };
+        console.log(call_data)
+        Shepherd_FetchBasiliskData(call_data).then(function(result) {
+          console.log(result);
+          toastr.info(_lang[defaultLang].TOASTR.REFRESHING_FUNDS, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
+        });
+      }
+    });
+  });
 }
 
 function EDEXSendToAddr(data) {
@@ -1425,7 +1422,8 @@ function EDEXSendToAddr(data) {
 					confirm_send_amount,
 					'EasyDEX',
 					'EasyDEXTransaction'
-				]};
+				]
+			};
 
 	console.log(sendtoaddrvalues);
 	console.log(sendtoaddrvalues.params);
@@ -1441,7 +1439,7 @@ function EDEXSendToAddr(data) {
 			result.push(SendToAddrData);
 
 			if ( SendToAddrData.error !== undefined ) {
-				toastr.error('Sent Transaction failed. Please check send Transaction page for details.', 'Wallet Notification');
+				toastr.error(_lang[defaultLang].TOASTR.TX_FAILED, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
 				edexcoin_sendto_result_tbl += '<tr class="active">' +
 																				'<td>error</td>' +
 																				'<td>' +
@@ -1454,7 +1452,8 @@ function EDEXSendToAddr(data) {
 
 			if ( SendToAddrData.complete !== undefined ) {
 				var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
-				toastr.success('Transaction sent successfully. Check send section for details.', 'Wallet Notification');
+
+				toastr.success(_lang[defaultLang].TOASTR.TX_SENT_ALT, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
 				edexcoin_sendto_result_tbl += '<tr class="">' +
 																				'<td>complete</td>' +
 																				'<td>' +
@@ -1481,13 +1480,13 @@ function EDEXSendToAddr(data) {
 																			'</tr>';
 				$('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
 				$('#edexcoin_send_coins_anothertx_btn').show();
-                $('#edexcoin-send-txdetails-screen').data('panel-api').done();
+        $('#edexcoin-send-txdetails-screen').data('panel-api').done();
 			}
 
 			var selected_coinmode = sessionStorage.getItem('edexTmpMode');
 			if ( selected_coinmode == 'Basilisk' ) {
 				var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
-				getDEXGetBalance(active_edexcoin).then(function(result){
+				getDEXGetBalance(active_edexcoin).then(function(result) {
 					$('#edex_total_balance').text(result.total);
 				});
 			} else {
@@ -1510,7 +1509,7 @@ function EDEXSendToAddr(data) {
 			}
 			console.log(textStatus);
 			console.log(error);
-            $('#edexcoin-send-txdetails-screen').data('panel-api').done();
+      $('#edexcoin-send-txdetails-screen').data('panel-api').done();
 		}
 	});
 
@@ -1529,7 +1528,7 @@ function EDEXgetinfo(coin) {
 					'timeout': 4000
 				},
 				AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
-					AjaxOutputData = JSON.parse(AjaxOutputData.responseText)
+					AjaxOutputData = JSON.parse(AjaxOutputData.responseText);
 					resolve(AjaxOutputData);
 				}).fail(function(xhr, textStatus, error) {
 					// handle request failures
@@ -1542,96 +1541,95 @@ function EDEXgetinfo(coin) {
 	})
 }
 
-
 function EDEXgettransaction(coin,txid) {
-    return new Promise((resolve) => {
-        var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-                ajax_data = {
-                    'userpass': tmpIguanaRPCAuth,
-                    'symbol': coin,
-                    'agent': 'dex',
-                    'method': 'gettransaction',
-                    'vout':1,
-                    'txid': txid
-                };
-            //console.log(ajax_data)
-            $.ajax({
-                type: 'POST',
-                data: JSON.stringify(ajax_data),
-                url: 'http://127.0.0.1:7778'
-            }).then(function(data) {
-                //console.log(data)
-                res_data = JSON.parse(data)
-                //console.log(res_data)
-                resolve(res_data)
-            }).fail(function(xhr, textStatus, error) {
-                // handle request failures
-                console.log(xhr.statusText);
-                if ( xhr.readyState == 0 ) {
-                }
-                console.log(textStatus);
-                console.log(error);
-            });
+  return new Promise((resolve) => {
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+        ajax_data = {
+            'userpass': tmpIguanaRPCAuth,
+            'symbol': coin,
+            'agent': 'dex',
+            'method': 'gettransaction',
+            'vout':1,
+            'txid': txid
+        };
 
-        /*var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
-            AjaxOutputData = JSON.parse(AjaxOutputData.responseText)
-            resolve(AjaxOutputData);
-        }).fail(function(xhr, textStatus, error) {
-            // handle request failures
-            console.log(xhr.statusText);
-            if ( xhr.readyState == 0 ) {
-            }
-            console.log(textStatus);
-            console.log(error);
-        });*/
-    })
+    //console.log(ajax_data)
+    $.ajax({
+      type: 'POST',
+      data: JSON.stringify(ajax_data),
+      url: 'http://127.0.0.1:7778'
+    }).then(function(data) {
+      //console.log(data);
+      res_data = JSON.parse(data);
+      //console.log(res_data);
+      resolve(res_data);
+    }).fail(function(xhr, textStatus, error) {
+      // handle request failures
+      console.log(xhr.statusText);
+      if ( xhr.readyState == 0 ) {
+      }
+      console.log(textStatus);
+      console.log(error);
+    });
+
+    /*var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
+        AjaxOutputData = JSON.parse(AjaxOutputData.responseText)
+        resolve(AjaxOutputData);
+    }).fail(function(xhr, textStatus, error) {
+        // handle request failures
+        console.log(xhr.statusText);
+        if ( xhr.readyState == 0 ) {
+        }
+        console.log(textStatus);
+        console.log(error);
+    });*/
+  });
 }
 
 function EDEXgetaddrbyaccount_cache(coin) {
-    return new Promise((resolve) => {
-        Shepherd_GetBasiliskCache().then(function(result){
-            var _data = JSON.parse(result)
-                query = _data.result.basilisk
-                tmp_addr_label = '<span class="label label-default">' +
-                                                   '<i class="icon fa-eye"></i> public' +
-                                                 '</span>';
-                active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
+  return new Promise((resolve) => {
+    Shepherd_GetBasiliskCache().then(function(result) {
+      var _data = JSON.parse(result),
+          query = _data.result.basilisk,
+          tmp_addr_label = '<span class="label label-default">' +
+                           	 '<i class="icon fa-eye"></i> ' + _lang[defaultLang].IAPP.PUBLIC_SM +
+                           '</span>',
+          active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 
-            //console.log(query[coin].addresses)
-            
-            Promise.all(query[coin].addresses.map((coinaddr_value, coinaddr_index) => {
-                return new Promise((resolve, reject) => {
-                    //console.log(coinaddr_index)
-                    //console.log(coinaddr_value)
-                    coinaddr_balances = query[coin][coinaddr_value].getbalance.data
+      //console.log(query[coin].addresses)
+        
+      Promise.all(query[coin].addresses.map((coinaddr_value, coinaddr_index) => {
+        return new Promise((resolve, reject) => {
+          //console.log(coinaddr_index);
+          //console.log(coinaddr_value);
+          coinaddr_balances = query[coin][coinaddr_value].getbalance.data;
 
-                    if (coinaddr_balances.interest !== undefined) {
-                        var pass_data = {
-                                    'label': tmp_addr_label,
-                                    'addr': coinaddr_value,
-                                    'total': coinaddr_balances.balance.toFixed(8),
-                                    'interest': coinaddr_balances.interest.toFixed(8)
-                                };
-                    }
-                    if (coinaddr_balances.interest == undefined) {
-                        var pass_data = {
-                            'label': tmp_addr_label,
-                            'addr': coinaddr_value,
-                            'total': coinaddr_balances.balance.toFixed(8)
-                        };
-                    }
+          if (coinaddr_balances.interest !== undefined) {
+              var pass_data = {
+                    'label': tmp_addr_label,
+                    'addr': coinaddr_value,
+                    'total': coinaddr_balances.balance.toFixed(8),
+                    'interest': coinaddr_balances.interest.toFixed(8)
+                	};
+          }
+          if (coinaddr_balances.interest == undefined) {
+            var pass_data = {
+	                'label': tmp_addr_label,
+	                'addr': coinaddr_value,
+	                'total': coinaddr_balances.balance.toFixed(8)
+            		};
+          }
 
-                    //console.log(pass_data)
-                    resolve(pass_data)
-                })
-
-            })).then(result => {
-                //console.log(result)
-                resolve(result)
-            })
-
-        })
-    })
+          //console.log(pass_data);
+          resolve(pass_data);
+        });
+      }))
+      .then(result => {
+        //console.log(result);
+        resolve(result);
+      })
+    });
+  });
 }
 
 function EDEXgetaddrbyaccount(coin) {
@@ -1645,7 +1643,7 @@ function EDEXgetaddrbyaccount(coin) {
 					'account': '*'
 				},
 				tmp_addr_label = '<span class="label label-default">' +
-												   '<i class="icon fa-eye"></i> public' +
+												   '<i class="icon fa-eye"></i> ' + _lang[defaultLang].IAPP.PUBLIC_SM +
 												 '</span>';
 				active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 
@@ -1731,7 +1729,7 @@ function EDEXgetaddrbyaccount(coin) {
 								console.log(data);
 
 								if (data.error === 'less than required responses') {
-									toastr.error('Less than required responses. Please try again.', 'Basilisk Notification');
+									toastr.error(_lang[defaultLang].TOASTR.LESS_RESPONSES_REQ, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 								}
 
 								var tmpcalcnum = 0;
@@ -1938,7 +1936,7 @@ function Iguana_DEXgetNotaries(coin) {
 
 			result.push(AjaxOutputData);
 			if (AjaxOutputData.error === 'less than required responses') {
-				toastr.error('Less than required responses. Please try again.', 'Basilisk Notification');
+				toastr.error(_lang[defaultLang].TOASTR.LESS_RESPONSES_REQ, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 		},
 		error: function(xhr, textStatus, error) {
@@ -1997,19 +1995,19 @@ function Iguana_DEXImportAddr(coin,addr) {
 		console.log(data);
 
 		if (data == 'already in list') {
-			toastr.info(coin + ' address already registered on network.', 'Basilisk Notification');
+			toastr.info(coin + ' ' + _lang[defaultLang].TOASTR.ADDR_ALREADY_REG, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 		} else {
 			if (data.iswatchonly == true) {
-				toastr.success('Registered ' + coin + ' address  on network.', 'Basilisk Notification');
+				toastr.success(_lang[defaultLang].TOASTR.REG + ' ' + coin + _lang[defaultLang].TOASTR.REG_ADDR, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 			if (data.iswatchonly == false) {
-				toastr.success(coin + ' address Registeration failed. Please try again.', 'Basilisk Notification');
+				toastr.success(coin + _lang[defaultLang].TOASTR.REG_ADDR_FAILED, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 			if (data.iswatchonly == undefined) {
-				toastr.error('Invalid query sent for ' + coin + '. Please try again.', 'Basilisk Notification');
+				toastr.error(_lang[defaultLang].TOASTR.INVALID_QUERY + ' ' + coin + '. ' + _lang[defaultLang].TOASTR.TRY_AGAIN, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 			if (data.error === 'less than required responses') {
-				toastr.error('Less than required responses. Please try again.', 'Basilisk Notification');
+				toastr.error(_lang[defaultLang].TOASTR.LESS_RESPONSES_REQ, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 		}
 	});
@@ -2033,8 +2031,8 @@ function Iguana_DEXImportAllWalletAddr(coin) {
 			}),
 			ajax_call_3 = ajax_call_2.then(function(data) {
 				$.each(data.result, function(coinaddr_index, coinaddr_value) {
-					console.log(coinaddr_index)
-					console.log(coinaddr_value)
+					console.log(coinaddr_index);
+					console.log(coinaddr_value);
 
 					var ajax_data_4 = {
 								'userpass': tmpIguanaRPCAuth,
@@ -2050,7 +2048,7 @@ function Iguana_DEXImportAllWalletAddr(coin) {
 							dataType: 'json',
 					});
 					var ajax_call_5 = ajax_call_4.then(function(data) {
-						console.log(data)
+						console.log(data);
 						console.log(coinaddr_value);
 
 						if (('error' in data) || !('address' in data)) {
@@ -2078,20 +2076,20 @@ function Iguana_DEXImportAllWalletAddr(coin) {
 						console.log(coin)
 						console.log(data);
 
-						if (data == 'already in list') {
-							toastr.info(coinaddr_value + ' already registered on network.', 'Basilisk Notification - ' + coin);
+						if (data == 'already in list') {_lang[defaultLang]
+							toastr.info(coinaddr_value + ' ' + _lang[defaultLang].TOASTR.ADDR_ALREADY_REG, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + coin);
 						} else {
 							if (data.iswatchonly == true) {
-								toastr.success('Registered ' + coinaddr_value + ' on network.', 'Basilisk Notification - ' + coin);
+								toastr.success(_lang[defaultLang].TOASTR.REG + ' ' + coinaddr_value + ' ' + _lang[defaultLang].TOASTR.REG_ADDR, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + coin);
 							}
 							if (data.iswatchonly == false) {
-								toastr.success(coinaddr_value + ' Registeration failed. Please try again.', 'Basilisk Notification - ' + coin);
+								toastr.success(coinaddr_value + ' ' + _lang[defaultLang].TOASTR.REG_ADDR_FAILED, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + coin);
 							}
 							if (data.iswatchonly == undefined) {
-								toastr.error('Invalid query sent for ' + coinaddr_value + '. Please try again.', 'Basilisk Notification - ' + coin);
+								toastr.error(_lang[defaultLang].TOASTR.INVALID_QUERY + ' ' + coinaddr_value + '. ' + _lang[defaultLang].TOASTR.TRY_AGAIN, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + coin);
 							}
 							if (data.error === 'less than required responses') {
-								toastr.error('Less than required responses. Please try again.', 'Basilisk Notification - ' + coin);
+								toastr.error(_lang[defaultLang].TOASTR.LESS_RESPONSES_REQ, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + coin);
 							}
 						}
 					});
@@ -2132,8 +2130,8 @@ function Iguana_DEXImportAll() {
 						}),
 						ajax_call_3 = ajax_call_2.then(function(data) {
 							$.each(data.result, function(coinaddr_index, coinaddr_value) {
-								console.log(coinaddr_index)
-								console.log(coinaddr_value)
+								console.log(coinaddr_index);
+								console.log(coinaddr_value);
 
 								var ajax_data_4 = {
 											'userpass': tmpIguanaRPCAuth,
@@ -2149,7 +2147,7 @@ function Iguana_DEXImportAll() {
 											dataType: 'json'
 										}),
 										ajax_call_5 = ajax_call_4.then(function(data) {
-											console.log(data)
+											console.log(data);
 											console.log(coinaddr_value);
 
 											if (('error' in data) || !('address' in data)) {
@@ -2178,19 +2176,19 @@ function Iguana_DEXImportAll() {
 									console.log(data);
 
 									if (data == 'already in list') {
-										toastr.info(coinaddr_value + ' already registered on network.', 'Basilisk Notification - ' + mode_value);
+										toastr.info(coinaddr_value + _lang[defaultLang].TOASTR.ADDR_ALREADY_REG, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + mode_value);
 									} else {
 										if (data.iswatchonly == true) {
-											toastr.success('Registered ' + coinaddr_value + ' on network.', 'Basilisk Notification - ' + mode_value);
+											toastr.success(_lang[defaultLang].TOASTR.REG + ' ' + coinaddr_value + ' ' + _lang[defaultLang].TOASTR.REG_ADDR, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + mode_value);
 										}
 										if (data.iswatchonly == false) {
-											toastr.success(coinaddr_value + ' Registeration failed. Please try again.', 'Basilisk Notification - ' + mode_value);
+											toastr.success(coinaddr_value + ' ' + _lang[defaultLang].TOASTR.REG_ADDR_FAILED, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + mode_value);
 										}
 										if (data.iswatchonly == undefined) {
-											toastr.error('Invalid query sent for ' + coinaddr_value + '. Please try again.', 'Basilisk Notification - ' + mode_value);
+											toastr.error(_lang[defaultLang].TOASTR.INVALID_QUERY + ' ' + coinaddr_value + '. ' + _lang[defaultLang].TOASTR.TRY_AGAIN, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + mode_value);
 										}
 										if (data.error === 'less than required responses') {
-											toastr.error('Less than required responses. Please try again.', 'Basilisk Notification - ' + mode_value);
+											toastr.error(_lang[defaultLang].TOASTR.LESS_RESPONSES_REQ, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + mode_value);
 										}
 									}
 								});
@@ -2228,7 +2226,7 @@ function Iguana_DEXCheckAddr(coin,addr) {
 			result.push(AjaxOutputData);
 
 			if (AjaxOutputData.error === 'less than required responses') {
-				toastr.error('Less than required responses. Please try again.', 'Basilisk Notification');
+				toastr.error(_lang[defaultLang].TOASTR.LESS_RESPONSES_REQ, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 		},
 		error: function(xhr, textStatus, error) {
@@ -2266,17 +2264,17 @@ function Iguana_DEXValidateAddr(coin, addr) {
 			var AjaxOutputData = JSON.parse(data);
 
 			if (AjaxOutputData.iswatchonly == true) {
-				toastr.success('Validation Success on Network', 'Basilisk Notification');
+				toastr.success(_lang[defaultLang].TOASTR.VALIDATION_SUCCESS, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 			if (AjaxOutputData.iswatchonly == false) {
-				toastr.info('Address isn\'t Registered on Network. Please Register', 'Basilisk Notification');
+				toastr.info(_lang[defaultLang].TOASTR.ADDR_ISNT_REG, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 			if (AjaxOutputData.iswatchonly == undefined) {
-				toastr.error('Invalid query sent. Please try again.', 'Basilisk Notification');
+				toastr.error(_lang[defaultLang].TOASTR.INVALID_QUERY_ALT, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 			result.push(AjaxOutputData);
 			if (AjaxOutputData.error === 'less than required responses') {
-				toastr.error('Less than required responses. Please try again.', 'Basilisk Notification');
+				toastr.error(_lang[defaultLang].TOASTR.LESS_RESPONSES_REQ, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 		},
 		error: function(xhr, textStatus, error) {
@@ -2293,58 +2291,59 @@ function Iguana_DEXValidateAddr(coin, addr) {
 }
 
 function Iguana_utxorawtx(data) {
-    var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-        ajax_data = {
-                        'userpass': tmpIguanaRPCAuth,
-                        'symbol': data.coin,
-                        'agent': 'basilisk',
-                        'method': 'utxorawtx',
-                        'vals': {
-                            'timelock': 0,
-                            'changeaddr': data.sendfrom,
-                            'destaddr': data.sendtoaddr,
-                            'txfee': data.txfee,
-                            'amount': data.amount,
-                            'sendflag': data.sendsig
-                            },
-                            'utxos': data.utxos
-                    };
-    return new Promise((resolve) => {
-        console.log(ajax_data);
-        $.ajax({
-            data: JSON.stringify(ajax_data),
-            url: 'http://127.0.0.1:7778',
-            type: 'POST',
-            dataType: 'json'
-        }).then(result => {
-            //console.log(result);
-            resolve(result);
-        });
-    })
+  var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      ajax_data = {
+        'userpass': tmpIguanaRPCAuth,
+        'symbol': data.coin,
+        'agent': 'basilisk',
+        'method': 'utxorawtx',
+        'vals': {
+          'timelock': 0,
+          'changeaddr': data.sendfrom,
+          'destaddr': data.sendtoaddr,
+          'txfee': data.txfee,
+          'amount': data.amount,
+          'sendflag': data.sendsig
+        },
+        'utxos': data.utxos
+      };
+
+  return new Promise((resolve) => {
+    console.log(ajax_data);
+    $.ajax({
+      data: JSON.stringify(ajax_data),
+      url: 'http://127.0.0.1:7778',
+      type: 'POST',
+      dataType: 'json'
+    }).then(result => {
+      //console.log(result);
+      resolve(result);
+    });
+  });
 }
 
 function Iguana_DEXsendrawtx(data) {
-    var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-        ajax_data = {
-                        'userpass': tmpIguanaRPCAuth,
-                        'agent': 'dex',
-                        'method': 'sendrawtransaction',
-                        'signedtx': data.signedtx,
-                        'symbol': data.coin
-                    }
-    return new Promise((resolve) => {
-        console.log(ajax_data);
-        $.ajax({
-            data: JSON.stringify(ajax_data),
-            url: 'http://127.0.0.1:7778',
-            type: 'POST',
-            //dataType: 'json'
-        }).then(result => {
-            console.log(result);
-            resolve(result);
-        });
-    })
+  var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      ajax_data = {
+        'userpass': tmpIguanaRPCAuth,
+        'agent': 'dex',
+        'method': 'sendrawtransaction',
+        'signedtx': data.signedtx,
+        'symbol': data.coin
+      };
 
+  return new Promise((resolve) => {
+    console.log(ajax_data);
+    $.ajax({
+      data: JSON.stringify(ajax_data),
+      url: 'http://127.0.0.1:7778',
+      type: 'POST',
+      //dataType: 'json'
+    }).then(result => {
+      console.log(result);
+      resolve(result);
+    });
+  });
 }
 
 function EDEX_DEXlistunspent(coin, addr) {
@@ -2475,7 +2474,7 @@ function EDEX_DEXgetinfoAll() {
 								console.log(refresh_percent)
 								$('#basilisk-connections-refresh-title').text('Connection status... ' + tmp_index + '/' + get_dex_notarychains.length + ': ' + coin_value);
 								$('#basilisk-connections-refresh-percent').text(refresh_percent + '%');
-								$('#basilisk-connections-refresh-progress-bar').width(refresh_percent + '%')
+								$('#basilisk-connections-refresh-progress-bar').width(refresh_percent + '%');
 
 								if (getinfo_each_chain == '' ) {
 									result.push([{ 'amount': 0 }]);
@@ -2502,77 +2501,82 @@ function EDEX_DEXgetinfoAll() {
 }
 
 function EDEX_ProcessRefreshData(gettxdata,refreshdata){
-    console.log(gettxdata)
-    console.log(refreshdata)
-    return new Promise((resolve, reject) => {
-        Promise.all(gettxdata.vin.map((vin_value,vin_index) => {
-            console.log(vin_index)
-            console.log(vin_value)
-            return new Promise((resolve, reject) => {
-                Promise.all(refreshdata.map((refresh_value,refresh_index) => {
-                    console.log(refresh_index)
-                    console.log(refresh_value)
-                    if (refreshdata[refresh_index] !== undefined && refresh_value.txid == vin_value.txid) {
-                        delete refreshdata[refresh_index]
-                        refreshdata = refreshdata
-                        resolve(refreshdata)
-                    }
-                }))
-            })
-        })).then(result=>{
-            var res_data = result[result.length - 1];
-            console.log(res_data)
-            var refresh_final = []
-            
-            $.each(res_data,function(index){
-                if(res_data[index] !== undefined) {
-                    refresh_final.push(res_data[index])
-                }
-            })
-            //console.log(refresh_final)
-            resolve(refresh_final);
-        })
-    })
+  console.log(gettxdata);
+  console.log(refreshdata);
+
+  return new Promise((resolve, reject) => {
+    Promise.all(gettxdata.vin.map((vin_value,vin_index) => {
+      console.log(vin_index);
+      console.log(vin_value);
+
+      return new Promise((resolve, reject) => {
+        Promise.all(refreshdata.map((refresh_value,refresh_index) => {
+          console.log(refresh_index);
+          console.log(refresh_value);
+
+          if (refreshdata[refresh_index] !== undefined && refresh_value.txid == vin_value.txid) {
+            delete refreshdata[refresh_index];
+            refreshdata = refreshdata;
+            resolve(refreshdata);
+          }
+        }));
+      });
+    }))
+    .then(result=>{
+      var res_data = result[result.length - 1],
+      		refresh_final = [];
+      console.log(res_data);
+      
+      $.each(res_data,function(index){
+        if(res_data[index] !== undefined) {
+          refresh_final.push(res_data[index]);
+        }
+      })
+      //console.log(refresh_final)
+      resolve(refresh_final);
+    });
+  })
 }
 
 function Iguana_Jumblr_SetPassphrase(data) {
-    return new Promise((resolve) => {
-        var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-            ajax_data = {
-                'userpass': tmpIguanaRPCAuth,
-                'agent': 'jumblr',
-                'method': 'setpassphrase',
-                'passphrase': data.passphrase
-            };
-            $.ajax({
-                data: JSON.stringify(ajax_data),
-                url: 'http://127.0.0.1:7778',
-                type: 'POST',
-                dataType: 'json'
-            }).done(function(data) {
-                resolve(data);
-            });
+  return new Promise((resolve) => {
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+        ajax_data = {
+            'userpass': tmpIguanaRPCAuth,
+            'agent': 'jumblr',
+            'method': 'setpassphrase',
+            'passphrase': data.passphrase
+        };
+
+    $.ajax({
+        data: JSON.stringify(ajax_data),
+        url: 'http://127.0.0.1:7778',
+        type: 'POST',
+        dataType: 'json'
+    }).done(function(data) {
+        resolve(data);
     });
+  });
 }
 
-
 function Iguana_Jumblr_Status() {
-    return new Promise((resolve) => {
-        var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-            ajax_data = {
-                'userpass': tmpIguanaRPCAuth,
-                'agent': 'jumblr',
-                'method': 'status'
-            };
-            $.ajax({
-                data: JSON.stringify(ajax_data),
-                url: 'http://127.0.0.1:7778',
-                type: 'POST',
-                dataType: 'json'
-            }).done(function(data) {
-                resolve(data);
-            });
+  return new Promise((resolve) => {
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+        ajax_data = {
+            'userpass': tmpIguanaRPCAuth,
+            'agent': 'jumblr',
+            'method': 'status'
+        };
+
+    $.ajax({
+      data: JSON.stringify(ajax_data),
+      url: 'http://127.0.0.1:7778',
+      type: 'POST',
+      dataType: 'json'
+    }).done(function(data) {
+      resolve(data);
     });
+  });
 }
 
 function Shepherd_getConf(coin) {
@@ -2713,53 +2717,53 @@ function Shepherd_FetchBasiliskData(req_data) {
 	});
 }
 
-
 function Shepherd_GroomData_Get() {
-    return new Promise((resolve) => {
-        var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
-            parse_session_data = JSON.parse(JSON.parse(parse_session_data));
-        var request_method = '';
-        var session_pubkey = parse_session_data.pubkey;
-        var ajax_data = {'filename': session_pubkey};
-          
-        var req_url = 'http://127.0.0.1:17777/shepherd/groom';
-        console.log(ajax_data)
-
-        $.ajax({
-            type: 'GET',
-            data: ajax_data,
-            url: req_url,
-            contentType: 'application/json', // send as JSON
-        }).done(function(data) {
-            var res_data = JSON.parse(data)
-            resolve(res_data.result);
-        });
+  return new Promise((resolve) => {
+    var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
+    parse_session_data = JSON.parse(JSON.parse(parse_session_data));
+    var request_method = '',
+    		session_pubkey = parse_session_data.pubkey,
+    		ajax_data = { 'filename': session_pubkey },
+      	req_url = 'http://127.0.0.1:17777/shepherd/groom';
+    
+    console.log(ajax_data);
+    $.ajax({
+      type: 'GET',
+      data: ajax_data,
+      url: req_url,
+      contentType: 'application/json', // send as JSON
+    }).done(function(data) {
+      var res_data = JSON.parse(data);
+      resolve(res_data.result);
     });
+  });
 }
 
 function Shepherd_GroomData_Post(req_data) {
-    return new Promise((resolve) => {
-        var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
-            parse_session_data = JSON.parse(JSON.parse(parse_session_data));
-        var request_method = '';
-        var session_pubkey = parse_session_data.pubkey;
+  return new Promise((resolve) => {
+    var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
+    parse_session_data = JSON.parse(JSON.parse(parse_session_data));
+    var request_method = '',
+    		session_pubkey = parse_session_data.pubkey,
+    		ajax_data = {
+    			'filename': session_pubkey,
+    			'payload': req_data
+    		},
+    		req_url = 'http://127.0.0.1:17777/shepherd/groom';
 
-        console.log(req_data)
-        var ajax_data = {'filename': session_pubkey,'payload':req_data};
-          
-        var req_url = 'http://127.0.0.1:17777/shepherd/groom';
-        console.log(ajax_data)
+    console.log(req_data);
+    console.log(ajax_data);
 
-        $.ajax({
-            type: 'POST',
-            data: ajax_data,
-            url: req_url,
-            dataType: 'json'
-        }).done(function(data) {
-            var res_data = JSON.parse(data)
-            resolve(res_data);
-        });
+    $.ajax({
+      type: 'POST',
+      data: ajax_data,
+      url: req_url,
+      dataType: 'json'
+    }).done(function(data) {
+      var res_data = JSON.parse(data);
+      resolve(res_data);
     });
+  });
 }
 
 function Shepherd_GetBasiliskCache() {

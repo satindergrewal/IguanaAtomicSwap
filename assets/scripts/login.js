@@ -26,7 +26,7 @@ var Login = function() {
 
       messages: {
         password: {
-          required: 'Password is required.'
+          required: _lang[defaultLang].LOGIN.PWD_REQ
         }
       },
 
@@ -49,11 +49,12 @@ var Login = function() {
       },
 
       submitHandler: function(form) {
-        var jumblr_setpassphrase_val = 'jumblr '+$('#password').val()
-        console.log(jumblr_setpassphrase_val)
-        Iguana_Jumblr_SetPassphrase({'passphrase':jumblr_setpassphrase_val}).then(function(result){
-          console.log(result)
-        }).then(function(){
+        var jumblr_setpassphrase_val = 'jumblr ' + $('#password').val();
+        console.log(jumblr_setpassphrase_val);
+        Iguana_Jumblr_SetPassphrase({ 'passphrase': jumblr_setpassphrase_val }).then(function(result) {
+          console.log(result);
+        })
+        .then(function(){
           var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
               ajax_data = {
                 'userpass': tmpIguanaRPCAuth,
@@ -75,7 +76,7 @@ var Login = function() {
               sessionStorage.setItem('IguanaActiveAccount', LoginDataToStore);
               if (LoginOutput.result === 'success') {
                 console.log('Success');
-                toastr.success('Login Successfull', 'Account Notification')
+                toastr.success(_lang[defaultLang].TOASTR.LOGIN_SUCCESSFULL, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION)
 
                 $('#password').val('')
                 $('#wallet-login').hide();
@@ -87,7 +88,7 @@ var Login = function() {
               } else {
                 // If something goes wrong, alert the error message that our service returned
                 if (LoginOutput.error === 'bitcoinrpc needs coin that is active') {
-                  toastr.info('Seems like there\'s no coin running. Activating BTC.', 'Coin Notification');
+                  toastr.info(_lang[defaultLang].TOASTR.NO_COIN_RUNNING, _lang[defaultLang].TOASTR.COIN_NOTIFICATION);
                   var logincoinnames = [];
                   $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); });
                   console.log(logincoinnames);
@@ -119,9 +120,9 @@ var Login = function() {
                     }
                   });
                 } else if ( LoginOutput.error === 'invalid passphrase' ) {
-                  toastr.info('Invalid Passphrase. Make sure your passphrase is correct, or create new wallet.', 'Login Notification');
+                  toastr.info(_lang[defaultLang].TOASTR.INVALID_PASSPHRASE, _lang[defaultLang].TOASTR.LOGIN_NOTIFICATION);
                 } else {
-                  toastr.warning('Opps... Something went wrong!', 'Account Notification');
+                  toastr.warning(_lang[defaultLang].TOASTR.OPPS, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
                 }
 
                 console.log(data.statusText);
@@ -193,7 +194,7 @@ var Login = function() {
 
       messages: {
         rwalletseed: {
-          required: 'Wallet seed is required.'
+          required: _lang[defaultLang].LOGIN.WALLET_SEED_REQ
         }
       },
 
@@ -223,7 +224,7 @@ var Login = function() {
 
       submitHandler: function(form) {
         swal({
-          title: 'Have you saved your wallet seed?',
+          title: _lang[],
           text: 'Make sure you have it backed up. Without this seed you won\'t be able to access your wallet in the future!',
           type: 'warning',
           showCancelButton: true,
@@ -250,18 +251,18 @@ var Login = function() {
 
               if (CreateWalletOutput.result === 'success') {
                 console.log('Success');
-                toastr.success('Wallet created successfully', 'Account Notification');
+                toastr.success(_lang[defaultLang].TOASTR.WALLET_CREATED_SUCCESFULLY, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
                 // Iguana_DEXImportAll();
 
                 $('#wallet-handle').val('');
                 $('#password').val('');
               } else {
                 // If something goes wrong, alert the error message that our service returned
-                toastr.warning('Opps... Something went wrong!', 'Account Notification');
+                toastr.warning(_lang[defaultLang].TOASTR.OPPS, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
                 console.log(CreateWalletOutput);
                 
                 if (CreateWalletOutput.error === 'bitcoinrpc needs coin that is active') {
-                  toastr.info('Seems like there\'s no coin running. Activating BTC.', 'Coin Notification');
+                  toastr.info(_lang[defaultLang].TOASTR.NO_COIN_RUNNING, _lang[defaultLang].TOASTR.COIN_NOTIFICATION);
                   var logincoinnames = [];
                   $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); });
                   console.log(logincoinnames);
@@ -278,7 +279,7 @@ var Login = function() {
                       if (index == '0' ) {
                         console.log(value + ' ' + index);
                         $('.register-form').submit();
-                        toastr.success('Wallet created successfully', 'Account Notification');
+                        toastr.success(_lang[defaultLang].TOASTR.WALLET_CREATED_SUCCESFULLY, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
                       }
                     }
                     if ( value == 'BTCD' ) {
@@ -292,12 +293,12 @@ var Login = function() {
                       if (index == '0' ) {
                         console.log(value + ' ' + index);
                         $('.register-form').submit();
-                        toastr.success('Wallet created successfully', 'Account Notification');
+                        toastr.success(_lang[defaultLang].TOASTR.WALLET_CREATED_SUCCESFULLY, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
                       }
                     }
                   });
                 } else {
-                  toastr.warning('Opps... Something went wrong!', 'Account Notification');
+                  toastr.warning(_lang[defaultLang].TOASTR.OPPS, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
                 }
                 
                 console.log(data.statusText);
@@ -318,7 +319,7 @@ var Login = function() {
               }
               console.log(textStatus);
               console.log(error);
-              toastr.warning('Opps... Something went wrong!', 'Account Notification');
+              toastr.warning(_lang[defaultLang].TOASTR.OPPS, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
             }
           });
 
@@ -381,7 +382,7 @@ var Login = function() {
 
           if (LogoutOutput.result === 'success') {
             console.log('Success');
-            toastr.success('Logout Successfull', 'Account Notification');
+            toastr.success(_lang[defaultLang].TOASTR.LOGOUT_SUCCESSFULL, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
             $('#wallet-login').show();
             $('body').removeClass( '' ).addClass( 'page-login layout-full page-dark' );
             $('#wallet-core').hide();
@@ -400,7 +401,7 @@ var Login = function() {
             StopTotalFiatValue();
           } else {
             // If something goes wrong, alert the error message that our service returned
-            toastr.warning('Opps... Something went wrong!', 'Account Notification');
+            toastr.warning(_lang[defaultLang].TOASTR.OPPS, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
             console.log(data.statusText);
             if ( xhr.readyState == 0 ) {
               Iguana_ServiceUnavailable();
@@ -417,7 +418,7 @@ var Login = function() {
           }
           console.log(textStatus);
           console.log(error);
-          toastr.warning('Opps... Something went wrong!', 'Account Notification');
+          toastr.warning(_lang[defaultLang].TOASTR.OPPS, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
         }
       });
     });
@@ -464,22 +465,22 @@ var Login = function() {
 
               if (ActiveHandleOutput.status === 'locked') {
                 console.log('Success');
-                toastr.success('Wallet Locked Successfully', 'Account Notification');
+                toastr.success(_lang[defaultLang].TOASTR.WALLET_LOCKED, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
 
                 $('#wallet-login').show();
                 $('body').removeClass( '' ).addClass( 'page-login layout-full page-dark' );
                 $('#wallet-core').hide();
                 $('link[id=loginStyle]')[0].disabled = false;
-                $("#loginbtn").text('Unlock');
+                $("#loginbtn").text(_lang[defaultLang].LOGIN.UNLOCK);
                 // Hide some login fields not needing at lock screen
                 console.log('Wallet is Locked.');
-                $('#login-welcome').text('Wallet Locked. Please login.');
+                $('#login-welcome').text(_lang[defaultLang].LOGIN.WALLET_LOCKED_LOGIN);
                 $('#register-btn').hide();
                 $('#logint-another-wallet').show();
                 $('#logincoinslist').hide();
               } else {
                 // If something goes wrong, alert the error message that our service returned
-                toastr.warning('Opps... Something went wrong!', 'Account Notification');
+                toastr.warning(_lang[defaultLang].TOASTR.OPPS, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
                 console.log(data.statusText);
                 if ( xhr.readyState == 0 ) {
                   Iguana_ServiceUnavailable();
@@ -496,7 +497,7 @@ var Login = function() {
               }
               console.log(textStatus);
               console.log(error);
-              toastr.warning('Opps... Something went wrong!', 'Account Notification');
+              toastr.warning(_lang[defaultLang].TOASTR.OPPS, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
             }
           });
           // End Check Active Wallet's status
@@ -511,7 +512,7 @@ var Login = function() {
           }
           console.log(textStatus);
           console.log(error);
-          toastr.warning('Opps... Something went wrong!', 'Account Notification');
+          toastr.warning(_lang[defaultLang].TOASTR.OPPS, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
         }
       });
     });
@@ -545,9 +546,9 @@ var Login = function() {
           $('#wallet-core').fadeIn();
         } else if ( JSON.parse(CheckLoginData).status === 'locked' ) {
           console.log('Wallet is Locked.');
-          $('#login-welcome').text('Wallet Locked. Please login');
+          $('#login-welcome').text(_lang[defaultLang].LOGIN.WALLET_LOCKED_LOGIN);
           $('#register-btn').hide();
-          $("#loginbtn").text('Unlock');
+          $("#loginbtn").text(_lang[defaultLang].LOGIN.UNLOCK);
           $('#section-login-addcoin-btn').hide();
           $('#section-login').show();
         }
@@ -669,7 +670,7 @@ var Login = function() {
 
           if (LogoutOutput.result === 'success') {
             console.log('Success');
-            toastr.success('Logout Successfull', 'Account Notification');
+            toastr.success(_lang[defaultLang].TOASTR.LOGOUT_SUCCESSFULL, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
 
             $('#wallet-login').show();
             $('body').removeClass( '' ).addClass( 'page-login layout-full page-dark' );
