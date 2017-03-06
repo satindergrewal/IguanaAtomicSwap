@@ -154,12 +154,11 @@ var Dashboard = function() {
 					edexcoin_addr_list_with_balance = result
 					console.log(edexcoin_addr_list_with_balance);
 					var tmpoptions = '';
-					tmpoptions += '<option> <span data-lang="DASHBOARD.SELECT_ADDRESS"></span> </option>';
+					tmpoptions += '<option> ' + _lang[defaultLang].DASHBOARD.SELECT_ADDRESS +' </option>';
 					$.each(edexcoin_addr_list_with_balance, function(index) {
 						tmpoptions += '<option value="' + edexcoin_addr_list_with_balance[index].addr + '" data-total="' + edexcoin_addr_list_with_balance[index].total + '">[ ' + edexcoin_addr_list_with_balance[index].total + ' KMD ] &emsp;' + edexcoin_addr_list_with_balance[index].addr + '</option>';
 						$('#edexcoin_send_from').html(tmpoptions);
 					});
-					lang();
 
 					$('.showedexcoinaddrs').selectpicker({ style: 'btn-info' });
 					$('.showedexcoinaddrs').selectpicker('refresh');
@@ -188,7 +187,7 @@ var Dashboard = function() {
 		});
 
 		$('#edexcoin_send_from').change(function() {
-			if ($('#edexcoin_send_from').val() !== '' || $('#edexcoin_send_from').val() !== '- Select Address -') {
+			if ($('#edexcoin_send_from').val() !== '' || $('#edexcoin_send_from').val() !== _lang[defaultLang].DASHBOARD.SELECT_ADDRESS) {
 				$('.edexcoin_send_coins_btn_step1').removeClass('disabled');
 				$('.edexcoin_send_coins_btn_step1').prop('disabled', false);
 				
@@ -201,16 +200,20 @@ var Dashboard = function() {
 					if (!('refresh' in query[active_edexcoin][coin_addr])) {
 						console.log(active_edexcoin + '>>>' + coin_addr + ' => refresh not found.')
 
-						var call_data = {"allcoins": false,"coin":active_edexcoin,"calls":"refresh"}
-						Shepherd_FetchBasiliskData(call_data).then(function(result){
-							console.log(result)
-						})
+						var call_data = {
+							'allcoins': false,
+							'coin': active_edexcoin,
+							'calls': 'refresh'
+						};
+						Shepherd_FetchBasiliskData(call_data).then(function(result) {
+							console.log(result);
+						});
 					} else {
-						console.log(query[active_edexcoin][coin_addr].refresh.status)
+						console.log(query[active_edexcoin][coin_addr].refresh.status);
 					}
 				})
 			}
-			if ($('#edexcoin_send_from').val() === '' || $('#edexcoin_send_from').val() === '- Select Address -') {
+			if ($('#edexcoin_send_from').val() === '' || $('#edexcoin_send_from').val() === _lang[defaultLang].DASHBOARD.SELECT_ADDRESS) {
 				$('.edexcoin_send_coins_btn_step1').addClass(' disabled');
 				$('.edexcoin_send_coins_btn_step1').prop('disabled', true);
 			}
@@ -233,8 +236,6 @@ var Dashboard = function() {
 
 			//console.log($('#edexcoin_amount').val());
 			$('#edexcoin_total_value').text(total_minus_currency_fee.toFixed(8));
-
-			
 		});
 
 		edexcoin_send_form_validator = $('.edexcoin-send-form').validate({
@@ -261,19 +262,19 @@ var Dashboard = function() {
 
 			messages: {
 				edexcoin_send_from: {
-					required: 'From Address is required.'
+					required: _lang[defaultLang].DASHBOARD.SEND_FROMADDR_REQ
 				},
 				edexcoin_sendto: {
-					required: 'To Address is required.'
+					required: _lang[defaultLang].DASHBOARD.SEND_TOADDR_REQ
 				},
 				edexcoin_amount: {
-					required: 'Please enter amount to send.'
+					required: _lang[defaultLang].DASHBOARD.SEND_AMOUNT_REQ
 				},
 				edexcoin_fee: {
-					required: 'Make sure you have fee entered. Default value is 0.0001.'
+					required: _lang[defaultLang].DASHBOARD.SEND_FEE_REQ + ' 0.0001.'
 				},
 				edexcoin_total_value: {
-					required: 'Make sure you have both amount and fee entered to calculate final total.'
+					required: _lang[defaultLang].DASHBOARD.SEND_TOTAL_REQ
 				}
 			},
 
@@ -318,6 +319,7 @@ var Dashboard = function() {
 						tmp_send_from_addr = $('#edexcoin_send_from').val()
 						tmp_send_to_addr = $('#edexcoin_sendto').val(),
 						tmp_send_total_amount = $('#edexcoin_total_value').text();
+
 				$('#edexcoin-send-screen').hide();
 				$('#edexcoin-send-confirm-screen').show();
 				$('#edexcoin_send_step_1').removeClass( 'current' ).addClass( '' );
@@ -334,9 +336,10 @@ var Dashboard = function() {
 			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin'),
 					tmp_send_from_addr = $('#edexcoin_send_from').val()
 					tmp_send_to_addr = $('#edexcoin_sendto').val(),
-					tmp_send_total_amount = $('#edexcoin_total_value').text();
-					tmp_send_fee = $('#edexcoin_fee').val()
-					tmp_sendflag = $('#edexcoin_send_sig').is(":checked")
+					tmp_send_total_amount = $('#edexcoin_total_value').text(),
+					tmp_send_fee = $('#edexcoin_fee').val(),
+					tmp_sendflag = $('#edexcoin_send_sig').is(":checked");
+
 			console.log(active_edexcoin);
 			console.log(tmp_send_from_addr);
 			console.log(tmp_send_to_addr);
@@ -346,8 +349,8 @@ var Dashboard = function() {
 
 			var edexcoin_sendto_result_tbl = '';
 			edexcoin_sendto_result_tbl += '<tr class="info">' +
-																			'<td>Info</td>' +
-																			'<td>The transaction submitted is processing. Once processed the transaction details will be displayed here.</td>' +
+																			'<td>' + _lang[defaultLang].INDEX.INFO + '</td>' +
+																			'<td>' + _lang[defaultLang].DASHBOARD.SEND_TX_PROGRESS + '</td>' +
 																		'</tr>';
 			$('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
 			$('#edexcoin_send_coins_anothertx_btn').hide();
@@ -445,7 +448,7 @@ var Dashboard = function() {
 			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
 			console.log('get new T address button clicked...');
 			EdexListAllAddr(active_edexcoin);
-			toastr.info('Receiving Address list updated', 'Wallet Notification');
+			toastr.info(_lang[defaultLang].TOASTR.RECADDR_UPDATED, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
 		});
 	};
 
@@ -612,8 +615,8 @@ var Dashboard = function() {
 							walletDivContent += '<!-- End Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->';
 
 							$('.wallet-widgets-row').html(walletDivContent);
-							$('.scrollbar-dynamic').scrollbar(); //Make sure widget-body has scrollbar for transactions history
-							$('[data-toggle="tooltip"]').tooltip(); //Make sure tooltips are working for wallet widgets and anywhere else in wallet.
+							$('.scrollbar-dynamic').scrollbar(); // Make sure widget-body has scrollbar for transactions history
+							$('[data-toggle="tooltip"]').tooltip(); // Make sure tooltips are working for wallet widgets and anywhere else in wallet.
 							edexCoinBtnAction();
 						});
 					},
@@ -626,7 +629,7 @@ var Dashboard = function() {
 						console.log(textStatus);
 						console.log(error);
 						if (xhr.readyState == '0' ) {
-							toastr.error('Unable to connect to Iguana', 'Account Notification');
+							toastr.error(_lang[defaultLang].TOASTR.IGUANA_CONN_ERR, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
 						}
 					}
 				});
@@ -694,17 +697,21 @@ var Dashboard = function() {
 
 		$('.btn_edexcoin_dashboard_fetchdata').click(function() {
 			var selected_coin = $(this).data('edexcoin');
-			Shepherd_CheckBasiliskCacheData(selected_coin).then(function(result){
-				console.log(result)
-				console.log(result.coin)
-				var call_data = {"allcoins": false,"coin":selected_coin,"calls":"listtransactions:getbalance"}
-				console.log(call_data)
+			Shepherd_CheckBasiliskCacheData(selected_coin).then(function(result) {
+				console.log(result);
+				console.log(result.coin);
+				var call_data = {
+					'allcoins': false,
+					'coin': selected_coin,
+					'calls': 'listtransactions:getbalance'
+				};
+				console.log(call_data);
 
-				Shepherd_FetchBasiliskData(call_data).then(function(result){
-					console.log(result)
-					toastr.info('Fetching Data. Please wait for a minute to complete this task.', 'Basilisk Notification');
-				})
-			})
+				Shepherd_FetchBasiliskData(call_data).then(function(result) {
+					console.log(result);
+					toastr.info(_lang[defaultLang].TOASTR.FETCHING_DATA, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
+				});
+			});
 		});
 
 		$('.btn_edexcoin_dashboard_refresh_basilisk_conn').click(function() {
@@ -789,19 +796,23 @@ var Dashboard = function() {
 
 		var FetchBasiliskData = setInterval(function() {
 			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin'),
-						active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
+					active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 			// TODO: refactor
 			if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
 				//clearInterval(FetchBasiliskData);
 				//console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
 			} else {
 				if ( active_edexcoinmodecode == 'Basilisk') {
-					var call_data = {"allcoins": false,"coin":active_edexcoin,"calls":"listtransactions:getbalance"}
+					var call_data = {
+						'allcoins': false,
+						'coin': active_edexcoin,
+						'calls': 'listtransactions:getbalance'
+					};
 					//console.log(call_data)
 					if ( sessionStorage.getItem('edexTmpRefresh') === null || sessionStorage.getItem('edexTmpRefresh') === 'start') {
-						Shepherd_FetchBasiliskData(call_data).then(function(result){
-							console.log(result)
-						})
+						Shepherd_FetchBasiliskData(call_data).then(function(result) {
+							console.log(result);
+						});
 					}
 				}
 			}
@@ -1381,7 +1392,7 @@ function getDEXGetBalance2(coin) {
 		ajax_call_2.done(function(data) {
 			console.log(data);
 			if (data.error === 'less than required responses') {
-				toastr.error('Less than required responses. Please try again.', 'Basilisk Notification');
+				toastr.error(_lang[defaultLang].TOASTR.LESS_RESPONSES_REQ, _lang[defaultLang].BASILISK_NOTIFICATION);
 			}
 
 			var tmpcalcnum = 0,
@@ -1673,7 +1684,7 @@ function refreshEDEXCoinWalletList() {
 					console.log(error);
 
 					if (xhr.readyState == '0' ) {
-						toastr.error('Unable to connect to Iguana', 'Account Notification');
+						toastr.error(_lang[defaultLang].TOASTR.IGUANA_CONN_ERR, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
 					}
 				}
 			});
@@ -1723,7 +1734,7 @@ function SwitchBasicliskFull(switch_data) {
 
 			if (SwitchCoinDataOutput.result === 'coin added') {
 				console.log('coin added');
-				toastr.success(switch_data.currency + ' switched to ' + mode_value + ' Mode', 'Coin Notification');
+				toastr.success(switch_data.currency + ' ' + _lang[defaultLang].TOASTR.SWITCHED_TO + ' ' + mode_value + ' ' + _lang[defaultLang].TOASTR.MODE, _lang[defaultLang].TOASTR.COIN_NOTIFICATION);
 			} else if (SwitchCoinDataOutput.result === 'coin already there') {
 				console.log('coin already there');
 				//toastr.info("Looks like" + switch_data.currency + "already running.", "Coin Notification");
@@ -1741,7 +1752,7 @@ function SwitchBasicliskFull(switch_data) {
 			console.log(textStatus);
 			console.log(error);
 			if (xhr.readyState == '0' ) {
-				toastr.error('Unable to connect to Iguana', 'Account Notification');
+				toastr.error(_lang[defaultLang].TOASTR.IGUANA_CONN_ERR, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
 			}
 		}
 	});
@@ -2015,12 +2026,12 @@ function EdexGetTxList(coin) {
 								tmp_amount = result_data[index].amount;
 
 						if (!('amount' in result_data[index])) {
-							tmp_amount = '<span class="label label-dark">Unknown</span>';
+							tmp_amount = '<span class="label label-dark">' + _lang[defaultLang].DASHBOARD.UNKNOWN + '</span>';
 						}
 
 						var tmp_addr = result_data[index].address;
 						if (!('address' in result_data[index])) {
-							tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>';
+							tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">' + _lang[defaultLang].DASHBOARD.ZADDR_NOT_LISTED + '!</span>';
 						}
 
 						var tmp_secondsToString = secondsToString(result_data[index].blocktime);
@@ -2071,12 +2082,12 @@ function EdexGetTxList(coin) {
 								tmp_amount = result_data[index].amount;
 
 						if (!('amount' in result_data[index])) {
-							tmp_amount = '<span class="label label-dark">Unknown</span>';
+							tmp_amount = '<span class="label label-dark">' + _lang[defaultLang].DASHBOARD.UNKNOWN + '</span>';
 						}
 
 						var tmp_addr = null
 						if (!('paid' in result_data[index])) {
-							tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>';
+							tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">' + _lang[defaultLang].DASHBOARD.ZADDR_NOT_LISTED + '!</span>';
 						}
 						if (('paid' in result_data[index])) {
 							var first_addr = Object.keys(result_data[index].paid['vouts'][0]),
@@ -2086,23 +2097,23 @@ function EdexGetTxList(coin) {
 						var tmp_secondsToString = secondsToString(result_data[index].timestamp);
 
 						if ( result_data[index].type == 'sent' ) {
-							tmp_category = '<span class="label label-danger"><i class="icon fa-arrow-circle-left"></i> OUT</span>';
+							tmp_category = '<span class="label label-danger"><i class="icon fa-arrow-circle-left"></i> ' + _lang[defaultLang].DASHBOARD.OUT + '</span>';
 						}
 						if ( result_data[index].type == 'received' ) {
-							tmp_category = '<span class="label label-success"><i class="icon fa-arrow-circle-right"></i> IN</span>';
+							tmp_category = '<span class="label label-success"><i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].DASHBOARD.IN + '</span>';
 						}
 						if ( result_data[index].type == 'generate' ) {
-							tmp_category = '<i class="icon fa-cogs"></i> Mined';
+							tmp_category = '<i class="icon fa-cogs"></i> ' + _lang[defaultLang].DASHBOARD.MINED;
 						}
 						if ( result_data[index].type == 'immature' ) {
-							tmp_category = '<i class="icon fa-clock-o"></i> Immature';
+							tmp_category = '<i class="icon fa-clock-o"></i> ' + _lang[defaultLang].DASHBOARD.IMMATURE;
 						}
 						if ( result_data[index].type == 'unknown' ) {
-							tmp_category = '<i class="icon fa-meh-o"></i> Unknown';
+							tmp_category = '<i class="icon fa-meh-o"></i> ' + _lang[defaultLang].DASHBOARD.UNKNOWN;
 						}
 
 						if (!('confirmations' in result_data[index])) {
-							tmp_confirms = '<i class="icon fa-meh-o"></i> Unknown';
+							tmp_confirms = '<i class="icon fa-meh-o"></i> ' + _lang[defaultLang].DASHBOARD.UNKNOWN;
 						}
 						if (('confirmations' in result_data[index])) {
 							tmp_confirms = result_data[index].confirmations;
@@ -2114,7 +2125,7 @@ function EdexGetTxList(coin) {
 							tmp_amount,
 							tmp_secondsToString,
 							tmp_addr,
-							'<button type="button" class="btn btn-xs white btn-info waves-effect waves-light kmd-txid-details-btn" data-edexcoin="' + coin + '" data-txidtype="public" data-txid="'+result_data[index].txid+'">' +
+							'<button type="button" class="btn btn-xs white btn-info waves-effect waves-light kmd-txid-details-btn" data-edexcoin="' + coin + '" data-txidtype="public" data-txid="' + result_data[index].txid + '">' +
 								'<i class="icon fa-search"></i>' +
 							'</button>'
 						];
@@ -2163,12 +2174,12 @@ function EdexGetTxList_cache(coin) {
 								tmp_amount = result_data[index].amount;
 
 						if (!('amount' in result_data[index])) {
-							tmp_amount = '<span class="label label-dark">Unknown</span>';
+							tmp_amount = '<span class="label label-dark">' + _lang[defaultLang].DASHBOARD.UNKNOWN + '</span>';
 						}
 
 						var tmp_addr = null
 						if (!('paid' in result_data[index])) {
-							tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>';
+							tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">' + _lang[defaultLang].DASHBOARD.ZADDR_NOT_LISTED + '!</span>';
 						}
 						if (('paid' in result_data[index])) {
 							var first_addr = Object.keys(result_data[index].paid['vouts'][0]),
@@ -2178,23 +2189,23 @@ function EdexGetTxList_cache(coin) {
 						var tmp_secondsToString = secondsToString(result_data[index].timestamp);
 
 						if ( result_data[index].type == 'sent' ) {
-							tmp_category = '<span class="label label-danger"><i class="icon fa-arrow-circle-left"></i> OUT</span>';
+							tmp_category = '<span class="label label-danger"><i class="icon fa-arrow-circle-left"></i> ' + _lang[defaultLang].DASHBOARD.OUT + '</span>';
 						}
 						if ( result_data[index].type == 'received' ) {
-							tmp_category = '<span class="label label-success"><i class="icon fa-arrow-circle-right"></i> IN</span>';
+							tmp_category = '<span class="label label-success"><i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].DASHBOARD.IN + '</span>';
 						}
 						if ( result_data[index].type == 'generate' ) {
-							tmp_category = '<i class="icon fa-cogs"></i> Mined';
+							tmp_category = '<i class="icon fa-cogs"></i> ' + _lang[defaultLang].DASHBOARD.MINED;
 						}
 						if ( result_data[index].type == 'immature' ) {
-							tmp_category = '<i class="icon fa-clock-o"></i> Immature';
+							tmp_category = '<i class="icon fa-clock-o"></i> ' + _lang[defaultLang].DASHBOARD.IMMATURE;
 						}
 						if ( result_data[index].type == 'unknown' ) {
-							tmp_category = '<i class="icon fa-meh-o"></i> Unknown';
+							tmp_category = '<i class="icon fa-meh-o"></i> ' + _lang[defaultLang].DASHBOARD.UNKNOWN;
 						}
 
 						if (!('confirmations' in result_data[index])) {
-							tmp_confirms = '<i class="icon fa-meh-o"></i> Unknown';
+							tmp_confirms = '<i class="icon fa-meh-o"></i> ' + _lang[defaultLang].DASHBOARD.UNKNOWN;
 						}
 						if (('confirmations' in result_data[index])) {
 							tmp_confirms = result_data[index].confirmations;
@@ -2565,196 +2576,227 @@ function EdexListAllAddr(coin) {
 }
 
 function ShowBasiliskFetchDataProgress(coin) {
-	var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode')
+	var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 
-	Shepherd_GetBasiliskCache().then(function(result){
-	    var _data = JSON.parse(result)
-	    var query = _data.result.basilisk
-	        coin_exists = true
-	        addresses_exists = true
-	        getbalance_exists = true
-	        listtransactions_exists = true
-	        listunspent_exists = true
-	        refresh_exists = true
-	        getbalance_status = 'NOT FOUND'
-	        listtransactions_status = 'NOT FOUND'
-	        listunspent_status = 'NOT FOUND'
-	        refresh_status = 'NOT FOUND'
-	    //console.log(query)
+	Shepherd_GetBasiliskCache().then(function(result) {
+    var _data = JSON.parse(result),
+    		query = _data.result.basilisk,
+        coin_exists = true,
+        addresses_exists = true,
+        getbalance_exists = true,
+        listtransactions_exists = true,
+        listunspent_exists = true,
+        refresh_exists = true,
+        getbalance_status = 'NOT FOUND',
+        listtransactions_status = 'NOT FOUND',
+        listunspent_status = 'NOT FOUND',
+        refresh_status = 'NOT FOUND',
+        res_data;
+    //console.log(query)
 
-	    if (!query) {
-	        //console.log('data not found.')
-	        res_data = {"coin":false, "addresses":false, "getbalance": false,"listtransactions": false,"listunspent": false,"refresh": false}
-	        //console.log(res_data)
-	    } else if (!query[coin]) {
-	        //console.log(coin + ' not found.')
-	        coin_exists = false
-	        res_data = {"coin":coin_exists, "addresses":false, "getbalance": false,"listtransactions": false,"listunspent": false,"refresh": false}
-	        //console.log(res_data)
-	    } else if (!('addresses' in query[coin])) {
-	        //console.log(coin + ' addresses not found.')
-	        addresses_exists = false
-	        res_data = {"coin":coin_exists, "addresses":false, "getbalance": false,"listtransactions": false,"listunspent": false,"refresh": false}
-	        //console.log(res_data)
-	    } else {
-	        Promise.all(query[coin].addresses.map((coinaddr_value,coinaddr_index) => {
-	            return new Promise((resolve, reject) => {
-	                //console.log(coinaddr_index)
-	                //console.log(coinaddr_value)
-	                var data = query[coin][coinaddr_value].getbalance
-	                //console.log(data)
+    if (!query) {
+      //console.log('data not found.')
+      res_data = {
+      	'coin': false,
+      	'addresses': false,
+      	'getbalance': false,
+      	'listtransactions': false,
+      	'listunspent': false,
+      	'refresh': false
+      };
+      //console.log(res_data)
+    } else if (!query[coin]) {
+      //console.log(coin + ' not found.')
+      coin_exists = false;
+      res_data = {
+    		'coin': coin_exists,
+    		'addresses': false,
+    		'getbalance': false,
+    		'listtransactions': false,
+    		'listunspent': false,
+    		'refresh': false
+    	};
+      //console.log(res_data)
+    } else if (!('addresses' in query[coin])) {
+      //console.log(coin + ' addresses not found.')
+      addresses_exists = false;
+      res_data = {
+      	'coin': coin_exists,
+      	'addresses': false,
+      	'getbalance': false,
+      	'listtransactions': false,
+      	'listunspent': false,
+      	'refresh': false
+      };
+      //console.log(res_data)
+    } else {
+      Promise.all(query[coin].addresses.map((coinaddr_value,coinaddr_index) => {
+        return new Promise((resolve, reject) => {
+          //console.log(coinaddr_index)
+          //console.log(coinaddr_value)
+          var data = query[coin][coinaddr_value].getbalance;
+          //console.log(data)
 
-	                if (!('getbalance' in query[coin][coinaddr_value])) {
-	                    //console.log(coin + '>>>' + coinaddr_value + ' => getbalance not found.')
-	                    getbalance_exists = false
-	                } else {
-	                    //console.log(query[coin][coinaddr_value].getbalance.status)
-	                    getbalance_status = query[coin][coinaddr_value].getbalance.status
-	                }
+          if (!('getbalance' in query[coin][coinaddr_value])) {
+            //console.log(coin + '>>>' + coinaddr_value + ' => getbalance not found.')
+            getbalance_exists = false;
+          } else {
+            //console.log(query[coin][coinaddr_value].getbalance.status)
+            getbalance_status = query[coin][coinaddr_value].getbalance.status;
+          }
 
-	                if (!('listtransactions' in query[coin][coinaddr_value])) {
-	                    //console.log(coin + '>>>' + coinaddr_value + ' => listtransactions not found.')
-	                    listtransactions_exists = false
-	                } else {
-	                    //console.log(query[coin][coinaddr_value].listtransactions.status)
-	                    listtransactions_status = query[coin][coinaddr_value].listtransactions.status
-	                }
+          if (!('listtransactions' in query[coin][coinaddr_value])) {
+            //console.log(coin + '>>>' + coinaddr_value + ' => listtransactions not found.')
+            listtransactions_exists = false;
+          } else {
+            //console.log(query[coin][coinaddr_value].listtransactions.status)
+            listtransactions_status = query[coin][coinaddr_value].listtransactions.status;
+          }
 
-	                if (!('listunspent' in query[coin][coinaddr_value])) {
-	                    //console.log(coin + '>>>' + coinaddr_value + ' => listunspent not found.')
-	                    listunspent_exists = false
-	                } else {
-	                    //console.log(query[coin][coinaddr_value].listunspent.status)
-	                    listunspent_status = query[coin][coinaddr_value].listunspent.status
-	                }
+          if (!('listunspent' in query[coin][coinaddr_value])) {
+            //console.log(coin + '>>>' + coinaddr_value + ' => listunspent not found.')
+            listunspent_exists = false;
+          } else {
+            //console.log(query[coin][coinaddr_value].listunspent.status)
+            listunspent_status = query[coin][coinaddr_value].listunspent.status;
+          }
 
-	                if (!('refresh' in query[coin][coinaddr_value])) {
-	                    //console.log(coin + '>>>' + coinaddr_value + ' => refresh not found.')
-	                    refresh_exists = false
-	                } else {
-	                    //console.log(query[coin][coinaddr_value].refresh.status)
-	                    refresh_status = query[coin][coinaddr_value].refresh.status
-	                }
+          if (!('refresh' in query[coin][coinaddr_value])) {
+            //console.log(coin + '>>>' + coinaddr_value + ' => refresh not found.')
+            refresh_exists = false;
+          } else {
+            //console.log(query[coin][coinaddr_value].refresh.status)
+            refresh_status = query[coin][coinaddr_value].refresh.status;
+          }
 
-	                pass_data = {
-	                                "addr_index":coinaddr_index,
-	                                "addr_value":coinaddr_value,
-	                                "getbalance": getbalance_exists,
-	                                "getbalance_status": getbalance_status,
-	                                "listtransactions": listtransactions_exists,
-	                                "listtransactions_status": listtransactions_status,
-	                                "listunspent": listunspent_exists,
-	                                "listunspent_status": listunspent_status,
-	                                "refresh": refresh_exists,
-	                                "refresh_status": refresh_status
-	                            }
-	                resolve(pass_data)
-	            })
-	        })).then(result => {
-	            //console.log(result)
-					//var res_data.coin = coin_exists
-					//var res_data.addresses = addresses_exists
-					var BasiliskFetchData = ''
-	            
-	            $.each(result, function(result_index, result_val) {
-	                //console.log(result_index)
-	                //console.log(result_val)
+          pass_data = {
+            'addr_index': coinaddr_index,
+            'addr_value': coinaddr_value,
+            'getbalance': getbalance_exists,
+            'getbalance_status': getbalance_status,
+            'listtransactions': listtransactions_exists,
+            'listtransactions_status': listtransactions_status,
+            'listunspent': listunspent_exists,
+            'listunspent_status': listunspent_status,
+            'refresh': refresh_exists,
+            'refresh_status': refresh_status
+          };
 
-	                var tmp_listunspent_lable_color = ''
-	                var tmp_listtransactions_lable_color = ''
-	                var tmp_getbalance_lable_color = ''
-	                var tmp_refresh_lable_color = ''
+          resolve(pass_data);
+        });
+      }))
+      .then(result => {
+         //console.log(result);
+				//var res_data.coin = coin_exists;
+				//var res_data.addresses = addresses_exists;
+				var BasiliskFetchData = '';
+          
+        $.each(result, function(result_index, result_val) {
+          //console.log(result_index);
+          //console.log(result_val);
 
-	                switch (result_val.listunspent_status) {
-	                    case 'waiting':
-	                        tmp_listunspent_lable_color = 'dark'
-	                        break;
-	                    case 'in progress':
-	                        tmp_listunspent_lable_color = 'primary'
-	                        break;
-	                    case 'done':
-	                        tmp_listunspent_lable_color = 'success'
-	                        break;
-	                    case 'NOT FOUND':
-	                        tmp_listunspent_lable_color = 'danger'
-	                        break;
-	                }
+          var tmp_listunspent_lable_color = '',
+         			tmp_listtransactions_lable_color = '',
+          		tmp_getbalance_lable_color = '',
+          		tmp_refresh_lable_color = '';
 
-	                switch (result_val.listtransactions_status) {
-	                    case 'waiting':
-	                        tmp_listtransactions_lable_color = 'dark'
-	                        $('#edexcoin_dashboard_basilisk_refresh_status').show()
-	                        break;
-	                    case 'in progress':
-	                        tmp_listtransactions_lable_color = 'primary'
-	                        $('#edexcoin_dashboard_basilisk_refresh_status').show()
-	                        break;
-	                    case 'done':
-	                        tmp_listtransactions_lable_color = 'success'
-	                        $('#edexcoin_dashboard_basilisk_refresh_status').hide()
-	                        break;
-	                    case 'NOT FOUND':
-	                        tmp_listtransactions_lable_color = 'danger'
-	                        $('#edexcoin_dashboard_basilisk_refresh_status').show()
-	                        break;
-	                }
+          switch (result_val.listunspent_status) {
+            case 'waiting':
+              tmp_listunspent_lable_color = 'dark';
+              break;
+            case 'in progress':
+              tmp_listunspent_lable_color = 'primary';
+              break;
+            case 'done':
+              tmp_listunspent_lable_color = 'success';
+              break;
+            case 'NOT FOUND':
+              tmp_listunspent_lable_color = 'danger';
+              break;
+          }
 
-	                switch (result_val.getbalance_status) {
-	                    case 'waiting':
-	                        tmp_getbalance_lable_color = 'dark'
-	                        $('#edexcoin_dashboard_basilisk_refresh_status').show()
-	                        break;
-	                    case 'in progress':
-	                        tmp_getbalance_lable_color = 'primary'
-	                        $('#edexcoin_dashboard_basilisk_refresh_status').show()
-	                        break;
-	                    case 'done':
-	                        tmp_getbalance_lable_color = 'success'
-	                        $('#edexcoin_dashboard_basilisk_refresh_status').hide()
-	                        break;
-	                    case 'NOT FOUND':
-	                        tmp_getbalance_lable_color = 'danger'
-	                        $('#edexcoin_dashboard_basilisk_refresh_status').show()
-	                        break;
-	                }
+          switch (result_val.listtransactions_status) {
+            case 'waiting':
+              tmp_listtransactions_lable_color = 'dark';
+              $('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+            case 'in progress':
+              tmp_listtransactions_lable_color = 'primary';
+              $('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+            case 'done':
+              tmp_listtransactions_lable_color = 'success';
+              $('#edexcoin_dashboard_basilisk_refresh_status').hide();
+              break;
+            case 'NOT FOUND':
+              tmp_listtransactions_lable_color = 'danger';
+              $('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+          }
 
-	                switch (result_val.refresh_status) {
-	                    case 'waiting':
-	                        tmp_refresh_lable_color = 'dark'
-	                        $('#edexcoin_dashboard_basilisk_refresh_status').show()
-	                        break;
-	                    case 'in progress':
-	                        tmp_refresh_lable_color = 'primary'
-	                        $('#edexcoin_dashboard_basilisk_refresh_status').show()
-	                        break;
-	                    case 'done':
-	                        tmp_refresh_lable_color = 'success'
-	                        $('#edexcoin_dashboard_basilisk_refresh_status').hide()
-	                        break;
-	                    case 'NOT FOUND':
-	                        tmp_refresh_lable_color = 'danger'
-	                        //$('#edexcoin_dashboard_basilisk_refresh_status').show()
-	                        break;
-	                }
+          switch (result_val.getbalance_status) {
+            case 'waiting':
+              tmp_getbalance_lable_color = 'dark';
+              $('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+            case 'in progress':
+              tmp_getbalance_lable_color = 'primary';
+              $('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+            case 'done':
+              tmp_getbalance_lable_color = 'success';
+              $('#edexcoin_dashboard_basilisk_refresh_status').hide();
+              break;
+            case 'NOT FOUND':
+              tmp_getbalance_lable_color = 'danger';
+              $('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+          }
 
-	                
-	                BasiliskFetchData += '<tr>';
-	                BasiliskFetchData += '<td>'+ result_val.addr_value.substring(0,5) +'...</td>';
-	                BasiliskFetchData += '<td><span class="label label-'+tmp_listunspent_lable_color+' text-uppercase">'+result_val.listunspent_status+'</span></td>';
-	                BasiliskFetchData += '<td><span class="label label-'+tmp_listtransactions_lable_color+' text-uppercase">'+result_val.listtransactions_status+'</span></td>';
-	                BasiliskFetchData += '<td><span class="label label-'+tmp_getbalance_lable_color+' text-uppercase">'+result_val.getbalance_status+'</span></td>';
-	                BasiliskFetchData += '<td><span class="label label-'+tmp_refresh_lable_color+' text-uppercase">'+result_val.refresh_status+'</span></td>';
-	                BasiliskFetchData += '</tr>';
-	                $('.tbl_edexcoin_dashboard_basilisk_refresh_status tbody').html(BasiliskFetchData);
-	                //console.log(result_val.refresh_status)
+          switch (result_val.refresh_status) {
+            case 'waiting':
+              tmp_refresh_lable_color = 'dark';
+              $('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+            case 'in progress':
+              tmp_refresh_lable_color = 'primary';
+              $('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+            case 'done':
+              tmp_refresh_lable_color = 'success';
+              $('#edexcoin_dashboard_basilisk_refresh_status').hide();
+              break;
+            case 'NOT FOUND':
+              tmp_refresh_lable_color = 'danger';
+              //$('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+          }
 
-	                /*if (result[result.length-1] == result_val && result_val.listtransactions_status !== 'done' && result_val.getbalance_status !== 'done' && result_val.refresh_status !== 'done' ) {
-	                    $('#edexcoin_dashboard_basilisk_refresh_status').show()
-	                } else {
-	                    $('#edexcoin_dashboard_basilisk_refresh_status').hide()
-	                }*/
-	            })
-	        })
-	    } 
+          BasiliskFetchData += '<tr>';
+          BasiliskFetchData += '<td>' + result_val.addr_value.substring(0,5) + '...</td>';
+          BasiliskFetchData += '<td>' +
+          												'<span class="label label-' + tmp_listunspent_lable_color + ' text-uppercase">' + result_val.listunspent_status + '</span>' +
+          										 '</td>';
+          BasiliskFetchData += '<td>' +
+          												'<span class="label label-' + tmp_listtransactions_lable_color + ' text-uppercase">' + result_val.listtransactions_status + '</span>' +
+          										 '</td>';
+          BasiliskFetchData += '<td>' +
+          												'<span class="label label-' + tmp_getbalance_lable_color + ' text-uppercase">' + result_val.getbalance_status + '</span>' +
+          										 '</td>';
+          BasiliskFetchData += '<td>' +
+          												'<span class="label label-' + tmp_refresh_lable_color + ' text-uppercase">' + result_val.refresh_status + '</span>' +
+          										 '</td>';
+          BasiliskFetchData += '</tr>';
+          $('.tbl_edexcoin_dashboard_basilisk_refresh_status tbody').html(BasiliskFetchData);
+          //console.log(result_val.refresh_status)
+
+          /*if (result[result.length-1] == result_val && result_val.listtransactions_status !== 'done' && result_val.getbalance_status !== 'done' && result_val.refresh_status !== 'done' ) {
+              $('#edexcoin_dashboard_basilisk_refresh_status').show()
+          } else {
+              $('#edexcoin_dashboard_basilisk_refresh_status').hide()
+          }*/
+        });
+      });
+    } 
 	});
 }

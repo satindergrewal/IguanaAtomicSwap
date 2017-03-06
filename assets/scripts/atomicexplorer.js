@@ -11,7 +11,7 @@ var AtomicExplorer = function() {
 		'hideEasing': 'linear',
 		'showMethod': 'fadeIn',
 		'hideMethod': 'fadeOut'
-	}
+	};
 
 	var handleExplorer = function() {
 		$('#atomic_explorer_getcoinpeers_btn').click(function() {
@@ -23,7 +23,7 @@ var AtomicExplorer = function() {
 									'</div>'
 			});
 			NProgress.start();
-			console.log("button pushed in atomic explorer");
+			console.log('button pushed in atomic explorer');
 
 			var atomic_explorer_select_coin_val = $('select[id=\'atomic_explorer_select_coin_options\']').val(),
 					atomic_explorer_select_command_val = $('select[id=\'atomic_explorer_select_command_options\']').val(),
@@ -326,7 +326,7 @@ var AtomicExplorer = function() {
 					}
 					
 					if (ExplorerOutputData.error === 'less than required responses') {
-						toastr.error('Less than required responses. Please try again.', 'Basilisk Notification')
+						toastr.error(_lang[defaultLang].DASHBOARD.LESS_RESPONSES_REQ, _lang[defaultLang].DASHBOARD.BASILISC_NOTIFICATION)
 					}
 					
 					NProgress.done();

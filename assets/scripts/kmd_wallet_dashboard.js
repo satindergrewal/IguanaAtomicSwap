@@ -42,7 +42,6 @@ var KMDWalletDashboard = function() {
 			$('#kmd_txid_info_hex').val(kmd_addr_txid_info[0].hex);
 			clearSendManyFieldData();
 		});
-
 	}
 
 	var handle_KMD_Send = function() {
@@ -61,7 +60,7 @@ var KMDWalletDashboard = function() {
 
 			var kmd_addr_list_with_balance = KMDlistunspentT();
 
-			tmpoptions += '<option> - Select Transparent or Private Address - </option>';
+			tmpoptions += '<option> - ' + _lang[defaultLang].KMD_NATIVE.SELECT_ADDRESS + ' - </option>';
 			$.each(kmd_addr_list_with_balance, function(index) {
 				tmpoptions += '<option value="' + kmd_addr_list_with_balance[index].addr + '" data-total="' + kmd_addr_list_with_balance[index].total.toFixed(8) + '">[ ' + kmd_addr_list_with_balance[index].total.toFixed(8) + ' KMD ] &emsp;' + kmd_addr_list_with_balance[index].addr + '</option>';
 				$('#kmd_wallet_send_from').html(tmpoptions);
@@ -92,7 +91,7 @@ var KMDWalletDashboard = function() {
 
 			$('#kmd_wallet_total_value').text(total_minus_currency_fee.toFixed(8));
 
-			if ($('#kmd_wallet_send_from').val() != '- Select Transparent or Private KMD Address -' &&
+			if ($('#kmd_wallet_send_from').val() != '- ' + _lang[defaultLang].KMD_NATIVE.SELECT_ADDRESS_ALT + ' -' &&
 					$('#kmd_wallet_amount').val() != '' &&
 					$('#kmd_wallet_sendto') != '' &&
 					$('#kmd_wallet_fee') != '' ) {
@@ -156,19 +155,19 @@ var KMDWalletDashboard = function() {
 
 			messages: {
 				kmd_wallet_send_from: {
-					required: 'From Address is required.'
+					required: _lang[defaultLang].DASHBOARD.SEND_FROMADDR_REQ
 				},
 				kmd_wallet_sendto: {
-					required: 'To Address is required.'
+					required: _lang[defaultLang].DASHBOARD.SEND_TOADDR_REQ
 				},
 				kmd_wallet_amount: {
-					required: 'Please enter KMD amount to send.'
+					required: _lang[defaultLang].DASHBOARD.SEND_AMOUNT_REQ
 				},
 				kmd_wallet_fee: {
-					required: 'Make sure you have fee entered. Default value is 0.0001 KMD.'
+					required: _lang[defaultLang].DASHBOARD.SEND_FEE_REQ + ' 0.0001 KMD.'
 				},
 				kmd_wallet_total_value: {
-					required: 'Make sure you have both amount and fee entered to calculate final total.'
+					required: _lang[defaultLang].DASHBOARD.SEND_TOTAL_REQ
 				}
 			},
 
@@ -229,14 +228,14 @@ var KMDWalletDashboard = function() {
 			console.log('get new T address button clicked...');
 			KMDGetNewAddresses('public');
 			KMDListAllAddr();
-			toastr.info('Receiving Address list updated', 'Wallet Notification');
+			toastr.info(_lang[defaultLang].TOASTR.RECADDR_UPDATED, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
 		});
 
 		$('#kmd_get_new_zaddr').click(function() {
 			console.log('get new Z address button clicked...');
 			KMDGetNewAddresses('private');
 			KMDListAllAddr();
-			toastr.info('Receiving Address list updated', 'Wallet Notification');
+			toastr.info(_lang[defaultLang].TOASTR.RECADDR_UPDATED, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
 		});
 	};
 
@@ -308,13 +307,13 @@ function RunKMDInitFunctions() {
 	console.log(check1[0]);
 	if ( check1[0] == 'not active' ) {
 		console.log('Could not connect to external wallet. Is external wallet running?');
-		toastr.error('Connection Error. Is external wallet running?', 'Wallet Notification');
+		toastr.error(_lang[defaultLang].TOASTR.KMD_NATIVE_CON_ERROR, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
 		$('#extcoin-wallet').hide();
 		$('#extcoin-wallet-connection-alert').show();
 	}
 	if ( check1[0] == 'null return' ) {
 		console.log('Could not connect to external wallet. Is iguana connected to external wallet?');
-		toastr.error('Connection Error. Is iguana connected to external wallet?', 'Wallet Notification');
+		toastr.error(_lang[defaultLang].TOASTR.KMD_IGUANA_CON_ERROR, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
 		$('#extcoin-wallet').hide();
 		$('#extcoin-wallet-connection-alert').show();
 	}
@@ -564,7 +563,6 @@ function getKMDBalanceT() {
 	});
 }
 
-
 function getKMDBalanceZ() {
 	var passthru_agent = getPassthruAgent(),
 			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
@@ -738,9 +736,8 @@ function KMDlistunspentT() {
 }
 
 function KMDListaddrZ() {
-	var result = [];
-
-	var passthru_agent = getPassthruAgent(),
+	var result = [],
+			passthru_agent = getPassthruAgent(),
 			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
 			ajax_data = {
 				'userpass': tmpIguanaRPCAuth,
@@ -852,26 +849,26 @@ function KMDGetPublicTransactions() {
 						tmp_addr = AjaxOutputData[index].address;
 
 				if (!('address' in AjaxOutputData[index])) {
-					tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>';
+					tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">' + _lang[defaultLang].TOASTR.ZADDR_NOT_LISTED + '!</span>';
 				}
 				var tmp_secondsToString = secondsToString(AjaxOutputData[index].time);
 
 				if ( AjaxOutputData[index].category == 'send' ) {
-					tmp_category = '<i class="icon fa-arrow-circle-left"></i> OUT';
+					tmp_category = '<i class="icon fa-arrow-circle-left"></i> '._lang[defaultLang].TOASTR.OUT;
 				}
 				if ( AjaxOutputData[index].category == 'receive' ) {
-					tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
+					tmp_category = '<i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].TOASTR.IN;
 				}
 				if ( AjaxOutputData[index].category == 'generate' ) {
-					tmp_category = '<i class="icon fa-cogs"></i> Mined';
+					tmp_category = '<i class="icon fa-cogs"></i> ' + _lang[defaultLang].TOASTR.MINED;
 				}
 				if ( AjaxOutputData[index].category == 'immature' ) {
-					tmp_category = '<i class="icon fa-clock-o"></i> Immature';
+					tmp_category = '<i class="icon fa-clock-o"></i> ' + _lang[defaultLang].TOASTR.IMMATURE;
 				}
 
 				tmplisttransactions = [
 					'<span class="label label-default">' +
-						'<i class="icon fa-eye"></i> public' +
+						'<i class="icon fa-eye"></i> ' + _lang[defaultLang].IAPI.PUBLIC_SM +
 					'</span>',
 					tmp_category,
 					AjaxOutputData[index].confirmations,
@@ -918,10 +915,10 @@ function KMDGetProtectedTransactions() {
 				tmpIguanaRPCAuth = 'tmpIgRPCUser@ '+ sessionStorage.getItem('IguanaRPCAuth'),
 				ajax_data = {
 					'userpass': tmpIguanaRPCAuth,
-					"agent": passthru_agent,
-					"method": "passthru",
-					"function": "z_listreceivedbyaddress",
-					"hex": tmpzaddr_hex_input
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'function': 'z_listreceivedbyaddress',
+					'hex': tmpzaddr_hex_input
 				};
 
 		$.ajax({
@@ -933,7 +930,7 @@ function KMDGetProtectedTransactions() {
 				var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
 
 				$.each(AjaxOutputData, function(index, txidvalue) {
-					var tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
+					var tmp_category = '<i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].TOASTR.IN;
 					var tmp_addr = value.addr.slice(0, 30) + '...';
 					if (!('amount' in txidvalue)) {
 						var tmp_amount = 0;
@@ -946,7 +943,7 @@ function KMDGetProtectedTransactions() {
 							tmp_secondsToString = secondsToString(tmp_addr_txid_info[0].time),
 							tmplistZtransactions = [
 								'<span class="label label-dark">' +
-									'<i class="icon fa-eye-slash"></i> private' +
+									'<i class="icon fa-eye-slash"></i> ' + _lang[defaultLang].KMD_NATIVE.PRIVATE +
 								'</span>',
 								tmp_category,
 								tmp_confirmations,
@@ -1075,7 +1072,6 @@ function KMDListAddresses(pubpriv) {
 	return result;
 }
 
-
 function KMDGetNewAddresses(pubpriv) {
 	NProgress.done(true);
 	NProgress.configure({
@@ -1113,7 +1109,7 @@ function KMDGetNewAddresses(pubpriv) {
 		url: 'http://127.0.0.1:7778',
 		success: function(data, textStatus, jqXHR) {
 			result = data;
-			toastr.success('New address generated successfully', 'Wallet Notification');
+			toastr.success(_lang[defaultLang].KMD_NATIVE.NEW_ADDR_GENERATED, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
 		},
 		error: function(xhr, textStatus, error) {
 			console.log('failed getting Coin History.');
@@ -1133,7 +1129,10 @@ function KMDGetNewAddresses(pubpriv) {
 function KMDListAllAddr() {
 	NProgress.done(true);
 	NProgress.configure({
-			template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+			template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
+								'<div class="spinner" role="spinner">' +
+									'<div class="spinner-icon"></div>' +
+								'</div>'
 	});
 	NProgress.start();
 
@@ -1144,11 +1143,11 @@ function KMDListAllAddr() {
 
 	$.each(listAlladdr, function(index, value) {
 		tmp_addr_label = '<span class="label label-default">' +
-										 	 '<i class="icon fa-eye"></i> public' +
+										 	 '<i class="icon fa-eye"></i> ' + _lang[defaultLang].IAPI.PUBLIC_SM +
 										 '</span>';
 		if ( listAlladdr[index].slice(0, 2) == 'zc' || listAlladdr[index].slice(0, 2) == 'zt' ) {
 			tmp_addr_label = '<span class="label label-dark">' +
-											   '<i class="icon fa-eye-slash"></i> private' +
+											   '<i class="icon fa-eye-slash"></i> ' + _lang[defaultLang].KMD_NATIVE.PRIVATE +
 											 '</span>';
 		}
 		//var tmp_addr_action_button = '<button></button>';
@@ -1283,27 +1282,27 @@ function KMDListAllOPIDs() {
 
 		if (listOPIDs[0][index].status === 'queued') {
 			tmp_status_label = '<span class="label label-warning">' +
-												 	 '<i class="icon fa-eye"></i> Queued' +
+												 	 '<i class="icon fa-eye"></i> ' + _lang[defaultLang].KMD_NATIVE.QUEUED +
 												 '</span>';
-			tmp_results = '<i>Please press refresh button in a minute or so to see updated status...</i>';
+			tmp_results = '<i>' + _lang[defaultLang].KMD_NATIVE.PLEASE_REFRESH + '...</i>';
 		}
 		if (listOPIDs[0][index].status === 'executing') {
 			tmp_status_label = '<span class="label label-info">' +
-												   '<i class="icon fa-eye"></i> Executing' +
+												   '<i class="icon fa-eye"></i> ' + _lang[defaultLang].KMD_NATIVE.EXECUTING +
 												 '</span>';
-			tmp_results = '<i>Please press refresh button in a minute or so to see updated status...</i>';
+			tmp_results = '<i>' + _lang[defaultLang].KMD_NATIVE.PLEASE_REFRESH + '...</i>';
 		}
 		if (listOPIDs[0][index].status === 'failed') {
 			tmp_status_label = '<span class="label label-danger">' +
-												   '<i class="icon fa-eye"></i> Failed' +
+												   '<i class="icon fa-eye"></i> ' + _lang[defaultLang].KMD_NATIVE.FAILED +
 												 '</span>';
-			tmp_results = '<b>Error Code:</b> ' + listOPIDs[0][index].error.code + '<br> <b>Message:</b> ' + listOPIDs[0][index].error.message;
+			tmp_results = '<b>Error Code:</b> ' + listOPIDs[0][index].error.code + '<br> <b>' + _lang[defaultLang].KMD_NATIVE.MESSAGE + ':</b> ' + listOPIDs[0][index].error.message;
 		}
 		if (listOPIDs[0][index].status === 'success') {
 			tmp_status_label = '<span class="label label-success">' +
-												   '<i class="icon fa-eye"></i> Success' +
+												   '<i class="icon fa-eye"></i> ' + _lang[defaultLang].KMD_NATIVE.SUCCESS +
 												 '</span>';
-			tmp_results = '<b>txid:</b> ' + listOPIDs[0][index].result.txid + '<br> <b>Execution Seconds:</b> ' + listOPIDs[0][index].execution_secs;
+			tmp_results = '<b>txid:</b> ' + listOPIDs[0][index].result.txid + '<br> <b>' + _lang[defaultLang].KMD_NATIVE.EXECUTION_SECONDS + ':</b> ' + listOPIDs[0][index].execution_secs;
 		}
 
 		opids_statuses_data.push([

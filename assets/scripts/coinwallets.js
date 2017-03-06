@@ -46,6 +46,7 @@ function sendCurrency(val) {
 				'agent': 'bitcoinrpc',
 				'method': 'getinfo'
 			};
+
 	$.ajax({
 			type: 'POST',
 			data: JSON.stringify(getinfoValues),
@@ -65,7 +66,6 @@ function sendCurrency(val) {
 				console.log(error);
 			}
 	});
-
 }
 
 function ReceiveCurrency(rec_val) {
@@ -87,12 +87,12 @@ function ReceiveCurrency(rec_val) {
 	}
 
 	var clipboard = new Clipboard('.btn');
-		clipboard.on('success', function(e) {
-			console.log(e);
-		});
-		clipboard.on('error', function(e) {
-			console.log(e);
-		});
+	clipboard.on('success', function(e) {
+		console.log(e);
+	});
+	clipboard.on('error', function(e) {
+		console.log(e);
+	});
 }
 
 $('#mdl_currency_amount').keyup(function() {
@@ -115,7 +115,7 @@ $('#mdl_currency_amount').keyup(function() {
 	//console.log($('#mdl_currency_amount').val());
 	//console.log(total_of_currency_fiat);
 	$('#mdl_currency_total_value').text(total_of_currency_fee.toFixed(8));
-	$('#mdl_currency_total_fiat_value').text(fiat_symbol+total_of_currency_fiat.toFixed(2));
+	$('#mdl_currency_total_fiat_value').text(fiat_symbol + total_of_currency_fiat.toFixed(2));
 
 	if ($('#mdl_currency_amount').val() != '' && $('#mdl_currency_sendto') != '' && $('#mdl_currency_fee') != '' ) {
 		mdl_send_btn.removeClass('disabled');
@@ -225,17 +225,16 @@ function ExecuteSendCurrencyAPI() {
 
 			console.log('== Data OutPut ==');
 			console.log(SendToAddrData);
-
 			if ( SendToAddrData.error != 'couldnt create rawtx' ) {
-				SendToAddrTxDataTitle = 'Transaction Failed';
+				SendToAddrTxDataTitle = _lang[defaultLang].COIN_WALLETS.TX_FAILED;
 			}
 			if ( SendToAddrData.sendrawtransaction == 'success' ) {
-				SendToAddrTxDataTitle = 'Transaction Successful';
+				SendToAddrTxDataTitle = _lang[defaultLang].COIN_WALLETS.TX_SUCCESS;
 			}
 
 			var SentToAddrTxData = '<font style="font-size: 13px; font-family: Menlo,Monaco,Consolas,Courier New,monospace">' +
 															 '<font style="font-weight: 800">' +
-															 	 '<b>Transaction ID:</b>'
+															 	 '<b>' + _lang[defaultLang].COIN_WALLETS.TX + ' ID:</b>'
 															 '</font>' +
 																SendToAddrData.result +
 															'</font>';
@@ -245,7 +244,7 @@ function ExecuteSendCurrencyAPI() {
 			});
 
 			if ( SendToAddrData.sendrawtransaction == 'success' ) {
-				toastr.success('Transaction Sent', 'Transaction Notification')
+				toastr.success(_lang[defaultLang].TOASTR.TX_SENT, _lang[defaultLang].TOASTR.TX_NOTIFICATION);
 			}
 		},
 		error: function(xhr, textStatus, error) {
@@ -253,7 +252,7 @@ function ExecuteSendCurrencyAPI() {
 			console.log(xhr.statusText);
 			console.log(textStatus);
 			console.log(error);
-			toastr.error('Unable to complete transaction', 'Transaction Notification')
+			toastr.error(_lang[defaultLang].TOASTR.TX_SEND_ERR, _lang[defaultLang].TOASTR.TX_NOTIFICATION);
 		}
 	});
 
@@ -288,14 +287,14 @@ function WalletFiatCurrency(fiat_currency_value) {
 
 function Iguana_rmd160conv(rmd160conv_data) {
 	// comment
-	var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data = {
-			'userpass': tmpIguanaRPCAuth,
-			'agent': 'SuperNET',
-			'method': 'rmd160conv',
-			'rmd160': rmd160conv_data.rmd160,
-			'coin': rmd160conv_data.coin
-		};
+	var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': 'SuperNET',
+				'method': 'rmd160conv',
+				'rmd160': rmd160conv_data.rmd160,
+				'coin': rmd160conv_data.coin
+			};
 
 	console.log(ajax_data);
 	$.ajax({

@@ -183,7 +183,7 @@
                 </div>
               </div>
               <div class="col-sm-12" style="color: #333">
-	              <p><strong><span data-lang="INDEX.FULL_MODE"></span>:</strong> <span data-lang="INDEX.FULL_MODE_DESC"></span>></p>
+	              <p><strong><span data-lang="INDEX.FULL_MODE"></span>:</strong> <span data-lang="INDEX.FULL_MODE_DESC"></span></p>
 	              <p><strong><span data="INDEX.BASILISK_MODE"></span>:</strong> <span data-lang="INDEX.BASILISK_MODE_DESC"></span></p>
 	              <p><strong><span data-lang="INDEX.NATIVE_MODE"></span>:</strong> <span data-lang="INDEX.NATIVE_MODE_DESC1"></span> <strong>Komodo Daemon</strong> <span data-lang="INDEX.NATIVE_MODE_DESC2"></span> <i>Iguana Daemon</i> <span data-lang="INDEX.NATIVE_MODE_DESC3"></span>.</p>
 	                <div class="alert alert-icon alert-primary" role="alert">
@@ -513,17 +513,17 @@
             </a>
             <ul class="dropdown-menu" role="menu">
               <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem" id="nav-iguana-wallet-settings"><i class="icon md-settings" aria-hidden="true"></i> <span data-lang="INDEX.SETTINGS"></span>></a>
+                <a href="javascript:void(0)" role="menuitem" id="nav-iguana-wallet-settings"><i class="icon md-settings" aria-hidden="true"></i> <span data-lang="INDEX.SETTINGS"></span></a>
               </li>
               <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem" id="nav-about-iguana"><i class="icon md-settings" aria-hidden="true"></i> <span data-lang="INDEX.ABOUT_IGUANA"></span>></a>
+                <a href="javascript:void(0)" role="menuitem" id="nav-about-iguana"><i class="icon md-settings" aria-hidden="true"></i> <span data-lang="INDEX.ABOUT_IGUANA"></span></a>
               </li>
               <li class="divider" role="presentation"></li>
               <!--<li role="presentation">
                 <a href="javascript:void(0)" role="menuitem" id="lock-screen"><i class="icon md-lock" aria-hidden="true"></i> Lock Screen</a>
               </li>-->
               <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem" id="logout-account"><i class="icon md-power" aria-hidden="true"></i> <span data-lang="INDEX.LOGOUT"></span>></a>
+                <a href="javascript:void(0)" role="menuitem" id="logout-account"><i class="icon md-power" aria-hidden="true"></i> <span data-lang="INDEX.LOGOUT"></span></a>
               </li>
             </ul>
           </li>
@@ -757,16 +757,22 @@
           <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
           <h4 data-lang="INDEX.ACTIVATING_WALLET_RT"></h4>
 	        <p data-edexcoin="COIN" id="edexcoin-wallet-waitingrt-alert-text" data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P1"></p>
-		      <p data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P1"></p>
-	        <p style="font-weight: 600" data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P1"></p>
+		      <p data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P2"></p>
+          <p style="font-weight: 600">
+           <div data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P3"></div><br/>
+           <div data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P4"></div> 
+          </p>
         </div>
 
         <div role="alert" class="alert alert-info alert-dismissible" data-edexcoin="COIN" id="edexcoin-wallet-waitingcache-alert" style="display: none">
           <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
           <h4 data-lang="INDEX.FETCHING_COIN_DATA"></h4>
 	        <p data-edexcoin="COIN" id="edexcoin-wallet-waitingcache-alert-text" data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P1"></p>
-		      <p data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P1"></p>
-	        <p style="font-weight: 600" data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P1"></p>
+		      <p data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P2"></p>
+	        <p style="font-weight: 600">
+           <div data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P3"></div><br/>
+           <div data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P4"></div> 
+          </p>
         </div>
 
         </div>
@@ -2086,7 +2092,6 @@
                     </div>
                   </div>
 
-
                   <div class="panel">
                     <div class="panel-heading" id="ExportKeys" role="tab">
                       <a class="panel-title collapsed" data-toggle="collapse" href="#ExportKeysTab"
@@ -2098,7 +2103,12 @@
                     <div class="panel-collapse collapse" id="ExportKeysTab" aria-labelledby="ExportKeys"
                     role="tabpanel">
                       <div class="panel-body">
-                        <p><span data-lang="INDEX.ONLY_ACTIVE_WIF_KEYS"></span> <b><i data-lang="INDEX.PLEASE_KEEP_KEYS_SAFE"></i></b></p>
+                        <p>
+                          <div data-lang="INDEX.ONLY_ACTIVE_WIF_KEYS_P1"></div><br/>
+                          <div data-lang="INDEX.ONLY_ACTIVE_WIF_KEYS_P2"></div><br/>
+                          <div data-lang="INDEX.ONLY_ACTIVE_WIF_KEYS_P3"></div><br/>
+                          <b><i data-lang="INDEX.PLEASE_KEEP_KEYS_SAFE"></i></b>
+                        </p>
                         <div class="col-sm-12"></div>
                         <form class="wifkeys-form" method="post" action="javascript:" autocomplete="off" onsubmit="return false">
                           <div class="form-group form-material floating">
@@ -2130,7 +2140,12 @@
                     <div class="panel-collapse collapse" id="ImportKeysTab" aria-labelledby="ImportKeys"
                     role="tabpanel">
                       <div class="panel-body">
-                        <p><span data-lang="INDEX.IMPORT_KEYS_DESC"></span> <b><i data-lang="INDEX.PLEASE_KEEP_KEYS_SAFE"></i></b></p>
+                        <p>
+                          <div data-lang="INDEX.IMPORT_KEYS_DESC_P1"></div><br/>
+                          <div data-lang="INDEX.IMPORT_KEYS_DESC_P2"></div><br/>
+                          <div data-lang="INDEX.IMPORT_KEYS_DESC_P3"></div><br/>
+                          <b><i data-lang="INDEX.PLEASE_KEEP_KEYS_SAFE"></i></b>
+                        </p>
                         <div class="col-sm-12"></div>
                         <form class="wifkeys-import-form" method="post" action="javascript:" autocomplete="off" onsubmit="return false">
                           <div class="form-group form-material floating">
@@ -2286,22 +2301,22 @@
     
     <!-- Iguana API Scripts -->
     <script src="assets/scripts/iguana_api.js"></script>
-    <script src="assets/scripts/iguana_api/IguanaUnused.js"></script>
+    <!--script src="assets/scripts/iguana_api/IguanaUnused.js"></script>
     <script src="assets/scripts/iguana_api/IguanaHandle.js"></script>
     <script src="assets/scripts/iguana_api/IguanaAddcoin.js"></script>
     <script src="assets/scripts/iguana_api/IguanaEDEX.js"></script>
     <script src="assets/scripts/iguana_api/IguanaDEX.js"></script>
-    <script src="assets/scripts/iguana_api/IguanaShepherd.js"></script>
+    <script src="assets/scripts/iguana_api/IguanaShepherd.js"></script-->
     <!-- End Iguana API Scripts -->
     
     <script src="assets/scripts/login.js"></script>
     
     <!-- Dashboard Scripts -->  
     <script src="assets/scripts/dashboard.js"></script>
-    <script src="assets/scripts/dashboard/DashboardEDEX.js"></script>
+    <!--script src="assets/scripts/dashboard/DashboardEDEX.js"></script>
     <script src="assets/scripts/dashboard/DashboardDEX.js"></script>    
     <script src="assets/scripts/dashboard/DashboardBasilisk.js"></script>
-    <script src="assets/scripts/dashboard/DashboardCoinFiat.js"></script>
+    <script src="assets/scripts/dashboard/DashboardCoinFiat.js"></script-->
     <!-- End Dashboard Scripts -->  
     
     <!--<script src="assets/scripts/coinwallets.js"></script>-->
@@ -2341,7 +2356,7 @@
           });
 
           lang();
-        });
+        });    
       })(document, window, jQuery);
 
       jQuery(document).ready(function() {
