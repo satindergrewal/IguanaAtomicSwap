@@ -11,7 +11,7 @@ var WalletSettings = function() {
 			},
 			messages: {
 				wifkeys_passphrase: {
-					required: 'Passphrase is required.'
+					required: _lang[defaultLang].SETTINGS.PASSPHRASE_REQ
 				}
 			},
 			submitHandler: function(form) {
@@ -25,7 +25,7 @@ var WalletSettings = function() {
 					'native',
 					'basilisk',
 					'full'], function( index, value ) {
-						var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+						var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
 								allcoins_ajax_data = {
 									'userpass': tmpIguanaRPCAuth,
 									'agent': 'InstantDEX',
@@ -33,68 +33,52 @@ var WalletSettings = function() {
 								};
 						
 						$.ajax({
-								type: 'POST',
-								data: JSON.stringify(allcoins_ajax_data),
-								url: 'http://127.0.0.1:7778',
-								success: function(data, textStatus, jqXHR) {
-									var AllcoinsDataOutput = JSON.parse(data);
-									// Only execute further code if that mode has any coins active it. if none, skill checking on them.
-									if (AllcoinsDataOutput[value].length !== 0 ) {
-										console.log('== AllCoins Data OutPut ==');
-										console.log(value);
-										console.log(AllcoinsDataOutput[value]);
+							type: 'POST',
+							data: JSON.stringify(allcoins_ajax_data),
+							url: 'http://127.0.0.1:7778',
+							success: function(data, textStatus, jqXHR) {
+								var AllcoinsDataOutput = JSON.parse(data);
+								// Only execute further code if that mode has any coins active it. if none, skill checking on them.
+								if (AllcoinsDataOutput[value].length !== 0 ) {
+									console.log('== AllCoins Data OutPut ==');
+									console.log(value);
+									console.log(AllcoinsDataOutput[value]);
 
-										// First Run Encryptwallet API to get wif keys for each active coin
-										$.each(AllcoinsDataOutput[value], function(index) {
+									// First Run Encryptwallet API to get wif keys for each active coin
+									$.each(AllcoinsDataOutput[value], function(index) {
+										console.log(AllcoinsDataOutput[value][index]);
 
-												var wifkey_coin_handle = AllcoinsDataOutput[value][index];
-
-												console.log(AllcoinsDataOutput[value][index]);
-												var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-												var EncryptWallet_ajax_data = {'userpass':tmpIguanaRPCAuth,"agent":"bitcoinrpc","method":"encryptwallet","passphrase":Getwifkeys_passphrase}
-												$.ajax({
-														type: 'POST',
-														data: JSON.stringify(EncryptWallet_ajax_data),
-														url: 'http://127.0.0.1:7778',
-														//dataType: 'text',
-														success: function(data, textStatus, jqXHR) {
-																var EncryptWalletDataOutput = JSON.parse(data);
-																console.log(EncryptWalletDataOutput[wifkey_coin_handle+'wif']);
-																WifKeyDivContent += '<table class="table">';
-																		WifKeyDivContent += '<tr><td style="width: 5%;"><b>'+wifkey_coin_handle+'</b></td><td>'+EncryptWalletDataOutput[wifkey_coin_handle]+'</td></tr>';
-																		WifKeyDivContent += '<tr><td><b>'+wifkey_coin_handle+'Wif</b></td><td>'+EncryptWalletDataOutput[wifkey_coin_handle+'wif']+'</td></tr>';
-																WifKeyDivContent += '</table>';
-																$('#wif-priv-keys').html(WifKeyDivContent);
-														},
-														error: function(xhr, textStatus, error) {
-																console.log('failed getting Coin History.');
-																console.log(xhr.statusText);
-																if ( xhr.readyState == 0 ) {
-																		Iguana_ServiceUnavailable();
-																}
-																console.log(textStatus);
-																console.log(error);
-														}
-												});
-										});
-
-										//Second run walletpassphrase again to make sure wallet is unlocked as before login.
-										var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-												WalletPassphrase_ajax_data = {
+										var wifkey_coin_handle = AllcoinsDataOutput[value][index],
+												tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+												EncryptWallet_ajax_data = {
 													'userpass': tmpIguanaRPCAuth,
 													'agent': 'bitcoinrpc',
-													'method': 'walletpassphrase',
-													'password': Getwifkeys_passphrase,
-													'timeout': '2592000'
+													'method': 'encryptwallet',
+													'passphrase': Getwifkeys_passphrase
 												};
 										
 										$.ajax({
 											type: 'POST',
-											data: JSON.stringify(WalletPassphrase_ajax_data),
+											data: JSON.stringify(EncryptWallet_ajax_data),
 											url: 'http://127.0.0.1:7778',
 											success: function(data, textStatus, jqXHR) {
-												var WalletPassphraseDataOutput = JSON.parse(data);
-												console.log(WalletPassphraseDataOutput);
+												var EncryptWalletDataOutput = JSON.parse(data);
+												console.log(EncryptWalletDataOutput[wifkey_coin_handle + 'wif']);
+												WifKeyDivContent += '<table class="table">';
+												WifKeyDivContent += '<tr>' +
+																							'<td style="width: 5%;">' +
+																								'<b>' + wifkey_coin_handle + '</b>' +
+																							'</td>' +
+																							'<td>' + EncryptWalletDataOutput[wifkey_coin_handle] + '</td>' +
+																						'</tr>';
+												WifKeyDivContent += '<tr>' +
+																							'<td>' +
+																								'<b>' + wifkey_coin_handle + 'Wif</b>' +
+																							'</td>' +
+																							'<td>' + EncryptWalletDataOutput[wifkey_coin_handle + 'wif'] + '</td>' +
+																						'</tr>';
+												WifKeyDivContent += '</table>';
+												$('#wif-priv-keys').html(WifKeyDivContent);
 											},
 											error: function(xhr, textStatus, error) {
 												console.log('failed getting Coin History.');
@@ -106,17 +90,47 @@ var WalletSettings = function() {
 												console.log(error);
 											}
 										});
-									}
-								},
-								error: function(xhr, textStatus, error) {
-									console.log('failed getting Coin History.');
-									console.log(xhr.statusText);
-									if ( xhr.readyState == 0 ) {
-										Iguana_ServiceUnavailable();
-									}
-									console.log(textStatus);
-									console.log(error);
+									});
+
+									//Second run walletpassphrase again to make sure wallet is unlocked as before login.
+									var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+											WalletPassphrase_ajax_data = {
+												'userpass': tmpIguanaRPCAuth,
+												'agent': 'bitcoinrpc',
+												'method': 'walletpassphrase',
+												'password': Getwifkeys_passphrase,
+												'timeout': '2592000'
+											};
+									
+									$.ajax({
+										type: 'POST',
+										data: JSON.stringify(WalletPassphrase_ajax_data),
+										url: 'http://127.0.0.1:7778',
+										success: function(data, textStatus, jqXHR) {
+											var WalletPassphraseDataOutput = JSON.parse(data);
+											console.log(WalletPassphraseDataOutput);
+										},
+										error: function(xhr, textStatus, error) {
+											console.log('failed getting Coin History.');
+											console.log(xhr.statusText);
+											if ( xhr.readyState == 0 ) {
+												Iguana_ServiceUnavailable();
+											}
+											console.log(textStatus);
+											console.log(error);
+										}
+									});
 								}
+							},
+							error: function(xhr, textStatus, error) {
+								console.log('failed getting Coin History.');
+								console.log(xhr.statusText);
+								if ( xhr.readyState == 0 ) {
+									Iguana_ServiceUnavailable();
+								}
+								console.log(textStatus);
+								console.log(error);
+							}
 						});
 				});
 			}
@@ -154,12 +168,12 @@ var WalletSettings = function() {
 				EDEXimportprivkey(Getimport_wifkey).then(function(result){
 					console.log(result)
 					if ( result.result !== undefined && result.result == 'success' ) {
-						toastr.success('Private Key Imported Successfully!', 'Settings Notification');
+						toastr.success(_lang[defaultLang].TOASTR.PRIV_KEY_IMPORTED, _lang[defaultLang].TOASTR.SETTINGS_NOTIFICATION);
 						$('#import_wifkey').val('');
 					}
 					if ( result.error !== undefined && result.error == 'null return from iguana_bitcoinRPC' ) {
-						toastr.info('Private Key is not imported.', 'Settings Notification');
-						toastr.error('null return from iguana_bitcoinRPC', 'Settings Notification');
+						toastr.info(_lang[defaultLang].TOASTR.PRIV_KEY_NOT_IMPORTED, _lang[defaultLang].TOASTR.SETTINGS_NOTIFICATION);
+						toastr.error(_lang[defaultLang].TOASTR.NULL_RETURN, _lang[defaultLang].TOASTR.SETTINGS_NOTIFICATION);
 					}
 				});
 			}
@@ -208,8 +222,8 @@ function Settings_ShowCoinPeers() {
 	$('#coin_supernetpeers').text('');
 	$('#coin_rawpeers_h').text('');
 	$('#coin_rawpeers').text('');
-	var settings_selected_coinname_code_val = $('option:selected', '#settings_select_coin_options').val();
-			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+	var settings_selected_coinname_code_val = $('option:selected', '#settings_select_coin_options').val(),
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
 			ajax_data = {
 				'userpass': tmpIguanaRPCAuth,
 				'agent': 'SuperNET',
@@ -290,7 +304,7 @@ function Settings_AddCoinPeers() {
 			var getAddCoinPeers = JSON.parse(data);
 			console.log(getAddCoinPeers);
 			if ( getAddCoinPeers.result == 'addnode submitted' ) {
-				toastr.success(settings_add_peer_ip_val + ' added to ' + settings_selected_coinname_code_val + ' Successfully', 'Coin Notification');
+				toastr.success(settings_add_peer_ip_val + ' ' + _lang[defaultLang].TOASTR.ADDED_TO + ' ' + settings_selected_coinname_code_val + ' ' + _lang[defaultLang].TOASTR.SUCCESSFULLY, _lang[defaultLang].TOASTR.COIN_NOTIFICATION);
 				$('#settings_add_peer_ip').val('');
 			}
 		},

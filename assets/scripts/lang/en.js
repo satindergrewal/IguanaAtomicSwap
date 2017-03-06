@@ -60,7 +60,8 @@ const _lang = {
       'ACTIVATING_WALLET_RT': 'Activating wallet once Real Time blocks starts syncing...',
       'IGUANA_FULL_MODE_SYNC_P1': 'An Iguana Full Mode coin synchronizes the blockchain using an entirely different format than traditional blockchain software. Iguana\'s Full Mode uses Memory Mapped Files and stores data in bundles. That\'s why you see four different colored synchronizing progress bars.',
       'IGUANA_FULL_MODE_SYNC_P2': 'Once all these progress bars reach 100%, the Real Time blocks start synchronizing. Only after the Real Time sync mode activates will you be able to see current data in your wallet and make any transactions.',
-      'IGUANA_FULL_MODE_SYNC_P3': 'Please wait for all other progress bars to disappear and the first blue bar turns to green.<br>That would mean the wallet is in Real Time Sync mode.',
+      'IGUANA_FULL_MODE_SYNC_P3': 'Please wait for all other progress bars to disappear and the first blue bar turns to green.',
+      'IGUANA_FULL_MODE_SYNC_P4': 'That would mean the wallet is in Real Time Sync mode.',
       'FETCHING_COIN_DATA': 'Fetching coin data from network. Please wait...',
       'INTEREST_EARNED': 'Interest Earned',
       'TOTAL_BALANCE': 'Total Balance',
@@ -146,12 +147,16 @@ const _lang = {
       'WALLET_BACKUP': 'Wallet Backup',
       'FIAT_CURRENCY': 'Fiat Currency',
       'EXPORT_KEYS': 'Export Keys',
-      'ONLY_ACTIVE_WIF_KEYS': 'Only the active coin wallet wif keys will be shown here.<br>If you don\'t see a wif key for the coin you are looking for please active it by adding it from EasyDEX Dashboard.<br>You can use these wif keys to import to another coin wallets.',
+      'ONLY_ACTIVE_WIF_KEYS_P1': 'Only the active coin wallet wif keys will be shown here.',
+      'ONLY_ACTIVE_WIF_KEYS_P2': 'If you don\'t see a wif key for the coin you are looking for please active it by adding it from EasyDEX Dashboard.',
+      'ONLY_ACTIVE_WIF_KEYS_P3': 'You can use these wif keys to import to another coin wallets.',
       'PLEASE_KEEP_KEYS_SAFE': 'Please keep these keys extra safe and secure.',
       'PASSPHRASE': 'Passphrase',
       'GET_WIF_KEYS': 'Get Wif Keys',
       'IMPORT_KEYS': 'Import Keys',
-      'IMPORT_KEYS_DESC': 'This section allows you to import private key of all iguana supported coins, Assetchain, Geckochain, or PAXchain by the wallet.<br>It is not mandatory to have that coin active in the wallet for which you are executing import private key process.<br>You\'ll also notice the private key you imported for one coin or chain will also be showing a new address in all other coin wallets\' receiving address section. It is normal.',
+      'IMPORT_KEYS_DESC_P1': 'This section allows you to import private key of all iguana supported coins, Assetchain, Geckochain, or PAXchain by the wallet.',
+      'IMPORT_KEYS_DESC_P2': 'It is not mandatory to have that coin active in the wallet for which you are executing import private key process.',
+      'IMPORT_KEYS_DESC_P3': 'You\'ll also notice the private key you imported for one coin or chain will also be showing a new address in all other coin wallets\' receiving address section. It is normal.',
       'INPUT_PRIV_KEY': 'Input Private Key',
       'IMPORT_PRIV_KEY': 'Import Private Key',
       'DEBUG_LOG': 'Debug Log',
@@ -177,6 +182,7 @@ const _lang = {
       'TX_NOTIFICATION': 'Transaction Notification',
       'SERVICE_NOTIFICATION': 'Service Notification',
       'LOGIN_NOTIFICATION': 'Login Notification',
+      'SETTINGS_NOTIFICATION': 'Settings Notification',
       'RECADDR_UPDATED': 'Receiving Address list updated',
       'IGUANA_CONN_ERR': 'Unable to connect to Iguana',
       'FETCHING_DATA': 'Fetching Data. Please wait for a minute to complete this task.',
@@ -222,6 +228,11 @@ const _lang = {
       'WALLET_CREATED_SUCCESFULLY': 'Wallet created successfully',
       'LOGOUT_SUCCESSFULL': 'Logout Successfull',
       'WALLET_LOCKED': 'Wallet Locked Successfully',
+      'PRIV_KEY_IMPORTED': 'Private Key Imported Successfully!',
+      'PRIV_KEY_NOT_IMPORTED': 'Private Key is not imported.',
+      'NULL RETURN': 'null return from iguana_bitcoinRPC',
+      'ADDED_TO': 'added to',
+      'SUCCESSFULLY': 'Successfully'
     },
     'COIN_WALLETS': {
       'TX_FAILED': 'Transaction Failed',
@@ -248,10 +259,20 @@ const _lang = {
       'PWD_REQ': 'Password is required.',
       'WALLET_SEED_REQ': 'Wallet seed is required.',
       'SAVED_WALLET_SEED': 'Have you saved your wallet seed?',
-      'SEED_MAKE_SURE_BACKEDUP': 'Make sure you have it backed up. Without this seed you won\'t be able to access your wallet in the future!',
-      'YES_I_BACKEDUP': 'Yes, I have taken backup.',
+      'SEED_MAKE_SURE_BACKUP': 'Make sure you have it backed up. Without this seed you won\'t be able to access your wallet in the future!',
+      'YES_I_BACKUP': 'Yes, I have taken backup.',
       'WALLET_LOCKED_LOGIN': 'Wallet Locked. Please login.',
-      'UNLOCK': 'Unlock'
+      'UNLOCK': 'Unlock',
+      'SIGN_IN': 'Sign In',
+      'WELCOME': 'Welcome'
+    },
+    'SIDEBAR': {
+      'EDEX_MOTTO': 'Most Secure, Easy and Native Decentralised Exchange',
+      'JUMBLR_MOTTO': 'Secure, Native and Decentralised Coin Shuffling'
+    },
+    'SETTINGS': {
+      'PASSPHRASE_REQ': 'Passphrase is required.',
+
     }
   }
 };

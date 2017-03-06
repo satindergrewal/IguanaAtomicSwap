@@ -16,7 +16,7 @@ $(document).ready(function() {
 	$('#nav-iguana-atomic-explorer').removeClass( 'active open' ).addClass( '' );
 	$('#nav-iguana-wallet-settings').removeClass( 'active open' ).addClass( '' );
 	$('#nav-about-iguana').removeClass( 'active open' ).addClass( '' );
-	$(".header-easydex-section").text('Dashboard');
+	$(".header-easydex-section").text(_lang[defaultLang].INDEX.DASHBOARD);
 
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
@@ -46,7 +46,7 @@ $('#nav-dashboard').on('click', function() {
 	$('#nav-iguana-atomic-explorer').removeClass( 'active open' ).addClass( '' );
 	$('#nav-iguana-wallet-settings').removeClass( 'active open' ).addClass( '' );
 	$('#nav-about-iguana').removeClass( 'active open' ).addClass( '' );
-	$(".header-easydex-section").text('Dashboard');
+	$(".header-easydex-section").text(_lang[defaultLang].INDEX.DASHBOARD);
 	$.each($('.nav-top-menu'), function(index, value) { $(value).removeClass('active'); });
 	$(this.parentElement).addClass('active');
 	removeKMDWalletStyle();
@@ -73,8 +73,8 @@ $('#nav-easydex').on('click', function() {
 	$('#nav-iguana-atomic-explorer').removeClass( 'active open' ).addClass( '' );
 	$('#nav-iguana-wallet-settings').removeClass( 'active open' ).addClass( '' );
 	$('#nav-about-iguana').removeClass( 'active open' ).addClass( '' );
-	$('.page-header-bordered h1').text('EasyDEX')
-	$(".header-easydex-section").text('Most Secure, Easy and Native Decentralised Exchange');
+	$('.page-header-bordered h1').text('EasyDEX');
+	$(".header-easydex-section").text(_lang[defaultLang].SIDEBAR.EDEX_MOTTO);
 	$.each($('.nav-top-menu'), function(index, value) { $(value).removeClass('active'); });
 	$(this.parentElement).addClass('active')
 	removeKMDWalletStyle();
@@ -180,7 +180,7 @@ $('#nav-zcash-wallet').on('click', function() {
 	$('#nav-iguana-atomic-explorer').removeClass( 'active open' ).addClass( '' );
 	$('#nav-iguana-wallet-settings').removeClass( 'active open' ).addClass( '' );
 	$('#nav-about-iguana').removeClass( 'active open' ).addClass( '' );
-	$(".header-easydex-section").text('Zcash Wallet');
+	$(".header-easydex-section").text(_lang[defaultLang].INDEX.ZC_WALLET);
 
 	$.each($('[data-extcoin]'), function(index, value) {
 		$('[data-extcoin]').attr('data-extcoin', 'ZEC');
@@ -357,7 +357,7 @@ function removeZECWalletStyle() {
 }
 
 function applyJumblrStyle() {
-	$('.header-easydex-section').html('<img src="assets/images/jumblr_header_title_logo.png"><br>Secure, Native and Decentralised Coin Shuffling');
+	$('.header-easydex-section').html('<img src="assets/images/jumblr_header_title_logo.png"><br>' + _lang[defaultLang].SIDEBAR.JUMBLR_MOTTO);
 	$('.page-title').hide();
 	$('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
 	$('#easydex-header-div').css('background-repeat', 'no-repeat');

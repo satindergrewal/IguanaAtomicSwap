@@ -224,13 +224,13 @@ var Login = function() {
 
       submitHandler: function(form) {
         swal({
-          title: _lang[],
-          text: 'Make sure you have it backed up. Without this seed you won\'t be able to access your wallet in the future!',
+          title: _lang[defaultLang].LOGIN.SAVED_WALLET_SEED,
+          text: _lang[defaultLang].LOGIN.SEED_MAKE_SURE_BACKUP,
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, I have taken backup.'
+          confirmButtonText: _lang[defaultLang].LOGIN.YES_I_BACKUP
         })
         .then(function() {
           var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
@@ -678,15 +678,15 @@ var Login = function() {
             $('link[id=loginStyle]')[0].disabled = false;
 
             // Make sure these fields are unhidden.
-            $('#login-welcome').text('Welcome. Please login.');
+            $('#login-welcome').text(_lang[defaultLang].INDEX.WELCOME_LOGIN);
             $('.create-account').show();
             $('#register-btn').show();
             $('#logint-another-wallet').hide();
-            $("#loginbtn").text('Sign in');
+            $("#loginbtn").text(_lang[defaultLang].LOGIN.SIGN_IN);
             $('#logincoinslist').show();
           } else {
             // If something goes wrong, alert the error message that our service returned
-            toastr.warning('Opps... Something went wrong!', 'Account Notification');
+            toastr.warning(_lang[defaultLang].TOASTR.OPPS, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
             console.log(data.statusText);
             if ( xhr.readyState == 0 ) {
               Iguana_ServiceUnavailable();
@@ -703,7 +703,7 @@ var Login = function() {
           }
           console.log(textStatus);
           console.log(error);
-          toastr.warning('Opps... Something went wrong!', 'Account Notification');
+          toastr.warning(_lang[defaultLang].TOASTR.OPPS, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
         }
       });
     });
@@ -821,10 +821,10 @@ function ClearOnLogout(cleardata, stopinterval) {
   $('#logint-another-wallet').hide();
 
   // Make sure these fields are unhidden.
-  $('#login-welcome').text('Welcome.');
+  $('#login-welcome').text(_lang[defaultLang].LOGIN.WELCOME);
   $('#wallet-handle').show();
   $('.create-account').show();
   $('#register-btn').show();
   $('#logint-another-wallet').hide();
-  $("#loginbtn").text('Sign in');
+  $("#loginbtn").text(_lang[defaultLang].LOGIN.SIGN_IN);
 }
