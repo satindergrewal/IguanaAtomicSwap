@@ -165,27 +165,27 @@ function KMDListAllOPIDs() {
 
 		if (listOPIDs[0][index].status === 'queued') {
 			tmp_status_label = '<span class="label label-warning">' +
-												 	 '<i class="icon fa-eye"></i> Queued' +
+												 	 '<i class="icon fa-eye"></i> ' + _lang[defaultLang].KMD_NATIVE.QUEUED +
 												 '</span>';
-			tmp_results = '<i>Please press refresh button in a minute or so to see updated status...</i>';
+			tmp_results = '<i>' + _lang[defaultLang].KMD_NATIVE.PLEASE_REFRESH + '...</i>';
 		}
 		if (listOPIDs[0][index].status === 'executing') {
 			tmp_status_label = '<span class="label label-info">' +
-												   '<i class="icon fa-eye"></i> Executing' +
+												   '<i class="icon fa-eye"></i> ' + _lang[defaultLang].KMD_NATIVE.EXECUTING +
 												 '</span>';
-			tmp_results = '<i>Please press refresh button in a minute or so to see updated status...</i>';
+			tmp_results = '<i>' + _lang[defaultLang].KMD_NATIVE.PLEASE_REFRESH + '...</i>';
 		}
 		if (listOPIDs[0][index].status === 'failed') {
 			tmp_status_label = '<span class="label label-danger">' +
-												   '<i class="icon fa-eye"></i> Failed' +
+												   '<i class="icon fa-eye"></i> ' + _lang[defaultLang].KMD_NATIVE.FAILED +
 												 '</span>';
-			tmp_results = '<b>Error Code:</b> ' + listOPIDs[0][index].error.code + '<br> <b>Message:</b> ' + listOPIDs[0][index].error.message;
+			tmp_results = '<b>Error Code:</b> ' + listOPIDs[0][index].error.code + '<br> <b>' + _lang[defaultLang].KMD_NATIVE.MESSAGE + ':</b> ' + listOPIDs[0][index].error.message;
 		}
 		if (listOPIDs[0][index].status === 'success') {
 			tmp_status_label = '<span class="label label-success">' +
-												   '<i class="icon fa-eye"></i> Success' +
+												   '<i class="icon fa-eye"></i> ' + _lang[defaultLang].KMD_NATIVE.SUCCESS +
 												 '</span>';
-			tmp_results = '<b>txid:</b> ' + listOPIDs[0][index].result.txid + '<br> <b>Execution Seconds:</b> ' + listOPIDs[0][index].execution_secs;
+			tmp_results = '<b>txid:</b> ' + listOPIDs[0][index].result.txid + '<br> <b>' + _lang[defaultLang].KMD_NATIVE.EXECUTION_SECONDS + ':</b> ' + listOPIDs[0][index].execution_secs;
 		}
 
 		opids_statuses_data.push([

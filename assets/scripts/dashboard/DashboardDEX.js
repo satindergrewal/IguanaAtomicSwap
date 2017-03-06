@@ -209,7 +209,7 @@ function getDEXGetBalance2(coin) {
 		ajax_call_2.done(function(data) {
 			console.log(data);
 			if (data.error === 'less than required responses') {
-				toastr.error('Less than required responses. Please try again.', 'Basilisk Notification');
+				toastr.error(_lang[defaultLang].TOASTR.LESS_RESPONSES_REQ, _lang[defaultLang].BASILISK_NOTIFICATION);
 			}
 
 			var tmpcalcnum = 0,

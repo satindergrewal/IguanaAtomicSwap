@@ -16,7 +16,7 @@ function getTotalKMDBalance() {
 				'hex': '3000'
 			};
 
-	console.log(ajax_data);
+	//console.log(ajax_data);
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),

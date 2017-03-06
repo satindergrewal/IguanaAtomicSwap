@@ -136,6 +136,55 @@ function Shepherd_FetchBasiliskData(req_data) {
 	});
 }
 
+function Shepherd_GroomData_Get() {
+  return new Promise((resolve) => {
+    var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
+    parse_session_data = JSON.parse(JSON.parse(parse_session_data));
+    var request_method = '',
+    		session_pubkey = parse_session_data.pubkey,
+    		ajax_data = { 'filename': session_pubkey },
+      	req_url = 'http://127.0.0.1:17777/shepherd/groom';
+    
+    console.log(ajax_data);
+    $.ajax({
+      type: 'GET',
+      data: ajax_data,
+      url: req_url,
+      contentType: 'application/json', // send as JSON
+    }).done(function(data) {
+      var res_data = JSON.parse(data);
+      resolve(res_data.result);
+    });
+  });
+}
+
+function Shepherd_GroomData_Post(req_data) {
+  return new Promise((resolve) => {
+    var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
+    parse_session_data = JSON.parse(JSON.parse(parse_session_data));
+    var request_method = '',
+    		session_pubkey = parse_session_data.pubkey,
+    		ajax_data = {
+    			'filename': session_pubkey,
+    			'payload': req_data
+    		},
+    		req_url = 'http://127.0.0.1:17777/shepherd/groom';
+
+    console.log(req_data);
+    console.log(ajax_data);
+
+    $.ajax({
+      type: 'POST',
+      data: ajax_data,
+      url: req_url,
+      dataType: 'json'
+    }).done(function(data) {
+      var res_data = JSON.parse(data);
+      resolve(res_data);
+    });
+  });
+}
+
 function Shepherd_GetBasiliskCache() {
 	return new Promise((resolve) => {
 		var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
