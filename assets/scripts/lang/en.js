@@ -147,9 +147,9 @@ const _lang = {
       'WALLET_BACKUP': 'Wallet Backup',
       'FIAT_CURRENCY': 'Fiat Currency',
       'EXPORT_KEYS': 'Export Keys',
-      'ONLY_ACTIVE_WIF_KEYS_P1': 'Only the active coin wallet wif keys will be shown here.',
-      'ONLY_ACTIVE_WIF_KEYS_P2': 'If you don\'t see a wif key for the coin you are looking for please active it by adding it from EasyDEX Dashboard.',
-      'ONLY_ACTIVE_WIF_KEYS_P3': 'You can use these wif keys to import to another coin wallets.',
+      'ONLY_ACTIVE_WIF_KEYS': 'Only the active coin wallet wif keys will be shown here.<br/>' +
+                                 'If you don\'t see a wif key for the coin you are looking for please active it by adding it from EasyDEX Dashboard.<br/>'
+                                 'You can use these wif keys to import to another coin wallets.',
       'PLEASE_KEEP_KEYS_SAFE': 'Please keep these keys extra safe and secure.',
       'PASSPHRASE': 'Passphrase',
       'GET_WIF_KEYS': 'Get Wif Keys',
