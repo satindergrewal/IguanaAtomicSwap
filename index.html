@@ -758,10 +758,7 @@
           <h4 data-lang="INDEX.ACTIVATING_WALLET_RT"></h4>
 	        <p data-edexcoin="COIN" id="edexcoin-wallet-waitingrt-alert-text" data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P1"></p>
 		      <p data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P2"></p>
-          <p>
-           <div data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P3" style="font-weight: 600"></div><br/>
-           <div data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P4" style="font-weight: 600"></div> 
-          </p>
+          <p data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P3" style="font-weight: 600"></p>
         </div>
 
         <div role="alert" class="alert alert-info alert-dismissible" data-edexcoin="COIN" id="edexcoin-wallet-waitingcache-alert" style="display: none">
@@ -769,10 +766,7 @@
           <h4 data-lang="INDEX.FETCHING_COIN_DATA"></h4>
 	        <p data-edexcoin="COIN" id="edexcoin-wallet-waitingcache-alert-text" data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P1"></p>
 		      <p data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P2"></p>
-	        <p>
-           <div data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P3" style="font-weight: 600"></div><br/>
-           <div data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P4" style="font-weight: 600"></div> 
-          </p>
+          <p data-lang="INDEX.IGUANA_FULL_MODE_SYNC_P3" style="font-weight: 600"></p>
         </div>
 
         </div>
@@ -1413,16 +1407,20 @@
       <div role="alert" class="alert alert-danger alert-dismissible" data-extcoin="COIN" id="extcoin-wallet-connection-alert" style="display: none">
         <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
         <h4 data-lang="INDEX.OOPS_ERROR"></h4>
-        <p data-extcoin="COIN" id="extcoin-wallet-connection-alert-text"><span data-lang="INDEX.OOPS_ERROR_DESC1"></span>:<br> - <span data-lang="INDEX.OOPS_ERROR_DESC2"></span><br>
-         - <span data-lang="INDEX.OOPS_ERROR_DESC3"></span><br>
-         - <span data-lang="INDEX.OOPS_ERROR_DESC4"></span><br><code>server=1</code><br><code>rpcport=</code><br><code>rpcuser=</code><br><code>rpcpassword=</code></p>
+        <p data-extcoin="COIN" id="extcoin-wallet-connection-alert-text">
+          <span data-lang="INDEX.OOPS_ERROR_DESC"></span>
+          <code>server=1</code><br/>
+          <code>rpcport=</code><br/>
+          <code>rpcuser=</code><br/>
+          <code>rpcpassword=</code>
+        </p>
         <!--<p class="margin-top-15"><button class="btn btn-success btn-inverse" type="button" id="extcoin-wallet-connection-alert-btn">Refresh Again</button></p>-->
       </div>
 
       <div role="alert" class="alert alert-info alert-dismissible" data-extcoin="COIN" id="extcoin-wallet-activating-alert" style="display: none">
         <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>
         <h4><span data-lang="INDEX.ACTIVATING_CHAIN"></span><span id="activating-komodod-tridot">...</span><span id="activating-komodod-progress"></span></h4>
-        <p data-extcoin="COIN" id="extcoin-wallet-connection-alert-text"><span data-lang="INDEX.KMD_STARTED"></span><br><span data-lang="INDEX.WAIT_BEST_CHAIN"></span></p>
+        <p data-extcoin="COIN" id="extcoin-wallet-connection-alert-text" data-lang="INDEX.KMD_STARTED"></p>
       </div>
 
       <div class="row" data-extcoin="COIN" style="margin: -20px 0px 10px 0px">
@@ -1593,16 +1591,13 @@
                           <!--<th>Actions</th>-->
                         </tr>
                       </tfoot>
-
                     </table>
                   </div>
                 </div>
                 <!-- End Panel FixedHeader -->
               </div>
-
             </div>
             <!-- End KMD Wallet Receive -->
-
           </div>
           <!-- End Komodo Wallet receive tab -->
         </div>
