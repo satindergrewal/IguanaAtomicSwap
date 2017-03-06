@@ -26,33 +26,33 @@ function KMDGetPublicTransactions() {
 		url: 'http://127.0.0.1:7778',
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
-			console.log(AjaxOutputData);
+			//console.log(AjaxOutputData);
 
 			$.each(AjaxOutputData, function(index, value) {
 				var tmp_category = '',
 						tmp_addr = AjaxOutputData[index].address;
 
 				if (!('address' in AjaxOutputData[index])) {
-					tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>';
+					tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">' + _lang[defaultLang].DASHBOARD.ZADDR_NOT_LISTED + '!</span>';
 				}
 				var tmp_secondsToString = secondsToString(AjaxOutputData[index].time);
 
 				if ( AjaxOutputData[index].category == 'send' ) {
-					tmp_category = '<i class="icon fa-arrow-circle-left"></i> OUT';
+					tmp_category = '<i class="icon fa-arrow-circle-left"></i> '._lang[defaultLang].TOASTR.OUT;
 				}
 				if ( AjaxOutputData[index].category == 'receive' ) {
-					tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
+					tmp_category = '<i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].TOASTR.IN;
 				}
 				if ( AjaxOutputData[index].category == 'generate' ) {
-					tmp_category = '<i class="icon fa-cogs"></i> Mined';
+					tmp_category = '<i class="icon fa-cogs"></i> ' + _lang[defaultLang].TOASTR.MINED;
 				}
 				if ( AjaxOutputData[index].category == 'immature' ) {
-					tmp_category = '<i class="icon fa-clock-o"></i> Immature';
+					tmp_category = '<i class="icon fa-clock-o"></i> ' + _lang[defaultLang].TOASTR.IMMATURE;
 				}
 
 				tmplisttransactions = [
 					'<span class="label label-default">' +
-						'<i class="icon fa-eye"></i> public' +
+						'<i class="icon fa-eye"></i> ' + _lang[defaultLang].IAPI.PUBLIC_SM +
 					'</span>',
 					tmp_category,
 					AjaxOutputData[index].confirmations,
@@ -99,10 +99,10 @@ function KMDGetProtectedTransactions() {
 				tmpIguanaRPCAuth = 'tmpIgRPCUser@ '+ sessionStorage.getItem('IguanaRPCAuth'),
 				ajax_data = {
 					'userpass': tmpIguanaRPCAuth,
-					"agent": passthru_agent,
-					"method": "passthru",
-					"function": "z_listreceivedbyaddress",
-					"hex": tmpzaddr_hex_input
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'function': 'z_listreceivedbyaddress',
+					'hex': tmpzaddr_hex_input
 				};
 
 		$.ajax({
@@ -114,7 +114,7 @@ function KMDGetProtectedTransactions() {
 				var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
 
 				$.each(AjaxOutputData, function(index, txidvalue) {
-					var tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
+					var tmp_category = '<i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].TOASTR.IN;
 					var tmp_addr = value.addr.slice(0, 30) + '...';
 					if (!('amount' in txidvalue)) {
 						var tmp_amount = 0;
@@ -127,7 +127,7 @@ function KMDGetProtectedTransactions() {
 							tmp_secondsToString = secondsToString(tmp_addr_txid_info[0].time),
 							tmplistZtransactions = [
 								'<span class="label label-dark">' +
-									'<i class="icon fa-eye-slash"></i> private' +
+									'<i class="icon fa-eye-slash"></i> ' + _lang[defaultLang].KMD_NATIVE.PRIVATE +
 								'</span>',
 								tmp_category,
 								tmp_confirmations,

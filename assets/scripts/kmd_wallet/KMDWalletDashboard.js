@@ -2,8 +2,8 @@ var KMDWalletDashboard = function() {
 	var handle_KMD_Dashboard = function() {
 		var action_btn_code = getHeaderActionMenuButtonCoinCode();
 		$('#btn_' + action_btn_code + '_wallet_dashboard').click(function() {
-			console.log('kmd wallet dashbaord button clicked...');
-			console.log($(this).data());
+			//console.log('kmd wallet dashbaord button clicked...');
+			//console.log($(this).data());
 			if ( sessionStorage.getItem('edexTmpMode') === 'Native') {
 				sessionStorage.setItem('edexTmpRefresh', 'start');
 			}
@@ -60,7 +60,7 @@ var KMDWalletDashboard = function() {
 
 			var kmd_addr_list_with_balance = KMDlistunspentT();
 
-			tmpoptions += '<option> - Select Transparent or Private Address - </option>';
+			tmpoptions += '<option> - ' + _lang[defaultLang].KMD_NATIVE.SELECT_ADDRESS + ' - </option>';
 			$.each(kmd_addr_list_with_balance, function(index) {
 				tmpoptions += '<option value="' + kmd_addr_list_with_balance[index].addr + '" data-total="' + kmd_addr_list_with_balance[index].total.toFixed(8) + '">[ ' + kmd_addr_list_with_balance[index].total.toFixed(8) + ' KMD ] &emsp;' + kmd_addr_list_with_balance[index].addr + '</option>';
 				$('#kmd_wallet_send_from').html(tmpoptions);
@@ -91,7 +91,7 @@ var KMDWalletDashboard = function() {
 
 			$('#kmd_wallet_total_value').text(total_minus_currency_fee.toFixed(8));
 
-			if ($('#kmd_wallet_send_from').val() != '- Select Transparent or Private KMD Address -' &&
+			if ($('#kmd_wallet_send_from').val() != '- ' + _lang[defaultLang].KMD_NATIVE.SELECT_ADDRESS_ALT + ' -' &&
 					$('#kmd_wallet_amount').val() != '' &&
 					$('#kmd_wallet_sendto') != '' &&
 					$('#kmd_wallet_fee') != '' ) {
@@ -155,19 +155,19 @@ var KMDWalletDashboard = function() {
 
 			messages: {
 				kmd_wallet_send_from: {
-					required: 'From Address is required.'
+					required: _lang[defaultLang].DASHBOARD.SEND_FROMADDR_REQ
 				},
 				kmd_wallet_sendto: {
-					required: 'To Address is required.'
+					required: _lang[defaultLang].DASHBOARD.SEND_TOADDR_REQ
 				},
 				kmd_wallet_amount: {
-					required: 'Please enter KMD amount to send.'
+					required: _lang[defaultLang].DASHBOARD.SEND_AMOUNT_REQ
 				},
 				kmd_wallet_fee: {
-					required: 'Make sure you have fee entered. Default value is 0.0001 KMD.'
+					required: _lang[defaultLang].DASHBOARD.SEND_FEE_REQ + ' 0.0001 KMD.'
 				},
 				kmd_wallet_total_value: {
-					required: 'Make sure you have both amount and fee entered to calculate final total.'
+					required: _lang[defaultLang].DASHBOARD.SEND_TOTAL_REQ
 				}
 			},
 
@@ -228,14 +228,14 @@ var KMDWalletDashboard = function() {
 			console.log('get new T address button clicked...');
 			KMDGetNewAddresses('public');
 			KMDListAllAddr();
-			toastr.info('Receiving Address list updated', 'Wallet Notification');
+			toastr.info(_lang[defaultLang].TOASTR.RECADDR_UPDATED, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
 		});
 
 		$('#kmd_get_new_zaddr').click(function() {
 			console.log('get new Z address button clicked...');
 			KMDGetNewAddresses('private');
 			KMDListAllAddr();
-			toastr.info('Receiving Address list updated', 'Wallet Notification');
+			toastr.info(_lang[defaultLang].TOASTR.RECADDR_UPDATED, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
 		});
 	};
 

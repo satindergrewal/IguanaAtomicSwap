@@ -1,3 +1,263 @@
+function EdexfillTxHistory(coin) {
+	$('#edexcoin_txhistory').data('panel-api').load();
+	NProgress.done(true);
+	NProgress.configure({
+		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
+							'<div class="spinner" role="spinner">' +
+								'<div class="spinner-icon"></div>' +
+							'</div>'
+	});
+	NProgress.start();
+
+	var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
+
+	if ( active_edexcoinmodecode === 'Basilisk' ) {
+		EdexGetTxList_cache(coin).then(function(result) {
+			var edex_txhistory_table = '';
+			edex_txhistory_table = $('#edex-tx-history-tbl').DataTable({
+				data: result,
+				'order': [
+					[ 3, 'desc' ]
+				],
+				select: true,
+				retrieve: true
+			});
+
+			edex_txhistory_table.destroy();
+			edex_txhistory_table = $('#edex-tx-history-tbl').DataTable({
+				data: result,
+				'order': [
+					[ 3, 'desc' ]
+				],
+				select: true,
+				retrieve: true
+			});
+			$('#edexcoin_txhistory').data('panel-api').done();
+			$('.panel-loading').remove();
+		});
+	}
+
+	if ( active_edexcoinmodecode === 'Full' ) {
+		EdexGetTxList(coin).then(function(result){
+			var edex_txhistory_table = '';
+			edex_txhistory_table = $('#edex-tx-history-tbl').DataTable({
+				data: result,
+				'order': [
+					[ 3, 'desc' ]
+				],
+				select: true,
+				retrieve: true
+			});
+
+			edex_txhistory_table.destroy();
+			edex_txhistory_table = $('#edex-tx-history-tbl').DataTable({
+				data: result,
+				'order': [
+					[ 3, 'desc' ]
+				],
+				select: true,
+				retrieve: true
+			});
+			$('#edexcoin_txhistory').data('panel-api').done();
+			$('.panel-loading').remove();
+		});
+	}
+}
+
+function refreshEDEXCoinWalletList() {
+	var walletDivContent = '',
+			AddColumnDiv = 0;
+
+	$.each([
+		'native',
+		'basilisk',
+		'full'
+		], function( index, value ) {
+			var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+					ajax_data = {
+						'userpass': tmpIguanaRPCAuth,
+						'agent': 'InstantDEX',
+						'method': 'allcoins'
+					};
+
+			$.ajax({
+				type: 'POST',
+				data: JSON.stringify(ajax_data),
+				url: 'http://127.0.0.1:7778',
+				success: function(data, textStatus, jqXHR) {
+					var AllcoinsDataOutput = JSON.parse(data);
+
+					$.each(AllcoinsDataOutput[value], function(index) {
+						var coinlogo = '',
+								coinname = '',
+								modecode = '',
+								modetip = '',
+								modecolor = '';
+
+            switch (value) {
+              case 'native':
+                modecode = 'Native';
+                modetip = 'Native';
+                modecolor = 'primary';
+                break;
+              case 'basilisk':
+                modecode = 'Basilisk';
+                modetip = 'Basilisk';
+                modecolor = 'info';
+                break;
+              case 'full':
+                modecode = 'Full';
+                modetip = 'Full';
+                modecolor = 'success';
+                break;
+              case 'virtual':
+                modecode = 'Virtual';
+                modetip = 'Virtual';
+                modecolor = 'danger';
+                break;
+              case 'notarychains':
+                modecode = 'Notarychains';
+                modetip = 'Notarychains';
+                modecolor = 'dark';
+                break;
+            }
+
+            switch (AllcoinsDataOutput[value][index]) {
+              case 'BTC':
+                coinlogo = 'bitcoin';
+                coinname = 'Bitcoin';
+                break;
+              case 'BTCD':
+                coinlogo = 'bitcoindark';
+                coinname = 'BitcoinDark';
+                break;
+              case 'LTC':
+                coinlogo = 'litecoin';
+                coinname = 'Litecoin';
+                break;
+              case 'VPN':
+                coinlogo = 'vpncoin';
+                coinname = 'VPNcoin';
+                break;
+              case 'SYS':
+                coinlogo = 'syscoin';
+                coinname = 'Syscoin';
+                break;
+              case 'ZEC':
+                coinlogo = 'zcash';
+                coinname = 'Zcash';
+                break;
+              case 'NMC':
+                coinlogo = 'namecoin';
+                coinname = 'Namecoin';
+                break;
+              case 'DEX':
+                coinlogo = 'dex';
+                coinname = 'DEX';
+                break;
+              case 'DOGE':
+                coinlogo = 'dogecoin';
+                coinname = 'Dogecoin';
+                break;
+              case 'DGB':
+                coinlogo = 'digibyte';
+                coinname = 'Digibyte';
+                break;
+              case 'MZC':
+                coinlogo = 'mazacoin';
+                coinname = 'Mazacoin';
+                break;
+              case 'UNO':
+                coinlogo = 'unobtanium';
+                coinname = 'Unobtanium';
+                break;
+              case 'ZET':
+                coinlogo = 'zetacoin';
+                coinname = 'Zetacoin';
+                break;
+              case 'KMD':
+                coinlogo = 'komodo';
+                coinname = 'Komodo';
+                break;
+              case 'BTM':
+                coinlogo = 'bitmark';
+                coinname = 'Bitmark';
+                break;
+              case 'CARB':
+                coinlogo = 'carboncoin';
+                coinname = 'Carboncoin';
+                break;
+              case 'ANC':
+                coinlogo = 'anoncoin';
+                coinname = 'AnonCoin';
+                break;
+              case 'FRK':
+                coinlogo = 'franko';
+                coinname = 'Franko';
+                break;
+              case 'SUPERNET':
+                coinlogo = 'SUPERNET';
+                coinname = 'SUPERNET';
+                break;
+              case 'REVS':
+                coinlogo = 'REVS';
+                coinname = 'REVS';
+                break;
+              case 'WIRELESS':
+                  coinlogo = 'WIRELESS';
+                  coinname = 'WIRELESS';
+                  break;
+              case 'USD':
+                coinlogo = 'USD';
+                coinname = 'USD';
+                break;
+            }
+
+						walletDivContent += '<!-- Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->';
+						walletDivContent += '<div class="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '">';
+							walletDivContent += '<div class="widget widget-shadow">';
+								walletDivContent += '<div class="widget-content text-center bg-white padding-20">';
+									walletDivContent += '<a class="avatar margin-bottom-5 edexcoin-logo" href="javascript:void(0)" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-edexcoinmodecode="' + modecode + '" data-edexcoinname="' + coinname + '" id="edexcoin-logo">';
+										walletDivContent += '<img class="img-responsive" src="assets/images/cryptologo/' + coinlogo + '.png" alt="' + coinname + '"/>';
+										walletDivContent += '<span class="badge up badge-' + modecolor + '" id="basfull" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>';
+									walletDivContent += '</a>';
+									walletDivContent += '<div class="coin-name">' + coinname + '</div>';
+								walletDivContent += '</div>';
+							walletDivContent += '</div>';
+						walletDivContent += '</div>';
+						walletDivContent += '<!-- End Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->';
+
+						$('.wallet-widgets-row').html(walletDivContent);
+						//getCoinBalance(AllcoinsDataOutput[value][index]);
+						//getCoinBalance_altfn('KMD');
+						//getCoinBalance('KMD');
+						/*if ( modecode == 'Basilisk' ) {
+							$('span[data-edexcoincode="' + AllcoinsDataOutput[value][index] + '"][id="edexcoin-balance"]').parent().hide();
+							//getBasiliskCoinBalance(AllcoinsDataOutput[value][index])
+						}*/
+
+						$('.scrollbar-dynamic').scrollbar(); //Make sure widget-body has scrollbar for transactions history
+						$('[data-toggle="tooltip"]').tooltip(); //Make sure tooltips are working for wallet widgets and anywhere else in wallet.
+						edexCoinBtnAction();
+					});
+				},
+				error: function(xhr, textStatus, error) {
+					console.log('failed starting BitcoinDark.');
+					console.log(xhr.statusText);
+					if ( xhr.readyState == 0 ) {
+						Iguana_ServiceUnavailable();
+					}
+					console.log(textStatus);
+					console.log(error);
+
+					if (xhr.readyState == '0' ) {
+						toastr.error(_lang[defaultLang].TOASTR.IGUANA_CONN_ERR, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
+					}
+				}
+			});
+	});
+}
+
 function EdexGetTxList(coin) {
 	NProgress.done(true);
 	NProgress.configure({
@@ -115,12 +375,12 @@ function EdexGetTxList(coin) {
 								tmp_amount = result_data[index].amount;
 
 						if (!('amount' in result_data[index])) {
-							tmp_amount = '<span class="label label-dark">Unknown</span>';
+							tmp_amount = '<span class="label label-dark">' + _lang[defaultLang].DASHBOARD.UNKNOWN + '</span>';
 						}
 
 						var tmp_addr = result_data[index].address;
 						if (!('address' in result_data[index])) {
-							tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>';
+							tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">' + _lang[defaultLang].DASHBOARD.ZADDR_NOT_LISTED + '!</span>';
 						}
 
 						var tmp_secondsToString = secondsToString(result_data[index].blocktime);
@@ -171,12 +431,12 @@ function EdexGetTxList(coin) {
 								tmp_amount = result_data[index].amount;
 
 						if (!('amount' in result_data[index])) {
-							tmp_amount = '<span class="label label-dark">Unknown</span>';
+							tmp_amount = '<span class="label label-dark">' + _lang[defaultLang].DASHBOARD.UNKNOWN + '</span>';
 						}
 
 						var tmp_addr = null
 						if (!('paid' in result_data[index])) {
-							tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>';
+							tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">' + _lang[defaultLang].DASHBOARD.ZADDR_NOT_LISTED + '!</span>';
 						}
 						if (('paid' in result_data[index])) {
 							var first_addr = Object.keys(result_data[index].paid['vouts'][0]),
@@ -186,23 +446,23 @@ function EdexGetTxList(coin) {
 						var tmp_secondsToString = secondsToString(result_data[index].timestamp);
 
 						if ( result_data[index].type == 'sent' ) {
-							tmp_category = '<span class="label label-danger"><i class="icon fa-arrow-circle-left"></i> OUT</span>';
+							tmp_category = '<span class="label label-danger"><i class="icon fa-arrow-circle-left"></i> ' + _lang[defaultLang].DASHBOARD.OUT + '</span>';
 						}
 						if ( result_data[index].type == 'received' ) {
-							tmp_category = '<span class="label label-success"><i class="icon fa-arrow-circle-right"></i> IN</span>';
+							tmp_category = '<span class="label label-success"><i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].DASHBOARD.IN + '</span>';
 						}
 						if ( result_data[index].type == 'generate' ) {
-							tmp_category = '<i class="icon fa-cogs"></i> Mined';
+							tmp_category = '<i class="icon fa-cogs"></i> ' + _lang[defaultLang].DASHBOARD.MINED;
 						}
 						if ( result_data[index].type == 'immature' ) {
-							tmp_category = '<i class="icon fa-clock-o"></i> Immature';
+							tmp_category = '<i class="icon fa-clock-o"></i> ' + _lang[defaultLang].DASHBOARD.IMMATURE;
 						}
 						if ( result_data[index].type == 'unknown' ) {
-							tmp_category = '<i class="icon fa-meh-o"></i> Unknown';
+							tmp_category = '<i class="icon fa-meh-o"></i> ' + _lang[defaultLang].DASHBOARD.UNKNOWN;
 						}
 
 						if (!('confirmations' in result_data[index])) {
-							tmp_confirms = '<i class="icon fa-meh-o"></i> Unknown';
+							tmp_confirms = '<i class="icon fa-meh-o"></i> ' + _lang[defaultLang].DASHBOARD.UNKNOWN;
 						}
 						if (('confirmations' in result_data[index])) {
 							tmp_confirms = result_data[index].confirmations;
@@ -214,7 +474,7 @@ function EdexGetTxList(coin) {
 							tmp_amount,
 							tmp_secondsToString,
 							tmp_addr,
-							'<button type="button" class="btn btn-xs white btn-info waves-effect waves-light kmd-txid-details-btn" data-edexcoin="' + coin + '" data-txidtype="public" data-txid="'+result_data[index].txid+'">' +
+							'<button type="button" class="btn btn-xs white btn-info waves-effect waves-light kmd-txid-details-btn" data-edexcoin="' + coin + '" data-txidtype="public" data-txid="' + result_data[index].txid + '">' +
 								'<i class="icon fa-search"></i>' +
 							'</button>'
 						];
@@ -263,12 +523,12 @@ function EdexGetTxList_cache(coin) {
 								tmp_amount = result_data[index].amount;
 
 						if (!('amount' in result_data[index])) {
-							tmp_amount = '<span class="label label-dark">Unknown</span>';
+							tmp_amount = '<span class="label label-dark">' + _lang[defaultLang].DASHBOARD.UNKNOWN + '</span>';
 						}
 
 						var tmp_addr = null
 						if (!('paid' in result_data[index])) {
-							tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>';
+							tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">' + _lang[defaultLang].DASHBOARD.ZADDR_NOT_LISTED + '!</span>';
 						}
 						if (('paid' in result_data[index])) {
 							var first_addr = Object.keys(result_data[index].paid['vouts'][0]),
@@ -278,23 +538,23 @@ function EdexGetTxList_cache(coin) {
 						var tmp_secondsToString = secondsToString(result_data[index].timestamp);
 
 						if ( result_data[index].type == 'sent' ) {
-							tmp_category = '<span class="label label-danger"><i class="icon fa-arrow-circle-left"></i> OUT</span>';
+							tmp_category = '<span class="label label-danger"><i class="icon fa-arrow-circle-left"></i> ' + _lang[defaultLang].DASHBOARD.OUT + '</span>';
 						}
 						if ( result_data[index].type == 'received' ) {
-							tmp_category = '<span class="label label-success"><i class="icon fa-arrow-circle-right"></i> IN</span>';
+							tmp_category = '<span class="label label-success"><i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].DASHBOARD.IN + '</span>';
 						}
 						if ( result_data[index].type == 'generate' ) {
-							tmp_category = '<i class="icon fa-cogs"></i> Mined';
+							tmp_category = '<i class="icon fa-cogs"></i> ' + _lang[defaultLang].DASHBOARD.MINED;
 						}
 						if ( result_data[index].type == 'immature' ) {
-							tmp_category = '<i class="icon fa-clock-o"></i> Immature';
+							tmp_category = '<i class="icon fa-clock-o"></i> ' + _lang[defaultLang].DASHBOARD.IMMATURE;
 						}
 						if ( result_data[index].type == 'unknown' ) {
-							tmp_category = '<i class="icon fa-meh-o"></i> Unknown';
+							tmp_category = '<i class="icon fa-meh-o"></i> ' + _lang[defaultLang].DASHBOARD.UNKNOWN;
 						}
 
 						if (!('confirmations' in result_data[index])) {
-							tmp_confirms = '<i class="icon fa-meh-o"></i> Unknown';
+							tmp_confirms = '<i class="icon fa-meh-o"></i> ' + _lang[defaultLang].DASHBOARD.UNKNOWN;
 						}
 						if (('confirmations' in result_data[index])) {
 							tmp_confirms = result_data[index].confirmations;
@@ -662,201 +922,6 @@ function EdexListAllAddr(coin) {
 			NProgress.done();
 		});
 	}
-	
-}
-
-function refreshEDEXCoinWalletList() {
-	var walletDivContent = '',
-			AddColumnDiv = 0;
-
-	$.each([
-		'native',
-		'basilisk',
-		'full'
-		], function( index, value ) {
-			var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-					ajax_data = {
-						'userpass': tmpIguanaRPCAuth,
-						'agent': 'InstantDEX',
-						'method': 'allcoins'
-					};
-
-			$.ajax({
-				type: 'POST',
-				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
-				success: function(data, textStatus, jqXHR) {
-					var AllcoinsDataOutput = JSON.parse(data);
-
-					$.each(AllcoinsDataOutput[value], function(index) {
-						var coinlogo = '',
-								coinname = '',
-								modecode = '',
-								modetip = '',
-								modecolor = '';
-
-            switch (value) {
-              case 'native':
-                modecode = 'Native';
-                modetip = 'Native';
-                modecolor = 'primary';
-                break;
-              case 'basilisk':
-                modecode = 'Basilisk';
-                modetip = 'Basilisk';
-                modecolor = 'info';
-                break;
-              case 'full':
-                modecode = 'Full';
-                modetip = 'Full';
-                modecolor = 'success';
-                break;
-              case 'virtual':
-                modecode = 'Virtual';
-                modetip = 'Virtual';
-                modecolor = 'danger';
-                break;
-              case 'notarychains':
-                modecode = 'Notarychains';
-                modetip = 'Notarychains';
-                modecolor = 'dark';
-                break;
-            }
-
-            switch (AllcoinsDataOutput[value][index]) {
-              case 'BTC':
-                coinlogo = 'bitcoin';
-                coinname = 'Bitcoin';
-                break;
-              case 'BTCD':
-                coinlogo = 'bitcoindark';
-                coinname = 'BitcoinDark';
-                break;
-              case 'LTC':
-                coinlogo = 'litecoin';
-                coinname = 'Litecoin';
-                break;
-              case 'VPN':
-                coinlogo = 'vpncoin';
-                coinname = 'VPNcoin';
-                break;
-              case 'SYS':
-                coinlogo = 'syscoin';
-                coinname = 'Syscoin';
-                break;
-              case 'ZEC':
-                coinlogo = 'zcash';
-                coinname = 'Zcash';
-                break;
-              case 'NMC':
-                coinlogo = 'namecoin';
-                coinname = 'Namecoin';
-                break;
-              case 'DEX':
-                coinlogo = 'dex';
-                coinname = 'DEX';
-                break;
-              case 'DOGE':
-                coinlogo = 'dogecoin';
-                coinname = 'Dogecoin';
-                break;
-              case 'DGB':
-                coinlogo = 'digibyte';
-                coinname = 'Digibyte';
-                break;
-              case 'MZC':
-                coinlogo = 'mazacoin';
-                coinname = 'Mazacoin';
-                break;
-              case 'UNO':
-                coinlogo = 'unobtanium';
-                coinname = 'Unobtanium';
-                break;
-              case 'ZET':
-                coinlogo = 'zetacoin';
-                coinname = 'Zetacoin';
-                break;
-              case 'KMD':
-                coinlogo = 'komodo';
-                coinname = 'Komodo';
-                break;
-              case 'BTM':
-                coinlogo = 'bitmark';
-                coinname = 'Bitmark';
-                break;
-              case 'CARB':
-                coinlogo = 'carboncoin';
-                coinname = 'Carboncoin';
-                break;
-              case 'ANC':
-                coinlogo = 'anoncoin';
-                coinname = 'AnonCoin';
-                break;
-              case 'FRK':
-                coinlogo = 'franko';
-                coinname = 'Franko';
-                break;
-              case 'SUPERNET':
-                coinlogo = 'SUPERNET';
-                coinname = 'SUPERNET';
-                break;
-              case 'REVS':
-                coinlogo = 'REVS';
-                coinname = 'REVS';
-                break;
-              case 'WIRELESS':
-                  coinlogo = 'WIRELESS';
-                  coinname = 'WIRELESS';
-                  break;
-              case 'USD':
-                coinlogo = 'USD';
-                coinname = 'USD';
-                break;
-            }
-
-						walletDivContent += '<!-- Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->';
-						walletDivContent += '<div class="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '">';
-							walletDivContent += '<div class="widget widget-shadow">';
-								walletDivContent += '<div class="widget-content text-center bg-white padding-20">';
-									walletDivContent += '<a class="avatar margin-bottom-5 edexcoin-logo" href="javascript:void(0)" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-edexcoinmodecode="' + modecode + '" data-edexcoinname="' + coinname + '" id="edexcoin-logo">';
-										walletDivContent += '<img class="img-responsive" src="assets/images/cryptologo/' + coinlogo + '.png" alt="' + coinname + '"/>';
-										walletDivContent += '<span class="badge up badge-' + modecolor + '" id="basfull" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>';
-									walletDivContent += '</a>';
-									walletDivContent += '<div class="coin-name">' + coinname + '</div>';
-								walletDivContent += '</div>';
-							walletDivContent += '</div>';
-						walletDivContent += '</div>';
-						walletDivContent += '<!-- End Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->';
-
-						$('.wallet-widgets-row').html(walletDivContent);
-						//getCoinBalance(AllcoinsDataOutput[value][index]);
-						//getCoinBalance_altfn('KMD');
-						//getCoinBalance('KMD');
-						/*if ( modecode == 'Basilisk' ) {
-							$('span[data-edexcoincode="' + AllcoinsDataOutput[value][index] + '"][id="edexcoin-balance"]').parent().hide();
-							//getBasiliskCoinBalance(AllcoinsDataOutput[value][index])
-						}*/
-
-						$('.scrollbar-dynamic').scrollbar(); //Make sure widget-body has scrollbar for transactions history
-						$('[data-toggle="tooltip"]').tooltip(); //Make sure tooltips are working for wallet widgets and anywhere else in wallet.
-						edexCoinBtnAction();
-					});
-				},
-				error: function(xhr, textStatus, error) {
-					console.log('failed starting BitcoinDark.');
-					console.log(xhr.statusText);
-					if ( xhr.readyState == 0 ) {
-						Iguana_ServiceUnavailable();
-					}
-					console.log(textStatus);
-					console.log(error);
-
-					if (xhr.readyState == '0' ) {
-						toastr.error('Unable to connect to Iguana', 'Account Notification');
-					}
-				}
-			});
-	});
 }
 
 function edexCoinBtnAction() {
@@ -1052,75 +1117,4 @@ function edexCoinBtnAction() {
 			}
 		}
 	});
-}
-
-function getActiveEdexcoin() {
-	var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
-	return active_edexcoin;
-}
-
-function EdexfillTxHistory(coin) {
-	$('#edexcoin_txhistory').data('panel-api').load();
-	NProgress.done(true);
-	NProgress.configure({
-		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
-							'<div class="spinner" role="spinner">' +
-								'<div class="spinner-icon"></div>' +
-							'</div>'
-	});
-	NProgress.start();
-
-	var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
-
-	if ( active_edexcoinmodecode === 'Basilisk' ) {
-		EdexGetTxList_cache(coin).then(function(result) {
-			var edex_txhistory_table = '';
-			edex_txhistory_table = $('#edex-tx-history-tbl').DataTable({
-				data: result,
-				'order': [
-					[ 3, 'desc' ]
-				],
-				select: true,
-				retrieve: true
-			});
-
-			edex_txhistory_table.destroy();
-			edex_txhistory_table = $('#edex-tx-history-tbl').DataTable({
-				data: result,
-				'order': [
-					[ 3, 'desc' ]
-				],
-				select: true,
-				retrieve: true
-			});
-			$('#edexcoin_txhistory').data('panel-api').done();
-			$('.panel-loading').remove();
-		});
-	}
-
-	if ( active_edexcoinmodecode === 'Full' ) {
-		EdexGetTxList(coin).then(function(result){
-			var edex_txhistory_table = '';
-			edex_txhistory_table = $('#edex-tx-history-tbl').DataTable({
-				data: result,
-				'order': [
-					[ 3, 'desc' ]
-				],
-				select: true,
-				retrieve: true
-			});
-
-			edex_txhistory_table.destroy();
-			edex_txhistory_table = $('#edex-tx-history-tbl').DataTable({
-				data: result,
-				'order': [
-					[ 3, 'desc' ]
-				],
-				select: true,
-				retrieve: true
-			});
-			$('#edexcoin_txhistory').data('panel-api').done();
-			$('.panel-loading').remove();
-		});
-	}
 }

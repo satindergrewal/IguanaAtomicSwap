@@ -12,13 +12,13 @@ function RunKMDInitFunctions() {
 	console.log(check1[0]);
 	if ( check1[0] == 'not active' ) {
 		console.log('Could not connect to external wallet. Is external wallet running?');
-		toastr.error('Connection Error. Is external wallet running?', 'Wallet Notification');
+		toastr.error(_lang[defaultLang].TOASTR.KMD_NATIVE_CON_ERROR, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
 		$('#extcoin-wallet').hide();
 		$('#extcoin-wallet-connection-alert').show();
 	}
 	if ( check1[0] == 'null return' ) {
 		console.log('Could not connect to external wallet. Is iguana connected to external wallet?');
-		toastr.error('Connection Error. Is iguana connected to external wallet?', 'Wallet Notification');
+		toastr.error(_lang[defaultLang].TOASTR.KMD_IGUANA_CON_ERROR, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
 		$('#extcoin-wallet').hide();
 		$('#extcoin-wallet-connection-alert').show();
 	}
@@ -119,7 +119,7 @@ function RunKMDInitFunctions() {
 						console.log(error);
 					}
 				});
-			}, 30000);
+			}, 2000);
 		}
 
 		getRemoteCurrentHeight();
@@ -151,5 +151,5 @@ function RunKMDInitFunctions() {
 
 	// KMDWalletDashboard.init()
 	$('#kmd_wallet_recieve_section').hide();
-	NProgress.done();	
+	NProgress.done();
 }

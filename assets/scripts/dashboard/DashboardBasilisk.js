@@ -1,184 +1,227 @@
 function ShowBasiliskFetchDataProgress(coin) {
-	var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode')
+	var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 
-	Shepherd_GetBasiliskCache().then(function(result){
-	    var _data = JSON.parse(result)
-	    var query = _data.result.basilisk
-	        coin_exists = true
-	        addresses_exists = true
-	        getbalance_exists = true
-	        listtransactions_exists = true
-	        listunspent_exists = true
-	        refresh_exists = true
-	        getbalance_status = 'NOT FOUND'
-	        listtransactions_status = 'NOT FOUND'
-	        listunspent_status = 'NOT FOUND'
-	        refresh_status = 'NOT FOUND'
-	    //console.log(query)
+	Shepherd_GetBasiliskCache().then(function(result) {
+    var _data = JSON.parse(result),
+    		query = _data.result.basilisk,
+        coin_exists = true,
+        addresses_exists = true,
+        getbalance_exists = true,
+        listtransactions_exists = true,
+        listunspent_exists = true,
+        refresh_exists = true,
+        getbalance_status = 'NOT FOUND',
+        listtransactions_status = 'NOT FOUND',
+        listunspent_status = 'NOT FOUND',
+        refresh_status = 'NOT FOUND',
+        res_data;
+    //console.log(query)
 
-	    if (!query) {
-	        //console.log('data not found.')
-	        res_data = {"coin":false, "addresses":false, "getbalance": false,"listtransactions": false,"listunspent": false,"refresh": false}
-	        //console.log(res_data)
-	    } else if (!query[coin]) {
-	        //console.log(coin + ' not found.')
-	        coin_exists = false
-	        res_data = {"coin":coin_exists, "addresses":false, "getbalance": false,"listtransactions": false,"listunspent": false,"refresh": false}
-	        //console.log(res_data)
-	    } else if (!('addresses' in query[coin])) {
-	        //console.log(coin + ' addresses not found.')
-	        addresses_exists = false
-	        res_data = {"coin":coin_exists, "addresses":false, "getbalance": false,"listtransactions": false,"listunspent": false,"refresh": false}
-	        //console.log(res_data)
-	    } else {
-	        Promise.all(query[coin].addresses.map((coinaddr_value,coinaddr_index) => {
-	            return new Promise((resolve, reject) => {
-	                //console.log(coinaddr_index)
-	                //console.log(coinaddr_value)
-	                var data = query[coin][coinaddr_value].getbalance
-	                //console.log(data)
+    if (!query) {
+      //console.log('data not found.')
+      res_data = {
+      	'coin': false,
+      	'addresses': false,
+      	'getbalance': false,
+      	'listtransactions': false,
+      	'listunspent': false,
+      	'refresh': false
+      };
+      //console.log(res_data)
+    } else if (!query[coin]) {
+      //console.log(coin + ' not found.')
+      coin_exists = false;
+      res_data = {
+    		'coin': coin_exists,
+    		'addresses': false,
+    		'getbalance': false,
+    		'listtransactions': false,
+    		'listunspent': false,
+    		'refresh': false
+    	};
+      //console.log(res_data)
+    } else if (!('addresses' in query[coin])) {
+      //console.log(coin + ' addresses not found.')
+      addresses_exists = false;
+      res_data = {
+      	'coin': coin_exists,
+      	'addresses': false,
+      	'getbalance': false,
+      	'listtransactions': false,
+      	'listunspent': false,
+      	'refresh': false
+      };
+      //console.log(res_data)
+    } else {
+      Promise.all(query[coin].addresses.map((coinaddr_value,coinaddr_index) => {
+        return new Promise((resolve, reject) => {
+          //console.log(coinaddr_index)
+          //console.log(coinaddr_value)
+          var data = query[coin][coinaddr_value].getbalance;
+          //console.log(data)
 
-	                if (!('getbalance' in query[coin][coinaddr_value])) {
-	                    //console.log(coin + '>>>' + coinaddr_value + ' => getbalance not found.')
-	                    getbalance_exists = false
-	                } else {
-	                    //console.log(query[coin][coinaddr_value].getbalance.status)
-	                    getbalance_status = query[coin][coinaddr_value].getbalance.status
-	                }
+          if (!('getbalance' in query[coin][coinaddr_value])) {
+            //console.log(coin + '>>>' + coinaddr_value + ' => getbalance not found.')
+            getbalance_exists = false;
+          } else {
+            //console.log(query[coin][coinaddr_value].getbalance.status)
+            getbalance_status = query[coin][coinaddr_value].getbalance.status;
+          }
 
-	                if (!('listtransactions' in query[coin][coinaddr_value])) {
-	                    //console.log(coin + '>>>' + coinaddr_value + ' => listtransactions not found.')
-	                    listtransactions_exists = false
-	                } else {
-	                    //console.log(query[coin][coinaddr_value].listtransactions.status)
-	                    listtransactions_status = query[coin][coinaddr_value].listtransactions.status
-	                }
+          if (!('listtransactions' in query[coin][coinaddr_value])) {
+            //console.log(coin + '>>>' + coinaddr_value + ' => listtransactions not found.')
+            listtransactions_exists = false;
+          } else {
+            //console.log(query[coin][coinaddr_value].listtransactions.status)
+            listtransactions_status = query[coin][coinaddr_value].listtransactions.status;
+          }
 
-	                if (!('listunspent' in query[coin][coinaddr_value])) {
-	                    //console.log(coin + '>>>' + coinaddr_value + ' => listunspent not found.')
-	                    listunspent_exists = false
-	                } else {
-	                    //console.log(query[coin][coinaddr_value].listunspent.status)
-	                    listunspent_status = query[coin][coinaddr_value].listunspent.status
-	                }
+          if (!('listunspent' in query[coin][coinaddr_value])) {
+            //console.log(coin + '>>>' + coinaddr_value + ' => listunspent not found.')
+            listunspent_exists = false;
+          } else {
+            //console.log(query[coin][coinaddr_value].listunspent.status)
+            listunspent_status = query[coin][coinaddr_value].listunspent.status;
+          }
 
-	                if (!('refresh' in query[coin][coinaddr_value])) {
-	                    //console.log(coin + '>>>' + coinaddr_value + ' => refresh not found.')
-	                    refresh_exists = false
-	                } else {
-	                    //console.log(query[coin][coinaddr_value].refresh.status)
-	                    refresh_status = query[coin][coinaddr_value].refresh.status
-	                }
+          if (!('refresh' in query[coin][coinaddr_value])) {
+            //console.log(coin + '>>>' + coinaddr_value + ' => refresh not found.')
+            refresh_exists = false;
+          } else {
+            //console.log(query[coin][coinaddr_value].refresh.status)
+            refresh_status = query[coin][coinaddr_value].refresh.status;
+          }
 
-	                pass_data = {
-	                                "addr_index":coinaddr_index,
-	                                "addr_value":coinaddr_value,
-	                                "getbalance": getbalance_exists,
-	                                "getbalance_status": getbalance_status,
-	                                "listtransactions": listtransactions_exists,
-	                                "listtransactions_status": listtransactions_status,
-	                                "listunspent": listunspent_exists,
-	                                "listunspent_status": listunspent_status,
-	                                "refresh": refresh_exists,
-	                                "refresh_status": refresh_status
-	                            }
-	                resolve(pass_data)
-	            })
-	        })).then(result => {
-	            //console.log(result)
-	            //res_data.coin = coin_exists
-	            //res_data.addresses = addresses_exists
-	            BasiliskFetchData = ''
-	            
-	            $.each(result, function(result_index, result_val) {
-	                //console.log(result_index)
-	                //console.log(result_val)
+          pass_data = {
+            'addr_index': coinaddr_index,
+            'addr_value': coinaddr_value,
+            'getbalance': getbalance_exists,
+            'getbalance_status': getbalance_status,
+            'listtransactions': listtransactions_exists,
+            'listtransactions_status': listtransactions_status,
+            'listunspent': listunspent_exists,
+            'listunspent_status': listunspent_status,
+            'refresh': refresh_exists,
+            'refresh_status': refresh_status
+          };
 
-	                var tmp_listunspent_lable_color = ''
-	                var tmp_listtransactions_lable_color = ''
-	                var tmp_getbalance_lable_color = ''
-	                var tmp_refresh_lable_color = ''
+          resolve(pass_data);
+        });
+      }))
+      .then(result => {
+         //console.log(result);
+				//var res_data.coin = coin_exists;
+				//var res_data.addresses = addresses_exists;
+				var BasiliskFetchData = '';
+          
+        $.each(result, function(result_index, result_val) {
+          //console.log(result_index);
+          //console.log(result_val);
 
-	                switch (result_val.listunspent_status) {
-	                    case 'waiting':
-	                        tmp_listunspent_lable_color = 'dark'
-	                        break;
-	                    case 'in progress':
-	                        tmp_listunspent_lable_color = 'primary'
-	                        break;
-	                    case 'done':
-	                        tmp_listunspent_lable_color = 'success'
-	                        break;
-	                    case 'NOT FOUND':
-	                        tmp_listunspent_lable_color = 'danger'
-	                        break;
-	                }
+          var tmp_listunspent_lable_color = '',
+         			tmp_listtransactions_lable_color = '',
+          		tmp_getbalance_lable_color = '',
+          		tmp_refresh_lable_color = '';
 
-	                switch (result_val.listtransactions_status) {
-	                    case 'waiting':
-	                        tmp_listtransactions_lable_color = 'dark'
-	                        break;
-	                    case 'in progress':
-	                        tmp_listtransactions_lable_color = 'primary'
-	                        break;
-	                    case 'done':
-	                        tmp_listtransactions_lable_color = 'success'
-	                        break;
-	                    case 'NOT FOUND':
-	                        tmp_listtransactions_lable_color = 'danger'
-	                        break;
-	                }
+          switch (result_val.listunspent_status) {
+            case 'waiting':
+              tmp_listunspent_lable_color = 'dark';
+              break;
+            case 'in progress':
+              tmp_listunspent_lable_color = 'primary';
+              break;
+            case 'done':
+              tmp_listunspent_lable_color = 'success';
+              break;
+            case 'NOT FOUND':
+              tmp_listunspent_lable_color = 'danger';
+              break;
+          }
 
-	                switch (result_val.getbalance_status) {
-	                    case 'waiting':
-	                        tmp_getbalance_lable_color = 'dark'
-	                        break;
-	                    case 'in progress':
-	                        tmp_getbalance_lable_color = 'primary'
-	                        break;
-	                    case 'done':
-	                        tmp_getbalance_lable_color = 'success'
-	                        break;
-	                    case 'NOT FOUND':
-	                        tmp_getbalance_lable_color = 'danger'
-	                        break;
-	                }
+          switch (result_val.listtransactions_status) {
+            case 'waiting':
+              tmp_listtransactions_lable_color = 'dark';
+              $('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+            case 'in progress':
+              tmp_listtransactions_lable_color = 'primary';
+              $('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+            case 'done':
+              tmp_listtransactions_lable_color = 'success';
+              $('#edexcoin_dashboard_basilisk_refresh_status').hide();
+              break;
+            case 'NOT FOUND':
+              tmp_listtransactions_lable_color = 'danger';
+              $('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+          }
 
-	                switch (result_val.refresh_status) {
-	                    case 'waiting':
-	                        tmp_refresh_lable_color = 'dark'
-	                        break;
-	                    case 'in progress':
-	                        tmp_refresh_lable_color = 'primary'
-	                        break;
-	                    case 'done':
-	                        tmp_refresh_lable_color = 'success'
-	                        break;
-	                    case 'NOT FOUND':
-	                        tmp_refresh_lable_color = 'danger'
-	                        break;
-	                }
+          switch (result_val.getbalance_status) {
+            case 'waiting':
+              tmp_getbalance_lable_color = 'dark';
+              $('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+            case 'in progress':
+              tmp_getbalance_lable_color = 'primary';
+              $('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+            case 'done':
+              tmp_getbalance_lable_color = 'success';
+              $('#edexcoin_dashboard_basilisk_refresh_status').hide();
+              break;
+            case 'NOT FOUND':
+              tmp_getbalance_lable_color = 'danger';
+              $('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+          }
 
-	                
-	                BasiliskFetchData += '<tr>';
-	                BasiliskFetchData += '<td>'+ result_val.addr_value.substring(0,5) +'...</td>';
-	                BasiliskFetchData += '<td><span class="label label-'+tmp_listunspent_lable_color+' text-uppercase">'+result_val.listunspent_status+'</span></td>';
-	                BasiliskFetchData += '<td><span class="label label-'+tmp_listtransactions_lable_color+' text-uppercase">'+result_val.listtransactions_status+'</span></td>';
-	                BasiliskFetchData += '<td><span class="label label-'+tmp_getbalance_lable_color+' text-uppercase">'+result_val.getbalance_status+'</span></td>';
-	                BasiliskFetchData += '<td><span class="label label-'+tmp_refresh_lable_color+' text-uppercase">'+result_val.refresh_status+'</span></td>';
-	                BasiliskFetchData += '</tr>';
-	                $('.tbl_edexcoin_dashboard_basilisk_refresh_status tbody').html(BasiliskFetchData);
+          switch (result_val.refresh_status) {
+            case 'waiting':
+              tmp_refresh_lable_color = 'dark';
+              $('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+            case 'in progress':
+              tmp_refresh_lable_color = 'primary';
+              $('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+            case 'done':
+              tmp_refresh_lable_color = 'success';
+              $('#edexcoin_dashboard_basilisk_refresh_status').hide();
+              break;
+            case 'NOT FOUND':
+              tmp_refresh_lable_color = 'danger';
+              //$('#edexcoin_dashboard_basilisk_refresh_status').show();
+              break;
+          }
 
-	                if (result[result.length-1] == result_val && result_val.listtransactions_status !== 'done' && result_val.getbalance_status !== 'done' && result_val.refresh_status !== 'done' ) {
-	                    $('#edexcoin_dashboard_basilisk_refresh_status').show()
-	                } else {
-	                    $('#edexcoin_dashboard_basilisk_refresh_status').hide()
-	                }
-	            })
-	        })
-	    }
-	    
-	})
+          BasiliskFetchData += '<tr>';
+          BasiliskFetchData += '<td>' + result_val.addr_value.substring(0,5) + '...</td>';
+          BasiliskFetchData += '<td>' +
+          												'<span class="label label-' + tmp_listunspent_lable_color + ' text-uppercase">' + result_val.listunspent_status + '</span>' +
+          										 '</td>';
+          BasiliskFetchData += '<td>' +
+          												'<span class="label label-' + tmp_listtransactions_lable_color + ' text-uppercase">' + result_val.listtransactions_status + '</span>' +
+          										 '</td>';
+          BasiliskFetchData += '<td>' +
+          												'<span class="label label-' + tmp_getbalance_lable_color + ' text-uppercase">' + result_val.getbalance_status + '</span>' +
+          										 '</td>';
+          BasiliskFetchData += '<td>' +
+          												'<span class="label label-' + tmp_refresh_lable_color + ' text-uppercase">' + result_val.refresh_status + '</span>' +
+          										 '</td>';
+          BasiliskFetchData += '</tr>';
+          $('.tbl_edexcoin_dashboard_basilisk_refresh_status tbody').html(BasiliskFetchData);
+          //console.log(result_val.refresh_status)
+
+          /*if (result[result.length-1] == result_val && result_val.listtransactions_status !== 'done' && result_val.getbalance_status !== 'done' && result_val.refresh_status !== 'done' ) {
+              $('#edexcoin_dashboard_basilisk_refresh_status').show()
+          } else {
+              $('#edexcoin_dashboard_basilisk_refresh_status').hide()
+          }*/
+        });
+      });
+    } 
+	});
 }
 
 function SwitchBasicliskFull(switch_data) {
@@ -224,7 +267,7 @@ function SwitchBasicliskFull(switch_data) {
 
 			if (SwitchCoinDataOutput.result === 'coin added') {
 				console.log('coin added');
-				toastr.success(switch_data.currency + ' switched to ' + mode_value + ' Mode', 'Coin Notification');
+				toastr.success(switch_data.currency + ' ' + _lang[defaultLang].TOASTR.SWITCHED_TO + ' ' + mode_value + ' ' + _lang[defaultLang].TOASTR.MODE, _lang[defaultLang].TOASTR.COIN_NOTIFICATION);
 			} else if (SwitchCoinDataOutput.result === 'coin already there') {
 				console.log('coin already there');
 				//toastr.info("Looks like" + switch_data.currency + "already running.", "Coin Notification");
@@ -242,7 +285,7 @@ function SwitchBasicliskFull(switch_data) {
 			console.log(textStatus);
 			console.log(error);
 			if (xhr.readyState == '0' ) {
-				toastr.error('Unable to connect to Iguana', 'Account Notification');
+				toastr.error(_lang[defaultLang].TOASTR.IGUANA_CONN_ERR, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
 			}
 		}
 	});

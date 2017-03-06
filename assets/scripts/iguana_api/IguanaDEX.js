@@ -20,7 +20,7 @@ function Iguana_DEXgetNotaries(coin) {
 
 			result.push(AjaxOutputData);
 			if (AjaxOutputData.error === 'less than required responses') {
-				toastr.error('Less than required responses. Please try again.', 'Basilisk Notification');
+				toastr.error(_lang[defaultLang].TOASTR.LESS_RESPONSES_REQ, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 		},
 		error: function(xhr, textStatus, error) {
@@ -79,19 +79,19 @@ function Iguana_DEXImportAddr(coin,addr) {
 		console.log(data);
 
 		if (data == 'already in list') {
-			toastr.info(coin + ' address already registered on network.', 'Basilisk Notification');
+			toastr.info(coin + ' ' + _lang[defaultLang].TOASTR.ADDR_ALREADY_REG, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 		} else {
 			if (data.iswatchonly == true) {
-				toastr.success('Registered ' + coin + ' address  on network.', 'Basilisk Notification');
+				toastr.success(_lang[defaultLang].TOASTR.REG + ' ' + coin + _lang[defaultLang].TOASTR.REG_ADDR, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 			if (data.iswatchonly == false) {
-				toastr.success(coin + ' address Registeration failed. Please try again.', 'Basilisk Notification');
+				toastr.success(coin + _lang[defaultLang].TOASTR.REG_ADDR_FAILED, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 			if (data.iswatchonly == undefined) {
-				toastr.error('Invalid query sent for ' + coin + '. Please try again.', 'Basilisk Notification');
+				toastr.error(_lang[defaultLang].TOASTR.INVALID_QUERY + ' ' + coin + '. ' + _lang[defaultLang].TOASTR.TRY_AGAIN, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 			if (data.error === 'less than required responses') {
-				toastr.error('Less than required responses. Please try again.', 'Basilisk Notification');
+				toastr.error(_lang[defaultLang].TOASTR.LESS_RESPONSES_REQ, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 		}
 	});
@@ -115,8 +115,8 @@ function Iguana_DEXImportAllWalletAddr(coin) {
 			}),
 			ajax_call_3 = ajax_call_2.then(function(data) {
 				$.each(data.result, function(coinaddr_index, coinaddr_value) {
-					console.log(coinaddr_index)
-					console.log(coinaddr_value)
+					console.log(coinaddr_index);
+					console.log(coinaddr_value);
 
 					var ajax_data_4 = {
 								'userpass': tmpIguanaRPCAuth,
@@ -132,7 +132,7 @@ function Iguana_DEXImportAllWalletAddr(coin) {
 							dataType: 'json',
 					});
 					var ajax_call_5 = ajax_call_4.then(function(data) {
-						console.log(data)
+						console.log(data);
 						console.log(coinaddr_value);
 
 						if (('error' in data) || !('address' in data)) {
@@ -160,20 +160,20 @@ function Iguana_DEXImportAllWalletAddr(coin) {
 						console.log(coin)
 						console.log(data);
 
-						if (data == 'already in list') {
-							toastr.info(coinaddr_value + ' already registered on network.', 'Basilisk Notification - ' + coin);
+						if (data == 'already in list') {_lang[defaultLang]
+							toastr.info(coinaddr_value + ' ' + _lang[defaultLang].TOASTR.ADDR_ALREADY_REG, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + coin);
 						} else {
 							if (data.iswatchonly == true) {
-								toastr.success('Registered ' + coinaddr_value + ' on network.', 'Basilisk Notification - ' + coin);
+								toastr.success(_lang[defaultLang].TOASTR.REG + ' ' + coinaddr_value + ' ' + _lang[defaultLang].TOASTR.REG_ADDR, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + coin);
 							}
 							if (data.iswatchonly == false) {
-								toastr.success(coinaddr_value + ' Registeration failed. Please try again.', 'Basilisk Notification - ' + coin);
+								toastr.success(coinaddr_value + ' ' + _lang[defaultLang].TOASTR.REG_ADDR_FAILED, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + coin);
 							}
 							if (data.iswatchonly == undefined) {
-								toastr.error('Invalid query sent for ' + coinaddr_value + '. Please try again.', 'Basilisk Notification - ' + coin);
+								toastr.error(_lang[defaultLang].TOASTR.INVALID_QUERY + ' ' + coinaddr_value + '. ' + _lang[defaultLang].TOASTR.TRY_AGAIN, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + coin);
 							}
 							if (data.error === 'less than required responses') {
-								toastr.error('Less than required responses. Please try again.', 'Basilisk Notification - ' + coin);
+								toastr.error(_lang[defaultLang].TOASTR.LESS_RESPONSES_REQ, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + coin);
 							}
 						}
 					});
@@ -214,8 +214,8 @@ function Iguana_DEXImportAll() {
 						}),
 						ajax_call_3 = ajax_call_2.then(function(data) {
 							$.each(data.result, function(coinaddr_index, coinaddr_value) {
-								console.log(coinaddr_index)
-								console.log(coinaddr_value)
+								console.log(coinaddr_index);
+								console.log(coinaddr_value);
 
 								var ajax_data_4 = {
 											'userpass': tmpIguanaRPCAuth,
@@ -231,7 +231,7 @@ function Iguana_DEXImportAll() {
 											dataType: 'json'
 										}),
 										ajax_call_5 = ajax_call_4.then(function(data) {
-											console.log(data)
+											console.log(data);
 											console.log(coinaddr_value);
 
 											if (('error' in data) || !('address' in data)) {
@@ -260,19 +260,19 @@ function Iguana_DEXImportAll() {
 									console.log(data);
 
 									if (data == 'already in list') {
-										toastr.info(coinaddr_value + ' already registered on network.', 'Basilisk Notification - ' + mode_value);
+										toastr.info(coinaddr_value + _lang[defaultLang].TOASTR.ADDR_ALREADY_REG, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + mode_value);
 									} else {
 										if (data.iswatchonly == true) {
-											toastr.success('Registered ' + coinaddr_value + ' on network.', 'Basilisk Notification - ' + mode_value);
+											toastr.success(_lang[defaultLang].TOASTR.REG + ' ' + coinaddr_value + ' ' + _lang[defaultLang].TOASTR.REG_ADDR, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + mode_value);
 										}
 										if (data.iswatchonly == false) {
-											toastr.success(coinaddr_value + ' Registeration failed. Please try again.', 'Basilisk Notification - ' + mode_value);
+											toastr.success(coinaddr_value + ' ' + _lang[defaultLang].TOASTR.REG_ADDR_FAILED, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + mode_value);
 										}
 										if (data.iswatchonly == undefined) {
-											toastr.error('Invalid query sent for ' + coinaddr_value + '. Please try again.', 'Basilisk Notification - ' + mode_value);
+											toastr.error(_lang[defaultLang].TOASTR.INVALID_QUERY + ' ' + coinaddr_value + '. ' + _lang[defaultLang].TOASTR.TRY_AGAIN, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + mode_value);
 										}
 										if (data.error === 'less than required responses') {
-											toastr.error('Less than required responses. Please try again.', 'Basilisk Notification - ' + mode_value);
+											toastr.error(_lang[defaultLang].TOASTR.LESS_RESPONSES_REQ, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION + ' - ' + mode_value);
 										}
 									}
 								});
@@ -310,7 +310,7 @@ function Iguana_DEXCheckAddr(coin,addr) {
 			result.push(AjaxOutputData);
 
 			if (AjaxOutputData.error === 'less than required responses') {
-				toastr.error('Less than required responses. Please try again.', 'Basilisk Notification');
+				toastr.error(_lang[defaultLang].TOASTR.LESS_RESPONSES_REQ, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 		},
 		error: function(xhr, textStatus, error) {
@@ -348,17 +348,17 @@ function Iguana_DEXValidateAddr(coin, addr) {
 			var AjaxOutputData = JSON.parse(data);
 
 			if (AjaxOutputData.iswatchonly == true) {
-				toastr.success('Validation Success on Network', 'Basilisk Notification');
+				toastr.success(_lang[defaultLang].TOASTR.VALIDATION_SUCCESS, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 			if (AjaxOutputData.iswatchonly == false) {
-				toastr.info('Address isn\'t Registered on Network. Please Register', 'Basilisk Notification');
+				toastr.info(_lang[defaultLang].TOASTR.ADDR_ISNT_REG, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 			if (AjaxOutputData.iswatchonly == undefined) {
-				toastr.error('Invalid query sent. Please try again.', 'Basilisk Notification');
+				toastr.error(_lang[defaultLang].TOASTR.INVALID_QUERY_ALT, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 			result.push(AjaxOutputData);
 			if (AjaxOutputData.error === 'less than required responses') {
-				toastr.error('Less than required responses. Please try again.', 'Basilisk Notification');
+				toastr.error(_lang[defaultLang].TOASTR.LESS_RESPONSES_REQ, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 			}
 		},
 		error: function(xhr, textStatus, error) {
@@ -375,27 +375,27 @@ function Iguana_DEXValidateAddr(coin, addr) {
 }
 
 function Iguana_DEXsendrawtx(data) {
-    var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-        ajax_data = {
-                        'userpass': tmpIguanaRPCAuth,
-                        'agent': 'dex',
-                        'method': 'sendrawtransaction',
-                        'signedtx': data.signedtx,
-                        'symbol': data.coin
-                    }
-    return new Promise((resolve) => {
-        console.log(ajax_data);
-        $.ajax({
-            data: JSON.stringify(ajax_data),
-            url: 'http://127.0.0.1:7778',
-            type: 'POST',
-            dataType: 'json'
-        }).then(result => {
-            console.log(result);
-            resolve(result);
-        });
-    })
+  var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      ajax_data = {
+        'userpass': tmpIguanaRPCAuth,
+        'agent': 'dex',
+        'method': 'sendrawtransaction',
+        'signedtx': data.signedtx,
+        'symbol': data.coin
+      };
 
+  return new Promise((resolve) => {
+    console.log(ajax_data);
+    $.ajax({
+      data: JSON.stringify(ajax_data),
+      url: 'http://127.0.0.1:7778',
+      type: 'POST',
+      //dataType: 'json'
+    }).then(result => {
+      console.log(result);
+      resolve(result);
+    });
+  });
 }
 
 function EDEX_DEXlistunspent(coin, addr) {
@@ -526,7 +526,7 @@ function EDEX_DEXgetinfoAll() {
 								console.log(refresh_percent)
 								$('#basilisk-connections-refresh-title').text('Connection status... ' + tmp_index + '/' + get_dex_notarychains.length + ': ' + coin_value);
 								$('#basilisk-connections-refresh-percent').text(refresh_percent + '%');
-								$('#basilisk-connections-refresh-progress-bar').width(refresh_percent + '%')
+								$('#basilisk-connections-refresh-progress-bar').width(refresh_percent + '%');
 
 								if (getinfo_each_chain == '' ) {
 									result.push([{ 'amount': 0 }]);

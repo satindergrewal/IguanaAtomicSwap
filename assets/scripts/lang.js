@@ -10,9 +10,9 @@ function lang() {
 	  	console.log('lang placeholder ' + $(htmlItems[i]).attr('data-lang') + ' needs to be named as PARENT.CHILD in ' + defaultLang.toLowerCase() + '.js file');
 	  } else {
 		  if (_lang && langIDComponents.length === 2 && _lang[defaultLang][langIDComponents[0]][langIDComponents[1]]) {
-		  	$(htmlItems[i]).text(_lang[defaultLang][langIDComponents[0]][langIDComponents[1]]);
+		  	$(htmlItems[i]).html(_lang[defaultLang][langIDComponents[0]][langIDComponents[1]]);
 		  } else {
-		    $(htmlItems[i]).text('{{ ' + langIDComponents.join('.') + ' }}');
+		    $(htmlItems[i]).html('{{ ' + langIDComponents.join('.') + ' }}');
 		    console.log('Missing translation in lang/' +  defaultLang.toLowerCase() + '.js ' + langIDComponents.join('.'));
 		  }
   	}
