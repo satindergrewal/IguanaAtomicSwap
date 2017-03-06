@@ -953,6 +953,7 @@ function Iguana_HashHex(data) {
 			};
 
 	$.ajax({
+        async: false,
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
 		url: 'http://127.0.0.1:7778',
@@ -969,7 +970,6 @@ function Iguana_HashHex(data) {
 			console.log(error);
 		}
 	});
-
 	return result;
 }
 
