@@ -40,7 +40,7 @@ function EDEXlistunspent(coin, addr) {
 		var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode'),
 				ajaxCall = $.ajax({
 					data: JSON.stringify(ajax_data),
-					url: 'http://127.0.0.1:7778',
+					url: 'http://127.0.0.1:' + config.iguanaPort,
 					type: 'POST',
 					dataType: 'json'
 				});
@@ -146,7 +146,7 @@ function EDEXMainAddr(coin) {
 
 		var ajaxCall = $.ajax({
 			data: JSON.stringify(ajax_data),
-			url: 'http://127.0.0.1:7778',
+			url: 'http://127.0.0.1:' + config.iguanaPort,
 			type: 'POST',
 			dataType: 'json'
 		});
@@ -182,7 +182,7 @@ function EDEXgetBalance(coin) {
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 			result.push(AjaxOutputData['result']);
@@ -362,7 +362,7 @@ function EDEXSendutxoRawTx(data) {
             $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
             $('#edexcoin_send_coins_anothertx_btn').show();
             $('#edexcoin-send-txdetails-screen').data('panel-api').done();
-            
+
             var call_data = {
             	'allcoins': false,
             	'coin': 'KMD',
@@ -456,7 +456,7 @@ function EDEXSendToAddr(data) {
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(sendtoaddrvalues),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var SendToAddrData = JSON.parse(data),
 					edexcoin_sendto_result_tbl = '';
@@ -552,7 +552,7 @@ function EDEXgetinfo(coin) {
 					'immediate': 100,
 					'timeout': 4000
 				},
-				AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
+				AjaxOutputData = IguanaAJAX('http://127.0.0.1:' + config.iguanaPort, ajax_data).done(function(data) {
 					AjaxOutputData = JSON.parse(AjaxOutputData.responseText);
 					resolve(AjaxOutputData);
 				}).fail(function(xhr, textStatus, error) {
@@ -582,7 +582,7 @@ function EDEXgettransaction(coin,txid) {
     $.ajax({
       type: 'POST',
       data: JSON.stringify(ajax_data),
-      url: 'http://127.0.0.1:7778'
+      url: 'http://127.0.0.1:' + config.iguanaPort
     }).then(function(data) {
       //console.log(data);
       res_data = JSON.parse(data);
@@ -597,7 +597,7 @@ function EDEXgettransaction(coin,txid) {
       console.log(error);
     });
 
-    /*var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
+    /*var AjaxOutputData = IguanaAJAX('http://127.0.0.1:' + config.iguanaPort, ajax_data).done(function(data) {
         AjaxOutputData = JSON.parse(AjaxOutputData.responseText)
         resolve(AjaxOutputData);
     }).fail(function(xhr, textStatus, error) {
@@ -622,7 +622,7 @@ function EDEXgetaddrbyaccount_cache(coin) {
           active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 
       //console.log(query[coin].addresses)
-        
+
       Promise.all(query[coin].addresses.map((coinaddr_value, coinaddr_index) => {
         return new Promise((resolve, reject) => {
           //console.log(coinaddr_index);
@@ -672,7 +672,7 @@ function EDEXgetaddrbyaccount(coin) {
 												 '</span>';
 				active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 
-		var AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778', ajax_data).done(function(data) {
+		var AjaxOutputData = IguanaAJAX('http://127.0.0.1:' + config.iguanaPort, ajax_data).done(function(data) {
 				data = JSON.parse(AjaxOutputData.responseText);
 				console.log(data);
 
@@ -703,7 +703,7 @@ function EDEXgetaddrbyaccount(coin) {
 								return new Promise((resolve, reject) => {
 									$.ajax({
 										data: JSON.stringify(params),
-										url: 'http://127.0.0.1:7778',
+										url: 'http://127.0.0.1:' + config.iguanaPort,
 										type: 'POST',
 										dataType: 'json'
 									}).then(data => {
@@ -745,7 +745,7 @@ function EDEXgetaddrbyaccount(coin) {
 						return new Promise((resolve, reject) => {
 							$.ajax({
 								data: JSON.stringify(params),
-								url: 'http://127.0.0.1:7778',
+								url: 'http://127.0.0.1:' + config.iguanaPort,
 								type: 'POST',
 								dataType: 'json'
 							})
@@ -862,7 +862,7 @@ function EDEXgetnewaddress(coin) {
 					'method': 'getnewaddress',
 					'account': ''
 				},
-				AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778', ajax_data).done(function(data) {
+				AjaxOutputData = IguanaAJAX('http://127.0.0.1:' + config.iguanaPort, ajax_data).done(function(data) {
 					AjaxOutputData = JSON.parse(AjaxOutputData.responseText);
 					resolve(AjaxOutputData.result);
 				}).fail(function(xhr, textStatus, error) {
@@ -887,7 +887,7 @@ function EDEXimportprivkey(params_data) {
 						'imported'
 					]
 				},
-				AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778', ajax_data).done(function(data) {
+				AjaxOutputData = IguanaAJAX('http://127.0.0.1:' + config.iguanaPort, ajax_data).done(function(data) {
 					AjaxOutputData = JSON.parse(AjaxOutputData.responseText);
 					resolve(AjaxOutputData);
 				}).fail(function(xhr, textStatus, error) {
@@ -927,7 +927,7 @@ function EDEX_ProcessRefreshData(gettxdata,refreshdata){
       var res_data = result[result.length - 1],
       		refresh_final = [];
       console.log(res_data);
-      
+
       $.each(res_data,function(index){
         if(res_data[index] !== undefined) {
           refresh_final.push(res_data[index]);

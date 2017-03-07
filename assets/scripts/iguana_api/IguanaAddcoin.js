@@ -165,8 +165,7 @@ function Iguana_addcoinLogin(addcoin_data) {
 		$.ajax({
 			type: 'POST',
 			data: JSON.stringify(AddCoinData),
-			url: 'http://127.0.0.1:7778',
-			//dataType: 'text',
+			url: 'http://127.0.0.1:' + config.iguanaPort,
 			success: function(data, textStatus, jqXHR) {
 				var addcoinData = JSON.parse(data);
 
@@ -636,7 +635,7 @@ function Iguana_addcoin(addcoin_data) {
 		$.ajax({
 			type: 'POST',
 			data: JSON.stringify(AddCoinData),
-			url: 'http://127.0.0.1:7778',
+			url: 'http://127.0.0.1:' + config.iguanaPort,
 			success: function(data, textStatus, jqXHR) {
 				var addcoinData = JSON.parse(data);
 

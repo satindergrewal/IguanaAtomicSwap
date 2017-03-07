@@ -13,7 +13,7 @@ function Iguana_rmd160conv(rmd160conv_data) {
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 			console.log('== Data OutPut ==');
@@ -42,7 +42,7 @@ function Iguana_activehandle(callback) {
 
     $.ajax({
       data: JSON.stringify(ajax_data),
-      url: 'http://127.0.0.1:7778',
+      url: 'http://127.0.0.1:' + config.iguanaPort,
       type: 'POST',
       dataType: 'json'
     }).then(result => {
@@ -72,7 +72,7 @@ function Iguana_Setactivehandle() {
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data),
 					AjaxOutputDataToStore = JSON.stringify(data);

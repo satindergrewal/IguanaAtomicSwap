@@ -148,7 +148,7 @@ const _lang = {
       'FIAT_CURRENCY': 'Fiat Currency',
       'EXPORT_KEYS': 'Export Keys',
       'ONLY_ACTIVE_WIF_KEYS': 'Only the active coin wallet wif keys will be shown here.<br/>' +
-                                 'If you don\'t see a wif key for the coin you are looking for please active it by adding it from EasyDEX Dashboard.<br/>'
+                                 'If you don\'t see a wif key for the coin you are looking for please active it by adding it from EasyDEX Dashboard.<br/>' +
                                  'You can use these wif keys to import to another coin wallets.',
       'PLEASE_KEEP_KEYS_SAFE': 'Please keep these keys extra safe and secure.',
       'PASSPHRASE': 'Passphrase',
@@ -194,7 +194,7 @@ const _lang = {
       'FETCHING_DATA': 'Fetching Data. Please wait for a minute to complete this task.',
       'LESS_RESPONSES_REQ': 'Less than required responses. Please try again.',
       'SWITCHED_TO': 'switched to',
-      'MODE': 'Mode',   
+      'MODE': 'Mode',
       'TX_SENT': 'Transaction Sent',
       'TX_SEND_ERR': 'Unable to complete transaction',
       'LOOKS_LIKE': 'Looks like',

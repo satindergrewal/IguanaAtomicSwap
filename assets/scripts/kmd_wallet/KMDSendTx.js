@@ -20,7 +20,7 @@ function KMDZSendManyTransaction() {
 		async: false,
 		type: 'POST',
 		data: JSON.stringify(ajax_data_txid_input),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			console.log('== Data OutPut of z_sendmany ==');
 			console.log(data);

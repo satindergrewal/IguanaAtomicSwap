@@ -10,7 +10,7 @@ function Iguana_Jumblr_SetPassphrase(data) {
 
     $.ajax({
         data: JSON.stringify(ajax_data),
-        url: 'http://127.0.0.1:7778',
+        url: 'http://127.0.0.1:' + config.iguanaPort,
         type: 'POST',
         dataType: 'json'
     }).done(function(data) {
@@ -30,7 +30,7 @@ function Iguana_Jumblr_Status() {
 
     $.ajax({
       data: JSON.stringify(ajax_data),
-      url: 'http://127.0.0.1:7778',
+      url: 'http://127.0.0.1:' + config.iguanaPort,
       type: 'POST',
       dataType: 'json'
     }).done(function(data) {

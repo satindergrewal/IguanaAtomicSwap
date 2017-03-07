@@ -23,8 +23,7 @@ function KMDlistunspentT() {
 		async: false,
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
-		//dataType: 'text',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data), // Ajax output gets the whole list of unspent coin with addresses
 					unique_addresses  = _.keys(_.countBy(AjaxOutputData, function(data) { return data.address; })); // This code using underscore.js takes only the address into an array which are unique in that list
@@ -78,7 +77,7 @@ function KMDGetTransactionIDInfo(txid) {
 		async: false,
 		type: 'POST',
 		data: JSON.stringify(ajax_data_txid_input),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 			result.push(AjaxOutputData);
@@ -122,7 +121,7 @@ function KMDGetOPIDInfo(opid) {
 		async: false,
 		type: 'POST',
 		data: JSON.stringify(ajax_data_txid_input),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 			result.push(AjaxOutputData);

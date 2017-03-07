@@ -20,7 +20,7 @@ function getTotalKMDBalance() {
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		//dataType: 'text',
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
@@ -76,7 +76,7 @@ function getKMDBalanceT() {
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 		},
@@ -107,7 +107,7 @@ function getKMDBalanceZ() {
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 		},

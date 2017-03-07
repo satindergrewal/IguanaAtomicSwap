@@ -23,7 +23,7 @@ function KMDGetPublicTransactions() {
 		async: false,
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
 			//console.log(AjaxOutputData);
@@ -109,7 +109,7 @@ function KMDGetProtectedTransactions() {
 			async: false,
 			type: 'POST',
 			data: JSON.stringify(ajax_data),
-			url: 'http://127.0.0.1:7778',
+			url: 'http://127.0.0.1:' + config.iguanaPort,
 			success: function(data, textStatus, jqXHR) {
 				var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
 

@@ -25,7 +25,7 @@ var Jumblr = function() {
 				}
 			})
 		}
-		
+
 		$('#jumblr_actions_header').click(function(){
 			Jumblr_CheckIfConnected().then(function(result){
 				console.log(result)
@@ -96,7 +96,7 @@ function Jumblr_LookforNativeKomodo() {
 					'agent': 'InstantDEX',
 					'method': 'allcoins'
 				},
-				AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778', ajax_data).done(function(data) {
+				AjaxOutputData = IguanaAJAX('http://127.0.0.1:' + config.iguanaPort, ajax_data).done(function(data) {
 					AjaxOutputData = JSON.parse(AjaxOutputData.responseText);
 					if (AjaxOutputData['native'].length !== 0 ) {
 						$.each(AjaxOutputData.native, function( index, value ) {
@@ -137,12 +137,12 @@ function Jumblr_CheckIfConnected() {
 				'function': 'getinfo',
 				'hex': ''
 			};
-		
+
 		//console.log(ajax_data);
 		$.ajax({
 			type: 'POST',
 			data: JSON.stringify(ajax_data),
-			url: 'http://127.0.0.1:7778'
+			url: 'http://127.0.0.1:' + config.iguanaPort
 		}).done(function(data){
 			data = JSON.parse(data)
 			if ( data.errors != undefined ) {

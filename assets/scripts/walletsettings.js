@@ -31,11 +31,11 @@ var WalletSettings = function() {
 									'agent': 'InstantDEX',
 									'method': 'allcoins'
 								};
-						
+
 						$.ajax({
 							type: 'POST',
 							data: JSON.stringify(allcoins_ajax_data),
-							url: 'http://127.0.0.1:7778',
+							url: 'http://127.0.0.1:' + config.iguanaPort,
 							success: function(data, textStatus, jqXHR) {
 								var AllcoinsDataOutput = JSON.parse(data);
 								// Only execute further code if that mode has any coins active it. if none, skill checking on them.
@@ -56,11 +56,11 @@ var WalletSettings = function() {
 													'method': 'encryptwallet',
 													'passphrase': Getwifkeys_passphrase
 												};
-										
+
 										$.ajax({
 											type: 'POST',
 											data: JSON.stringify(EncryptWallet_ajax_data),
-											url: 'http://127.0.0.1:7778',
+											url: 'http://127.0.0.1:' + config.iguanaPort,
 											success: function(data, textStatus, jqXHR) {
 												var EncryptWalletDataOutput = JSON.parse(data);
 												console.log(EncryptWalletDataOutput[wifkey_coin_handle + 'wif']);
@@ -101,11 +101,11 @@ var WalletSettings = function() {
 												'password': Getwifkeys_passphrase,
 												'timeout': '2592000'
 											};
-									
+
 									$.ajax({
 										type: 'POST',
 										data: JSON.stringify(WalletPassphrase_ajax_data),
-										url: 'http://127.0.0.1:7778',
+										url: 'http://127.0.0.1:' + config.iguanaPort,
 										success: function(data, textStatus, jqXHR) {
 											var WalletPassphraseDataOutput = JSON.parse(data);
 											console.log(WalletPassphraseDataOutput);
@@ -230,11 +230,11 @@ function Settings_ShowCoinPeers() {
 				'method': 'getpeers',
 				'activecoin': settings_selected_coinname_code_val
 			};
-	
+
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var getCoinPeers = JSON.parse(data);
 			console.log(getCoinPeers);
@@ -245,11 +245,11 @@ function Settings_ShowCoinPeers() {
 					$('#coin_supernetpeers_h').text(getCoinPeers.supernet[0].coin);
 					$.each(supernet_peers_list, function( index, value ) {
 						var br_val = '';
-						
+
 						if ( index != 0 ) {
 							br_val = '<br>';
 						}
-						
+
 						$('#coin_supernetpeers').append(br_val + value);
 					});
 				}
@@ -261,11 +261,11 @@ function Settings_ShowCoinPeers() {
 					$('#coin_rawpeers_h').text(getCoinPeers.supernet[0].coin);
 					$.each(raw_peers_list, function( index, value ) {
 						var br_val = '';
-						
+
 						if ( index != 0 ) {
 							br_val = '<br>';
 						}
-						
+
 						$('#coin_rawpeers').append(br_val + value);
 					});
 				}
@@ -299,7 +299,7 @@ function Settings_AddCoinPeers() {
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var getAddCoinPeers = JSON.parse(data);
 			console.log(getAddCoinPeers);
@@ -327,7 +327,7 @@ function Settings_LoadDebugLog() {
 				'herdname': settings_selected_targed_val,
 				'lastLines': numLinesToRead
 			};
-	
+
 	$.ajax({
 		type: 'POST',
 		data: ajax_data,

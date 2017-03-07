@@ -42,7 +42,7 @@ function RunKMDInitFunctions() {
 			$.ajax({
 				type: 'POST',
 				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
+				url: 'http://127.0.0.1:' + config.iguanaPort,
 				success: function(data, textStatus, jqXHR) {
 					var AjaxOutputData = JSON.parse(data);
 
@@ -67,7 +67,7 @@ function RunKMDInitFunctions() {
 		function getRemoteCurrentHeight() {
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:7778/api/dex/getinfo?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth') + '&symbol=KMD',
+				url: 'http://localhost:' + config.iguanaPort + '/api/dex/getinfo?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth') + '&symbol=KMD',
 				success: function(data, textStatus, jqXHR) {
 					data = JSON.parse(data);
 

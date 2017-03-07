@@ -64,12 +64,12 @@ var Login = function() {
                 'agent': 'bitcoinrpc',
                 'method': 'walletpassphrase'
               };
-          
+
           $.ajax({
             type: 'POST',
             data: ajax_data,
             data: JSON.stringify(ajax_data),
-            url: 'http://127.0.0.1:7778',
+            url: 'http://127.0.0.1:' + config.iguanaPort,
             success: function(data, textStatus, jqXHR) {
               var LoginOutput = JSON.parse(data);
                   LoginDataToStore = JSON.stringify(data),
@@ -92,7 +92,7 @@ var Login = function() {
                   var logincoinnames = [];
                   $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); });
                   console.log(logincoinnames);
-                  
+
                   $.each(logincoinnames, function( index, value ) {
                     if ( value == 'BTC' ) {
                       var logincoinmodeval = $('input[name="logincoinbtcmode"]:checked').val(),
@@ -245,7 +245,7 @@ var Login = function() {
             type: 'POST',
             data: ajax_data,
             data: JSON.stringify(ajax_data),
-            url: 'http://127.0.0.1:7778',
+            url: 'http://127.0.0.1:' + config.iguanaPort,
             success: function(data, textStatus, jqXHR) {
               var CreateWalletOutput = JSON.parse(data);
 
@@ -260,13 +260,13 @@ var Login = function() {
                 // If something goes wrong, alert the error message that our service returned
                 toastr.warning(_lang[defaultLang].TOASTR.OPPS, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
                 console.log(CreateWalletOutput);
-                
+
                 if (CreateWalletOutput.error === 'bitcoinrpc needs coin that is active') {
                   toastr.info(_lang[defaultLang].TOASTR.NO_COIN_RUNNING, _lang[defaultLang].TOASTR.COIN_NOTIFICATION);
                   var logincoinnames = [];
                   $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); });
                   console.log(logincoinnames);
-                  
+
                   $.each(logincoinnames, function( index, value ) {
                     if ( value == 'BTC' ) {
                       var logincoinmodeval = $('input[name="logincoinbtcmode"]:checked').val(),
@@ -300,9 +300,9 @@ var Login = function() {
                 } else {
                   toastr.warning(_lang[defaultLang].TOASTR.OPPS, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
                 }
-                
+
                 console.log(data.statusText);
-                
+
                 if ( data.readyState == 0 ) {
                   Iguana_ServiceUnavailable();
                 }
@@ -368,11 +368,11 @@ var Login = function() {
       			'agent': 'bitcoinrpc',
       			'method': 'walletlock'
       		};
-      
+
       $.ajax({
         type: 'POST',
         data: JSON.stringify(ajax_data),
-        url: 'http://127.0.0.1:7778',
+        url: 'http://127.0.0.1:' + config.iguanaPort,
         success: function(data, textStatus, jqXHR) {
           var LogoutOutput = JSON.parse(data);
           // sessionStorage.clear();
@@ -429,18 +429,18 @@ var Login = function() {
     $('#lock-screen').click(function() {
 	    $('#section-login-addcoin-btn').hide();
 	    $('#section-login').show();
-      
+
       var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
       		ajax_data = {
       			'userpass': tmpIguanaRPCAuth,
       			'agent': 'bitcoinrpc',
       			'method': 'walletlock'
       		};
-      
+
       $.ajax({
         type: 'POST',
         data: JSON.stringify(ajax_data),
-        url: 'http://127.0.0.1:7778',
+        url: 'http://127.0.0.1:' + config.iguanaPort,
         success: function(data, textStatus, jqXHR) {
           var LockOutput = JSON.parse(data);
           // Begin Check Active Wallet's status
@@ -450,11 +450,11 @@ var Login = function() {
           			'agent': 'SuperNET',
           			'method': 'activehandle'
           		};
-          
+
           $.ajax({
             type: 'POST',
             data: JSON.stringify(ajax_data_activehandle),
-            url: 'http://127.0.0.1:7778',
+            url: 'http://127.0.0.1:' + config.iguanaPort,
             success: function(data, textStatus, jqXHR) {
               var ActiveHandleOutput = JSON.parse(data),
               		ActiveHandleDataToStore = JSON.stringify(data);
@@ -575,7 +575,7 @@ var Login = function() {
         $.ajax({
             type: 'POST',
             data: JSON.stringify(allcoinsvalues),
-            url: 'http://127.0.0.1:7778',
+            url: 'http://127.0.0.1:' + config.iguanaPort,
             //dataType: 'text',
             success: function(data, textStatus, jqXHR) {
                 var allcoinsData = JSON.parse(data);
@@ -616,7 +616,7 @@ var Login = function() {
             $.ajax({
                 type: 'GET',
                 data: AddCoinBasiliskData,
-                url: 'http://127.0.0.1:7778/api/iguana/addcoin',
+                url: 'http://127.0.0.1:' + config.iguanaPort + '/api/iguana/addcoin',
                 dataType: 'text',
                 success: function(data, textStatus, jqXHR) {
                     var CoinBasiliskDataOutput = JSON.parse(data);
@@ -662,7 +662,7 @@ var Login = function() {
       $.ajax({
         type: 'POST',
         data: JSON.stringify(ajax_data),
-        url: 'http://127.0.0.1:7778',
+        url: 'http://127.0.0.1:' + config.iguanaPort,
         success: function(data, textStatus, jqXHR) {
           var LogoutOutput = JSON.parse(data);
           //sessionStorage.clear();

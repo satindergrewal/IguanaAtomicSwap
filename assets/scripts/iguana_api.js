@@ -31,7 +31,7 @@ function Iguana_dumpwallet() {
 			'async': false,
 			'type': 'POST',
 			'global': false,
-			'url': 'http://127.0.0.1:7778',
+			'url': 'http://127.0.0.1:' + config.iguanaPort,
 			'data': JSON.stringify(ajax_data),
 			'success': function (data) {
 				tmp = data;
@@ -49,7 +49,7 @@ function Iguana_dumpwallet() {
 		$.ajax({
 				type: 'POST',
 				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
+				url: 'http://127.0.0.1:' + config.iguanaPort,
 				//dataType: 'text',
 				success: function(data, textStatus, jqXHR) {
 						var AjaxOutputData = JSON.parse(data);
@@ -115,7 +115,7 @@ function Iguana_HashHex(data) {
         async: false,
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 			result = AjaxOutputData.hex;
@@ -145,7 +145,7 @@ function Iguana_CheckActiveCoins() {
 					'agent': 'InstantDEX',
 					'method': 'allcoins'
 				},
-				AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778', ajax_data).done(function(data) {
+				AjaxOutputData = IguanaAJAX('http://127.0.0.1:' + config.iguanaPort, ajax_data).done(function(data) {
 					var result = [];
 
 					AjaxOutputData = JSON.parse(AjaxOutputData.responseText);
@@ -192,7 +192,7 @@ function Iguana_utxorawtx(data) {
     console.log(ajax_data);
     $.ajax({
       data: JSON.stringify(ajax_data),
-      url: 'http://127.0.0.1:7778',
+      url: 'http://127.0.0.1:' + config.iguanaPort,
       type: 'POST',
       dataType: 'json'
     }).then(result => {
