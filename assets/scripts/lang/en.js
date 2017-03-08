@@ -9,11 +9,15 @@ const _lang = {
       'SELECT_SEED_TYPE': 'Please select compatible wallet seed type',
       'SELECT': '-Select-',
       'FULL_MODE': 'Full mode',
-      'FULL_MODE_DESC': 'Adding a coin in Full mode will download its complete blockchain to your local machine. This is the most optimum mode for performance, but will require higher system requirements to have one or multiple coins running in Full mode on your local machine.',
+      'FULL_MODE_DESC': 'Adding a coin in Full mode will download its complete blockchain to your local machine. ' +
+      									'This is the most optimum mode for performance, but will require higher system requirements to have one or multiple coins running in Full mode on your local machine.',
       'BASILISK_MODE': 'Basilisk Mode',
-      'BASILISK_MODE_DESC': 'In Basilisk Mode, a coin will not download its Full blockchain to the local machine. This mode is best if you have less disk space on your machine, or your system has slower performance. It will be fully functional, but a bit slower to perform as compared to Full mode.',
+      'BASILISK_MODE_DESC': 'In Basilisk Mode, a coin will not download its Full blockchain to the local machine. ' +
+      											'This mode is best if you have less disk space on your machine, or your system has slower performance. ' +
+      											'It will be fully functional, but a bit slower to perform as compared to Full mode.',
       'NATIVE_MODE': 'Native Mode',
-      'NATIVE_MODE_DESC1': 'This mode is ONLY available for KOMODO Coin, PAX FIAT Chains, Assetchains, and Geckochains. This mode uses the',
+      'NATIVE_MODE_DESC1': 'This mode is ONLY available for KOMODO Coin, PAX FIAT Chains, Assetchains, and Geckochains. ' +
+      										 'This mode uses the',
       'NATIVE_MODE_DESC2': 'instead of the',
       'NATIVE_MODE_DESC3': 'to query blockchain data',
       'NATIVE_MODE_DESC4': 'is the so far mode which will allow you to do',
@@ -58,8 +62,11 @@ const _lang = {
       'MY': 'My',
       'COPY': 'copy',
       'ACTIVATING_WALLET_RT': 'Activating wallet once Real Time blocks starts syncing...',
-      'IGUANA_FULL_MODE_SYNC_P1': 'An Iguana Full Mode coin synchronizes the blockchain using an entirely different format than traditional blockchain software. Iguana\'s Full Mode uses Memory Mapped Files and stores data in bundles. That\'s why you see four different colored synchronizing progress bars.',
-      'IGUANA_FULL_MODE_SYNC_P2': 'Once all these progress bars reach 100%, the Real Time blocks start synchronizing. Only after the Real Time sync mode activates will you be able to see current data in your wallet and make any transactions.',
+      'IGUANA_FULL_MODE_SYNC_P1': 'An Iguana Full Mode coin synchronizes the blockchain using an entirely different format than traditional blockchain software. ' +
+      														'Iguana\'s Full Mode uses Memory Mapped Files and stores data in bundles. ' +
+      														'That\'s why you see four different colored synchronizing progress bars.',
+      'IGUANA_FULL_MODE_SYNC_P2': 'Once all these progress bars reach 100%, the Real Time blocks start synchronizing. ' +
+      														'Only after the Real Time sync mode activates will you be able to see current data in your wallet and make any transactions.',
       'IGUANA_FULL_MODE_SYNC_P3': 'Please wait for all other progress bars to disappear and the first blue bar turns to green.<br/>' +
                                   'That would mean the wallet is in Real Time Sync mode.',
       'FETCHING_COIN_DATA': 'Fetching coin data from network. Please wait...',
@@ -74,6 +81,7 @@ const _lang = {
       'GET_NOTARY_NODES_LIST': 'Get Notary Nodes List',
       'REFRESH_BASILISK_CONNECTIONS': 'Refresh Basilisk Connections',
       'FETCH_WALLET_DATA': 'Fetch Wallet Data',
+      'REFETCH_WALLET_DATA': 'Clear cache and fetch Wallet Data',
       'TRANSACTION_HISTORY': 'Transactions History',
       'DIRECTION': 'Direction',
       'CONFIRMATIONS': 'Confirmations',
@@ -156,14 +164,26 @@ const _lang = {
       'IMPORT_KEYS': 'Import Keys',
       'IMPORT_KEYS_DESC_P1': 'This section allows you to import private key of all iguana supported coins, Assetchain, Geckochain, or PAXchain by the wallet.',
       'IMPORT_KEYS_DESC_P2': 'It is not mandatory to have that coin active in the wallet for which you are executing import private key process.',
-      'IMPORT_KEYS_DESC_P3': 'You\'ll also notice the private key you imported for one coin or chain will also be showing a new address in all other coin wallets\' receiving address section. It is normal.',
+      'IMPORT_KEYS_DESC_P3': 'You\'ll also notice the private key you imported for one coin or chain will also be showing a new address in all other coin wallets\' receiving address section. ' +
+      											 'It is normal.',
       'INPUT_PRIV_KEY': 'Input Private Key',
       'IMPORT_PRIV_KEY': 'Import Private Key',
       'DEBUG_LOG': 'Debug Log',
       'DEBUG_LOG_DESC': 'This section allows you to read last N lines from debug log file.',
       'DEBUG_LOG_LINES': 'Input number of lines to read',
       'TARGET': 'Target',
-      'LOAD_DEBUG_LOG': 'Load debug log'
+      'LOAD_DEBUG_LOG': 'Load debug log',
+      'REFRESH_FUNDS': 'Refresh Funds'
+    },
+    'JUMBLR': {
+    	'NOTICE': 'EXPERIMENTAL TEST VERSION ONLY',
+    	'DESCRIPTION': 'Jumblr feature is very experimental and for now, is Only enabled for testing and debugging.' +
+    								 'Please use the current version of Jumblr only with small amounts if you are participating in testing this feature.',
+    	'NEED_NATIVE': 'Need Native Mode Komodo',
+    	'TO_USE_JUMBLR': 'To use Jumblr feature, you need to activate Komodo in Native Mode.',
+    	'IF_YOU_ALREADY_RUNNING': 'If you are already running Komodo in either Basilisk Mode or Full Mode, close the wallet and restart again to start Komodo In Native Mode.',
+    	'THIS_SCREEN_DOESNT_REFRESH': 'This screen does not auto refresh. ' +
+    																'You will need to hit the Refresh button on the top right corner of the screen to get latest Jumblr data.'
     },
     'DASHBOARD': {
       'SELECT_ADDRESS': '- Select Address -',

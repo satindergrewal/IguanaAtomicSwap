@@ -714,6 +714,23 @@ var Dashboard = function() {
 			});
 		});
 
+		$('.btn_edexcoin_dashboard_refetchdata').click(function() {
+			var selected_coin = $(this).data('edexcoin');
+			Shepherd_GroomData_Delete().then(function(result) {
+				var call_data = {
+					'allcoins': false,
+					'coin': selected_coin,
+					'calls': 'listtransactions:getbalance'
+				};
+				console.log(call_data);
+
+				Shepherd_FetchBasiliskData(call_data).then(function(result) {
+					console.log(result);
+					toastr.info(_lang[defaultLang].TOASTR.FETCHING_DATA, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
+				});
+			});
+		});
+
 		$('.btn_edexcoin_dashboard_refresh_basilisk_conn').click(function() {
 			var show_mdl = setTimeout(function() {
 											var selected_coin = $(this).data('edexcoin');
