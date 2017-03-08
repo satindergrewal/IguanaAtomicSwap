@@ -617,7 +617,7 @@ function EDEXgetaddrbyaccount_cache(coin) {
       var _data = JSON.parse(result),
           query = _data.result.basilisk,
           tmp_addr_label = '<span class="label label-default">' +
-                           	 '<i class="icon fa-eye"></i> ' + _lang[defaultLang].IAPP.PUBLIC_SM +
+                           	 '<i class="icon fa-eye"></i> ' + _lang[defaultLang].IAPI.PUBLIC_SM +
                            '</span>',
           active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 

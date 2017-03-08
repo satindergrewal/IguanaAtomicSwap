@@ -144,7 +144,7 @@ function Shepherd_GroomData_Get() {
     		session_pubkey = parse_session_data.pubkey,
     		ajax_data = { 'filename': session_pubkey },
       	req_url = 'http://127.0.0.1:17777/shepherd/groom';
-    
+
     console.log(ajax_data);
     $.ajax({
       type: 'GET',
@@ -181,6 +181,29 @@ function Shepherd_GroomData_Post(req_data) {
     }).done(function(data) {
       var res_data = JSON.parse(data);
       resolve(res_data);
+    });
+  });
+}
+
+function Shepherd_GroomData_Delete() {
+  return new Promise((resolve) => {
+    var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
+    parse_session_data = JSON.parse(JSON.parse(parse_session_data));
+    var request_method = '',
+        session_pubkey = parse_session_data.pubkey,
+        ajax_data = {
+          'filename': session_pubkey
+        },
+        req_url = 'http://127.0.0.1:17777/shepherd/groom';
+
+    $.ajax({
+      type: 'DELETE',
+      data: ajax_data,
+      url: req_url,
+      dataType: 'json'
+    })
+    .done(function(data) {
+      resolve(data);
     });
   });
 }
