@@ -311,7 +311,7 @@ var AtomicExplorer = function() {
 			$.ajax({
 				type: 'POST',
 				data: JSON.stringify(ExplorerInputData),
-				url: 'http://127.0.0.1:7778',
+				url: 'http://127.0.0.1:' + config.iguanaPort,
 				success: function(data, textStatus, jqXHR) {
 					console.log(data);
 					if (atomic_explorer_select_command_val === 'txid' ||
@@ -324,17 +324,17 @@ var AtomicExplorer = function() {
 						console.log(ExplorerOutputData);
 						$('#atomic-explorer-commands-output').html(JSON.stringify(ExplorerOutputData, null, '\t'));
 					}
-					
+
 					if (ExplorerOutputData.error === 'less than required responses') {
 						toastr.error(_lang[defaultLang].DASHBOARD.LESS_RESPONSES_REQ, _lang[defaultLang].DASHBOARD.BASILISC_NOTIFICATION)
 					}
-					
+
 					NProgress.done();
 				},
 				error: function(xhr, textStatus, error) {
 					console.log('failed getting Coin History.');
 					console.log(xhr.statusText);
-					
+
 					if ( xhr.readyState == 0 ) {
 						Iguana_ServiceUnavailable();
 					}
@@ -347,7 +347,7 @@ var AtomicExplorer = function() {
 
 			/*$.ajax({
 					type: 'GET',
-					url: 'http://127.0.0.1:7778/api/bitcoinrpc/walletlock',
+					url: 'http://127.0.0.1:' + config.iguanaPort + '/api/bitcoinrpc/walletlock',
 					dataType: 'text',
 					success: function(data, textStatus, jqXHR) {
 							var LogoutOutput = JSON.parse(data);

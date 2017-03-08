@@ -26,7 +26,7 @@ function getDEXGetBalance(coin) {
 
 		$.ajax({
 			data: JSON.stringify(ajax_data_2),
-			url: 'http://127.0.0.1:7778',
+			url: 'http://127.0.0.1:' + config.iguanaPort,
 			type: 'POST',
 			dataType: 'json'
 		}).then(data => {
@@ -47,7 +47,7 @@ function getDEXGetBalance(coin) {
 				return new Promise((resolve, reject) => {
 					$.ajax({
 						data: JSON.stringify(params),
-						url: 'http://127.0.0.1:7778',
+						url: 'http://127.0.0.1:' + config.iguanaPort,
 						type: 'POST',
 						dataType: 'json'
 					}).then(data => {
@@ -182,7 +182,7 @@ function getDEXGetBalance2(coin) {
 				tmp_coin_addr = null
 				ajax_call_1 = $.ajax({
 					data: JSON.stringify(ajax_data_1),
-					url: 'http://127.0.0.1:7778',
+					url: 'http://127.0.0.1:' + config.iguanaPort,
 					type: 'POST',
 					dataType: 'json'
 				}),
@@ -200,7 +200,7 @@ function getDEXGetBalance2(coin) {
 
 					return $.ajax({
 						data: JSON.stringify(ajax_data_2),
-						url: 'http://127.0.0.1:7778',
+						url: 'http://127.0.0.1:' + config.iguanaPort,
 						type: 'POST',
 						dataType: 'json'
 					});

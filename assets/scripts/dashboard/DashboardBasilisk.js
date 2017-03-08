@@ -113,7 +113,7 @@ function ShowBasiliskFetchDataProgress(coin) {
 				//var res_data.coin = coin_exists;
 				//var res_data.addresses = addresses_exists;
 				var BasiliskFetchData = '';
-          
+
         $.each(result, function(result_index, result_val) {
           //console.log(result_index);
           //console.log(result_val);
@@ -220,7 +220,7 @@ function ShowBasiliskFetchDataProgress(coin) {
           }*/
         });
       });
-    } 
+    }
 	});
 }
 
@@ -260,7 +260,7 @@ function SwitchBasicliskFull(switch_data) {
 	$.ajax({
 		type: 'GET',
 		data: SwitchCoinModeData,
-		url: 'http://127.0.0.1:7778/api/iguana/addcoin',
+		url: 'http://127.0.0.1:' + config.iguanaPort + '/api/iguana/addcoin',
 		dataType: 'text',
 		success: function(data, textStatus, jqXHR) {
 			var SwitchCoinDataOutput = JSON.parse(data);

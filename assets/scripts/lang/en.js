@@ -60,8 +60,8 @@ const _lang = {
       'ACTIVATING_WALLET_RT': 'Activating wallet once Real Time blocks starts syncing...',
       'IGUANA_FULL_MODE_SYNC_P1': 'An Iguana Full Mode coin synchronizes the blockchain using an entirely different format than traditional blockchain software. Iguana\'s Full Mode uses Memory Mapped Files and stores data in bundles. That\'s why you see four different colored synchronizing progress bars.',
       'IGUANA_FULL_MODE_SYNC_P2': 'Once all these progress bars reach 100%, the Real Time blocks start synchronizing. Only after the Real Time sync mode activates will you be able to see current data in your wallet and make any transactions.',
-      'IGUANA_FULL_MODE_SYNC_P3': 'Please wait for all other progress bars to disappear and the first blue bar turns to green.',
-      'IGUANA_FULL_MODE_SYNC_P4': 'That would mean the wallet is in Real Time Sync mode.',
+      'IGUANA_FULL_MODE_SYNC_P3': 'Please wait for all other progress bars to disappear and the first blue bar turns to green.<br/>' +
+                                  'That would mean the wallet is in Real Time Sync mode.',
       'FETCHING_COIN_DATA': 'Fetching coin data from network. Please wait...',
       'INTEREST_EARNED': 'Interest Earned',
       'TOTAL_BALANCE': 'Total Balance',
@@ -107,13 +107,13 @@ const _lang = {
       'TYPE': 'Type',
       'INTEREST': 'Interest',
       'OOPS_ERROR': 'Opps! Something is not right...',
-      'OOPS_ERROR_DESC1': 'Could not connect to external wallet. Reasons can be',
-      'OOPS_ERROR_DESC2': 'Your External Wallet/daemon isn\'t running',
-      'OOPS_ERROR_DESC3': 'Your External Wallet/daemon is running, but iguana is not given command to connect to External Wallet/daemon',
-      'OOPS_ERROR_DESC4': 'Your External Wallet/daemon is setup, but is not setup with config settings like',
+      'OOPS_ERROR_DESC': 'Could not connect to external wallet. Reasons can be:<br/>' +
+                         '- Your External Wallet/daemon isn\'t running<br/>' +
+                         '- Your External Wallet/daemon is running, but iguana is not given command to connect to External Wallet/daemon<br/>' +
+                         '- Your External Wallet/daemon is setup, but is not setup with config settings like<br/>',
       'ACTIVATING_CHAIN': 'Activating best chain',
-      'KMD_STARTED': 'Komodo daemon has been started and is processing.',
-      'WAIT_BEST_CHAIN': 'Please wait while the best chain is being activated.',
+      'KMD_STARTED': 'Komodo daemon has been started and is processing.<br/>' +
+                     'Please wait while the best chain is being activated.',
       'CONNECTIONS': 'Connections',
       'TRANSPARENT_BALANCE': 'Transparent Balance',
       'Z_BALANCE': 'Private (Z) Balance',
@@ -147,9 +147,9 @@ const _lang = {
       'WALLET_BACKUP': 'Wallet Backup',
       'FIAT_CURRENCY': 'Fiat Currency',
       'EXPORT_KEYS': 'Export Keys',
-      'ONLY_ACTIVE_WIF_KEYS_P1': 'Only the active coin wallet wif keys will be shown here.',
-      'ONLY_ACTIVE_WIF_KEYS_P2': 'If you don\'t see a wif key for the coin you are looking for please active it by adding it from EasyDEX Dashboard.',
-      'ONLY_ACTIVE_WIF_KEYS_P3': 'You can use these wif keys to import to another coin wallets.',
+      'ONLY_ACTIVE_WIF_KEYS': 'Only the active coin wallet wif keys will be shown here.<br/>' +
+                              'If you don\'t see a wif key for the coin you are looking for please active it by adding it from EasyDEX Dashboard.<br/>' +
+                              'You can use these wif keys to import to another coin wallets.',
       'PLEASE_KEEP_KEYS_SAFE': 'Please keep these keys extra safe and secure.',
       'PASSPHRASE': 'Passphrase',
       'GET_WIF_KEYS': 'Get Wif Keys',
@@ -272,7 +272,6 @@ const _lang = {
     },
     'SETTINGS': {
       'PASSPHRASE_REQ': 'Passphrase is required.',
-
     }
   }
 };

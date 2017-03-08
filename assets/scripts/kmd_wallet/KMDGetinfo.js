@@ -13,7 +13,7 @@ function getKMDWalletInfo() {
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 			$('#kmd_walletversion').text(AjaxOutputData.walletversion);
@@ -49,7 +49,7 @@ function getKMDInfo() {
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 			$('#kmd_version').text(AjaxOutputData.version);

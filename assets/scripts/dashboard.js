@@ -162,7 +162,7 @@ var Dashboard = function() {
 
 					$('.showedexcoinaddrs').selectpicker({ style: 'btn-info' });
 					$('.showedexcoinaddrs').selectpicker('refresh');
-					
+
 					$('.edexcoin_send_coins_btn_step1').addClass('disabled');
 					$('.edexcoin_send_coins_btn_step1').attr('disabled','disabled');
 				})
@@ -190,7 +190,7 @@ var Dashboard = function() {
 			if ($('#edexcoin_send_from').val() !== '' || $('#edexcoin_send_from').val() !== _lang[defaultLang].DASHBOARD.SELECT_ADDRESS) {
 				$('.edexcoin_send_coins_btn_step1').removeClass('disabled');
 				$('.edexcoin_send_coins_btn_step1').prop('disabled', false);
-				
+
 				Shepherd_GetBasiliskCache().then(function(result){
 					var _data = JSON.parse(result),
 							query = _data.result.basilisk,
@@ -287,12 +287,12 @@ var Dashboard = function() {
 											'</div>'
 				});
 				NProgress.start();
-				
+
 				var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
 				var selected_coinmode = sessionStorage.getItem('edexTmpMode')
 
 				console.log('Sent control here after clicked in form...');
-				
+
 				if (selected_coinmode == 'Basilisk' && active_edexcoin !== 'BTC' && active_edexcoin !== 'SYS' ) {
 					$('#mdl_confirm_currency_sendfrom_addr').text($('#edexcoin_send_from').val());
 				} else {
@@ -300,7 +300,7 @@ var Dashboard = function() {
 						$('#mdl_confirm_currency_sendfrom_addr').text(result);
 					});
 				}
-				
+
 				$('#mdl_confirm_currency_sendto_addr').text($('#edexcoin_sendto').val());
 				$('#mdl_confirm_currency_send_amount').text($('#edexcoin_amount').val());
 				$('#mdl_confirm_currency_coinname').text($('[data-edexcoin]').attr('data-edexcoin'));
@@ -471,7 +471,7 @@ var Dashboard = function() {
 				$.ajax({
 					type: 'POST',
 					data: JSON.stringify(ajax_data),
-					url: 'http://127.0.0.1:7778',
+					url: 'http://127.0.0.1:' + config.iguanaPort,
 					success: function(data, textStatus, jqXHR) {
 						var AllcoinsDataOutput = JSON.parse(data);
 						$.each(AllcoinsDataOutput[value], function(index) {
@@ -768,7 +768,7 @@ var Dashboard = function() {
 						active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 
 				// TODO: refactor
-				
+
 				if ( active_edexcoinmodecode == 'Basilisk' || active_edexcoinmodecode == 'Native' ) {
 					//console.log(active_edexcoinmodecode)
 					//console.log('No need to show Progress bar for Native or Basilisk mode.')

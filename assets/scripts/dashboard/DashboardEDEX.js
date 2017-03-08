@@ -83,7 +83,7 @@ function refreshEDEXCoinWalletList() {
 			$.ajax({
 				type: 'POST',
 				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
+				url: 'http://127.0.0.1:' + config.iguanaPort,
 				success: function(data, textStatus, jqXHR) {
 					var AllcoinsDataOutput = JSON.parse(data);
 
@@ -281,7 +281,7 @@ function EdexGetTxList(coin) {
 
 		$.ajax({
 			data: JSON.stringify(ajax_data_2),
-			url: 'http://127.0.0.1:7778',
+			url: 'http://127.0.0.1:' + config.iguanaPort,
 			type: 'POST',
 			dataType: 'json'
 		}).then(data => {
@@ -339,7 +339,7 @@ function EdexGetTxList(coin) {
 				return new Promise((resolve, reject) => {
 					$.ajax({
 						data: JSON.stringify(params),
-						url: 'http://127.0.0.1:7778',
+						url: 'http://127.0.0.1:' + config.iguanaPort,
 						type: 'POST',
 						dataType: 'json'
 					}).then(data => {
@@ -591,7 +591,7 @@ function EdexGetTxList_cache(coin) {
 
 		var ajax_call_1 = $.ajax({
 								data: JSON.stringify(ajax_data_1),
-					url: 'http://127.0.0.1:7778',
+					url: 'http://127.0.0.1:' + config.iguanaPort,
 					type: 'POST',
 					dataType: 'json',
 				}),
@@ -623,7 +623,7 @@ function EdexGetTxList_cache(coin) {
 					console.log(ajax_data_2)
 					return $.ajax({
 						data: JSON.stringify(ajax_data_2),
-						url: 'http://127.0.0.1:7778',
+						url: 'http://127.0.0.1:' + config.iguanaPort,
 						type: 'POST',
 						dataType: 'json',
 					});

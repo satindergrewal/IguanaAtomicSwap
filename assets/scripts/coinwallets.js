@@ -27,7 +27,7 @@ function getCurrency() {
 	}
 	if ( localStorage.getItem('EasyDEX_FiatCurrency') == 'EUR' ) {
 		fiat_symbol = '€';
-	}	
+	}
 }
 
 function sendCurrency(val) {
@@ -48,23 +48,23 @@ function sendCurrency(val) {
 			};
 
 	$.ajax({
-			type: 'POST',
-			data: JSON.stringify(getinfoValues),
-			url: 'http://127.0.0.1:7778',
-			success: function(data, textStatus, jqXHR) {
-				var CoinInfoData = JSON.parse(data),
-						label_color = '',
-						label_icon = '',
-						wallettblContent = '';
+		type: 'POST',
+		data: JSON.stringify(getinfoValues),
+		url: 'http://127.0.0.1:' + config.iguanaPort,
+		success: function(data, textStatus, jqXHR) {
+			var CoinInfoData = JSON.parse(data),
+					label_color = '',
+					label_icon = '',
+					wallettblContent = '';
 
-				$('#mdl_currency_fee').val(CoinInfoData.txfee);
-			},
-			error: function(xhr, textStatus, error) {
-				console.log('failed getting Coin History.');
-				console.log(xhr.statusText);
-				console.log(textStatus);
-				console.log(error);
-			}
+			$('#mdl_currency_fee').val(CoinInfoData.txfee);
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			console.log(textStatus);
+			console.log(error);
+		}
 	});
 }
 
@@ -218,7 +218,7 @@ function ExecuteSendCurrencyAPI() {
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(sendtoaddrvalues),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var SendToAddrData = JSON.parse(data),
 					SendToAddrTxDataTitle;
@@ -300,7 +300,7 @@ function Iguana_rmd160conv(rmd160conv_data) {
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 			console.log('== Data OutPut ==');

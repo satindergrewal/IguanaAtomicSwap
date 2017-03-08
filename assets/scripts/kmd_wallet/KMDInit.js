@@ -1,3 +1,13 @@
+var chainActivationLastUpdate,
+		chainActivationLastUpdateTimeout = 1;
+
+function checkTimestamp(dateToCheck) {
+  var currentEpochTime = new Date(Date.now()) / 1000,
+  		secondsElapsed = Number(currentEpochTime) - Number(dateToCheck / 1000);
+
+  return Math.floor(secondsElapsed);
+}
+
 function RunKMDInitFunctions() {
 	NProgress.done(true);
 	NProgress.configure({
@@ -42,7 +52,7 @@ function RunKMDInitFunctions() {
 			$.ajax({
 				type: 'POST',
 				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:7778',
+				url: 'http://127.0.0.1:' + config.iguanaPort,
 				success: function(data, textStatus, jqXHR) {
 					var AjaxOutputData = JSON.parse(data);
 
@@ -67,7 +77,7 @@ function RunKMDInitFunctions() {
 		function getRemoteCurrentHeight() {
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:7778/api/dex/getinfo?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth') + '&symbol=KMD',
+				url: 'http://localhost:' + config.iguanaPort + '/api/dex/getinfo?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth') + '&symbol=KMD',
 				success: function(data, textStatus, jqXHR) {
 					data = JSON.parse(data);
 
@@ -87,38 +97,40 @@ function RunKMDInitFunctions() {
 		var currentBestBlockInterval;
 		function startBestBlockInterval() {
 			currentBestBlockInterval = setInterval(function() {
-				$.ajax({
-					type: 'POST',
-					data: {
-						'herdname': 'komodo',
-						'lastLines': 1
-					},
-					url: 'http://127.0.0.1:17777/shepherd/debuglog',
-					success: function(data, textStatus, jqXHR) {
-						if (data.indexOf('UpdateTip') > -1) {
-							var temp = data.split(' ');
+				if (!chainActivationLastUpdate || checkTimestamp(chainActivationLastUpdate) > chainActivationLastUpdateTimeout) {
+					$.ajax({
+						type: 'POST',
+						data: {
+							'herdname': 'komodo',
+							'lastLines': 1
+						},
+						url: 'http://127.0.0.1:17777/shepherd/debuglog',
+						success: function(data, textStatus, jqXHR) {
+							if (data.indexOf('UpdateTip') > -1) {
+								var temp = data.split(' ');
 
-							for (var i = 0; i < temp.length; i++) {
-								if (temp[i].indexOf('height=') > -1) {
-									var currentBestChain = temp[i].replace('height=', '');
-									$('#activating-komodod-tridot').hide();
-									$('#activating-komodod-progress').html(': ' + Math.floor(currentBestChain * 100 / totalBlocksInExplorer) + '% (blocks ' + currentBestChain + ' / ' + totalBlocksInExplorer + ')');
-
-									if (currentBestChain === totalBlocksInExplorer) {
-										//clearInterval(totalBlocksInExplorerInterval);
-										clearInterval(currentBestBlockInterval);
+								for (var i = 0; i < temp.length; i++) {
+									if (temp[i].indexOf('height=') > -1) {
+										var currentBestChain = temp[i].replace('height=', '');
+										$('#activating-komodod-tridot').hide();
+										$('#activating-komodod-progress').html(': ' + Math.floor(currentBestChain * 100 / totalBlocksInExplorer) + '% (blocks ' + currentBestChain + ' / ' + totalBlocksInExplorer + ')');
+										chainActivationLastUpdate = Date.now();
+										if (currentBestChain === totalBlocksInExplorer) {
+											//clearInterval(totalBlocksInExplorerInterval);
+											clearInterval(currentBestBlockInterval);
+										}
 									}
 								}
 							}
+						},
+						error: function(xhr, textStatus, error) {
+							console.log('failed getting debug.log');
+							console.log(xhr.statusText);
+							console.log(textStatus);
+							console.log(error);
 						}
-					},
-					error: function(xhr, textStatus, error) {
-						console.log('failed getting debug.log');
-						console.log(xhr.statusText);
-						console.log(textStatus);
-						console.log(error);
-					}
-				});
+					});
+				}
 			}, 2000);
 		}
 

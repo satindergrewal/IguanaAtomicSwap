@@ -14,7 +14,7 @@ function Iguana_DEXgetNotaries(coin) {
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 
@@ -48,7 +48,7 @@ function Iguana_DEXImportAddr(coin,addr) {
 
 	ajax_call_1 = $.ajax({
 		data: JSON.stringify(ajax_data_1),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		type: 'POST',
 		dataType: 'json'
 	});
@@ -65,7 +65,7 @@ function Iguana_DEXImportAddr(coin,addr) {
 
 			return $.ajax({
 				data: JSON.stringify(ajax_data_2),
-				url: 'http://127.0.0.1:7778',
+				url: 'http://127.0.0.1:' + config.iguanaPort,
 				type: 'POST',
 				dataType: 'json'
 			});
@@ -109,7 +109,7 @@ function Iguana_DEXImportAllWalletAddr(coin) {
 			tmp_coin_addr = null,
 			ajax_call_2 = $.ajax({
 				data: JSON.stringify(ajax_data_2),
-				url: 'http://127.0.0.1:7778',
+				url: 'http://127.0.0.1:' + config.iguanaPort,
 				type: 'POST',
 				dataType: 'json'
 			}),
@@ -127,7 +127,7 @@ function Iguana_DEXImportAllWalletAddr(coin) {
 							};
 					ajax_call_4 = $.ajax({
 							data: JSON.stringify(ajax_data_4),
-							url: 'http://127.0.0.1:7778',
+							url: 'http://127.0.0.1:' + config.iguanaPort,
 							type: 'POST',
 							dataType: 'json',
 					});
@@ -146,7 +146,7 @@ function Iguana_DEXImportAllWalletAddr(coin) {
 
 							return $.ajax({
 								data: JSON.stringify(ajax_data_4),
-								url: 'http://127.0.0.1:7778',
+								url: 'http://127.0.0.1:' + config.iguanaPort,
 								type: 'POST',
 								dataType: 'json'
 							});
@@ -190,7 +190,7 @@ function Iguana_DEXImportAll() {
 			},
 			ajax_call_1 = $.ajax({
 				data: JSON.stringify(ajax_data_1),
-				url: 'http://127.0.0.1:7778',
+				url: 'http://127.0.0.1:' + config.iguanaPort,
 				type: 'POST',
 				dataType: 'json'
 			});
@@ -208,7 +208,7 @@ function Iguana_DEXImportAll() {
 						tmp_coin_addr = null,
 						ajax_call_2 = $.ajax({
 							data: JSON.stringify(ajax_data_2),
-							url: 'http://127.0.0.1:7778',
+							url: 'http://127.0.0.1:' + config.iguanaPort,
 							type: 'POST',
 							dataType: 'json'
 						}),
@@ -226,7 +226,7 @@ function Iguana_DEXImportAll() {
 										},
 										ajax_call_4 = $.ajax({
 											data: JSON.stringify(ajax_data_4),
-											url: 'http://127.0.0.1:7778',
+											url: 'http://127.0.0.1:' + config.iguanaPort,
 											type: 'POST',
 											dataType: 'json'
 										}),
@@ -245,7 +245,7 @@ function Iguana_DEXImportAll() {
 
 												return $.ajax({
 													data: JSON.stringify(ajax_data_4),
-													url: 'http://127.0.0.1:7778',
+													url: 'http://127.0.0.1:' + config.iguanaPort,
 													type: 'POST',
 													dataType: 'json',
 												});
@@ -304,7 +304,7 @@ function Iguana_DEXCheckAddr(coin,addr) {
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 			result.push(AjaxOutputData);
@@ -343,7 +343,7 @@ function Iguana_DEXValidateAddr(coin, addr) {
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 
@@ -388,7 +388,7 @@ function Iguana_DEXsendrawtx(data) {
     console.log(ajax_data);
     $.ajax({
       data: JSON.stringify(ajax_data),
-      url: 'http://127.0.0.1:7778',
+      url: 'http://127.0.0.1:' + config.iguanaPort,
       type: 'POST',
       //dataType: 'json'
     }).then(result => {
@@ -417,7 +417,7 @@ function EDEX_DEXlistunspent(coin, addr) {
 					'address': addr,
 					'symbol': coin
 				},
-				AjaxOutputData = IguanaAJAX('http://127.0.0.1:7778',ajax_data).done(function(data) {
+				AjaxOutputData = IguanaAJAX('http://127.0.0.1:' + config.iguanaPort, ajax_data).done(function(data) {
 					AjaxOutputData = JSON.parse(AjaxOutputData.responseText)
 
 					if (AjaxOutputData == '' ) {
@@ -462,7 +462,7 @@ function EDEX_DEXnotarychains() {
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
 			console.log('== EDEX_DEXnotarychains Data OutPut ==');
@@ -499,7 +499,7 @@ function EDEX_DEXgetinfoAll() {
 				'agent': 'dpow',
 				'method': 'notarychains'
 			},
-			get_dex_notarychains = IguanaAJAX('http://127.0.0.1:7778', ajax_data).done(function(data) {
+			get_dex_notarychains = IguanaAJAX('http://127.0.0.1:' + config.iguanaPort, ajax_data).done(function(data) {
 				get_dex_notarychains = JSON.parse(get_dex_notarychains.responseText);
 
 				var refresh_percent = '';
@@ -516,7 +516,7 @@ function EDEX_DEXgetinfoAll() {
 						console.log(ajax_data);
 
 						if (coin_value !== 'MESH') {
-							var getinfo_each_chain = IguanaAJAX('http://127.0.0.1:7778', ajax_data).done(function(data) {
+							var getinfo_each_chain = IguanaAJAX('http://127.0.0.1:' + config.iguanaPort, ajax_data).done(function(data) {
 								getinfo_each_chain = JSON.parse(getinfo_each_chain.responseText);
 								console.log('== EDEX_DEXgetinfoAll Data OutPut ==');
 								console.log(getinfo_each_chain);

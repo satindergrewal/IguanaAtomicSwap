@@ -73,7 +73,7 @@ function TotalFiatValue() {
 		$.ajax({
 			type: 'POST',
 			data: JSON.stringify(TotalFiatValueData),
-			url: 'http://127.0.0.1:7778',
+			url: 'http://127.0.0.1:' + config.iguanaPort,
 			success: function(data, textStatus, jqXHR) {
 				var RatesData = JSON.parse(data),
 						label_color = '',
@@ -129,7 +129,7 @@ function ShowCoinProgressBar(coin) {
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(getinfoValues),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var CoinInfoData = JSON.parse(data);
 

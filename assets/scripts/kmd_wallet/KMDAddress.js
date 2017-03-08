@@ -14,7 +14,7 @@ function KMDListaddrZ() {
 		async: false,
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
 			// This code gets list of all z_addresses into an array
@@ -36,7 +36,7 @@ function KMDListaddrZ() {
 					async: false,
 					type: 'POST',
 					data: JSON.stringify(ajax_data_zaddrbalance),
-					url: 'http://127.0.0.1:7778',
+					url: 'http://127.0.0.1:' + config.iguanaPort,
 					success: function(data, textStatus, jqXHR) {
 						var AjaxOutputData = JSON.parse(data);
 
@@ -113,7 +113,7 @@ function KMDListAddresses(pubpriv) {
 		async: false,
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
 			result = AjaxOutputData;
@@ -167,7 +167,7 @@ function KMDGetNewAddresses(pubpriv) {
 		async: false,
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:7778',
+		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			result = data;
 			toastr.success(_lang[defaultLang].KMD_NATIVE.NEW_ADDR_GENERATED, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
