@@ -178,7 +178,7 @@ const _lang = {
       'OUT': 'OUT',
       'MINED': 'Mined',
       'IMMATURE': 'Immature',
-      'ZADDR_NOT_LISTED': 'Z Address not listed by wallet',
+      'ZADDR_NOT_LISTED': 'Z Address not listed by wallet'
     },
     'TOASTR': {
       'WALLET_NOTIFICATION': 'Wallet Notification',
@@ -194,7 +194,7 @@ const _lang = {
       'FETCHING_DATA': 'Fetching Data. Please wait for a minute to complete this task.',
       'LESS_RESPONSES_REQ': 'Less than required responses. Please try again.',
       'SWITCHED_TO': 'switched to',
-      'MODE': 'Mode',   
+      'MODE': 'Mode',
       'TX_SENT': 'Transaction Sent',
       'TX_SEND_ERR': 'Unable to complete transaction',
       'LOOKS_LIKE': 'Looks like',
@@ -271,7 +271,7 @@ const _lang = {
       'JUMBLR_MOTTO': 'Secure, Native and Decentralised Coin Shuffling'
     },
     'SETTINGS': {
-      'PASSPHRASE_REQ': 'Passphrase is required.',
+      'PASSPHRASE_REQ': 'Passphrase is required.'
     }
   }
 };
