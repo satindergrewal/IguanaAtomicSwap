@@ -166,7 +166,7 @@ function Shepherd_GroomData_Post(req_data) {
     		session_pubkey = parse_session_data.pubkey,
     		ajax_data = {
     			'filename': session_pubkey,
-    			'payload': req_data
+    			'payload': JSON.stringify(req_data)
     		},
     		req_url = 'http://127.0.0.1:17777/shepherd/groom';
 
