@@ -285,27 +285,34 @@ function EDEXSendutxoRawTx(data) {
               return new Promise(function(resolve, reject) {
                 //console.log(gettxdata)
                 //console.log(utxos_set)
-                EDEX_ProcessRefreshData(gettxdata,utxos_set).then(function(new_utxos_set) {
+                EDEX_GetTxIDList(gettxdata).then(function(get_txid_list){
+				    console.log(get_txid_list)
+				    resolve(get_txid_list);
+				})
+                /*EDEX_ProcessRefreshData(gettxdata,utxos_set).then(function(new_utxos_set) {
                   console.log(new_utxos_set);
                   resolve(new_utxos_set);
-                });
+                });*/
               });
             }
 
-            var get_data_cache_contents = function(new_utxos_set) {
+            var get_data_cache_contents = function(get_txid_list) {
               return new Promise(function(resolve, reject) {
-                console.log(new_utxos_set)
-                console.log(send_data)
-                console.log(send_data.sendfrom)
+                console.log(get_txid_list)
+                //console.log(send_data)
+                //console.log(send_data.sendfrom)
                 Shepherd_GroomData_Get().then(function(result) {
                   console.log(result);
-                  console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
+                  /*console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
                   delete result.basilisk.KMD[send_data.sendfrom].refresh.data;
                   console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
                   result.basilisk.KMD[send_data.sendfrom].refresh.data = new_utxos_set;
                   console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
-                  var save_this_data = result;
-                  resolve(result);
+                  var save_this_data = result;*/
+                  var save_this_data = EDEX_RemoveTXID(result, get_txid_list);
+				  console.log(save_this_data)
+				  //resolve(result);
+                  resolve(save_this_data);
                 });
               });
             }
@@ -902,18 +909,18 @@ function EDEXimportprivkey(params_data) {
 }
 
 function EDEX_ProcessRefreshData(gettxdata,refreshdata){
-  console.log(gettxdata);
-  console.log(refreshdata);
+  //console.log(gettxdata);
+  //console.log(refreshdata);
 
   return new Promise((resolve, reject) => {
     Promise.all(gettxdata.vin.map((vin_value,vin_index) => {
-      console.log(vin_index);
-      console.log(vin_value);
+      //console.log(vin_index);
+      //console.log(vin_value);
 
       return new Promise((resolve, reject) => {
         Promise.all(refreshdata.map((refresh_value,refresh_index) => {
-          console.log(refresh_index);
-          console.log(refresh_value);
+          //console.log(refresh_index);
+          //console.log(refresh_value);
 
           if (refreshdata[refresh_index] !== undefined && refresh_value.txid == vin_value.txid) {
             delete refreshdata[refresh_index];
@@ -926,7 +933,7 @@ function EDEX_ProcessRefreshData(gettxdata,refreshdata){
     .then(result=>{
       var res_data = result[result.length - 1],
       		refresh_final = [];
-      console.log(res_data);
+      //console.log(res_data);
 
       $.each(res_data,function(index){
         if(res_data[index] !== undefined) {
@@ -937,4 +944,48 @@ function EDEX_ProcessRefreshData(gettxdata,refreshdata){
       resolve(refresh_final);
     });
   })
+}
+
+function EDEX_GetTxIDList(gettxdata) {
+	return new Promise((resolve, reject) => {
+		get_txid_list = []
+		$.each(gettxdata.vin, function(vin_index, vin_value) {
+			//console.log(vin_index)
+			//console.log(vin_value)
+			get_txid_list.push(vin_value.txid)
+		})
+		//console.log(get_txid_list)
+		resolve(get_txid_list);
+	})
+}
+
+function EDEX_RemoveTXID(_obj, txidArray) {
+  var txidToStr = txidArray.join(':');
+      console.log(txidToStr);
+
+  if (_obj, _obj.basilisk) {
+    if (Object.keys(_obj.basilisk).length === 0) {
+      console.log('no coin nodes to parse');
+    } else {
+      for (var key in _obj.basilisk) {
+        for (var coinAddr in _obj.basilisk[key]) {
+          if (_obj.basilisk[key][coinAddr] !== 'addresses') {
+            if (_obj.basilisk[key][coinAddr].refresh &&
+                _obj.basilisk[key][coinAddr].refresh.data &&
+                _obj.basilisk[key][coinAddr].refresh.data.length > 0) {
+              for (var i = 0; i < _obj.basilisk[key][coinAddr].refresh.data.length; i++) {
+                if (txidToStr.indexOf(_obj.basilisk[key][coinAddr].refresh.data[i].txid) > -1) {
+                  delete _obj.basilisk[key][coinAddr].refresh.data[i];
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  } else {
+    console.log('basilisk node is missing');
+  }
+
+  return _obj;
 }
