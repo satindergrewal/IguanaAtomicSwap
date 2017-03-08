@@ -63,7 +63,7 @@
     	if (typeof module === 'object') {
     		window.module = module;
     		module = undefined;
-    		}
+    	}
     </script>
     <script src="assets/global/vendor/modernizr/modernizr.min.js"></script>
     <script src="assets/global/vendor/breakpoints/breakpoints.min.js"></script>
@@ -977,6 +977,11 @@
                                   <i class="icon fa-cloud-download" aria-hidden="true"></i> <span data-lang="INDEX.FETCH_WALLET_DATA"></span>
                                 </a>
                               </li>
+                              <li data-edexcoin="COIN" role="presentation">
+                                <a href="javascript:void(0)" class="btn_edexcoin_dashboard_refetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refetchdata" role="menuitem">
+                                  <i class="icon fa-cloud-download" aria-hidden="true"></i> <span data-lang="INDEX.REFETCH_WALLET_DATA"></span>
+                                </a>
+                              </li>                              
                               <!--<li data-edexcoin="COIN" role="presentation"><a href="javascript:void(0)" class="btn_edexcoin_dashboard_register" data-edexcoin="COIN" id="btn_edexcoin_dashboard_register" role="menuitem"><i class="icon fa-sign-in" aria-hidden="true"></i> Register All Wallet Address</a></li>-->
                               <!--<li data-edexcoin="COIN" role="presentation"><a href="javascript:void(0)" class="btn_edexcoin_dashboard_validate" data-edexcoin="COIN" id="btn_edexcoin_dashboard_validate" role="menuitem"><i class="icon fa-check" aria-hidden="true"></i> Validate Address on Network</a></li>-->
                             </ul>
@@ -1058,7 +1063,7 @@
                   </h3>
                   <div class="panel-actions">
                     <a href="javascript:void(0)" class="dropdown-toggle white btn-xs btn-info btn_refresh_edexcoin_send" data-edexcoin="COIN" aria-expanded="false" role="button">
-                      <i class="icon fa-refresh margin-right-10" aria-hidden="true"></i> Refresh Funds
+                      <i class="icon fa-refresh margin-right-10" aria-hidden="true"></i> <span data-lang="INDEX.REFRESH_FUNDS"></span>
                     </a>
                   </div>
                 </div>
@@ -1109,24 +1114,34 @@
               <div class="panel" id="edexcoin-send-confirm-screen" style="display: none">
                 <div class="panel-body">
                   <div class="row">
-                    <div class="col-xs-12"><b data-lang="INDEX.TO"></b></div>
+                    <div class="col-xs-12">
+                      <b data-lang="INDEX.TO"></b>
+                    </div>
                     <div class="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendto_addr">[coin-address-goes-here]</div>
-                    <div class="col-lg-6 col-sm-6 col-xs-6"><span id="mdl_confirm_currency_send_amount">0.00000000</span> <span id="mdl_confirm_currency_coinname">[COIN]</span></div>
+                    <div class="col-lg-6 col-sm-6 col-xs-6">
+                      <span id="mdl_confirm_currency_send_amount">0.00000000</span> <span id="mdl_confirm_currency_coinname">[COIN]</span>
+                    </div>
                     <!--<div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_amount_fiat">$0.00</div>-->
                     <div class="col-lg-6 col-sm-6 col-xs-12" data-lang="INDEX.TX_FEE_REQ"></div>
-                    <div class="col-lg-6 col-sm-6 col-xs-6"><span id="mdl_confirm_currency_send_fee">0.00000000</span> <span id="mdl_confirm_currency_coinname_fee">[COIN]</span></div>
+                    <div class="col-lg-6 col-sm-6 col-xs-6">
+                      <span id="mdl_confirm_currency_send_fee">0.00000000</span> <span id="mdl_confirm_currency_coinname_fee">[COIN]</span>
+                    </div>
                     <!--<div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_fee_fiat">$0.00</div>-->
                   </div>
                   <br>
 
                   <div class="row">
-                    <div class="col-xs-12"><b data-lang="INDEX.FROM"></b></div>
+                    <div class="col-xs-12">
+                      <b data-lang="INDEX.FROM"></b>
+                    </div>
                     <div class="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendfrom_addr">[coin-address-goes-here]</div>
-                    <div class="col-lg-6 col-sm-6 col-xs-6" style="color: #f44336"><span id="mdl_confirm_currency_sendfrom_total_dedcut">-0.00000000</span> <span id="mdl_confirm_currency_coinname_total">[COIN]</span></div>
+                    <div class="col-lg-6 col-sm-6 col-xs-6" style="color: #f44336">
+                      <span id="mdl_confirm_currency_sendfrom_total_dedcut">-0.00000000</span> <span id="mdl_confirm_currency_coinname_total">[COIN]</span>
+                    </div>
                     <!--<div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_sendfrom_total_deduct_fiat" style="color: #f44336">-$0.00</div>-->
                   </div>
                   <div class="widget-body-footer">
-                      <a class="btn btn-default waves-effect waves-light" id="edexcoin_send_coins_back_btn" data-lang="INDEX.BACK"></a>
+                    <a class="btn btn-default waves-effect waves-light" id="edexcoin_send_coins_back_btn" data-lang="INDEX.BACK"></a>
                     <div class="widget-actions pull-right">
                       <button type="button" class="btn btn-primary" id="edexcoin_send_coins_btn" data-lang="INDEX.CONFIRM"></button>
                     </div>
@@ -1306,10 +1321,10 @@
                     <span aria-hidden="true">×</span>
                   </button>
                   <span style="font-size:24px; text-align: center">
-                    <i class="icon fa-paw" aria-hidden="true"></i> EXPERIMENTAL TEST VERSION ONLY
+                    <i class="icon fa-paw" aria-hidden="true"></i> <span data-lang="JUMBLR.NOTICE"></span>
                   </span>
                   <br>
-                  Jumblr feature is very experimental and for now, is Only enabled for testing and debugging. Please use the current version of Jumblr only with small amounts if you are participating in testing this feature.
+                  <span data-lang="JUMBLR.DESCRIPTION"></span>
                 </div>
               </div>
 
@@ -1318,18 +1333,18 @@
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">×</span>
                   </button>
-                  <span style="font-size:24px; text-align: center;">
-                    <i class="icon fa-paw" aria-hidden="true"></i> Need Native Mode Komodo
+                  <span style="font-size: 24px; text-align: center">
+                    <i class="icon fa-paw" aria-hidden="true"></i> <span data-lang="JUMBLR.NEED_NATIVE"></span>
                   </span>
                   <br>
-                  To use Jumblr feature, you need to activate Komodo in Native Mode.
+                  <span data-lang="JUMBLR.TO_USE_JUMBLR"></span>
                   <br>
-                  If you are already running Komodo in either Basilisk Mode or Full Mode, close the wallet and restart again to start Komodo In Native Mode..
+                  <span data-lang="JUMBLR.IF_YOU_ALREADY_RUNNING"></span>
                 </div>
               </div>
 
               <div class="col-xlg-12 col-md-12">
-                <p>This screen does not auto refresh. You will need to hit the Refresh button on the top right corner of the screen to get latest Jumblr data.</p>
+                <p data-lang="JUMBLR.THIS_SCREEN_DOESNT_REFRESH"></p>
               </div>
 
               <div class="col-xs-12">
