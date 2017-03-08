@@ -285,36 +285,34 @@ function EDEXSendutxoRawTx(data) {
               return new Promise(function(resolve, reject) {
                 //console.log(gettxdata)
                 //console.log(utxos_set)
-                /*EDEX_GetTxIDList(gettxdata).then(function(get_txid_list){
+                EDEX_GetTxIDList(gettxdata).then(function(get_txid_list){
 				    console.log(get_txid_list)
 				    resolve(get_txid_list);
-				})*/
-                EDEX_ProcessRefreshData(gettxdata,utxos_set).then(function(new_utxos_set) {
+				})
+                /*EDEX_ProcessRefreshData(gettxdata,utxos_set).then(function(new_utxos_set) {
                   console.log(new_utxos_set);
                   resolve(new_utxos_set);
-                });
+                });*/
               });
             }
 
-            var get_data_cache_contents = function(new_utxos_set) {
+            var get_data_cache_contents = function(get_txid_list) {
               return new Promise(function(resolve, reject) {
-                console.log(new_utxos_set)
+                console.log(get_txid_list)
                 //console.log(send_data)
                 //console.log(send_data.sendfrom)
                 Shepherd_GroomData_Get().then(function(result) {
                   console.log(result);
-                  console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
+                  /*console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
                   delete result.basilisk.KMD[send_data.sendfrom].refresh.data;
                   console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
                   result.basilisk.KMD[send_data.sendfrom].refresh.data = new_utxos_set;
                   console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
-                  var save_this_data = result;
-                  resolve(result);
-                  /*var save_this_data = EDEX_RemoveTXID(result, get_txid_list);
+                  var save_this_data = result;*/
+                  var save_this_data = EDEX_RemoveTXID(result, get_txid_list);
 				  console.log(save_this_data)
-				  resolve(save_this_data);*/
-				  
-                  
+				  //resolve(result);
+                  resolve(save_this_data);
                 });
               });
             }
@@ -961,10 +959,11 @@ function EDEX_GetTxIDList(gettxdata) {
 	})
 }
 
+
+
 function EDEX_RemoveTXID(_obj, txidArray) {
   var txidToStr = txidArray.join(':');
       console.log(txidToStr);
-
   if (_obj, _obj.basilisk) {
     if (Object.keys(_obj.basilisk).length === 0) {
       console.log('no coin nodes to parse');
@@ -977,7 +976,7 @@ function EDEX_RemoveTXID(_obj, txidArray) {
                 _obj.basilisk[key][coinAddr].refresh.data.length > 0) {
               for (var i = 0; i < _obj.basilisk[key][coinAddr].refresh.data.length; i++) {
                 if (txidToStr.indexOf(_obj.basilisk[key][coinAddr].refresh.data[i].txid) > -1) {
-                  delete _obj.basilisk[key][coinAddr].refresh.data[i];
+                  _obj.basilisk[key][coinAddr].refresh.data.splice(i, 1);
                 }
               }
             }
@@ -988,6 +987,5 @@ function EDEX_RemoveTXID(_obj, txidArray) {
   } else {
     console.log('basilisk node is missing');
   }
-
   return _obj;
 }
