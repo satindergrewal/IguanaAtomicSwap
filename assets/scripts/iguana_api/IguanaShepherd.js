@@ -179,7 +179,7 @@ function Shepherd_GroomData_Post(req_data) {
       url: req_url,
       dataType: 'json'
     }).done(function(data) {
-      var res_data = JSON.parse(data);
+      var res_data = data;
       resolve(res_data);
     });
   });

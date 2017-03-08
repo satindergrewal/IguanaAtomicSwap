@@ -285,34 +285,36 @@ function EDEXSendutxoRawTx(data) {
               return new Promise(function(resolve, reject) {
                 //console.log(gettxdata)
                 //console.log(utxos_set)
-                EDEX_GetTxIDList(gettxdata).then(function(get_txid_list){
+                /*EDEX_GetTxIDList(gettxdata).then(function(get_txid_list){
 				    console.log(get_txid_list)
 				    resolve(get_txid_list);
-				})
-                /*EDEX_ProcessRefreshData(gettxdata,utxos_set).then(function(new_utxos_set) {
+				})*/
+                EDEX_ProcessRefreshData(gettxdata,utxos_set).then(function(new_utxos_set) {
                   console.log(new_utxos_set);
                   resolve(new_utxos_set);
-                });*/
+                });
               });
             }
 
-            var get_data_cache_contents = function(get_txid_list) {
+            var get_data_cache_contents = function(new_utxos_set) {
               return new Promise(function(resolve, reject) {
-                console.log(get_txid_list)
+                console.log(new_utxos_set)
                 //console.log(send_data)
                 //console.log(send_data.sendfrom)
                 Shepherd_GroomData_Get().then(function(result) {
                   console.log(result);
-                  /*console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
+                  console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
                   delete result.basilisk.KMD[send_data.sendfrom].refresh.data;
                   console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
                   result.basilisk.KMD[send_data.sendfrom].refresh.data = new_utxos_set;
                   console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
-                  var save_this_data = result;*/
-                  var save_this_data = EDEX_RemoveTXID(result, get_txid_list);
+                  var save_this_data = result;
+                  resolve(result);
+                  /*var save_this_data = EDEX_RemoveTXID(result, get_txid_list);
 				  console.log(save_this_data)
-				  //resolve(result);
-                  resolve(save_this_data);
+				  resolve(save_this_data);*/
+				  
+                  
                 });
               });
             }
