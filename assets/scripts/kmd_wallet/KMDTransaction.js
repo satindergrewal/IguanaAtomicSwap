@@ -38,16 +38,16 @@ function KMDGetPublicTransactions() {
 				var tmp_secondsToString = secondsToString(AjaxOutputData[index].time);
 
 				if ( AjaxOutputData[index].category == 'send' ) {
-					tmp_category = '<i class="icon fa-arrow-circle-left"></i> ' + _lang[defaultLang].TOASTR.OUT;
+					tmp_category = '<i class="icon fa-arrow-circle-left"></i> ' +_lang[defaultLang].DASHBOARD.OUT;
 				}
 				if ( AjaxOutputData[index].category == 'receive' ) {
-					tmp_category = '<i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].TOASTR.IN;
+					tmp_category = '<i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].DASHBOARD.IN;
 				}
 				if ( AjaxOutputData[index].category == 'generate' ) {
-					tmp_category = '<i class="icon fa-cogs"></i> ' + _lang[defaultLang].TOASTR.MINED;
+					tmp_category = '<i class="icon fa-cogs"></i> ' + _lang[defaultLang].DASHBOARD.MINED;
 				}
 				if ( AjaxOutputData[index].category == 'immature' ) {
-					tmp_category = '<i class="icon fa-clock-o"></i> ' + _lang[defaultLang].TOASTR.IMMATURE;
+					tmp_category = '<i class="icon fa-clock-o"></i> ' + _lang[defaultLang].DASHBOARD.IMMATURE;
 				}
 
 				tmplisttransactions = [

@@ -337,7 +337,7 @@ const _lang = {
     },
     'SIDEBAR': {
       'EDEX_MOTTO': 'Most Secure, Easy and Native Decentralised Exchange',
-      'JUMBLR_MOTTO': 'Secure, Native and Decentralised Coin Shuffling'
+      'JUMBLR_MOTTO': 'Secure, Native and Decentralised Coin Anonymizer'
     },
     'SETTINGS': {
       'PASSPHRASE_REQ': 'Passphrase is required.'
