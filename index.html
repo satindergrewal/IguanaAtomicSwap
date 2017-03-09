@@ -67,401 +67,31 @@
     </script>
     <script src="assets/global/vendor/modernizr/modernizr.min.js"></script>
     <script src="assets/global/vendor/breakpoints/breakpoints.min.js"></script>
-    <script>if (window.module) module = window.module;</script>
+    <script>
+      if (window.module) module = window.module;
+      const templates = {};
+    </script>
+    <script src="assets/scripts/templates/refreshBasiliskConnectionsModal.js"></script>
+    <script src="assets/scripts/templates/addCoinModal.js"></script>
+    <script src="assets/scripts/templates/ieFix.js"></script>
+    <script src="assets/scripts/templates/loginPage.js"></script>
+    <script src="assets/scripts/templates/addCoinLoginModal.js"></script>
   </head>
 	<body class="page-login layout-full page-dark">
-  	<!-- START ADD COIN DIV -->
-    <div>
-      <!-- Modal -->
-      <div class="modal fade modal-3d-sign" id="RefreshBasiliskConnectionsMdl" aria-hidden="false" role="dialog"
-      tabindex="-1">
-        <div class="modal-dialog modal-center modal-md">
-          <div class="modal-content">
-            <div class="modal-header bg-orange-a400 wallet-send-header" style="border-radius: 3px 3px 0 0">
-              <h4 class="modal-title white">
-              	<span class="icon fa-refresh" style="margin: 0"></span> <span data-lang="INDEX.REFRESHING_BASILISK_NET"></span>... <span id="mdl_receive_coin_name"></span>
-              </h4>
-              <!--<span class="white">This is your default Iguana wallet address.</span>-->
-            </div>
-            <div class="modal-body" style="text-align: center">
-              <div class="loader-wrapper active" style="display: none">
-                <div class="loader-layer loader-blue">
-                  <div class="loader-circle-left">
-                    <div class="circle"></div>
-                  </div>
-                  <div class="loader-circle-gap"></div>
-                  <div class="loader-circle-right">
-                    <div class="circle"></div>
-                  </div>
-                </div>
-                <div class="loader-layer loader-red">
-                  <div class="loader-circle-left">
-                    <div class="circle"></div>
-                  </div>
-                  <div class="loader-circle-gap"></div>
-                  <div class="loader-circle-right">
-                    <div class="circle"></div>
-                  </div>
-                </div>
-                <div class="loader-layer loader-green">
-                  <div class="loader-circle-left">
-                    <div class="circle"></div>
-                  </div>
-                  <div class="loader-circle-gap"></div>
-                  <div class="loader-circle-right">
-                    <div class="circle"></div>
-                  </div>
-                </div>
-                <div class="loader-layer loader-yellow">
-                  <div class="loader-circle-left">
-                    <div class="circle"></div>
-                  </div>
-                  <div class="loader-circle-gap"></div>
-                  <div class="loader-circle-right">
-                    <div class="circle"></div>
-                  </div>
-                </div>
-              </div>
-              <h5 class="text-left">
-                <span id="basilisk-connections-refresh-title">-</span> <span class="pull-right" id="basilisk-connections-refresh-percent">-</span>
-              </h5>
-              <div class="progress progress-sm">
-                <div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 0%; font-size: 80%" role="progressbar" data-edexcoin="COIN" id="basilisk-connections-refresh-progress-bar"></div>
-              </div>
-              <pre data-edexcoin="COIN" id="basilisk-connections-refresh-status-output"></pre>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- End Modal -->
-      <!-- Modal -->
-      <div class="modal fade modal-3d-sign" id="AddCoinDilogModel" aria-hidden="true" aria-labelledby="AddCoinDilogModel" role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-center modal-lg">
-          <div class="modal-content">
-            <div class="modal-header bg-orange-a400 wallet-send-header">
-              <button type="button" class="close white" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-              <h4 class="modal-title white" data-lang="INDEX.SELECT_A_COIN"></h4>
-            </div>
-            <div class="modal-body">
-              <div class="col-sm-8">
-                <div class="form-group">
-                  <select class="form-control form-material" id="addcoin_select_coin_mdl_options">
-                    <option data-lang="INDEX.SELECT"></option>
-                    <option value="BTC">Bitcoin</option>
-                    <option value="BTCD">BitcoinDark</option>
-                    <option value="LTC">Litecoin</option>
-                    <option value="DOGE">Dogecoin</option>
-                    <option value="DGB">Digibyte</option>
-                    <option value="SYS">SysCoin</option>
-                    <option value="MZC">MazaCoin</option>
-                    <option value="UNO">Unobtanium</option>
-                    <option value="ZET">Zetacoin</option>
-                    <option value="KMD">Komodo</option>
-                    <option value="BTM">Bitmark</option>
-                    <option value="CARB">Carboncoin</option>
-                    <option value="ANC">AnonCoin</option>
-                    <option value="FRK">Franko</option>
-                    <option value="SUPERNET">SUPERNET</option>
-                    <option value="REVS">REVS</option>
-                    <option value="WIRELESS">WIRELESS</option>
-                    <option value="USD">USD</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-sm-4" style="text-align: center">
-                <button type="button" class="btn btn-primary mdl_addcoin_done_btn" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn" data-lang="INDEX.ACTIVATE_COIN"></button>
-              </div>
-              <div class="col-sm-12" style="text-align: center">
-                <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl">
-                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl" data-plugin="labelauty" id="addcoin_mdl_full_mode" data-labelauty="Full Mode|Full Mode" value="1" checked>
-                </div>
-                <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl">
-                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl" data-plugin="labelauty" id="addcoin_mdl_basilisk_mode" value="0" data-labelauty="Basilisk Mode|Basilisk Mode">
-                </div>
-                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12 style-addcoin-lbl-mdl">
-                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl" data-plugin="labelauty" id="addcoin_mdl_native_mode" value="-1" data-labelauty="Native Mode|Native Mode">
-                </div>
-              </div>
-              <div class="col-sm-12" style="color: #333">
-                <p>
-                  <strong><span data-lang="INDEX.FULL_MODE"></span>:</strong> <span data-lang="INDEX.FULL_MODE_DESC"></span>
-                </p>
-                <p>
-                  <strong><span data-lang="INDEX.BASILISK_MODE"></span>:</strong> <span data-lang="INDEX.BASILISK_MODE_DESC"></span>
-                </p>
-                <p>
-                  <strong><span data-lang="INDEX.NATIVE_MODE"></span>:</strong> <span data-lang="INDEX.NATIVE_MODE_DESC1"></span> <strong>Komodo Daemon</strong> <span data-lang="INDEX.NATIVE_MODE_DESC2"></span> <i>Iguana Daemon</i> <span data-lang="INDEX.NATIVE_MODE_DESC3"></span>.
-                </p>
-                <div class="alert alert-icon alert-primary" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                  <i class="icon md-info-outline" aria-hidden="true"></i> <strong data-lang="INDEX.NATIVE_MODE"></strong> <span data-lang="INDEX.NATIVE_MODE_DESC4"></span> <strong data-lang="INDEX.NATIVE_MODE_DESC5"></strong>, <i data-lang="INDEX.NATIVE_MODE_DESC5"></i>.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- End Modal -->
-      <!--<button type="button" class="btn btn-info btn-lg btn-block waves-effect waves-light" data-target="#AddCoinDilogModel" data-toggle="modal">Activate Coin</button>-->
-    </div>
     <!-- START ADD COIN DIV -->
-
-    <!--[if lt IE 8]>
-      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-     <![endif]-->
-
-    <!-- BEGIN Login Page -->
-    <div id="wallet-login">
-      <div class="page animsition vertical-align text-center" data-animsition-in="fade-in" data-animsition-out="fade-out">
-        <div class="page-content vertical-align-middle">
-          <div class="brand">
-            <img class="brand-img" src="assets/images/easydex-logo-big.png" alt="SuperNET Iguana">
-          </div>
-          <!-- BEGIN IE Warning -->
-          <div id="section-ie-warning" style="display: none">
-            <!-- Example Panel Alert -->
-            <div class="panel">
-              <div class="panel-heading">
-                <h3 class="panel-title" data-lang="INDEX.UNSUPPORTED_BROWSER"></h3>
-              </div>
-              <div class="alert alert-danger alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                  <span class="sr-only" data-lang="INDEX.CLOSE">Close</span>
-                </button>
-                <span data-lang="INDEX.IE_UNSUPPORTED"></span>
-              </div>
-              <div class="panel-body">
-                <p style="color: #424242">
-                  <span data-lang="INDEX.PLEASE_USE"></span> <a href="https://www.google.com/chrome/">Google Chrome</a> <span data-lang="INDEX.OR"></span> <a href="https://www.firefox.com">Mozilla FireFox</a> <span data-lang="INDEX.TO_USE"></span> EasyDEX-GUI. <span data-lang="INDEX.PLEASE_CLICK_ON"></span>.
-                </p>
-                <div class="col-sm-6 col-xs-6">
-                  <a href="https://www.google.com/chrome/"><img class="brand-img" src="assets/images/browsers/chrome.png" alt="Google Chrome"></a>
-                </div>
-                <div class="col-sm-6 col-xs-6">
-                  <a href="https://www.firefox.com"><img class="brand-img" src="assets/images/browsers/firefox.png" alt="Mozilla FireFox"></a>
-                </div>
-              </div>
-            </div>
-            <!-- End Example Panel Alert -->
-          </div>
-          <!-- END IE Warning -->
-          <!-- BEGIN section login -->
-          <div id="section-login" style="display: none">
-            <h4 style="color: #fff" id="login-welcome" data-lang="INDEX.WELCOME_LOGIN"></h4>
-            <form class="login-form" method="post" action="javascript:" autocomplete="off" onsubmit="return false">
-              <div class="form-group form-material floating">
-                <input type="password" class="form-control" name="password" id="password">
-                <label class="floating-label" for="inputPassword" data-lang="INDEX.WALLET_SEED"></label>
-              </div>
-              <button type="submit" class="btn btn-primary btn-block" id="loginbtn" data-lang="INDEX.SIGN_IN"></button>
-              <div class="form-group form-material floating">
-                <button class="btn btn-lg btn-flat btn-block waves-effect" id="register-btn" data-lang="INDEX.CREATE_WALLET"></button>
-                <button class="btn btn-lg btn-flat btn-block waves-effect" id="logint-another-wallet" data-lang="INDEX.LOGIN_ANOTHER_WALLET"></button>
-              </div>
-              <!-- START ADVANCED OPTIONS TO SELECT COINS -->
-              <!--<div class="form-group form-material row" id="logincoinslist">-->
-                <!-- START BITCOIN COIN OPTIONS -->
-                <!--<div class="col-sm-12">
-                <div class="col-sm-3">
-                  <div class="checkbox-custom checkbox-default" style="margin-top: 0px; text-align: left">
-                    <input type="checkbox" id="logincoinbtc" value="BTC" name="logincoinbtc" checked="" autocomplete="off">
-                    <label for="logincoinbtc">Bitcoin</label>
-                  </div>
-                </div>
-                <div class="col-sm-9">
-                  <div>
-                    <div class="radio-custom radio-default radio-inline">
-                      <input type="radio" id="logincoinbtcmodeF" name="logincoinbtcmode" value="1">
-                      <label for="logincoinbtcmodeF">Full Mode</label>
-                    </div>
-                    <div class="radio-custom radio-default radio-inline">
-                      <input type="radio" id="logincoinbtcmodeB" name="logincoinbtcmode" value="0" checked="">
-                      <label for="logincoinbtcmodeB">Basilisk Mode</label>
-                    </div>
-                  </div>
-                </div>
-                </div>-->
-                <!-- END BITCOIN COIN OPTIONS -->
-                <!-- START BITCOIN COIN OPTIONS -->
-                <!--<div class="col-sm-12">
-                <div class="col-sm-3">
-                  <div class="checkbox-custom checkbox-default" style="margin-top: 0px; text-align: left">
-                    <input type="checkbox" id="logincoinbtcd" value="BTCD" name="logincoinbtcd" checked="" autocomplete="off">
-                    <label for="logincoinbtcd">BitcoinDark</label>
-                  </div>
-                </div>
-                <div class="col-sm-9">
-                  <div>
-                    <div class="radio-custom radio-default radio-inline">
-                      <input type="radio" id="logincoinbtcdmodeF" name="logincoinbtcdmode" value="1" checked>
-                      <label for="logincoinbtcdmodeF">Full Mode</label>
-                    </div>
-                    <div class="radio-custom radio-default radio-inline">
-                      <input type="radio" id="logincoinbtcdmodeB" name="logincoinbtcdmode" value="0">
-                      <label for="logincoinbtcdmodeB">Basilisk Mode</label>
-                    </div>
-                  </div>
-                </div>
-                </div>-->
-                <!-- END BITCOIN COIN OPTIONS -->
-                <!-- START BITCOIN COIN OPTIONS -->
-                <!--<div class="col-sm-12">
-                <div class="col-sm-3">
-                  <div class="checkbox-custom checkbox-default" style="margin-top: 0px; text-align: left">
-                    <input type="checkbox" id="logincoinkmd" value="KMD" name="logincoinkmd" checked="" autocomplete="off">
-                    <label for="logincoinkmd">Komodo</label>
-                  </div>
-                </div>
-                <div class="col-sm-9">
-                  <div>
-                    <div class="radio-custom radio-default radio-inline">
-                      <input type="radio" id="logincoinkmdmodeF" name="logincoinkmdmode" value="1" checked>
-                      <label for="logincoinkmdmodeF">Full Mode</label>
-                    </div>
-                    <div class="radio-custom radio-default radio-inline">
-                      <input type="radio" id="logincoinkmdmodeB" name="logincoinkmdmode" value="0">
-                      <label for="logincoinkmdmodeB">Basilisk Mode</label>
-                    </div>
-                  </div>
-                </div>
-                </div>-->
-                <!-- END BITCOIN COIN OPTIONS -->
-              <!--</div>-->
-              <!-- END ADVANCED OPTIONS TO SELECT COINS -->
-            </form>
-          </div>
-          <!-- END section login -->
-
-          <!-- BEGIN section login add coin -->
-          <div id="section-login-addcoin-btn">
-            <h4 style="color: #fff" id="login-welcome" data-lang="INDEX.WELCOME_PLEASE_ADD"></h4>
-            <div class="form-group form-material floating" style="width: 540px; margin: 30px 0">
-              <button class="btn btn-lg btn-primary btn-block ladda-button" id="start-coin-login" role="menuitem" data-edexcoinmenu="COIN" data-target="#AddCoinDilogModel-login" data-toggle="modal" data-style="expand-left" data-plugin="ladda"><span class="ladda-label" data-lang="INDEX.ACTIVATE_COIN"></span></button>
-            </div>
-          </div>
-          <!-- END section login add coin -->
-
-          <!-- BEGIN section register -->
-          <div id="section-register" style="display: none">
-            <form class="register-form" method="post" role="form" autocomplete="off" onsubmit="return false">
-              <h4 class="hint" style="color: #fff">
-                <span data-lang="INDEX.SELECT_SEED_TYPE"></span>:
-              </h4>
-              <div class="form-group form-material floating">
-                <div class="radio-custom radio-default radio-inline">
-                  <input type="radio" id="PassPhraseOptionsIguana" value="PassPhraseOptionsIguana" name="PassPhraseOptions" checked="">
-                  <label for="PassPhraseOptionsIguana">Iguana (256 bits)</label>
-                </div>
-                <div class="radio-custom radio-default radio-inline">
-                  <input type="radio" id="PassPhraseOptionsWaves" value="PassPhraseOptionsWaves" name="PassPhraseOptions">
-                  <label for="PassPhraseOptionsWaves">Waves</label>
-                </div>
-                <div class="radio-custom radio-default radio-inline">
-                  <input type="radio" id="PassPhraseOptionsNXT" value="PassPhraseOptionsNXT" name="PassPhraseOptions">
-                  <label for="PassPhraseOptionsNXT">NXT</label>
-                </div>
-              </div>
-              <div class="form-group form-material floating">
-                <textarea class="form-control placeholder-no-fix" type="text" placeholder="" name="walletseed" id="walletseed" style="height: 100px"></textarea>
-                <label class="floating-label" for="walletseed" data-lang="INDEX.WALLET_SEED"></label>
-              </div>
-              <div class="form-group form-material floating">
-                <textarea class="form-control placeholder-no-fix" type="text" placeholder="" name="rwalletseed" id="rwalletseed" style="height: 100px"></textarea>
-                <label class="floating-label" for="rwalletseed" data-lang="INDEX.CONFIRM_SEED"></label>
-              </div>
-              <!--<h4 class="hint" style="color: #fff"> Please enter password for new wallet: </h4>
-              <div class="form-group form-material floating">
-                <input type="text" class="form-control" id="register_password" name="password">
-                <label class="floating-label" for="register_password">Password</label>
-              </div>
-              <div class="form-group form-material floating">
-                <input type="text" class="form-control" id="rpassword" name="rpassword">
-                <label class="floating-label" for="rpassword">Retype Password</label>
-              </div>-->
-              <button type="submit" id="register-submit-btn" class="btn btn-primary btn-block" data-lang="INDEX.REGISTER"></button>
-              <div class="form-group form-material floating">
-                <button class="btn btn-lg btn-flat btn-block waves-effect" id="register-back-btn" data-lang="INDEX.BACK_TO_LOGIN"></button>
-              </div>
-            </form>
-          </div>
-          <!-- END section register -->
-        </div>
-      </div>
+    <div>
+      <script>
+        document.write(templates.refreshBasiliskConnectionsModal);
+        document.write(templates.addCoinModal);
+        document.write(templates.ieFix);
+      </script>
     </div>
+    <!-- END ADD COIN DIV -->
 
-    <!-- Modal -->
-    <div class="modal fade modal-3d-sign" id="AddCoinDilogModel-login" aria-hidden="true" aria-labelledby="AddCoinDilogModel-login" role="dialog" tabindex="-1">
-      <div class="modal-dialog modal-center modal-lg">
-        <div class="modal-content">
-          <div class="modal-header bg-orange-a400 wallet-send-header">
-            <button type="button" class="close white" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-            <h4 class="modal-title white" data-lang="INDEX.SELECT_A_COIN"></h4>
-          </div>
-          <div class="modal-body">
-            <div class="col-sm-8">
-              <div class="form-group">
-                <select class="form-control form-material" id="addcoin_select_coin_mdl_options-login">
-                  <option data-lang="INDEX.SELECT"></option>
-                  <option value="BTC">Bitcoin</option>
-                  <option value="BTCD">BitcoinDark</option>
-                  <option value="LTC">Litecoin</option>
-                  <option value="DOGE">Dogecoin</option>
-                  <option value="DGB">Digibyte</option>
-                  <option value="SYS">SysCoin</option>
-                  <option value="MZC">MazaCoin</option>
-                  <option value="UNO">Unobtanium</option>
-                  <option value="ZET">Zetacoin</option>
-                  <option value="KMD">Komodo</option>
-                  <option value="BTM">Bitmark</option>
-                  <option value="CARB">Carboncoin</option>
-                  <option value="ANC">AnonCoin</option>
-                  <option value="FRK">Franko</option>
-                  <option value="SUPERNET">SUPERNET</option>
-                  <option value="REVS">REVS</option>
-                  <option value="WIRELESS">WIRELESS</option>
-                  <option value="USD">USD</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-sm-4" style="text-align: center">
-              <button type="button" class="btn btn-primary mdl_addcoin_done_btn-login" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn-login" data-lang="INDEX.ACTIVATE_COIN"></button>
-            </div>
-            <div class="col-sm-12 text-center">
-              <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login">
-                <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl-login" data-plugin="labelauty" id="addcoin_mdl_full_mode_login" data-labelauty="Full Mode|Full Mode" value="1" checked>
-              </div>
-              <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login">
-                <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl-login" data-plugin="labelauty" id="addcoin_mdl_basilisk_mode_login" value="0" data-labelauty="Basilisk Mode|Basilisk Mode">
-              </div>
-              <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12 style-addcoin-lbl-mdl-login">
-                <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl-login" data-plugin="labelauty" id="addcoin_mdl_native_mode_login" value="-1" data-labelauty="Native Mode|Native Mode">
-              </div>
-            </div>
-            <div class="col-sm-12" style="color: #333">
-            	<p>
-                <strong><span data-lang="INDEX.FULL_MODE"></span>:</strong> <span data-lang="INDEX.FULL_MODE_DESC"></span>
-              </p>
-              <p>
-                <strong><span data-lang="INDEX.BASILISK_MODE"></span>:</strong> <span data-lang="INDEX.BASILISK_MODE_DESC"></span>
-              </p>
-              <p>
-                <strong><span data-lang="INDEX.NATIVE_MODE"></span>:</strong> <span data-lang="INDEX.NATIVE_MODE_DESC1"></span> <strong>Komodo Daemon</strong> <span data-lang="INDEX.NATIVE_MODE_DESC2"></span> <i>Iguana Daemon</i> <span data-lang="INDEX.NATIVE_MODE_DESC3"></span>.
-              </p>
-              <div class="alert alert-icon alert-primary" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <i class="icon md-info-outline" aria-hidden="true"></i> <strong data-lang="INDEX.NATIVE_MODE"></strong> <span data-lang="INDEX.NATIVE_MODE_DESC4"></span> <strong data-lang="INDEX.NATIVE_MODE_DESC5"></strong>, <i data-lang="INDEX.NATIVE_MODE_DESC5"></i>.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End Modal -->
+    <script>
+      document.write(templates.loginPage);
+      document.write(templates.addCoinLoginModal);
+    </script>
     </div>
     <!--^ extra div ? -->
     <!-- START ADD COIN DIV -->
@@ -683,9 +313,9 @@
                 <li role="presentation">
                   <a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_recieve" data-lang="INDEX.RECEIVE"></a>
                 </li>
-                <li role="presentation">
+                <!--<li role="presentation">
                   <a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_transactions" data-lang="INDEX.TRANSACTIONS"></a>
-                </li>
+                </li>-->
                 <li class="divider" role="presentation"></li>
                 <li role="presentation">
                   <a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_settings" data-lang="INDEX.SETTINGS"></a>
@@ -708,9 +338,9 @@
                 <li role="presentation">
                   <a href="javascript:void(0)" role="menuitem" data-extcoin-menu="ZEC" id="btn_zec_wallet_recieve" data-lang="INDEX.RECEIVE"></a>
                 </li>
-                <li role="presentation">
+                <!--<li role="presentation">
                   <a href="javascript:void(0)" role="menuitem" data-extcoin-menu="ZEC" id="btn_zec_wallet_transactions" data-lang="INDEX.TRANSACTIONS"></a>
-                </li>
+                </li>-->
                 <li class="divider" role="presentation"></li>
                 <li role="presentation">
                   <a href="javascript:void(0)" role="menuitem" data-extcoin-menu="ZEC" id="btn_zec_wallet_settings" data-lang="INDEX.SETTINGS"></a>
@@ -1351,80 +981,73 @@
                 <div class="panel-group" id="jumber_quick_info" aria-multiselectable="true" role="tablist">
                   <div class="panel">
                     <div class="panel-heading" id="jumblr_security_notes" role="tab">
-                      <a class="panel-title" data-toggle="collapse" href="#jumblr_security_notes_1" data-parent="#jumber_quick_info" aria-expanded="true" aria-controls="jumblr_security_notes_1">Few Security Notes for your Privacy and Anonymity of funds</a>
+                      <a class="panel-title" data-toggle="collapse" href="#jumblr_security_notes_1" data-parent="#jumber_quick_info" aria-expanded="true" aria-controls="jumblr_security_notes_1" data-lang="JUMBLR.FEW_SECURITY_NOTES"></a>
                     </div>
                     <div class="panel-collapse collapse in" id="jumblr_security_notes_1" aria-labelledby="jumblr_security_notes" role="tabpanel">
                       <div class="panel-body">
                         <ul>
-                          <li>Jumblr addresses (BTC Jumbler and KMD Jumbler) addresses are your Private Addresses.</li>
-                          <li>DO NOT SHARE your Jumblr addresses with anyone.</li>
-                          <li>Jumblr addresses are like YOUR PASSWORD. Keep them safe, secure and hidden.</li>
-                          <li>Only YOU should know your Jumblr Address. Nobody else.</li>
-                          <li>Sharing your Jumblr Addresses with ANYONE will defeat the purpose of using Jumblr, and your funds and transactions will not be private anymore.</li>
+                          <li data-lang="JUMBLR.FEW_SECURITY_NOTES_DESC1"></li>
+                          <li data-lang="JUMBLR.FEW_SECURITY_NOTES_DESC2"></li>
+                          <li data-lang="JUMBLR.FEW_SECURITY_NOTES_DESC3"></li>
+                          <li data-lang="JUMBLR.FEW_SECURITY_NOTES_DESC4"></li>
+                          <li data-lang="JUMBLR.FEW_SECURITY_NOTES_DESC5"></li>
                         </ul>
                       </div>
                     </div>
                   </div>
                   <div class="panel">
                     <div class="panel-heading" id="jumblr_access_funds" role="tab">
-                      <a class="panel-title collapsed" data-toggle="collapse" href="#jumblr_access_funds_2" data-parent="#jumber_quick_info" aria-expanded="false" aria-controls="jumblr_access_funds_2">How to Access your Jumblr Funds</a>
+                      <a class="panel-title collapsed" data-toggle="collapse" href="#jumblr_access_funds_2" data-parent="#jumber_quick_info" aria-expanded="false" aria-controls="jumblr_access_funds_2" data-lang="JUMBLR.ACCESS_JUMBLR_FUNDS"></a>
                     </div>
                     <div class="panel-collapse collapse" id="jumblr_access_funds_2" aria-labelledby="jumblr_access_funds" role="tabpanel">
                       <div class="panel-body">
-                        <p>Your Jumbler Addresses are accessible easily.
-                        For example you logged into your wallet with passphrase</p>
+                        <p data-lang="JUMBLR.ADDRESS_ACCESSIBLE_EASILY"></p>
                         <ul>
                           <code>duck dog cat donkey</code>
                         </ul>
                         <ol>
-                          <li>To access your Jumbler address funds Logout.</li>
-                          <li>Close Iguana App.</li>
-                          <li>Start Iguana App again.</li>
-                          <li>Start Komodo in either Full Mode or Basilisk Mode.</li>
-                          <li>Then add word 'jumblr ' before your passphrase.
+                          <li data-lang="JUMBLR.TO_ACCESS"></li>
+                          <li data-lang="JUMBLR.CLOSE_IAPP"></li>
+                          <li data-lang="JUMBLR.START_IAPP"></li>
+                          <li data-lang="JUMBLR.START_KMD"></li>
+                          <li><span data-lang="JUMBLR.WORD_JUMBLR"></span>
                             <ul>
-                              <li>"jumblr" is all in small letters.</li>
-                              <li>There is a white space after "jumblr ".</li>
+                              <li data-lang="JUMBLR.SMALL_LETTERS"></li>
+                              <li data-lang="JUMBLR.WHITE_SPACE"></li>
                             </ul>
                           </li>
                           <li>
-                            So as per this example, your Jumbler Addresses are accessible with:
+                            <span data-lang="JUMBLR.PER_EXAMPLE"></span>
                             <br>
                             <code>jumblr duck dog cat donkey</code>
                           </li>
-                          <li>You'll login with your Jumblr passphrase to access funds and will be able to use it just like any other wallet address.</li>
+                          <li data-lang="JUMBLR.LOGIN_WITH_JUMBLR"></li>
                         </ol>
-                        <h4>Again, DO NOT SHARE YOUR JUMBLR ADDRESS WITH ANYONE.</h4>
+                        <h4 data-lang="JUMBLR.AGAIN_DONT_SHARE"></h4>
                       </div>
                     </div>
                   </div>
                   <div class="panel">
                     <div class="panel-heading" id="jumblr_using_jumblr" role="tab">
-                      <a class="panel-title collapsed" data-toggle="collapse" href="#jumblr_using_jumblr_3" data-parent="#jumber_quick_info" aria-expanded="false" aria-controls="jumblr_using_jumblr_3">Using Jumblr</a>
+                      <a class="panel-title collapsed" data-toggle="collapse" href="#jumblr_using_jumblr_3" data-parent="#jumber_quick_info" aria-expanded="false" aria-controls="jumblr_using_jumblr_3" data-lang="JUMBLR.USING_JUMBLR"></a>
                     </div>
                     <div class="panel-collapse collapse" id="jumblr_using_jumblr_3" aria-labelledby="jumblr_using_jumblr"
                     role="tabpanel">
                       <div class="panel-body">
                         <ul>
-                          <li>Run Komodo in Native Mode</li>
-                          <li>Loging with your passphrase</li>
-                          <li>Go to Jumblr Menu</li>
-                          <li>There find your Deposit Address for coin you want to anonymise your funds. (For a start only KMD is supported. BTC support will come in later versions)</li>
-                          <li>You send your funds to deposit address.</li>
-                          <li>Keep your wallet open</li>
-                          <li>[IMPORTANT] Funds are processed in lot sizes 100 KMD, 1000 KMD, and 10,000 KMD.</li>
-                          <li>The large lot sizes will process first, and then smaller.</li>
+                          <li data-lang="JUMBLR.RUN_KMD"></li>
+                          <li data-lang="JUMBLR.LOGIN_KMD"></li>
+                          <li data-lang="JUMBLR.GO_TO"></li>
+                          <li data-lang="JUMBLR.FIND_DEPOSIT_ADDR"></li>
+                          <li data-lang="JUMBLR.YOU_SEND_FUNDS"></li>
+                          <li data-lang="JUMBLR.KEEP_WALLET_OPEN"></li>
+                          <li data-lang="JUMBLR.IMPORTANT_FUNDS"></li>
+                          <li data-lang="JUMBLR.LARGE_LOT"></li>
                         </ul>
-                        <p>
-                          For example, you sent 1393 KMD to KMD Deposit Address.<br>
-                          First it will process 1000 KMD<br>
-                          then 100 KMD<br>
-                          then 100 KMD<br>
-                          then 100 KMD
-                        </p>
-                        <p>93 KMD will keep waiting in deposit address.</p>
-                        <p>To clear them you'll have to send 7 KMD more to your KMD Deposit Address.</p>
-                        <p>When it totals to 100 KMD, it will process to your KMD Jumblr Address.</p>
+                        <p data-lang="JUMBLR.EG"></p>
+                        <p data-lang="JUMBLR.93_KMD"></p>
+                        <p data-lang="JUMBLR.TO_CLEAR_THEM"></p>
+                        <p data-lang="JUMBLR.WHEN_IT_TOTALS"></p>
                       </div>
                     </div>
                   </div>
@@ -1433,13 +1056,13 @@
 
               <!-- Jumblr Tab -->
               <div class="col-xlg-12 col-md-12">
-                <h4 class="font-size-14 text-uppercase">Jumblr Addresses</h4>
+                <h4 class="font-size-14 text-uppercase" data-lang="JUMBLR.JADDR">Jumblr Addresses</h4>
                 <div class="panel" id="projects">
                   <div class="table-responsive">
                     <table class="table table-striped">
                       <tbody>
                         <tr>
-                          <td width="20%">BTC Deposit</td>
+                          <td width="20%" data-lang="JUMBLR.BTC_DEPOSIT"></td>
                           <td>
                             <span id="jumblr_BTCdeposit"></span>
                           </td>
@@ -1448,14 +1071,14 @@
                           <td>BTC Jumblr</td>
                           <td>
                             <button type="button" class="btn btn-animate btn-animate-side btn-default btn-sm waves-effect waves-light jumblr_show_hide_addr_btc_btn" data-jumblr="BTCjumblr">
-                              <span><i class="icon fa-eye" aria-hidden="true"></i> Show/Hide</span>
+                              <span><i class="icon fa-eye" aria-hidden="true"></i> <span data-lang="JUMBLR.SHOW_HIDE"></span></span>
                             </button>
                             <span class="label label-lg label-outline label-success" id="jumblr_BTCjumblr" style="display: none"></span>
-                            <span class="label label-lg label-outline label-default" id="jumblr_BTCjumblr_showhide">Hidden for security reason.</span>
+                            <span class="label label-lg label-outline label-default" id="jumblr_BTCjumblr_showhide" data-lang="JUMBLR.HIDDEN"></span>
                           </td>
                         </tr>
                         <tr>
-                          <td>KMD Deposit</td>
+                          <td data-lang="JUMBLR.KMD_DEPOSIT"></td>
                           <td>
                             <span id="jumblr_KMDdeposit"></span>
                           </td>
@@ -1464,10 +1087,10 @@
                           <td>KMD Jumblr</td>
                           <td>
                             <button type="button" class="btn btn-animate btn-animate-side btn-default btn-sm waves-effect waves-light jumblr_show_hide_addr_kmd_btn" data-jumblr="KMDjumblr">
-                              <span><i class="icon fa-eye" aria-hidden="true"></i> Show/Hide</span>
+                              <span><i class="icon fa-eye" aria-hidden="true"></i> <span data-lang="JUMBLR.SHOW_HIDE"></span></span>
                             </button>
                             <span class="label label-lg label-outline label-success" id="jumblr_KMDjumblr" style="display: none"></span>
-                            <span class="label label-lg label-outline label-default" id="jumblr_KMDjumblr_showhide">Hidden for security reason.</span>
+                            <span class="label label-lg label-outline label-default" id="jumblr_KMDjumblr_showhide" data-lang="JUMBLR.HIDDEN"></span>
                           </td>
                         </tr>
                       </tbody>
@@ -1479,7 +1102,7 @@
 
               <!-- Jumblr Tab -->
               <div class="col-xlg-12 col-md-12">
-                <h4 class="font-size-14 text-uppercase">Jumblr Status</h4>
+                <h4 class="font-size-14 text-uppercase" data-lang="JUMBLR.JSTATUS"></h4>
                 <div class="panel" id="projects">
                   <div class="table-responsive">
                     <table class="table table-striped">
@@ -1489,43 +1112,43 @@
                         <tr><td>KMD Deposit</td><td><span id="jumblr_status_KMDdeposit"></span></td></tr>
                         <tr><td>KMD Jumblr</td><td><span id="jumblr_status_KMDjumblr"></span></td></tr>-->
                         <tr>
-                          <td width="20%">Result</td>
+                          <td width="20%" data-lang="JUMBLR.RESULT"></td>
                           <td>
                             <span id="jumblr_status_result" class="label label-success"></span>
                           </td>
                         </tr>
                         <tr>
-                          <td>Deposited</td>
+                          <td data-lang="JUMBLR.DEPOSITED"></td>
                           <td>
                             <span id="jumblr_status_deposited"></span>
                           </td>
                         </tr>
                         <tr>
-                          <td>Public to Private</td>
+                          <td data-lang="JUMBLR.PUB_TO_PRIV"></td>
                           <td>
                             <span id="jumblr_status_t_to_z"></span>
                           </td>
                         </tr>
                         <tr>
-                          <td>Private to Private</td>
+                          <td data-lang="JUMBLR.PRIV_TO_PRIV"></td>
                           <td>
                             <span id="jumblr_status_z_to_z"></span>
                           </td>
                         </tr>
                         <tr>
-                          <td>Private to Public</td>
+                          <td data-lang="JUMBLR.PRIV_TO_PUB"></td>
                           <td>
                             <span id="jumblr_status_z_to_t"></span>
                           </td>
                         </tr>
                         <tr>
-                          <td>Finished</td>
+                          <td data-lang="JUMBLR.FINISHED"></td>
                           <td>
                             <span id="jumblr_status_finished"></span>
                           </td>
                         </tr>
                         <tr>
-                          <td>Pending</td>
+                          <td data-lang="JUMBLR.PENDING"></td>
                           <td>
                             <span id="jumblr_status_pending"></span>
                           </td>
@@ -1536,7 +1159,7 @@
                 </div>
               </div>
               <!-- End Jumblr tab -->
-           </div>
+            </div>
           </div>
         </div>
         <!-- END JUMBLR CONTENT BODY -->
@@ -1570,7 +1193,7 @@
             </div>
 
             <div class="row" data-extcoin="COIN" style="margin: -20px 0px 10px 0px">
-              <div class="col-xs-12" data-extcoin="COIN" id="extcoin-progressbars" >
+              <div class="col-xs-12" data-extcoin="COIN" id="extcoin-progressbars">
                 <div class="progress">
                   <div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 0%; font-size: 80%" role="progressbar" data-extcoin="COIN" id="extcoin-sync">
                     <span data-extcoin="COIN" id="extcoin-sync-percent">-</span> | <span data-extcoin="COIN" id="extcoin-synced-blocks">-</span> / <span data-extcoin="COIN" id="extcoin-longestchain">-</span> | <span data-lang="INDEX.CONNECTIONS"></span>: <span data-extcoin="COIN" id="extcoin-connections">-</span>
@@ -1664,24 +1287,24 @@
                             <table class="table table-hover dataTable table-striped" data-extcoin="COIN" id="kmd-tx-history-tbl" width="100%">
                               <thead>
                                 <tr>
-                                  <th data-lang="INDEX.TYPE">Type</th>
-                                  <th data-lang="INDEX.DIRECTION">Direction</th>
-                                  <th data-lang="INDEX.CONFIRMATIONS">Confirmations</th>
-                                  <th data-lang="INDEX.AMOUNT">Amount</th>
-                                  <th data-lang="INDEX.TIME">Time</th>
-                                  <th data-lang="INDEX.DEST_ADDRESS">Dest. Address</th>
-                                  <th data-lang="INDEX.TX_DETAIL">Tx Detail</th>
+                                  <th data-lang="INDEX.TYPE"></th>
+                                  <th data-lang="INDEX.DIRECTION"></th>
+                                  <th data-lang="INDEX.CONFIRMATIONS"></th>
+                                  <th data-lang="INDEX.AMOUNT"></th>
+                                  <th data-lang="INDEX.TIME"></th>
+                                  <th data-lang="INDEX.DEST_ADDRESS"></th>
+                                  <th data-lang="INDEX.TX_DETAIL"></th>
                                 </tr>
                               </thead>
                               <tfoot>
                                 <tr>
-                                  <th data-lang="INDEX.TYPE">Type</th>
-                                  <th data-lang="INDEX.DIRECTION">Direction</th>
-                                  <th data-lang="INDEX.CONFIRMATIONS">Confirmations</th>
-                                  <th data-lang="INDEX.AMOUNT">Amount</th>
-                                  <th data-lang="INDEX.TIME">Time</th>
-                                  <th data-lang="INDEX.DEST_ADDRESS">Dest. Address</th>
-                                  <th data-lang="INDEX.TX_DETAIL">Tx Detail</th>
+                                  <th data-lang="INDEX.TYPE"></th>
+                                  <th data-lang="INDEX.DIRECTION"></th>
+                                  <th data-lang="INDEX.CONFIRMATIONS"></th>
+                                  <th data-lang="INDEX.AMOUNT"></th>
+                                  <th data-lang="INDEX.TIME"></th>
+                                  <th data-lang="INDEX.DEST_ADDRESS"></th>
+                                  <th data-lang="INDEX.TX_DETAIL"></th>
                                 </tr>
                               </tfoot>
                             </table>
@@ -1908,7 +1531,7 @@
                   <div class="panel" id="projects">
                     <div class="panel-heading">
                       <h3 class="panel-title">
-                        <span data-extcointitle="COIN">Komodo</span> Info
+                        <span data-extcointitle="COIN">Komodo</span> <span data-lang="INDEX.INFO"></span>
                       </h3>
                     </div>
                     <div class="table-responsive">
@@ -2646,7 +2269,6 @@
     <!-- End Iguana API Scripts -->
 
     <script src="assets/scripts/login.js"></script>
-
     <!-- Dashboard Scripts -->
     <script src="assets/scripts/dashboard.js"></script>
     <script src="assets/scripts/dashboard/DashboardEDEX.js"></script>
