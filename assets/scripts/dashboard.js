@@ -665,7 +665,7 @@ var Dashboard = function() {
 					tmp_coin_val == 'REVS' ||
 					tmp_coin_val == 'WIRELESS' ||
 					tmp_coin_val == 'USD') {
-					$('#addcoin_mdl_native_mode').prop('disabled', true);
+					$('#addcoin_mdl_native_mode').prop('disabled', false);
 					$('#addcoin_mdl_basilisk_mode').prop('disabled', false);
 					$('#addcoin_mdl_full_mode').prop('disabled', true);
 					$('#addcoin_mdl_basilisk_mode').prop('checked', true);
