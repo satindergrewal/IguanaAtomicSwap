@@ -173,7 +173,8 @@ const _lang = {
       'DEBUG_LOG_LINES': 'Input number of lines to read',
       'TARGET': 'Target',
       'LOAD_DEBUG_LOG': 'Load debug log',
-      'REFRESH_FUNDS': 'Refresh Funds'
+      'REFRESH_FUNDS': 'Refresh Funds',
+      'INFO': 'Info'
     },
     'JUMBLR': {
     	'NOTICE': 'EXPERIMENTAL TEST VERSION ONLY',
@@ -183,7 +184,55 @@ const _lang = {
     	'TO_USE_JUMBLR': 'To use Jumblr feature, you need to activate Komodo in Native Mode.',
     	'IF_YOU_ALREADY_RUNNING': 'If you are already running Komodo in either Basilisk Mode or Full Mode, close the wallet and restart again to start Komodo In Native Mode.',
     	'THIS_SCREEN_DOESNT_REFRESH': 'This screen does not auto refresh. ' +
-    																'You will need to hit the Refresh button on the top right corner of the screen to get latest Jumblr data.'
+    																'You will need to hit the Refresh button on the top right corner of the screen to get latest Jumblr data.',
+    	'FEW_SECURITY_NOTES': 'Few Security Notes for your Privacy and Anonymity of funds',
+    	'FEW_SECURITY_NOTES_DESC1': 'Jumblr addresses (BTC Jumbler and KMD Jumbler) addresses are your Private Addresses.',
+    	'FEW_SECURITY_NOTES_DESC2': 'DO NOT SHARE your Jumblr addresses with anyone.',
+    	'FEW_SECURITY_NOTES_DESC3': 'Jumblr addresses are like YOUR PASSWORD. Keep them safe, secure and hidden.',
+    	'FEW_SECURITY_NOTES_DESC4': 'Only YOU should know your Jumblr Address. Nobody else.',
+    	'FEW_SECURITY_NOTES_DESC5': 'Sharing your Jumblr Addresses with ANYONE will defeat the purpose of using Jumblr, and your funds and transactions will not be private anymore.',
+    	'ACCESS_JUMBLR_FUNDS': 'How to Access your Jumblr Funds',
+    	'ADDRESS_ACCESSIBLE_EASILY': 'Your Jumbler Addresses are accessible easily. For example you logged into your wallet with passphrase',
+    	'TO_ACCESS': 'To access your Jumbler address funds Logout.',
+    	'CLOSE_IAPP': 'Close Iguana App.',
+    	'START_IAPP': 'Start Iguana App again.',
+    	'START_KMD': 'Start Komodo in either Full Mode or Basilisk Mode.',
+    	'WORD_JUMBLR': 'Then add word \'jumblr \' before your passphrase.',
+    	'SMALL_LETTERS': '"jumblr" is all in small letters.',
+    	'WHITE_SPACE': 'There is a white space after "jumblr ".',
+    	'PER_EXAMPLE': 'So as per this example, your Jumbler Addresses are accessible with:',
+    	'LOGIN_WITH_JUMBLR': 'You\'ll login with your Jumblr passphrase to access funds and will be able to use it just like any other wallet address.',
+    	'AGAIN_DONT_SHARE': 'Again, DO NOT SHARE YOUR JUMBLR ADDRESS WITH ANYONE.',
+    	'USING_JUMBLR': 'Using Jumblr',
+    	'RUN_KMD': 'Run Komodo in Native Mode',
+    	'LOGIN_KMD': 'Login with your passphrase',
+    	'GO_TO': 'Go to Jumblr Menu',
+    	'FIND_DEPOSIT_ADDR': 'There find your Deposit Address for coin you want to anonymise your funds. (For a start only KMD is supported. BTC support will come in later versions)',
+    	'YOU_SEND_FUNDS': 'You send your funds to deposit address.',
+    	'KEEP_WALLET_OPEN': 'Keep your wallet open',
+    	'IMPORTANT_FUNDS': '[IMPORTANT] Funds are processed in lot sizes 100 KMD, 1000 KMD, and 10,000 KMD.',
+    	'LARGE_LOT': 'The large lot sizes will process first, and then smaller.',
+    	'EG': 'For example, you sent 1393 KMD to KMD Deposit Address.<br>' +
+            'First it will process 1000 KMD<br>' +
+            'then 100 KMD<br>' +
+            'then 100 KMD<br>' +
+            'then 100 KMD',
+      '93_KMD': '93 KMD will keep waiting in deposit address.',
+      'TO_CLEAR_THEM': 'To clear them you\'ll have to send 7 KMD more to your KMD Deposit Address.',
+      'WHEN_IT_TOTALS': 'When it totals to 100 KMD, it will process to your KMD Jumblr Address.',
+      'JADDR': 'Jumblr Addresses',
+      'BTC_DEPOSIT': 'BTC Deposit',
+      'SHOW_HIDE': 'Show/Hide',
+      'HIDDEN': 'Hidden for security reason.',
+      'KMD_DEPOSIT': 'KMD Deposit',
+      'JSTATUS': 'Jumblr Status',
+      'RESULT': 'Result',
+      'DEPOSITED': 'Deposited',
+      'PUB_TO_PRIV': 'Public to Private',
+      'PRIV_TO_PRIV': 'Private to Private',
+      'PRIV_TO_PUB': 'Private to Public',
+      'FINISHED': 'Finished',
+      'PENDING': 'Pending'
     },
     'DASHBOARD': {
       'SELECT_ADDRESS': '- Select Address -',

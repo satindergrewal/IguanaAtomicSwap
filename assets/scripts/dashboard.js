@@ -916,7 +916,6 @@ jQuery(document).ready(function() {
 	Dashboard.init();
 });
 
-
 function resizeDashboardWindow() {
 	/* set default map height */
 	var navbarH = $('.site-navbar').outerHeight(),

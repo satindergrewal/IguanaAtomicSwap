@@ -221,7 +221,13 @@ function Shepherd_GetBasiliskCache() {
 			url: 'http://127.0.0.1:17777/shepherd/cache',
 			contentType: 'application/json' // send as JSON
 		}).done(function(data) {
-			resolve(data);
+      resolve(data);
+      data = JSON.parse(data);
+      if (data.result === 'JSON parse error') {
+        Shepherd_GroomData_Delete().then(function(result) {
+          console.log('error reading cache, flushing...');
+        });
+      }
 		});
 	});
 }
