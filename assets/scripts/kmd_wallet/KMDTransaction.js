@@ -38,7 +38,7 @@ function KMDGetPublicTransactions() {
 				var tmp_secondsToString = secondsToString(AjaxOutputData[index].time);
 
 				if ( AjaxOutputData[index].category == 'send' ) {
-					tmp_category = '<i class="icon fa-arrow-circle-left"></i> '._lang[defaultLang].TOASTR.OUT;
+					tmp_category = '<i class="icon fa-arrow-circle-left"></i> ' + _lang[defaultLang].TOASTR.OUT;
 				}
 				if ( AjaxOutputData[index].category == 'receive' ) {
 					tmp_category = '<i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].TOASTR.IN;
@@ -114,8 +114,8 @@ function KMDGetProtectedTransactions() {
 				var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
 
 				$.each(AjaxOutputData, function(index, txidvalue) {
-					var tmp_category = '<i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].TOASTR.IN;
-					var tmp_addr = value.addr.slice(0, 30) + '...';
+					var tmp_category = '<i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].TOASTR.IN,
+							tmp_addr = value.addr.slice(0, 30) + '...';
 					if (!('amount' in txidvalue)) {
 						var tmp_amount = 0;
 					} else {
