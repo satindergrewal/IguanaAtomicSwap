@@ -505,13 +505,18 @@ function applyDashboardStyle() {
 		$('#edex-footer').show();
 	}
 
-	/*setTimeout(function() {
+	setTimeout(function() {
 		var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
 		console.log(active_edexcoin)
 		if (active_edexcoin == 'COIN') {
-			$('.page-aside .wallet-widgets-list .list-group .list-group-item a')[0].click();
+			var basiliskCoins = $('.page-aside .wallet-widgets-list .list-group .list-group-item .widget-content[data-edexcoinmodecode="Basilisk"] a');
+			if (basiliskCoins && basiliskCoins.length) {
+				$('.page-aside .wallet-widgets-list .list-group .list-group-item .widget-content[data-edexcoinmodecode="Basilisk"] a')[0].click();
+			} else {
+				$('.page-aside .wallet-widgets-list .list-group .list-group-item .widget-content[data-edexcoinmodecode="Full"] a')[0].click();
+			}
 		}
-	}, 100000);*/
+	}, 1000);
 }
 
 function removeDashboardStyle() {
