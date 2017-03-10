@@ -1,4 +1,4 @@
-templates.refreshBasiliskConnectionsModal = 
+templates.refreshBasiliskConnectionsModal =
 `
 <!-- START ADD COIN DIV -->
 <div>

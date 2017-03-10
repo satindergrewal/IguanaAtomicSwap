@@ -199,7 +199,7 @@ $('#nav-zcash-wallet').on('click', function() {
 		$('[data-extcointitle]').text('Zcash');
 		$('[data-extcointitle="Zcash"]');
 	});
-	
+
 	KMDWalletDashboard.init(); // Initiate Komodo Dashbaord sript
 	RunKMDInitFunctions();
 	//removeKMDWalletStyle();
@@ -440,7 +440,7 @@ function removeZECWalletStyle() {
 }
 
 function applyJumblrStyle() {
-	$('.header-easydex-section').html('<img src="assets/images/jumnative/blr_header_title_logo.png"><br>' + _lang[defaultLang].SIDEBAR.JUMBLR_MOTTO);
+	$('.header-easydex-section').html('<img src="assets/images/native/jumblr_header_title_logo.png"><br>' + _lang[defaultLang].SIDEBAR.JUMBLR_MOTTO);
 	$('.page-title').hide();
 	$('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
 	$('#easydex-header-div').css('background-repeat', 'no-repeat');
