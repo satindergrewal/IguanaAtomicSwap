@@ -207,6 +207,58 @@ function refreshEDEXCoinWalletList() {
                   coinlogo = 'WIRELESS';
                   coinname = 'WIRELESS';
                   break;
+               case 'DEX':
+                coinlogo = 'DEX';
+                coinname = 'DEX';
+                break;
+              case 'PANGEA':
+                coinlogo = 'PANGEA';
+                coinname = 'PANGEA';
+                break;
+              case 'JUMBLR':
+                  coinlogo = 'JUMBLR';
+                  coinname = 'JUMBLR';
+                  break;
+              case 'BET':
+                coinlogo = 'BET';
+                coinname = 'BET';
+                break;
+              case 'CRYPTO':
+                coinlogo = 'CRYPTO';
+                coinname = 'CRYPTO';
+                break;
+              case 'HODL':
+                  coinlogo = 'HODL';
+                  coinname = 'HODL';
+                  break;
+              case 'SHARK':
+                  coinlogo = 'SHARK';
+                  coinname = 'SHARK';
+                  break;
+               case 'BOTS':
+                coinlogo = 'BOTS';
+                coinname = 'BOTS';
+                break;
+              case 'MGW':
+                coinlogo = 'MGW';
+                coinname = 'MGW';
+                break;
+              case 'MVP':
+                  coinlogo = 'MVP';
+                  coinname = 'MVP';
+                  break;
+              case 'KV':
+                coinlogo = 'KV';
+                coinname = 'KV';
+                break;
+              case 'CEAL':
+                coinlogo = 'CEAL';
+                coinname = 'CEAL';
+                break;
+              case 'MESH':
+                  coinlogo = 'MESH';
+                  coinname = 'MESH';
+                  break;
               case 'USD':
                 coinlogo = 'USD';
                 coinname = 'USD';

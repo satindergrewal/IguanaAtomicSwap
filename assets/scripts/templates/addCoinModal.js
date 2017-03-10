@@ -33,6 +33,19 @@ templates.addCoinModal =
 	            <option value="SUPERNET">SUPERNET</option>
 	            <option value="REVS">REVS</option>
 	            <option value="WIRELESS">WIRELESS</option>
+	            <option value="DEX">DEX</option>
+				<option value="PANGEA">PANGEA</option>
+				<option value="JUMBLR">JUMBLR</option>
+				<option value="BET">BET</option>
+				<option value="CRYPTO">CRYPTO</option>
+				<option value="HODL">HODL</option>
+				<option value="SHARK">SHARK</option>
+				<option value="BOTS">BOTS</option>
+				<option value="MGW">MGW</option>
+				<option value="MVP">MVP</option>
+				<option value="KV">KV</option>
+				<option value="CEAL">CEAL</option>
+				<option value="MESH">MESH</option>
 	            <option value="USD">USD</option>
 	          </select>
 	        </div>

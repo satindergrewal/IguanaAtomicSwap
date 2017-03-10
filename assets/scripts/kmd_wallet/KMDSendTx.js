@@ -27,8 +27,6 @@ function KMDZSendManyTransaction() {
 				'hex': zsendmoney_output
 			};
 	}
-
-	console.log(ajax_data_txid_input)
 	
 	$.ajax({
 		async: false,
