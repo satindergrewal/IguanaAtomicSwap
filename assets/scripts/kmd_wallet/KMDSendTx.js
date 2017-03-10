@@ -7,15 +7,29 @@ function KMDZSendManyTransaction() {
 			ajax_data_to_hex = '["' + tmp_zsendmany_from_addr + '",[{"address":"' + tmp_zsendmany_to_addr + '","amount":' + tmp_zsendmany_total_amount + '}]]',
 			zsendmoney_output = Iguana_HashHex(ajax_data_to_hex),
 			passthru_agent = getPassthruAgent(),
-			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-			ajax_data_txid_input = {
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+
+	if (passthru_agent == 'iguana') {
+		var ajax_data_txid_input = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'asset': $('[data-extcoin]').attr('data-extcoin'),
+				'function': 'z_sendmany',
+				'hex': zsendmoney_output
+			};
+	} else {
+		var ajax_data_txid_input = {
 				'userpass': tmpIguanaRPCAuth,
 				'agent': passthru_agent,
 				'method': 'passthru',
 				'function': 'z_sendmany',
 				'hex': zsendmoney_output
 			};
+	}
 
+	console.log(ajax_data_txid_input)
+	
 	$.ajax({
 		async: false,
 		type: 'POST',
