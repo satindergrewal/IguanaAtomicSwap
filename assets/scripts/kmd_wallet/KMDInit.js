@@ -75,9 +75,11 @@ function RunKMDInitFunctions() {
 		}
 
 		function getRemoteCurrentHeight() {
+			var extcoin = $('[data-extcoin]').attr('data-extcoin');
+
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:' + config.iguanaPort + '/api/dex/getinfo?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth') + '&symbol=KMD',
+				url: 'http://localhost:' + config.iguanaPort + '/api/dex/getinfo?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth') + '&symbol='+extcoin,
 				success: function(data, textStatus, jqXHR) {
 					data = JSON.parse(data);
 

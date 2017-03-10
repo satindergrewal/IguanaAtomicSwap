@@ -10,14 +10,26 @@ function KMDlistunspentT() {
 
 	var result = [],
 			passthru_agent = getPassthruAgent(),
-			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-			ajax_data = {
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+
+	if (passthru_agent == 'iguana') {
+		var ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'asset': $('[data-extcoin]').attr('data-extcoin'),
+				'function': 'listunspent',
+				'hex': ''
+			};
+	} else {
+		var ajax_data = {
 				'userpass': tmpIguanaRPCAuth,
 				'agent': passthru_agent,
 				'method': 'passthru',
 				'function': 'listunspent',
 				'hex': ''
 			};
+	}
 
 	$.ajax({
 		async: false,
@@ -64,14 +76,26 @@ function KMDGetTransactionIDInfo(txid) {
 			ajax_data_to_hex = '["' + txid + '"]',
 			tmptxid_output = Iguana_HashHex(ajax_data_to_hex),
 			passthru_agent = getPassthruAgent(),
-			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-			ajax_data_txid_input = {
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+
+	if (passthru_agent == 'iguana') {
+		var ajax_data_txid_input = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'asset': $('[data-extcoin]').attr('data-extcoin'),
+				'function': 'gettransaction',
+				'hex': tmptxid_output
+			};
+	} else {
+		var ajax_data_txid_input = {
 				'userpass': tmpIguanaRPCAuth,
 				'agent': passthru_agent,
 				'method': 'passthru',
 				'function': 'gettransaction',
 				'hex': tmptxid_output
 			};
+	}
 
 	$.ajax({
 		async: false,
@@ -108,14 +132,26 @@ function KMDGetOPIDInfo(opid) {
 	}
 
 	var passthru_agent = getPassthruAgent(),
-			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-			ajax_data_txid_input = {
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+
+	if (passthru_agent == 'iguana') {
+		var ajax_data_txid_input = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'asset': $('[data-extcoin]').attr('data-extcoin'),
+				'function': 'z_getoperationstatus',
+				'hex': tmpopid_output
+			};
+	} else {
+		var ajax_data_txid_input = {
 				'userpass': tmpIguanaRPCAuth,
 				'agent': passthru_agent,
 				'method': 'passthru',
 				'function': 'z_getoperationstatus',
 				'hex': tmpopid_output
 			};
+	}
 
 	$.ajax({
 		async: false,

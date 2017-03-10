@@ -1115,6 +1115,11 @@ function edexCoinBtnAction() {
 				sessionStorage.setItem('edexTmpRefresh', 'start');
 				$( '#nav-zcash-wallet' ).trigger( 'click' );
 			}
+			if ( selected_coin == 'SUPERNET' ) {
+				sessionStorage.setItem('edexTmpMode', selected_coinmode);
+				sessionStorage.setItem('edexTmpRefresh', 'start');
+				assetchain_pax_menu_actions(selected_coin)
+			}
 		}
 	});
 }
