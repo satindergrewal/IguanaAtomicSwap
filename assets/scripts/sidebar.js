@@ -21,6 +21,7 @@ $(document).ready(function() {
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
 	removeJumblrStyle();
+	removeACPAXWalletStyle();
 	CommonSidebarActionsSet01();
 	applyDashboardStyle();
 });
@@ -52,6 +53,7 @@ $('#nav-dashboard').on('click', function() {
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
 	removeJumblrStyle();
+	removeACPAXWalletStyle();
 	CommonSidebarActionsSet011();
 	applyDashboardStyle();
 });
@@ -80,6 +82,7 @@ $('#nav-easydex').on('click', function() {
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
 	removeJumblrStyle();
+	removeACPAXWalletStyle();
 	CommonSidebarActionsSet02();
 	removeDashboardStyle();
 });
@@ -108,6 +111,7 @@ $('#nav-jumblr').on('click', function() {
 	$(this.parentElement).addClass('active')
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
+	removeACPAXWalletStyle();
 	CommonSidebarActionsSet02();
 	removeDashboardStyle();
 	applyJumblrStyle()
@@ -147,6 +151,7 @@ $('#nav-komodo-wallet').on('click', function() {
 	KMDWalletDashboard.init(); // Initiate Komodo Dashboard sript
 	RunKMDInitFunctions();
 	removeJumblrStyle();
+	removeACPAXWalletStyle();
 	// removeZECWalletStyle();
 	applyKMDWalletStyle();
 	CommonSidebarActionsSet02();
@@ -228,6 +233,7 @@ $('#nav-iguana-atomic-explorer').on('click', function() {
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
 	removeJumblrStyle();
+	removeACPAXWalletStyle();
 	CommonSidebarActionsSet02();
 	removeDashboardStyle();
 	$('#easydex-header-div').hide();
@@ -255,6 +261,7 @@ $('#nav-iguana-wallet-settings').on('click', function() {
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
 	removeJumblrStyle();
+	removeACPAXWalletStyle();
 	Settings_ShowWalletInfo(); // Execute this function from walletsettings.js file
 	CommonSidebarActionsSet02();
 	removeDashboardStyle();
@@ -283,10 +290,80 @@ $('#nav-about-iguana').on('click', function() {
 	removeKMDWalletStyle();
 	removeZECWalletStyle();
 	removeJumblrStyle();
+	removeACPAXWalletStyle();
 	CommonSidebarActionsSet02();
 	removeDashboardStyle();
 	$('#easydex-header-div').hide();
 });
+
+
+// ASSETCHAINS AND PAXCHAINS SIDE MENU
+
+function assetchain_pax_menu_actions(coin) {
+	$('#section-dashboard').hide();
+	$('#header-dashboard').hide();
+	$('#section-easydex').hide();
+	$('#section-jumblr').hide();
+	$('#section-extcoin').show();
+	$('#section-zcash').hide();
+	$('#section-about-iguana').hide();
+	$('#section-iguana-atomic-explorer').hide();
+	$('#section-iguana-wallet-settings').hide();
+	$('#nav-dashboard').removeClass( 'active open' ).addClass( '' );
+	$('#nav-easydex').removeClass( 'active open' ).addClass( '' );
+	$('#nav-jumblr').removeClass( 'active open' ).addClass( '' );
+	$('#nav-komodo-wallet').removeClass( '' ).addClass( 'active open' );
+	$('#nav-zcash-wallet').removeClass( 'active open' ).addClass( '' );
+	$('#nav-iguana-atomic-explorer').removeClass( 'active open' ).addClass( '' );
+	$('#nav-iguana-wallet-settings').removeClass( 'active open' ).addClass( '' );
+	$('#nav-about-iguana').removeClass( 'active open' ).addClass( '' );
+
+	$.each($('[data-extcoin]'), function(index, value) {
+		$('[data-extcoin]').attr('data-extcoin', coin);
+		$('[data-extcoin='+coin+']');
+	});
+	$.each($('[data-extcoinname]'), function(index, value) {
+		$('[data-extcoinname]').text(coin);
+		$('[data-extcoinname='+coin+']');
+	});
+	$.each($('[data-extcointitle]'), function(index, value) {
+		$('[data-extcointitle]').text(coin);
+		$('[data-extcointitle='+coin+']');
+	});
+	KMDWalletDashboard.init(); // Initiate Komodo Dashboard sript
+	RunKMDInitFunctions();
+	removeJumblrStyle();
+	removeACPAXWalletStyle();
+	//removeZECWalletStyle();
+	//applyKMDWalletStyle();
+	applyACPAXWalletStyle()
+	CommonSidebarActionsSet02();
+	removeDashboardStyle();
+
+	switch (coin) {
+      case 'SUPERNET':
+        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+        break;
+      case 'REVS':
+        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+        $('#easydex-header-div').css();
+        break;
+      case 'WIRELESS':
+        $('.header-easydex-section').html('<img src="assets/images/native/wireless_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/wireless_transparent_header_bg.png")');
+        break;
+      case 'USD':
+        $('.header-easydex-section').html('<img src="assets/images/native/usd_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/usd_transparent_header_bg.png")');
+        break;
+      default:
+      $('.header-easydex-section').html('<span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+    }
+}
+
+// END ASSETCHAINS AND PAXCHAINS SIDE MENU
 
 function CommonSidebarActionsSet01() {
 	sessionStorage.setItem('DashboardActions', 'start');
@@ -311,21 +388,24 @@ function CommonSidebarActionsSet02() {
 }
 
 function applyKMDWalletStyle() {
-	$('.header-easydex-section').html('<img src="assets/images/kmd_header_title_logo.png">');
+	$('.header-easydex-section').html('<img src="assets/images/native/kmd_header_title_logo.png">');
 	$('.page-title').hide();
 	$('#easydex-header-div').css('background-image', 'url("assets/images/bg/kmd_transparent_header_bg.png")');
 	$('#easydex-header-div').css('background-repeat', 'no-repeat');
 	$('#easydex-header-div').css('background-position', '0%');
+	$('#easydex_acpax_wallet_actions_header').hide();
 	$('#easydex_kmd_wallet_actions_header').show();
 	$('#easydex_zec_wallet_actions_header').hide();
 	$('#jumblr_actions_header').hide();
 	$('#easydex_btc_btcd_balances_header').hide();
 	sessionStorage.setItem('NativeWalletActions', 'start');
+	getTotalKMDBalance();
 }
 
 function removeKMDWalletStyle() {
 	$('.page-title').show();
 	$('#easydex-header-div').removeAttr( 'style' );
+	$('#easydex_acpax_wallet_actions_header').hide();
 	$('#easydex_kmd_wallet_actions_header').hide();
 	$('#easydex_zec_wallet_actions_header').hide();
 	$('#jumblr_actions_header').hide();
@@ -334,21 +414,24 @@ function removeKMDWalletStyle() {
 }
 
 function applyZECWalletStyle() {
-	$('.header-easydex-section').html('<img src="assets/images/zec_header_title_logo.png">');
+	$('.header-easydex-section').html('<img src="assets/images/native/zec_header_title_logo.png">');
 	$('.page-title').hide();
 	$('#easydex-header-div').css('background-image', 'url("assets/images/bg/zec_transparent_header_bg.png")');
 	$('#easydex-header-div').css('background-repeat', 'no-repeat');
 	$('#easydex-header-div').css('background-position', '0%');
+	$('#easydex_acpax_wallet_actions_header').hide();
 	$('#easydex_kmd_wallet_actions_header').hide();
 	$('#easydex_zec_wallet_actions_header').show();
 	$('#jumblr_actions_header').hide();
 	$('#easydex_btc_btcd_balances_header').hide();
 	sessionStorage.setItem('NativeWalletActions', 'start');
+	getTotalKMDBalance();
 }
 
 function removeZECWalletStyle() {
 	$('.page-title').show();
 	$('#easydex-header-div').removeAttr( 'style' );
+	$('#easydex_acpax_wallet_actions_header').hide();
 	$('#easydex_kmd_wallet_actions_header').hide();
 	$('#easydex_zec_wallet_actions_header').hide();
 	$('#jumblr_actions_header').hide();
@@ -357,11 +440,12 @@ function removeZECWalletStyle() {
 }
 
 function applyJumblrStyle() {
-	$('.header-easydex-section').html('<img src="assets/images/jumblr_header_title_logo.png"><br>' + _lang[defaultLang].SIDEBAR.JUMBLR_MOTTO);
+	$('.header-easydex-section').html('<img src="assets/images/jumnative/blr_header_title_logo.png"><br>' + _lang[defaultLang].SIDEBAR.JUMBLR_MOTTO);
 	$('.page-title').hide();
 	$('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
 	$('#easydex-header-div').css('background-repeat', 'no-repeat');
 	$('#easydex-header-div').css('background-position', '0%');
+	$('#easydex_acpax_wallet_actions_header').hide();
 	$('#easydex_kmd_wallet_actions_header').hide();
 	$('#easydex_zec_wallet_actions_header').hide();
 	$('#jumblr_actions_header').show();
@@ -372,6 +456,31 @@ function applyJumblrStyle() {
 function removeJumblrStyle() {
 	$('.page-title').show();
 	$('#easydex-header-div').removeAttr( 'style' );
+	$('#easydex_acpax_wallet_actions_header').hide();
+	$('#easydex_kmd_wallet_actions_header').hide();
+	$('#easydex_zec_wallet_actions_header').hide();
+	$('#jumblr_actions_header').hide();
+	$('#easydex_btc_btcd_balances_header').hide();
+	sessionStorage.setItem('NativeWalletActions', 'stop');
+}
+
+function applyACPAXWalletStyle() {
+	$('.page-title').hide();
+	$('#easydex-header-div').css('background-repeat', 'no-repeat');
+	$('#easydex-header-div').css('background-position', '0%');
+	$('#easydex_acpax_wallet_actions_header').show();
+	$('#easydex_kmd_wallet_actions_header').hide();
+	$('#easydex_zec_wallet_actions_header').hide();
+	$('#jumblr_actions_header').hide();
+	$('#easydex_btc_btcd_balances_header').hide();
+	sessionStorage.setItem('NativeWalletActions', 'start');
+	getTotalKMDBalance();
+}
+
+function removeACPAXWalletStyle() {
+	$('.page-title').show();
+	$('#easydex-header-div').removeAttr( 'style' );
+	$('#easydex_acpax_wallet_actions_header').hide();
 	$('#easydex_kmd_wallet_actions_header').hide();
 	$('#easydex_zec_wallet_actions_header').hide();
 	$('#jumblr_actions_header').hide();
@@ -396,13 +505,13 @@ function applyDashboardStyle() {
 		$('#edex-footer').show();
 	}
 
-	setTimeout(function() {
+	/*setTimeout(function() {
 		var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
 		console.log(active_edexcoin)
 		if (active_edexcoin == 'COIN') {
 			$('.page-aside .wallet-widgets-list .list-group .list-group-item a')[0].click();
 		}
-	}, 1000);
+	}, 100000);*/
 }
 
 function removeDashboardStyle() {

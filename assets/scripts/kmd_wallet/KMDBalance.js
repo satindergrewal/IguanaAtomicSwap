@@ -7,14 +7,26 @@ function getTotalKMDBalance() {
 	if ( extcoin == 'KMD') { passthru_agent = 'komodo'; };
 	if ( extcoin == 'ZEC') { passthru_agent = 'zcash'; };
 
-	var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-			ajax_data = {
+	var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+
+	if ( extcoin !== 'KMD' && extcoin !== 'ZEC' ) {
+		var ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': 'iguana',
+				'method': 'passthru',
+				'asset': $('[data-extcoin]').attr('data-extcoin'),
+				'function': 'z_gettotalbalance',
+				'hex': '3000'
+			};
+	} else {
+		var ajax_data = {
 				'userpass': tmpIguanaRPCAuth,
 				'agent': passthru_agent,
 				'method': 'passthru',
 				'function': 'z_gettotalbalance',
 				'hex': '3000'
 			};
+	}
 
 	//console.log(ajax_data);
 	$.ajax({
@@ -25,7 +37,7 @@ function getTotalKMDBalance() {
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 
-			if (AjaxOutputData.interest != undefined) {
+			if (AjaxOutputData.interest != undefined && extcoin == 'KMD') {
 				console.log('show interest..');
 				$('#kmd_total_interest_balance').text(parseFloat(AjaxOutputData.interest).toFixed(8) + ' ' + extcoin);
 				$('#kmd_widget_get_total_balance_i').show();
@@ -63,14 +75,26 @@ function getTotalKMDBalance() {
 
 function getKMDBalanceT() {
 	var passthru_agent = getPassthruAgent(),
-			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-			ajax_data = {
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+
+	if (passthru_agent == 'iguana') {
+		var ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'asset': $('[data-extcoin]').attr('data-extcoin'),
+				'function': 'getbalance',
+				'hex': ''
+			};
+	} else {
+		var ajax_data = {
 				'userpass': tmpIguanaRPCAuth,
 				'agent': passthru_agent,
 				'method': 'passthru',
 				'function': 'getbalance',
 				'hex': ''
 			};
+	}
 
 	console.log(ajax_data);
 	$.ajax({
@@ -94,14 +118,26 @@ function getKMDBalanceT() {
 
 function getKMDBalanceZ() {
 	var passthru_agent = getPassthruAgent(),
-			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-			ajax_data = {
+			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+
+	if (passthru_agent == 'iguana') {
+		var ajax_data = {
+				'userpass': tmpIguanaRPCAuth,
+				'agent': passthru_agent,
+				'method': 'passthru',
+				'asset': $('[data-extcoin]').attr('data-extcoin'),
+				'function': 'z_getbalance',
+				'hex': ''
+			};
+	} else {
+		var ajax_data = {
 				'userpass': tmpIguanaRPCAuth,
 				'agent': passthru_agent,
 				'method': 'passthru',
 				'function': 'z_getbalance',
 				'hex': ''
 			};
+	}
 
 	console.log(ajax_data);
 	$.ajax({
