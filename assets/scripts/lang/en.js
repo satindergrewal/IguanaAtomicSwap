@@ -165,7 +165,7 @@ const _lang = {
       'IMPORT_KEYS_DESC_P1': 'This section allows you to import private key of all iguana supported coins, Assetchain, Geckochain, or PAXchain by the wallet.',
       'IMPORT_KEYS_DESC_P2': 'It is not mandatory to have that coin active in the wallet for which you are executing import private key process.',
       'IMPORT_KEYS_DESC_P3': 'You\'ll also notice the private key you imported for one coin or chain will also be showing a new address in all other coin wallets\' receiving address section. ' +
-      											 'It is normal.',
+      			     'It is normal.',
       'INPUT_PRIV_KEY': 'Input Private Key',
       'IMPORT_PRIV_KEY': 'Import Private Key',
       'DEBUG_LOG': 'Debug Log',
@@ -184,7 +184,7 @@ const _lang = {
     	'TO_USE_JUMBLR': 'To use Jumblr feature, you need to activate Komodo in Native Mode.',
     	'IF_YOU_ALREADY_RUNNING': 'If you are already running Komodo in either Basilisk Mode or Full Mode, close the wallet and restart again to start Komodo In Native Mode.',
     	'THIS_SCREEN_DOESNT_REFRESH': 'This screen does not auto refresh. ' +
-    																'You will need to hit the Refresh button on the top right corner of the screen to get latest Jumblr data.',
+    						'You will need to hit the Refresh button on the top right corner of the screen to get latest Jumblr data.',
     	'FEW_SECURITY_NOTES': 'Few Security Notes for your Privacy and Anonymity of funds',
     	'FEW_SECURITY_NOTES_DESC1': 'Jumblr addresses (BTC Jumbler and KMD Jumbler) addresses are your Private Addresses.',
     	'FEW_SECURITY_NOTES_DESC2': 'DO NOT SHARE your Jumblr addresses with anyone.',

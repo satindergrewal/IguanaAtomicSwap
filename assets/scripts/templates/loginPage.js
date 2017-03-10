@@ -1,4 +1,4 @@
-templates.loginPage = 
+templates.loginPage =
 `
 <!-- BEGIN Login Page -->
 <div id="wallet-login">
@@ -49,76 +49,6 @@ templates.loginPage =
             <button class="btn btn-lg btn-flat btn-block waves-effect" id="register-btn" data-lang="INDEX.CREATE_WALLET"></button>
             <button class="btn btn-lg btn-flat btn-block waves-effect" id="logint-another-wallet" data-lang="INDEX.LOGIN_ANOTHER_WALLET"></button>
           </div>
-          <!-- START ADVANCED OPTIONS TO SELECT COINS -->
-          <!--<div class="form-group form-material row" id="logincoinslist">-->
-            <!-- START BITCOIN COIN OPTIONS -->
-            <!--<div class="col-sm-12">
-            <div class="col-sm-3">
-              <div class="checkbox-custom checkbox-default" style="margin-top: 0px; text-align: left">
-                <input type="checkbox" id="logincoinbtc" value="BTC" name="logincoinbtc" checked="" autocomplete="off">
-                <label for="logincoinbtc">Bitcoin</label>
-              </div>
-            </div>
-            <div class="col-sm-9">
-              <div>
-                <div class="radio-custom radio-default radio-inline">
-                  <input type="radio" id="logincoinbtcmodeF" name="logincoinbtcmode" value="1">
-                  <label for="logincoinbtcmodeF">Full Mode</label>
-                </div>
-                <div class="radio-custom radio-default radio-inline">
-                  <input type="radio" id="logincoinbtcmodeB" name="logincoinbtcmode" value="0" checked="">
-                  <label for="logincoinbtcmodeB">Basilisk Mode</label>
-                </div>
-              </div>
-            </div>
-            </div>-->
-            <!-- END BITCOIN COIN OPTIONS -->
-            <!-- START BITCOIN COIN OPTIONS -->
-            <!--<div class="col-sm-12">
-            <div class="col-sm-3">
-              <div class="checkbox-custom checkbox-default" style="margin-top: 0px; text-align: left">
-                <input type="checkbox" id="logincoinbtcd" value="BTCD" name="logincoinbtcd" checked="" autocomplete="off">
-                <label for="logincoinbtcd">BitcoinDark</label>
-              </div>
-            </div>
-            <div class="col-sm-9">
-              <div>
-                <div class="radio-custom radio-default radio-inline">
-                  <input type="radio" id="logincoinbtcdmodeF" name="logincoinbtcdmode" value="1" checked>
-                  <label for="logincoinbtcdmodeF">Full Mode</label>
-                </div>
-                <div class="radio-custom radio-default radio-inline">
-                  <input type="radio" id="logincoinbtcdmodeB" name="logincoinbtcdmode" value="0">
-                  <label for="logincoinbtcdmodeB">Basilisk Mode</label>
-                </div>
-              </div>
-            </div>
-            </div>-->
-            <!-- END BITCOIN COIN OPTIONS -->
-            <!-- START BITCOIN COIN OPTIONS -->
-            <!--<div class="col-sm-12">
-            <div class="col-sm-3">
-              <div class="checkbox-custom checkbox-default" style="margin-top: 0px; text-align: left">
-                <input type="checkbox" id="logincoinkmd" value="KMD" name="logincoinkmd" checked="" autocomplete="off">
-                <label for="logincoinkmd">Komodo</label>
-              </div>
-            </div>
-            <div class="col-sm-9">
-              <div>
-                <div class="radio-custom radio-default radio-inline">
-                  <input type="radio" id="logincoinkmdmodeF" name="logincoinkmdmode" value="1" checked>
-                  <label for="logincoinkmdmodeF">Full Mode</label>
-                </div>
-                <div class="radio-custom radio-default radio-inline">
-                  <input type="radio" id="logincoinkmdmodeB" name="logincoinkmdmode" value="0">
-                  <label for="logincoinkmdmodeB">Basilisk Mode</label>
-                </div>
-              </div>
-            </div>
-            </div>-->
-            <!-- END BITCOIN COIN OPTIONS -->
-          <!--</div>-->
-          <!-- END ADVANCED OPTIONS TO SELECT COINS -->
         </form>
       </div>
       <!-- END section login -->
@@ -160,15 +90,6 @@ templates.loginPage =
             <textarea class="form-control placeholder-no-fix" type="text" placeholder="" name="rwalletseed" id="rwalletseed" style="height: 100px"></textarea>
             <label class="floating-label" for="rwalletseed" data-lang="INDEX.CONFIRM_SEED"></label>
           </div>
-          <!--<h4 class="hint" style="color: #fff"> Please enter password for new wallet: </h4>
-          <div class="form-group form-material floating">
-            <input type="text" class="form-control" id="register_password" name="password">
-            <label class="floating-label" for="register_password">Password</label>
-          </div>
-          <div class="form-group form-material floating">
-            <input type="text" class="form-control" id="rpassword" name="rpassword">
-            <label class="floating-label" for="rpassword">Retype Password</label>
-          </div>-->
           <button type="submit" id="register-submit-btn" class="btn btn-primary btn-block" data-lang="INDEX.REGISTER"></button>
           <div class="form-group form-material floating">
             <button class="btn btn-lg btn-flat btn-block waves-effect" id="register-back-btn" data-lang="INDEX.BACK_TO_LOGIN"></button>
