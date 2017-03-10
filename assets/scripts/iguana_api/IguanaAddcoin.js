@@ -1410,6 +1410,7 @@ function ExecuteAddCoinFn() {
 				'coin': addcoin_selected_coinname_code_val,
 				'mode': addcoin_selected_mode_val
 			};
+			console.log(ExecAddCoinData)
 
 	Iguana_addcoin(ExecAddCoinData);
 }
@@ -1422,6 +1423,7 @@ function ExecuteAddCoinLoginFn() {
 				'mode': addcoin_selected_mode_val,
 				'logincmd': 1
 			};
+			console.log(ExecAddCoinData)
 
 	Iguana_addcoin(ExecAddCoinData);
 }
