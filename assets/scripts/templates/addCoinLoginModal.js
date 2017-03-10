@@ -25,6 +25,7 @@ templates.addCoinLoginModal =
               <option value="UNO">Unobtanium</option>
               <option value="ZET">Zetacoin</option>
               <option value="KMD">Komodo</option>
+              <option value="ZEC">Zcash</option>
               <option value="BTM">Bitmark</option>
               <option value="CARB">Carboncoin</option>
               <option value="ANC">AnonCoin</option>
