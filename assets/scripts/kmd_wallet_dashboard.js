@@ -252,5 +252,6 @@ function KMD_ProgressBar() {
 		$('span[data-extcoin="' + extcoin + '"][id="extcoin-synced-blocks"]').text(getinfotmp.blocks);
 		$('span[data-extcoin="' + extcoin + '"][id="extcoin-longestchain"]').text(getinfotmp.longestchain);
 		$('span[data-extcoin="' + extcoin + '"][id="extcoin-connections"]').text(getinfotmp.connections);
+		$('#extcoin-wallet-activating-alert').hide();
 	}
 }

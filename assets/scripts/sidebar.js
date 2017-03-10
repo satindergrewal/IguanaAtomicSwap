@@ -399,6 +399,7 @@ function applyKMDWalletStyle() {
 	$('#jumblr_actions_header').hide();
 	$('#easydex_btc_btcd_balances_header').hide();
 	sessionStorage.setItem('NativeWalletActions', 'start');
+	getTotalKMDBalance();
 }
 
 function removeKMDWalletStyle() {
@@ -424,6 +425,7 @@ function applyZECWalletStyle() {
 	$('#jumblr_actions_header').hide();
 	$('#easydex_btc_btcd_balances_header').hide();
 	sessionStorage.setItem('NativeWalletActions', 'start');
+	getTotalKMDBalance();
 }
 
 function removeZECWalletStyle() {
@@ -472,6 +474,7 @@ function applyACPAXWalletStyle() {
 	$('#jumblr_actions_header').hide();
 	$('#easydex_btc_btcd_balances_header').hide();
 	sessionStorage.setItem('NativeWalletActions', 'start');
+	getTotalKMDBalance();
 }
 
 function removeACPAXWalletStyle() {
