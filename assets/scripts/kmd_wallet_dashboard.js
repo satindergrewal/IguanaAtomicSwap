@@ -39,10 +39,13 @@ function getHeaderActionMenuButtonCoinCode() {
 	if ( extcoin == 'KMD') { action_menu_button_code = 'kmd'; };
 	if ( extcoin == 'ZEC') { action_menu_button_code = 'zec'; };
 
-	if ( extcoin == 'SUPERNET') { action_menu_button_code = 'acpax'; };
+	if ( extcoin == 'SUPERNET'
+		|| extcoin == 'REVS'
+		|| extcoin == 'WIRELESS'
+		|| extcoin == 'USD') { action_menu_button_code = 'acpax'; };
 
 	return action_menu_button_code;
-}
+} 
 
 function getPassthruAgent() {
 	var extcoin = $('[data-extcoin]').attr('data-extcoin');
@@ -52,7 +55,10 @@ function getPassthruAgent() {
 
 	if ( extcoin == 'KMD') { passthru_agent = 'komodo'; };
 	if ( extcoin == 'ZEC') { passthru_agent = 'zcash'; };
-	if ( extcoin == 'SUPERNET') { passthru_agent = 'iguana'; };
+	if ( extcoin == 'SUPERNET'
+		|| extcoin == 'REVS'
+		|| extcoin == 'WIRELESS'
+		|| extcoin == 'USD' ) { passthru_agent = 'iguana'; };
 
 	return passthru_agent;
 }

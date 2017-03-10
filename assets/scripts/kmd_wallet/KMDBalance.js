@@ -12,7 +12,7 @@ function getTotalKMDBalance() {
 	if ( extcoin !== 'KMD' && extcoin !== 'ZEC' ) {
 		var ajax_data = {
 				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
+				'agent': 'iguana',
 				'method': 'passthru',
 				'asset': $('[data-extcoin]').attr('data-extcoin'),
 				'function': 'z_gettotalbalance',
@@ -37,7 +37,7 @@ function getTotalKMDBalance() {
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 
-			if (AjaxOutputData.interest != undefined) {
+			if (AjaxOutputData.interest != undefined && extcoin == 'KMD') {
 				console.log('show interest..');
 				$('#kmd_total_interest_balance').text(parseFloat(AjaxOutputData.interest).toFixed(8) + ' ' + extcoin);
 				$('#kmd_widget_get_total_balance_i').show();
