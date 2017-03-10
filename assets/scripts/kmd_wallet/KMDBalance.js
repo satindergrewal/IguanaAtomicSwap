@@ -9,7 +9,7 @@ function getTotalKMDBalance() {
 
 	var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
 
-	if (passthru_agent == 'iguana') {
+	if ( extcoin !== 'KMD' && extcoin !== 'ZEC' ) {
 		var ajax_data = {
 				'userpass': tmpIguanaRPCAuth,
 				'agent': passthru_agent,
