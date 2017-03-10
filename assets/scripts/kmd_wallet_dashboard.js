@@ -242,16 +242,18 @@ function KMD_ProgressBar() {
 			extcoin = $('[data-extcoin]').attr('data-extcoin'),
 			getinfotmp = KMD_getInfo_rtrn();
 
-	if ( getinfotmp == 'activating') {
-		$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text('Activating...');
-	} else {
-		var sync_percent = parseFloat(parseInt(getinfotmp.blocks, 10) * 100) / parseInt(getinfotmp.longestchain, 10);
-
-		$('div[data-extcoin="' + extcoin + '"][id="extcoin-sync"]').width(parseFloat(sync_percent).toFixed(2) + '%');
-		$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text(parseFloat(sync_percent).toFixed(2) + '%');
-		$('span[data-extcoin="' + extcoin + '"][id="extcoin-synced-blocks"]').text(getinfotmp.blocks);
-		$('span[data-extcoin="' + extcoin + '"][id="extcoin-longestchain"]').text(getinfotmp.longestchain);
-		$('span[data-extcoin="' + extcoin + '"][id="extcoin-connections"]').text(getinfotmp.connections);
-		$('#extcoin-wallet-activating-alert').hide();
+	if (extcoin !== 'ZEC') {
+		if ( getinfotmp == 'activating') {
+			$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text('Activating...');
+		} else {
+			var sync_percent = parseFloat(parseInt(getinfotmp.blocks, 10) * 100) / parseInt(getinfotmp.longestchain, 10);
+			//console.log(sync_percent);
+			$('div[data-extcoin="' + extcoin + '"][id="extcoin-sync"]').width(parseFloat(sync_percent).toFixed(2) + '%');
+			$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text(parseFloat(sync_percent).toFixed(2) + '%');
+			$('span[data-extcoin="' + extcoin + '"][id="extcoin-synced-blocks"]').text(getinfotmp.blocks);
+			$('span[data-extcoin="' + extcoin + '"][id="extcoin-longestchain"]').text(getinfotmp.longestchain);
+			$('span[data-extcoin="' + extcoin + '"][id="extcoin-connections"]').text(getinfotmp.connections);
+			$('#extcoin-wallet-activating-alert').hide();
+		}
 	}
 }

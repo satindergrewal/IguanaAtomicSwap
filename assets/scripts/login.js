@@ -749,6 +749,12 @@ var Login = function() {
         $('#addcoin_mdl_full_mode_login').prop('disabled', false);
         $('#addcoin_mdl_full_mode_login').prop('checked', true);
       }
+      if (tmp_coin_val == 'ZEC') {
+        $('#addcoin_mdl_basilisk_mode_login').prop('disabled', true);
+        $('#addcoin_mdl_native_mode_login').prop('disabled', false);
+        $('#addcoin_mdl_full_mode_login').prop('disabled', true);
+        $('#addcoin_mdl_native_mode_login').prop('checked', true);
+      }
     });
   }
 
