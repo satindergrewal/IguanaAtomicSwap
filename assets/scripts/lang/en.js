@@ -247,7 +247,8 @@ const _lang = {
       'OUT': 'OUT',
       'MINED': 'Mined',
       'IMMATURE': 'Immature',
-      'ZADDR_NOT_LISTED': 'Z Address not listed by wallet'
+      'ZADDR_NOT_LISTED': 'Z Address not listed by wallet',
+      'ADDR_COPIED': 'Address Copied'
     },
     'TOASTR': {
       'WALLET_NOTIFICATION': 'Wallet Notification',

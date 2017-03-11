@@ -196,8 +196,11 @@ function Iguana_DEXImportAll() {
 			});
 
 	ajax_call_1.done(function(data) {
-		$.each([ 'basilisk','full' ], function(data_index,data_value) {
-			$.each(data[data_value], function(mode_index,mode_value) {
+		$.each([
+			'basilisk',
+			'full'
+		], function(data_index, data_value) {
+			$.each(data[data_value], function(mode_index, mode_value) {
 				var ajax_data_2 = {
 							'userpass': tmpIguanaRPCAuth,
 							'coin': mode_value,
@@ -256,7 +259,7 @@ function Iguana_DEXImportAll() {
 										});
 
 								ajax_call_5.done(function(data) {
-									console.log(mode_value)
+									console.log(mode_value);
 									console.log(data);
 
 									if (data == 'already in list') {
@@ -391,7 +394,8 @@ function Iguana_DEXsendrawtx(data) {
       url: 'http://127.0.0.1:' + config.iguanaPort,
       type: 'POST',
       //dataType: 'json'
-    }).then(result => {
+    })
+    .then(result => {
       console.log(result);
       resolve(result);
     });
@@ -427,7 +431,8 @@ function EDEX_DEXlistunspent(coin, addr) {
 						toastr.error('Less than required responses. Please try again.', 'Basilisk Notification');
 					}
 					resolve(AjaxOutputData);
-				}).fail(function(xhr, textStatus, error) {
+				})
+				.fail(function(xhr, textStatus, error) {
 					// handle request failures
 					console.log(xhr.statusText);
 					if ( xhr.readyState == 0 ) {
@@ -523,7 +528,8 @@ function EDEX_DEXgetinfoAll() {
 
 								var tmp_index = parseInt(coin_index) + 1,
 										refresh_percent = parseFloat(parseInt(coin_index, 10) * 100) / parseInt(get_dex_notarychains.length, 10);
-								console.log(refresh_percent)
+
+								console.log(refresh_percent);
 								$('#basilisk-connections-refresh-title').text('Connection status... ' + tmp_index + '/' + get_dex_notarychains.length + ': ' + coin_value);
 								$('#basilisk-connections-refresh-percent').text(refresh_percent + '%');
 								$('#basilisk-connections-refresh-progress-bar').width(refresh_percent + '%');

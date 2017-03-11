@@ -29,7 +29,8 @@ function getDEXGetBalance(coin) {
 			url: 'http://127.0.0.1:' + config.iguanaPort,
 			type: 'POST',
 			dataType: 'json'
-		}).then(data => {
+		})
+		.then(data => {
 			var total_balance = 0,
 					total_interest = 0;
 
@@ -50,7 +51,8 @@ function getDEXGetBalance(coin) {
 						url: 'http://127.0.0.1:' + config.iguanaPort,
 						type: 'POST',
 						dataType: 'json'
-					}).then(data => {
+					})
+					.then(data => {
 						console.log(data);
 						total_balance = total_balance + data.balance;
 
@@ -70,8 +72,9 @@ function getDEXGetBalance(coin) {
 						resolve(pass_data);
 					});
 				});
-			})).then(result => {
-				resolve(result[result.length-1]);
+			}))
+			.then(result => {
+				resolve(result[result.length - 1]);
 				NProgress.done();
 			});
 		});
@@ -89,7 +92,8 @@ function getDEXGetBalance_cache(coin) {
   NProgress.start();
 
   return new Promise((resolve) => {
-	Shepherd_CheckBasiliskCacheData(coin).then(function(result) {
+	Shepherd_CheckBasiliskCacheData(coin)
+	.then(function(result) {
 		//console.log(result);
 		//console.log(result.coin);
 
@@ -100,7 +104,8 @@ function getDEXGetBalance_cache(coin) {
 				'calls': 'listtransactions:getbalance:refresh'
 			};
 			//console.log(call_data)
-			Shepherd_FetchBasiliskData(call_data).then(function(result) {
+			Shepherd_FetchBasiliskData(call_data)
+			.then(function(result) {
 				console.log(result);
 			});
 		} else if (result.getbalance == false) {
@@ -116,7 +121,8 @@ function getDEXGetBalance_cache(coin) {
 		}
 	})
 
-    Shepherd_GetBasiliskCache().then(function(result) {
+    Shepherd_GetBasiliskCache()
+    .then(function(result) {
 	    var _data = JSON.parse(result),
 	    		query = _data.result.basilisk,
 					total_balance = 0,
@@ -147,9 +153,10 @@ function getDEXGetBalance_cache(coin) {
             pass_data = { 'total': 0.00000000 };
           }
 
-          resolve(pass_data)
-        })
-       })).then(result => {
+          resolve(pass_data);
+        });
+      }))
+			.then(result => {
         if ( result[result.length - 1].total == 0 ) {
           resolve(result[result.length - 2]);
         } else {
@@ -255,7 +262,8 @@ function getDEXGetBalance2(coin) {
 
 			resolve(tmp_addr_total_balance_output)
 			NProgress.done();
-		}).fail(function(xhr, textStatus, error) {
+		})
+		.fail(function(xhr, textStatus, error) {
 			// handle request failures
 			console.log(xhr.statusText);
 			if ( xhr.readyState == 0 ) {

@@ -113,7 +113,7 @@ var KMDWalletDashboard = function() {
 
 			$('#kmd_wallet_total_value').text(total_minus_currency_fee.toFixed(8));
 
-			if ($('#kmd_wallet_send_from').val() != '- Select Transparent or Private KMD Address -' &&
+			if ($('#kmd_wallet_send_from').val() != '- ' + _lang[defaultLang].KMD_NATIVE.SELECT_ADDRESS_ALT + ' -' &&
 					$('#kmd_wallet_amount').val() != '' &&
 					$('#kmd_wallet_sendto') != '' &&
 					$('#kmd_wallet_fee') != '' ) {

@@ -133,7 +133,7 @@ function Iguana_HashHex(data) {
 }
 
 function Iguana_SetRPCAuth() {
-	var tmpPass = md5(PassPhraseGenerator.generatePassPhrase(128));
+	var tmpPass = 1234; // md5(PassPhraseGenerator.generatePassPhrase(128));
 	sessionStorage.setItem('IguanaRPCAuth', tmpPass);
 }
 

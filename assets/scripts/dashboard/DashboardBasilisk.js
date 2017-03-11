@@ -1,7 +1,8 @@
 function ShowBasiliskFetchDataProgress(coin) {
 	var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 
-	Shepherd_GetBasiliskCache().then(function(result) {
+	Shepherd_GetBasiliskCache()
+  .then(function(result) {
     var _data = JSON.parse(result),
     		query = _data.result.basilisk,
         coin_exists = true,
@@ -292,9 +293,12 @@ function SwitchBasicliskFull(switch_data) {
 }
 
 function getBasiliskCoinBalance(coin) {
-	EDEXMainAddr(coin).then(function(result){
-		console.log(result)
-		EDEX_DEXlistunspent(coin, result).then(function(result_listunspent) {
+	EDEXMainAddr(coin)
+  .then(function(result){
+		console.log(result);
+
+		EDEX_DEXlistunspent(coin, result)
+    .then(function(result_listunspent) {
 			console.log(result_listunspent[0].amount);
 			$('span[data-edexcoincode="' + coin + '"][id="edexcoin-balance"]').text(result_listunspent[0].amount);
 		});

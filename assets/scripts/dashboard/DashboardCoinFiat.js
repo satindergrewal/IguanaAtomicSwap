@@ -1,13 +1,19 @@
 function getCoinBalance(coin) {
 	var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
 
-	EDEXlistunspent(active_edexcoin).then(function(result) {
+	EDEXlistunspent(active_edexcoin)
+	.then(function(result) {
 		console.log(result)
 		if (result[0] != undefined) {
 			if ( result[0].interest !== undefined ) {
-				$('#edexcoin_getbalance_interest').show();
-				$('#edexcoin_getbalance_total_interest').show();
-				$('#edexcoin_getbalance_t').removeClass( 'col-lg-12' ).addClass( 'col-lg-4' );
+				$(
+					'#edexcoin_getbalance_interest,' +
+					'#edexcoin_getbalance_total_interest'
+				)
+				.show();
+				$('#edexcoin_getbalance_t')
+					.removeClass( 'col-lg-12' )
+					.addClass( 'col-lg-4' );
 				$('#edex_interest_balance').text(result[0].interest);
 				$('#edex_total_balance_interest').text(result[0].totalbalance);
 				$('#edex_total_interest_coincode').text(active_edexcoin);
@@ -15,11 +21,19 @@ function getCoinBalance(coin) {
 			}
 
 			if ( result[0].interest === undefined ) {
-				$('#edexcoin_getbalance_interest').hide();
-				$('#edexcoin_getbalance_total_interest').hide();
-				$('#edexcoin_getbalance_t').removeClass( 'col-lg-4' ).addClass( 'col-lg-12' );
-				$('#edex_interest_balance').text('-');
-				$('#edex_total_balance_interest').text('-');
+				$(
+					'#edexcoin_getbalance_interest,' +
+					'#edexcoin_getbalance_total_interest'
+				)
+				.hide();
+				$('#edexcoin_getbalance_t')
+					.removeClass( 'col-lg-4' )
+					.addClass( 'col-lg-12' );
+				$(
+					'#edex_interest_balance,' +
+					'#edex_total_balance_interest'
+				)
+				.text('-');
 			}
 
 			$('#edex_total_balance').text(result[0].total);
@@ -142,11 +156,14 @@ function ShowCoinProgressBar(coin) {
 							coin_blocks_plus1 = coin_blocks + 1;
 
 					sessionStorage.setItem('Activate' + coin + 'History', 'Yes');
-					$('div[data-edexcoin="'+coin+'"][id="currency-progressbars"]').show();
-					$('div[data-edexcoin="'+coin+'"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2) + '%');
-					$('span[data-edexcoin="'+coin+'"][id="currency-bundles-percent"]').text('(' + coin + ') ' + parseFloat(CoinInfoData.bundles).toFixed(2) + '% - ( ' + coin_blocks_plus1 + ' / '+ CoinInfoData.longestchain + ' ) ==>> RT' + CoinInfoData.RTheight);
-					$('div[data-edexcoin="'+coin+'"][id="additional-progress-bars"]').hide();
-					$('div[data-edexcoin="'+coin+'"][id="currency-bundles"]').removeClass( 'progress-bar-info' ).addClass( 'progress-bar-indicating progress-bar-success' );
+					$('div[data-edexcoin="' + coin + '"][id="currency-progressbars"]').show();
+					$('div[data-edexcoin="' + coin + '"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2) + '%');
+					$('span[data-edexcoin="' + coin + '"][id="currency-bundles-percent"]')
+						.text('(' + coin + ') ' + parseFloat(CoinInfoData.bundles).toFixed(2) + '% - ( ' + coin_blocks_plus1 + ' / '+ CoinInfoData.longestchain + ' ) ==>> RT' + CoinInfoData.RTheight);
+					$('div[data-edexcoin="' + coin + '"][id="additional-progress-bars"]').hide();
+					$('div[data-edexcoin="' + coin + '"][id="currency-bundles"]')
+						.removeClass( 'progress-bar-info' )
+						.addClass( 'progress-bar-indicating progress-bar-success' );
 					$('#edex-footer').css('height', '11px');
 					resizeDashboardWindow();
 					$('#edexcoin-wallet-waitingrt-alert').hide();
@@ -159,9 +176,12 @@ function ShowCoinProgressBar(coin) {
 					console.log(coin + ': ' + CoinInfoData.bundles);
 					$('div[data-edexcoin="' + coin + '"][id="additional-progress-bars"]').show();
 					$('div[data-edexcoin="' + coin + '"][id="currency-progressbars"]').show();
-					$('div[data-edexcoin="' + coin + '"][id="currency-bundles"]').removeClass( 'progress-bar-indicating progress-bar-success' ).addClass( 'progress-bar-info' );
+					$('div[data-edexcoin="' + coin + '"][id="currency-bundles"]')
+						.removeClass( 'progress-bar-indicating progress-bar-success' )
+						.addClass( 'progress-bar-info' );
 					$('div[data-edexcoin="' + coin + '"][id="currency-bundles"]').width(parseFloat(CoinInfoData.bundles).toFixed(2) + '%');
-					$('span[data-edexcoin="' + coin + '"][id="currency-bundles-percent"]').text('(' + coin + ') ' + parseFloat(CoinInfoData.bundles).toFixed(2) + '% - ( ' + coin_blocks_plus1 + ' / ' + CoinInfoData.longestchain + ' )');
+					$('span[data-edexcoin="' + coin + '"][id="currency-bundles-percent"]')
+						.text('(' + coin + ') ' + parseFloat(CoinInfoData.bundles).toFixed(2) + '% - ( ' + coin_blocks_plus1 + ' / ' + CoinInfoData.longestchain + ' )');
 					$('div[data-edexcoin="' + coin + '"][id="currency-utxo"]').width(parseFloat(CoinInfoData.utxo).toFixed(2) + '%');
 					$('span[data-edexcoin="' + coin + '"][id="currency-utxo-percent"]').text('(' + coin + ') ' + parseFloat(CoinInfoData.utxo).toFixed(2) + '%');
 					$('div[data-edexcoin="' + coin + '"][id="currency-balances"]').width(parseFloat(CoinInfoData.balances).toFixed(2) + '%');
