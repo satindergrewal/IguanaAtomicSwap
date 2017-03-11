@@ -41,7 +41,21 @@ function getHeaderActionMenuButtonCoinCode() {
 
 	if ( extcoin == 'SUPERNET'
 		|| extcoin == 'REVS'
+		|| extcoin == 'DEX'
+		|| extcoin == 'PANGEA'
+		|| extcoin == 'JUMBLR'
+		|| extcoin == 'BET'
+		|| extcoin == 'CRYPTO'
+		|| extcoin == 'HODL'
+		|| extcoin == 'SHARK'
+		|| extcoin == 'BOTS'
+		|| extcoin == 'MGW'
+		|| extcoin == 'MVP'
 		|| extcoin == 'WIRELESS'
+		|| extcoin == 'KV'
+		|| extcoin == 'CEAL'
+		|| extcoin == 'MESH'
+
 		|| extcoin == 'USD') { action_menu_button_code = 'acpax'; };
 
 	return action_menu_button_code;
@@ -57,7 +71,21 @@ function getPassthruAgent() {
 	if ( extcoin == 'ZEC') { passthru_agent = 'zcash'; };
 	if ( extcoin == 'SUPERNET'
 		|| extcoin == 'REVS'
+		|| extcoin == 'DEX'
+		|| extcoin == 'PANGEA'
+		|| extcoin == 'JUMBLR'
+		|| extcoin == 'BET'
+		|| extcoin == 'CRYPTO'
+		|| extcoin == 'HODL'
+		|| extcoin == 'SHARK'
+		|| extcoin == 'BOTS'
+		|| extcoin == 'MGW'
+		|| extcoin == 'MVP'
 		|| extcoin == 'WIRELESS'
+		|| extcoin == 'KV'
+		|| extcoin == 'CEAL'
+		|| extcoin == 'MESH'
+		
 		|| extcoin == 'USD' ) { passthru_agent = 'iguana'; };
 
 	return passthru_agent;
