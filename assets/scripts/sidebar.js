@@ -354,6 +354,63 @@ function assetchain_pax_menu_actions(coin) {
         $('.header-easydex-section').html('<img src="assets/images/native/wireless_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
         $('#easydex-header-div').css('background-image', 'url("assets/images/bg/wireless_transparent_header_bg.png")');
         break;
+      case 'PANGEA':
+        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+        break;
+      case 'DEX':
+        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+        break;
+      case 'JUMBLR':
+        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+        $('#easydex-header-div').css();
+        break;
+      case 'BET':
+        $('.header-easydex-section').html('<img src="assets/images/native/wireless_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/wireless_transparent_header_bg.png")');
+        break;
+      case 'CRYPTO':
+        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+        break;
+      case 'HODL':
+        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+        $('#easydex-header-div').css();
+        break;
+      case 'SHARK':
+        $('.header-easydex-section').html('<img src="assets/images/native/wireless_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/wireless_transparent_header_bg.png")');
+        break;
+      case 'BOTS':
+        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+        break;
+      case 'MGW':
+        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+        $('#easydex-header-div').css();
+        break;
+      case 'MVP':
+        $('.header-easydex-section').html('<img src="assets/images/native/mvp_header_title_logo.png">');
+        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/mvp_transparent_header_bg.png")');
+        break;
+      case 'KV':
+        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+        break;
+      case 'CEAL':
+        $('.header-easydex-section').html('<img src="assets/images/native/ceal_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/ceal_transparent_header_bg.png")');
+        $('#easydex-header-div').css();
+        break;
+      case 'MESH':
+        $('.header-easydex-section').html('<img src="assets/images/native/mesh_header_title_logo.png">');
+        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/mesh_transparent_header_bg.png")');
+        break;
+
       case 'USD':
         $('.header-easydex-section').html('<img src="assets/images/native/usd_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
         $('#easydex-header-div').css('background-image', 'url("assets/images/bg/usd_transparent_header_bg.png")');

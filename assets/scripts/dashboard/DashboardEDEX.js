@@ -1169,7 +1169,21 @@ function edexCoinBtnAction() {
 			}
 			if ( selected_coin == 'SUPERNET'
 				|| selected_coin == 'REVS'
+				|| selected_coin == 'REVS'
+				|| selected_coin == 'DEX'
+				|| selected_coin == 'PANGEA'
+				|| selected_coin == 'JUMBLR'
+				|| selected_coin == 'BET'
+				|| selected_coin == 'CRYPTO'
+				|| selected_coin == 'HODL'
+				|| selected_coin == 'SHARK'
+				|| selected_coin == 'BOTS'
+				|| selected_coin == 'MGW'
+				|| selected_coin == 'MVP'
 				|| selected_coin == 'WIRELESS'
+				|| selected_coin == 'KV'
+				|| selected_coin == 'CEAL'
+				|| selected_coin == 'MESH'
 				|| selected_coin == 'USD' ) {
 				sessionStorage.setItem('edexTmpMode', selected_coinmode);
 				sessionStorage.setItem('edexTmpRefresh', 'start');
