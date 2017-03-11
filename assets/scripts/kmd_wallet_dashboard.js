@@ -56,7 +56,8 @@ function getHeaderActionMenuButtonCoinCode() {
 		|| extcoin == 'CEAL'
 		|| extcoin == 'MESH'
 
-		|| extcoin == 'USD') { action_menu_button_code = 'acpax'; };
+		|| extcoin == 'USD' 
+		|| extcoin == 'RON' ) { action_menu_button_code = 'acpax'; };
 
 	return action_menu_button_code;
 } 
@@ -85,8 +86,9 @@ function getPassthruAgent() {
 		|| extcoin == 'KV'
 		|| extcoin == 'CEAL'
 		|| extcoin == 'MESH'
-		
-		|| extcoin == 'USD' ) { passthru_agent = 'iguana'; };
+
+		|| extcoin == 'USD'
+		|| extcoin == 'RON' ) { passthru_agent = 'iguana'; };
 
 	return passthru_agent;
 }
