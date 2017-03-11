@@ -510,90 +510,90 @@ var Dashboard = function() {
               }
 
               switch (AllcoinsDataOutput[value][index]) {
-                case 'BTC':
-                  coinlogo = 'bitcoin';
-                  coinname = 'Bitcoin';
-                  break;
-                case 'BTCD':
-                  coinlogo = 'bitcoindark';
-                  coinname = 'BitcoinDark';
-                  break;
-                case 'LTC':
-                  coinlogo = 'litecoin';
-                  coinname = 'Litecoin';
-                  break;
-                case 'VPN':
-                  coinlogo = 'vpncoin';
-                  coinname = 'VPNcoin';
-                  break;
-                case 'SYS':
-                  coinlogo = 'syscoin';
-                  coinname = 'Syscoin';
-                  break;
-                case 'ZEC':
-                  coinlogo = 'zcash';
-                  coinname = 'Zcash';
-                  break;
-                case 'NMC':
-                  coinlogo = 'namecoin';
-                  coinname = 'Namecoin';
-                  break;
-                case 'DEX':
-                  coinlogo = 'dex';
-                  coinname = 'DEX';
-                  break;
-                case 'DOGE':
-                  coinlogo = 'dogecoin';
-                  coinname = 'Dogecoin';
-                  break;
-                case 'DGB':
-                  coinlogo = 'digibyte';
-                  coinname = 'Digibyte';
-                  break;
-                case 'MZC':
-                  coinlogo = 'mazacoin';
-                  coinname = 'Mazacoin';
-                  break;
-                case 'UNO':
-                  coinlogo = 'unobtanium';
-                  coinname = 'Unobtanium';
-                  break;
-                case 'ZET':
-                  coinlogo = 'zetacoin';
-                  coinname = 'Zetacoin';
-                  break;
-                case 'KMD':
-                  coinlogo = 'komodo';
-                  coinname = 'Komodo';
-                  break;
-                case 'BTM':
-                  coinlogo = 'bitmark';
-                  coinname = 'Bitmark';
-                  break;
-                case 'CARB':
-                  coinlogo = 'carboncoin';
-                  coinname = 'Carboncoin';
-                  break;
-                case 'ANC':
-                  coinlogo = 'anoncoin';
-                  coinname = 'AnonCoin';
-                  break;
-                case 'FRK':
-                  coinlogo = 'franko';
-                  coinname = 'Franko';
-                  break;
-                case 'SUPERNET':
-                  coinlogo = 'SUPERNET';
-                  coinname = 'SUPERNET';
-                  break;
-                case 'REVS':
-                  coinlogo = 'REVS';
-                  coinname = 'REVS';
-                  break;
-                case 'WIRELESS':
-                  coinlogo = 'WIRELESS';
-                  coinname = 'WIRELESS';
-                  break;
+				case 'BTC':
+					coinlogo = 'bitcoin';
+					coinname = 'Bitcoin';
+					break;
+				case 'BTCD':
+					coinlogo = 'bitcoindark';
+					coinname = 'BitcoinDark';
+					break;
+				case 'LTC':
+					coinlogo = 'litecoin';
+					coinname = 'Litecoin';
+					break;
+				case 'VPN':
+					coinlogo = 'vpncoin';
+					coinname = 'VPNcoin';
+					break;
+				case 'SYS':
+					coinlogo = 'syscoin';
+					coinname = 'Syscoin';
+					break;
+				case 'ZEC':
+					coinlogo = 'zcash';
+					coinname = 'Zcash';
+					break;
+				case 'NMC':
+					coinlogo = 'namecoin';
+					coinname = 'Namecoin';
+					break;
+				case 'DEX':
+					coinlogo = 'dex';
+					coinname = 'InstantDEX';
+					break;
+				case 'DOGE':
+					coinlogo = 'dogecoin';
+					coinname = 'Dogecoin';
+					break;
+				case 'DGB':
+					coinlogo = 'digibyte';
+					coinname = 'Digibyte';
+					break;
+				case 'MZC':
+					coinlogo = 'mazacoin';
+					coinname = 'Mazacoin';
+					break;
+				case 'UNO':
+					coinlogo = 'unobtanium';
+					coinname = 'Unobtanium';
+					break;
+				case 'ZET':
+					coinlogo = 'zetacoin';
+					coinname = 'Zetacoin';
+					break;
+				case 'KMD':
+					coinlogo = 'komodo';
+					coinname = 'Komodo';
+					break;
+				case 'BTM':
+					coinlogo = 'bitmark';
+					coinname = 'Bitmark';
+					break;
+				case 'CARB':
+					coinlogo = 'carboncoin';
+					coinname = 'Carboncoin';
+					break;
+				case 'ANC':
+					coinlogo = 'anoncoin';
+					coinname = 'AnonCoin';
+					break;
+				case 'FRK':
+					coinlogo = 'franko';
+					coinname = 'Franko';
+					break;
+				case 'SUPERNET':
+					coinlogo = 'SUPERNET';
+					coinname = 'SUPERNET';
+					break;
+				case 'REVS':
+					coinlogo = 'REVS';
+					coinname = 'REVS';
+					break;
+				case 'WIRELESS':
+					coinlogo = 'WIRELESS';
+					coinname = 'WIRELESS';
+					break;
 				case 'PANGEA':
 					coinlogo = 'PANGEA';
 					coinname = 'PANGEA';
@@ -615,20 +615,20 @@ var Dashboard = function() {
 					coinname = 'HODL';
 					break;
 				case 'SHARK':
-				  coinlogo = 'SHARK';
-				  coinname = 'SHARK';
-				  break;
-				case 'BOTS':
+					coinlogo = 'SHARK';
+					coinname = 'SHARK';
+					break;
+          		case 'BOTS':
 					coinlogo = 'BOTS';
 					coinname = 'BOTS';
 					break;
 				case 'MGW':
 					coinlogo = 'MGW';
-					coinname = 'MGW';
+					coinname = 'MultiGateway';
 					break;
 				case 'MVP':
 					coinlogo = 'MVP';
-					coinname = 'MVP';
+					coinname = 'MVP Lineup';
 					break;
 				case 'KV':
 					coinlogo = 'KV';
@@ -636,19 +636,139 @@ var Dashboard = function() {
 					break;
 				case 'CEAL':
 					coinlogo = 'CEAL';
-					coinname = 'CEAL';
+					coinname = 'CEAL NET';
 					break;
 				case 'MESH':
 					coinlogo = 'MESH';
-					coinname = 'MESH';
+					coinname = 'SpaceMesh';
 					break;
-                case 'USD':
+				case 'USD':
 					coinlogo = 'USD';
-					coinname = 'USD';
+					coinname = 'US Dollar';
 					break;
 				case 'RON':
 					coinlogo = 'RON';
-					coinname = 'RON';
+					coinname = 'Romanian Leu';
+					break;
+				case 'EUR':
+					coinlogo = 'EUR';
+					coinname = 'Euro';
+					break;
+				case 'JPY':
+					coinlogo = 'JPY';
+					coinname = 'Japanese Yen';
+					break;
+				case 'GBP':
+					coinlogo = 'GBP';
+					coinname = 'British Pound';
+					break;
+				case 'AUD':
+					coinlogo = 'AUD';
+					coinname = 'Australian Dollar';
+					break;
+				case 'CAD':
+					coinlogo = 'CAD';
+					coinname = 'Canadian Dollar';
+					break;
+				case 'CHF':
+					coinlogo = 'CHF';
+					coinname = 'Swiss Franc';
+					break;
+				case 'NZD':
+					coinlogo = 'NZD';
+					coinname = 'New Zealand Dollar';
+					break;
+				case 'CNY':
+					coinlogo = 'CNY';
+					coinname = 'Chinese Yuan';
+					break;
+				case 'RUB':
+					coinlogo = 'RUB';
+					coinname = 'Russian Ruble';
+					break;
+				case 'MXN':
+					coinlogo = 'MXN';
+					coinname = 'Mexican peso';
+					break;
+				case 'BRL':
+					coinlogo = 'BRL';
+					coinname = 'Brazilian Real';
+					break;
+				case 'INR':
+					coinlogo = 'INR';
+					coinname = 'Indian Rupee';
+					break;
+				case 'HKD':
+					coinlogo = 'HKD';
+					coinname = 'Hong Kong Dollar';
+					break;
+				case 'TRY':
+					coinlogo = 'TRY';
+					coinname = 'Turkish Lira';
+					break;
+				case 'ZAR':
+					coinlogo = 'ZAR';
+					coinname = 'South African Rand';
+					break;
+				case 'PLN':
+					coinlogo = 'PLN';
+					coinname = 'Polish Zloty';
+					break;
+				case 'NOK':
+					coinlogo = 'NOK';
+					coinname = 'Norwegian Krone';
+					break;
+				case 'SEK':
+					coinlogo = 'SEK';
+					coinname = 'Swedish Krona';
+					break;
+				case 'DKK':
+					coinlogo = 'DKK';
+					coinname = 'Danish Krone';
+					break;
+				case 'CZK':
+					coinlogo = 'CZK';
+					coinname = 'Czech Koruna';
+					break;
+				case 'HUF':
+					coinlogo = 'HUF';
+					coinname = 'Hungarian Forint';
+					break;
+				case 'ILS':
+					coinlogo = 'ILS';
+					coinname = 'Israeli Shekel';
+					break;
+				case 'KRW':
+					coinlogo = 'KRW';
+					coinname = 'Korean Won';
+					break;
+				case 'MYR':
+					coinlogo = 'MYR';
+					coinname = 'Malaysian Ringgit';
+					break;
+				case 'PHP':
+					coinlogo = 'PHP';
+					coinname = 'Philippine Peso';
+					break;
+				case 'SGD':
+					coinlogo = 'SGD';
+					coinname = 'Singapore Dollar';
+					break;
+				case 'THB':
+					coinlogo = 'THB';
+					coinname = 'Thai Baht';
+					break;
+				case 'BGN':
+					coinlogo = 'BGN';
+					coinname = 'Bulgarian Lev';
+					break;
+				case 'IDR':
+					coinlogo = 'IDR';
+					coinname = 'Indonesian Rupiah';
+					break;
+				case 'HRK':
+					coinlogo = 'HRK';
+					coinname = 'Croatian Kuna';
 					break;
               }
 
@@ -730,7 +850,37 @@ var Dashboard = function() {
 						|| tmp_coin_val == 'CEAL'
 						|| tmp_coin_val == 'MESH'
 						|| tmp_coin_val == 'USD'
-						|| tmp_coin_val == 'RON' ) {
+						|| tmp_coin_val == 'RON'
+						|| tmp_coin_val == 'EUR'
+						|| tmp_coin_val == 'JPY'
+						|| tmp_coin_val == 'GBP'
+						|| tmp_coin_val == 'AUD'
+						|| tmp_coin_val == 'CAD'
+						|| tmp_coin_val == 'CHF'
+						|| tmp_coin_val == 'NZD'
+						|| tmp_coin_val == 'CNY'
+						|| tmp_coin_val == 'RUB'
+						|| tmp_coin_val == 'MXN'
+						|| tmp_coin_val == 'BRL'
+						|| tmp_coin_val == 'INR'
+						|| tmp_coin_val == 'HKD'
+						|| tmp_coin_val == 'TRY'
+						|| tmp_coin_val == 'ZAR'
+						|| tmp_coin_val == 'PLN'
+						|| tmp_coin_val == 'NOK'
+						|| tmp_coin_val == 'SEK'
+						|| tmp_coin_val == 'DKK'
+						|| tmp_coin_val == 'CZK'
+						|| tmp_coin_val == 'HUF'
+						|| tmp_coin_val == 'ILS'
+						|| tmp_coin_val == 'KRW'
+						|| tmp_coin_val == 'MYR'
+						|| tmp_coin_val == 'PHP'
+						|| tmp_coin_val == 'SGD'
+						|| tmp_coin_val == 'THB'
+						|| tmp_coin_val == 'BGN'
+						|| tmp_coin_val == 'IDR'
+						|| tmp_coin_val == 'HRK' ) {
 					$('#addcoin_mdl_native_mode').prop('disabled', false);
 					$('#addcoin_mdl_basilisk_mode').prop('disabled', false);
 					$('#addcoin_mdl_full_mode').prop('disabled', true);

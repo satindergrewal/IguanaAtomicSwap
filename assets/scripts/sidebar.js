@@ -341,86 +341,201 @@ function assetchain_pax_menu_actions(coin) {
 	removeDashboardStyle();
 
 	switch (coin) {
-      case 'SUPERNET':
-        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
-        break;
-      case 'REVS':
-        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
-        $('#easydex-header-div').css();
-        break;
-      case 'WIRELESS':
-        $('.header-easydex-section').html('<img src="assets/images/native/wireless_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/wireless_transparent_header_bg.png")');
-        break;
-      case 'PANGEA':
-        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
-        break;
-      case 'DEX':
-        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
-        break;
-      case 'JUMBLR':
-        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
-        $('#easydex-header-div').css();
-        break;
-      case 'BET':
-        $('.header-easydex-section').html('<img src="assets/images/native/wireless_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/wireless_transparent_header_bg.png")');
-        break;
-      case 'CRYPTO':
-        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
-        break;
-      case 'HODL':
-        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
-        $('#easydex-header-div').css();
-        break;
-      case 'SHARK':
-        $('.header-easydex-section').html('<img src="assets/images/native/wireless_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/wireless_transparent_header_bg.png")');
-        break;
-      case 'BOTS':
-        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
-        break;
-      case 'MGW':
-        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
-        $('#easydex-header-div').css();
-        break;
-      case 'MVP':
-        $('.header-easydex-section').html('<img src="assets/images/native/mvp_header_title_logo.png">');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/mvp_transparent_header_bg.png")');
-        break;
-      case 'KV':
-        $('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
-        break;
-      case 'CEAL':
-        $('.header-easydex-section').html('<img src="assets/images/native/ceal_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/ceal_transparent_header_bg.png")');
-        $('#easydex-header-div').css();
-        break;
-      case 'MESH':
-        $('.header-easydex-section').html('<img src="assets/images/native/mesh_header_title_logo.png">');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/mesh_transparent_header_bg.png")');
-        break;
+	case 'SUPERNET':
+		$('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+		break;
+	case 'REVS':
+		$('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+		break;
+	case 'WIRELESS':
+		$('.header-easydex-section').html('<img src="assets/images/native/wireless_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/wireless_transparent_header_bg.png")');
+		break;
+	case 'PANGEA':
+		$('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+		break;
+	case 'DEX':
+		$('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+		break;
+	case 'JUMBLR':
+		$('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+		break;
+	case 'BET':
+		$('.header-easydex-section').html('<img src="assets/images/native/wireless_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/wireless_transparent_header_bg.png")');
+		break;
+	case 'CRYPTO':
+		$('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+		break;
+	case 'HODL':
+		$('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+		break;
+	case 'SHARK':
+		$('.header-easydex-section').html('<img src="assets/images/native/wireless_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/wireless_transparent_header_bg.png")');
+		break;
+	case 'BOTS':
+		$('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+		break;
+	case 'MGW':
+		$('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+		break;
+	case 'MVP':
+		$('.header-easydex-section').html('<img src="assets/images/native/mvp_header_title_logo.png">');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/mvp_transparent_header_bg.png")');
+		break;
+	case 'KV':
+		$('.header-easydex-section').html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+		break;
+	case 'CEAL':
+		$('.header-easydex-section').html('<img src="assets/images/native/ceal_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/ceal_transparent_header_bg.png")');
+		break;
+	case 'MESH':
+		$('.header-easydex-section').html('<img src="assets/images/native/mesh_header_title_logo.png">');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/mesh_transparent_header_bg.png")');
+		break;
 
-      case 'USD':
-        $('.header-easydex-section').html('<img src="assets/images/native/usd_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">US Dollar</span>');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/usd_transparent_header_bg.png")');
-        break;
-      case 'RON':
-        $('.header-easydex-section').html('<img src="assets/images/native/ron_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Romanian Leu</span>');
-        $('#easydex-header-div').css('background-image', 'url("assets/images/bg/ron_transparent_header_bg.png")');
-        break;
-      default:
-      $('.header-easydex-section').html('<span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
+	case 'USD':
+		$('.header-easydex-section').html('<img src="assets/images/native/usd_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">US Dollar</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/usd_transparent_header_bg.png")');
+		break;
+	case 'RON':
+		$('.header-easydex-section').html('<img src="assets/images/native/ron_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Romanian Leu</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/ron_transparent_header_bg.png")');
+		break;
+	case 'EUR':
+		$('.header-easydex-section').html('<img src="assets/images/native/eur_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Euro</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/eur_transparent_header_bg.png")');
+		break;
+	case 'JPY':
+		$('.header-easydex-section').html('<img src="assets/images/native/jpy_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Japanese Yen</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/jpy_transparent_header_bg.png")');
+		break;
+	case 'GBP':
+		$('.header-easydex-section').html('<img src="assets/images/native/gbp_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">British Pound</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/gbp_transparent_header_bg.png")');
+		break;
+	case 'AUD':
+		$('.header-easydex-section').html('<img src="assets/images/native/aud_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Australian Dollar</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/aud_transparent_header_bg.png")');
+		break;
+	case 'CAD':
+		$('.header-easydex-section').html('<img src="assets/images/native/cad_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Canadian Dollar</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/cad_transparent_header_bg.png")');
+		break;
+	case 'CHF':
+		$('.header-easydex-section').html('<img src="assets/images/native/chf_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Swiss Franc</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/chf_transparent_header_bg.png")');
+		break;
+	case 'NZD':
+		$('.header-easydex-section').html('<img src="assets/images/native/nzd_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">New Zealand Dollar</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/nzd_transparent_header_bg.png")');
+		break;
+	case 'CNY':
+		$('.header-easydex-section').html('<img src="assets/images/native/cny_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Chinese Yuan</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/cny_transparent_header_bg.png")');
+		break;
+	case 'RUB':
+		$('.header-easydex-section').html('<img src="assets/images/native/rub_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Russian Ruble</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/rub_transparent_header_bg.png")');
+		break;
+	case 'MXN':
+		$('.header-easydex-section').html('<img src="assets/images/native/mxn_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Mexican peso</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/mxn_transparent_header_bg.png")');
+		break;
+	case 'BRL':
+		$('.header-easydex-section').html('<img src="assets/images/native/brl_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Brazilian Real</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/brl_transparent_header_bg.png")');
+		break;
+	case 'INR':
+		$('.header-easydex-section').html('<img src="assets/images/native/inr_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Indian Rupee</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/inr_transparent_header_bg.png")');
+		break;
+	case 'HKD':
+		$('.header-easydex-section').html('<img src="assets/images/native/hkd_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Hong Kong Dollar</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/hkd_transparent_header_bg.png")');
+		break;
+	case 'TRY':
+		$('.header-easydex-section').html('<img src="assets/images/native/try_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Turkish Lira</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/try_transparent_header_bg.png")');
+		break;
+	case 'ZAR':
+		$('.header-easydex-section').html('<img src="assets/images/native/zar_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">South African Rand</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/zar_transparent_header_bg.png")');
+		break;
+	case 'PLN':
+		$('.header-easydex-section').html('<img src="assets/images/native/pln_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Polish Zloty</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/pln_transparent_header_bg.png")');
+		break;
+	case 'NOK':
+		$('.header-easydex-section').html('<img src="assets/images/native/nok_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Norwegian Krone</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/nok_transparent_header_bg.png")');
+		break;
+	case 'SEK':
+		$('.header-easydex-section').html('<img src="assets/images/native/sek_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Swedish Krona</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/sek_transparent_header_bg.png")');
+		break;
+	case 'DKK':
+		$('.header-easydex-section').html('<img src="assets/images/native/dkk_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Danish Krone</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/dkk_transparent_header_bg.png")');
+		break;
+	case 'CZK':
+		$('.header-easydex-section').html('<img src="assets/images/native/czk_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Czech Koruna</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/czk_transparent_header_bg.png")');
+		break;
+	case 'HUF':
+		$('.header-easydex-section').html('<img src="assets/images/native/huf_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Hungarian Forint</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/huf_transparent_header_bg.png")');
+		break;
+	case 'ILS':
+		$('.header-easydex-section').html('<img src="assets/images/native/ils_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Israeli Shekel</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/ils_transparent_header_bg.png")');
+		break;
+	case 'KRW':
+		$('.header-easydex-section').html('<img src="assets/images/native/krw_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Korean Won</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/krw_transparent_header_bg.png")');
+		break;
+	case 'MYR':
+		$('.header-easydex-section').html('<img src="assets/images/native/myr_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Malaysian Ringgit</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/myr_transparent_header_bg.png")');
+		break;
+	case 'PHP':
+		$('.header-easydex-section').html('<img src="assets/images/native/php_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Philippine Peso</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/php_transparent_header_bg.png")');
+		break;
+	case 'SGD':
+		$('.header-easydex-section').html('<img src="assets/images/native/sgd_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Singapore Dollar</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/sgd_transparent_header_bg.png")');
+		break;
+	case 'THB':
+		$('.header-easydex-section').html('<img src="assets/images/native/thb_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Thai Baht</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/thb_transparent_header_bg.png")');
+		break;
+	case 'BGN':
+		$('.header-easydex-section').html('<img src="assets/images/native/bgn_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Bulgarian Lev</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/bgn_transparent_header_bg.png")');
+		break;
+	case 'IDR':
+		$('.header-easydex-section').html('<img src="assets/images/native/idr_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Indonesian Rupiah</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/idr_transparent_header_bg.png")');
+		break;
+	case 'HRK':
+		$('.header-easydex-section').html('<img src="assets/images/native/hrk_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle;">Croatian Kuna</span>');
+		$('#easydex-header-div').css('background-image', 'url("assets/images/bg/hrk_transparent_header_bg.png")');
+		break;
+	default:
+		$('.header-easydex-section').html('<span style="font-size: 35px; vertical-align:middle;">'+ coin + '</span>');
     }
 }
 
