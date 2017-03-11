@@ -646,6 +646,10 @@ var Dashboard = function() {
 					coinlogo = 'USD';
 					coinname = 'USD';
 					break;
+				case 'RON':
+					coinlogo = 'RON';
+					coinname = 'RON';
+					break;
               }
 
 							walletDivContent += '<!-- Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->';
@@ -709,23 +713,24 @@ var Dashboard = function() {
 				$('#addcoin_mdl_full_mode').prop('disabled', false);
 				$('#addcoin_mdl_basilisk_mode').prop('checked', true);
 			}
-			if (tmp_coin_val == 'SUPERNET' ||
-					tmp_coin_val == 'REVS' ||
-					tmp_coin_val == 'WIRELESS' ||
-					tmp_coin_val == 'DEX' ||
-					tmp_coin_val == 'PANGEA' ||
-					tmp_coin_val == 'JUMBLR' ||
-					tmp_coin_val == 'BET' ||
-					tmp_coin_val == 'CRYPTO' ||
-					tmp_coin_val == 'HODL' ||
-					tmp_coin_val == 'SHARK' ||
-					tmp_coin_val == 'BOTS' ||
-					tmp_coin_val == 'MGW' ||
-					tmp_coin_val == 'MVP' ||
-					tmp_coin_val == 'KV' ||
-					tmp_coin_val == 'CEAL' ||
-					tmp_coin_val == 'MESH' ||
-					tmp_coin_val == 'USD') {
+			if (tmp_coin_val == 'SUPERNET'
+						|| tmp_coin_val == 'REVS'
+						|| tmp_coin_val == 'WIRELESS'
+						|| tmp_coin_val == 'DEX'
+						|| tmp_coin_val == 'PANGEA'
+						|| tmp_coin_val == 'JUMBLR'
+						|| tmp_coin_val == 'BET'
+						|| tmp_coin_val == 'CRYPTO'
+						|| tmp_coin_val == 'HODL'
+						|| tmp_coin_val == 'SHARK'
+						|| tmp_coin_val == 'BOTS'
+						|| tmp_coin_val == 'MGW'
+						|| tmp_coin_val == 'MVP'
+						|| tmp_coin_val == 'KV'
+						|| tmp_coin_val == 'CEAL'
+						|| tmp_coin_val == 'MESH'
+						|| tmp_coin_val == 'USD'
+						|| tmp_coin_val == 'RON' ) {
 					$('#addcoin_mdl_native_mode').prop('disabled', false);
 					$('#addcoin_mdl_basilisk_mode').prop('disabled', false);
 					$('#addcoin_mdl_full_mode').prop('disabled', true);

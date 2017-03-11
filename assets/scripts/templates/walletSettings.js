@@ -120,6 +120,7 @@ templates.walletSettings =
                                 <option value="CEAL">CEAL</option>
                                 <option value="MESH">MESH</option>
                                 <option value="USD">USD</option>
+                                <option value="RON">RON</option>
                               </select>
                             </div>
                           </div>
@@ -177,6 +178,7 @@ templates.walletSettings =
                                 <option value="CEAL">CEAL</option>
                                 <option value="MESH">MESH</option>
                                 <option value="USD">USD</option>
+                                <option value="RON">RON</option>
                               </select>
                             </div>
                             <div class="form-group">

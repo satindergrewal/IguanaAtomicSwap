@@ -519,11 +519,16 @@ function assetchain_pax_menu_actions(coin) {
       break;
     case 'USD':
       $('.header-easydex-section')
-      	.html('<img src="assets/images/native/usd_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">' + coin + '</span>');
+      	.html('<img src="assets/images/native/usd_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">US Dollar</span>');
       $('#easydex-header-div').css('background-image', 'url("assets/images/bg/usd_transparent_header_bg.png")');
       break;
+    case 'RON':
+      $('.header-easydex-section')
+      	.html('<img src="assets/images/native/ron_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Romanian Leu</span>');
+      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/ron_transparent_header_bg.png")');
+      break;
     default:
-    	$('.header-easydex-section').html('<span style="font-size: 35px; vertical-align: middle">'+ coin + '</span>');
+    	$('.header-easydex-section').html('<span style="font-size: 35px; vertical-align: middle">' + coin + '</span>');
     	break;
   }
 }
