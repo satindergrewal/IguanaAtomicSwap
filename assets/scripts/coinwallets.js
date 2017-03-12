@@ -32,12 +32,15 @@ function getCurrency() {
 
 function sendCurrency(val) {
 	console.log(val);
-	$('#mdl_currency_coin').text(val.currency);
 	$('#mdl_currency_balance').text($('span[data-currency="' + val.currency + '"][id="currency-balance"]').text());
 	//console.log($('span[data-currency="' + val.currency + '"][id="currency-balance"]').text());
-	$('#mdl_currency_sendto').attr('placeholder', 'Enter ' + val.currency + ' address');
-	$('#mdl_currency_amount_label').text(val.currency);
-	$('#mdl_currency_total_coinname').text(val.currency);
+	$('#mdl_currency_sendto').attr('placeholder', _lang[defaultLang].INDEX.ENTER + ' ' + val.currency + ' ' + _lang[defaultLang].INDEX.ADDR_SM);
+	$(
+		'#mdl_currency_amount_label,' +
+		'#mdl_currency_coin,' +
+		'#mdl_currency_total_coinname'
+	)
+	.text(val.currency);
 
 	var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
 			getinfoValues = {
@@ -121,7 +124,7 @@ $('#mdl_currency_amount').keyup(function() {
 		mdl_send_btn.removeClass('disabled');
 		mdl_send_btn.attr('data-dismiss', 'modal');
 		mdl_send_btn.attr('data-target', '#SendCoinModelStep2');
-		mdl_send_btn.attr('onclick', 'ConfirmsendCurrency($(this).data())')
+		mdl_send_btn.attr('onclick', 'ConfirmsendCurrency($(this).data())');
 	} else {
 		mdl_send_btn.addClass('disabled');
 		mdl_send_btn.removeAttr('data-dismiss');
@@ -131,11 +134,11 @@ $('#mdl_currency_amount').keyup(function() {
 });
 
 $('#mdl_currency_fee').keyup(function() {
-	var sum_val1 = parseFloat($('#mdl_currency_amount').val())
-	var sum_val2 = parseFloat($('#mdl_currency_fee').val())
-	var total_of_currency_fee = sum_val1 + sum_val2;
-	var currency_fiat_value = '';
-	var fiat_symbol = '';
+	var sum_val1 = parseFloat($('#mdl_currency_amount').val()),
+			sum_val2 = parseFloat($('#mdl_currency_fee').val()),
+			total_of_currency_fee = sum_val1 + sum_val2,
+			currency_fiat_value = '',
+			fiat_symbol = '';
 
 	if ( $('#mdl_currency_total_coinname').text() == 'BTCD' ) {
 		currency_fiat_value = localStorage.getItem('EasyDEX_BTCD_Fiat_pair_value');
@@ -152,15 +155,24 @@ $('#mdl_currency_fee').keyup(function() {
 });
 
 function CurrencyMdlBtnClean() {
-	$('#mdl_currency_sendto').val('');
-	$('#mdl_currency_amount').val('');
-	$('#mdl_currency_total_value').text('0.00');
-	$('#mdl_currency_total_fiat_value').text('0.00');
+	$(
+		'#mdl_currency_sendto,' +
+		'#mdl_currency_amount'
+	)
+	.val('');
+	$(
+		'#mdl_currency_total_value,' +
+		'#mdl_currency_total_fiat_value'
+	)
+	.text('0.00');
 }
 
 function ReceiveCoinMdlBtnClean() {
-	$('#mdl_receive_coin_addr').text('');
-	$('#mdl_receive_coin_addr_qr_code').text('');
+	$(
+		'#mdl_receive_coin_addr,' +
+		'#mdl_receive_coin_addr_qr_code'
+	)
+	.text('');
 }
 
 function ConfirmsendCurrency(confirm_val) {
@@ -182,14 +194,17 @@ function ConfirmsendCurrency(confirm_val) {
 
 	$('#mdl_confirm_currency_sendto_addr').text($('#mdl_currency_sendto').val());
 	$('#mdl_confirm_currency_send_amount').text($('#mdl_currency_amount').val());
-	$('#mdl_confirm_currency_coinname').text(confirm_coinname);
+	$(
+		'#mdl_confirm_currency_coinname,' +
+		'#mdl_confirm_currency_coinname_total,' +
+		'#mdl_confirm_currency_coinname_fee'
+	)
+	.text(confirm_coinname);
 	$('#mdl_confirm_currency_send_amount_fiat').text(fiat_symbol + ($('#mdl_confirm_currency_send_amount').text() * currency_fiat_value).toFixed(2));
 	$('#mdl_confirm_currency_send_fee').text($('#mdl_currency_fee').val());
-	$('#mdl_confirm_currency_coinname_fee').text(confirm_coinname);
 	$('#mdl_confirm_currency_send_fee_fiat').text(fiat_symbol + ($('#mdl_confirm_currency_send_fee').text() * currency_fiat_value).toFixed(2));
 	$('#mdl_confirm_currency_sendfrom_addr').text(confirm_selected_from_addr);
 	$('#mdl_confirm_currency_sendfrom_total_dedcut').text($('#mdl_currency_total_value').text());
-	$('#mdl_confirm_currency_coinname_total').text(confirm_coinname);
 	$('#mdl_confirm_currency_sendfrom_total_deduct_fiat').text($('#mdl_currency_total_fiat_value').text());
 }
 
@@ -257,23 +272,29 @@ function ExecuteSendCurrencyAPI() {
 	});
 
 	// Clear Send Dialog values and set them to blank
-	$('#mdl_currency_coin').text('');
-	$('#mdl_currency_balance').text('');
-	$('#mdl_currency_amount_label').text('');
-	$('#mdl_currency_total_coinname').text('');
+	$(
+		'#mdl_currency_coin,' +
+		'#mdl_currency_balance,' +
+		'#mdl_currency_amount_label,' +
+		'#mdl_currency_total_coinname'
+	)
+	.text('');
 
 	// Clear Confirm Dialog values and set them to blank
-	$('#mdl_confirm_currency_sendto_addr').text('');
-	$('#mdl_confirm_currency_send_amount').text('');
-	$('#mdl_confirm_currency_coinname').text('');
-	$('#mdl_confirm_currency_send_amount_fiat').text('');
-	$('#mdl_confirm_currency_send_fee').text('');
-	$('#mdl_confirm_currency_coinname_fee').text('');
-	$('#mdl_confirm_currency_send_fee_fiat').text('');
-	$('#mdl_confirm_currency_sendfrom_addr').text('');
-	$('#mdl_confirm_currency_sendfrom_total_dedcut').text('');
-	$('#mdl_confirm_currency_coinname_total').text('');
-	$('#mdl_confirm_currency_sendfrom_total_deduct_fiat').text('');
+	$(
+		'#mdl_confirm_currency_sendto_addr,' +
+		'#mdl_confirm_currency_send_amount,' +
+		'#mdl_confirm_currency_coinname,' +
+		'#mdl_confirm_currency_send_amount_fiat,' +
+		'#mdl_confirm_currency_send_fee,' +
+		'#mdl_confirm_currency_coinname_fee,' +
+		'#mdl_confirm_currency_send_fee_fiat,' +
+		'#mdl_confirm_currency_sendfrom_addr,' +
+		'#mdl_confirm_currency_sendfrom_total_dedcut,' +
+		'#mdl_confirm_currency_coinname_total,' +
+		'#mdl_confirm_currency_sendfrom_total_deduct_fiat'
+	)
+	.text('');
 
 	// Clean send dialog button fields
 	CurrencyMdlBtnClean();

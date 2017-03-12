@@ -11,8 +11,8 @@ function Shepherd_getConf(coin) {
 		contentType: 'application/json', // send as JSON
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
-			console.log(AjaxOutputData['result']);
-			result.push({ 'path': AjaxOutputData['result'] });
+			console.log(AjaxOutputData.result);
+			result.push({ 'path': AjaxOutputData.result });
 		},
 		error: function(xhr, textStatus, error) {
 			//console.log(xhr.statusText);
@@ -40,7 +40,7 @@ function Shepherd_setConf(coin) {
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 			console.log(AjaxOutputData);
-			result.push({ 'result': AjaxOutputData['msg'] });
+			result.push({ 'result': AjaxOutputData.msg });
 		},
 		error: function(xhr, textStatus, error) {
 			//console.log(xhr.statusText);
@@ -71,7 +71,7 @@ function Shepherd_herd(coin,herd_data) {
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 			console.log(AjaxOutputData);
-			result.push({ 'result': AjaxOutputData['msg'] });
+			result.push({ 'result': AjaxOutputData.msg });
 		},
 		error: function(xhr, textStatus, error) {
 			//console.log(xhr.statusText);
@@ -114,7 +114,7 @@ function Shepherd_FetchBasiliskData(req_data) {
 					'pubkey': session_pubkey
 				};
 
-    console.log(req_data)
+    console.log(req_data);
     if (req_data.allcoins !== false ) {
       var req_url = 'http://127.0.0.1:17777/shepherd/cache-all';
     } else {
@@ -123,14 +123,15 @@ function Shepherd_FetchBasiliskData(req_data) {
       ajax_data.calls = req_data.calls;
     }
 
-    console.log(ajax_data)
+    console.log(ajax_data);
 
 		$.ajax({
 			type: 'GET',
 			data: ajax_data,
 			url: req_url,
 			contentType: 'application/json', // send as JSON
-		}).done(function(data) {
+		})
+    .done(function(data) {
 			resolve(data);
 		});
 	});
@@ -140,6 +141,7 @@ function Shepherd_GroomData_Get() {
   return new Promise((resolve) => {
     var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
     parse_session_data = JSON.parse(JSON.parse(parse_session_data));
+
     var request_method = '',
     		session_pubkey = parse_session_data.pubkey,
     		ajax_data = { 'filename': session_pubkey },
@@ -151,7 +153,8 @@ function Shepherd_GroomData_Get() {
       data: ajax_data,
       url: req_url,
       contentType: 'application/json', // send as JSON
-    }).done(function(data) {
+    })
+    .done(function(data) {
       var res_data = JSON.parse(data);
       resolve(res_data.result);
     });
@@ -162,6 +165,7 @@ function Shepherd_GroomData_Post(req_data) {
   return new Promise((resolve) => {
     var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
     parse_session_data = JSON.parse(JSON.parse(parse_session_data));
+
     var request_method = '',
     		session_pubkey = parse_session_data.pubkey,
     		ajax_data = {
@@ -178,7 +182,8 @@ function Shepherd_GroomData_Post(req_data) {
       data: ajax_data,
       url: req_url,
       dataType: 'json'
-    }).done(function(data) {
+    })
+    .done(function(data) {
       var res_data = data;
       resolve(res_data);
     });
@@ -189,6 +194,7 @@ function Shepherd_GroomData_Delete() {
   return new Promise((resolve) => {
     var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
     parse_session_data = JSON.parse(JSON.parse(parse_session_data));
+
     var request_method = '',
         session_pubkey = parse_session_data.pubkey,
         ajax_data = {
@@ -212,7 +218,8 @@ function Shepherd_GetBasiliskCache() {
 	return new Promise((resolve) => {
 		var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
 		parse_session_data = JSON.parse(JSON.parse(parse_session_data));
-		var session_pubkey = parse_session_data.pubkey,
+
+    var session_pubkey = parse_session_data.pubkey,
 				ajax_data = { 'pubkey': session_pubkey };
 
 		$.ajax({
@@ -220,11 +227,14 @@ function Shepherd_GetBasiliskCache() {
 			data: ajax_data,
 			url: 'http://127.0.0.1:17777/shepherd/cache',
 			contentType: 'application/json' // send as JSON
-		}).done(function(data) {
+		})
+    .done(function(data) {
       resolve(data);
       data = JSON.parse(data);
+
       if (data.result === 'JSON parse error') {
-        Shepherd_GroomData_Delete().then(function(result) {
+        Shepherd_GroomData_Delete()
+        .then(function(result) {
           console.log('error reading cache, flushing...');
         });
       }
@@ -234,7 +244,8 @@ function Shepherd_GetBasiliskCache() {
 
 function Shepherd_CheckBasiliskCacheData(coin) {
   return new Promise((resolve) => {
-    Shepherd_GetBasiliskCache().then(function(result) {
+    Shepherd_GetBasiliskCache()
+    .then(function(result) {
       var _data = JSON.parse(result),
       		query = _data.result.basilisk,
           coin_exists = true,
@@ -277,7 +288,7 @@ function Shepherd_CheckBasiliskCacheData(coin) {
           	'listunspent': false,
           	'refresh': false
           };
-          resolve(res_data)
+          resolve(res_data);
       } else {
         Promise.all(query[coin].addresses.map((coinaddr_value,coinaddr_index) => {
           return new Promise((resolve, reject) => {
@@ -311,7 +322,8 @@ function Shepherd_CheckBasiliskCacheData(coin) {
             };
             resolve(pass_data);
           });
-        })).then(result => {
+        }))
+        .then(result => {
           var res_data = result[result.length - 1];
           res_data.coin = coin_exists;
           res_data.addresses = addresses_exists;

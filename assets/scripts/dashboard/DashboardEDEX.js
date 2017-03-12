@@ -74,7 +74,7 @@ function refreshEDEXCoinWalletList() {
 		'native',
 		'basilisk',
 		'full'
-		], function( index, value ) {
+		],function( index, value ) {
 			var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
 					ajax_data = {
 						'userpass': tmpIguanaRPCAuth,
@@ -522,7 +522,8 @@ function EdexGetTxList(coin) {
 						url: 'http://127.0.0.1:' + config.iguanaPort,
 						type: 'POST',
 						dataType: 'json'
-					}).then(data => {
+					})
+					.then(data => {
 						if ( active_edexcoinmodecode == 'Full' ) {
 							data = data.result;
 						}
@@ -996,9 +997,9 @@ function EdexListAllAddr(coin) {
 	if (active_edexcoinmodecode == 'Basilisk' && coin !== 'BTC' && coin !== 'SYS') {
 		EDEXgetaddrbyaccount_cache(coin)
     .then(function(result) {
-			console.log(result);
 			var only_reciving_addr_data = [];
 
+			console.log(result);
 			$.each(result, function(index, value) {
 				if (value.interest == undefined || coin !== 'KMD') {
 					console.log('interest is undefined');
@@ -1036,9 +1037,9 @@ function EdexListAllAddr(coin) {
 	} else if (active_edexcoinmodecode == 'Basilisk' ) {
 		EDEXgetaddrbyaccount(coin)
     .then(function(result){
-			console.log(result);
 			var only_reciving_addr_data = [];
 
+			console.log(result);
 			$.each(result, function(index, value) {
 				if (value.interest == undefined || coin !== 'KMD') {
 					console.log('interest is undefined');
@@ -1078,9 +1079,9 @@ function EdexListAllAddr(coin) {
 	if (active_edexcoinmodecode == 'Full') {
 		EDEXgetaddrbyaccount(coin)
     .then(function(result) {
-			console.log(result);
 			var only_reciving_addr_data = [];
 
+			console.log(result);
 			$.each(result, function(index, value) {
 				if (value.interest == undefined || coin !== 'KMD') {
 					console.log('interest is undefined');
@@ -1324,7 +1325,8 @@ function edexCoinBtnAction() {
 							$(
                 '#edexcoin_getbalance_interest,' +
                 '#edexcoin_getbalance_total_interest'
-              ).show();
+              )
+              .show();
 							$('#edexcoin_getbalance_t')
                 .removeClass( 'col-lg-12' )
                 .addClass( 'col-lg-4' );
@@ -1422,7 +1424,7 @@ function edexCoinBtnAction() {
 					selected_coin == 'HRK') {
 				sessionStorage.setItem('edexTmpMode', selected_coinmode);
 				sessionStorage.setItem('edexTmpRefresh', 'start');
-				assetchain_pax_menu_actions(selected_coin)
+				assetchain_pax_menu_actions(selected_coin);
 			}
 		}
 	});

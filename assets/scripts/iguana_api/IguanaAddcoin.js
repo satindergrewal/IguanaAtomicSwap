@@ -198,6 +198,8 @@
 	}, tmpinternval);
 }*/
 
+// TODO: refactor
+
 function Iguana_addcoin(addcoin_data) {
 	var tmpinternval = 0,
 			logincoinfullname = '',
@@ -1278,7 +1280,7 @@ function Iguana_addcoin(addcoin_data) {
 
   }
 }
-  
+
 
   if ( addcoin_data.coin == 'USD' ) {
     logincoinfullname = 'USD';

@@ -39,116 +39,115 @@ function getHeaderActionMenuButtonCoinCode() {
 	if ( extcoin == 'KMD') { action_menu_button_code = 'kmd'; };
 	if ( extcoin == 'ZEC') { action_menu_button_code = 'zec'; };
 
-	if ( extcoin == 'SUPERNET'
-		|| extcoin == 'REVS'
-		|| extcoin == 'DEX'
-		|| extcoin == 'PANGEA'
-		|| extcoin == 'JUMBLR'
-		|| extcoin == 'BET'
-		|| extcoin == 'CRYPTO'
-		|| extcoin == 'HODL'
-		|| extcoin == 'SHARK'
-		|| extcoin == 'BOTS'
-		|| extcoin == 'MGW'
-		|| extcoin == 'MVP'
-		|| extcoin == 'WIRELESS'
-		|| extcoin == 'KV'
-		|| extcoin == 'CEAL'
-		|| extcoin == 'MESH'
-
-		|| extcoin == 'USD' 
-		|| extcoin == 'RON'
-		|| extcoin == 'EUR'
-		|| extcoin == 'JPY'
-		|| extcoin == 'GBP'
-		|| extcoin == 'AUD'
-		|| extcoin == 'CAD'
-		|| extcoin == 'CHF'
-		|| extcoin == 'NZD'
-		|| extcoin == 'CNY'
-		|| extcoin == 'RUB'
-		|| extcoin == 'MXN'
-		|| extcoin == 'BRL'
-		|| extcoin == 'INR'
-		|| extcoin == 'HKD'
-		|| extcoin == 'TRY'
-		|| extcoin == 'ZAR'
-		|| extcoin == 'PLN'
-		|| extcoin == 'NOK'
-		|| extcoin == 'SEK'
-		|| extcoin == 'DKK'
-		|| extcoin == 'CZK'
-		|| extcoin == 'HUF'
-		|| extcoin == 'ILS'
-		|| extcoin == 'KRW'
-		|| extcoin == 'MYR'
-		|| extcoin == 'PHP'
-		|| extcoin == 'SGD'
-		|| extcoin == 'THB'
-		|| extcoin == 'BGN'
-		|| extcoin == 'IDR'
-		|| extcoin == 'HRK' ) { action_menu_button_code = 'acpax'; };
+	if (extcoin == 'SUPERNET' ||
+			extcoin == 'REVS' ||
+			extcoin == 'DEX' ||
+			extcoin == 'PANGEA' ||
+			extcoin == 'JUMBLR' ||
+			extcoin == 'BET' ||
+			extcoin == 'CRYPTO' ||
+			extcoin == 'HODL' ||
+			extcoin == 'SHARK' ||
+			extcoin == 'BOTS' ||
+			extcoin == 'MGW' ||
+			extcoin == 'MVP' ||
+			extcoin == 'WIRELESS' ||
+			extcoin == 'KV' ||
+			extcoin == 'CEAL' ||
+			extcoin == 'MESH' ||
+			extcoin == 'USD'	||
+			extcoin == 'RON' ||
+			extcoin == 'EUR' ||
+			extcoin == 'JPY' ||
+			extcoin == 'GBP' ||
+			extcoin == 'AUD' ||
+			extcoin == 'CAD' ||
+			extcoin == 'CHF' ||
+			extcoin == 'NZD' ||
+			extcoin == 'CNY' ||
+			extcoin == 'RUB' ||
+			extcoin == 'MXN' ||
+			extcoin == 'BRL' ||
+			extcoin == 'INR' ||
+			extcoin == 'HKD' ||
+			extcoin == 'TRY' ||
+			extcoin == 'ZAR' ||
+			extcoin == 'PLN' ||
+			extcoin == 'NOK' ||
+			extcoin == 'SEK' ||
+			extcoin == 'DKK' ||
+			extcoin == 'CZK' ||
+			extcoin == 'HUF' ||
+			extcoin == 'ILS' ||
+			extcoin == 'KRW' ||
+			extcoin == 'MYR' ||
+			extcoin == 'PHP' ||
+			extcoin == 'SGD' ||
+			extcoin == 'THB' ||
+			extcoin == 'BGN' ||
+			extcoin == 'IDR' ||
+			extcoin == 'HRK') { action_menu_button_code = 'acpax'; };
 
 	return action_menu_button_code;
-} 
+}
 
 function getPassthruAgent() {
 	var extcoin = $('[data-extcoin]').attr('data-extcoin');
 			passthru_agent = '';
-	
+
 	console.log(extcoin)
 
 	if ( extcoin == 'KMD') { passthru_agent = 'komodo'; };
 	if ( extcoin == 'ZEC') { passthru_agent = 'zcash'; };
-	if ( extcoin == 'SUPERNET'
-		|| extcoin == 'REVS'
-		|| extcoin == 'DEX'
-		|| extcoin == 'PANGEA'
-		|| extcoin == 'JUMBLR'
-		|| extcoin == 'BET'
-		|| extcoin == 'CRYPTO'
-		|| extcoin == 'HODL'
-		|| extcoin == 'SHARK'
-		|| extcoin == 'BOTS'
-		|| extcoin == 'MGW'
-		|| extcoin == 'MVP'
-		|| extcoin == 'WIRELESS'
-		|| extcoin == 'KV'
-		|| extcoin == 'CEAL'
-		|| extcoin == 'MESH'
 
-		|| extcoin == 'USD'
-		|| extcoin == 'RON'
-		|| extcoin == 'EUR'
-		|| extcoin == 'JPY'
-		|| extcoin == 'GBP'
-		|| extcoin == 'AUD'
-		|| extcoin == 'CAD'
-		|| extcoin == 'CHF'
-		|| extcoin == 'NZD'
-		|| extcoin == 'CNY'
-		|| extcoin == 'RUB'
-		|| extcoin == 'MXN'
-		|| extcoin == 'BRL'
-		|| extcoin == 'INR'
-		|| extcoin == 'HKD'
-		|| extcoin == 'TRY'
-		|| extcoin == 'ZAR'
-		|| extcoin == 'PLN'
-		|| extcoin == 'NOK'
-		|| extcoin == 'SEK'
-		|| extcoin == 'DKK'
-		|| extcoin == 'CZK'
-		|| extcoin == 'HUF'
-		|| extcoin == 'ILS'
-		|| extcoin == 'KRW'
-		|| extcoin == 'MYR'
-		|| extcoin == 'PHP'
-		|| extcoin == 'SGD'
-		|| extcoin == 'THB'
-		|| extcoin == 'BGN'
-		|| extcoin == 'IDR'
-		|| extcoin == 'HRK' ) { passthru_agent = 'iguana'; };
+	if (extcoin == 'SUPERNET' ||
+			extcoin == 'REVS' ||
+			extcoin == 'DEX' ||
+			extcoin == 'PANGEA' ||
+			extcoin == 'JUMBLR' ||
+			extcoin == 'BET' ||
+			extcoin == 'CRYPTO' ||
+			extcoin == 'HODL' ||
+			extcoin == 'SHARK' ||
+			extcoin == 'BOTS' ||
+			extcoin == 'MGW' ||
+			extcoin == 'MVP' ||
+			extcoin == 'WIRELESS' ||
+			extcoin == 'KV' ||
+			extcoin == 'CEAL' ||
+			extcoin == 'MESH' ||
+			extcoin == 'USD' ||
+			extcoin == 'RON' ||
+			extcoin == 'EUR' ||
+			extcoin == 'JPY' ||
+			extcoin == 'GBP' ||
+			extcoin == 'AUD' ||
+			extcoin == 'CAD' ||
+			extcoin == 'CHF' ||
+			extcoin == 'NZD' ||
+			extcoin == 'CNY' ||
+			extcoin == 'RUB' ||
+			extcoin == 'MXN' ||
+			extcoin == 'BRL' ||
+			extcoin == 'INR' ||
+			extcoin == 'HKD' ||
+			extcoin == 'TRY' ||
+			extcoin == 'ZAR' ||
+			extcoin == 'PLN' ||
+			extcoin == 'NOK' ||
+			extcoin == 'SEK' ||
+			extcoin == 'DKK' ||
+			extcoin == 'CZK' ||
+			extcoin == 'HUF' ||
+			extcoin == 'ILS' ||
+			extcoin == 'KRW' ||
+			extcoin == 'MYR' ||
+			extcoin == 'PHP' ||
+			extcoin == 'SGD' ||
+			extcoin == 'THB' ||
+			extcoin == 'BGN' ||
+			extcoin == 'IDR' ||
+			extcoin == 'HRK') { passthru_agent = 'iguana'; };
 
 	return passthru_agent;
 }
@@ -158,24 +157,24 @@ function CheckIfConnected() {
 			extcoin = $('[data-extcoin]').attr('data-extcoin'),
 			passthru_agent = getPassthruAgent(),
 			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
-	
+
 	if (passthru_agent == 'iguana') {
 		var ajax_data = {
-			'userpass': tmpIguanaRPCAuth,
-			'agent': passthru_agent,
-			'method': 'passthru',
-			'asset': $('[data-extcoin]').attr('data-extcoin'),
-			'function': 'getinfo',
-			'hex': ''
-		};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'asset': $('[data-extcoin]').attr('data-extcoin'),
+					'function': 'getinfo',
+					'hex': ''
+				};
 	} else {
 		var ajax_data = {
-			'userpass': tmpIguanaRPCAuth,
-			'agent': passthru_agent,
-			'method': 'passthru',
-			'function': 'getinfo',
-			'hex': ''
-		};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'function': 'getinfo',
+					'hex': ''
+				};
 	}
 
 	console.log(ajax_data);
@@ -218,24 +217,24 @@ function CheckIfWalletEncrypted() {
 	var result = [],
 			passthru_agent = getPassthruAgent(),
 			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
-	
+
 	if (passthru_agent == 'iguana') {
 		var ajax_data = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
-				'method': 'passthru',
-				'asset': $('[data-extcoin]').attr('data-extcoin'),
-				'function': 'walletlock',
-				'hex': ''
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'asset': $('[data-extcoin]').attr('data-extcoin'),
+					'function': 'walletlock',
+					'hex': ''
+				};
 	} else {
 		var ajax_data = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
-				'method': 'passthru',
-				'function': 'walletlock',
-				'hex': ''
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'function': 'walletlock',
+					'hex': ''
+				};
 	}
 
 	console.log(ajax_data);
@@ -274,25 +273,25 @@ function KMD_getInfo_rtrn() {
 			extcoin = $('[data-extcoin]').attr('data-extcoin'),
 			passthru_agent = getPassthruAgent(),
 			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
-	
+
 	if (passthru_agent == 'iguana') {
 		var ajax_data = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
-				'method': 'passthru',
-				'asset': $('[data-extcoin]').attr('data-extcoin'),
-				'function': 'getinfo',
-				'hex': ''
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'asset': $('[data-extcoin]').attr('data-extcoin'),
+					'function': 'getinfo',
+					'hex': ''
+				};
 	} else {
 		var ajax_data = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
-				'method': 'passthru',
-				'asset': $('[data-extcoin]').attr('data-extcoin'),
-				'function': 'getinfo',
-				'hex': ''
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'asset': $('[data-extcoin]').attr('data-extcoin'),
+					'function': 'getinfo',
+					'hex': ''
+				};
 	}
 
 	$.ajax({

@@ -10,11 +10,17 @@ var KMDWalletDashboard = function() {
 			if ( sessionStorage.getItem('edexTmpMode') === 'Basilisk' || sessionStorage.getItem('edexTmpMode') === 'Full' ) {
 				sessionStorage.setItem('edexTmpRefresh', 'stop');
 			}
-			$('#kmd_wallet_dashoard_section').show();
-			$('#kmd_wallet_dashboardinfo').show();
-			$('#kmd_wallet_send').hide();
-			$('#kmd_wallet_recieve_section').hide();
-			$('#kmd_wallet_settings').hide();
+			$(
+				'#kmd_wallet_dashoard_section,' +
+				'#kmd_wallet_dashboardinfo'
+			)
+			.show();
+			$(
+				'#kmd_wallet_send,' +
+				'#kmd_wallet_recieve_section,' +
+				'#kmd_wallet_settings'
+			)
+			.hide();
 			getTotalKMDBalance();
 			KMDfillTxHistoryT();
 			clearSendManyFieldData();
@@ -53,10 +59,13 @@ var KMDWalletDashboard = function() {
 			KMDListAllOPIDs();
 			sessionStorage.setItem('edexTmpRefresh', 'stop');
 
-			$('#kmd_wallet_dashboardinfo').hide();
 			$('#kmd_wallet_send').show();
-			$('#kmd_wallet_recieve_section').hide();
-			$('#kmd_wallet_settings').hide();
+			$(
+				'#kmd_wallet_dashboardinfo,' +
+				'#kmd_wallet_recieve_section,' +
+				'#kmd_wallet_settings'
+			)
+			.hide();
 
 			var kmd_addr_list_with_balance = KMDlistunspentT();
 
@@ -199,10 +208,13 @@ var KMDWalletDashboard = function() {
 		$('#btn_' + action_btn_code + '_wallet_settings').click(function() {
 			console.log('wallet settings button clicked...');
 			sessionStorage.setItem('edexTmpRefresh', 'stop');
-			$('#kmd_wallet_dashboardinfo').hide();
-			$('#kmd_wallet_dashoard_section').hide();
-			$('#kmd_wallet_send').hide();
-			$('#kmd_wallet_recieve_section').hide();
+			$(
+				'#kmd_wallet_dashboardinfo,' +
+				'#kmd_wallet_dashoard_section,' +
+				'#kmd_wallet_send,' +
+				'#kmd_wallet_recieve_section'
+			)
+			.hide();
 			$('#kmd_wallet_settings').show();
 			getKMDWalletInfo();
 			getKMDInfo();
@@ -215,11 +227,14 @@ var KMDWalletDashboard = function() {
 
 		$('#btn_' + action_btn_code + '_wallet_recieve').click(function() {
 			sessionStorage.setItem('edexTmpRefresh', 'stop');
-			$('#kmd_wallet_dashboardinfo').hide();
-			$('#kmd_wallet_dashoard_section').hide();
-			$('#kmd_wallet_send').hide();
+			$(
+				'#kmd_wallet_dashboardinfo,' +
+				'#kmd_wallet_dashoard_section,' +
+				'#kmd_wallet_send,' +
+				'#kmd_wallet_settings'
+			)
+			.hide();
 			$('#kmd_wallet_recieve_section').show();
-			$('#kmd_wallet_settings').hide();
 			KMDListAllAddr();
 			clearSendManyFieldData();
 		});

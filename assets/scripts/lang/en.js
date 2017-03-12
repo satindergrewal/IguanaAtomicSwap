@@ -174,7 +174,9 @@ const _lang = {
       'TARGET': 'Target',
       'LOAD_DEBUG_LOG': 'Load debug log',
       'REFRESH_FUNDS': 'Refresh Funds',
-      'INFO': 'Info'
+      'INFO': 'Info',
+      'ENTER': 'Enter',
+      'ADDR_SM': 'address'
     },
     'JUMBLR': {
     	'NOTICE': 'EXPERIMENTAL TEST VERSION ONLY',
@@ -263,6 +265,8 @@ const _lang = {
       'IGUANA_CONN_ERR': 'Unable to connect to Iguana',
       'FETCHING_DATA': 'Fetching Data. Please wait for a minute to complete this task.',
       'LESS_RESPONSES_REQ': 'Less than required responses. Please try again.',
+      'LESS_RESPONSES_REQ_FOR': 'Less than required responses for',
+      'BASILISK_CON_REFRESHED': 'Basilisk nodes connections refreshed',
       'SWITCHED_TO': 'switched to',
       'MODE': 'Mode',
       'TX_SENT': 'Transaction Sent',
@@ -310,7 +314,8 @@ const _lang = {
       'TX': 'Transaction'
     },
     'IAPI': {
-      'PUBLIC_SM': 'public'
+      'PUBLIC_SM': 'public',
+      'CON_STATUS': 'Connection status'
     },
     'KMD_NATIVE': {
       'SELECT_ADDRESS': 'Select Transparent or Private Address',

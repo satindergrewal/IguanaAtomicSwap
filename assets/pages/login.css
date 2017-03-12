@@ -8,6 +8,14 @@
 .page-login form a {
   margin-left: 20px;
 }
+.page-login .form-control,
+.page-login .floating-label,
+.page-login .form-control:focus + .floating-label {
+  color: #bdbdbd;
+}
+.page-login #addcoin_select_coin_mdl_options-login {
+  color: #757575;
+}
 .page-login a {
   color: #9fa8da;
 }
@@ -19,15 +27,15 @@
 
 #register-btn, #register-back-btn,
 #logint-another-wallet {
-	border: 1px solid #5d5d5d;
-	color: #fff;
+  border: 1px solid #5d5d5d;
+  color: #fff;
 }
 
 #register-btn:hover,
 #register-back-btn:hover,
 #logint-another-wallet:hover {
-	border: 1px solid #a7a7a7;
-	color: #fff;
+  border: 1px solid #a7a7a7;
+  color: #fff;
 }
 
 .page-register:before {

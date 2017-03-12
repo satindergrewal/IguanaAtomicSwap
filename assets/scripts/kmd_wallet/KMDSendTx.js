@@ -11,23 +11,23 @@ function KMDZSendManyTransaction() {
 
 	if (passthru_agent == 'iguana') {
 		var ajax_data_txid_input = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
-				'method': 'passthru',
-				'asset': $('[data-extcoin]').attr('data-extcoin'),
-				'function': 'z_sendmany',
-				'hex': zsendmoney_output
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'asset': $('[data-extcoin]').attr('data-extcoin'),
+					'function': 'z_sendmany',
+					'hex': zsendmoney_output
+				};
 	} else {
 		var ajax_data_txid_input = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
-				'method': 'passthru',
-				'function': 'z_sendmany',
-				'hex': zsendmoney_output
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'function': 'z_sendmany',
+					'hex': zsendmoney_output
+				};
 	}
-	
+
 	$.ajax({
 		async: false,
 		type: 'POST',
@@ -55,7 +55,10 @@ function KMDZSendManyTransaction() {
 
 function clearSendManyFieldData() {
 	$('.showkmdwalletaddrs').selectpicker('refresh');
-	$('#kmd_wallet_sendto').val('');
+	$(
+		'#kmd_wallet_sendto,' +
+		'#kmd_wallet_amount'
+	)
+	.val('');
 	$('#kmd_wallet_total_value').text('');
-	$('#kmd_wallet_amount').val('');
 }
