@@ -269,6 +269,126 @@ function refreshEDEXCoinWalletList() {
 								coinlogo = 'RON';
 								coinname = 'RON';
 								break;
+							case 'EUR':
+								coinlogo = 'EUR';
+								coinname = 'Euro';
+								break;
+							case 'JPY':
+								coinlogo = 'JPY';
+								coinname = 'Japanese Yen';
+								break;
+							case 'GBP':
+								coinlogo = 'GBP';
+								coinname = 'British Pound';
+								break;
+							case 'AUD':
+								coinlogo = 'AUD';
+								coinname = 'Australian Dollar';
+								break;
+							case 'CAD':
+								coinlogo = 'CAD';
+								coinname = 'Canadian Dollar';
+								break;
+							case 'CHF':
+								coinlogo = 'CHF';
+								coinname = 'Swiss Franc';
+								break;
+							case 'NZD':
+								coinlogo = 'NZD';
+								coinname = 'New Zealand Dollar';
+								break;
+							case 'CNY':
+								coinlogo = 'CNY';
+								coinname = 'Chinese Yuan';
+								break;
+							case 'RUB':
+								coinlogo = 'RUB';
+								coinname = 'Russian Ruble';
+								break;
+							case 'MXN':
+								coinlogo = 'MXN';
+								coinname = 'Mexican peso';
+								break;
+							case 'BRL':
+								coinlogo = 'BRL';
+								coinname = 'Brazilian Real';
+								break;
+							case 'INR':
+								coinlogo = 'INR';
+								coinname = 'Indian Rupee';
+								break;
+							case 'HKD':
+								coinlogo = 'HKD';
+								coinname = 'Hong Kong Dollar';
+								break;
+							case 'TRY':
+								coinlogo = 'TRY';
+								coinname = 'Turkish Lira';
+								break;
+							case 'ZAR':
+								coinlogo = 'ZAR';
+								coinname = 'South African Rand';
+								break;
+							case 'PLN':
+								coinlogo = 'PLN';
+								coinname = 'Polish Zloty';
+								break;
+							case 'NOK':
+								coinlogo = 'NOK';
+								coinname = 'Norwegian Krone';
+								break;
+							case 'SEK':
+								coinlogo = 'SEK';
+								coinname = 'Swedish Krona';
+								break;
+							case 'DKK':
+								coinlogo = 'DKK';
+								coinname = 'Danish Krone';
+								break;
+							case 'CZK':
+								coinlogo = 'CZK';
+								coinname = 'Czech Koruna';
+								break;
+							case 'HUF':
+								coinlogo = 'HUF';
+								coinname = 'Hungarian Forint';
+								break;
+							case 'ILS':
+								coinlogo = 'ILS';
+								coinname = 'Israeli Shekel';
+								break;
+							case 'KRW':
+								coinlogo = 'KRW';
+								coinname = 'Korean Won';
+								break;
+							case 'MYR':
+								coinlogo = 'MYR';
+								coinname = 'Malaysian Ringgit';
+								break;
+							case 'PHP':
+								coinlogo = 'PHP';
+								coinname = 'Philippine Peso';
+								break;
+							case 'SGD':
+								coinlogo = 'SGD';
+								coinname = 'Singapore Dollar';
+								break;
+							case 'THB':
+								coinlogo = 'THB';
+								coinname = 'Thai Baht';
+								break;
+							case 'BGN':
+								coinlogo = 'BGN';
+								coinname = 'Bulgarian Lev';
+								break;
+							case 'IDR':
+								coinlogo = 'IDR';
+								coinname = 'Indonesian Rupiah';
+								break;
+							case 'HRK':
+								coinlogo = 'HRK';
+								coinname = 'Croatian Kuna';
+								break;
 			      }
 
 						walletDivContent +=
@@ -1251,25 +1371,55 @@ function edexCoinBtnAction() {
 				sessionStorage.setItem('edexTmpRefresh', 'start');
 				$( '#nav-zcash-wallet' ).trigger( 'click' );
 			}
-			if ( selected_coin == 'SUPERNET' ||
-				   selected_coin == 'REVS' ||
-				   selected_coin == 'REVS' ||
-				   selected_coin == 'DEX' ||
-				   selected_coin == 'PANGEA' ||
-				   selected_coin == 'JUMBLR' ||
-				   selected_coin == 'BET' ||
-				   selected_coin == 'CRYPTO' ||
-				   selected_coin == 'HODL' ||
-				   selected_coin == 'SHARK' ||
-				   selected_coin == 'BOTS' ||
-				   selected_coin == 'MGW' ||
-				   selected_coin == 'MVP' ||
-				   selected_coin == 'WIRELESS' ||
-				   selected_coin == 'KV' ||
-				   selected_coin == 'CEAL' ||
-				   selected_coin == 'MESH' ||
-				   selected_coin == 'USD' ||
-				   selected_coin == 'RON' ) {
+			if (selected_coin == 'SUPERNET' ||
+				  selected_coin == 'REVS' ||
+				  selected_coin == 'REVS' ||
+				  selected_coin == 'DEX' ||
+				  selected_coin == 'PANGEA' ||
+				  selected_coin == 'JUMBLR' ||
+				  selected_coin == 'BET' ||
+				  selected_coin == 'CRYPTO' ||
+				  selected_coin == 'HODL' ||
+				  selected_coin == 'SHARK' ||
+				  selected_coin == 'BOTS' ||
+				  selected_coin == 'MGW' ||
+				  selected_coin == 'MVP' ||
+				  selected_coin == 'WIRELESS' ||
+				  selected_coin == 'KV' ||
+				  selected_coin == 'CEAL' ||
+				  selected_coin == 'MESH' ||
+				  selected_coin == 'USD' ||
+				  selected_coin == 'RON' ||
+					selected_coin == 'EUR' ||
+					selected_coin == 'JPY' ||
+					selected_coin == 'GBP' ||
+					selected_coin == 'AUD' ||
+					selected_coin == 'CAD' ||
+					selected_coin == 'CHF' ||
+					selected_coin == 'NZD' ||
+					selected_coin == 'CNY' ||
+					selected_coin == 'RUB' ||
+					selected_coin == 'MXN' ||
+					selected_coin == 'BRL' ||
+					selected_coin == 'INR' ||
+					selected_coin == 'HKD' ||
+					selected_coin == 'TRY' ||
+					selected_coin == 'ZAR' ||
+					selected_coin == 'PLN' ||
+					selected_coin == 'NOK' ||
+					selected_coin == 'SEK' ||
+					selected_coin == 'DKK' ||
+					selected_coin == 'CZK' ||
+					selected_coin == 'HUF' ||
+					selected_coin == 'ILS' ||
+					selected_coin == 'KRW' ||
+					selected_coin == 'MYR' ||
+					selected_coin == 'PHP' ||
+					selected_coin == 'SGD' ||
+					selected_coin == 'THB' ||
+					selected_coin == 'BGN' ||
+					selected_coin == 'IDR' ||
+					selected_coin == 'HRK') {
 				sessionStorage.setItem('edexTmpMode', selected_coinmode);
 				sessionStorage.setItem('edexTmpRefresh', 'start');
 				assetchain_pax_menu_actions(selected_coin)
