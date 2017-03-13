@@ -940,54 +940,7 @@ var Dashboard = function() {
 				$('#addcoin_mdl_full_mode').prop('disabled', false);
 			}
 
-			if (tmp_coin_val == 'SUPERNET' ||
-					tmp_coin_val == 'REVS' ||
-					tmp_coin_val == 'WIRELESS' ||
-					tmp_coin_val == 'DEX' ||
-					tmp_coin_val == 'PANGEA' ||
-					tmp_coin_val == 'JUMBLR' ||
-					tmp_coin_val == 'BET' ||
-					tmp_coin_val == 'CRYPTO' ||
-					tmp_coin_val == 'HODL' ||
-					tmp_coin_val == 'SHARK' ||
-					tmp_coin_val == 'BOTS' ||
-					tmp_coin_val == 'MGW' ||
-					tmp_coin_val == 'MVP' ||
-					tmp_coin_val == 'KV' ||
-					tmp_coin_val == 'CEAL' ||
-					tmp_coin_val == 'MESH' ||
-					tmp_coin_val == 'USD' ||
-					tmp_coin_val == 'RON' ||
-					tmp_coin_val == 'EUR' ||
-					tmp_coin_val == 'JPY' ||
-					tmp_coin_val == 'GBP' ||
-					tmp_coin_val == 'AUD' ||
-					tmp_coin_val == 'CAD' ||
-					tmp_coin_val == 'CHF' ||
-					tmp_coin_val == 'NZD' ||
-					tmp_coin_val == 'CNY' ||
-					tmp_coin_val == 'RUB' ||
-					tmp_coin_val == 'MXN' ||
-					tmp_coin_val == 'BRL' ||
-					tmp_coin_val == 'INR' ||
-					tmp_coin_val == 'HKD' ||
-					tmp_coin_val == 'TRY' ||
-					tmp_coin_val == 'ZAR' ||
-					tmp_coin_val == 'PLN' ||
-					tmp_coin_val == 'NOK' ||
-					tmp_coin_val == 'SEK' ||
-					tmp_coin_val == 'DKK' ||
-					tmp_coin_val == 'CZK' ||
-					tmp_coin_val == 'HUF' ||
-					tmp_coin_val == 'ILS' ||
-					tmp_coin_val == 'KRW' ||
-					tmp_coin_val == 'MYR' ||
-					tmp_coin_val == 'PHP' ||
-					tmp_coin_val == 'SGD' ||
-					tmp_coin_val == 'THB' ||
-					tmp_coin_val == 'BGN' ||
-					tmp_coin_val == 'IDR' ||
-					tmp_coin_val == 'HRK') {
+			if (checkAC(tmp_coin_val)) {
 					$('#addcoin_mdl_native_mode').prop('disabled', false);
 					$('#addcoin_mdl_basilisk_mode')
 						.prop('disabled', false)
