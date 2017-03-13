@@ -209,10 +209,7 @@ $('#nav-komodo-wallet').on('click', function() {
 $('#nav-zcash-wallet').on('click', function() {
   NProgress.done(true);
   NProgress.configure({
-    template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
-              '<div class="spinner" role="spinner">' +
-                '<div class="spinner-icon"></div>' +
-              '</div>'
+    template: templates.nprogressBar
   });
   NProgress.start();
   $(
@@ -433,249 +430,156 @@ function assetchain_pax_menu_actions(coin) {
   CommonSidebarActionsSet02();
   removeDashboardStyle();
 
+  function renderAssetGFX(imgSrcName, imgBgName, _coin) {
+    $('.header-easydex-section')
+      .html('<img src="assets/images/native/' + imgSrcName + '_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">' + _coin + '</span>');
+    $('#easydex-header-div').css('background-image', 'url("assets/images/bg/' + imgBgName + '_transparent_header_bg.png")');
+  }
+
 	switch (coin) {
     case 'SUPERNET':
-      $('.header-easydex-section')
-      	.html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">' + coin + '</span>');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+      renderAssetGFX('supernet', 'jumblr', coin);
       break;
     case 'REVS':
-      $('.header-easydex-section')
-      	.html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">' + coin + '</span>');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
-      $('#easydex-header-div').css();
+      renderAssetGFX('supernet', 'jumblr', coin);
       break;
     case 'WIRELESS':
-      $('.header-easydex-section')
-      	.html('<img src="assets/images/native/wireless_header_title_logo.png"> <span style="font-size: 35px; vertical-align:middle">' + coin + '</span>');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/wireless_transparent_header_bg.png")');
+      renderAssetGFX('wireless', 'wireless', coin);
       break;
     case 'PANGEA':
-      $('.header-easydex-section')
-      	.html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">' + coin + '</span>');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+      renderAssetGFX('supernet', 'jumblr', coin);
       break;
     case 'DEX':
-      $('.header-easydex-section')
-      	.html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">' + coin + '</span>');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+      renderAssetGFX('supernet', 'jumblr', coin);
       break;
     case 'JUMBLR':
-      $('.header-easydex-section')
-      	.html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">' + coin + '</span>');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
-      $('#easydex-header-div').css();
+      renderAssetGFX('supernet', 'jumblr', coin);
       break;
     case 'BET':
-      $('.header-easydex-section')
-      	.html('<img src="assets/images/native/wireless_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">' + coin + '</span>');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/wireless_transparent_header_bg.png")');
+      renderAssetGFX('wireless', 'wireless', coin);
       break;
     case 'CRYPTO':
-      $('.header-easydex-section')
-      	.html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">' + coin + '</span>');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+      renderAssetGFX('supernet', 'jumblr', coin);
       break;
     case 'HODL':
-      $('.header-easydex-section')
-      	.html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">' + coin + '</span>');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
-      $('#easydex-header-div').css();
+      renderAssetGFX('supernet', 'jumblr', coin);
       break;
     case 'SHARK':
-      $('.header-easydex-section')
-      	.html('<img src="assets/images/native/wireless_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">' + coin + '</span>');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/wireless_transparent_header_bg.png")');
+      renderAssetGFX('wireless', 'wireless', coin);
       break;
     case 'BOTS':
-      $('.header-easydex-section')
-      	.html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">' + coin + '</span>');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+      renderAssetGFX('supernet', 'jumblr', coin);
       break;
     case 'MGW':
-      $('.header-easydex-section')
-      	.html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">' + coin + '</span>');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
-      $('#easydex-header-div').css();
+      renderAssetGFX('supernet', 'jumblr', coin);
       break;
     case 'MVP':
-      $('.header-easydex-section').html('<img src="assets/images/native/mvp_header_title_logo.png">');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/mvp_transparent_header_bg.png")');
+      renderAssetGFX('mpv', 'mpv', coin);
       break;
     case 'KV':
-      $('.header-easydex-section')
-      	.html('<img src="assets/images/native/supernet_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">' + coin + '</span>');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/jumblr_transparent_header_bg.png")');
+      renderAssetGFX('supernet', 'jumblr', coin);
       break;
     case 'CEAL':
-      $('.header-easydex-section')
-      	.html('<img src="assets/images/native/ceal_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">' + coin + '</span>');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/ceal_transparent_header_bg.png")');
-      $('#easydex-header-div').css();
+      renderAssetGFX('ceal', 'ceal', coin);
       break;
     case 'MESH':
-      $('.header-easydex-section').html('<img src="assets/images/native/mesh_header_title_logo.png">');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/mesh_transparent_header_bg.png")');
+      renderAssetGFX('mesh', 'mesh', coin);
       break;
     case 'USD':
-      $('.header-easydex-section')
-      	.html('<img src="assets/images/native/usd_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">US Dollar</span>');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/usd_transparent_header_bg.png")');
+      renderAssetGFX('usd', 'usd', 'US Dollar');
       break;
     case 'RON':
-      $('.header-easydex-section')
-      	.html('<img src="assets/images/native/ron_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Romanian Leu</span>');
-      $('#easydex-header-div').css('background-image', 'url("assets/images/bg/ron_transparent_header_bg.png")');
+      renderAssetGFX('ron', 'ron', 'Romanian Leu');
       break;
 		case 'EUR':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/eur_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Euro</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/eur_transparent_header_bg.png")');
+      renderAssetGFX('eur', 'eur', 'Euro');
 			break;
 		case 'JPY':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/jpy_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Japanese Yen</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/jpy_transparent_header_bg.png")');
+      renderAssetGFX('jpy', 'jpy', 'Japanese Yen');
 			break;
 		case 'GBP':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/gbp_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">British Pound</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/gbp_transparent_header_bg.png")');
+      renderAssetGFX('gbp', 'gbp', 'British Pound');
 			break;
 		case 'AUD':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/aud_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Australian Dollar</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/aud_transparent_header_bg.png")');
+      renderAssetGFX('aud', 'aud', 'Australian Dollar');
 			break;
 		case 'CAD':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/cad_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Canadian Dollar</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/cad_transparent_header_bg.png")');
+      renderAssetGFX('cad', 'cad', 'Canadian Dollar');
 			break;
 		case 'CHF':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/chf_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Swiss Franc</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/chf_transparent_header_bg.png")');
+      renderAssetGFX('chf', 'chf', 'Swiss Franc');
 			break;
 		case 'NZD':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/nzd_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">New Zealand Dollar</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/nzd_transparent_header_bg.png")');
+      renderAssetGFX('nzd', 'nzd', 'New Zealand Dollar');
 			break;
 		case 'CNY':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/cny_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Chinese Yuan</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/cny_transparent_header_bg.png")');
+      renderAssetGFX('cny', 'cny', 'Chinese Yuan');
 			break;
 		case 'RUB':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/rub_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Russian Ruble</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/rub_transparent_header_bg.png")');
+      renderAssetGFX('rub', 'rub', 'Russian Ruble');
 			break;
 		case 'MXN':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/mxn_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Mexican peso</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/mxn_transparent_header_bg.png")');
+      renderAssetGFX('mxn', 'mxn', 'Mexican Peso');
 			break;
 		case 'BRL':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/brl_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Brazilian Real</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/brl_transparent_header_bg.png")');
+      renderAssetGFX('brl', 'brl', 'Brazilian Real');
 			break;
 		case 'INR':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/inr_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Indian Rupee</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/inr_transparent_header_bg.png")');
+      renderAssetGFX('inr', 'inr', 'Indian Rupee');
 			break;
 		case 'HKD':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/hkd_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Hong Kong Dollar</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/hkd_transparent_header_bg.png")');
+      renderAssetGFX('hkd', 'hkd', 'Hong Kong Dollar');
 			break;
 		case 'TRY':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/try_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Turkish Lira</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/try_transparent_header_bg.png")');
+      renderAssetGFX('try', 'try', 'Turkish Lira');
 			break;
 		case 'ZAR':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/zar_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">South African Rand</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/zar_transparent_header_bg.png")');
+      renderAssetGFX('zar', 'zar', 'South African Rand');
 			break;
 		case 'PLN':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/pln_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Polish Zloty</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/pln_transparent_header_bg.png")');
+      renderAssetGFX('pln', 'pln', 'Polish Zloty');
 			break;
 		case 'NOK':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/nok_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Norwegian Krone</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/nok_transparent_header_bg.png")');
+      renderAssetGFX('nok', 'nok', 'Norwegian Krone');
 			break;
 		case 'SEK':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/sek_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Swedish Krona</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/sek_transparent_header_bg.png")');
+      renderAssetGFX('sek', 'sek', 'Swedish Krona');
 			break;
 		case 'DKK':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/dkk_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Danish Krone</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/dkk_transparent_header_bg.png")');
+      renderAssetGFX('dkk', 'dkk', 'Danish Krone');
 			break;
 		case 'CZK':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/czk_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Czech Koruna</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/czk_transparent_header_bg.png")');
+      renderAssetGFX('czk', 'czk', 'Czech Koruna');
 			break;
 		case 'HUF':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/huf_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Hungarian Forint</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/huf_transparent_header_bg.png")');
+      renderAssetGFX('huf', 'huf', 'Hungarian Forint');
 			break;
 		case 'ILS':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/ils_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Israeli Shekel</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/ils_transparent_header_bg.png")');
+      renderAssetGFX('ils', 'ils', 'Israeli Shekel');
 			break;
 		case 'KRW':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/krw_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Korean Won</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/krw_transparent_header_bg.png")');
+      renderAssetGFX('krw', 'krw', 'Korean Won');
 			break;
 		case 'MYR':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/myr_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Malaysian Ringgit</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/myr_transparent_header_bg.png")');
+      renderAssetGFX('myr', 'myr', 'Malaysian Ringgit');
 			break;
 		case 'PHP':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/php_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Philippine Peso</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/php_transparent_header_bg.png")');
+      renderAssetGFX('php', 'php', 'Philippine Peso');
 			break;
 		case 'SGD':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/sgd_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Singapore Dollar</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/sgd_transparent_header_bg.png")');
+      renderAssetGFX('sgd', 'sgd', 'Philippine Peso');
 			break;
 		case 'THB':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/thb_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Thai Baht</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/thb_transparent_header_bg.png")');
+      renderAssetGFX('thb', 'thb', 'Thai Baht');
 			break;
 		case 'BGN':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/bgn_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Bulgarian Lev</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/bgn_transparent_header_bg.png")');
+      renderAssetGFX('bgn', 'bgn', 'Bulgarian Lev');
 			break;
 		case 'IDR':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/idr_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Indonesian Rupiah</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/idr_transparent_header_bg.png")');
+      renderAssetGFX('idr', 'idr', 'Indonesian Rupiah');
 			break;
 		case 'HRK':
-			$('.header-easydex-section')
-				.html('<img src="assets/images/native/hrk_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">Croatian Kuna</span>');
-			$('#easydex-header-div').css('background-image', 'url("assets/images/bg/hrk_transparent_header_bg.png")');
+      renderAssetGFX('hrk', 'hrk', 'Croatian Kuna');
 			break;
     default:
     	$('.header-easydex-section').html('<span style="font-size: 35px; vertical-align: middle">' + coin + '</span>');
