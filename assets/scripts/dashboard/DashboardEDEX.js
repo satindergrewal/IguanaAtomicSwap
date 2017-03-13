@@ -2,10 +2,7 @@ function EdexfillTxHistory(coin) {
 	$('#edexcoin_txhistory').data('panel-api').load();
 	NProgress.done(true);
 	NProgress.configure({
-		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
-							'<div class="spinner" role="spinner">' +
-								'<div class="spinner-icon"></div>' +
-							'</div>'
+		template: templates.nprogressBar
 	});
 	NProgress.start();
 
@@ -440,10 +437,7 @@ function refreshEDEXCoinWalletList() {
 function EdexGetTxList(coin) {
 	NProgress.done(true);
 	NProgress.configure({
-		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
-							'<div class="spinner" role="spinner">' +
-								'<div class="spinner-icon"></div>' +
-							'</div>'
+		template: templates.nprogressBar
 	});
 	NProgress.start();
 
@@ -678,10 +672,7 @@ function EdexGetTxList(coin) {
 function EdexGetTxList_cache(coin) {
 	NProgress.done(true);
 	NProgress.configure({
-		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
-							'<div class="spinner" role="spinner">' +
-								'<div class="spinner-icon"></div>' +
-							'</div>'
+		template: templates.nprogressBar
 	});
 	NProgress.start();
 
@@ -714,7 +705,7 @@ function EdexGetTxList_cache(coin) {
 							tmp_amount = '<span class="label label-dark">' + _lang[defaultLang].DASHBOARD.UNKNOWN + '</span>';
 						}
 
-						var tmp_addr = null
+						var tmp_addr = null;
 						if (!('paid' in result_data[index])) {
 							tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">' + _lang[defaultLang].DASHBOARD.ZADDR_NOT_LISTED + '!</span>';
 						}
@@ -985,10 +976,7 @@ function clearEdexSendFieldData() {
 function EdexListAllAddr(coin) {
 	NProgress.done(true);
 	NProgress.configure({
-			template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
-								'<div class="spinner" role="spinner">' +
-									'<div class="spinner-icon"></div>' +
-								'</div>'
+			template: templates.nprogressBar
 	});
 	NProgress.start();
 

@@ -103,10 +103,7 @@ function KMDListaddrZ() {
 function KMDListAddresses(pubpriv) {
 	NProgress.done(true);
 	NProgress.configure({
-		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
-							'<div class="spinner" role="spinner">' +
-								'<div class="spinner-icon"></div>' +
-							'</div>'
+		template: templates.nprogressBar
 	});
 	NProgress.start();
 
@@ -173,10 +170,7 @@ function KMDListAddresses(pubpriv) {
 function KMDGetNewAddresses(pubpriv) {
 	NProgress.done(true);
 	NProgress.configure({
-		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
-							'<div class="spinner" role="spinner">' +
-								'<div class="spinner-icon"></div>' +
-							'</div>'
+		template: templates.nprogressBar
 	});
 	NProgress.start();
 
@@ -239,10 +233,7 @@ function KMDGetNewAddresses(pubpriv) {
 function KMDListAllAddr() {
 	NProgress.done(true);
 	NProgress.configure({
-			template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
-								'<div class="spinner" role="spinner">' +
-									'<div class="spinner-icon"></div>' +
-								'</div>'
+			template: templates.nprogressBar
 	});
 	NProgress.start();
 

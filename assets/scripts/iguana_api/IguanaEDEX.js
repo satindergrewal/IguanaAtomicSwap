@@ -1,10 +1,7 @@
 function EDEXlistunspent(coin, addr) {
 	NProgress.done(true);
 	NProgress.configure({
-		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
-							'<div class="spinner" role="spinner">' +
-								'<div class="spinner-icon"></div>' +
-							'</div>'
+		template: templates.nprogressBar
 	});
 	NProgress.start();
 
@@ -133,10 +130,7 @@ function clearEdexSendFieldData() {
 function EDEXMainAddr(coin) {
 	NProgress.done(true);
 	NProgress.configure({
-		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
-							'<div class="spinner" role="spinner">' +
-								'<div class="spinner-icon"></div>' +
-							'</div>'
+		template: templates.nprogressBar
 	});
 	NProgress.start();
 
