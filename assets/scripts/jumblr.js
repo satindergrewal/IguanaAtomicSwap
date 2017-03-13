@@ -14,7 +14,8 @@ var Jumblr = function() {
 			// clearInterval(CheckIfIguanaRunning);
 			// console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
 		} else {
-			Jumblr_CheckIfConnected().then(function(result) {
+			Jumblr_CheckIfConnected()
+			.then(function(result) {
 				console.log(result);
 				if (result == 'connected') {
 					Jumblr_DisplayAddresses();
@@ -25,7 +26,8 @@ var Jumblr = function() {
 		}
 
 		$('#jumblr_actions_header').click(function() {
-			Jumblr_CheckIfConnected().then(function(result) {
+			Jumblr_CheckIfConnected()
+			.then(function(result) {
 				console.log(result);
 				if (result == 'connected') {
 					Jumblr_DisplayAddresses();
@@ -45,7 +47,8 @@ var Jumblr = function() {
 }();
 
 function Jumblr_ShowHideAlert() {
-	Jumblr_LookforNativeKomodo().then(function(result) {
+	Jumblr_LookforNativeKomodo()
+	.then(function(result) {
 		// console.log(result)
 		if (result === 'isnative') {
 			$('#jumblr_no_native_kmd_alert').hide();
@@ -65,7 +68,8 @@ function Jumblr_DisplayAddresses() {
 }
 
 function Jumblr_DisplayStatus() {
-	Iguana_Jumblr_Status().then(function(result) {
+	Iguana_Jumblr_Status()
+	.then(function(result) {
 		//console.log(result)
 		/*$('#jumblr_status_BTCdeposit').text(result.BTCdeposit)
 		$('#jumblr_status_BTCjumblr').text(result.BTCjumblr)
@@ -87,7 +91,7 @@ function Jumblr_DisplayStatus() {
 		$('#jumblr_status_z_to_t').text(result.z_to_t);
 		$('#jumblr_status_finished').text(result.finished);
 		$('#jumblr_status_pending').text(result.pending);
-	})
+	});
 }
 
 function Jumblr_LookforNativeKomodo() {
@@ -115,7 +119,8 @@ function Jumblr_LookforNativeKomodo() {
 					} else {
 						resolve('notnative');
 					}
-		}).fail(function(xhr, textStatus, error) {
+		})
+		.fail(function(xhr, textStatus, error) {
 			// handle request failures
 			console.log(xhr.statusText);
 			if ( xhr.readyState == 0 ) {
@@ -144,7 +149,8 @@ function Jumblr_CheckIfConnected() {
 			type: 'POST',
 			data: JSON.stringify(ajax_data),
 			url: 'http://127.0.0.1:' + config.iguanaPort
-		}).done(function(data){
+		})
+		.done(function(data) {
 			data = JSON.parse(data);
 			if ( data.errors != undefined ) {
 				resolve('connected');

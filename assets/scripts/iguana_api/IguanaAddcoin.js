@@ -198,6 +198,8 @@
 	}, tmpinternval);
 }*/
 
+// TODO: refactor
+
 function Iguana_addcoin(addcoin_data) {
 	var tmpinternval = 0,
 			logincoinfullname = '',
@@ -337,9 +339,9 @@ function Iguana_addcoin(addcoin_data) {
 			var startcoin = function() {
 				return new Promise(function(resolve, reject) {
 					Shepherd_herd('komodod', {
-							'ac_name': 'komodod',
-							'ac_options': [
-	              			'-daemon=0',
+						'ac_name': 'komodod',
+						'ac_options': [
+            	'-daemon=0',
 							'-addnode=78.47.196.146'
 						]
 					});
@@ -386,10 +388,10 @@ function Iguana_addcoin(addcoin_data) {
 			var startcoin = function() {
 				return new Promise(function(resolve, reject) {
 					Shepherd_herd('zcashd', {
-							'ac_name': 'zcashd',
-							'ac_options': [
-	              			'-daemon=0',
-	              			'-server=1'
+						'ac_name': 'zcashd',
+						'ac_options': [
+							'-daemon=0',
+							'-server=1'
 						]
 					});
 					var result = 'startcoin: DONE';
@@ -487,7 +489,7 @@ function Iguana_addcoin(addcoin_data) {
 						'ac_name': 'SUPERNET',
 						'ac_options': [
 							'-daemon=0',
-              				'-server',
+             	'-server',
 							'-ac_name=SUPERNET',
 							'-ac_supply=816061',
 							'-addnode=78.47.196.146'
@@ -1278,7 +1280,7 @@ function Iguana_addcoin(addcoin_data) {
 
   }
 }
-  
+
 
   if ( addcoin_data.coin == 'USD' ) {
     logincoinfullname = 'USD';

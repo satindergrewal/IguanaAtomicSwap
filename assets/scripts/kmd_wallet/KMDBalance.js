@@ -11,21 +11,21 @@ function getTotalKMDBalance() {
 
 	if ( extcoin !== 'KMD' && extcoin !== 'ZEC' ) {
 		var ajax_data = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': 'iguana',
-				'method': 'passthru',
-				'asset': $('[data-extcoin]').attr('data-extcoin'),
-				'function': 'z_gettotalbalance',
-				'hex': '3000'
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': 'iguana',
+					'method': 'passthru',
+					'asset': $('[data-extcoin]').attr('data-extcoin'),
+					'function': 'z_gettotalbalance',
+					'hex': '3000'
+				};
 	} else {
 		var ajax_data = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
-				'method': 'passthru',
-				'function': 'z_gettotalbalance',
-				'hex': '3000'
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'function': 'z_gettotalbalance',
+					'hex': '3000'
+				};
 	}
 
 	//console.log(ajax_data);
@@ -41,21 +41,27 @@ function getTotalKMDBalance() {
 				console.log('show interest..');
 				$('#kmd_total_interest_balance').text(parseFloat(AjaxOutputData.interest).toFixed(8) + ' ' + extcoin);
 				$('#kmd_widget_get_total_balance_i').show();
-				$('#kmd_widget_get_total_balance_t').addClass(' col-lg-3');
-				$('#kmd_widget_get_total_balance_t').removeClass('col-lg-4');
-				$('#kmd_widget_get_total_balance_z').addClass(' col-lg-3');
-				$('#kmd_widget_get_total_balance_z').removeClass(' col-lg-4');
-				$('#kmd_widget_get_total_balance_tzi').addClass(' col-lg-3');
-				$('#kmd_widget_get_total_balance_tzi').removeClass(' col-lg-4');
+				$('#kmd_widget_get_total_balance_t')
+					.addClass(' col-lg-3')
+					.removeClass('col-lg-4');
+				$('#kmd_widget_get_total_balance_z')
+					.addClass(' col-lg-3')
+					.removeClass(' col-lg-4');
+				$('#kmd_widget_get_total_balance_tzi')
+					.addClass(' col-lg-3')
+					.removeClass(' col-lg-4');
 			} else {
 				console.log('do not show interest...');
 				$('#kmd_widget_get_total_balance_i').hide();
-				$('#kmd_widget_get_total_balance_t').addClass(' col-lg-4');
-				$('#kmd_widget_get_total_balance_t').removeClass(' col-lg-3');
-				$('#kmd_widget_get_total_balance_z').addClass(' col-lg-4');
-				$('#kmd_widget_get_total_balance_z').removeClass(' col-lg-3');
-				$('#kmd_widget_get_total_balance_tzi').addClass(' col-lg-4');
-				$('#kmd_widget_get_total_balance_tzi').removeClass(' col-lg-3');
+				$('#kmd_widget_get_total_balance_t')
+					.addClass(' col-lg-4')
+					.removeClass(' col-lg-3');
+				$('#kmd_widget_get_total_balance_z')
+					.addClass(' col-lg-4')
+					.removeClass(' col-lg-3');
+				$('#kmd_widget_get_total_balance_tzi')
+					.addClass(' col-lg-4')
+					.removeClass(' col-lg-3');
 			}
 			$('#kmd_transparent_balance').text((AjaxOutputData.transparent ? parseFloat(AjaxOutputData.transparent).toFixed(8) : 0) + ' ' + extcoin);
 			$('#kmd_private_balance').text((AjaxOutputData.private ? parseFloat(AjaxOutputData.private).toFixed(8) : 0) + ' ' + extcoin);
@@ -79,21 +85,21 @@ function getKMDBalanceT() {
 
 	if (passthru_agent == 'iguana') {
 		var ajax_data = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
-				'method': 'passthru',
-				'asset': $('[data-extcoin]').attr('data-extcoin'),
-				'function': 'getbalance',
-				'hex': ''
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'asset': $('[data-extcoin]').attr('data-extcoin'),
+					'function': 'getbalance',
+					'hex': ''
+				};
 	} else {
 		var ajax_data = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
-				'method': 'passthru',
-				'function': 'getbalance',
-				'hex': ''
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'function': 'getbalance',
+					'hex': ''
+				};
 	}
 
 	console.log(ajax_data);
@@ -122,21 +128,21 @@ function getKMDBalanceZ() {
 
 	if (passthru_agent == 'iguana') {
 		var ajax_data = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
-				'method': 'passthru',
-				'asset': $('[data-extcoin]').attr('data-extcoin'),
-				'function': 'z_getbalance',
-				'hex': ''
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'asset': $('[data-extcoin]').attr('data-extcoin'),
+					'function': 'z_getbalance',
+					'hex': ''
+				};
 	} else {
 		var ajax_data = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
-				'method': 'passthru',
-				'function': 'z_getbalance',
-				'hex': ''
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'function': 'z_getbalance',
+					'hex': ''
+				};
 	}
 
 	console.log(ajax_data);

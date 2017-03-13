@@ -112,7 +112,7 @@ function Iguana_HashHex(data) {
 			};
 
 	$.ajax({
-        async: false,
+    async: false,
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
 		url: 'http://127.0.0.1:' + config.iguanaPort,
@@ -129,6 +129,7 @@ function Iguana_HashHex(data) {
 			console.log(error);
 		}
 	});
+
 	return result;
 }
 
@@ -159,7 +160,8 @@ function Iguana_CheckActiveCoins() {
 						}
 				});
 				resolve(result);
-		}).fail(function(xhr, textStatus, error) {
+		})
+				.fail(function(xhr, textStatus, error) {
 				// handle request failures
 				console.log(xhr.statusText);
 				if ( xhr.readyState == 0 ) {
@@ -195,7 +197,8 @@ function Iguana_utxorawtx(data) {
       url: 'http://127.0.0.1:' + config.iguanaPort,
       type: 'POST',
       dataType: 'json'
-    }).then(result => {
+    })
+    .then(result => {
       //console.log(result);
       resolve(result);
     });

@@ -36,12 +36,15 @@ var Login = function() {
 
       highlight: function(element) { // hightlight error inputs
         $(element)
-          .closest('.form-group').addClass('has-error'); // set error class to the control group
+          .closest('.form-group')
+          .addClass('has-error'); // set error class to the control group
       },
 
       success: function(label) {
-        label.closest('.form-group').removeClass('has-error');
-        label.remove();
+        label
+          .closest('.form-group')
+          .removeClass('has-error')
+          .remove();
       },
 
       errorPlacement: function(error, element) {
@@ -51,10 +54,11 @@ var Login = function() {
       submitHandler: function(form) {
         var jumblr_setpassphrase_val = 'jumblr ' + $('#password').val();
         console.log(jumblr_setpassphrase_val);
-        Iguana_Jumblr_SetPassphrase({ 'passphrase': jumblr_setpassphrase_val }).then(function(result) {
+        Iguana_Jumblr_SetPassphrase({ 'passphrase': jumblr_setpassphrase_val })
+        .then(function(result) {
           console.log(result);
         })
-        .then(function(){
+        .then(function() {
           var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
               ajax_data = {
                 'userpass': tmpIguanaRPCAuth,
@@ -76,12 +80,14 @@ var Login = function() {
               sessionStorage.setItem('IguanaActiveAccount', LoginDataToStore);
               if (LoginOutput.result === 'success') {
                 console.log('Success');
-                toastr.success(_lang[defaultLang].TOASTR.LOGIN_SUCCESSFULL, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION)
+                toastr.success(_lang[defaultLang].TOASTR.LOGIN_SUCCESSFULL, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
 
                 $('#password').val('')
                 $('#wallet-login').hide();
                 $('#wallet-core').fadeIn();
-                $('body').removeClass( 'page-login layout-full page-dark' ).addClass( '' );
+                $('body')
+                  .removeClass( 'page-login layout-full page-dark' )
+                  .addClass( '' );
                 $('link[id=loginStyle]')[0].disabled = true;
 
                 location.reload();
@@ -143,11 +149,20 @@ var Login = function() {
         })
 
         $('#section-dashboard').show();
-        $('#section-easydex').hide();
-        $('#section-about-iguana').hide();
-        $('#nav-dashboard').removeClass( '' ).addClass( 'active open' );
-        $('#nav-easydex').removeClass( 'active open' ).addClass( '' );
-        $('#nav-about-iguana').removeClass( 'active open' ).addClass( '' );
+        $(
+          '#section-easydex,' +
+          '#section-about-iguana'
+        )
+        .hide();
+        $('#nav-dashboard')
+          .removeClass( '' )
+          .addClass( 'active open' );
+        $(
+          '#nav-easydex,' +
+          '#nav-about-iguana'
+        )
+        .removeClass( 'active open' )
+        .addClass( '' );
       }
     });
 
@@ -164,15 +179,15 @@ var Login = function() {
     $('input[name=PassPhraseOptions]').on('change', function() {
       if ( $('input[name=PassPhraseOptions]:checked', '.register-form').val() === 'PassPhraseOptionsIguana' ) {
         console.log('PassPhraseOptionsIguana');
-        $('#walletseed').text(PassPhraseGenerator.generatePassPhrase(256))
+        $('#walletseed').text(PassPhraseGenerator.generatePassPhrase(256));
       }
       if ( $('input[name=PassPhraseOptions]:checked', '.register-form').val() === 'PassPhraseOptionsWaves' ) {
         console.log('PassPhraseOptionsWaves');
-        $('#walletseed').text(PassPhraseGenerator.generatePassPhrase(160))
+        $('#walletseed').text(PassPhraseGenerator.generatePassPhrase(160));
       }
       if ( $('input[name=PassPhraseOptions]:checked', '.register-form').val() === 'PassPhraseOptionsNXT' ) {
         console.log('PassPhraseOptionsNXT');
-        $('#walletseed').text(PassPhraseGenerator.generatePassPhrase(128))
+        $('#walletseed').text(PassPhraseGenerator.generatePassPhrase(128));
       }
     });
   }
@@ -204,12 +219,15 @@ var Login = function() {
 
       highlight: function(element) { // hightlight error inputs
         $(element)
-          .closest('.form-group').addClass('has-error'); // set error class to the control group
+          .closest('.form-group')
+          .addClass('has-error'); // set error class to the control group
       },
 
       success: function(label) {
-        label.closest('.form-group').removeClass('has-error');
-        label.remove();
+        label
+          .closest('.form-group')
+          .removeClass('has-error')
+          .remove();
       },
 
       errorPlacement: function(error, element) {
@@ -262,8 +280,9 @@ var Login = function() {
                 console.log(CreateWalletOutput);
 
                 if (CreateWalletOutput.error === 'bitcoinrpc needs coin that is active') {
-                  toastr.info(_lang[defaultLang].TOASTR.NO_COIN_RUNNING, _lang[defaultLang].TOASTR.COIN_NOTIFICATION);
                   var logincoinnames = [];
+
+                  toastr.info(_lang[defaultLang].TOASTR.NO_COIN_RUNNING, _lang[defaultLang].TOASTR.COIN_NOTIFICATION);
                   $('#logincoinslist input[type=checkbox]:checked').each(function() { logincoinnames.push(this.value); });
                   console.log(logincoinnames);
 
@@ -326,9 +345,12 @@ var Login = function() {
           $('#section-login').fadeIn();
           $('#section-register').hide();
           $('#walletseed').text(PassPhraseGenerator.generatePassPhrase(256));
-          $('#rwalletseed').val('');
-          $('#register_password').val('');
-          $('#rpassword').val('');
+          $(
+            '#rwalletseed,' +
+            '#register_password,' +
+            '#rpassword'
+          )
+          .val('');
         });
       }
     });
@@ -384,17 +406,22 @@ var Login = function() {
             console.log('Success');
             toastr.success(_lang[defaultLang].TOASTR.LOGOUT_SUCCESSFULL, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
             $('#wallet-login').show();
-            $('body').removeClass( '' ).addClass( 'page-login layout-full page-dark' );
+            $('body')
+              .removeClass( '' )
+              .addClass( 'page-login layout-full page-dark' );
             $('#wallet-core').hide();
             $('link[id=loginStyle]')[0].disabled = false;
 
             // Make sure these fields are unhidden.
-            $('#login-welcome').text('Welcome.');
-            $('#wallet-handle').show();
-            $('.create-account').show();
-            $('#register-btn').show();
+            $('#login-welcome').text(_lang[defaultLang].LOGIN.WELCOME + '.');
+            $(
+              '#wallet-handle,' +
+              '.create-account,' +
+              '#register-btn'
+            )
+            .show();
             $('#logint-another-wallet').hide();
-            $("#loginbtn").text('Sign in');
+            $("#loginbtn").text(_lang[defaultLang].LOGIN.SIGN_IN);
 
             //Stop SetInterval Calls
             StopShowCoinHistory();
@@ -468,16 +495,21 @@ var Login = function() {
                 toastr.success(_lang[defaultLang].TOASTR.WALLET_LOCKED, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
 
                 $('#wallet-login').show();
-                $('body').removeClass( '' ).addClass( 'page-login layout-full page-dark' );
+                $('body')
+                  .removeClass( '' )
+                  .addClass( 'page-login layout-full page-dark' );
                 $('#wallet-core').hide();
                 $('link[id=loginStyle]')[0].disabled = false;
                 $("#loginbtn").text(_lang[defaultLang].LOGIN.UNLOCK);
                 // Hide some login fields not needing at lock screen
                 console.log('Wallet is Locked.');
                 $('#login-welcome').text(_lang[defaultLang].LOGIN.WALLET_LOCKED_LOGIN);
-                $('#register-btn').hide();
+                $(
+                  '#register-btn,' +
+                  '#logincoinslist'
+                )
+                .hide();
                 $('#logint-another-wallet').show();
-                $('#logincoinslist').hide();
               } else {
                 // If something goes wrong, alert the error message that our service returned
                 toastr.warning(_lang[defaultLang].TOASTR.OPPS, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
@@ -523,7 +555,8 @@ var Login = function() {
     if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
       console.log('There\'s no active wallet logged in. Please Login.');
       $('#logint-another-wallet').hide();
-      Iguana_CheckActiveCoins().then(function(result) {
+      Iguana_CheckActiveCoins()
+      .then(function(result) {
         if (result.length !== 0 ) {
           $('#section-login-addcoin-btn').hide();
           $('#section-login').show();
@@ -532,7 +565,8 @@ var Login = function() {
     } else {
         var CheckLoginData = JSON.parse(sessionStorage.getItem('IguanaActiveAccount'));
 
-        Iguana_activehandle().then(function(result) {
+        Iguana_activehandle()
+        .then(function(result) {
           if ( JSON.parse(CheckLoginData).pubkey != result.pubkey ) {
             ClearOnLogout(false, false);
           }
@@ -542,14 +576,19 @@ var Login = function() {
           console.log(JSON.parse(CheckLoginData).status);
           $('#password').val('')
           $('#wallet-login').hide();
-          $('body').removeClass( 'page-login layout-full page-dark' ).addClass( '' );
+          $('body')
+            .removeClass( 'page-login layout-full page-dark' )
+            .addClass( '' );
           $('#wallet-core').fadeIn();
         } else if ( JSON.parse(CheckLoginData).status === 'locked' ) {
           console.log('Wallet is Locked.');
           $('#login-welcome').text(_lang[defaultLang].LOGIN.WALLET_LOCKED_LOGIN);
-          $('#register-btn').hide();
+          $(
+            '#register-btn,' +
+            '#section-login-addcoin-btn'
+          )
+          .hide();
           $("#loginbtn").text(_lang[defaultLang].LOGIN.UNLOCK);
-          $('#section-login-addcoin-btn').hide();
           $('#section-login').show();
         }
     }
@@ -563,7 +602,8 @@ var Login = function() {
   };
 
   var handleCoinsRunningCheck = function() {
-    Iguana_CheckActiveCoins().then(function(result) {
+    Iguana_CheckActiveCoins()
+    .then(function(result) {
       if (result.length !== 0 ) {
         $('#section-login-addcoin-btn').hide();
         $('#section-login').show();
@@ -673,17 +713,22 @@ var Login = function() {
             toastr.success(_lang[defaultLang].TOASTR.LOGOUT_SUCCESSFULL, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
 
             $('#wallet-login').show();
-            $('body').removeClass( '' ).addClass( 'page-login layout-full page-dark' );
+            $('body')
+              .removeClass( '' )
+              .addClass( 'page-login layout-full page-dark' );
             $('#wallet-core').hide();
             $('link[id=loginStyle]')[0].disabled = false;
 
             // Make sure these fields are unhidden.
             $('#login-welcome').text(_lang[defaultLang].INDEX.WELCOME_LOGIN);
-            $('.create-account').show();
-            $('#register-btn').show();
+            $(
+              '.create-account,' +
+              '#register-btn,' +
+              '#logincoinslist'
+            )
+            .show();
             $('#logint-another-wallet').hide();
             $("#loginbtn").text(_lang[defaultLang].LOGIN.SIGN_IN);
-            $('#logincoinslist').show();
           } else {
             // If something goes wrong, alert the error message that our service returned
             toastr.warning(_lang[defaultLang].TOASTR.OPPS, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
@@ -712,92 +757,99 @@ var Login = function() {
   var handleAddCoinLoginBtn = function() {
     $('#addcoin_mdl_native_mode_login').prop('disabled', true);
     $('#addcoin_mdl_basilisk_mode_login').prop('disabled', true);
-    $('#addcoin_mdl_full_mode_login').prop('disabled', true);
-    $('#addcoin_mdl_full_mode_login').prop('checked', false);
+    $('#addcoin_mdl_full_mode_login')
+      .prop('disabled', true)
+      .prop('checked', false);
 
     $('.mdl_addcoin_done_btn-login').click(function() {
       ExecuteAddCoinLoginFn();
     });
 
-    $( "#addcoin_select_coin_mdl_options-login" ).change(function() {
+    $( "#addcoin_select_coin_mdl_options-login" )
+    .change(function() {
       var tmp_coin_val = $('#addcoin_select_coin_mdl_options-login').val();
 
       if (tmp_coin_val !== 'KMD' || tmp_coin_val !== 'KMD' ) {
         $('#addcoin_mdl_native_mode_login').prop('disabled', true);
         $('#addcoin_mdl_basilisk_mode_login').prop('disabled', true);
-        $('#addcoin_mdl_full_mode_login').prop('disabled', false);
-        $('#addcoin_mdl_full_mode_login').prop('checked', true);
+        $('#addcoin_mdl_full_mode_login')
+          .prop('disabled', false)
+          .prop('checked', true);
       }
       if (tmp_coin_val == 'KMD') {
         $('#addcoin_mdl_native_mode_login').prop('disabled', false);
-        $('#addcoin_mdl_basilisk_mode_login').prop('disabled', false);
+        $('#addcoin_mdl_basilisk_mode_login')
+          .prop('disabled', false)
+          .prop('checked', true);
         $('#addcoin_mdl_full_mode_login').prop('disabled', false);
-        $('#addcoin_mdl_basilisk_mode_login').prop('checked', true);
       }
-      if (tmp_coin_val == 'SUPERNET'
-          || tmp_coin_val == 'REVS'
-          || tmp_coin_val == 'WIRELESS'
-          || tmp_coin_val == 'DEX'
-          || tmp_coin_val == 'PANGEA'
-          || tmp_coin_val == 'JUMBLR'
-          || tmp_coin_val == 'BET'
-          || tmp_coin_val == 'CRYPTO'
-          || tmp_coin_val == 'HODL'
-          || tmp_coin_val == 'SHARK'
-          || tmp_coin_val == 'BOTS'
-          || tmp_coin_val == 'MGW'
-          || tmp_coin_val == 'MVP'
-          || tmp_coin_val == 'KV'
-          || tmp_coin_val == 'CEAL'
-          || tmp_coin_val == 'MESH'
-          || tmp_coin_val == 'USD'
-          || tmp_coin_val == 'RON'
-          || tmp_coin_val == 'EUR'
-          || tmp_coin_val == 'JPY'
-          || tmp_coin_val == 'GBP'
-          || tmp_coin_val == 'AUD'
-          || tmp_coin_val == 'CAD'
-          || tmp_coin_val == 'CHF'
-          || tmp_coin_val == 'NZD'
-          || tmp_coin_val == 'CNY'
-          || tmp_coin_val == 'RUB'
-          || tmp_coin_val == 'MXN'
-          || tmp_coin_val == 'BRL'
-          || tmp_coin_val == 'INR'
-          || tmp_coin_val == 'HKD'
-          || tmp_coin_val == 'TRY'
-          || tmp_coin_val == 'ZAR'
-          || tmp_coin_val == 'PLN'
-          || tmp_coin_val == 'NOK'
-          || tmp_coin_val == 'SEK'
-          || tmp_coin_val == 'DKK'
-          || tmp_coin_val == 'CZK'
-          || tmp_coin_val == 'HUF'
-          || tmp_coin_val == 'ILS'
-          || tmp_coin_val == 'KRW'
-          || tmp_coin_val == 'MYR'
-          || tmp_coin_val == 'PHP'
-          || tmp_coin_val == 'SGD'
-          || tmp_coin_val == 'THB'
-          || tmp_coin_val == 'BGN'
-          || tmp_coin_val == 'IDR'
-          || tmp_coin_val == 'HRK' ) {
+      if (tmp_coin_val == 'SUPERNET' ||
+          tmp_coin_val == 'REVS' ||
+          tmp_coin_val == 'WIRELESS' ||
+          tmp_coin_val == 'DEX' ||
+          tmp_coin_val == 'PANGEA' ||
+          tmp_coin_val == 'JUMBLR' ||
+          tmp_coin_val == 'BET' ||
+          tmp_coin_val == 'CRYPTO' ||
+          tmp_coin_val == 'HODL' ||
+          tmp_coin_val == 'SHARK' ||
+          tmp_coin_val == 'BOTS' ||
+          tmp_coin_val == 'MGW' ||
+          tmp_coin_val == 'MVP' ||
+          tmp_coin_val == 'KV' ||
+          tmp_coin_val == 'CEAL' ||
+          tmp_coin_val == 'MESH' ||
+          tmp_coin_val == 'USD' ||
+          tmp_coin_val == 'RON' ||
+          tmp_coin_val == 'EUR' ||
+          tmp_coin_val == 'JPY' ||
+          tmp_coin_val == 'GBP' ||
+          tmp_coin_val == 'AUD' ||
+          tmp_coin_val == 'CAD' ||
+          tmp_coin_val == 'CHF' ||
+          tmp_coin_val == 'NZD' ||
+          tmp_coin_val == 'CNY' ||
+          tmp_coin_val == 'RUB' ||
+          tmp_coin_val == 'MXN' ||
+          tmp_coin_val == 'BRL' ||
+          tmp_coin_val == 'INR' ||
+          tmp_coin_val == 'HKD' ||
+          tmp_coin_val == 'TRY' ||
+          tmp_coin_val == 'ZAR' ||
+          tmp_coin_val == 'PLN' ||
+          tmp_coin_val == 'NOK' ||
+          tmp_coin_val == 'SEK' ||
+          tmp_coin_val == 'DKK' ||
+          tmp_coin_val == 'CZK' ||
+          tmp_coin_val == 'HUF' ||
+          tmp_coin_val == 'ILS' ||
+          tmp_coin_val == 'KRW' ||
+          tmp_coin_val == 'MYR' ||
+          tmp_coin_val == 'PHP' ||
+          tmp_coin_val == 'SGD' ||
+          tmp_coin_val == 'THB' ||
+          tmp_coin_val == 'BGN' ||
+          tmp_coin_val == 'IDR' ||
+          tmp_coin_val == 'HRK' ) {
         $('#addcoin_mdl_native_mode_login').prop('disabled', false);
-        $('#addcoin_mdl_basilisk_mode_login').prop('disabled', false);
+        $('#addcoin_mdl_basilisk_mode_login')
+          .prop('disabled', false)
+          .prop('checked', true);
         $('#addcoin_mdl_full_mode_login').prop('disabled', true);
-        $('#addcoin_mdl_basilisk_mode_login').prop('checked', true);
       }
       if (tmp_coin_val == 'BTC') {
         $('#addcoin_mdl_basilisk_mode_login').prop('disabled', true);
         $('#addcoin_mdl_native_mode_login').prop('disabled', true);
-        $('#addcoin_mdl_full_mode_login').prop('disabled', false);
-        $('#addcoin_mdl_full_mode_login').prop('checked', true);
+        $('#addcoin_mdl_full_mode_login')
+          .prop('disabled', false)
+          .prop('checked', true);
       }
       if (tmp_coin_val == 'ZEC') {
         $('#addcoin_mdl_basilisk_mode_login').prop('disabled', true);
-        $('#addcoin_mdl_native_mode_login').prop('disabled', false);
+        $('#addcoin_mdl_native_mode_login')
+          .prop('disabled', false)
+          .prop('checked', true);
         $('#addcoin_mdl_full_mode_login').prop('disabled', true);
-        $('#addcoin_mdl_native_mode_login').prop('checked', true);
       }
     });
   }
@@ -810,7 +862,9 @@ var Login = function() {
       // Conditions for Login Add Coin Dialog
       $.each($('.style-addcoin-lbl-mdl-login'), function(index, value) {
         if ( index == 0  || index == 1 ) {
-          $(value).removeClass('col-lg-4 col-md-4').addClass('col-lg-6 col-md-6');
+          $(value)
+            .removeClass('col-lg-4 col-md-4')
+            .addClass('col-lg-6 col-md-6');
         }
         if ( index == 2 ) {
           $(value).hide();
@@ -820,7 +874,9 @@ var Login = function() {
       // Conditions for Dashboard Add Coin Dialog
       $.each($('.style-addcoin-lbl-mdl'), function(index, value) {
         if ( index == 0  || index == 1 ) {
-          $(value).removeClass('col-lg-4 col-md-4').addClass('col-lg-6 col-md-6');
+          $(value)
+            .removeClass('col-lg-4 col-md-4')
+            .addClass('col-lg-6 col-md-6');
         }
         if ( index == 2 ) {
           $(value).hide();
@@ -840,7 +896,7 @@ var Login = function() {
       handleCheckLogin();
       handleLoginAnotherWallet();
       handleAddCoinLoginBtn();
-       handleAddCoinOSOptions();
+      handleAddCoinOSOptions();
     }
   };
 }();
@@ -865,16 +921,24 @@ function ClearOnLogout(cleardata, stopinterval) {
     console.log('SetInterval data not cleared.');
   }
   $('#wallet-login').show();
-  $('body').removeClass( '' ).addClass( 'page-login layout-full page-dark' );
-  $('#wallet-core').hide();
+  $('body')
+    .removeClass( '' )
+    .addClass( 'page-login layout-full page-dark' );
+  $(
+    '#wallet-core,' +
+    '#logint-another-wallet'
+  )
+  .hide();
   $('link[id=loginStyle]')[0].disabled = false;
-  $('#logint-another-wallet').hide();
 
   // Make sure these fields are unhidden.
   $('#login-welcome').text(_lang[defaultLang].LOGIN.WELCOME);
-  $('#wallet-handle').show();
-  $('.create-account').show();
-  $('#register-btn').show();
+  $(
+    '#wallet-handle,' +
+    '.create-account,' +
+    '#register-btn'
+  )
+  .show();
   $('#logint-another-wallet').hide();
   $("#loginbtn").text(_lang[defaultLang].LOGIN.SIGN_IN);
 }

@@ -196,8 +196,11 @@ function Iguana_DEXImportAll() {
 			});
 
 	ajax_call_1.done(function(data) {
-		$.each([ 'basilisk','full' ], function(data_index,data_value) {
-			$.each(data[data_value], function(mode_index,mode_value) {
+		$.each([
+			'basilisk',
+			'full'
+		], function(data_index, data_value) {
+			$.each(data[data_value], function(mode_index, mode_value) {
 				var ajax_data_2 = {
 							'userpass': tmpIguanaRPCAuth,
 							'coin': mode_value,
@@ -256,7 +259,7 @@ function Iguana_DEXImportAll() {
 										});
 
 								ajax_call_5.done(function(data) {
-									console.log(mode_value)
+									console.log(mode_value);
 									console.log(data);
 
 									if (data == 'already in list') {
@@ -391,7 +394,8 @@ function Iguana_DEXsendrawtx(data) {
       url: 'http://127.0.0.1:' + config.iguanaPort,
       type: 'POST',
       //dataType: 'json'
-    }).then(result => {
+    })
+    .then(result => {
       console.log(result);
       resolve(result);
     });
@@ -424,10 +428,11 @@ function EDEX_DEXlistunspent(coin, addr) {
 						result.push([{ 'amount': 0 }]);
 					}
 					if (AjaxOutputData.error === 'less than required responses') {
-						toastr.error('Less than required responses. Please try again.', 'Basilisk Notification');
+						toastr.error(_lang[defaultLang].TOASTR.LESS_RESPONSES_REQ, _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
 					}
 					resolve(AjaxOutputData);
-				}).fail(function(xhr, textStatus, error) {
+				})
+				.fail(function(xhr, textStatus, error) {
 					// handle request failures
 					console.log(xhr.statusText);
 					if ( xhr.readyState == 0 ) {
@@ -505,46 +510,47 @@ function EDEX_DEXgetinfoAll() {
 				var refresh_percent = '';
 
 				$.each(get_dex_notarychains, function( coin_index, coin_value ) {
-						console.log(coin_index + ': ' + coin_value);
-						var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-								ajax_data = {
-									'userpass': tmpIguanaRPCAuth,
-									'agent': 'dex',
-									'method': 'getinfo',
-									'symbol': coin_value
-								};
-						console.log(ajax_data);
+					console.log(coin_index + ': ' + coin_value);
+					var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+							ajax_data = {
+								'userpass': tmpIguanaRPCAuth,
+								'agent': 'dex',
+								'method': 'getinfo',
+								'symbol': coin_value
+							};
+					console.log(ajax_data);
 
-						if (coin_value !== 'MESH') {
-							var getinfo_each_chain = IguanaAJAX('http://127.0.0.1:' + config.iguanaPort, ajax_data).done(function(data) {
-								getinfo_each_chain = JSON.parse(getinfo_each_chain.responseText);
-								console.log('== EDEX_DEXgetinfoAll Data OutPut ==');
-								console.log(getinfo_each_chain);
+					if (coin_value !== 'MESH') {
+						var getinfo_each_chain = IguanaAJAX('http://127.0.0.1:' + config.iguanaPort, ajax_data).done(function(data) {
+							getinfo_each_chain = JSON.parse(getinfo_each_chain.responseText);
+							console.log('== EDEX_DEXgetinfoAll Data OutPut ==');
+							console.log(getinfo_each_chain);
 
-								var tmp_index = parseInt(coin_index) + 1,
-										refresh_percent = parseFloat(parseInt(coin_index, 10) * 100) / parseInt(get_dex_notarychains.length, 10);
-								console.log(refresh_percent)
-								$('#basilisk-connections-refresh-title').text('Connection status... ' + tmp_index + '/' + get_dex_notarychains.length + ': ' + coin_value);
-								$('#basilisk-connections-refresh-percent').text(refresh_percent + '%');
-								$('#basilisk-connections-refresh-progress-bar').width(refresh_percent + '%');
+							var tmp_index = parseInt(coin_index) + 1,
+									refresh_percent = parseFloat(parseInt(coin_index, 10) * 100) / parseInt(get_dex_notarychains.length, 10);
 
-								if (getinfo_each_chain == '' ) {
-									result.push([{ 'amount': 0 }]);
-								}
-								result.push(getinfo_each_chain);
-								if (getinfo_each_chain.error === 'less than required responses') {
-									toastr.info('Less than required responses for ' + coin_value + '.', 'Basilisk Notification');
-									$('#basilisk-connections-refresh-status-output').text('Output: ' + getinfo_each_chain.error);
-								} else {
-									$('#basilisk-connections-refresh-status-output').text('Output: Connected');
-								}
-								if ( tmp_index == get_dex_notarychains.length-1 ) {
-									$('#basilisk-connections-refresh-progress-bar').width('100%');
-									$('#RefreshBasiliskConnectionsMdl').modal('hide');
-									toastr.success('Basilsk nodes connections refreshed.', 'Basilisk Notification');
-								}
-							});
-						}
+							console.log(refresh_percent);
+							$('#basilisk-connections-refresh-title').text(_lang[defaultLang].IAPI.CON_STATUS + '... ' + tmp_index + '/' + get_dex_notarychains.length + ': ' + coin_value);
+							$('#basilisk-connections-refresh-percent').text(refresh_percent + '%');
+							$('#basilisk-connections-refresh-progress-bar').width(refresh_percent + '%');
+
+							if (getinfo_each_chain == '' ) {
+								result.push([{ 'amount': 0 }]);
+							}
+							result.push(getinfo_each_chain);
+							if (getinfo_each_chain.error === 'less than required responses') {
+								toastr.info(_lang[defaultLang].TOASTR.LESS_RESPONSES_REQ_FOR + ' ' + coin_value + '.', _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
+								$('#basilisk-connections-refresh-status-output').text('Output: ' + getinfo_each_chain.error);
+							} else {
+								$('#basilisk-connections-refresh-status-output').text('Output: Connected');
+							}
+							if ( tmp_index == get_dex_notarychains.length-1 ) {
+								$('#basilisk-connections-refresh-progress-bar').width('100%');
+								$('#RefreshBasiliskConnectionsMdl').modal('hide');
+								toastr.success(_lang[defaultLang].TOASTR.BASILISK_CON_REFRESHED + '.', _lang[defaultLang].TOASTR.BASILISK_NOTIFICATION);
+							}
+						});
+					}
 				});
 			});
 

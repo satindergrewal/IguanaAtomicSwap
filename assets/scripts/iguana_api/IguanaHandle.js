@@ -33,7 +33,7 @@ function Iguana_rmd160conv(rmd160conv_data) {
 
 function Iguana_activehandle(callback) {
 	return new Promise((resolve) => {
-		var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+		var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
 				ajax_data = {
 					'userpass': tmpIguanaRPCAuth,
 					'agent': 'SuperNET',
@@ -45,14 +45,16 @@ function Iguana_activehandle(callback) {
       url: 'http://127.0.0.1:' + config.iguanaPort,
       type: 'POST',
       dataType: 'json'
-    }).then(result => {
+    })
+    .then(result => {
       //console.log(result);
       resolve(result);
-    }).fail(function(xhr, textStatus, error) {
+    })
+    .fail(function(xhr, textStatus, error) {
       // handle request failures
       console.log(xhr.statusText);
       if ( xhr.readyState == 0 ) {
-          Iguana_ServiceUnavailable();
+        Iguana_ServiceUnavailable();
       }
       console.log(textStatus);
       console.log(error);
@@ -62,7 +64,7 @@ function Iguana_activehandle(callback) {
 
 function Iguana_Setactivehandle() {
 	//comment
-	var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+	var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
 			ajax_data = {
 				'userpass': tmpIguanaRPCAuth,
 				'agent': 'SuperNET',

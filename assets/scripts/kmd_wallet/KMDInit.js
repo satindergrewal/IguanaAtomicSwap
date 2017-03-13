@@ -79,7 +79,7 @@ function RunKMDInitFunctions() {
 
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:' + config.iguanaPort + '/api/dex/getinfo?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth') + '&symbol='+extcoin,
+				url: 'http://localhost:' + config.iguanaPort + '/api/dex/getinfo?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth') + '&symbol=' + extcoin,
 				success: function(data, textStatus, jqXHR) {
 					data = JSON.parse(data);
 
@@ -136,13 +136,18 @@ function RunKMDInitFunctions() {
 			}, 2000);
 		}
 
-		getRemoteCurrentHeight();
-
-		var totalBlocksInExplorer = 0,
-				totalBlocksInExplorerInterval = setInterval(function() {
+		if (sessionStorage.getItem('edexTmpMode') === 'Native') {
 			getRemoteCurrentHeight();
-			_getKMDInfo();
-		}, 60000);
+
+			var totalBlocksInExplorer = 0,
+					totalBlocksInExplorerInterval = setInterval(function() {
+				getRemoteCurrentHeight();
+				_getKMDInfo();
+			}, 60000);
+		} else {
+			clearInterval(totalBlocksInExplorerInterval);
+			clearInterval(currentBestBlockInterval);
+		}
 
 		$('#kmd_wallet_dashoard_section').show();
 		$('#kmd_wallet_dashboardinfo').show();

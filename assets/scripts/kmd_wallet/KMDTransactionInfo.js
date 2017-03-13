@@ -14,21 +14,21 @@ function KMDlistunspentT() {
 
 	if (passthru_agent == 'iguana') {
 		var ajax_data = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
-				'method': 'passthru',
-				'asset': $('[data-extcoin]').attr('data-extcoin'),
-				'function': 'listunspent',
-				'hex': ''
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'asset': $('[data-extcoin]').attr('data-extcoin'),
+					'function': 'listunspent',
+					'hex': ''
+				};
 	} else {
 		var ajax_data = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
-				'method': 'passthru',
-				'function': 'listunspent',
-				'hex': ''
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'function': 'listunspent',
+					'hex': ''
+				};
 	}
 
 	$.ajax({
@@ -80,21 +80,21 @@ function KMDGetTransactionIDInfo(txid) {
 
 	if (passthru_agent == 'iguana') {
 		var ajax_data_txid_input = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
-				'method': 'passthru',
-				'asset': $('[data-extcoin]').attr('data-extcoin'),
-				'function': 'gettransaction',
-				'hex': tmptxid_output
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'asset': $('[data-extcoin]').attr('data-extcoin'),
+					'function': 'gettransaction',
+					'hex': tmptxid_output
+				};
 	} else {
 		var ajax_data_txid_input = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
-				'method': 'passthru',
-				'function': 'gettransaction',
-				'hex': tmptxid_output
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'function': 'gettransaction',
+					'hex': tmptxid_output
+				};
 	}
 
 	$.ajax({
@@ -136,21 +136,21 @@ function KMDGetOPIDInfo(opid) {
 
 	if (passthru_agent == 'iguana') {
 		var ajax_data_txid_input = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
-				'method': 'passthru',
-				'asset': $('[data-extcoin]').attr('data-extcoin'),
-				'function': 'z_getoperationstatus',
-				'hex': tmpopid_output
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'asset': $('[data-extcoin]').attr('data-extcoin'),
+					'function': 'z_getoperationstatus',
+					'hex': tmpopid_output
+				};
 	} else {
 		var ajax_data_txid_input = {
-				'userpass': tmpIguanaRPCAuth,
-				'agent': passthru_agent,
-				'method': 'passthru',
-				'function': 'z_getoperationstatus',
-				'hex': tmpopid_output
-			};
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'function': 'z_getoperationstatus',
+					'hex': tmpopid_output
+				};
 	}
 
 	$.ajax({

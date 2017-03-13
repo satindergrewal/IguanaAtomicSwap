@@ -12,7 +12,8 @@ function EdexfillTxHistory(coin) {
 	var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 
 	if ( active_edexcoinmodecode === 'Basilisk' ) {
-		EdexGetTxList_cache(coin).then(function(result) {
+		EdexGetTxList_cache(coin)
+    .then(function(result) {
 			var edex_txhistory_table = '';
 			edex_txhistory_table = $('#edex-tx-history-tbl').DataTable({
 				data: result,
@@ -38,7 +39,8 @@ function EdexfillTxHistory(coin) {
 	}
 
 	if ( active_edexcoinmodecode === 'Full' ) {
-		EdexGetTxList(coin).then(function(result){
+		EdexGetTxList(coin)
+    .then(function(result){
 			var edex_txhistory_table = '';
 			edex_txhistory_table = $('#edex-tx-history-tbl').DataTable({
 				data: result,
@@ -72,7 +74,7 @@ function refreshEDEXCoinWalletList() {
 		'native',
 		'basilisk',
 		'full'
-		], function( index, value ) {
+		],function( index, value ) {
 			var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
 					ajax_data = {
 						'userpass': tmpIguanaRPCAuth,
@@ -87,10 +89,10 @@ function refreshEDEXCoinWalletList() {
 				success: function(data, textStatus, jqXHR) {
 					var AllcoinsDataOutput = JSON.parse(data);
 
-						$.each(AllcoinsDataOutput[value], function(index) {
-					var coinlogo = '',
-					coinname = '',
-					modecode = '',
+					$.each(AllcoinsDataOutput[value], function(index) {
+						var coinlogo = '',
+								coinname = '',
+								modecode = '',
 								modetip = '',
 								modecolor = '';
 
@@ -122,282 +124,287 @@ function refreshEDEXCoinWalletList() {
                 break;
             }
 
-            switch (AllcoinsDataOutput[value][index]) {
-				case 'BTC':
-					coinlogo = 'bitcoin';
-					coinname = 'Bitcoin';
-					break;
-				case 'BTCD':
-					coinlogo = 'bitcoindark';
-					coinname = 'BitcoinDark';
-					break;
-				case 'LTC':
-					coinlogo = 'litecoin';
-					coinname = 'Litecoin';
-					break;
-				case 'VPN':
-					coinlogo = 'vpncoin';
-					coinname = 'VPNcoin';
-					break;
-				case 'SYS':
-					coinlogo = 'syscoin';
-					coinname = 'Syscoin';
-					break;
-				case 'ZEC':
-					coinlogo = 'zcash';
-					coinname = 'Zcash';
-					break;
-				case 'NMC':
-					coinlogo = 'namecoin';
-					coinname = 'Namecoin';
-					break;
-				case 'DEX':
-					coinlogo = 'dex';
-					coinname = 'InstantDEX';
-					break;
-				case 'DOGE':
-					coinlogo = 'dogecoin';
-					coinname = 'Dogecoin';
-					break;
-				case 'DGB':
-					coinlogo = 'digibyte';
-					coinname = 'Digibyte';
-					break;
-				case 'MZC':
-					coinlogo = 'mazacoin';
-					coinname = 'Mazacoin';
-					break;
-				case 'UNO':
-					coinlogo = 'unobtanium';
-					coinname = 'Unobtanium';
-					break;
-				case 'ZET':
-					coinlogo = 'zetacoin';
-					coinname = 'Zetacoin';
-					break;
-				case 'KMD':
-					coinlogo = 'komodo';
-					coinname = 'Komodo';
-					break;
-				case 'BTM':
-					coinlogo = 'bitmark';
-					coinname = 'Bitmark';
-					break;
-				case 'CARB':
-					coinlogo = 'carboncoin';
-					coinname = 'Carboncoin';
-					break;
-				case 'ANC':
-					coinlogo = 'anoncoin';
-					coinname = 'AnonCoin';
-					break;
-				case 'FRK':
-					coinlogo = 'franko';
-					coinname = 'Franko';
-					break;
-				case 'SUPERNET':
-					coinlogo = 'SUPERNET';
-					coinname = 'SUPERNET';
-					break;
-				case 'REVS':
-					coinlogo = 'REVS';
-					coinname = 'REVS';
-					break;
-				case 'WIRELESS':
-					coinlogo = 'WIRELESS';
-					coinname = 'WIRELESS';
-					break;
-				case 'PANGEA':
-					coinlogo = 'PANGEA';
-					coinname = 'PANGEA';
-					break;
-				case 'JUMBLR':
-					coinlogo = 'JUMBLR';
-					coinname = 'JUMBLR';
-					break;
-				case 'BET':
-					coinlogo = 'BET';
-					coinname = 'BET';
-					break;
-				case 'CRYPTO':
-					coinlogo = 'CRYPTO';
-					coinname = 'CRYPTO';
-					break;
-				case 'HODL':
-					coinlogo = 'HODL';
-					coinname = 'HODL';
-					break;
-				case 'SHARK':
-					coinlogo = 'SHARK';
-					coinname = 'SHARK';
-					break;
-          		case 'BOTS':
-					coinlogo = 'BOTS';
-					coinname = 'BOTS';
-					break;
-				case 'MGW':
-					coinlogo = 'MGW';
-					coinname = 'MultiGateway';
-					break;
-				case 'MVP':
-					coinlogo = 'MVP';
-					coinname = 'MVP Lineup';
-					break;
-				case 'KV':
-					coinlogo = 'KV';
-					coinname = 'KV';
-					break;
-				case 'CEAL':
-					coinlogo = 'CEAL';
-					coinname = 'CEAL NET';
-					break;
-				case 'MESH':
-					coinlogo = 'MESH';
-					coinname = 'SpaceMesh';
-					break;
-				case 'USD':
-					coinlogo = 'USD';
-					coinname = 'US Dollar';
-					break;
-				case 'RON':
-					coinlogo = 'RON';
-					coinname = 'Romanian Leu';
-					break;
-				case 'EUR':
-					coinlogo = 'EUR';
-					coinname = 'Euro';
-					break;
-				case 'JPY':
-					coinlogo = 'JPY';
-					coinname = 'Japanese Yen';
-					break;
-				case 'GBP':
-					coinlogo = 'GBP';
-					coinname = 'British Pound';
-					break;
-				case 'AUD':
-					coinlogo = 'AUD';
-					coinname = 'Australian Dollar';
-					break;
-				case 'CAD':
-					coinlogo = 'CAD';
-					coinname = 'Canadian Dollar';
-					break;
-				case 'CHF':
-					coinlogo = 'CHF';
-					coinname = 'Swiss Franc';
-					break;
-				case 'NZD':
-					coinlogo = 'NZD';
-					coinname = 'New Zealand Dollar';
-					break;
-				case 'CNY':
-					coinlogo = 'CNY';
-					coinname = 'Chinese Yuan';
-					break;
-				case 'RUB':
-					coinlogo = 'RUB';
-					coinname = 'Russian Ruble';
-					break;
-				case 'MXN':
-					coinlogo = 'MXN';
-					coinname = 'Mexican peso';
-					break;
-				case 'BRL':
-					coinlogo = 'BRL';
-					coinname = 'Brazilian Real';
-					break;
-				case 'INR':
-					coinlogo = 'INR';
-					coinname = 'Indian Rupee';
-					break;
-				case 'HKD':
-					coinlogo = 'HKD';
-					coinname = 'Hong Kong Dollar';
-					break;
-				case 'TRY':
-					coinlogo = 'TRY';
-					coinname = 'Turkish Lira';
-					break;
-				case 'ZAR':
-					coinlogo = 'ZAR';
-					coinname = 'South African Rand';
-					break;
-				case 'PLN':
-					coinlogo = 'PLN';
-					coinname = 'Polish Zloty';
-					break;
-				case 'NOK':
-					coinlogo = 'NOK';
-					coinname = 'Norwegian Krone';
-					break;
-				case 'SEK':
-					coinlogo = 'SEK';
-					coinname = 'Swedish Krona';
-					break;
-				case 'DKK':
-					coinlogo = 'DKK';
-					coinname = 'Danish Krone';
-					break;
-				case 'CZK':
-					coinlogo = 'CZK';
-					coinname = 'Czech Koruna';
-					break;
-				case 'HUF':
-					coinlogo = 'HUF';
-					coinname = 'Hungarian Forint';
-					break;
-				case 'ILS':
-					coinlogo = 'ILS';
-					coinname = 'Israeli Shekel';
-					break;
-				case 'KRW':
-					coinlogo = 'KRW';
-					coinname = 'Korean Won';
-					break;
-				case 'MYR':
-					coinlogo = 'MYR';
-					coinname = 'Malaysian Ringgit';
-					break;
-				case 'PHP':
-					coinlogo = 'PHP';
-					coinname = 'Philippine Peso';
-					break;
-				case 'SGD':
-					coinlogo = 'SGD';
-					coinname = 'Singapore Dollar';
-					break;
-				case 'THB':
-					coinlogo = 'THB';
-					coinname = 'Thai Baht';
-					break;
-				case 'BGN':
-					coinlogo = 'BGN';
-					coinname = 'Bulgarian Lev';
-					break;
-				case 'IDR':
-					coinlogo = 'IDR';
-					coinname = 'Indonesian Rupiah';
-					break;
-				case 'HRK':
-					coinlogo = 'HRK';
-					coinname = 'Croatian Kuna';
-					break;
-            }
+			      switch (AllcoinsDataOutput[value][index]) {
+							case 'BTC':
+								coinlogo = 'bitcoin';
+								coinname = 'Bitcoin';
+								break;
+							case 'BTCD':
+								coinlogo = 'bitcoindark';
+								coinname = 'BitcoinDark';
+								break;
+							case 'LTC':
+								coinlogo = 'litecoin';
+								coinname = 'Litecoin';
+								break;
+							case 'VPN':
+								coinlogo = 'vpncoin';
+								coinname = 'VPNcoin';
+								break;
+							case 'SYS':
+								coinlogo = 'syscoin';
+								coinname = 'Syscoin';
+								break;
+							case 'ZEC':
+								coinlogo = 'zcash';
+								coinname = 'Zcash';
+								break;
+							case 'NMC':
+								coinlogo = 'namecoin';
+								coinname = 'Namecoin';
+								break;
+							case 'DEX':
+								coinlogo = 'dex';
+								coinname = 'DEX';
+								break;
+							case 'DOGE':
+								coinlogo = 'dogecoin';
+								coinname = 'Dogecoin';
+								break;
+							case 'DGB':
+								coinlogo = 'digibyte';
+								coinname = 'Digibyte';
+								break;
+							case 'MZC':
+								coinlogo = 'mazacoin';
+								coinname = 'Mazacoin';
+								break;
+							case 'UNO':
+								coinlogo = 'unobtanium';
+								coinname = 'Unobtanium';
+								break;
+							case 'ZET':
+								coinlogo = 'zetacoin';
+								coinname = 'Zetacoin';
+								break;
+							case 'KMD':
+								coinlogo = 'komodo';
+								coinname = 'Komodo';
+								break;
+							case 'BTM':
+								coinlogo = 'bitmark';
+								coinname = 'Bitmark';
+								break;
+							case 'CARB':
+								coinlogo = 'carboncoin';
+								coinname = 'Carboncoin';
+								break;
+							case 'ANC':
+								coinlogo = 'anoncoin';
+								coinname = 'AnonCoin';
+								break;
+							case 'FRK':
+								coinlogo = 'franko';
+								coinname = 'Franko';
+								break;
+							case 'SUPERNET':
+								coinlogo = 'SUPERNET';
+								coinname = 'SUPERNET';
+								break;
+							case 'REVS':
+								coinlogo = 'REVS';
+								coinname = 'REVS';
+								break;
+							case 'WIRELESS':
+								coinlogo = 'WIRELESS';
+								coinname = 'WIRELESS';
+								break;
+    					case 'DEX':
+								coinlogo = 'DEX';
+								coinname = 'DEX';
+								break;
+							case 'PANGEA':
+								coinlogo = 'PANGEA';
+								coinname = 'PANGEA';
+								break;
+							case 'JUMBLR':
+								coinlogo = 'JUMBLR';
+								coinname = 'JUMBLR';
+								break;
+							case 'BET':
+								coinlogo = 'BET';
+								coinname = 'BET';
+								break;
+							case 'CRYPTO':
+								coinlogo = 'CRYPTO';
+								coinname = 'CRYPTO';
+								break;
+							case 'HODL':
+								coinlogo = 'HODL';
+								coinname = 'HODL';
+								break;
+							case 'SHARK':
+								coinlogo = 'SHARK';
+								coinname = 'SHARK';
+								break;
+			        case 'BOTS':
+								coinlogo = 'BOTS';
+								coinname = 'BOTS';
+								break;
+							case 'MGW':
+								coinlogo = 'MGW';
+								coinname = 'MGW';
+								break;
+							case 'MVP':
+								coinlogo = 'MVP';
+								coinname = 'MVP';
+								break;
+							case 'KV':
+								coinlogo = 'KV';
+								coinname = 'KV';
+								break;
+							case 'CEAL':
+								coinlogo = 'CEAL';
+								coinname = 'CEAL';
+								break;
+							case 'MESH':
+								coinlogo = 'MESH';
+								coinname = 'MESH';
+								break;
+							case 'USD':
+								coinlogo = 'USD';
+								coinname = 'USD';
+								break;
+							case 'RON':
+								coinlogo = 'RON';
+								coinname = 'RON';
+								break;
+							case 'EUR':
+								coinlogo = 'EUR';
+								coinname = 'Euro';
+								break;
+							case 'JPY':
+								coinlogo = 'JPY';
+								coinname = 'Japanese Yen';
+								break;
+							case 'GBP':
+								coinlogo = 'GBP';
+								coinname = 'British Pound';
+								break;
+							case 'AUD':
+								coinlogo = 'AUD';
+								coinname = 'Australian Dollar';
+								break;
+							case 'CAD':
+								coinlogo = 'CAD';
+								coinname = 'Canadian Dollar';
+								break;
+							case 'CHF':
+								coinlogo = 'CHF';
+								coinname = 'Swiss Franc';
+								break;
+							case 'NZD':
+								coinlogo = 'NZD';
+								coinname = 'New Zealand Dollar';
+								break;
+							case 'CNY':
+								coinlogo = 'CNY';
+								coinname = 'Chinese Yuan';
+								break;
+							case 'RUB':
+								coinlogo = 'RUB';
+								coinname = 'Russian Ruble';
+								break;
+							case 'MXN':
+								coinlogo = 'MXN';
+								coinname = 'Mexican peso';
+								break;
+							case 'BRL':
+								coinlogo = 'BRL';
+								coinname = 'Brazilian Real';
+								break;
+							case 'INR':
+								coinlogo = 'INR';
+								coinname = 'Indian Rupee';
+								break;
+							case 'HKD':
+								coinlogo = 'HKD';
+								coinname = 'Hong Kong Dollar';
+								break;
+							case 'TRY':
+								coinlogo = 'TRY';
+								coinname = 'Turkish Lira';
+								break;
+							case 'ZAR':
+								coinlogo = 'ZAR';
+								coinname = 'South African Rand';
+								break;
+							case 'PLN':
+								coinlogo = 'PLN';
+								coinname = 'Polish Zloty';
+								break;
+							case 'NOK':
+								coinlogo = 'NOK';
+								coinname = 'Norwegian Krone';
+								break;
+							case 'SEK':
+								coinlogo = 'SEK';
+								coinname = 'Swedish Krona';
+								break;
+							case 'DKK':
+								coinlogo = 'DKK';
+								coinname = 'Danish Krone';
+								break;
+							case 'CZK':
+								coinlogo = 'CZK';
+								coinname = 'Czech Koruna';
+								break;
+							case 'HUF':
+								coinlogo = 'HUF';
+								coinname = 'Hungarian Forint';
+								break;
+							case 'ILS':
+								coinlogo = 'ILS';
+								coinname = 'Israeli Shekel';
+								break;
+							case 'KRW':
+								coinlogo = 'KRW';
+								coinname = 'Korean Won';
+								break;
+							case 'MYR':
+								coinlogo = 'MYR';
+								coinname = 'Malaysian Ringgit';
+								break;
+							case 'PHP':
+								coinlogo = 'PHP';
+								coinname = 'Philippine Peso';
+								break;
+							case 'SGD':
+								coinlogo = 'SGD';
+								coinname = 'Singapore Dollar';
+								break;
+							case 'THB':
+								coinlogo = 'THB';
+								coinname = 'Thai Baht';
+								break;
+							case 'BGN':
+								coinlogo = 'BGN';
+								coinname = 'Bulgarian Lev';
+								break;
+							case 'IDR':
+								coinlogo = 'IDR';
+								coinname = 'Indonesian Rupiah';
+								break;
+							case 'HRK':
+								coinlogo = 'HRK';
+								coinname = 'Croatian Kuna';
+								break;
+			      }
 
-						walletDivContent += '<!-- Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->';
-						walletDivContent += '<div class="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '">';
-							walletDivContent += '<div class="widget widget-shadow">';
-								walletDivContent += '<div class="widget-content text-center bg-white padding-20">';
-									walletDivContent += '<a class="avatar margin-bottom-5 edexcoin-logo" href="javascript:void(0)" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-edexcoinmodecode="' + modecode + '" data-edexcoinname="' + coinname + '" id="edexcoin-logo">';
-										walletDivContent += '<img class="img-responsive" src="assets/images/cryptologo/' + coinlogo + '.png" alt="' + coinname + '"/>';
-										walletDivContent += '<span class="badge up badge-' + modecolor + '" id="basfull" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>';
-									walletDivContent += '</a>';
-									walletDivContent += '<div class="coin-name">' + coinname + '</div>';
-								walletDivContent += '</div>';
-							walletDivContent += '</div>';
-						walletDivContent += '</div>';
-						walletDivContent += '<!-- End Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->';
+						walletDivContent +=
+              '<!-- Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->' +
+						    '<div class="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '">' +
+							    '<div class="widget widget-shadow">' +
+								    '<div class="widget-content text-center bg-white padding-20">' +
+									    '<a class="avatar margin-bottom-5 edexcoin-logo" href="javascript:void(0)" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-edexcoinmodecode="' + modecode + '" data-edexcoinname="' + coinname + '" id="edexcoin-logo">' +
+										    '<img class="img-responsive" src="assets/images/cryptologo/' + coinlogo + '.png" alt="' + coinname + '"/>' +
+										    '<span class="badge up badge-' + modecolor + '" id="basfull" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>' +
+									    '</a>' +
+									    '<div class="coin-name">' + coinname + '</div>' +
+								    '</div>' +
+							    '</div>' +
+						    '</div>' +
+						  '<!-- End Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->';
 
 						$('.wallet-widgets-row').html(walletDivContent);
 						//getCoinBalance(AllcoinsDataOutput[value][index]);
@@ -427,7 +434,7 @@ function refreshEDEXCoinWalletList() {
 					}
 				}
 			});
-	});
+		});
 }
 
 function EdexGetTxList(coin) {
@@ -456,7 +463,8 @@ function EdexGetTxList(coin) {
 			url: 'http://127.0.0.1:' + config.iguanaPort,
 			type: 'POST',
 			dataType: 'json'
-		}).then(data => {
+		})
+    .then(data => {
 			var total_utxos = [];
 			let params = '';
 
@@ -514,7 +522,8 @@ function EdexGetTxList(coin) {
 						url: 'http://127.0.0.1:' + config.iguanaPort,
 						type: 'POST',
 						dataType: 'json'
-					}).then(data => {
+					})
+					.then(data => {
 						if ( active_edexcoinmodecode == 'Full' ) {
 							data = data.result;
 						}
@@ -523,7 +532,8 @@ function EdexGetTxList(coin) {
 						resolve(total_utxos);
 					});
 				});
-			})).then(result => {
+			}))
+      .then(result => {
 				let result_data = result[result.length - 1];
 				let compiled_result = [];
 
@@ -558,18 +568,18 @@ function EdexGetTxList(coin) {
 						var tmp_secondsToString = secondsToString(result_data[index].blocktime);
 
 						if ( result_data[index].category == 'send' ) {
-							tmp_category = '<i class="icon fa-arrow-circle-left"></i> OUT';
+							tmp_category = '<i class="icon fa-arrow-circle-left"></i> ' + _lang[defaultLang].DASHBOARD.OUT;
 						}
 						if ( result_data[index].category == 'receive' ) {
-							tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
+							tmp_category = '<i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].DASHBOARD.IN;
 						}
 						if ( result_data[index].category == 'generate' ) {
-							tmp_category = '<i class="icon fa-cogs"></i> Mined';
+							tmp_category = '<i class="icon fa-cogs"></i> ' + _lang[defaultLang].DASHBOARD.IMMATURE;
 						}if ( result_data[index].category == 'immature' ) {
-							tmp_category = '<i class="icon fa-clock-o"></i> Immature';
+							tmp_category = '<i class="icon fa-clock-o"></i> ' + _lang[defaultLang].DASHBOARD.OUT;
 						}
 						if ( result_data[index].category == 'unknown' ) {
-							tmp_category = '<i class="icon fa-meh-o"></i> Unknown';
+							tmp_category = '<i class="icon fa-meh-o"></i> ' + _lang[defaultLang].DASHBOARD.UNKNOWN;
 						}
 
 						tmplisttransactions = [
@@ -618,10 +628,14 @@ function EdexGetTxList(coin) {
 						var tmp_secondsToString = secondsToString(result_data[index].timestamp);
 
 						if ( result_data[index].type == 'sent' ) {
-							tmp_category = '<span class="label label-danger"><i class="icon fa-arrow-circle-left"></i> ' + _lang[defaultLang].DASHBOARD.OUT + '</span>';
+							tmp_category = '<span class="label label-danger">' +
+                               '<i class="icon fa-arrow-circle-left"></i> ' + _lang[defaultLang].DASHBOARD.OUT +
+                             '</span>';
 						}
 						if ( result_data[index].type == 'received' ) {
-							tmp_category = '<span class="label label-success"><i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].DASHBOARD.IN + '</span>';
+							tmp_category = '<span class="label label-success">' +
+                               '<i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].DASHBOARD.IN +
+                             '</span>';
 						}
 						if ( result_data[index].type == 'generate' ) {
 							tmp_category = '<i class="icon fa-cogs"></i> ' + _lang[defaultLang].DASHBOARD.MINED;
@@ -672,8 +686,9 @@ function EdexGetTxList_cache(coin) {
 	NProgress.start();
 
 	return new Promise((resolve) => {
-		Shepherd_GetBasiliskCache().then(function(result) {
-			var _data = JSON.parse(result)
+		Shepherd_GetBasiliskCache()
+    .then(function(result) {
+			var _data = JSON.parse(result),
 					query = _data.result.basilisk,
 					active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode'),
 					total_utxos = [];
@@ -685,7 +700,8 @@ function EdexGetTxList_cache(coin) {
 					total_utxos = $.merge(total_utxos, data);
 					resolve(total_utxos);
 				});
-			})).then(result => {
+			}))
+      .then(result => {
 				let result_data = result[result.length - 1];
 				let compiled_result = [];
 
@@ -710,10 +726,14 @@ function EdexGetTxList_cache(coin) {
 						var tmp_secondsToString = secondsToString(result_data[index].timestamp);
 
 						if ( result_data[index].type == 'sent' ) {
-							tmp_category = '<span class="label label-danger"><i class="icon fa-arrow-circle-left"></i> ' + _lang[defaultLang].DASHBOARD.OUT + '</span>';
+							tmp_category = '<span class="label label-danger">' +
+                               '<i class="icon fa-arrow-circle-left"></i> ' + _lang[defaultLang].DASHBOARD.OUT +
+                             '</span>';
 						}
 						if ( result_data[index].type == 'received' ) {
-							tmp_category = '<span class="label label-success"><i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].DASHBOARD.IN + '</span>';
+							tmp_category = '<span class="label label-success">' +
+                               '<i class="icon fa-arrow-circle-right"></i> ' + _lang[defaultLang].DASHBOARD.IN +
+                             '</span>';
 						}
 						if ( result_data[index].type == 'generate' ) {
 							tmp_category = '<i class="icon fa-cogs"></i> ' + _lang[defaultLang].DASHBOARD.MINED;
@@ -975,10 +995,11 @@ function EdexListAllAddr(coin) {
 	active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 
 	if (active_edexcoinmodecode == 'Basilisk' && coin !== 'BTC' && coin !== 'SYS') {
-		EDEXgetaddrbyaccount_cache(coin).then(function(result) {
-			console.log(result);
+		EDEXgetaddrbyaccount_cache(coin)
+    .then(function(result) {
 			var only_reciving_addr_data = [];
 
+			console.log(result);
 			$.each(result, function(index, value) {
 				if (value.interest == undefined || coin !== 'KMD') {
 					console.log('interest is undefined');
@@ -1014,10 +1035,11 @@ function EdexListAllAddr(coin) {
 			NProgress.done();
 		});
 	} else if (active_edexcoinmodecode == 'Basilisk' ) {
-		EDEXgetaddrbyaccount(coin).then(function(result){
-			console.log(result);
+		EDEXgetaddrbyaccount(coin)
+    .then(function(result){
 			var only_reciving_addr_data = [];
 
+			console.log(result);
 			$.each(result, function(index, value) {
 				if (value.interest == undefined || coin !== 'KMD') {
 					console.log('interest is undefined');
@@ -1055,10 +1077,11 @@ function EdexListAllAddr(coin) {
 	}
 
 	if (active_edexcoinmodecode == 'Full') {
-		EDEXgetaddrbyaccount(coin).then(function(result) {
-			console.log(result);
+		EDEXgetaddrbyaccount(coin)
+    .then(function(result) {
 			var only_reciving_addr_data = [];
 
+			console.log(result);
 			$.each(result, function(index, value) {
 				if (value.interest == undefined || coin !== 'KMD') {
 					console.log('interest is undefined');
@@ -1100,28 +1123,42 @@ function edexCoinBtnAction() {
 	$('.edexcoin-logo').click(function() {
 		$( '#edexcoin_send_coins_back_btn' ).trigger( 'click' );
 		$('#btn_edexcoin_dashboard').hide();
-		$('#btn_edexcoin_send').show();
-		$('#btn_edexcoin_recieve').show();
+		$(
+      '#btn_edexcoin_send,' +
+      '#btn_edexcoin_recieve'
+    )
+    .show();
 
 		var selected_coin = $(this).data('edexcoincode'),
 				selected_coinmode = $(this).data('edexcoinmodecode'),
 				selected_coinname = $(this).data('edexcoinname');
 
-		$('#edexcoin_getbalance_interest').hide();
-		$('#edexcoin_getbalance_total_interest').hide();
-		$('#edexcoin_getbalance_t').removeClass( 'col-lg-4' ).addClass( 'col-lg-12' );
-		$('#edex_interest_balance').text('-');
-		$('#edex_total_balance_interest').text('-');
-		$('#edex_total_balance').text('-');
+		$(
+      '#edexcoin_getbalance_interest,' +
+      '#edexcoin_getbalance_total_interest'
+    )
+    .hide();
+		$('#edexcoin_getbalance_t')
+      .removeClass( 'col-lg-4' )
+      .addClass( 'col-lg-12' );
+		$(
+      '#edex_interest_balance,' +
+      '#edex_total_balance_interest,' +
+      '#edex_total_balance'
+    )
+    .text('-');
 		$('#edex_total_balance_coincode').text(selected_coin);
 
 		sessionStorage.setItem('edexTmpMode', selected_coinmode);
 		resizeDashboardWindow();
 
 		if ( selected_coinmode == 'Basilisk' ) {
-			$('#edex-footer').hide();
-			$('#btn_edexcoin_basilisk').show();
-			$('#edexcoin-wallet-waitingrt-alert').hide();
+      $('#btn_edexcoin_basilisk').show();
+			$(
+        '#edex-footer,' +
+        '#edexcoin-wallet-waitingrt-alert'
+      )
+      .hide();
 			sessionStorage.setItem('edexTmpRefresh', 'start');
 		}
 		if ( selected_coinmode == 'Full' ) {
@@ -1130,15 +1167,21 @@ function edexCoinBtnAction() {
 			sessionStorage.setItem('edexTmpRefresh', 'start');
 		}
 		if ( selected_coinmode !== 'Native' ) {
-			$('#edexcoin_dashoard_section').show();
-			$('#header-dashboard').show();
-			$('#wallet-widgets').show();
-			$('#edexcoin_dashboardinfo').show();
-			$('#no_wallet_selected').hide();
-			$('#edexcoin_send').hide();
-			$('#edexcoin_recieve_section').hide();
-			$('#edexcoin_settings').hide();
-			$('#currency-progressbars').show();
+			$(
+        '#edexcoin_dashoard_section,' +
+        '#header-dashboard,' +
+        '#wallet-widgets,' +
+        '#edexcoin_dashboardinfo,' +
+        '#currency-progressbars'
+      )
+      .show();
+			$(
+        '#no_wallet_selected,' +
+        '#edexcoin_send,' +
+        '#edexcoin_recieve_section,' +
+        '#edexcoin_settings'
+      )
+      .hide();
 
 			// get selected coin's code and populate in easydex wallet widget's html elements
 			var coincode = $(this).data('edexcoincode');
@@ -1154,13 +1197,14 @@ function edexCoinBtnAction() {
 			$('#edexcoin-active').text(selected_coinname);
 			$('#edex_total_balance_coincode').text(coincode);
 			// populate selected coin's address
-			EDEXMainAddr(selected_coin).then(function(result) {
+			EDEXMainAddr(selected_coin)
+      .then(function(result) {
 				$('#edexcoin_active_addr').text(result);
 				$('#edexcoin_active_addr_clipboard').attr('data-clipboard-text', result);
 			})
 
 			$('#edexcoin_active_addr_clipboard').click(function() {
-				alertify.success('Address Copied.');
+				alertify.success(_lang[defaultLang].DASHBOARD.ADDR_COPIED + '.');
 			});
 
 			var clipboard = new Clipboard('.clipboard-edexaddr');
@@ -1200,11 +1244,17 @@ function edexCoinBtnAction() {
 					 selected_coin !== 'CARB' &&
 					 selected_coin !== 'ANC' &&
 					 selected_coin !== 'FRK') {
-				getDEXGetBalance_cache(selected_coin).then(function(result) {
+				getDEXGetBalance_cache(selected_coin)
+        .then(function(result) {
 					if ( result.interest !== undefined && selected_coin == 'KMD') {
-						$('#edexcoin_getbalance_interest').show();
-						$('#edexcoin_getbalance_total_interest').show();
-						$('#edexcoin_getbalance_t').removeClass( 'col-lg-12' ).addClass( 'col-lg-4' );
+						$(
+              '#edexcoin_getbalance_interest,' +
+              '#edexcoin_getbalance_total_interest'
+            )
+            .show();
+						$('#edexcoin_getbalance_t')
+              .removeClass( 'col-lg-12' )
+              .addClass( 'col-lg-4' );
 						$('#edex_interest_balance').text(result.interest);
 						$('#edex_total_balance_interest').text(result.totalbalance);
 						$('#edex_total_interest_coincode').text(selected_coin);
@@ -1212,22 +1262,36 @@ function edexCoinBtnAction() {
 					}
 
 					if ( result.interest === undefined || selected_coin !== 'KMD') {
-						$('#edexcoin_getbalance_interest').hide();
-						$('#edexcoin_getbalance_total_interest').hide();
-						$('#edexcoin_getbalance_t').removeClass( 'col-lg-4' ).addClass( 'col-lg-12' );
-						$('#edex_interest_balance').text('-');
-						$('#edex_total_balance_interest').text('-');
+						$(
+              '#edexcoin_getbalance_interest,' +
+              '#edexcoin_getbalance_total_interest'
+            )
+            .hide();
+						$('#edexcoin_getbalance_t')
+              .removeClass( 'col-lg-4' )
+              .addClass( 'col-lg-12' );
+						$(
+              '#edex_interest_balance,' +
+              '#edex_total_balance_interest'
+            )
+            .text('-');
 					}
 
 					$('#edex_total_balance').text(result.total);
 					$('#edex_total_balance_coincode').text(selected_coin);
 				});
 			} else if (selected_coinmode == 'Basilisk') {
-				getDEXGetBalance2(selected_coin).then(function(result) {
+				getDEXGetBalance2(selected_coin)
+        .then(function(result) {
 					if ( result.interest !== undefined ) {
-						$('#edexcoin_getbalance_interest').show();
-						$('#edexcoin_getbalance_total_interest').show();
-						$('#edexcoin_getbalance_t').removeClass( 'col-lg-12' ).addClass( 'col-lg-4' );
+						$(
+              '#edexcoin_getbalance_interest,' +
+              '#edexcoin_getbalance_total_interest'
+            )
+            .show();
+						$('#edexcoin_getbalance_t')
+              .removeClass( 'col-lg-12' )
+              .addClass( 'col-lg-4' );
 						$('#edex_interest_balance').text(result.interest);
 						$('#edex_total_balance_interest').text(result.totalbalance);
 						$('#edex_total_interest_coincode').text(selected_coin);
@@ -1235,23 +1299,37 @@ function edexCoinBtnAction() {
 					}
 
 					if ( result.interest === undefined || selected_coin !== 'KMD') {
-						$('#edexcoin_getbalance_interest').hide();
-						$('#edexcoin_getbalance_total_interest').hide();
-						$('#edexcoin_getbalance_t').removeClass( 'col-lg-4' ).addClass( 'col-lg-12' );
-						$('#edex_interest_balance').text('-');
-						$('#edex_total_balance_interest').text('-');
+						$(
+              '#edexcoin_getbalance_interest,' +
+              '#edexcoin_getbalance_total_interest'
+            )
+            .hide();
+						$('#edexcoin_getbalance_t')
+              .removeClass( 'col-lg-4' )
+              .addClass( 'col-lg-12' );
+						$(
+              '#edex_interest_balance,' +
+              '#edex_total_balance_interest'
+            )
+            .text('-');
 					}
 
 					$('#edex_total_balance').text(result.total);
 					$('#edex_total_balance_coincode').text(selected_coin);
 				});
 			} else {
-				EDEXlistunspent(selected_coin).then(function(result) {
+				EDEXlistunspent(selected_coin)
+        .then(function(result) {
 					if (result[0] != undefined) {
 						if ( result[0].interest !== undefined ) {
-							$('#edexcoin_getbalance_interest').show();
-							$('#edexcoin_getbalance_total_interest').show();
-							$('#edexcoin_getbalance_t').removeClass( 'col-lg-12' ).addClass( 'col-lg-4' );
+							$(
+                '#edexcoin_getbalance_interest,' +
+                '#edexcoin_getbalance_total_interest'
+              )
+              .show();
+							$('#edexcoin_getbalance_t')
+                .removeClass( 'col-lg-12' )
+                .addClass( 'col-lg-4' );
 							$('#edex_interest_balance').text(result[0].interest);
 							$('#edex_total_balance_interest').text(result[0].totalbalance);
 							$('#edex_total_interest_coincode').text(selected_coin);
@@ -1259,11 +1337,19 @@ function edexCoinBtnAction() {
 						}
 
 						if ( result[0].interest === undefined ) {
-							$('#edexcoin_getbalance_interest').hide();
-							$('#edexcoin_getbalance_total_interest').hide();
-							$('#edexcoin_getbalance_t').removeClass( 'col-lg-4' ).addClass( 'col-lg-12' );
-							$('#edex_interest_balance').text('-');
-							$('#edex_total_balance_interest').text('-');
+							$(
+                '#edexcoin_getbalance_interest,' +
+                '#edexcoin_getbalance_total_interest'
+              )
+              .hide();
+							$('#edexcoin_getbalance_t')
+                .removeClass( 'col-lg-4' )
+                .addClass( 'col-lg-12' );
+							$(
+                '#edex_interest_balance,' +
+                '#edex_total_balance_interest'
+              )
+              .text('-');
 						}
 
 						$('#edex_total_balance').text(result[0].total);
@@ -1287,58 +1373,58 @@ function edexCoinBtnAction() {
 				sessionStorage.setItem('edexTmpRefresh', 'start');
 				$( '#nav-zcash-wallet' ).trigger( 'click' );
 			}
-			if ( selected_coin == 'SUPERNET'
-				|| selected_coin == 'REVS'
-				|| selected_coin == 'REVS'
-				|| selected_coin == 'DEX'
-				|| selected_coin == 'PANGEA'
-				|| selected_coin == 'JUMBLR'
-				|| selected_coin == 'BET'
-				|| selected_coin == 'CRYPTO'
-				|| selected_coin == 'HODL'
-				|| selected_coin == 'SHARK'
-				|| selected_coin == 'BOTS'
-				|| selected_coin == 'MGW'
-				|| selected_coin == 'MVP'
-				|| selected_coin == 'WIRELESS'
-				|| selected_coin == 'KV'
-				|| selected_coin == 'CEAL'
-				|| selected_coin == 'MESH'
-				|| selected_coin == 'USD'
-				|| selected_coin == 'RON'
-				|| selected_coin == 'EUR'
-				|| selected_coin == 'JPY'
-				|| selected_coin == 'GBP'
-				|| selected_coin == 'AUD'
-				|| selected_coin == 'CAD'
-				|| selected_coin == 'CHF'
-				|| selected_coin == 'NZD'
-				|| selected_coin == 'CNY'
-				|| selected_coin == 'RUB'
-				|| selected_coin == 'MXN'
-				|| selected_coin == 'BRL'
-				|| selected_coin == 'INR'
-				|| selected_coin == 'HKD'
-				|| selected_coin == 'TRY'
-				|| selected_coin == 'ZAR'
-				|| selected_coin == 'PLN'
-				|| selected_coin == 'NOK'
-				|| selected_coin == 'SEK'
-				|| selected_coin == 'DKK'
-				|| selected_coin == 'CZK'
-				|| selected_coin == 'HUF'
-				|| selected_coin == 'ILS'
-				|| selected_coin == 'KRW'
-				|| selected_coin == 'MYR'
-				|| selected_coin == 'PHP'
-				|| selected_coin == 'SGD'
-				|| selected_coin == 'THB'
-				|| selected_coin == 'BGN'
-				|| selected_coin == 'IDR'
-				|| selected_coin == 'HRK' ) {
+			if (selected_coin == 'SUPERNET' ||
+				  selected_coin == 'REVS' ||
+				  selected_coin == 'REVS' ||
+				  selected_coin == 'DEX' ||
+				  selected_coin == 'PANGEA' ||
+				  selected_coin == 'JUMBLR' ||
+				  selected_coin == 'BET' ||
+				  selected_coin == 'CRYPTO' ||
+				  selected_coin == 'HODL' ||
+				  selected_coin == 'SHARK' ||
+				  selected_coin == 'BOTS' ||
+				  selected_coin == 'MGW' ||
+				  selected_coin == 'MVP' ||
+				  selected_coin == 'WIRELESS' ||
+				  selected_coin == 'KV' ||
+				  selected_coin == 'CEAL' ||
+				  selected_coin == 'MESH' ||
+				  selected_coin == 'USD' ||
+				  selected_coin == 'RON' ||
+					selected_coin == 'EUR' ||
+					selected_coin == 'JPY' ||
+					selected_coin == 'GBP' ||
+					selected_coin == 'AUD' ||
+					selected_coin == 'CAD' ||
+					selected_coin == 'CHF' ||
+					selected_coin == 'NZD' ||
+					selected_coin == 'CNY' ||
+					selected_coin == 'RUB' ||
+					selected_coin == 'MXN' ||
+					selected_coin == 'BRL' ||
+					selected_coin == 'INR' ||
+					selected_coin == 'HKD' ||
+					selected_coin == 'TRY' ||
+					selected_coin == 'ZAR' ||
+					selected_coin == 'PLN' ||
+					selected_coin == 'NOK' ||
+					selected_coin == 'SEK' ||
+					selected_coin == 'DKK' ||
+					selected_coin == 'CZK' ||
+					selected_coin == 'HUF' ||
+					selected_coin == 'ILS' ||
+					selected_coin == 'KRW' ||
+					selected_coin == 'MYR' ||
+					selected_coin == 'PHP' ||
+					selected_coin == 'SGD' ||
+					selected_coin == 'THB' ||
+					selected_coin == 'BGN' ||
+					selected_coin == 'IDR' ||
+					selected_coin == 'HRK') {
 				sessionStorage.setItem('edexTmpMode', selected_coinmode);
 				sessionStorage.setItem('edexTmpRefresh', 'start');
-				assetchain_pax_menu_actions(selected_coin)
+				assetchain_pax_menu_actions(selected_coin);
 			}
 		}
 	});
