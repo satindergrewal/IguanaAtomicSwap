@@ -31,7 +31,7 @@ templates.addCoinOptions =
 <option value="MESH">SpaceMesh</option>
 <option value="SUPERNET">SUPERNET</option>
 <option value="WIRELESS">WIRELESS</option>
-<optgroup label="Currencies">
+<!--<optgroup label="Currencies">
   <option value="AUD">Australian Dollar</option>
   <option value="BRL">Brazilian Real</option>
   <option value="GBP">British Pound</option>
@@ -64,5 +64,5 @@ templates.addCoinOptions =
   <option value="THB">Thai Baht</option>
   <option value="TRY">Turkish Lira</option>
   <option value="USD">US Dollar</option>
-</optgroup>
+</optgroup>-->
 `;
