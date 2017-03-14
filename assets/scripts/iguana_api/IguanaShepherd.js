@@ -333,3 +333,17 @@ function Shepherd_CheckBasiliskCacheData(coin) {
     });
   });
 }
+
+
+function Shepherd_SysInfo() {
+  return new Promise((resolve) => {
+    $.ajax({
+      type: 'GET',
+      url: 'http://127.0.0.1:17777/shepherd/sysinfo',
+      contentType: 'application/json' // send as JSON
+    })
+    .done(function(data) {
+      resolve(data);
+    });
+  });
+}
