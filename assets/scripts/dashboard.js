@@ -354,10 +354,7 @@ var Dashboard = function() {
 			submitHandler: function(form) {
 				NProgress.done(true);
 				NProgress.configure({
-						template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
-											'<div class="spinner" role="spinner">' +
-												'<div class="spinner-icon"></div>' +
-											'</div>'
+					template: templates.nprogressBar
 				});
 				NProgress.start();
 
@@ -724,7 +721,7 @@ var Dashboard = function() {
 									coinlogo = 'SHARK';
 									coinname = 'SHARK';
 									break;
-				          		case 'BOTS':
+								case 'BOTS':
 									coinlogo = 'BOTS';
 									coinname = 'BOTS';
 									break;
@@ -749,7 +746,7 @@ var Dashboard = function() {
 									coinname = 'SpaceMesh';
 									break;
 								case 'USD':
-									coinlogo = 'USD';
+									coinlogo = 'usd';
 									coinname = 'US Dollar';
 									break;
 								case 'RON':
@@ -878,19 +875,20 @@ var Dashboard = function() {
 									break;
               }
 
-							walletDivContent += '<!-- Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->' +
-																	'<div class="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '">' +
-																		'<div class="widget widget-shadow">' +
-																			'<div class="widget-content text-center bg-white padding-20 edexcoin-logo" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-edexcoinmodecode="' + modecode + '" data-edexcoinname="' + coinname + '">' +
-																				'<a class="avatar margin-bottom-5" href="javascript:void(0)" id="edexcoin-logo">' +
-																					'<img class="img-responsive" src="assets/images/cryptologo/' + coinlogo + '.png" alt="' + coinname + '"/>' +
-																					'<span class="badge up badge-' + modecolor + '" id="basfull" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>' +
-																				'</a>' +
-																				'<div class="coin-name">' + coinname + '</div>' +
-																			'</div>' +
-																		'</div>' +
-																	'</div>' +
-																	'<!-- End Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->';
+							walletDivContent +=
+								'<!-- Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->' +
+									'<div class="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '">' +
+										'<div class="widget widget-shadow">' +
+											'<div class="widget-content text-center bg-white padding-20 edexcoin-logo" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-edexcoinmodecode="' + modecode + '" data-edexcoinname="' + coinname + '">' +
+												'<a class="avatar margin-bottom-5" href="javascript:void(0)" id="edexcoin-logo">' +
+													'<img class="img-responsive" src="assets/images/cryptologo/' + coinlogo + '.png" alt="' + coinname + '"/>' +
+													'<span class="badge up badge-' + modecolor + '" id="basfull" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>' +
+												'</a>' +
+												'<div class="coin-name">' + coinname + '</div>' +
+											'</div>' +
+										'</div>' +
+									'</div>' +
+									'<!-- End Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->';
 
 							$('.wallet-widgets-row').html(walletDivContent);
 							$('.scrollbar-dynamic').scrollbar(); // Make sure widget-body has scrollbar for transactions history
@@ -943,54 +941,7 @@ var Dashboard = function() {
 				$('#addcoin_mdl_full_mode').prop('disabled', false);
 			}
 
-			if (tmp_coin_val == 'SUPERNET' ||
-					tmp_coin_val == 'REVS' ||
-					tmp_coin_val == 'WIRELESS' ||
-					tmp_coin_val == 'DEX' ||
-					tmp_coin_val == 'PANGEA' ||
-					tmp_coin_val == 'JUMBLR' ||
-					tmp_coin_val == 'BET' ||
-					tmp_coin_val == 'CRYPTO' ||
-					tmp_coin_val == 'HODL' ||
-					tmp_coin_val == 'SHARK' ||
-					tmp_coin_val == 'BOTS' ||
-					tmp_coin_val == 'MGW' ||
-					tmp_coin_val == 'MVP' ||
-					tmp_coin_val == 'KV' ||
-					tmp_coin_val == 'CEAL' ||
-					tmp_coin_val == 'MESH' ||
-					tmp_coin_val == 'USD' ||
-					tmp_coin_val == 'RON' ||
-					tmp_coin_val == 'EUR' ||
-					tmp_coin_val == 'JPY' ||
-					tmp_coin_val == 'GBP' ||
-					tmp_coin_val == 'AUD' ||
-					tmp_coin_val == 'CAD' ||
-					tmp_coin_val == 'CHF' ||
-					tmp_coin_val == 'NZD' ||
-					tmp_coin_val == 'CNY' ||
-					tmp_coin_val == 'RUB' ||
-					tmp_coin_val == 'MXN' ||
-					tmp_coin_val == 'BRL' ||
-					tmp_coin_val == 'INR' ||
-					tmp_coin_val == 'HKD' ||
-					tmp_coin_val == 'TRY' ||
-					tmp_coin_val == 'ZAR' ||
-					tmp_coin_val == 'PLN' ||
-					tmp_coin_val == 'NOK' ||
-					tmp_coin_val == 'SEK' ||
-					tmp_coin_val == 'DKK' ||
-					tmp_coin_val == 'CZK' ||
-					tmp_coin_val == 'HUF' ||
-					tmp_coin_val == 'ILS' ||
-					tmp_coin_val == 'KRW' ||
-					tmp_coin_val == 'MYR' ||
-					tmp_coin_val == 'PHP' ||
-					tmp_coin_val == 'SGD' ||
-					tmp_coin_val == 'THB' ||
-					tmp_coin_val == 'BGN' ||
-					tmp_coin_val == 'IDR' ||
-					tmp_coin_val == 'HRK') {
+			if (checkAC(tmp_coin_val)) {
 					$('#addcoin_mdl_native_mode').prop('disabled', false);
 					$('#addcoin_mdl_basilisk_mode')
 						.prop('disabled', false)
@@ -1246,7 +1197,8 @@ var Dashboard = function() {
 							//console.log('Get Rates (every 60 seconds)');
 					}
 			}, 60000);*/
-		}
+		},
+		handleWalletWidgets: handleWalletWidgets
 	};
 }();
 

@@ -405,10 +405,7 @@ function Iguana_DEXsendrawtx(data) {
 function EDEX_DEXlistunspent(coin, addr) {
 	NProgress.done(true);
 	NProgress.configure({
-		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
-							'<div class="spinner" role="spinner">' +
-								'<div class="spinner-icon"></div>' +
-							'</div>'
+		template: templates.nprogressBar
 	});
 	NProgress.start();
 
@@ -448,10 +445,7 @@ function EDEX_DEXlistunspent(coin, addr) {
 function EDEX_DEXnotarychains() {
 	NProgress.done(true);
 	NProgress.configure({
-		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
-							'<div class="spinner" role="spinner">' +
-								'<div class="spinner-icon"></div>' +
-							'</div>'
+		template: templates.nprogressBar
 	});
 	NProgress.start();
 
@@ -490,10 +484,7 @@ function EDEX_DEXnotarychains() {
 function EDEX_DEXgetinfoAll() {
 	NProgress.done(true);
 	NProgress.configure({
-		template: '<div class="bar nprogress-bar-header nprogress-bar-info" role="bar"></div>' +
-							'<div class="spinner" role="spinner">' +
-								'<div class="spinner-icon"></div>' +
-							'</div>'
+		template: templates.nprogressBar
 	});
 	NProgress.start();
 
