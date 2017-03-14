@@ -746,7 +746,7 @@ var Dashboard = function() {
 									coinname = 'SpaceMesh';
 									break;
 								case 'USD':
-									coinlogo = 'USD';
+									coinlogo = 'usd';
 									coinname = 'US Dollar';
 									break;
 								case 'RON':
@@ -875,19 +875,20 @@ var Dashboard = function() {
 									break;
               }
 
-							walletDivContent += '<!-- Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->' +
-																	'<div class="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '">' +
-																		'<div class="widget widget-shadow">' +
-																			'<div class="widget-content text-center bg-white padding-20 edexcoin-logo" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-edexcoinmodecode="' + modecode + '" data-edexcoinname="' + coinname + '">' +
-																				'<a class="avatar margin-bottom-5" href="javascript:void(0)" id="edexcoin-logo">' +
-																					'<img class="img-responsive" src="assets/images/cryptologo/' + coinlogo + '.png" alt="' + coinname + '"/>' +
-																					'<span class="badge up badge-' + modecolor + '" id="basfull" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>' +
-																				'</a>' +
-																				'<div class="coin-name">' + coinname + '</div>' +
-																			'</div>' +
-																		'</div>' +
-																	'</div>' +
-																	'<!-- End Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->';
+							walletDivContent +=
+								'<!-- Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->' +
+									'<div class="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '">' +
+										'<div class="widget widget-shadow">' +
+											'<div class="widget-content text-center bg-white padding-20 edexcoin-logo" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-edexcoinmodecode="' + modecode + '" data-edexcoinname="' + coinname + '">' +
+												'<a class="avatar margin-bottom-5" href="javascript:void(0)" id="edexcoin-logo">' +
+													'<img class="img-responsive" src="assets/images/cryptologo/' + coinlogo + '.png" alt="' + coinname + '"/>' +
+													'<span class="badge up badge-' + modecolor + '" id="basfull" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>' +
+												'</a>' +
+												'<div class="coin-name">' + coinname + '</div>' +
+											'</div>' +
+										'</div>' +
+									'</div>' +
+									'<!-- End Wallet Widget ' + AllcoinsDataOutput[value][index] + ' -->';
 
 							$('.wallet-widgets-row').html(walletDivContent);
 							$('.scrollbar-dynamic').scrollbar(); // Make sure widget-body has scrollbar for transactions history
@@ -1196,7 +1197,8 @@ var Dashboard = function() {
 							//console.log('Get Rates (every 60 seconds)');
 					}
 			}, 60000);*/
-		}
+		},
+		handleWalletWidgets: handleWalletWidgets
 	};
 }();
 
