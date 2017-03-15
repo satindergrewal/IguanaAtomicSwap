@@ -8,6 +8,7 @@ templates.addCoinOptions =
 <option value="DGB">Digibyte</option>
 <option value="DOGE">Dogecoin</option>
 <option value="FRK">Franko</option>
+<option value="GMC">Gamerscoin</option>
 <option value="KMD">Komodo</option>
 <option value="LTC">Litecoin</option>
 <option value="MZC">MazaCoin</option>

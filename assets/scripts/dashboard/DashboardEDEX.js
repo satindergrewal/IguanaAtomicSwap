@@ -109,7 +109,8 @@ function EdexGetTxList(coin) {
 						 coin == 'BTM' ||
 						 coin == 'CARB' ||
 						 coin == 'ANC' ||
-						 coin == 'FRK') {
+						 coin == 'FRK' ||
+						 coin == 'GMC') {
 							params = {
 								'userpass': tmpIguanaRPCAuth,
 								'agent': 'dex',
@@ -235,7 +236,8 @@ function EdexGetTxList(coin) {
 							 coin !== 'BTM' &&
 							 coin !== 'CARB' &&
 							 coin !== 'ANC' &&
-							 coin !== 'FRK' ) {
+							 coin !== 'FRK' &&
+							 coin !== 'GMC' ) {
 						var tmp_category = '',
 								tmp_amount = result_data[index].amount;
 
@@ -864,7 +866,8 @@ function edexCoinBtnAction() {
 					 selected_coin !== 'BTM' &&
 					 selected_coin !== 'CARB' &&
 					 selected_coin !== 'ANC' &&
-					 selected_coin !== 'FRK') {
+					 selected_coin !== 'FRK' &&
+					 selected_coin !== 'GMC') {
 				getDEXGetBalance_cache(selected_coin)
         .then(function(result) {
 					if ( result.interest !== undefined && selected_coin == 'KMD') {
