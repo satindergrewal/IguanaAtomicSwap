@@ -42,9 +42,9 @@ var Login = function() {
 
       success: function(label) {
         label
-          .closest('.form-group')
-          .removeClass('has-error')
-          .remove();
+         .closest('.form-group')
+         .removeClass('has-error');
+        label.remove();
       },
 
       errorPlacement: function(error, element) {
@@ -225,9 +225,9 @@ var Login = function() {
 
       success: function(label) {
         label
-          .closest('.form-group')
-          .removeClass('has-error')
-          .remove();
+         .closest('.form-group')
+         .removeClass('has-error');
+        label.remove();
       },
 
       errorPlacement: function(error, element) {
