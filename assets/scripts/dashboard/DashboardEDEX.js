@@ -97,6 +97,7 @@ function EdexGetTxList(coin) {
 
 			Promise.all(data.result.map((coinaddr_value,coinaddr_index) => {
 			if ( active_edexcoinmodecode == 'Basilisk' ) {
+<<<<<<< HEAD
 					params = {
 						'userpass': tmpIguanaRPCAuth,
 						'agent': 'dex',
@@ -106,6 +107,42 @@ function EdexGetTxList(coin) {
 						'skip': 0,
 						'symbol': coin
 					};
+=======
+				if ( coin == 'BTC' ||
+						 coin == 'BTCD' ||
+						 coin == 'LTC' ||
+						 coin == 'DOGE' ||
+						 coin == 'DGB' ||
+						 coin == 'SYS' ||
+						 coin == 'MZC' ||
+						 coin == 'UNO' ||
+						 coin == 'ZET' ||
+						 coin == 'BTM' ||
+						 coin == 'CARB' ||
+						 coin == 'ANC' ||
+						 coin == 'FRK' ||
+						 coin == 'GMC') {
+							params = {
+								'userpass': tmpIguanaRPCAuth,
+								'agent': 'dex',
+								'method': 'listtransactions',
+								'address': coinaddr_value,
+								'count': 100,
+								'skip': 0,
+								'symbol': coin
+							};
+						} else {
+							params = {
+								'userpass': tmpIguanaRPCAuth,
+								'agent': 'dex',
+								'method': 'listtransactions',
+								'address': coinaddr_value,
+								'count': 100,
+								'skip': 0,
+								'symbol': coin
+							};
+						}
+>>>>>>> d475756a78197001cd4caa6c3b31b3ea19728b4d
 				} else {
 						params = {
 							'userpass': tmpIguanaRPCAuth,
