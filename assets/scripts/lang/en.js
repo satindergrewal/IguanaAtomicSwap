@@ -277,6 +277,7 @@ const _lang = {
       'IGUANA_CONN_ERR_ALT': 'Unable to connect with iguana service. 127.0.0.1:7778',
       'IGUANA_ARE_YOU_SURE': 'Are you sure Iguana is running?',
       'SIGNED_TX_GENERATED': 'Signed transaction generated',
+      'SIGNED_TX_GENERATED_FAIL': 'Signed transaction Failed to generate',
       'SENDING_TX': 'Sending Transaction to Network',
       'SIGNED_TX_SENT': 'Signed transaction sent successfully',
       'GETTING_TXID_INFO': 'Getting txid info for updating funds data',
