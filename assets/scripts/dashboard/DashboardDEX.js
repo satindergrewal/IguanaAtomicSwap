@@ -1,6 +1,6 @@
 function getDEXCoinBalance(coin) {
 	getDEXGetBalance_cache(coin).then(function(result) {
-		console.log(result)
+		console.log(result);
 	});
 }
 
@@ -86,34 +86,34 @@ function getDEXGetBalance_cache(coin) {
   NProgress.start();
 
   return new Promise((resolve) => {
-	Shepherd_CheckBasiliskCacheData(coin)
-	.then(function(result) {
-		//console.log(result);
-		//console.log(result.coin);
+		Shepherd_CheckBasiliskCacheData(coin)
+		.then(function(result) {
+			//console.log(result);
+			//console.log(result.coin);
 
-		if (result.coin == false || result.addresses == false) {
-			var call_data = {
-				'allcoins': false,
-				'coin': coin,
-				'calls': 'listtransactions:getbalance:refresh'
-			};
-			//console.log(call_data)
-			Shepherd_FetchBasiliskData(call_data)
-			.then(function(result) {
-				console.log(result);
-			});
-		} else if (result.getbalance == false) {
-			var call_data = {
-				'allcoins': false,
-				'coin': coin,
-				'calls': 'getbalance:listtransactions'
-			};
-			//console.log(call_data);
-			Shepherd_FetchBasiliskData(call_data).then(function(result) {
-				console.log(result);
-			});
-		}
-	})
+			if (result.coin == false || result.addresses == false) {
+				var call_data = {
+					'allcoins': false,
+					'coin': coin,
+					'calls': 'listtransactions:getbalance:refresh'
+				};
+				//console.log(call_data)
+				Shepherd_FetchBasiliskData(call_data)
+				.then(function(result) {
+					console.log(result);
+				});
+			} else if (result.getbalance == false) {
+				var call_data = {
+					'allcoins': false,
+					'coin': coin,
+					'calls': 'getbalance:listtransactions'
+				};
+				//console.log(call_data);
+				Shepherd_FetchBasiliskData(call_data).then(function(result) {
+					console.log(result);
+				});
+			}
+		});
 
     Shepherd_GetBasiliskCache()
     .then(function(result) {
@@ -166,7 +166,7 @@ function getDEXGetBalance_cache(coin) {
 function getDEXGetBalance2(coin) {
 	NProgress.done(true);
 	NProgress.configure({
-			template: templates.nprogressBar
+		template: templates.nprogressBar
 	});
 	NProgress.start();
 
@@ -177,7 +177,7 @@ function getDEXGetBalance2(coin) {
 					'agent': 'SuperNET',
 					'method': 'activehandle'
 				},
-				tmp_coin_addr = null
+				tmp_coin_addr = null,
 				ajax_call_1 = $.ajax({
 					data: JSON.stringify(ajax_data_1),
 					url: 'http://127.0.0.1:' + config.iguanaPort,
@@ -251,7 +251,7 @@ function getDEXGetBalance2(coin) {
 				};
 			}
 
-			resolve(tmp_addr_total_balance_output)
+			resolve(tmp_addr_total_balance_output);
 			NProgress.done();
 		})
 		.fail(function(xhr, textStatus, error) {
