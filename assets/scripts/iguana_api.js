@@ -199,7 +199,7 @@ function Iguana_utxorawtx(data) {
       dataType: 'json'
     })
     .then(result => {
-      //console.log(result);
+      console.log(result);
       resolve(result);
     });
   });

@@ -200,8 +200,7 @@ function EDEXgetBalance(coin) {
 }
 
 function EDEXSendutxoRawTx(data) {
-  Shepherd_GetBasiliskCache()
-  .then(function(result) {
+  Shepherd_GetBasiliskCache().then(function(result) {
 		var _data = JSON.parse(result),
 	    	query = _data.result.basilisk,
 	    	utxos_set = query[data.coin][data.sendfrom].refresh.data,
@@ -215,9 +214,8 @@ function EDEXSendutxoRawTx(data) {
           'utxos': utxos_set
 	      };
 
-    // console.log(send_data)
-    Iguana_utxorawtx(send_data)
-    .then(function(result) {
+    console.log(send_data)
+    Iguana_utxorawtx(send_data).then(function(result) {
       var edexcoin_sendto_result_tbl = '';
 
       console.log(result);
@@ -233,8 +231,7 @@ function EDEXSendutxoRawTx(data) {
           'signedtx': result.signedtx,
           'coin': send_data.coin
         };
-        Iguana_DEXsendrawtx(ajax_data_dexrawtx)
-        .then(function(dexrwatx_result) {
+        Iguana_DEXsendrawtx(ajax_data_dexrawtx).then(function(dexrwatx_result) {
           console.log(dexrwatx_result);
           if (dexrwatx_result.error == undefined) {
             var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
@@ -278,9 +275,8 @@ function EDEXSendutxoRawTx(data) {
               return new Promise(function(resolve, reject) {
                 toastr.info(_lang[defaultLang].TOASTR.GETTING_TXID_INFO + '.', _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
 
-                EDEXgettransaction(ajax_data_dexrawtx.coin,dexrwatx_result)
-                .then(function(result) {
-                  //console.log(result);
+                EDEXgettransaction(ajax_data_dexrawtx.coin,dexrwatx_result).then(function(result) {
+                  console.log(result);
                   resolve(result);
                 });
               });
@@ -288,10 +284,9 @@ function EDEXSendutxoRawTx(data) {
 
             var process_refresh_utxos = function(gettxdata) {
               return new Promise(function(resolve, reject) {
-                //console.log(gettxdata)
-                //console.log(utxos_set)
-                EDEX_GetTxIDList(gettxdata)
-                .then(function(get_txid_list) {
+                console.log(gettxdata)
+                console.log(utxos_set)
+                EDEX_GetTxIDList(gettxdata).then(function(get_txid_list) {
       				    console.log(get_txid_list)
       				    resolve(get_txid_list);
         				});
@@ -305,10 +300,9 @@ function EDEXSendutxoRawTx(data) {
             var get_data_cache_contents = function(get_txid_list) {
               return new Promise(function(resolve, reject) {
                 console.log(get_txid_list);
-                //console.log(send_data)
-                //console.log(send_data.sendfrom)
-                Shepherd_GroomData_Get()
-                .then(function(result) {
+                console.log(send_data)
+                console.log(send_data.sendfrom)
+                Shepherd_GroomData_Get().then(function(result) {
                   console.log(result);
                   /*console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
                   delete result.basilisk.KMD[send_data.sendfrom].refresh.data;
@@ -328,8 +322,7 @@ function EDEXSendutxoRawTx(data) {
               return new Promise(function(resolve, reject) {
                 console.log(save_this_data);
 
-                Shepherd_GroomData_Post(save_this_data)
-                .then(function(result) {
+                Shepherd_GroomData_Post(save_this_data).then(function(result) {
                   console.log(result);
                   resolve(result);
                 });
