@@ -211,7 +211,8 @@ function EdexGetTxList(coin) {
 							 coin !== 'BTM' &&
 							 coin !== 'CARB' &&
 							 coin !== 'ANC' &&
-							 coin !== 'FRK' ) {
+							 coin !== 'FRK' &&
+							 coin !== 'GMC' ) {
 						var tmp_category = '',
 								tmp_amount = result_data[index].amount;
 
@@ -302,8 +303,8 @@ function EdexGetTxList_cache(coin) {
 				});
 			}))
       .then(result => {
-				let result_data = result[result.length - 1];
-				let compiled_result = [];
+				let result_data = result[result.length - 1],
+						compiled_result = [];
 
 				$.each(result_data, function(index, value) {
 					if ( active_edexcoinmodecode == 'Basilisk' && coin !== 'BTC' && coin !== 'SYS') {
@@ -633,7 +634,7 @@ function EdexListAllAddr(coin) {
 		});
 	} else if (active_edexcoinmodecode == 'Basilisk' ) {
 		EDEXgetaddrbyaccount(coin)
-    .then(function(result){
+    .then(function(result) {
 			var only_reciving_addr_data = [];
 
 			console.log(result);
@@ -840,7 +841,8 @@ function edexCoinBtnAction() {
 					 selected_coin !== 'BTM' &&
 					 selected_coin !== 'CARB' &&
 					 selected_coin !== 'ANC' &&
-					 selected_coin !== 'FRK') {
+					 selected_coin !== 'FRK' &&
+					 selected_coin !== 'GMC') {
 				getDEXGetBalance_cache(selected_coin)
         .then(function(result) {
 					if ( result.interest !== undefined && selected_coin == 'KMD') {

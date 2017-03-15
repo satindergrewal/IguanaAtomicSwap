@@ -594,6 +594,7 @@ var Login = function() {
     }
     if ( sessionStorage.getItem('IguanaRPCAuth') === null || typeof sessionStorage.getItem('IguanaRPCAuth') == undefined) {
       Iguana_SetRPCAuth();
+      Shepherd_SendPendValue();
       typeof sessionStorage.getItem('IguanaRPCAuth');
       console.log(sessionStorage.getItem('IguanaRPCAuth'));
       var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
@@ -855,7 +856,7 @@ var Login = function() {
   }
 
   var handleAddCoinOSOptions = function() {
-    if ( navigator.platform == 'Win32'
+    if ( navigator.platform == 'Win32-'
       // || navigator.platform == 'MacIntel'
       // || navigator.platform == 'Linux x86_64' || navigator.platform == 'Linux' || navigator.platform == 'Linux i686'
       ) {
