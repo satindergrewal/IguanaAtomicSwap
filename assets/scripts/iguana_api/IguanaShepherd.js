@@ -347,3 +347,20 @@ function Shepherd_SysInfo() {
     });
   });
 }
+
+function Shepherd_SendPendValue() {
+  Shepherd_SysInfo().then(function(result){
+    var ram_data = formatBytes(result.totalmem_bytes)
+    var pend_val = null;
+    if (ram_data.size === 'GB') {
+      if (ram_data.ramsize >= '63' ) { pend_val = 16; }
+      if (ram_data.ramsize >= '31' ) { pend_val = 8; }
+      if (ram_data.ramsize >= '15' ) { pend_val = 4; }
+      if (ram_data.ramsize <= '15' ) { pend_val = 1; }
+    } else { pend_val = 1; }
+    sessionStorage.setItem('IguanaPendValue', pend_val);
+  })
+}
+
+
+

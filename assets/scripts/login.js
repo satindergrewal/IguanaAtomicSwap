@@ -594,6 +594,7 @@ var Login = function() {
     }
     if ( sessionStorage.getItem('IguanaRPCAuth') === null || typeof sessionStorage.getItem('IguanaRPCAuth') == undefined) {
       Iguana_SetRPCAuth();
+      Shepherd_SendPendValue();
       typeof sessionStorage.getItem('IguanaRPCAuth');
       console.log(sessionStorage.getItem('IguanaRPCAuth'));
       var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
