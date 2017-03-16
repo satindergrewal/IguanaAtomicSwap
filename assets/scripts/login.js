@@ -782,7 +782,7 @@ var Login = function() {
         $('#addcoin_mdl_basilisk_mode_login')
           .prop('disabled', false)
           .prop('checked', true);
-        $('#addcoin_mdl_full_mode_login').prop('disabled', false);
+        $('#addcoin_mdl_full_mode_login').prop('disabled', true);
       }
       if (tmp_coin_val == 'SUPERNET' ||
           tmp_coin_val == 'REVS' ||
