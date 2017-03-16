@@ -41,7 +41,7 @@ var AtomicExplorer = function() {
 						'method': 'history',
 						'vals': {
 							'coin': atomic_explorer_select_coin_val,
-							'addresses': [atomic_explorer_input_data_val]
+							'addresses': [ atomic_explorer_input_data_val ]
 						}
 					};
 					break;
@@ -50,7 +50,7 @@ var AtomicExplorer = function() {
 						'userpass': tmpIguanaRPCAuth,
 						'coin': atomic_explorer_select_coin_val,
 						'method': 'getbalance',
-						'params': [atomic_explorer_input_data_val]
+						'params': [ atomic_explorer_input_data_val ]
 					};
 					break;
 				case 'listunspent':
@@ -58,7 +58,11 @@ var AtomicExplorer = function() {
 						'userpass': tmpIguanaRPCAuth,
 						'coin': atomic_explorer_select_coin_val,
 						'method': 'listunspent',
-						'params': [1, 9999999, [atomic_explorer_input_data_val]]
+						'params': [
+							1,
+							9999999,
+							[ atomic_explorer_input_data_val ]
+						]
 					};
 					break;
 				case 'txid':
@@ -66,7 +70,7 @@ var AtomicExplorer = function() {
 						'userpass': tmpIguanaRPCAuth,
 						'coin': atomic_explorer_select_coin_val,
 						'method': 'getrawtransaction',
-						'params': [atomic_explorer_input_data_val]
+						'params': [ atomic_explorer_input_data_val ]
 					};
 					break;
 				case 'blockash':

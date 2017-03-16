@@ -4,6 +4,7 @@ function ShowBasiliskFetchDataProgress(coin) {
 	Shepherd_GetBasiliskCache()
   .then(function(result) {
     var _data = JSON.parse(result),
+        NOT_FOUND = 'NOT FOUND',
     		query = _data.result.basilisk,
         coin_exists = true,
         addresses_exists = true,
@@ -11,47 +12,34 @@ function ShowBasiliskFetchDataProgress(coin) {
         listtransactions_exists = true,
         listunspent_exists = true,
         refresh_exists = true,
-        getbalance_status = 'NOT FOUND',
-        listtransactions_status = 'NOT FOUND',
-        listunspent_status = 'NOT FOUND',
-        refresh_status = 'NOT FOUND',
+        getbalance_status = NOT_FOUND,
+        listtransactions_status = NOT_FOUND,
+        listunspent_status = NOT_FOUND,
+        refresh_status = NOT_FOUND,
         res_data;
     //console.log(query)
 
+    res_data = {
+      'addresses': false,
+      'getbalance': false,
+      'listtransactions': false,
+      'listunspent': false,
+      'refresh': false
+    }
+
     if (!query) {
       //console.log('data not found.')
-      res_data = {
-      	'coin': false,
-      	'addresses': false,
-      	'getbalance': false,
-      	'listtransactions': false,
-      	'listunspent': false,
-      	'refresh': false
-      };
+      res_data.coin = false;
       //console.log(res_data)
     } else if (!query[coin]) {
       //console.log(coin + ' not found.')
       coin_exists = false;
-      res_data = {
-    		'coin': coin_exists,
-    		'addresses': false,
-    		'getbalance': false,
-    		'listtransactions': false,
-    		'listunspent': false,
-    		'refresh': false
-    	};
+      res_data.coin = coin_exists;
       //console.log(res_data)
     } else if (!('addresses' in query[coin])) {
       //console.log(coin + ' addresses not found.')
       addresses_exists = false;
-      res_data = {
-      	'coin': coin_exists,
-      	'addresses': false,
-      	'getbalance': false,
-      	'listtransactions': false,
-      	'listunspent': false,
-      	'refresh': false
-      };
+      res_data.coin = coin_exists;
       //console.log(res_data)
     } else {
       Promise.all(query[coin].addresses.map((coinaddr_value,coinaddr_index) => {
@@ -134,7 +122,7 @@ function ShowBasiliskFetchDataProgress(coin) {
             case 'done':
               tmp_listunspent_lable_color = 'success';
               break;
-            case 'NOT FOUND':
+            case NOT_FOUND:
               tmp_listunspent_lable_color = 'danger';
               break;
           }
@@ -152,7 +140,7 @@ function ShowBasiliskFetchDataProgress(coin) {
               tmp_listtransactions_lable_color = 'success';
               $('#edexcoin_dashboard_basilisk_refresh_status').hide();
               break;
-            case 'NOT FOUND':
+            case NOT_FOUND:
               tmp_listtransactions_lable_color = 'danger';
               $('#edexcoin_dashboard_basilisk_refresh_status').show();
               break;
@@ -171,7 +159,7 @@ function ShowBasiliskFetchDataProgress(coin) {
               tmp_getbalance_lable_color = 'success';
               $('#edexcoin_dashboard_basilisk_refresh_status').hide();
               break;
-            case 'NOT FOUND':
+            case NOT_FOUND:
               tmp_getbalance_lable_color = 'danger';
               $('#edexcoin_dashboard_basilisk_refresh_status').show();
               break;
@@ -190,27 +178,28 @@ function ShowBasiliskFetchDataProgress(coin) {
               tmp_refresh_lable_color = 'success';
               $('#edexcoin_dashboard_basilisk_refresh_status').hide();
               break;
-            case 'NOT FOUND':
+            case NOT_FOUND:
               tmp_refresh_lable_color = 'danger';
               //$('#edexcoin_dashboard_basilisk_refresh_status').show();
               break;
           }
 
-          BasiliskFetchData += '<tr>';
-          BasiliskFetchData += '<td>' + result_val.addr_value.substring(0,5) + '...</td>';
-          BasiliskFetchData += '<td>' +
-          												'<span class="label label-' + tmp_listunspent_lable_color + ' text-uppercase">' + result_val.listunspent_status + '</span>' +
-          										 '</td>';
-          BasiliskFetchData += '<td>' +
-          												'<span class="label label-' + tmp_listtransactions_lable_color + ' text-uppercase">' + result_val.listtransactions_status + '</span>' +
-          										 '</td>';
-          BasiliskFetchData += '<td>' +
-          												'<span class="label label-' + tmp_getbalance_lable_color + ' text-uppercase">' + result_val.getbalance_status + '</span>' +
-          										 '</td>';
-          BasiliskFetchData += '<td>' +
-          												'<span class="label label-' + tmp_refresh_lable_color + ' text-uppercase">' + result_val.refresh_status + '</span>' +
-          										 '</td>';
-          BasiliskFetchData += '</tr>';
+          BasiliskFetchData += 
+            '<tr>';
+              '<td>' + result_val.addr_value.substring(0,5) + '...</td>' +
+              '<td>' +
+          		  '<span class="label label-' + tmp_listunspent_lable_color + ' text-uppercase">' + result_val.listunspent_status + '</span>' +
+          		'</td>' +
+              '<td>' +
+          		  '<span class="label label-' + tmp_listtransactions_lable_color + ' text-uppercase">' + result_val.listtransactions_status + '</span>' +
+          		'</td>' +
+              '<td>' +
+          		  '<span class="label label-' + tmp_getbalance_lable_color + ' text-uppercase">' + result_val.getbalance_status + '</span>' +
+          		'</td>' +
+              '<td>' +
+          			'<span class="label label-' + tmp_refresh_lable_color + ' text-uppercase">' + result_val.refresh_status + '</span>' +
+          		'</td>' +
+            '</tr>';
           $('.tbl_edexcoin_dashboard_basilisk_refresh_status tbody').html(BasiliskFetchData);
           //console.log(result_val.refresh_status)
 

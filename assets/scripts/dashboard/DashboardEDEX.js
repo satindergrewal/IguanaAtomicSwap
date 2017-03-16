@@ -96,52 +96,27 @@ function EdexGetTxList(coin) {
 			let params = '';
 
 			Promise.all(data.result.map((coinaddr_value,coinaddr_index) => {
-			if ( active_edexcoinmodecode == 'Basilisk' ) {
-				if ( coin == 'BTC' ||
-						 coin == 'BTCD' ||
-						 coin == 'LTC' ||
-						 coin == 'DOGE' ||
-						 coin == 'DGB' ||
-						 coin == 'SYS' ||
-						 coin == 'MZC' ||
-						 coin == 'UNO' ||
-						 coin == 'ZET' ||
-						 coin == 'BTM' ||
-						 coin == 'CARB' ||
-						 coin == 'ANC' ||
-						 coin == 'FRK' ||
-						 coin == 'GMC') {
-							params = {
-								'userpass': tmpIguanaRPCAuth,
-								'agent': 'dex',
-								'method': 'listtransactions',
-								'address': coinaddr_value,
-								'count': 100,
-								'skip': 0,
-								'symbol': coin
-							};
-						} else {
-							params = {
-								'userpass': tmpIguanaRPCAuth,
-								'agent': 'dex',
-								'method': 'listtransactions',
-								'address': coinaddr_value,
-								'count': 100,
-								'skip': 0,
-								'symbol': coin
-							};
-						}
+				if ( active_edexcoinmodecode == 'Basilisk' ) {
+					params = {
+						'userpass': tmpIguanaRPCAuth,
+						'agent': 'dex',
+						'method': 'listtransactions',
+						'address': coinaddr_value,
+						'count': 100,
+						'skip': 0,
+						'symbol': coin
+					};
 				} else {
-						params = {
-							'userpass': tmpIguanaRPCAuth,
-							'coin': coin,
-							'method': 'listtransactions',
-							'params': [
-								0,
-								9999999,
-								[]
-							]
-						};
+					params = {
+						'userpass': tmpIguanaRPCAuth,
+						'coin': coin,
+						'method': 'listtransactions',
+						'params': [
+							0,
+							9999999,
+							[]
+						]
+					};
 				}
 
 				return new Promise((resolve, reject) => {
@@ -245,7 +220,7 @@ function EdexGetTxList(coin) {
 							tmp_amount = '<span class="label label-dark">' + _lang[defaultLang].DASHBOARD.UNKNOWN + '</span>';
 						}
 
-						var tmp_addr = null
+						var tmp_addr = null;
 						if (!('paid' in result_data[index])) {
 							tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">' + _lang[defaultLang].DASHBOARD.ZADDR_NOT_LISTED + '!</span>';
 						}
@@ -328,8 +303,8 @@ function EdexGetTxList_cache(coin) {
 				});
 			}))
       .then(result => {
-				let result_data = result[result.length - 1];
-				let compiled_result = [];
+				let result_data = result[result.length - 1],
+						compiled_result = [];
 
 				$.each(result_data, function(index, value) {
 					if ( active_edexcoinmodecode == 'Basilisk' && coin !== 'BTC' && coin !== 'SYS') {
@@ -611,7 +586,7 @@ function clearEdexSendFieldData() {
 function EdexListAllAddr(coin) {
 	NProgress.done(true);
 	NProgress.configure({
-			template: templates.nprogressBar
+		template: templates.nprogressBar
 	});
 	NProgress.start();
 
@@ -659,7 +634,7 @@ function EdexListAllAddr(coin) {
 		});
 	} else if (active_edexcoinmodecode == 'Basilisk' ) {
 		EDEXgetaddrbyaccount(coin)
-    .then(function(result){
+    .then(function(result) {
 			var only_reciving_addr_data = [];
 
 			console.log(result);
@@ -824,7 +799,7 @@ function edexCoinBtnAction() {
       .then(function(result) {
 				$('#edexcoin_active_addr').text(result);
 				$('#edexcoin_active_addr_clipboard').attr('data-clipboard-text', result);
-			})
+			});
 
 			$('#edexcoin_active_addr_clipboard').click(function() {
 				alertify.success(_lang[defaultLang].DASHBOARD.ADDR_COPIED + '.');
@@ -997,55 +972,7 @@ function edexCoinBtnAction() {
 				sessionStorage.setItem('edexTmpRefresh', 'start');
 				$( '#nav-zcash-wallet' ).trigger( 'click' );
 			}
-			if (selected_coin == 'SUPERNET' ||
-				  selected_coin == 'REVS' ||
-				  selected_coin == 'REVS' ||
-				  selected_coin == 'DEX' ||
-				  selected_coin == 'PANGEA' ||
-				  selected_coin == 'JUMBLR' ||
-				  selected_coin == 'BET' ||
-				  selected_coin == 'CRYPTO' ||
-				  selected_coin == 'HODL' ||
-				  selected_coin == 'SHARK' ||
-				  selected_coin == 'BOTS' ||
-				  selected_coin == 'MGW' ||
-				  selected_coin == 'MVP' ||
-				  selected_coin == 'WIRELESS' ||
-				  selected_coin == 'KV' ||
-				  selected_coin == 'CEAL' ||
-				  selected_coin == 'MESH' ||
-				  selected_coin == 'USD' ||
-				  selected_coin == 'RON' ||
-					selected_coin == 'EUR' ||
-					selected_coin == 'JPY' ||
-					selected_coin == 'GBP' ||
-					selected_coin == 'AUD' ||
-					selected_coin == 'CAD' ||
-					selected_coin == 'CHF' ||
-					selected_coin == 'NZD' ||
-					selected_coin == 'CNY' ||
-					selected_coin == 'RUB' ||
-					selected_coin == 'MXN' ||
-					selected_coin == 'BRL' ||
-					selected_coin == 'INR' ||
-					selected_coin == 'HKD' ||
-					selected_coin == 'TRY' ||
-					selected_coin == 'ZAR' ||
-					selected_coin == 'PLN' ||
-					selected_coin == 'NOK' ||
-					selected_coin == 'SEK' ||
-					selected_coin == 'DKK' ||
-					selected_coin == 'CZK' ||
-					selected_coin == 'HUF' ||
-					selected_coin == 'ILS' ||
-					selected_coin == 'KRW' ||
-					selected_coin == 'MYR' ||
-					selected_coin == 'PHP' ||
-					selected_coin == 'SGD' ||
-					selected_coin == 'THB' ||
-					selected_coin == 'BGN' ||
-					selected_coin == 'IDR' ||
-					selected_coin == 'HRK') {
+			if (checkAC(selected_coin)) {
 				sessionStorage.setItem('edexTmpMode', selected_coinmode);
 				sessionStorage.setItem('edexTmpRefresh', 'start');
 				assetchain_pax_menu_actions(selected_coin);
