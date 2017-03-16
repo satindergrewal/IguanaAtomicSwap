@@ -220,225 +220,244 @@ function EDEXSendutxoRawTx(data) {
 
       console.log(result);
 
-      if (result.result == 'success') {
+      if (result.result == 'success' && result.completed == true) {
         console.log(send_data);
         toastr.success(_lang[defaultLang].TOASTR.SIGNED_TX_GENERATED + '.', _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
-      }
-      if (send_data.sendsig == 1) {
-        console.log(send_data);
-        toastr.info(_lang[defaultLang].TOASTR.SENDING_TX + '.', _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
-        ajax_data_dexrawtx = {
-          'signedtx': result.signedtx,
-          'coin': send_data.coin
-        };
-        Iguana_DEXsendrawtx(ajax_data_dexrawtx).then(function(dexrwatx_result) {
-          console.log(dexrwatx_result);
-          if (dexrwatx_result.error == undefined) {
-            var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
+        if (send_data.sendsig == 1) {
+          console.log(send_data);
+          toastr.info(_lang[defaultLang].TOASTR.SENDING_TX + '.', _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
+          ajax_data_dexrawtx = {
+            'signedtx': result.signedtx,
+            'coin': send_data.coin
+          };
+          Iguana_DEXsendrawtx(ajax_data_dexrawtx).then(function(dexrwatx_result) {
+            console.log(dexrwatx_result);
+            if (dexrwatx_result.error == undefined) {
+              var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
 
-            toastr.success(_lang[defaultLang].TOASTR.SIGNED_TX_SENT, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
-            edexcoin_sendto_result_tbl += '<tr class="">' +
-                                            '<td>result</td>' +
-                                            '<td>' +
-                                              '<span class="label label-success">' + result.result + '</span>' +
-                                            '</td>' +
-                                        	'</tr>' +
-                                          '<tr class="">' +
-                                            '<td>completed</td>' +
-                                            '<td>' +
-                                              '<span class="label label-primary">' + result.completed + '</span>' +
-                                            '</td>' +
-                                        	'</tr>' +
-                                          '<tr class="">' +
-                                            '<td>rawtx</td>' +
-                                            '<td>' +
-                                              '<span style="display: block; width: 400px;word-wrap: break-word;">' + result.rawtx + '</span>' +
-                                            '</td>' +
-                                        	'</tr>' +
-                                          '<tr>' +
-                                            '<td>txid</td>' +
-                                            '<td>' +
-                                              '<a href="javascript:void(0)" data-edexcoin="' + active_edexcoin + '" data-sendtotxresult="' + dexrwatx_result + '" class="edexcoin_sendto_output_result">' + dexrwatx_result + '</a>' +
-                                            '</td>' +
-                                        	'</tr>' +
-                                          '<tr class="">' +
-                                            '<td>signedtx</td>' +
-                                            '<td>' +
-                                              '<span style="display: block; width: 400px;word-wrap: break-word;">' + result.signedtx + '</span>' +
-                                            '</td>' +
-                                        	'</tr>';
-            $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
-            $('#edexcoin_send_coins_anothertx_btn').show();
-            $('#edexcoin-send-txdetails-screen').data('panel-api').done();
+              toastr.success(_lang[defaultLang].TOASTR.SIGNED_TX_SENT, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
+              edexcoin_sendto_result_tbl += '<tr class="">' +
+                                              '<td>result</td>' +
+                                              '<td>' +
+                                                '<span class="label label-success">' + result.result + '</span>' +
+                                              '</td>' +
+                                          	'</tr>' +
+                                            '<tr class="">' +
+                                              '<td>completed</td>' +
+                                              '<td>' +
+                                                '<span class="label label-primary">' + result.completed + '</span>' +
+                                              '</td>' +
+                                          	'</tr>' +
+                                            '<tr class="">' +
+                                              '<td>rawtx</td>' +
+                                              '<td>' +
+                                                '<span style="display: block; width: 400px;word-wrap: break-word;">' + result.rawtx + '</span>' +
+                                              '</td>' +
+                                          	'</tr>' +
+                                            '<tr>' +
+                                              '<td>txid</td>' +
+                                              '<td>' +
+                                                '<a href="javascript:void(0)" data-edexcoin="' + active_edexcoin + '" data-sendtotxresult="' + dexrwatx_result + '" class="edexcoin_sendto_output_result">' + dexrwatx_result + '</a>' +
+                                              '</td>' +
+                                          	'</tr>' +
+                                            '<tr class="">' +
+                                              '<td>signedtx</td>' +
+                                              '<td>' +
+                                                '<span style="display: block; width: 400px;word-wrap: break-word;">' + result.signedtx + '</span>' +
+                                              '</td>' +
+                                          	'</tr>';
+              $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
+              $('#edexcoin_send_coins_anothertx_btn').show();
+              $('#edexcoin-send-txdetails-screen').data('panel-api').done();
 
-            var gettxiddata = function() {
-              return new Promise(function(resolve, reject) {
-                toastr.info(_lang[defaultLang].TOASTR.GETTING_TXID_INFO + '.', _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
+              var gettxiddata = function() {
+                return new Promise(function(resolve, reject) {
+                  toastr.info(_lang[defaultLang].TOASTR.GETTING_TXID_INFO + '.', _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
 
-                EDEXgettransaction(ajax_data_dexrawtx.coin,dexrwatx_result).then(function(result) {
-                  console.log(result);
-                  resolve(result);
+                  EDEXgettransaction(ajax_data_dexrawtx.coin,dexrwatx_result).then(function(result) {
+                    console.log(result);
+                    resolve(result);
+                  });
                 });
-              });
-            }
+              }
 
-            var process_refresh_utxos = function(gettxdata) {
-              return new Promise(function(resolve, reject) {
-                console.log(gettxdata)
-                console.log(utxos_set)
-                EDEX_GetTxIDList(gettxdata).then(function(get_txid_list) {
-      				    console.log(get_txid_list)
-      				    resolve(get_txid_list);
-        				});
-                /*EDEX_ProcessRefreshData(gettxdata,utxos_set).then(function(new_utxos_set) {
-                  console.log(new_utxos_set);
-                  resolve(new_utxos_set);
-                });*/
-              });
-            }
-
-            var get_data_cache_contents = function(get_txid_list) {
-              return new Promise(function(resolve, reject) {
-                console.log(get_txid_list);
-                console.log(send_data)
-                console.log(send_data.sendfrom)
-                Shepherd_GroomData_Get().then(function(result) {
-                  console.log(result);
-                  /*console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
-                  delete result.basilisk.KMD[send_data.sendfrom].refresh.data;
-                  console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
-                  result.basilisk.KMD[send_data.sendfrom].refresh.data = new_utxos_set;
-                  console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
-                  var save_this_data = result;*/
-                  var save_this_data = EDEX_RemoveTXID(result, get_txid_list);
-        				  console.log(save_this_data);
-        				  //resolve(result);
-                  resolve(save_this_data);
+              var process_refresh_utxos = function(gettxdata) {
+                return new Promise(function(resolve, reject) {
+                  console.log(gettxdata)
+                  console.log(utxos_set)
+                  EDEX_GetTxIDList(gettxdata).then(function(get_txid_list) {
+        				    console.log(get_txid_list)
+        				    resolve(get_txid_list);
+          				});
+                  /*EDEX_ProcessRefreshData(gettxdata,utxos_set).then(function(new_utxos_set) {
+                    console.log(new_utxos_set);
+                    resolve(new_utxos_set);
+                  });*/
                 });
-              });
-            }
+              }
 
-            var save_new_cache_data = function(save_this_data) {
-              return new Promise(function(resolve, reject) {
-                console.log(save_this_data);
-
-                Shepherd_GroomData_Post(save_this_data).then(function(result) {
-                  console.log(result);
-                  resolve(result);
+              var get_data_cache_contents = function(get_txid_list) {
+                return new Promise(function(resolve, reject) {
+                  console.log(get_txid_list);
+                  console.log(send_data)
+                  console.log(send_data.sendfrom)
+                  Shepherd_GroomData_Get().then(function(result) {
+                    console.log(result);
+                    /*console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
+                    delete result.basilisk.KMD[send_data.sendfrom].refresh.data;
+                    console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
+                    result.basilisk.KMD[send_data.sendfrom].refresh.data = new_utxos_set;
+                    console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
+                    var save_this_data = result;*/
+                    var save_this_data = EDEX_RemoveTXID(result, get_txid_list);
+          				  console.log(save_this_data);
+          				  //resolve(result);
+                    resolve(save_this_data);
+                  });
                 });
+              }
+
+              var save_new_cache_data = function(save_this_data) {
+                return new Promise(function(resolve, reject) {
+                  console.log(save_this_data);
+
+                  Shepherd_GroomData_Post(save_this_data).then(function(result) {
+                    console.log(result);
+                    resolve(result);
+                  });
+                });
+              }
+
+              gettxiddata()
+  	            .then(function(gettxdata) {
+  	              return process_refresh_utxos(gettxdata);
+  	            })
+  	            .then(function(new_utxos_set) {
+  	              return get_data_cache_contents(new_utxos_set);
+  	            })
+  	            .then(function(save_this_data) {
+  	              return save_new_cache_data(save_this_data);
+  	            });
+
+              //var call_data = {"allcoins": false,"coin":ajax_data_dexrawtx.coin,"calls":"refresh"}
+              //console.log(call_data)
+              /*Shepherd_FetchBasiliskData(call_data).then(function(result){
+                  console.log(result)
+                  toastr.info('Refreshing Wallet Funds.', 'Wallet Notification');
+              })*/
+            } else {
+              var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
+
+              toastr.success(_lang[defaultLang].TOASTR.SIGNED_TX_SENT, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
+              edexcoin_sendto_result_tbl += '<tr class="">' +
+                                              '<td>result</td>' +
+                                              '<td>' +
+                                                '<span class="label label-dark">' + dexrwatx_result.result + '</span>' +
+                                              '</td>' +
+                                          	'</tr>' +
+                                            '<tr class="">' +
+                                              '<td>error</td>' +
+                                              '<td>' +
+                                                '<span class="label label-danger">' + dexrwatx_result.error + '</span>' +
+                                              '</td>' +
+                                          	'</tr>' +
+                                            '<tr class="">' +
+                                              '<td>signedtx</td>' +
+                                              '<td>' +
+                                                '<span style="display: block; width: 400px; word-wrap: break-word">' + ajax_data_dexrawtx.signedtx + '</span>' +
+                                              '</td>' +
+                                          	'</tr>';
+              $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
+              $('#edexcoin_send_coins_anothertx_btn').show();
+              $('#edexcoin-send-txdetails-screen').data('panel-api').done();
+
+              var call_data = {
+              	'allcoins': false,
+              	'coin': 'KMD',
+              	'calls': 'refresh'
+              };
+              console.log(call_data);
+
+              Shepherd_FetchBasiliskData(call_data)
+              .then(function(result) {
+                console.log(result);
+                toastr.info(_lang[defaultLang].TOASTR.REFRESHING_FUNDS + '.', _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
               });
             }
+          });
+        }
+        if (send_data.sendsig == 0) {
+          var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
 
-            gettxiddata()
-	            .then(function(gettxdata) {
-	              return process_refresh_utxos(gettxdata);
-	            })
-	            .then(function(new_utxos_set) {
-	              return get_data_cache_contents(new_utxos_set);
-	            })
-	            .then(function(save_this_data) {
-	              return save_new_cache_data(save_this_data);
-	            });
+          console.log(send_data);
 
-            //var call_data = {"allcoins": false,"coin":ajax_data_dexrawtx.coin,"calls":"refresh"}
-            //console.log(call_data)
-            /*Shepherd_FetchBasiliskData(call_data).then(function(result){
-                console.log(result)
-                toastr.info('Refreshing Wallet Funds.', 'Wallet Notification');
-            })*/
-          } else {
-            var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
+          //toastr.success('Signed Transaction Generated.', 'Wallet Notification');
+          edexcoin_sendto_result_tbl += '<tr class="">' +
+                                          '<td>result</td>' +
+                                          '<td>' +
+                                            '<span class="label label-success">' + result.result + '</span>' +
+                                          '</td>' +
+                                      	'</tr>' +
+                                        '<tr class="">' +
+                                          '<td>completed</td>' +
+                                          '<td>' +
+                                            '<span class="label label-primary">' + result.completed + '</span>' +
+                                          '</td>' +
+                                      	'</tr>' +
+                                        '<tr class="">' +
+                                          '<td>rawtx</td>' +
+                                          '<td>' +
+                                            '<span style="display: block; width: 400px; word-wrap: break-word">' + result.rawtx + '</span>' +
+                                          '</td>' +
+                                      	'</tr>' +
+                                        '<tr>' +
+                                          '<td>txid</td>' +
+                                          '<td>' +
+                                            '<a href="javascript:void(0)" data-edexcoin="' + active_edexcoin + '" data-sendtotxresult="' + result.txid + '" class="edexcoin_sendto_output_result">' + result.txid + '</a>' +
+                                          '</td>' +
+                                      	'</tr>' +
+                                        '<tr class="">' +
+                                          '<td>signedtx</td>' +
+                                          '<td>' +
+                                            '<span style="display: block; width: 400px; word-wrap: break-word">' + result.signedtx + '</span>' +
+                                          '</td>' +
+                                      	'</tr>';
+          $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
+          $('#edexcoin_send_coins_anothertx_btn').show();
+          $('#edexcoin-send-txdetails-screen').data('panel-api').done();
 
-            toastr.success(_lang[defaultLang].TOASTR.SIGNED_TX_SENT, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
-            edexcoin_sendto_result_tbl += '<tr class="">' +
-                                            '<td>result</td>' +
-                                            '<td>' +
-                                              '<span class="label label-dark">' + dexrwatx_result.result + '</span>' +
-                                            '</td>' +
-                                        	'</tr>' +
-                                          '<tr class="">' +
-                                            '<td>error</td>' +
-                                            '<td>' +
-                                              '<span class="label label-danger">' + dexrwatx_result.error + '</span>' +
-                                            '</td>' +
-                                        	'</tr>' +
-                                          '<tr class="">' +
-                                            '<td>signedtx</td>' +
-                                            '<td>' +
-                                              '<span style="display: block; width: 400px; word-wrap: break-word">' + ajax_data_dexrawtx.signedtx + '</span>' +
-                                            '</td>' +
-                                        	'</tr>';
-            $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
-            $('#edexcoin_send_coins_anothertx_btn').show();
-            $('#edexcoin-send-txdetails-screen').data('panel-api').done();
+          var call_data = {
+          	'allcoins': false,
+          	'coin': 'KMD',
+          	'calls': 'refresh'
+          };
+          console.log(call_data);
 
-            var call_data = {
-            	'allcoins': false,
-            	'coin': 'KMD',
-            	'calls': 'refresh'
-            };
-            console.log(call_data);
+          Shepherd_FetchBasiliskData(call_data)
+          .then(function(result) {
+            console.log(result);
+            toastr.info(_lang[defaultLang].TOASTR.REFRESHING_FUNDS, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
+          });
+        }
+      } else if (result.result == 'success' && result.completed == false) {
+        console.log(result);
+        toastr.error(_lang[defaultLang].TOASTR.SIGNED_TX_GENERATED_FAIL + '.', _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
 
-            Shepherd_FetchBasiliskData(call_data)
-            .then(function(result) {
-              console.log(result);
-              toastr.info(_lang[defaultLang].TOASTR.REFRESHING_FUNDS + '.', _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
-            });
-          }
-        });
-      }
-      if (send_data.sendsig == 0) {
-        var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
-
-        console.log(send_data);
-
-        //toastr.success('Signed Transaction Generated.', 'Wallet Notification');
         edexcoin_sendto_result_tbl += '<tr class="">' +
-                                        '<td>result</td>' +
-                                        '<td>' +
-                                          '<span class="label label-success">' + result.result + '</span>' +
-                                        '</td>' +
-                                    	'</tr>' +
-                                      '<tr class="">' +
-                                        '<td>completed</td>' +
-                                        '<td>' +
-                                          '<span class="label label-primary">' + result.completed + '</span>' +
-                                        '</td>' +
-                                    	'</tr>' +
-                                      '<tr class="">' +
-                                        '<td>rawtx</td>' +
-                                        '<td>' +
-                                          '<span style="display: block; width: 400px; word-wrap: break-word">' + result.rawtx + '</span>' +
-                                        '</td>' +
-                                    	'</tr>' +
-                                      '<tr>' +
-                                        '<td>txid</td>' +
-                                        '<td>' +
-                                          '<a href="javascript:void(0)" data-edexcoin="' + active_edexcoin + '" data-sendtotxresult="' + result.txid + '" class="edexcoin_sendto_output_result">' + result.txid + '</a>' +
-                                        '</td>' +
-                                    	'</tr>' +
-                                      '<tr class="">' +
-                                        '<td>signedtx</td>' +
-                                        '<td>' +
-                                          '<span style="display: block; width: 400px; word-wrap: break-word">' + result.signedtx + '</span>' +
-                                        '</td>' +
-                                    	'</tr>';
-        $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
-        $('#edexcoin_send_coins_anothertx_btn').show();
-        $('#edexcoin-send-txdetails-screen').data('panel-api').done();
-
-        var call_data = {
-        	'allcoins': false,
-        	'coin': 'KMD',
-        	'calls': 'refresh'
-        };
-        console.log(call_data);
-
-        Shepherd_FetchBasiliskData(call_data)
-        .then(function(result) {
-          console.log(result);
-          toastr.info(_lang[defaultLang].TOASTR.REFRESHING_FUNDS, _lang[defaultLang].TOASTR.WALLET_NOTIFICATION);
-        });
+                                          '<td>result</td>' +
+                                          '<td>' +
+                                            '<span class="label label-success">' + result.result + '</span>' +
+                                          '</td>' +
+                                        '</tr>' +
+                                        '<tr class="">' +
+                                          '<td>completed</td>' +
+                                          '<td>' +
+                                            '<span class="label label-primary">' + result.completed + '</span>' +
+                                          '</td>' +
+                                        '</tr>';
+          $('#edexcoin_sendto_result tbody').html(edexcoin_sendto_result_tbl);
+          $('#edexcoin_send_coins_anothertx_btn').show();
+          $('#edexcoin-send-txdetails-screen').data('panel-api').done();
       }
     });
   });

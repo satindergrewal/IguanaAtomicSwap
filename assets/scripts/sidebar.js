@@ -447,7 +447,7 @@ function assetchain_pax_menu_actions(coin) {
       renderAssetGFX('wireless', 'wireless', coin);
       break;
     case 'PANGEA':
-      renderAssetGFX('supernet', 'jumblr', coin);
+      renderAssetGFX('pangea', 'jumblr', coin);
       break;
     case 'DEX':
       renderAssetGFX('supernet', 'jumblr', coin);
