@@ -257,7 +257,7 @@ function Iguana_addcoin(addcoin_data) {
 		var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
 				AddCoinData = {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"startpend":tmpPendValue,"endpend":tmpPendValue,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","maxpeers":256,"newcoin":"ANC","name":"AnonCoin","netmagic":"facabada","p2p":9377,"rpc":28332,"pubval":23,"p2shval":5,"wifval":151,"txfee_satoshis":"2000000","minconfirms":2,"genesishash":"00000be19c5a519257aa921349037d55548af7cabf112741eb905a26bb73e468","genesis":{"version":1,"timestamp":1370190760,"nBits":"1e0ffff0","nonce":347089008,"merkle_root":"7ce7004d764515f9b43cb9f07547c8e2e00d94c9348b3da33c8681d350f2c736"},"alertpubkey":"04c6db35c11724e526f6725cc5bd5293b4bc9382397856e1bcef7111fb44ce357fd12442b34c496d937a348c1dca1e36ae0c0e128905eb3d301433887e8f0b4536"}
 	}
-	
+
 	if ( addcoin_data.coin == 'FRK' ) {
 		logincoinfullname = 'Franko';
 
@@ -1104,7 +1104,7 @@ function Iguana_addcoin(addcoin_data) {
 	}
 
   if ( addcoin_data.coin ) {
-		var AddCoinDataPayload = {};  	
+		var AddCoinDataPayload = {};
   	console.log(addcoin_data.mode);
     logincoinfullname = addcoin_data.coin;
     var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
@@ -1127,7 +1127,7 @@ function Iguana_addcoin(addcoin_data) {
             'mask': 1
       		};
     }
-    
+
     if ( addcoin_data.mode == '-1' ) {
     	console.log('native');
       logincoinmodeinfo = 'Native';
@@ -1236,35 +1236,54 @@ function Iguana_addcoin(addcoin_data) {
 				'seedipaddr': '78.47.196.146'
 			};
 
-			AddCoinDataPayload.USDVar = _payloadVar;
-			AddCoinDataPayload.USDVar.netmagic = '2d8e7803';
-			AddCoinDataPayload.USDVar.p2p = 13966;
-			AddCoinDataPayload.USDVar.rpc = AddCoinDataPayload.USDVar.p2p + 1;
+			const USDDiff = {
+				'netmagic': '2d8e7803',
+				'p2p': 13966,
+				'rpc': this.p2p + 1
+			};
+			AddCoinDataPayload.USDVar = Object.assign(_payloadVar, USDDiff);
 
-			AddCoinDataPayload.CHFVar = _payloadVar;
-			AddCoinDataPayload.CHFVar.netmagic = '59fbeb5c';
-			AddCoinDataPayload.CHFVar.p2p = 15311;
-			AddCoinDataPayload.CHFVar.rpc = AddCoinDataPayload.CHFVar.p2p + 1;
+			const CHFDiff = {
+				'netmagic': '59fbeb5c',
+				'p2p': 15311,
+				'rpc': this.p2p + 1
+			};
+			AddCoinDataPayload.CHFVar = Object.assign(_payloadVar, CHFDiff);
 
-			AddCoinDataPayload.CADVar = _payloadVar;
-			AddCoinDataPayload.CADVar.netmagic = '3c212763';
-			AddCoinDataPayload.CADVar.p2p = 8719;
-			AddCoinDataPayload.CADVar.rpc = AddCoinDataPayload.CADVar.p2p + 1;
+			const CADDiff = {
+				'netmagic': '3c212763',
+				'p2p': 8719,
+				'rpc': this.p2p + 1
+			};
+			AddCoinDataPayload.CADVar = Object.assign(_payloadVar, CADDiff);
 
-			AddCoinDataPayload.BRLVar = _payloadVar;
-			AddCoinDataPayload.BRLVar.netmagic = 'ab82d10d';
-			AddCoinDataPayload.BRLVar.p2p = 9913;
-			AddCoinDataPayload.BRLVar.rpc = AddCoinDataPayload.BRLVar.p2p + 1;
+			const BRLDiff = {
+				'netmagic': 'ab82d10d',
+				'p2p': 9913,
+				'rpc': this.p2p + 1
+			};
+			AddCoinDataPayload.BRLVar = Object.assign(_payloadVar, BRLDiff);
 
-			AddCoinDataPayload.BGNVar = _payloadVar;
-			AddCoinDataPayload.BGNVar.netmagic = '93056ad4';
-			AddCoinDataPayload.BGNVar.p2p = 9109;
-			AddCoinDataPayload.BGNVar.rpc = AddCoinDataPayload.BGNVar.p2p + 1;
+			const BGNDiff = {
+				'netmagic': '93056ad4',
+				'p2p': 9109,
+				'rpc': this.p2p + 1
+			};
+			AddCoinDataPayload.BGNVar = Object.assign(_payloadVar, BGNDiff);
 
-			AddCoinDataPayload.AUDVar = _payloadVar;
-			AddCoinDataPayload.AUDVar.netmagic = '07220d4e';
-			AddCoinDataPayload.AUDVar.p2p = 9109;
-			AddCoinDataPayload.AUDVar.rpc = AddCoinDataPayload.AUDVar.p2p + 1;
+			const AUDDiff = {
+				'netmagic': '07220d4e',
+				'p2p': 8044,
+				'rpc': this.p2p + 1
+			};
+			AddCoinDataPayload.AUDVar = Object.assign(_payloadVar, AUDDiff);
+
+			const PLNDiff = {
+				'netmagic': '46ab3c28',
+				'p2p': 13492,
+				'rpc': this.p2p + 1
+			};
+			AddCoinDataPayload.AUDVar = Object.assign(_payloadVar, PLNDiff);
 
 			AddCoinDataPayload.PLNVar = _payloadVar;
 			AddCoinDataPayload.PLNVar.netmagic = '46ab3c28';
@@ -1543,7 +1562,7 @@ function GenericExecuteAddCoin(withLogin) {
 		ExecAddCoinData.logincmd = 1;
 	}
 
-	Iguana_addcoin(ExecAddCoinData);	
+	Iguana_addcoin(ExecAddCoinData);
 }
 
 function ExecuteAddCoinFn() {
