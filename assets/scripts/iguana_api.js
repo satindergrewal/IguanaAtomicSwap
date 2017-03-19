@@ -147,7 +147,6 @@ function Iguana_CheckActiveCoins() {
 					'method': 'allcoins'
 				},
 				AjaxOutputData = IguanaAJAX('http://127.0.0.1:' + config.iguanaPort, ajax_data).done(function(data) {
-					console.log(data);
 					var result = [];
 
 					AjaxOutputData = JSON.parse(AjaxOutputData.responseText);
@@ -159,10 +158,9 @@ function Iguana_CheckActiveCoins() {
 								result.push({ 'active': AjaxOutputData[index].length });
 							}
 						}
-					});
-
-					resolve(result);
-				})
+				});
+				resolve(result);
+		})
 				.fail(function(xhr, textStatus, error) {
 				// handle request failures
 				console.log(xhr.statusText);
@@ -262,27 +260,11 @@ function checkAC(coinVal) {
 	}
 }
 
-function formatBytes(bytes, decimals) {
-  if (bytes == 0)
-   	return '0 Bytes';
-
-  var k = 1000,
-      dm = decimals + 1 || 3,
-      sizes = [
-      	'Bytes',
-       	'KB',
-       	'MB',
-       	'GB',
-       	'TB',
-       	'PB',
-       	'EB',
-       	'ZB',
-       	'YB'
-      ],
-      i = Math.floor(Math.log(bytes) / Math.log(k));
-
-  return {
-  	'ramsize': parseFloat((bytes / Math.pow(k, i)).toFixed(dm)),
-   	'size': sizes[i]
-  };
+function formatBytes(bytes,decimals) {
+   if(bytes == 0) return '0 Bytes';
+   var k = 1000,
+       dm = decimals + 1 || 3,
+       sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+       i = Math.floor(Math.log(bytes) / Math.log(k));
+   return {'ramsize': parseFloat((bytes / Math.pow(k, i)).toFixed(dm)), 'size':sizes[i]}
 }

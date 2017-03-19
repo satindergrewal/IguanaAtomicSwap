@@ -48,7 +48,7 @@ function getPassthruAgent() {
 	var extcoin = $('[data-extcoin]').attr('data-extcoin');
 			passthru_agent = '';
 
-	console.log(extcoin);
+	console.log(extcoin)
 
 	if ( extcoin == 'KMD') { passthru_agent = 'komodo'; };
 	if ( extcoin == 'ZEC') { passthru_agent = 'zcash'; };
@@ -239,7 +239,7 @@ function KMD_ProgressBar() {
 
 	if (extcoin !== 'ZEC') {
 		if ( getinfotmp == 'activating') {
-			$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text(_lang[defaultLang].INDEX + '...');
+			$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text('Activating...');
 		} else {
 			var sync_percent = parseFloat(parseInt(getinfotmp.blocks, 10) * 100) / parseInt(getinfotmp.longestchain, 10);
 			//console.log(sync_percent);
