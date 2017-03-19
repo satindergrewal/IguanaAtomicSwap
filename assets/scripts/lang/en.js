@@ -176,7 +176,8 @@ const _lang = {
       'REFRESH_FUNDS': 'Refresh Funds',
       'INFO': 'Info',
       'ENTER': 'Enter',
-      'ADDR_SM': 'address'
+      'ADDR_SM': 'address',
+      'ACTIVATING': 'Activating'
     },
     'JUMBLR': {
     	'NOTICE': 'EXPERIMENTAL TEST VERSION ONLY',

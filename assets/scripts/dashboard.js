@@ -6,19 +6,7 @@ var RunTotalFiatValue = '',
 		edexcoin_send_form_validator = '';
 
 var Dashboard = function() {
-	toastr.options = {
-		'closeButton': true,
-		'debug': false,
-		'positionClass': 'toast-bottom-right',
-		'showDuration': '15000',
-		'hideDuration': '1000',
-		'timeOut': '15000',
-		'extendedTimeOut': '1000',
-		'showEasing': 'swing',
-		'hideEasing': 'linear',
-		'showMethod': 'fadeIn',
-		'hideMethod': 'fadeOut'
-	}
+	toastr.options = toastrConfig;
 
 	var handle_edex_wallet = function() {
 		$('#btn_edexcoin_wallet_dashboard').click(function() {
