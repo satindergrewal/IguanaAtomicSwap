@@ -805,11 +805,11 @@ function edexCoinBtnAction() {
 				alertify.success(_lang[defaultLang].DASHBOARD.ADDR_COPIED + '.');
 			});
 
-			var clipboard = new Clipboard('.clipboard-edexaddr');
-			clipboard.destroy();
+			//var clipboard = new Clipboard('.clipboard-edexaddr');
+			//clipboard.destroy();
 
-			var clipboard = null;
-			if ( clipboard != null ) {
+			//var clipboard = null;
+			if (clipboard && clipboard != null ) {
 				clipboard.destroy();
 			}
 
