@@ -239,7 +239,7 @@ function KMD_ProgressBar() {
 
 	if (extcoin !== 'ZEC') {
 		if ( getinfotmp == 'activating') {
-			$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text(_lang[defaultLang].INDEX + '...');
+			$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text(_lang[defaultLang].INDEX.ACTIVATING + '...');
 		} else {
 			var sync_percent = parseFloat(parseInt(getinfotmp.blocks, 10) * 100) / parseInt(getinfotmp.longestchain, 10);
 			//console.log(sync_percent);
