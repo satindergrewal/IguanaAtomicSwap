@@ -423,7 +423,7 @@ var Login = function() {
             )
             .show();
             $('#logint-another-wallet').hide();
-            $("#loginbtn").text(_lang[defaultLang].LOGIN.SIGN_IN);
+            $('#loginbtn').text(_lang[defaultLang].LOGIN.SIGN_IN);
 
             //Stop SetInterval Calls
             StopShowCoinHistory();
@@ -590,7 +590,7 @@ var Login = function() {
             '#section-login-addcoin-btn'
           )
           .hide();
-          $("#loginbtn").text(_lang[defaultLang].LOGIN.UNLOCK);
+          $('#loginbtn').text(_lang[defaultLang].LOGIN.UNLOCK);
           $('#section-login').show();
         }
     }
@@ -731,7 +731,7 @@ var Login = function() {
             )
             .show();
             $('#logint-another-wallet').hide();
-            $("#loginbtn").text(_lang[defaultLang].LOGIN.SIGN_IN);
+            $('#loginbtn').text(_lang[defaultLang].LOGIN.SIGN_IN);
           } else {
             // If something goes wrong, alert the error message that our service returned
             toastr.warning(_lang[defaultLang].TOASTR.OPPS, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
@@ -768,7 +768,7 @@ var Login = function() {
       ExecuteAddCoinLoginFn();
     });
 
-    $( "#addcoin_select_coin_mdl_options-login" )
+    $( '#addcoin_select_coin_mdl_options-login' )
     .change(function() {
       var tmp_coin_val = $('#addcoin_select_coin_mdl_options-login').val();
 
@@ -943,5 +943,5 @@ function ClearOnLogout(cleardata, stopinterval) {
   )
   .show();
   $('#logint-another-wallet').hide();
-  $("#loginbtn").text(_lang[defaultLang].LOGIN.SIGN_IN);
+  $('#loginbtn').text(_lang[defaultLang].LOGIN.SIGN_IN);
 }
