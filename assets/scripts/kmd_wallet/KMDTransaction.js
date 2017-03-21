@@ -39,9 +39,9 @@ function KMDGetPublicTransactions() {
 
 			$.each(AjaxOutputData, function(index, value) {
 				var tmp_category = '',
-						tmp_addr = AjaxOutputData[index].address;
+						tmp_addr = AjaxOutputData[index] ? AjaxOutputData[index].address : '';
 
-				if (!('address' in AjaxOutputData[index])) {
+				if (AjaxOutputData[index] && !('address' in AjaxOutputData[index])) {
 					tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">' + _lang[defaultLang].DASHBOARD.ZADDR_NOT_LISTED + '!</span>';
 				}
 				var tmp_secondsToString = secondsToString(AjaxOutputData[index].time);
