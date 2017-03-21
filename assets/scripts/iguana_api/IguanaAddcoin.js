@@ -1,8 +1,6 @@
 // TODO: refactor
 
 function Iguana_addcoin(addcoin_data) {
-	console.log('addcoin data');
-	console.log(addcoin_data);
 	var tmpPendValue = sessionStorage.getItem('IguanaPendValue');
 
 	if (addcoin_data.coin !== 'BTC' && addcoin_data.coin !== 'LTC' && addcoin_data.coin !== 'DOGE') {
@@ -322,7 +320,7 @@ function Iguana_addcoin(addcoin_data) {
 			'debug': 0,
 			'seedipaddr': '78.47.196.146'
 		};
-		var acConfig = {
+		const acConfig = {
 			'SUPERNET': {
 				'name': 'SUPERNET',
 				'supply': 816061,
