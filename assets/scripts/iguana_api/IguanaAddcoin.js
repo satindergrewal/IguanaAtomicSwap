@@ -286,6 +286,7 @@ function Iguana_addcoin(addcoin_data) {
 	}
 
 	if ( checkCoinType() === 'ac' ) {
+		console.log('coin', addcoin_data.coin);
 		logincoinfullname = addcoin_data.coin;
 
 		if ( addcoin_data.mode == '1' ) { logincoinmodeinfo = 'Full'; }
@@ -366,8 +367,8 @@ function Iguana_addcoin(addcoin_data) {
 			'CRYPTO': {
 				'name': 'CRYPTO',
 				'supply': 999999,
-				'AddCoinData': confpath ? Object.assign(_acPayloadOrigin, {"coin":"CRYPTO","conf":"CRYPTO.conf","path":confpath[0].path,"RELAY":-1,"VALIDATE":1,"startpend":4,"endpend":4,"maxpeers":8,"newcoin":"CRYPTO","name":"CRYPTO","netmagic":"fced9e2a","p2p":10419,"rpc":10420}) : {},
-				'AddCoinDataVar': Object.assign(_acPayloadOrigin, {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"startpend":tmpPendValue,"endpend":tmpPendValue,"maxpeers":8,"newcoin":"CRYPTO","name":"CRYPTO","netmagic":"fced9e2a","p2p":10419,"rpc":10420})
+				'AddCoinData': confpath ? Object.assign({}, _acPayloadOrigin, {"coin":"CRYPTO","conf":"CRYPTO.conf","path":confpath[0].path,"RELAY":-1,"VALIDATE":1,"startpend":4,"endpend":4,"maxpeers":8,"newcoin":"CRYPTO","name":"CRYPTO","netmagic":"fced9e2a","p2p":10419,"rpc":10420}) : {},
+				'AddCoinDataVar': Object.assign({}, _acPayloadOrigin, {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"startpend":tmpPendValue,"endpend":tmpPendValue,"maxpeers":8,"newcoin":"CRYPTO","name":"CRYPTO","netmagic":"fced9e2a","p2p":10419,"rpc":10420})
 			},
 			'HODL': {
 				'name': 'HODL',
