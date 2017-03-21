@@ -510,7 +510,8 @@ function Iguana_addcoin(addcoin_data) {
 				addcoin_data.coin === 'MVP' ||
 				addcoin_data.coin === 'KV' ||
 				addcoin_data.coin === 'CEAL' ||
-				addcoin_data.coin === 'MESH') {
+				addcoin_data.coin === 'MESH' ||
+				addcoin_data.coin === 'WIRELESS') {
 			return 'ac';
 		}
 	}
