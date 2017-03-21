@@ -502,7 +502,7 @@ var Login = function() {
                   .addClass( 'page-login layout-full page-dark' );
                 $('#wallet-core').hide();
                 $('link[id=loginStyle]')[0].disabled = false;
-                $("#loginbtn").text(_lang[defaultLang].LOGIN.UNLOCK);
+                $('#loginbtn').text(_lang[defaultLang].LOGIN.UNLOCK);
                 // Hide some login fields not needing at lock screen
                 console.log('Wallet is Locked.');
                 $('#login-welcome').text(_lang[defaultLang].LOGIN.WALLET_LOCKED_LOGIN);

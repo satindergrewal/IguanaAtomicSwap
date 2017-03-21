@@ -89,7 +89,7 @@ var KMDWalletDashboard = function() {
 		});
 
 		$('.showkmdwalletaddrs').on('change', function(){
-			var selected = $(this).find("option:selected").val();
+			var selected = $(this).find('option:selected').val();
 		});
 
 		$('#kmd_wallet_amount').keyup(function() {

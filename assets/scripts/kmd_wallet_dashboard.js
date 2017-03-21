@@ -19,7 +19,7 @@ jQuery(document).ready(function() {
 			clearInterval(RefreshEdexWalletDashboard);
 			//console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
 		} else if ( sessionStorage.getItem('NativeWalletActions') === null || sessionStorage.getItem('NativeWalletActions') === 'start') {
-			if ( $('[data-data-extcoin]').attr("data-data-extcoin") !== 'COIN' ) {
+			if ( $('[data-data-extcoin]').attr('data-data-extcoin') !== 'COIN' ) {
 				if ( sessionStorage.getItem('edexTmpMode') !== null || sessionStorage.getItem('edexTmpMode') === 'Native') {
 					if ( sessionStorage.getItem('edexTmpRefresh') === null || sessionStorage.getItem('edexTmpRefresh') === 'start') {
 						//console.log('it is not COIN. '+'It is: ' + $('[data-data-extcoin]').attr("data-data-extcoin"));
