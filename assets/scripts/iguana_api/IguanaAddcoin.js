@@ -762,7 +762,7 @@ function Iguana_addcoin(addcoin_data) {
 
 			const NZDDiff = {
 				'coin': 'NZD',
-				'conf': this.coin + '.conf'
+				'conf': 'NZD.conf'
 			};
 			AddCoinDataPayload.NZD = Object.assign({}, _payloadVarRegular, NZDDiff);
 
@@ -919,7 +919,7 @@ function Iguana_addcoin(addcoin_data) {
 			const ILSDiff = {
 				'netmagic': '605fcd58',
 				'p2p': 14637,
-				'rpc': this.p2p + 1
+				'rpc': 14638
 			};
 			AddCoinDataPayload.ILSVar = Object.assign({}, _payloadVar, ILSDiff);
 
@@ -1101,8 +1101,6 @@ function GenericExecuteAddCoin(withLogin) {
 				'coin': addcoin_selected_coinname_code_val,
 				'mode': addcoin_selected_mode_val
 			};
-
-			console.log('execaddc', ExecAddCoinData);
 
 	if (withLogin) {
 		ExecAddCoinData.logincmd = 1;
