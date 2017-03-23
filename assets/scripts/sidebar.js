@@ -486,100 +486,100 @@ function assetchain_pax_menu_actions(coin) {
       renderAssetGFX('mesh', 'mesh', coin);
       break;
     case 'USD':
-      renderAssetGFX('usd', 'usd', 'US Dollar');
+      renderAssetGFX('usd', 'usd', 'US Dollar (USD)');
       break;
     case 'RON':
-      renderAssetGFX('ron', 'ron', 'Romanian Leu');
+      renderAssetGFX('ron', 'ron', 'Romanian Leu (RON)');
       break;
 		case 'EUR':
-      renderAssetGFX('eur', 'eur', 'Euro');
+      renderAssetGFX('eur', 'eur', 'Euro (EUR)');
 			break;
 		case 'JPY':
-      renderAssetGFX('jpy', 'jpy', 'Japanese Yen');
+      renderAssetGFX('jpy', 'jpy', 'Japanese Yen (JPY)');
 			break;
 		case 'GBP':
-      renderAssetGFX('gbp', 'gbp', 'British Pound');
+      renderAssetGFX('gbp', 'gbp', 'British Pound (GBP)');
 			break;
 		case 'AUD':
-      renderAssetGFX('aud', 'aud', 'Australian Dollar');
+      renderAssetGFX('aud', 'aud', 'Australian Dollar (AUD)');
 			break;
 		case 'CAD':
-      renderAssetGFX('cad', 'cad', 'Canadian Dollar');
+      renderAssetGFX('cad', 'cad', 'Canadian Dollar (CAD)');
 			break;
 		case 'CHF':
-      renderAssetGFX('chf', 'chf', 'Swiss Franc');
+      renderAssetGFX('chf', 'chf', 'Swiss Franc (CHF)');
 			break;
 		case 'NZD':
-      renderAssetGFX('nzd', 'nzd', 'New Zealand Dollar');
+      renderAssetGFX('nzd', 'nzd', 'New Zealand Dollar (NZD)');
 			break;
 		case 'CNY':
-      renderAssetGFX('cny', 'cny', 'Chinese Yuan');
+      renderAssetGFX('cny', 'cny', 'Chinese Yuan (CNY)');
 			break;
 		case 'RUB':
-      renderAssetGFX('rub', 'rub', 'Russian Ruble');
+      renderAssetGFX('rub', 'rub', 'Russian Ruble (RUB)');
 			break;
 		case 'MXN':
-      renderAssetGFX('mxn', 'mxn', 'Mexican Peso');
+      renderAssetGFX('mxn', 'mxn', 'Mexican Peso (MXN)');
 			break;
 		case 'BRL':
-      renderAssetGFX('brl', 'brl', 'Brazilian Real');
+      renderAssetGFX('brl', 'brl', 'Brazilian Real (BRL)');
 			break;
 		case 'INR':
-      renderAssetGFX('inr', 'inr', 'Indian Rupee');
+      renderAssetGFX('inr', 'inr', 'Indian Rupee (INR)');
 			break;
 		case 'HKD':
-      renderAssetGFX('hkd', 'hkd', 'Hong Kong Dollar');
+      renderAssetGFX('hkd', 'hkd', 'Hong Kong Dollar (HKD)');
 			break;
 		case 'TRY':
-      renderAssetGFX('try', 'try', 'Turkish Lira');
+      renderAssetGFX('try', 'try', 'Turkish Lira (TRY)');
 			break;
 		case 'ZAR':
-      renderAssetGFX('zar', 'zar', 'South African Rand');
+      renderAssetGFX('zar', 'zar', 'South African Rand (ZAR)');
 			break;
 		case 'PLN':
-      renderAssetGFX('pln', 'pln', 'Polish Zloty');
+      renderAssetGFX('pln', 'pln', 'Polish Zloty (PLN)');
 			break;
 		case 'NOK':
-      renderAssetGFX('nok', 'nok', 'Norwegian Krone');
+      renderAssetGFX('nok', 'nok', 'Norwegian Krone (NOK)');
 			break;
 		case 'SEK':
-      renderAssetGFX('sek', 'sek', 'Swedish Krona');
+      renderAssetGFX('sek', 'sek', 'Swedish Krona (SEK)');
 			break;
 		case 'DKK':
-      renderAssetGFX('dkk', 'dkk', 'Danish Krone');
+      renderAssetGFX('dkk', 'dkk', 'Danish Krone (DKK)');
 			break;
 		case 'CZK':
-      renderAssetGFX('czk', 'czk', 'Czech Koruna');
+      renderAssetGFX('czk', 'czk', 'Czech Koruna (CZK)');
 			break;
 		case 'HUF':
-      renderAssetGFX('huf', 'huf', 'Hungarian Forint');
+      renderAssetGFX('huf', 'huf', 'Hungarian Forint (HUF)');
 			break;
 		case 'ILS':
-      renderAssetGFX('ils', 'ils', 'Israeli Shekel');
+      renderAssetGFX('ils', 'ils', 'Israeli Shekel (ILS)');
 			break;
 		case 'KRW':
-      renderAssetGFX('krw', 'krw', 'Korean Won');
+      renderAssetGFX('krw', 'krw', 'Korean Won (KRW)');
 			break;
 		case 'MYR':
-      renderAssetGFX('myr', 'myr', 'Malaysian Ringgit');
+      renderAssetGFX('myr', 'myr', 'Malaysian Ringgit (MYR)');
 			break;
 		case 'PHP':
-      renderAssetGFX('php', 'php', 'Philippine Peso');
+      renderAssetGFX('php', 'php', 'Philippine Peso (PHP)');
 			break;
 		case 'SGD':
-      renderAssetGFX('sgd', 'sgd', 'Philippine Peso');
+      renderAssetGFX('sgd', 'sgd', 'Singapore Dollar (SGD)');
 			break;
 		case 'THB':
-      renderAssetGFX('thb', 'thb', 'Thai Baht');
+      renderAssetGFX('thb', 'thb', 'Thai Baht (THB)');
 			break;
 		case 'BGN':
-      renderAssetGFX('bgn', 'bgn', 'Bulgarian Lev');
+      renderAssetGFX('bgn', 'bgn', 'Bulgarian Lev (BGN)');
 			break;
 		case 'IDR':
-      renderAssetGFX('idr', 'idr', 'Indonesian Rupiah');
+      renderAssetGFX('idr', 'idr', 'Indonesian Rupiah (IDR)');
 			break;
 		case 'HRK':
-      renderAssetGFX('hrk', 'hrk', 'Croatian Kuna');
+      renderAssetGFX('hrk', 'hrk', 'Croatian Kuna (HRK)');
 			break;
     default:
     	$('.header-easydex-section').html('<span style="font-size: 35px; vertical-align: middle">' + coin + '</span>');
