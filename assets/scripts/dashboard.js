@@ -863,7 +863,7 @@ var Dashboard = function() {
 									break;
 								case 'HRK':
 									coinlogo = 'HRK';
-									coinname = 'Croatian Kuna';
+									coinname = 'Croatian Kuna (' + coinlogo + ')';
 									break;
               }
 
