@@ -747,7 +747,7 @@ function edexCoinBtnAction() {
     .text('-');
 		$('#edex_total_balance_coincode').text(selected_coin);
 
-		sessionStorage.setItem('edexTmpMode', selected_coinmode);
+		sessionStorage.setItem('edexTmpMode', selected_coinmode); // set edex mode
 		resizeDashboardWindow();
 
 		if ( selected_coinmode == 'Basilisk' ) {
