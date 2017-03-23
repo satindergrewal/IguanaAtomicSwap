@@ -521,7 +521,7 @@ function Iguana_addcoin(addcoin_data) {
     		tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
     		AddCoinData;
 
-  	console.log(addcoin_data.mode);
+  	console.log('currency_ac_mode', addcoin_data.mode);
     logincoinfullname = addcoin_data.coin;
 
     if ( addcoin_data.mode == '1' ) {
@@ -624,189 +624,189 @@ function Iguana_addcoin(addcoin_data) {
 
 			const USDDiff = {
 				'coin': 'USD',
-				'conf': this.coin + '.conf'
+				'conf': 'USD.conf'
 			};
-			AddCoinDataPayload.USD = Object.assign(_payloadVar, USDDiff);
+			AddCoinDataPayload.USD = Object.assign({}, _payloadVarRegular, USDDiff);
 
 			const RONDiff = {
 				'coin': 'RON',
-				'conf': this.coin + '.conf'
+				'conf': 'RON.conf'
 			};
-			AddCoinDataPayload.RON = Object.assign(_payloadVar, RONDiff);
+			AddCoinDataPayload.RON = Object.assign({}, _payloadVarRegular, RONDiff);
 
 			const RUBDiff = {
 				'coin': 'RUB',
-				'conf': this.coin + '.conf'
+				'conf': 'RUB.conf'
 			};
-			AddCoinDataPayload.RUB = Object.assign(_payloadVar, RUBDiff);
+			AddCoinDataPayload.RUB = Object.assign({}, _payloadVarRegular, RUBDiff);
 
 			const SEKDiff = {
 				'coin': 'SEK',
-				'conf': this.coin + '.conf'
+				'conf': 'SEK.conf'
 			};
-			AddCoinDataPayload.SEK = Object.assign(_payloadVar, SEKDiff);
+			AddCoinDataPayload.SEK = Object.assign({}, _payloadVarRegular, SEKDiff);
 
 			const SGDDiff = {
 				'coin': 'SGD',
-				'conf': this.coin + '.conf'
+				'conf': 'SGD.conf'
 			};
-			AddCoinDataPayload.SGDVar = Object.assign(_payloadVar, SGDDiff);
+			AddCoinDataPayload.SGDVar = Object.assign({}, _payloadVarRegular, SGDDiff);
 
 			const THBDiff = {
 				'coin': 'THB',
-				'conf': this.coin + '.conf'
+				'conf': 'THB.conf'
 			};
-			AddCoinDataPayload.THB = Object.assign(_payloadVar, THBDiff);
+			AddCoinDataPayload.THB = Object.assign({}, _payloadVarRegular, THBDiff);
 
 			const TRYDiff = {
 				'coin': 'TRY',
-				'conf': this.coin + '.conf'
+				'conf': 'TRY.conf'
 			};
-			AddCoinDataPayload.TRY = Object.assign(_payloadVar, TRYDiff);
+			AddCoinDataPayload.TRY = Object.assign({}, _payloadVarRegular, TRYDiff);
 
 			const ZARDiff = {
 				'coin': 'ZAR',
-				'conf': this.coin + '.conf'
+				'conf': 'ZAR.conf'
 			};
-			AddCoinDataPayload.ZAR = Object.assign(_payloadVar, ZARDiff);
+			AddCoinDataPayload.ZAR = Object.assign({}, _payloadVarRegular, ZARDiff);
 
 			const CNYDiff = {
 				'coin': 'CNY',
-				'conf': this.coin + '.conf'
+				'conf': 'CNY.conf'
 			};
-			AddCoinDataPayload.CNY = Object.assign(_payloadVar, CNYDiff);
+			AddCoinDataPayload.CNY = Object.assign({}, _payloadVarRegular, CNYDiff);
 
 			const CZKDiff = {
 				'coin': 'CZK',
-				'conf': this.coin + '.conf'
+				'conf': 'CZK.conf'
 			};
-			AddCoinDataPayload.CZKVar = Object.assign(_payloadVar, CZKDiff);
+			AddCoinDataPayload.CZKVar = Object.assign({}, _payloadVarRegular, CZKDiff);
 
 			const DKKDiff = {
 				'coin': 'DKK',
-				'conf': this.coin + '.conf'
+				'conf': 'DKK.conf'
 			};
-			AddCoinDataPayload.DKK = Object.assign(_payloadVar, DKKDiff);
+			AddCoinDataPayload.DKK = Object.assign({}, _payloadVarRegular, DKKDiff);
 
 			const EURDiff = {
 				'coin': 'EUR',
-				'conf': this.coin + '.conf'
+				'conf': 'EUR.conf'
 			};
-			AddCoinDataPayload.EUR = Object.assign(_payloadVar, EURDiff);
+			AddCoinDataPayload.EUR = Object.assign({}, _payloadVarRegular, EURDiff);
 
 			const GBPDiff = {
 				'coin': 'GBP',
-				'conf': this.coin + '.conf'
+				'conf': 'GBP.conf'
 			};
-			AddCoinDataPayload.GBP = Object.assign(_payloadVar, GBPDiff);
+			AddCoinDataPayload.GBP = Object.assign({}, _payloadVarRegular, GBPDiff);
 
 			const HKDDiff = {
 				'coin': 'HKD',
-				'conf': this.coin + '.conf'
+				'conf': 'HKD.conf'
 			};
-			AddCoinDataPayload.HKD = Object.assign(_payloadVar, HKDDiff);
+			AddCoinDataPayload.HKD = Object.assign({}, _payloadVarRegular, HKDDiff);
 
 			const HUFDiff = {
 				'coin': 'HUF',
-				'conf': this.coin + '.conf'
+				'conf': 'HUF.conf'
 			};
-			AddCoinDataPayload.HUF = Object.assign(_payloadVar, HUFDiff);
+			AddCoinDataPayload.HUF = Object.assign({}, _payloadVarRegular, HUFDiff);
 
 			const IDRDiff = {
 				'coin': 'IDR',
-				'conf': this.coin + '.conf'
+				'conf': 'IDR.conf'
 			};
-			AddCoinDataPayload.IDR = Object.assign(_payloadVar, IDRDiff);
+			AddCoinDataPayload.IDR = Object.assign({}, _payloadVarRegular, IDRDiff);
 
 			const ILSDiff = {
 				'coin': 'ILS',
-				'conf': this.coin + '.conf'
+				'conf': 'ILS.conf'
 			};
-			AddCoinDataPayload.ILS = Object.assign(_payloadVar, ILSDiff);
+			AddCoinDataPayload.ILS = Object.assign({}, _payloadVarRegular, ILSDiff);
 
 			const INRDiff = {
 				'coin': 'INR',
-				'conf': this.coin + '.conf'
+				'conf': 'INR.conf'
 			};
-			AddCoinDataPayload.INR = Object.assign(_payloadVar, INRDiff);
+			AddCoinDataPayload.INR = Object.assign({}, _payloadVarRegular, INRDiff);
 
 			const JPYDiff = {
 				'coin': 'JPY',
-				'conf': this.coin + '.conf'
+				'conf': 'JPY.conf'
 			};
-			AddCoinDataPayload.JPY = Object.assign(_payloadVar, JPYDiff);
+			AddCoinDataPayload.JPY = Object.assign({}, _payloadVarRegular, JPYDiff);
 
 			const KRWDiff = {
 				'coin': 'KRW',
-				'conf': this.coin + '.conf'
+				'conf': 'KRW.conf'
 			};
-			AddCoinDataPayload.KRW = Object.assign(_payloadVar, KRWDiff);
+			AddCoinDataPayload.KRW = Object.assign({}, _payloadVarRegular, KRWDiff);
 
 			const MXNDiff = {
 				'coin': 'MXN',
-				'conf': this.coin + '.conf'
+				'conf': 'MXN.conf'
 			};
-			AddCoinDataPayload.MXN = Object.assign(_payloadVar, MXNDiff);
+			AddCoinDataPayload.MXN = Object.assign({}, _payloadVarRegular, MXNDiff);
 
 			const MYRDiff = {
 				'coin': 'MYR',
-				'conf': this.coin + '.conf'
+				'conf': 'MYR.conf'
 			};
-			AddCoinDataPayload.MYR = Object.assign(_payloadVar, MYRDiff);
+			AddCoinDataPayload.MYR = Object.assign({}, _payloadVarRegular, MYRDiff);
 
 			const NOKDiff = {
 				'coin': 'NOK',
-				'conf': this.coin + '.conf'
+				'conf': 'NOK.conf'
 			};
-			AddCoinDataPayload.NOK = Object.assign(_payloadVar, NOKDiff);
+			AddCoinDataPayload.NOK = Object.assign({}, _payloadVarRegular, NOKDiff);
 
 			const NZDDiff = {
 				'coin': 'NZD',
 				'conf': this.coin + '.conf'
 			};
-			AddCoinDataPayload.NZD = Object.assign(_payloadVar, NZDDiff);
+			AddCoinDataPayload.NZD = Object.assign({}, _payloadVarRegular, NZDDiff);
 
 			const PHPDiff = {
 				'coin': 'PHP',
-				'conf': this.coin + '.conf'
+				'conf': 'PHP.conf'
 			};
-			AddCoinDataPayload.PHP = Object.assign(_payloadVar, PHPDiff);
+			AddCoinDataPayload.PHP = Object.assign({}, _payloadVarRegular, PHPDiff);
 
 			const PLNDiff = {
 				'coin': 'PLN',
-				'conf': this.coin + '.conf'
+				'conf': 'PLN.conf'
 			};
-			AddCoinDataPayload.PLN = Object.assign(_payloadVar, PLNDiff);
+			AddCoinDataPayload.PLN = Object.assign({}, _payloadVarRegular, PLNDiff);
 
 			const AUDDiff = {
 				'coin': 'AUD',
-				'conf': this.coin + '.conf'
+				'conf': 'AUD.conf'
 			};
-			AddCoinDataPayload.AUD = Object.assign(_payloadVar, AUDDiff);
+			AddCoinDataPayload.AUD = Object.assign({}, _payloadVarRegular, AUDDiff);
 
 			const BGNDiff = {
 				'coin': 'BGN',
-				'conf': this.coin + '.conf'
+				'conf': 'BGN.conf'
 			};
-			AddCoinDataPayload.BGN = Object.assign(_payloadVar, BGNDiff);
+			AddCoinDataPayload.BGN = Object.assign({}, _payloadVarRegular, BGNDiff);
 
 			const BRLDiff = {
 				'coin': 'BRL',
-				'conf': this.coin + '.conf'
+				'conf': 'BRL.conf'
 			};
-			AddCoinDataPayload.BRL = Object.assign(_payloadVar, BRLDiff);
+			AddCoinDataPayload.BRL = Object.assign({}, _payloadVarRegular, BRLDiff);
 
 			const CADDiff = {
 				'coin': 'CAD',
-				'conf': this.coin + '.conf'
+				'conf': 'CAD.conf'
 			};
-			AddCoinDataPayload.CAD = Object.assign(_payloadVar, CADDiff);
+			AddCoinDataPayload.CAD = Object.assign({}, _payloadVarRegular, CADDiff);
 
 			const CHFDiff = {
 				'coin': 'CHF',
-				'conf': this.coin + '.conf'
+				'conf': 'CHF.conf'
 			};
-			AddCoinDataPayload.CHF = Object.assign(_payloadVar, CHFDiff);
+			AddCoinDataPayload.CHF = Object.assign({}, _payloadVarRegular, CHFDiff);
 
       var tmpinternval = 6000,
       		AddCoinData = AddCoinDataPayload[addcoin_data.coin];
@@ -814,219 +814,219 @@ function Iguana_addcoin(addcoin_data) {
 			const USDDiff = {
 				'netmagic': '2d8e7803',
 				'p2p': 13966,
-				'rpc': this.p2p + 1
+				'rpc': 13967
 			};
-			AddCoinDataPayload.USDVar = Object.assign(_payloadVar, USDDiff);
+			AddCoinDataPayload.USDVar = Object.assign({}, _payloadVar, USDDiff);
 
 			const CHFDiff = {
 				'netmagic': '59fbeb5c',
 				'p2p': 15311,
-				'rpc': this.p2p + 1
+				'rpc': 15312
 			};
-			AddCoinDataPayload.CHFVar = Object.assign(_payloadVar, CHFDiff);
+			AddCoinDataPayload.CHFVar = Object.assign({}, _payloadVar, CHFDiff);
 
 			const CADDiff = {
 				'netmagic': '3c212763',
 				'p2p': 8719,
-				'rpc': this.p2p + 1
+				'rpc': 8720
 			};
-			AddCoinDataPayload.CADVar = Object.assign(_payloadVar, CADDiff);
+			AddCoinDataPayload.CADVar = Object.assign({}, _payloadVar, CADDiff);
 
 			const BRLDiff = {
 				'netmagic': 'ab82d10d',
 				'p2p': 9913,
-				'rpc': this.p2p + 1
+				'rpc': 9914
 			};
-			AddCoinDataPayload.BRLVar = Object.assign(_payloadVar, BRLDiff);
+			AddCoinDataPayload.BRLVar = Object.assign({}, _payloadVar, BRLDiff);
 
 			const BGNDiff = {
 				'netmagic': '93056ad4',
 				'p2p': 9109,
-				'rpc': this.p2p + 1
+				'rpc': 9110
 			};
-			AddCoinDataPayload.BGNVar = Object.assign(_payloadVar, BGNDiff);
+			AddCoinDataPayload.BGNVar = Object.assign({}, _payloadVar, BGNDiff);
 
 			const AUDDiff = {
 				'netmagic': '07220d4e',
 				'p2p': 8044,
-				'rpc': this.p2p + 1
+				'rpc': 8045
 			};
-			AddCoinDataPayload.AUDVar = Object.assign(_payloadVar, AUDDiff);
+			AddCoinDataPayload.AUDVar = Object.assign({}, _payloadVar, AUDDiff);
 
 			const PLNDiff = {
 				'netmagic': '46ab3c28',
 				'p2p': 13492,
-				'rpc': this.p2p + 1
+				'rpc': 13493
 			};
-			AddCoinDataPayload.PLNVar = Object.assign(_payloadVar, PLNDiff);
+			AddCoinDataPayload.PLNVar = Object.assign({}, _payloadVar, PLNDiff);
 
 			const PHPDiff = {
 				'netmagic': '21535fb6',
 				'p2p': 11180,
-				'rpc': this.p2p + 1
+				'rpc': 11181
 			};
-			AddCoinDataPayload.PHPVar = Object.assign(_payloadVar, PHPDiff);
+			AddCoinDataPayload.PHPVar = Object.assign({}, _payloadVar, PHPDiff);
 
 			const NZDDiff = {
 				'netmagic': 'f579c9c2',
 				'p2p': 10914,
-				'rpc': this.p2p + 1
+				'rpc': 10915
 			};
-			AddCoinDataPayload.NZDVar = Object.assign(_payloadVar, NZDDiff);
+			AddCoinDataPayload.NZDVar = Object.assign({}, _payloadVar, NZDDiff);
 
 			const NOKDiff = {
 				'netmagic': '7082c365',
 				'p2p': 11587,
-				'rpc': this.p2p + 1
+				'rpc': 11588
 			};
-			AddCoinDataPayload.NOKVar = Object.assign(_payloadVar, NOKDiff);
+			AddCoinDataPayload.NOKVar = Object.assign({}, _payloadVar, NOKDiff);
 
 			const MYRDiff = {
 				'netmagic': '3e21761f',
 				'p2p': 10687,
-				'rpc': this.p2p + 1
+				'rpc': 10688
 			};
-			AddCoinDataPayload.MYRVar = Object.assign(_payloadVar, MYRDiff);
+			AddCoinDataPayload.MYRVar = Object.assign({}, _payloadVar, MYRDiff);
 
 			const MXNDiff = {
 				'netmagic': '304c6c12',
 				'p2p': 13969,
-				'rpc': this.p2p + 1
+				'rpc': 13970
 			};
-			AddCoinDataPayload.MXNVar = Object.assign(_payloadVar, MXNDiff);
+			AddCoinDataPayload.MXNVar = Object.assign({}, _payloadVar, MXNDiff);
 
 			const KRWDiff = {
 				'netmagic': 'c8706588',
 				'p2p': 14019,
-				'rpc': this.p2p + 1
+				'rpc': 14020
 			};
-			AddCoinDataPayload.KRWVar = Object.assign(_payloadVar, KRWDiff);
+			AddCoinDataPayload.KRWVar = Object.assign({}, _payloadVar, KRWDiff);
 
 			const JPYDiff = {
 				'netmagic': '7a55295c',
 				'p2p': 13144,
-				'rpc': this.p2p + 1
+				'rpc': 13145
 			};
-			AddCoinDataPayload.JPYVar = Object.assign(_payloadVar, JPYDiff);
+			AddCoinDataPayload.JPYVar = Object.assign({}, _payloadVar, JPYDiff);
 
 			const INRDiff = {
 				'netmagic': '740dfc1d',
 				'p2p': 10535,
-				'rpc': this.p2p + 1
+				'rpc': 10536
 			};
-			AddCoinDataPayload.INRVar = Object.assign(_payloadVar, INRDiff);
+			AddCoinDataPayload.INRVar = Object.assign({}, _payloadVar, INRDiff);
 
 			const ILSDiff = {
 				'netmagic': '605fcd58',
 				'p2p': 14637,
 				'rpc': this.p2p + 1
 			};
-			AddCoinDataPayload.ILSVar = Object.assign(_payloadVar, ILSDiff);
+			AddCoinDataPayload.ILSVar = Object.assign({}, _payloadVar, ILSDiff);
 
 			const IDRDiff = {
 				'netmagic': 'fee513e7',
 				'p2p': 14458,
-				'rpc': this.p2p + 1
+				'rpc': 14459
 			};
-			AddCoinDataPayload.IDRVar = Object.assign(_payloadVar, IDRDiff);
+			AddCoinDataPayload.IDRVar = Object.assign({}, _payloadVar, IDRDiff);
 
 			const HKDDiff = {
 				'netmagic': '57269d95',
 				'p2p': 15408,
-				'rpc': this.p2p + 1
+				'rpc': 15409
 			};
-			AddCoinDataPayload.HKDVar = Object.assign(_payloadVar, HKDDiff);
+			AddCoinDataPayload.HKDVar = Object.assign({}, _payloadVar, HKDDiff);
 
 			const HUFDiff = {
 				'netmagic': 'a478d2af',
 				'p2p': 13698,
-				'rpc': this.p2p + 1
+				'rpc': 13699
 			};
-			AddCoinDataPayload.HUFVar = Object.assign(_payloadVar, HUFDiff);
+			AddCoinDataPayload.HUFVar = Object.assign({}, _payloadVar, HUFDiff);
 
 			const GBPDiff = {
 				'netmagic': '5e0ed955',
 				'p2p': 11504,
-				'rpc': this.p2p + 1
+				'rpc': 11505
 			};
-			AddCoinDataPayload.GBPVar = Object.assign(_payloadVar, GBPDiff);
+			AddCoinDataPayload.GBPVar = Object.assign({}, _payloadVar, GBPDiff);
 
 			const EURDiff = {
 				'netmagic': '8a3fd0bd',
 				'p2p': 8064,
-				'rpc': this.p2p + 1
+				'rpc': 8065
 			};
-			AddCoinDataPayload.EURVar = Object.assign(_payloadVar, EURDiff);
+			AddCoinDataPayload.EURVar = Object.assign({}, _payloadVar, EURDiff);
 
 			const DKKDiff = {
 				'netmagic': 'a2c2380c',
 				'p2p': 13829,
-				'rpc': this.p2p + 1
+				'rpc': 13830
 			};
-			AddCoinDataPayload.DKKVar = Object.assign(_payloadVar, DKKDiff);
+			AddCoinDataPayload.DKKVar = Object.assign({}, _payloadVar, DKKDiff);
 
 			const CNYDiff = {
 				'netmagic': '2a51b987',
 				'p2p': 10383,
-				'rpc': this.p2p + 1
+				'rpc': 10384
 			};
-			AddCoinDataPayload.CNYVar = Object.assign(_payloadVar, CNYDiff);
+			AddCoinDataPayload.CNYVar = Object.assign({}, _payloadVar, CNYDiff);
 
 			const ZARDiff = {
 				'netmagic': '920c0484',
 				'p2p': 15159,
-				'rpc': this.p2p + 1
+				'rpc': 15160
 			};
-			AddCoinDataPayload.ZARVar = Object.assign(_payloadVar, ZARDiff);
+			AddCoinDataPayload.ZARVar = Object.assign({}, _payloadVar, ZARDiff);
 
 			const TRYDiff = {
 				'netmagic': '82b9a778',
 				'p2p': 13923,
-				'rpc': this.p2p + 1
+				'rpc': 13924
 			};
-			AddCoinDataPayload.TRYVar = Object.assign(_payloadVar, TRYDiff);
+			AddCoinDataPayload.TRYVar = Object.assign({}, _payloadVar, TRYDiff);
 
 			const THBDiff = {
 				'netmagic': 'b58aef42',
 				'p2p': 11846,
-				'rpc': this.p2p + 1
+				'rpc': 11847
 			};
-			AddCoinDataPayload.THBVar = Object.assign(_payloadVar, THBDiff);
+			AddCoinDataPayload.THBVar = Object.assign({}, _payloadVar, THBDiff);
 
 			const SGDDiff = {
 				'netmagic': 'ca255b29',
 				'p2p': 14474,
-				'rpc': this.p2p + 1
+				'rpc': 14475
 			};
-			AddCoinDataPayload.SGDVar = Object.assign(_payloadVar, SGDDiff);
+			AddCoinDataPayload.SGDVar = Object.assign({}, _payloadVar, SGDDiff);
 
 			const SEKDiff = {
 				'netmagic': 'd95ad28b',
 				'p2p': 11446,
-				'rpc': this.p2p + 1
+				'rpc': 11447
 			};
-			AddCoinDataPayload.SEKVar = Object.assign(_payloadVar, SEKDiff);
+			AddCoinDataPayload.SEKVar = Object.assign({}, _payloadVar, SEKDiff);
 
 			const RONDiff = {
 				'netmagic': 'eb2c9500',
 				'p2p': 8674,
-				'rpc': this.p2p + 1
+				'rpc': 8675
 			};
-			AddCoinDataPayload.RONVar = Object.assign(_payloadVar, RONDiff);
+			AddCoinDataPayload.RONVar = Object.assign({}, _payloadVar, RONDiff);
 
 			const RUBDiff = {
 				'netmagic': '1b9a0eb9',
 				'p2p': 8198,
-				'rpc': this.p2p + 1
+				'rpc': 8199
 			};
-			AddCoinDataPayload.RUBVar = Object.assign(_payloadVar, RUBDiff);
+			AddCoinDataPayload.RUBVar = Object.assign({}, _payloadVar, RUBDiff);
 
 			const CZKDiff = {
 				'netmagic': '37f7ae5a',
 				'p2p': 9481,
-				'rpc': this.p2p + 1
+				'rpc': 9482
 			};
-			AddCoinDataPayload.CZKVar = Object.assign(_payloadVar, CZKDiff);
+			AddCoinDataPayload.CZKVar = Object.assign({}, _payloadVar, CZKDiff);
 
     	var AddCoinData = AddCoinDataPayload[addcoin_data.coin + 'Var'];
     }
@@ -1101,6 +1101,8 @@ function GenericExecuteAddCoin(withLogin) {
 				'coin': addcoin_selected_coinname_code_val,
 				'mode': addcoin_selected_mode_val
 			};
+
+			console.log('execaddc', ExecAddCoinData);
 
 	if (withLogin) {
 		ExecAddCoinData.logincmd = 1;
