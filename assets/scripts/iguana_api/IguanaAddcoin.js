@@ -650,7 +650,7 @@ function Iguana_addcoin(addcoin_data) {
 				'coin': 'SGD',
 				'conf': 'SGD.conf'
 			};
-			AddCoinDataPayload.SGDVar = Object.assign({}, _payloadVarRegular, SGDDiff);
+			AddCoinDataPayload.SGD = Object.assign({}, _payloadVarRegular, SGDDiff);
 
 			const THBDiff = {
 				'coin': 'THB',
@@ -680,7 +680,7 @@ function Iguana_addcoin(addcoin_data) {
 				'coin': 'CZK',
 				'conf': 'CZK.conf'
 			};
-			AddCoinDataPayload.CZKVar = Object.assign({}, _payloadVarRegular, CZKDiff);
+			AddCoinDataPayload.CZK = Object.assign({}, _payloadVarRegular, CZKDiff);
 
 			const DKKDiff = {
 				'coin': 'DKK',

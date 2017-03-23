@@ -876,7 +876,7 @@ var Dashboard = function() {
 													'<img class="img-responsive" src="assets/images/cryptologo/' + coinlogo + '.png" alt="' + coinname + '"/>' +
 													'<span class="badge up badge-' + modecolor + '" id="basfull" data-edexcoincode="' + AllcoinsDataOutput[value][index] + '" data-toggle="tooltip" data-placement="top" data-original-title="' + modetip + '">' + modecode + '</span>' +
 												'</a>' +
-												'<div class="coin-name">' + coinname + '</div>' +
+												'<div class="coin-name">' + coinname +  ' (' + coinlogo + ')</div>' +
 											'</div>' +
 										'</div>' +
 									'</div>' +
