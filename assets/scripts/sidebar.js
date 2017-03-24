@@ -474,7 +474,7 @@ function assetchain_pax_menu_actions(coin) {
       renderAssetGFX('supernet', 'jumblr', coin);
       break;
     case 'MVP':
-      renderAssetGFX('mpv', 'mpv', coin);
+      renderAssetGFX('mvp', 'mvp', coin);
       break;
     case 'KV':
       renderAssetGFX('supernet', 'jumblr', coin);
