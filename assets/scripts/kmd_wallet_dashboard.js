@@ -244,6 +244,9 @@ function KMD_ProgressBar() {
 			if (getinfotmp.blocks === 0) {
 				$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text('No blocks');
 				$('#extcoin-progressbars .progress-bar').css({ 'width': '100%' });
+			} else if (getinfotmp.blocks > 0 && getinfotmp.longestchain === 0) {
+				$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text('No longestchain');
+				$('#extcoin-progressbars .progress-bar').css({ 'width': '100%' });
 			} else {
 				var sync_percent = parseFloat(parseInt(getinfotmp.blocks, 10) * 100) / parseInt(getinfotmp.longestchain, 10);
 				//console.log(sync_percent);
