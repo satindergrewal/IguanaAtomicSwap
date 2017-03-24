@@ -241,13 +241,22 @@ function KMD_ProgressBar() {
 		if ( getinfotmp == 'activating') {
 			$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text(_lang[defaultLang].INDEX.ACTIVATING + '...');
 		} else {
-			var sync_percent = parseFloat(parseInt(getinfotmp.blocks, 10) * 100) / parseInt(getinfotmp.longestchain, 10);
-			//console.log(sync_percent);
-			$('div[data-extcoin="' + extcoin + '"][id="extcoin-sync"]').width(parseFloat(sync_percent).toFixed(2) + '%');
-			$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text(parseFloat(sync_percent).toFixed(2) + '%');
-			$('span[data-extcoin="' + extcoin + '"][id="extcoin-synced-blocks"]').text(getinfotmp.blocks);
-			$('span[data-extcoin="' + extcoin + '"][id="extcoin-longestchain"]').text(getinfotmp.longestchain);
-			$('span[data-extcoin="' + extcoin + '"][id="extcoin-connections"]').text(getinfotmp.connections);
+			if (getinfotmp.blocks === 0) {
+				$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text('No blocks');
+				$('#extcoin-progressbars .progress-bar').css({ 'width': '100%' });
+			} else if (getinfotmp.blocks > 0 && getinfotmp.longestchain === 0) {
+				$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text('No longestchain');
+				$('#extcoin-progressbars .progress-bar').css({ 'width': '100%' });
+			} else {
+				var sync_percent = parseFloat(parseInt(getinfotmp.blocks, 10) * 100) / parseInt(getinfotmp.longestchain, 10);
+				//console.log(sync_percent);
+				console.log('getinfotmp', getinfotmp);
+				$('div[data-extcoin="' + extcoin + '"][id="extcoin-sync"]').width(parseFloat(sync_percent).toFixed(2) + '%');
+				$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text(parseFloat(sync_percent).toFixed(2) + '%');
+				$('span[data-extcoin="' + extcoin + '"][id="extcoin-synced-blocks"]').text(getinfotmp.blocks);
+				$('span[data-extcoin="' + extcoin + '"][id="extcoin-longestchain"]').text(getinfotmp.longestchain);
+				$('span[data-extcoin="' + extcoin + '"][id="extcoin-connections"]').text(getinfotmp.connections);
+			}
 			$('#extcoin-wallet-activating-alert').hide();
 		}
 	}

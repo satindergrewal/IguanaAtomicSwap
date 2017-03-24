@@ -719,6 +719,7 @@ function EdexListAllAddr(coin) {
 
 function edexCoinBtnAction() {
 	$('.edexcoin-logo').click(function() {
+		$.each($('.nav-top-menu'), function(index, value) { $(value).removeClass('active'); });
 		$( '#edexcoin_send_coins_back_btn' ).trigger( 'click' );
 		$('#btn_edexcoin_dashboard').hide();
 		$(
