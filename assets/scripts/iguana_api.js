@@ -40,31 +40,6 @@ function Iguana_dumpwallet() {
 
 		return tmp;
 	}();
-
-	//console.log(return_result);
-
-	//comment
-		/*var ajax_data = {"agent":"bitcoinrpc","method":"dumpwallet","filename": ""};
-		console.log(ajax_data);
-		$.ajax({
-				type: 'POST',
-				data: JSON.stringify(ajax_data),
-				url: 'http://127.0.0.1:' + config.iguanaPort,
-				//dataType: 'text',
-				success: function(data, textStatus, jqXHR) {
-						var AjaxOutputData = JSON.parse(data);
-						//console.log('== Data OutPut ==');
-						console.log(AjaxOutputData);
-						//return AjaxOutputData;
-				},
-				error: function(xhr, textStatus, error) {
-						console.log(xhr.statusText);
-						console.log(textStatus);
-						console.log(error);
-				}
-		});
-		//console.log(datareturn)
-		//return datareturn;*/
 }
 
 function Iguana_ServiceUnavailable() {
@@ -153,7 +128,7 @@ function Iguana_CheckActiveCoins() {
 					AjaxOutputData = JSON.parse(AjaxOutputData.responseText);
 					$.each(AjaxOutputData, function( index, value ) {
 						if ( index === 'tag' ) {
-							//console.log('it is tag');
+
 						} else {
 							if (AjaxOutputData[index].length !== 0 ) {
 								result.push({ 'active': AjaxOutputData[index].length });

@@ -392,8 +392,7 @@ function Iguana_DEXsendrawtx(data) {
     $.ajax({
       data: JSON.stringify(ajax_data),
       url: 'http://127.0.0.1:' + config.iguanaPort,
-      type: 'POST',
-      //dataType: 'json'
+      type: 'POST'
     })
     .then(result => {
       console.log(result);

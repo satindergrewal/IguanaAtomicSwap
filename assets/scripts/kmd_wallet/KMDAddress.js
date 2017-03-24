@@ -251,7 +251,6 @@ function KMDListAllAddr() {
 											   '<i class="icon fa-eye-slash"></i> ' + _lang[defaultLang].KMD_NATIVE.PRIVATE +
 											 '</span>';
 		}
-		//var tmp_addr_action_button = '<button></button>';
 		only_reciving_addr_data.push([
 			tmp_addr_label,
 			listAlladdr[index]

@@ -15,11 +15,6 @@ function Shepherd_getConf(coin) {
 			result.push({ 'path': AjaxOutputData.result });
 		},
 		error: function(xhr, textStatus, error) {
-			//console.log(xhr.statusText);
-			//if ( xhr.readyState == 0 ) {
-			//}
-			//console.log(textStatus);
-			//console.log(error);
 		}
 	});
 
@@ -43,11 +38,6 @@ function Shepherd_setConf(coin) {
 			result.push({ 'result': AjaxOutputData.msg });
 		},
 		error: function(xhr, textStatus, error) {
-			//console.log(xhr.statusText);
-			//if ( xhr.readyState == 0 ) {
-			//}
-			//console.log(textStatus);
-			//console.log(error);
 		}
 	});
 
@@ -74,11 +64,6 @@ function Shepherd_herd(coin,herd_data) {
 			result.push({ 'result': AjaxOutputData.msg });
 		},
 		error: function(xhr, textStatus, error) {
-			//console.log(xhr.statusText);
-			//if ( xhr.readyState == 0 ) {
-			//}
-			//console.log(textStatus);
-			//console.log(error);
 		}
 	});
 
@@ -295,22 +280,18 @@ function Shepherd_CheckBasiliskCacheData(coin) {
             var data = query[coin][coinaddr_value].getbalance;
 
             if (!('getbalance' in query[coin][coinaddr_value])) {
-              //console.log(coin + '>>>' + coinaddr_value + ' => getbalance not found.')
               getbalance_exists = false;
             }
 
             if (!('listtransactions' in query[coin][coinaddr_value])) {
-              //console.log(coin + '>>>' + coinaddr_value + ' => listtransactions not found.')
               listtransactions_exists = false;
             }
 
             if (!('listunspent' in query[coin][coinaddr_value])) {
-              //console.log(coin + '>>>' + coinaddr_value + ' => listunspent not found.')
               listunspent_exists = false;
             }
 
             if (!('refresh' in query[coin][coinaddr_value])) {
-              //console.log(coin + '>>>' + coinaddr_value + ' => refresh not found.')
               refresh_exists = false;
             }
 
@@ -334,7 +315,6 @@ function Shepherd_CheckBasiliskCacheData(coin) {
   });
 }
 
-
 function Shepherd_SysInfo() {
   return new Promise((resolve) => {
     $.ajax({
@@ -349,9 +329,10 @@ function Shepherd_SysInfo() {
 }
 
 function Shepherd_SendPendValue() {
-  Shepherd_SysInfo().then(function(result){
-    var ram_data = formatBytes(result.totalmem_bytes)
-    var pend_val = null;
+  Shepherd_SysInfo().then(function(result) {
+    var ram_data = formatBytes(result.totalmem_bytes),
+        pend_val = null;
+    
     if (ram_data.size === 'GB') {
       if (ram_data.ramsize >= '63' ) { pend_val = 16; }
       if (ram_data.ramsize >= '31' ) { pend_val = 8; }
@@ -359,7 +340,7 @@ function Shepherd_SendPendValue() {
       if (ram_data.ramsize <= '15' ) { pend_val = 1; }
     } else { pend_val = 1; }
     sessionStorage.setItem('IguanaPendValue', pend_val);
-  })
+  });
 }
 
 

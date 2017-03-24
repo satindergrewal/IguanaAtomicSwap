@@ -5,8 +5,7 @@ jQuery(document).ready(function() {
 		if ( sessionStorage.getItem('IguanaActiveAccount') === null ||
 				 sessionStorage.getItem('NativeWalletActions') === null ||
 				 sessionStorage.getItem('NativeWalletActions') === 'stop' ) {
-			//clearInterval(RunNativeProgressBar);
-			//console.log('=> No wallet logged in, or Native Wallet not ative. No need to Run Progress Bar code.');
+
 		} else if ( sessionStorage.getItem('NativeWalletActions') !== null || sessionStorage.getItem('NativeWalletActions') === 'start') {
 			KMD_ProgressBar();
 		}
@@ -17,12 +16,10 @@ jQuery(document).ready(function() {
 				 sessionStorage.getItem('NativeWalletActions') === null ||
 				 sessionStorage.getItem('NativeWalletActions') === 'stop' ) {
 			clearInterval(RefreshEdexWalletDashboard);
-			//console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
 		} else if ( sessionStorage.getItem('NativeWalletActions') === null || sessionStorage.getItem('NativeWalletActions') === 'start') {
 			if ( $('[data-data-extcoin]').attr('data-data-extcoin') !== 'COIN' ) {
 				if ( sessionStorage.getItem('edexTmpMode') !== null || sessionStorage.getItem('edexTmpMode') === 'Native') {
 					if ( sessionStorage.getItem('edexTmpRefresh') === null || sessionStorage.getItem('edexTmpRefresh') === 'start') {
-						//console.log('it is not COIN. '+'It is: ' + $('[data-data-extcoin]').attr("data-data-extcoin"));
 						var action_btn_code = getHeaderActionMenuButtonCoinCode();
 						$( '#btn_' + action_btn_code + '_wallet_dashboard' ).trigger( 'click' );
 					}
@@ -91,9 +88,6 @@ function CheckIfConnected() {
 		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
-			//console.log('== Data OutPut ==');
-			//console.log(AjaxOutputData);
-			//console.log(AjaxOutputData.error);
 
 			if ( AjaxOutputData.errors != undefined ) {
 				result.push('connected');
@@ -249,7 +243,6 @@ function KMD_ProgressBar() {
 				$('#extcoin-progressbars .progress-bar').css({ 'width': '100%' });
 			} else {
 				var sync_percent = parseFloat(parseInt(getinfotmp.blocks, 10) * 100) / parseInt(getinfotmp.longestchain, 10);
-				//console.log(sync_percent);
 				console.log('getinfotmp', getinfotmp);
 				$('div[data-extcoin="' + extcoin + '"][id="extcoin-sync"]').width(parseFloat(sync_percent).toFixed(2) + '%');
 				$('span[data-extcoin="' + extcoin + '"][id="extcoin-sync-percent"]').text(parseFloat(sync_percent).toFixed(2) + '%');

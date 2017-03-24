@@ -2,8 +2,6 @@ var KMDWalletDashboard = function() {
 	var handle_KMD_Dashboard = function() {
 		var action_btn_code = getHeaderActionMenuButtonCoinCode();
 		$('#btn_' + action_btn_code + '_wallet_dashboard').click(function() {
-			//console.log('kmd wallet dashbaord button clicked...');
-			//console.log($(this).data());
 			if ( sessionStorage.getItem('edexTmpMode') === 'Native') {
 				sessionStorage.setItem('edexTmpRefresh', 'start');
 			}
@@ -105,8 +103,6 @@ var KMDWalletDashboard = function() {
 					$('#kmd_wallet_sendto') != '' &&
 					$('#kmd_wallet_fee') != '' ) {
 				mdl_send_btn.removeClass('disabled');
-				//mdl_send_btn.attr('data-dismiss','modal');
-				//mdl_send_btn.attr('data-target','#SendCoinModelStep2');
 			} else {
 				mdl_send_btn.addClass('disabled');
 				mdl_send_btn.removeAttr('data-dismiss');
@@ -127,18 +123,12 @@ var KMDWalletDashboard = function() {
 					$('#kmd_wallet_sendto') != '' &&
 					$('#kmd_wallet_fee') != '' ) {
 				mdl_send_btn.removeClass('disabled');
-				//mdl_send_btn.attr('data-dismiss','modal');
-				//mdl_send_btn.attr('data-target','#SendCoinModelStep2');
 			} else {
 				mdl_send_btn.addClass('disabled');
 				mdl_send_btn.removeAttr('data-dismiss');
 				mdl_send_btn.removeAttr('data-target');
 			}
 		});
-
-		/*$('#kmd_wallet_send_coins_btn').click(function() {
-			console.log('send button clicked in form...')
-		});*/
 
 		$('.extcoin-send-form').validate({
 			// errorElement: 'span', //default input error message container
@@ -264,11 +254,9 @@ var KMDWalletDashboard = function() {
 		// main function to initiate the module
 		init: function() {
 			handle_KMD_Dashboard();
-			//KMDfillTxHistoryT();
 			handle_KMD_Send();
 			KMDWalletRecieve();
 			KMDWalletSettings();
-			//RunKMDInitFunctions();
 			handleWalletDashboardAlet();
 		}
 	};

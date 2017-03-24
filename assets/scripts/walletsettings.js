@@ -166,7 +166,6 @@ var WalletSettings = function() {
 			},
 			submitHandler: function(form) {
 				var Getimport_wifkey = $('#import_wifkey').val();
-				// console.log(Getimport_wifkey);
 				EDEXimportprivkey(Getimport_wifkey)
 				.then(function(result) {
 					console.log(result);

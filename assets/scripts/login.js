@@ -55,10 +55,9 @@ var Login = function() {
 
       submitHandler: function(form) {
         var jumblr_setpassphrase_val = 'jumblr ' + $('#password').val();
-        //console.log(jumblr_setpassphrase_val);
         Iguana_Jumblr_SetPassphrase({ 'passphrase': jumblr_setpassphrase_val })
         .then(function(result) {
-          //console.log(result);
+
         })
         .then(function() {
           var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
@@ -77,8 +76,8 @@ var Login = function() {
             data: JSON.stringify(ajax_data),
             url: 'http://127.0.0.1:' + config.iguanaPort,
             success: function(data, textStatus, jqXHR) {
-              var LoginOutput = JSON.parse(data);
-                  LoginDataToStore = JSON.stringify(data),
+              var LoginOutput = JSON.parse(data),
+                  LoginDataToStore = JSON.stringify(data);
               sessionStorage.setItem('IguanaActiveAccount', LoginDataToStore);
               if (LoginOutput.result === 'success') {
                 console.log('Success');
@@ -272,7 +271,6 @@ var Login = function() {
               if (CreateWalletOutput.result === 'success') {
                 console.log('Success');
                 toastr.success(_lang[defaultLang].TOASTR.WALLET_CREATED_SUCCESFULLY, _lang[defaultLang].TOASTR.ACCOUNT_NOTIFICATION);
-                // Iguana_DEXImportAll();
 
                 $('#wallet-handle').val('');
                 $('#password').val('');
@@ -399,7 +397,6 @@ var Login = function() {
         url: 'http://127.0.0.1:' + config.iguanaPort,
         success: function(data, textStatus, jqXHR) {
           var LogoutOutput = JSON.parse(data);
-          // sessionStorage.clear();
           sessionStorage.removeItem('IguanaActiveAccount');
           console.log('== Logout Data OutPut ==');
           console.log(LogoutOutput);
@@ -612,84 +609,6 @@ var Login = function() {
         $('#section-login').show();
       }
     });
-
-    /*$.each([ 'basilisk', 'full', 'virtual' ], function( index, value ) {
-        var allcoinsvalues = {"agent":"InstantDEX","method":"allcoins"};
-        $.ajax({
-            type: 'POST',
-            data: JSON.stringify(allcoinsvalues),
-            url: 'http://127.0.0.1:' + config.iguanaPort,
-            //dataType: 'text',
-            success: function(data, textStatus, jqXHR) {
-                var allcoinsData = JSON.parse(data);
-                console.log('== Data OutPut ==');
-                console.log(allcoinsData);
-                $.each(allcoinsData[value], function(index) {
-                    if ( allcoinsData[value][index] == 'BTC' ) { console.log('Index: '+ index + ' and Value: BTC'); }
-                    if ( allcoinsData[value][index] == 'BTCD' ) { console.log('Index: '+ index + ' and Value: BTCD'); }
-                    var coinvals = {"coin":"BTCD","portp2p":14631,"mode":0}
-                    Iguana_addcoin(coinvals);
-                });
-
-            },
-            error: function(xhr, textStatus, error) {
-                console.log('failed getting Coin History.');
-                console.log(xhr.statusText);
-                console.log(textStatus);
-                console.log(error);
-                toastr.error("Unable to complete transaction", "Transaction Notification")
-            }
-        });
-    });
-    if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
-        $.each([ 'BTC', 'BTCD' ], function( index, value ) {
-            var AddCoinBasiliskData = {
-                "poll": 100,
-                "active": 1,
-                "newcoin": value,
-                "startpend": 1,
-                "endpend": 1,
-                "services": 128,
-                "maxpeers": 16,
-                "RELAY": 0,
-                "VALIDATE": 0,
-                "portp2p": 14631
-            }
-            //Start BitcoinDark in Basilisk mode
-            $.ajax({
-                type: 'GET',
-                data: AddCoinBasiliskData,
-                url: 'http://127.0.0.1:' + config.iguanaPort + '/api/iguana/addcoin',
-                dataType: 'text',
-                success: function(data, textStatus, jqXHR) {
-                    var CoinBasiliskDataOutput = JSON.parse(data);
-                    //console.log('== Data OutPut ==');
-                    //console.log(CoinBasiliskDataOutput);
-
-                    if (CoinBasiliskDataOutput.result === 'coin added') {
-                        console.log('coin added');
-                        toastr.success(value + " started in Basilisk Mode", "Coin Notification");
-                    } else if (CoinBasiliskDataOutput.result === 'coin already there') {
-                        console.log('coin already there');
-                        //toastr.info("Looks like" + value + "already running.", "Coin Notification");
-                    } else if (CoinBasiliskDataOutput.result === null) {
-                        console.log('coin already there');
-                        //toastr.info("Looks like" + value + "already running.", "Coin Notification");
-                    }
-                },
-                error: function(xhr, textStatus, error) {
-                    console.log('failed starting BitcoinDark.');
-                    console.log(xhr.statusText);
-                    console.log(textStatus);
-                    console.log(error);
-                    //swal("Oops...", "Something went wrong!", "error");
-                    if (xhr.readyState == '0' ) {
-                        toastr.error("Unable to connect to Iguana", "Account Notification")
-                    }
-                }
-            });
-        });
-    }*/
   }
 
   var handleLoginAnotherWallet = function() {
@@ -708,7 +627,6 @@ var Login = function() {
         url: 'http://127.0.0.1:' + config.iguanaPort,
         success: function(data, textStatus, jqXHR) {
           var LogoutOutput = JSON.parse(data);
-          //sessionStorage.clear();
           sessionStorage.removeItem('IguanaActiveAccount');
 
           if (LogoutOutput.result === 'success') {
@@ -858,10 +776,7 @@ var Login = function() {
   }
 
   var handleAddCoinOSOptions = function() {
-    if ( navigator.platform == 'Win32-'
-      // || navigator.platform == 'MacIntel'
-      // || navigator.platform == 'Linux x86_64' || navigator.platform == 'Linux' || navigator.platform == 'Linux i686'
-      ) {
+    if ( navigator.platform == 'Win32-') {
       // Conditions for Login Add Coin Dialog
       $.each($('.style-addcoin-lbl-mdl-login'), function(index, value) {
         if ( index == 0  || index == 1 ) {

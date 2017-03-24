@@ -144,7 +144,6 @@ $('#nav-jumblr').on('click', function() {
   	.removeClass( '' )
   	.addClass( 'active open' );
   $('.page-header-bordered h1').text('Jumblr')
-  //$(".header-easydex-section").text('Secure, Native and Decentralised Coin Shuffling');
 
   $.each($('.nav-top-menu'), function(index, value) { $(value).removeClass('active'); });
   $(this.parentElement).addClass('active');
@@ -200,7 +199,6 @@ $('#nav-komodo-wallet').on('click', function() {
   RunKMDInitFunctions();
   removeJumblrStyle();
   removeACPAXWalletStyle();
-  // removeZECWalletStyle();
   applyKMDWalletStyle();
   CommonSidebarActionsSet02();
   removeDashboardStyle();
@@ -223,7 +221,6 @@ $('#nav-zcash-wallet').on('click', function() {
   	'#section-iguana-wallet-settings'
   )
   .hide();
-  // $('#section-zcash').show();
   $('#section-extcoin').show();
   $(
   	'#nav-dashboard,' +
@@ -256,7 +253,6 @@ $('#nav-zcash-wallet').on('click', function() {
 
   KMDWalletDashboard.init(); // Initiate Komodo Dashbaord sript
   RunKMDInitFunctions();
-  //removeKMDWalletStyle();
   applyZECWalletStyle();
   CommonSidebarActionsSet02();
   removeDashboardStyle();
@@ -329,7 +325,6 @@ $('#nav-iguana-wallet-settings').on('click', function() {
   $('#nav-iguana-wallet-settings')
   	.removeClass( '' )
   	.addClass( 'active open' );
-  // $(".header-easydex-section").text("Wallet Settings");
   removeKMDWalletStyle();
   removeZECWalletStyle();
   removeJumblrStyle();
@@ -424,8 +419,6 @@ function assetchain_pax_menu_actions(coin) {
   RunKMDInitFunctions();
   removeJumblrStyle();
   removeACPAXWalletStyle();
-  //removeZECWalletStyle();
-  //applyKMDWalletStyle();
   applyACPAXWalletStyle()
   CommonSidebarActionsSet02();
   removeDashboardStyle();
@@ -592,7 +585,6 @@ function assetchain_pax_menu_actions(coin) {
 function CommonSidebarActionsSet01() {
   sessionStorage.setItem('DashboardActions', 'start');
   sessionStorage.setItem('NativeWalletActions', 'stop');
-  // $(document).ready(function() { Dashboard.init(); });
   $('#wifkeys_passphrase').val('');
   $('#wif-priv-keys').html('');
 }
@@ -600,7 +592,6 @@ function CommonSidebarActionsSet01() {
 function CommonSidebarActionsSet011() {
   sessionStorage.setItem('DashboardActions', 'start');
   sessionStorage.setItem('NativeWalletActions', 'stop');
-  // location.reload();
   $('#wifkeys_passphrase').val('');
   $('#wif-priv-keys').html('');
 }
