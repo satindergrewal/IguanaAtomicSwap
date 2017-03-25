@@ -287,6 +287,7 @@ function Iguana_addcoin(addcoin_data) {
 
 	if ( checkCoinType() === 'ac' ) {
 		console.log('coin', addcoin_data.coin);
+		var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
 		logincoinfullname = addcoin_data.coin;
 
 		if ( addcoin_data.mode == '1' ) { logincoinmodeinfo = 'Full'; }
