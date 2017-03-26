@@ -224,6 +224,7 @@ function checkAC(coinVal) {
 			coinVal == 'KV' ||
 			coinVal == 'CEAL' ||
 			coinVal == 'MESH' ||
+			coinVal == 'BTC' ||
 			coinVal == 'USD' ||
 			coinVal == 'RON' ||
 			coinVal == 'EUR' ||

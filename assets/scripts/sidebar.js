@@ -485,6 +485,9 @@ function assetchain_pax_menu_actions(coin) {
     case 'MESH':
       renderAssetGFX('mesh', 'mesh', coin);
       break;
+    case 'BTC':
+      renderAssetGFX('btc', 'btc', coin);
+      break;
     case 'USD':
       renderAssetGFX('usd', 'usd', 'US Dollar (USD)');
       break;
