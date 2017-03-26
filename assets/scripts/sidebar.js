@@ -619,9 +619,9 @@ function applyKMDWalletStyle() {
   	'background-repeat': 'no-repeat',
   	'background-position': '0%'
   });
+  $('#easydex_kmd_wallet_actions_header').show();
   $(
   	'#easydex_acpax_wallet_actions_header,' +
-  	'#easydex_kmd_wallet_actions_header,' +
   	'#easydex_zec_wallet_actions_header,' +
   	'#jumblr_actions_header,' +
   	'#easydex_btc_btcd_balances_header'
