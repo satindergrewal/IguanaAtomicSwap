@@ -4,6 +4,8 @@ EDEX ReactJS
 Setup
 ---
 
+Node version 6 or 7 is required.
+
 ```
 npm install
 ```
