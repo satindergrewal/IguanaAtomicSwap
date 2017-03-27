@@ -272,8 +272,8 @@ function Iguana_addcoin(addcoin_data) {
 				AddCoinData = {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"startpend":tmpPendValue,"endpend":tmpPendValue,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","maxpeers":256,"newcoin":"FRK","name":"Franko","netmagic":"7defaced","p2p":7912,"rpc":7913,"pubval":35,"p2shval":5,"wifval":163,"txfee_satoshis":"0","minconfirms":2,"genesishash":"19225ae90d538561217b5949e98ca4964ac91af39090d1a4407c892293e4f44f","genesis":{"hashalgo":"scrypt","version":1,"timestamp":1368144664,"nBits":"1e0ffff0","nonce":731837,"merkle_root":"b78f79f1d10029cc45ed3d5a1db7bd423d4ee170c03baf110a62565d16a21dca"},"alertpubkey":"04d4da7a5dae4db797d9b0644d57a5cd50e05a70f36091cd62e2fc41c98ded06340be5a43a35e185690cd9cde5d72da8f6d065b499b06f51dcfba14aad859f443a"}
 	}
 
-	if ( addcoin_data.coin == 'GMC' ) {
-		logincoinfullname = 'Gamerscoin';
+	if ( addcoin_data.coin == 'GAME' ) {
+		logincoinfullname = 'GameCredits';
 
 		if ( addcoin_data.mode == '1' ) {
 			logincoinmodeinfo = 'Full';
@@ -282,7 +282,7 @@ function Iguana_addcoin(addcoin_data) {
 		}
 
 		var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
-				AddCoinData = {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"startpend":tmpPendValue,"endpend":tmpPendValue,"services":129,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","maxpeers":256,"newcoin":"GMC","name":"GameCredits","netmagic":"fbc0b6db","p2p":40002,"rpc":40001,"pubval":38,"p2shval":5,"wifval":166,"txfee_satoshis":"100000","minconfirms":2,"genesishash":"91ec5f25ee9a0ffa1af7d4da4db9a552228dd2dc77cdb15b738be4e1f55f30ee","genesis":{"hashalgo":"scrypt","version":1,"timestamp":1392757140,"nBits":"1e0ffff0","nonce":2084565393,"merkle_root":"d849db99a14164f4b4c8ad6d2d8d7e2b1ba7f89963e9f4bf9fad5ff1a4754429"},"alertpubkey":"04fc9702847840aaf195de8442ebecedf5b095cdbb9bc716bda9110971b28a49e0ead8564ff0db22209e0374782c093bb899692d524e9d6a6956e7c5ecbcd68284","auxpow":1,"protover":80006,"isPoS":0}
+				AddCoinData = {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"startpend":tmpPendValue,"endpend":tmpPendValue,"services":129,"prefetchlag":-1,"poll":10,"active":1,"agent":"iguana","method":"addcoin","maxpeers":256,"newcoin":"GAME","name":"GameCredits","netmagic":"fbc0b6db","p2p":40002,"rpc":40001,"pubval":38,"p2shval":5,"wifval":166,"txfee_satoshis":"100000","minconfirms":2,"genesishash":"91ec5f25ee9a0ffa1af7d4da4db9a552228dd2dc77cdb15b738be4e1f55f30ee","genesis":{"hashalgo":"scrypt","version":1,"timestamp":1392757140,"nBits":"1e0ffff0","nonce":2084565393,"merkle_root":"d849db99a14164f4b4c8ad6d2d8d7e2b1ba7f89963e9f4bf9fad5ff1a4754429"},"alertpubkey":"04fc9702847840aaf195de8442ebecedf5b095cdbb9bc716bda9110971b28a49e0ead8564ff0db22209e0374782c093bb899692d524e9d6a6956e7c5ecbcd68284","auxpow":1,"protover":80006,"isPoS":0}
 	}
 
 	if ( checkCoinType() === 'ac' ) {

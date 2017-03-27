@@ -673,9 +673,9 @@ var Dashboard = function() {
 									coinlogo = 'franko';
 									coinname = 'Franko';
 									break;
-								case 'GMC':
-									coinlogo = 'gamerscoin';
-									coinname = 'Gamerscoin';
+								case 'GAME':
+									coinlogo = 'GAME';
+									coinname = 'GameCredits';
 									break;
 								case 'SUPERNET':
 									coinlogo = 'SUPERNET';
