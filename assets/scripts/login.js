@@ -788,7 +788,7 @@ var Login = function() {
       }
       if (tmp_coin_val == 'SUPERNET' ||
           tmp_coin_val == 'REVS' ||
-          tmp_coin_val == 'WIRELESS' ||
+          tmp_coin_val == 'WLC' ||
           tmp_coin_val == 'DEX' ||
           tmp_coin_val == 'PANGEA' ||
           tmp_coin_val == 'JUMBLR' ||

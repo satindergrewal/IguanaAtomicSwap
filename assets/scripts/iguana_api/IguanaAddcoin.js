@@ -335,11 +335,11 @@ function Iguana_addcoin(addcoin_data) {
 				'AddCoinData': confpath ? Object.assign({}, _acPayloadOrigin, {"coin":"REVS","conf":"REVS.conf","path":confpath[0].path,"RELAY":-1,"VALIDATE":0,"startpend":4,"endpend":4,"maxpeers":8,"newcoin":"REVS","name":"REVS","netmagic":"905c3498","p2p":10195,"rpc":10196}) : {},
 				'AddCoinDataVar': Object.assign({}, _acPayloadOrigin, {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"startpend":tmpPendValue,"endpend":tmpPendValue,"maxpeers":8,"newcoin":"REVS","name":"REVS","netmagic":"905c3498","p2p":10195,"rpc":10196})
 			},
-			'WIRELESS': {
+			'WLC': {
 				'name': 'WIRELESS',
 				'supply': 21000000,
-				'AddCoinData': confpath ? Object.assign({}, _acPayloadOrigin, {"coin":"WIRELESS","conf":"WIRELESS.conf","path":confpath[0].path,"RELAY":-1,"VALIDATE":0,"startpend":4,"endpend":4,"maxpeers":8,"newcoin":"WIRELESS","name":"WIRELESS","netmagic":"62071ed3","p2p":11666,"rpc":11667}) : {},
-				'AddCoinDataVar': Object.assign({}, _acPayloadOrigin, {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"startpend":tmpPendValue,"endpend":tmpPendValue,"maxpeers":8,"newcoin":"WIRELESS","name":"WIRELESS","netmagic":"62071ed3","p2p":11666,"rpc":11667})
+				'AddCoinData': confpath ? Object.assign({}, _acPayloadOrigin, {"coin":"WLC","conf":"WLC.conf","path":confpath[0].path,"RELAY":-1,"VALIDATE":0,"startpend":4,"endpend":4,"maxpeers":8,"newcoin":"WLC","name":"WIRELESS","netmagic":"62071ed3","p2p":11666,"rpc":11667}) : {},
+				'AddCoinDataVar': Object.assign({}, _acPayloadOrigin, {'userpass':tmpIguanaRPCAuth,"RELAY":addcoin_data.mode,"VALIDATE":addcoin_data.mode,"startpend":tmpPendValue,"endpend":tmpPendValue,"maxpeers":8,"newcoin":"WLC","name":"WIRELESS","netmagic":"62071ed3","p2p":11666,"rpc":11667})
 			},
 			'PANGEA': {
 				'name': 'PANGEA',
@@ -512,7 +512,7 @@ function Iguana_addcoin(addcoin_data) {
 				addcoin_data.coin === 'KV' ||
 				addcoin_data.coin === 'CEAL' ||
 				addcoin_data.coin === 'MESH' ||
-				addcoin_data.coin === 'WIRELESS') {
+				addcoin_data.coin === 'WLC') {
 			return 'ac';
 		}
 	}

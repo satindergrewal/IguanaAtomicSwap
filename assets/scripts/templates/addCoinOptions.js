@@ -34,7 +34,7 @@ templates.addCoinOptions =
   <option value="SHARK">SHARK (SHARK)</option>
   <option value="MESH">SpaceMesh (MESH)</option>
   <option value="SUPERNET">SUPERNET (SUPERNET)</option>
-  <option value="WIRELESS">WIRELESS (WIRELESS)</option>
+  <option value="WLC">WIRELESS (WLC)</option>
 </optgroup>
 <optgroup label="Fiat Currencies">
   <option value="AUD">Australian Dollar (AUD)</option>

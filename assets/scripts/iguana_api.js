@@ -210,7 +210,7 @@ function Iguana_utxorawtx(data) {
 function checkAC(coinVal) {
 	if (coinVal == 'SUPERNET' ||
 			coinVal == 'REVS' ||
-			coinVal == 'WIRELESS' ||
+			coinVal == 'WLC' ||
 			coinVal == 'DEX' ||
 			coinVal == 'PANGEA' ||
 			coinVal == 'JUMBLR' ||

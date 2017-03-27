@@ -685,8 +685,8 @@ var Dashboard = function() {
 									coinlogo = 'REVS';
 									coinname = 'REVS';
 									break;
-								case 'WIRELESS':
-									coinlogo = 'WIRELESS';
+								case 'WLC':
+									coinlogo = 'WLC';
 									coinname = 'WIRELESS';
 									break;
 								case 'PANGEA':
