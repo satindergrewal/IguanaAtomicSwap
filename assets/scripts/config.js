@@ -1,3 +1,3 @@
 const config = {
-  'iguanaPort': 7778
+  'iguanaPort': 7772
 };

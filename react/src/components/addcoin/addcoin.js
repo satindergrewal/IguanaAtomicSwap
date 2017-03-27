@@ -1,5 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
+import { addCoin } from '../../actions/actionCreators';
+import Store from '../../store';
 
 class AddCoin extends React.Component {
   constructor(props) {
@@ -18,30 +20,40 @@ class AddCoin extends React.Component {
         disabled: true,
         checked: false,
       },
+      mode: null,
     };
     this.updateSelectedCoin = this.updateSelectedCoin.bind(this);
     this.updateSelectedMode = this.updateSelectedMode.bind(this);
     this.setNativeMode = this.setNativeMode.bind(this);
     this.setBasiliskMode = this.setBasiliskMode.bind(this);
     this.setFullMode = this.setFullMode.bind(this);
+    this.activateCoin = this.activateCoin.bind(this);
   }
 
   updateSelectedCoin(e) {
-    const coin = e.target.value.split(':');
+    const coin = e.target.value.split('|');
+    const defaultMode = coin[1];
+    const modeToValue = {
+      'full': 1,
+      'basilisk': 0,
+      'native': -1,
+    };
+
     this.setState(Object.assign({}, this.state, {
       [e.target.name]: e.target.value,
       fullMode: {
-        disabled: coin[1].indexOf('full') > -1 ? false : true,
-        checked: coin[1].indexOf('full') > -1 ? true : false,
+        disabled: e.target.value.indexOf('full') > -1 ? false : true,
+        checked: defaultMode === 'full' ? true : false,
       },
       basiliskMode: {
-        disabled: coin[1].indexOf('basilisk') > -1 ? false : true,
-        checked: coin[1].indexOf('basilisk') > -1 ? true : false,
+        disabled: e.target.value.indexOf('basilisk') > -1 ? false : true,
+        checked: defaultMode === 'basilisk' ? true : false,
       },
       nativeMode: {
-        disabled: coin[1].indexOf('native') > -1 ? false : true,
-        checked: coin[1].indexOf('native') > -1 ? true : false,
-      }
+        disabled: e.target.value.indexOf('native') > -1 ? false : true,
+        checked: defaultMode === 'native' ? true : false,
+      },
+      mode: modeToValue[defaultMode]
     }));
   }
 
@@ -59,6 +71,7 @@ class AddCoin extends React.Component {
         ...this.state.nativeMode,
         checked: _value === '-1' ? true : false,
       },
+      mode: _value,
     }));
   }
 
@@ -76,12 +89,16 @@ class AddCoin extends React.Component {
 
   handleForm(e) {
     e.preventDefault();
-    //Store.dispatch((this.state));
     e.target.reset();
     this.setState({
       mode: '',
       selectedCoin: null,
     });
+  }
+
+  activateCoin() {
+    console.log(this.state);
+    Store.dispatch(addCoin(this.state.selectedCoin.split('|')[0], this.state.mode));
   }
 
   render() {
@@ -102,40 +119,40 @@ class AddCoin extends React.Component {
                     <select className="form-control form-material" name="selectedCoin" id="addcoin_select_coin_mdl_options-login" onChange={this.updateSelectedCoin}>
                       <option>{translate('INDEX.SELECT')}</option>
                         <optgroup label="Crypto Currencies">
-                          <option value="ANC:full" data-full-mode="true">AnonCoin (ANC)</option>
-                          <option value="BTC:full|basilisk">Bitcoin (BTC)</option>
-                          <option value="BTCD:full">BitcoinDark (BTCD)</option>
-                          <option value="BTM:full">Bitmark (BTM)</option>
-                          <option value="CARB:full">Carboncoin (CARB)</option>
-                          <option value="DGB:full">Digibyte (DGB)</option>
-                          <option value="DOGE:full">Dogecoin (DOGE)</option>
-                          <option value="FRK:full">Franko (FRK)</option>
-                          <option value="GMC:full">Gamerscoin (GMC)</option>
-                          <option value="KMD:basilisk|native">Komodo (KMD)</option>
-                          <option value="LTC:full">Litecoin (LTC)</option>
-                          <option value="MZC:full">MazaCoin (MZC)</option>
-                          <option value="SYS:full">SysCoin (SYS)</option>
-                          <option value="UNO:full">Unobtanium (UNO)</option>
-                          <option value="ZEC:full">Zcash (ZEC)</option>
-                          <option value="ZET:full">Zetacoin (ZET)</option>
+                          <option value="ANC|full" data-full-mode="true">AnonCoin (ANC)</option>
+                          <option value="BTC|full|basilisk">Bitcoin (BTC)</option>
+                          <option value="BTCD|full">BitcoinDark (BTCD)</option>
+                          <option value="BTM|full">Bitmark (BTM)</option>
+                          <option value="CARB|full">Carboncoin (CARB)</option>
+                          <option value="DGB|full">Digibyte (DGB)</option>
+                          <option value="DOGE|full">Dogecoin (DOGE)</option>
+                          <option value="FRK|full">Franko (FRK)</option>
+                          <option value="GMC|full">Gamerscoin (GMC)</option>
+                          <option value="KMD|basilisk|native">Komodo (KMD)</option>
+                          <option value="LTC|full">Litecoin (LTC)</option>
+                          <option value="MZC|full">MazaCoin (MZC)</option>
+                          <option value="SYS|full">SysCoin (SYS)</option>
+                          <option value="UNO|full">Unobtanium (UNO)</option>
+                          <option value="ZEC|full">Zcash (ZEC)</option>
+                          <option value="ZET|full">Zetacoin (ZET)</option>
                         </optgroup>
                         <optgroup label="Assetchains">
-                          <option value="BET:basilisk|native">BET (BET)</option>
-                          <option value="BOTS:basilisk|native">BOTS (BOTS)</option>
-                          <option value="CEAL:basilisk|native">CEAL NET (CEAL)</option>
-                          <option value="CRYPTO:basilisk|native">CRYPTO (CRYPTO)</option>
-                          <option value="HOD:basilisk|native">HODL (HODL)</option>
-                          <option value="DEX:basilisk|native">InstantDEX (DEX)</option>
-                          <option value="JUMBLR:basilisk|native">JUMBLR (JUMBLR)</option>
-                          <option value="KV:basilisk|native">KV (KV)</option>
-                          <option value="MGW:basilisk|native">MultiGateway (MGW)</option>
-                          <option value="MVP:basilisk|native">MVP Lineup (MVP)</option>
-                          <option value="PANGEA:basilisk|native">PANGEA (PANGEA)</option>
-                          <option value="REVS:basilisk|native">REVS (REVS)</option>
-                          <option value="SHARK:basilisk|native">SHARK (SHARK)</option>
-                          <option value="MESH:basilisk|native">SpaceMesh (MESH)</option>
-                          <option value="SUPERNET:basilisk|native">SUPERNET (SUPERNET)</option>
-                          <option value="WIRELESS:basilisk|native">WIRELESS (WIRELESS)</option>
+                          <option value="BET|basilisk|native">BET (BET)</option>
+                          <option value="BOTS|basilisk|native">BOTS (BOTS)</option>
+                          <option value="CEAL|basilisk|native">CEAL NET (CEAL)</option>
+                          <option value="CRYPTO|basilisk|native">CRYPTO (CRYPTO)</option>
+                          <option value="HOD|basilisk|native">HODL (HODL)</option>
+                          <option value="DEX|basilisk|native">InstantDEX (DEX)</option>
+                          <option value="JUMBLR|basilisk|native">JUMBLR (JUMBLR)</option>
+                          <option value="KV|basilisk|native">KV (KV)</option>
+                          <option value="MGW|basilisk|native">MultiGateway (MGW)</option>
+                          <option value="MVP|basilisk|native">MVP Lineup (MVP)</option>
+                          <option value="PANGEA|basilisk|native">PANGEA (PANGEA)</option>
+                          <option value="REVS|basilisk|native">REVS (REVS)</option>
+                          <option value="SHARK|basilisk|native">SHARK (SHARK)</option>
+                          <option value="MESH|basilisk|native">SpaceMesh (MESH)</option>
+                          <option value="SUPERNET|basilisk|native">SUPERNET (SUPERNET)</option>
+                          <option value="WIRELESS|basilisk|native">WIRELESS (WIRELESS)</option>
                         </optgroup>
                         <optgroup label="Fiat Currencies">
                           <option value="AUD:basilisk|native">Australian Dollar (AUD)</option>
@@ -175,7 +192,7 @@ class AddCoin extends React.Component {
                   </div>
                 </div>
                 <div className="col-sm-4">
-                  <button type="button" className="btn btn-primary mdl_addcoin_done_btn-login" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn-login" onClick={this.activateCoin}>{translate('INDEX.ACTIVATE_COIN')}</button>
+                  <button type="button" className="btn btn-primary mdl_addcoin_done_btn-login" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn-login" onClick={this.activateCoin} disabled={this.state.selectedCoin === '-Select-'}>{translate('INDEX.ACTIVATE_COIN')}</button>
                 </div>
                 <div className="col-sm-12 text-center">
                   <div className="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login">

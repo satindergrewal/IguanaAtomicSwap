@@ -12,11 +12,11 @@ class Toaster extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props.message && props.message.text && props.message.type) {
+    if (props && props.message && props.display) {
       this.setState({
-        message: props.message.text,
-        display: true,
-        type: props.message.type,
+        message: props.message,
+        display: props.display,
+        type: 'warning',
       });
     }
   }
@@ -33,17 +33,18 @@ class Toaster extends React.Component {
     this.setInitialState();
   }
 
-  renderMessage() {
+  renderToast() {
     setTimeout(() => {
-      this.setInitialState();
-    }, 2000);
+      //this.setInitialState();
+    }, 5000);
 
     return (
-      <div className="toaster">
-        <div className="toaster_text">
-          { this.state.message }
+      <div id="toast-container" className="toast-bottom-right" aria-live="polite" role="alert">
+        <div className={"toast toast-" + this.state.type}>
+          <button className="toast-close-button" role="button" onClick={this.dismissToast}>×</button>
+          <div className="toast-title">{ this.state.typeTitle }</div>
+          <div className="toast-message">{ this.state.message }</div>
         </div>
-        <button className="toaster_close" onClick={this.dismissToast}>x</button>
       </div>
     );
   }
