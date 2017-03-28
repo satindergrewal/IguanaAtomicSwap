@@ -14,6 +14,6 @@ class WalletMain extends React.Component {
     );
   }
 }
-              //{ React.cloneElement(this.props.children, this.props) }
+//{ React.cloneElement(this.props.children, this.props) }
 
 export default WalletMain;

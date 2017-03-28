@@ -1,6 +1,7 @@
 import React from 'react';
 import Config from '../../config';
 import WalletMain from './walletMain';
+import { iguanaSetRPCAuth } from '../../util/auth';
 
 class Main extends React.Component {
   constructor(props) {
@@ -15,9 +16,12 @@ class Main extends React.Component {
   }
 
   componentWillMount() {
+    console.log('mounting main component');
+    // set userpass param
+    iguanaSetRPCAuth();
     if (sessionStorage.getItem('session')) {
       this.setState({
-        user: JSON.parse(sessionStorage.getItem('mobUser')),
+        user: JSON.parse(sessionStorage.getItem('')),
       });
     }
   }

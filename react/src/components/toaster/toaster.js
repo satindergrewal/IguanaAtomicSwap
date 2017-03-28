@@ -7,6 +7,7 @@ class Toaster extends React.Component {
       display: false,
       message: null,
       type: null,
+      title: null,
     };
     this.dismissToast = this.dismissToast.bind(this);
   }
@@ -16,7 +17,8 @@ class Toaster extends React.Component {
       this.setState({
         message: props.message,
         display: props.display,
-        type: 'warning',
+        type: props.type,
+        title: props.title,
       });
     }
   }
@@ -26,6 +28,7 @@ class Toaster extends React.Component {
       display: false,
       message: null,
       type: null,
+      title: null,
     });
   }
 
@@ -42,8 +45,8 @@ class Toaster extends React.Component {
       <div id="toast-container" className="toast-bottom-right" aria-live="polite" role="alert">
         <div className={"toast toast-" + this.state.type}>
           <button className="toast-close-button" role="button" onClick={this.dismissToast}>×</button>
-          <div className="toast-title">{ this.state.typeTitle }</div>
-          <div className="toast-message">{ this.state.message }</div>
+          <div className="toast-title">{this.state.title}</div>
+          <div className="toast-message">{this.state.message}</div>
         </div>
       </div>
     );
