@@ -33,7 +33,6 @@ function getCurrency() {
 function sendCurrency(val) {
 	console.log(val);
 	$('#mdl_currency_balance').text($('span[data-currency="' + val.currency + '"][id="currency-balance"]').text());
-	//console.log($('span[data-currency="' + val.currency + '"][id="currency-balance"]').text());
 	$('#mdl_currency_sendto').attr('placeholder', _lang[defaultLang].INDEX.ENTER + ' ' + val.currency + ' ' + _lang[defaultLang].INDEX.ADDR_SM);
 	$(
 		'#mdl_currency_amount_label,' +
@@ -115,8 +114,6 @@ $('#mdl_currency_amount').keyup(function() {
 
 	getCurrency();
 	var total_of_currency_fiat = total_of_currency_fee * currency_fiat_value;
-	//console.log($('#mdl_currency_amount').val());
-	//console.log(total_of_currency_fiat);
 	$('#mdl_currency_total_value').text(total_of_currency_fee.toFixed(8));
 	$('#mdl_currency_total_fiat_value').text(fiat_symbol + total_of_currency_fiat.toFixed(2));
 

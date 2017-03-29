@@ -88,16 +88,12 @@ function getDEXGetBalance_cache(coin) {
   return new Promise((resolve) => {
 		Shepherd_CheckBasiliskCacheData(coin)
 		.then(function(result) {
-			//console.log(result);
-			//console.log(result.coin);
-
 			if (result.coin == false || result.addresses == false) {
 				var call_data = {
 					'allcoins': false,
 					'coin': coin,
 					'calls': 'listtransactions:getbalance:refresh'
 				};
-				//console.log(call_data)
 				Shepherd_FetchBasiliskData(call_data)
 				.then(function(result) {
 					console.log(result);
@@ -108,7 +104,6 @@ function getDEXGetBalance_cache(coin) {
 					'coin': coin,
 					'calls': 'getbalance:listtransactions'
 				};
-				//console.log(call_data);
 				Shepherd_FetchBasiliskData(call_data).then(function(result) {
 					console.log(result);
 				});

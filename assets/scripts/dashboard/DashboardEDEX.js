@@ -374,213 +374,8 @@ function EdexGetTxList_cache(coin) {
 	});
 }
 
-/*function EdexGetTxList(coin) {
-	return new Promise((resolve) =>{
-
-		var tmpIguanaRPCAuth = 'tmpIgRPCUser@'+sessionStorage.getItem('IguanaRPCAuth');
-		var ajax_data_1 = {'userpass':tmpIguanaRPCAuth,"agent":"SuperNET","method":"activehandle"}
-		var tmp_coin_addr = null
-		var active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
-
-		var ajax_call_1 = $.ajax({
-								data: JSON.stringify(ajax_data_1),
-					url: 'http://127.0.0.1:' + config.iguanaPort,
-					type: 'POST',
-					dataType: 'json',
-				}),
-			ajax_call_2 = ajax_call_1.then(function(data) {
-					// .then() returns a new promise
-					tmp_coin_addr = data[coin]
-					//console.log(tmp_coin_addr);
-					if ( active_edexcoinmodecode == 'Basilisk' ) {
-						if ( coin == 'BTC'
-									|| coin == 'BTCD'
-									|| coin == 'LTC'
-									|| coin == 'DOGE'
-									|| coin == 'DGB'
-									|| coin == 'SYS'
-									|| coin == 'MZC'
-									|| coin == 'UNO'
-									|| coin == 'ZET'
-									|| coin == 'BTM'
-									|| coin == 'CARB'
-									|| coin == 'ANC'
-									|| coin == 'FRK') {
-							var ajax_data_2 = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listtransactions","address":data[coin],"count":100,"skip":0,"symbol":coin}
-						} else {
-							var ajax_data_2 = {'userpass':tmpIguanaRPCAuth,"agent":"dex","method":"listtransactions","address":data[coin],"count":100,"skip":0,"symbol":coin}
-						}
-					} else {
-						var ajax_data_2 = {'userpass':tmpIguanaRPCAuth,"coin":coin,"method":"listtransactions","params":[0, 9999999, []]}
-					}
-					console.log(ajax_data_2)
-					return $.ajax({
-						data: JSON.stringify(ajax_data_2),
-						url: 'http://127.0.0.1:' + config.iguanaPort,
-						type: 'POST',
-						dataType: 'json',
-					});
-				});
-
-		ajax_call_2.done(function(data) {
-			//console.log(tmp_coin_addr);
-			//console.log(data);
-			if ( active_edexcoinmodecode == 'Full' ) {
-				data = data.result;
-			}
-			var result = [];
-			$.each(data, function(index, value) {
-				//console.log(value);
-
-				if ( active_edexcoinmodecode == 'Full'
-					|| ( active_edexcoinmodecode == 'Basilisk' && coin == 'BTC')
-					|| ( active_edexcoinmodecode == 'Basilisk' && coin == 'BTCD' )
-					|| ( active_edexcoinmodecode == 'Basilisk' && coin == 'LTC' )
-					|| ( active_edexcoinmodecode == 'Basilisk' && coin == 'DOGE' )
-					|| ( active_edexcoinmodecode == 'Basilisk' && coin == 'DGB' )
-					|| ( active_edexcoinmodecode == 'Basilisk' && coin == 'SYS' )
-					|| ( active_edexcoinmodecode == 'Basilisk' && coin == 'MZC' )
-					|| ( active_edexcoinmodecode == 'Basilisk' && coin == 'UNO' )
-					|| ( active_edexcoinmodecode == 'Basilisk' && coin == 'ZET' )
-					|| ( active_edexcoinmodecode == 'Basilisk' && coin == 'BTM' )
-					|| ( active_edexcoinmodecode == 'Basilisk' && coin == 'CARB' )
-					|| ( active_edexcoinmodecode == 'Basilisk' && coin == 'ANC' )
-					|| ( active_edexcoinmodecode == 'Basilisk' && coin == 'FRK' ) ) {
-					var tmp_category = '';
-					var tmp_amount = data[index].amount;
-					if(!("amount" in data[index])) {
-						tmp_amount = '<span class="label label-dark">Unknown</span>'
-					}
-					var tmp_addr = data[index].address;
-					if(!("address" in data[index])) {
-						tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>'
-					}
-
-					//tmp_secondsToString = '<i class="icon fa-meh-o"></i> Unknown'
-					//if(("blocktime" in data[index])) {
-						//console.log('blocktime FOUND');
-						//var tmp_secondsToString = secondsToString(data[index].blocktime)
-					//}
-
-					var tmp_secondsToString = secondsToString(data[index].blocktime)
-
-					if (isNaN(tmp_secondsToString)) {
-						//tmp_secondsToString = 'Unknown';
-					}
-					if ( data[index].category == 'send' ) {
-						tmp_category = '<i class="icon fa-arrow-circle-left"></i> OUT';
-					}
-					if ( data[index].category == 'receive' ) {
-						tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
-					}
-					if ( data[index].category == 'generate' ) {
-						tmp_category = '<i class="icon fa-cogs"></i> Mined';
-					}if ( data[index].category == 'immature' ) {
-						tmp_category = '<i class="icon fa-clock-o"></i> Immature';
-					}
-					if ( data[index].category == 'unknown' ) {
-						tmp_category = '<i class="icon fa-meh-o"></i> Unknown';
-					}
-					//console.log(tmp_addr);
-					//tmplisttransactions = {"category": data[index].category,"confirmations": data[index].confirmations,"amount": data[index].amount,"time": data[index].time,"address": data[index].address,"txid": data[index].txid}
-					tmplisttransactions = [tmp_category,data[index].confirmations,tmp_amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light kmd-txid-details-btn" data-edexcoin="' + coin + '" data-txidtype="public" data-txid="'+data[index].txid+'"><i class="icon fa-search"></i></button>']
-					//console.log(tmplisttransactions);
-					result.push(tmplisttransactions);
-				}
-
-				if ( active_edexcoinmodecode == 'Basilisk'
-					&& coin !== 'BTC'
-					&& coin !== 'BTCD'
-					&& coin !== 'LTC'
-					&& coin !== 'DOGE'
-					&& coin !== 'DGB'
-					&& coin !== 'SYS'
-					&& coin !== 'MZC'
-					&& coin !== 'UNO'
-					&& coin !== 'ZET'
-					&& coin !== 'BTM'
-					&& coin !== 'CARB'
-					&& coin !== 'ANC'
-					&& coin !== 'FRK' ) {
-					var tmp_category = '';
-					var tmp_amount = data[index].amount;
-					if(!("amount" in data[index])) {
-						tmp_amount = '<span class="label label-dark">Unknown</span>'
-					}
-					var tmp_addr = null
-					if(!("paid" in data[index])) {
-						tmp_addr = '<i class="icon fa-bullseye"></i> <span class="label label-dark">Z Address not listed by wallet!</span>'
-					}
-					if(("paid" in data[index])) {
-						var first_addr = Object.keys(data[index].paid['vouts'][0]);
-						var tmp_addr = first_addr[0];
-						//console.log(data[index].paid['vouts'][0])
-
-					}
-
-					//tmp_secondsToString = '<i class="icon fa-meh-o"></i> Unknown'
-					//if(("blocktime" in data[index])) {
-						//console.log('blocktime FOUND');
-						//var tmp_secondsToString = secondsToString(data[index].blocktime)
-					//}
-
-					var tmp_secondsToString = secondsToString(data[index].timestamp)
-
-					if (isNaN(tmp_secondsToString)) {
-						//tmp_secondsToString = 'Unknown';
-					}
-
-					console.log(data[index].type)
-					if ( data[index].type == 'sent' ) {
-						tmp_category = '<i class="icon fa-arrow-circle-left"></i> OUT';
-					}
-					if ( data[index].type == 'received' ) {
-						tmp_category = '<i class="icon fa-arrow-circle-right"></i> IN';
-					}
-					if ( data[index].type == 'generate' ) {
-						tmp_category = '<i class="icon fa-cogs"></i> Mined';
-					}if ( data[index].type == 'immature' ) {
-						tmp_category = '<i class="icon fa-clock-o"></i> Immature';
-					}
-					if ( data[index].type == 'unknown' ) {
-						tmp_category = '<i class="icon fa-meh-o"></i> Unknown';
-					}
-
-
-					if(!("confirmations" in data[index])) {
-						tmp_confirms = '<i class="icon fa-meh-o"></i> Unknown';
-					}
-					if(("confirmations" in data[index])) {
-						tmp_confirms = data[index].confirmations
-					}
-
-					//console.log(tmp_addr);
-					//tmplisttransactions = {"category": data[index].category,"confirmations": data[index].confirmations,"amount": data[index].amount,"time": data[index].time,"address": data[index].address,"txid": data[index].txid}
-					tmplisttransactions = [tmp_category,tmp_confirms,tmp_amount,tmp_secondsToString,tmp_addr,'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light kmd-txid-details-btn" data-edexcoin="' + coin + '" data-txidtype="public" data-txid="'+data[index].txid+'"><i class="icon fa-search"></i></button>']
-					//console.log(tmplisttransactions);
-					result.push(tmplisttransactions);
-				}
-
-			});
-			//console.log(result)
-			resolve(result);
-		}).fail(function(xhr, textStatus, error) {
-				// handle request failures
-				console.log(xhr.statusText);
-				if ( xhr.readyState == 0 ) {
-						Iguana_ServiceUnavailable();
-				}
-				console.log(textStatus);
-				console.log(error);
-		});
-	});
-}*/
 
 function clearEdexSendFieldData() {
-	//$('.showedexcoinaddrs').selectpicker('refresh');
-	//$('#edexcoin_sendto').val('');
-	//$('#edexcoin_total_value').text('');
-	//$('#edexcoin_amount').val('');
 }
 
 function EdexListAllAddr(coin) {
@@ -719,7 +514,9 @@ function EdexListAllAddr(coin) {
 
 function edexCoinBtnAction() {
 	$('.edexcoin-logo').click(function() {
-		$.each($('.nav-top-menu'), function(index, value) { $(value).removeClass('active'); });
+		if ($(this).data('edexcoinmodecode') === 'Native') {
+			$.each($('.nav-top-menu'), function(index, value) { $(value).removeClass('active'); });
+		}
 		$( '#edexcoin_send_coins_back_btn' ).trigger( 'click' );
 		$('#btn_edexcoin_dashboard').hide();
 		$(
@@ -806,10 +603,6 @@ function edexCoinBtnAction() {
 				alertify.success(_lang[defaultLang].DASHBOARD.ADDR_COPIED + '.');
 			});
 
-			//var clipboard = new Clipboard('.clipboard-edexaddr');
-			//clipboard.destroy();
-
-			//var clipboard = null;
 			if (clipboard && clipboard != null ) {
 				clipboard.destroy();
 			}

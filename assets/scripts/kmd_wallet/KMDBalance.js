@@ -28,12 +28,10 @@ function getTotalKMDBalance() {
 				};
 	}
 
-	//console.log(ajax_data);
 	$.ajax({
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
 		url: 'http://127.0.0.1:' + config.iguanaPort,
-		//dataType: 'text',
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data);
 

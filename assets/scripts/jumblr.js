@@ -11,8 +11,7 @@ var Jumblr = function() {
 		});
 
 		if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
-			// clearInterval(CheckIfIguanaRunning);
-			// console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
+
 		} else {
 			Jumblr_CheckIfConnected()
 			.then(function(result) {
@@ -49,7 +48,6 @@ var Jumblr = function() {
 function Jumblr_ShowHideAlert() {
 	Jumblr_LookforNativeKomodo()
 	.then(function(result) {
-		// console.log(result)
 		if (result === 'isnative') {
 			$('#jumblr_no_native_kmd_alert').hide();
 		} else {
@@ -60,7 +58,6 @@ function Jumblr_ShowHideAlert() {
 
 function Jumblr_DisplayAddresses() {
 	var jumblr_session_data = JSON.parse(JSON.parse(sessionStorage.getItem('IguanaActiveAccount')));
-	// console.log(jumblr_session_data);
 	$('#jumblr_BTCdeposit').text(jumblr_session_data.BTCdeposit);
 	$('#jumblr_BTCjumblr').text(jumblr_session_data.BTCjumblr);
 	$('#jumblr_KMDdeposit').text(jumblr_session_data.KMDdeposit);
@@ -70,11 +67,6 @@ function Jumblr_DisplayAddresses() {
 function Jumblr_DisplayStatus() {
 	Iguana_Jumblr_Status()
 	.then(function(result) {
-		//console.log(result)
-		/*$('#jumblr_status_BTCdeposit').text(result.BTCdeposit)
-		$('#jumblr_status_BTCjumblr').text(result.BTCjumblr)
-		$('#jumblr_status_KMDdeposit').text(result.KMDdeposit)
-		$('#jumblr_status_KMDjumblr').text(result.KMDjumblr)*/
 		if (result.result == 'success') {
 			$('#jumblr_status_result')
 				.addClass('label-success')
@@ -106,8 +98,6 @@ function Jumblr_LookforNativeKomodo() {
 					AjaxOutputData = JSON.parse(AjaxOutputData.responseText);
 					if (AjaxOutputData['native'].length !== 0 ) {
 						$.each(AjaxOutputData.native, function( index, value ) {
-						//console.log(index)
-						//console.log(value)
 							if (value !== 'KMD') {
 								console.log('Native KMD not found')
 								resolve('notfound');
@@ -144,7 +134,6 @@ function Jumblr_CheckIfConnected() {
 					'hex': ''
 				};
 
-		// console.log(ajax_data);
 		$.ajax({
 			type: 'POST',
 			data: JSON.stringify(ajax_data),

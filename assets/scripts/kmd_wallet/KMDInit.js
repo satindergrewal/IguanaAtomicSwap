@@ -115,7 +115,6 @@ function RunKMDInitFunctions() {
 										$('#activating-komodod-progress').html(': ' + Math.floor(currentBestChain * 100 / totalBlocksInExplorer) + '% (blocks ' + currentBestChain + ' / ' + totalBlocksInExplorer + ')');
 										chainActivationLastUpdate = Date.now();
 										if (currentBestChain === totalBlocksInExplorer) {
-											//clearInterval(totalBlocksInExplorerInterval);
 											clearInterval(currentBestBlockInterval);
 										}
 									}
@@ -165,7 +164,6 @@ function RunKMDInitFunctions() {
 		$('#kmd_wallet_settings').hide();
 	}
 
-	// KMDWalletDashboard.init()
 	$('#kmd_wallet_recieve_section').hide();
 	NProgress.done();
 }

@@ -35,7 +35,6 @@ function KMDGetPublicTransactions() {
 		url: 'http://127.0.0.1:' + config.iguanaPort,
 		success: function(data, textStatus, jqXHR) {
 			var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
-			//console.log(AjaxOutputData);
 
 			$.each(AjaxOutputData, function(index, value) {
 				var tmp_category = '',
@@ -183,10 +182,8 @@ function KMDfillTxHistoryT() {
 	});
 	NProgress.start();
 
-	var txhistorydataT = KMDGetPublicTransactions();
-	//var txhistorydataZ = KMDGetProtectedTransactions();
-	//var txhistorydata = $.merge( txhistorydataT, txhistorydataZ );
-	var txhistorydata = txhistorydataT,
+	var txhistorydataT = KMDGetPublicTransactions(),
+			txhistorydata = txhistorydataT,
 			kmd_txhistory_table = '';
 
 	kmd_txhistory_table = $('#kmd-tx-history-tbl').DataTable({

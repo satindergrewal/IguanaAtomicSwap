@@ -49,7 +49,7 @@ var Dashboard = function() {
 			if ( sessionStorage.getItem('edexTmpMode') === 'Full') {
 				sessionStorage.setItem('edexTmpRefresh', 'start');
 			}
-			if ( /*sessionStorage.getItem('edexTmpMode') === 'Basilisk' ||*/ sessionStorage.getItem('edexTmpMode') === 'Native' ) {
+			if ( sessionStorage.getItem('edexTmpMode') === 'Native' ) {
 				sessionStorage.setItem('edexTmpRefresh', 'stop');
 			}
 			$(
@@ -69,7 +69,6 @@ var Dashboard = function() {
 			if ( selected_coinmode == 'Basilisk' ) {
 				getDEXGetBalance_cache(active_edexcoin)
 				.then(function(result) {
-					//console.log(result)
 					if ( result.interest !== undefined && active_edexcoin == 'KMD') {
 						$(
 							'#edexcoin_getbalance_interest,' +
@@ -110,9 +109,7 @@ var Dashboard = function() {
 			} else {
 				EDEXlistunspent(active_edexcoin)
 				.then(function(result) {
-					//console.log(result)
 					if (result[0] != undefined) {
-						//console.log(result[0])
 						if ( result[0].interest !== undefined ) {
 							$(
 								'#edexcoin_getbalance_interest,' +
@@ -204,7 +201,6 @@ var Dashboard = function() {
 				EDEXgetaddrbyaccount_cache(active_edexcoin)
 				.then(function(result){
 					var tmpoptions = '';
-					//console.log(result);
 					edexcoin_addr_list_with_balance = result;
 					console.log(edexcoin_addr_list_with_balance);
 					tmpoptions += '<option> ' + _lang[defaultLang].DASHBOARD.SELECT_ADDRESS + ' </option>';
@@ -228,7 +224,6 @@ var Dashboard = function() {
 					.removeAttr('disabled');
 			}
 
-			//clearEdexSendFieldData();
 			$('.edexcoin-send-form')[0].reset();
 			if ( selected_coinmode == 'Full' ) {
 				EDEXgetinfo(active_edexcoin)
@@ -240,7 +235,6 @@ var Dashboard = function() {
 
 		$('.showedexcoinaddrs').on('change', function() {
 			var selected = $(this).find('option:selected').val();
-			//console.log(selected)
 		});
 
 		$('#edexcoin_send_from').change(function() {
@@ -295,7 +289,6 @@ var Dashboard = function() {
 					total_minus_currency_fee = sum_val1 - sum_val2,
 					mdl_send_btn = $('#edexcoin_send_coins_btn');
 
-			//console.log($('#edexcoin_amount').val());
 			$('#edexcoin_total_value').text(total_minus_currency_fee.toFixed(8));
 		});
 
@@ -396,8 +389,6 @@ var Dashboard = function() {
 		});
 
 		$('#edexcoin_send_coins_btn').click(function() {
-			//$('#edexcoin_send_coins_btn').prop('disabled', true);
-			console.log('==> After confirming tx to send')
 			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin'),
 					tmp_send_from_addr = $('#edexcoin_send_from').val(),
 					tmp_send_to_addr = $('#edexcoin_sendto').val(),
@@ -405,6 +396,7 @@ var Dashboard = function() {
 					tmp_send_fee = $('#edexcoin_fee').val(),
 					tmp_sendflag = $('#edexcoin_send_sig').is(':checked');
 
+			console.log('==> After confirming tx to send')
 			console.log(active_edexcoin);
 			console.log(tmp_send_from_addr);
 			console.log(tmp_send_to_addr);
@@ -1074,8 +1066,7 @@ var Dashboard = function() {
 
 				// TODO: refactor
 				if ( active_edexcoinmodecode == 'Basilisk' || active_edexcoinmodecode == 'Native' ) {
-					//console.log(active_edexcoinmodecode)
-					//console.log('No need to show Progress bar for Native or Basilisk mode.')
+
 				} else {
 					ShowCoinProgressBar(active_edexcoin);
 				}
@@ -1087,13 +1078,11 @@ var Dashboard = function() {
 			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin'),
 					active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 			if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
-				//clearInterval(CheckIfIguanaRunning);
-				//console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
+
 			} else {
 				Iguana_activehandle()
 				.then(function(result){
-					//console.log(result)
-					//console.log("Iguana is running");
+
 				});
 			}
 		}, 1000);
@@ -1103,8 +1092,7 @@ var Dashboard = function() {
 					active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 			// TODO: refactor
 			if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
-				//clearInterval(FetchBasiliskData);
-				//console.log('=> No wallet logged in, or Dashboard not ative. No need to Run History.');
+
 			} else {
 				if ( active_edexcoinmodecode == 'Basilisk') {
 					var call_data = {
@@ -1112,7 +1100,6 @@ var Dashboard = function() {
 								'coin': active_edexcoin,
 								'calls': 'listtransactions:getbalance'
 							};
-					//console.log(call_data)
 					if ( sessionStorage.getItem('edexTmpRefresh') === null || sessionStorage.getItem('edexTmpRefresh') === 'start') {
 						Shepherd_FetchBasiliskData(call_data)
 						.then(function(result) {
@@ -1179,23 +1166,7 @@ var Dashboard = function() {
 				handleEdexWalletInfo();
 				handleBasiliskWalletActions();
 				handleWalletToAtomicExplorer();
-				//TotalFiatValue();
 			}
-
-			/*setInterval(function() {
-					handleWalletWidgets();
-					console.log('wallet widget refereshed (every 15 seconds)');
-			}, 15000);*/
-
-			/*RunTotalFiatValue = setInterval(function() {
-					if ( sessionStorage.getItem('IguanaActiveAccount') === null ) {
-					//console.log('=> No wallet logged in. No need to get Rates.');
-					//StopTotalFiatValue();
-					} else {
-							//TotalFiatValue();
-							//console.log('Get Rates (every 60 seconds)');
-					}
-			}, 60000);*/
 		},
 		handleWalletWidgets: handleWalletWidgets
 	};
@@ -1219,8 +1190,3 @@ function getActiveEdexcoin() {
 	var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
 	return active_edexcoin;
 }
-
-/*function hideExtCoinsinEdexDashboard(coin) {
-	var tmp_getinfo = EDEXgetinfo(coin);
-	console.log(tmp_getinfo);
-}*/

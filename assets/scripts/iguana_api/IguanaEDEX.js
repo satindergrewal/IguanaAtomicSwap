@@ -58,7 +58,6 @@ function EDEXlistunspent(coin, addr) {
 
 				$.each(data, function(index) {
 					if ( data[index].interest !== undefined ) {
-						// console.log('interest is available for this currency. Adding to total balance.');
 						tmpcalcnum = tmpcalcnum + data[index].amount;
 						tmpcalcinterest = tmpcalcinterest + data[index].interest;
 						interest_enable = true;
@@ -83,20 +82,6 @@ function EDEXlistunspent(coin, addr) {
 						'total': tmpcalcnum.toFixed(8)
 					};
 				}
-
-				/*var tmpcalcnum = 0;
-				$.each(unique_addr_tmp_array, function(index, value) {
-						//console.log(value.amount);
-						if ( value.interest !== undefined ) {
-								tmpcalcnum = tmpcalcnum + value.amount + value.interest;
-						}
-						if ( value.interest === undefined ) {
-								tmpcalcnum = tmpcalcnum + value.amount;
-						}
-				});
-				//console.log(tmpcalcnum);
-				var tmp_addr_total_balance_output = {"addr": unique_addr_tmp_array[0].address, "total": tmpcalcnum};*/
-				//console.log(tmp_addr_total_balance_output);
 
 				result.push(tmp_addr_total_balance_output);
 			});
@@ -214,7 +199,7 @@ function EDEXSendutxoRawTx(data) {
           'utxos': utxos_set
 	      };
 
-    console.log(send_data)
+    console.log(send_data);
     Iguana_utxorawtx(send_data).then(function(result) {
       var edexcoin_sendto_result_tbl = '';
 
@@ -283,35 +268,25 @@ function EDEXSendutxoRawTx(data) {
 
               var process_refresh_utxos = function(gettxdata) {
                 return new Promise(function(resolve, reject) {
-                  console.log(gettxdata)
-                  console.log(utxos_set)
+                  console.log(gettxdata);
+                  console.log(utxos_set);
                   EDEX_GetTxIDList(gettxdata).then(function(get_txid_list) {
-        				    console.log(get_txid_list)
+        				    console.log(get_txid_list);
         				    resolve(get_txid_list);
           				});
-                  /*EDEX_ProcessRefreshData(gettxdata,utxos_set).then(function(new_utxos_set) {
-                    console.log(new_utxos_set);
-                    resolve(new_utxos_set);
-                  });*/
                 });
               }
 
               var get_data_cache_contents = function(get_txid_list) {
                 return new Promise(function(resolve, reject) {
                   console.log(get_txid_list);
-                  console.log(send_data)
-                  console.log(send_data.sendfrom)
+                  console.log(send_data);
+                  console.log(send_data.sendfrom);
+
                   Shepherd_GroomData_Get().then(function(result) {
                     console.log(result);
-                    /*console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
-                    delete result.basilisk.KMD[send_data.sendfrom].refresh.data;
-                    console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
-                    result.basilisk.KMD[send_data.sendfrom].refresh.data = new_utxos_set;
-                    console.log(result.basilisk.KMD[send_data.sendfrom].refresh);
-                    var save_this_data = result;*/
                     var save_this_data = EDEX_RemoveTXID(result, get_txid_list);
           				  console.log(save_this_data);
-          				  //resolve(result);
                     resolve(save_this_data);
                   });
                 });
@@ -390,8 +365,6 @@ function EDEXSendutxoRawTx(data) {
           var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin');
 
           console.log(send_data);
-
-          //toastr.success('Signed Transaction Generated.', 'Wallet Notification');
           edexcoin_sendto_result_tbl += '<tr class="">' +
                                           '<td>result</td>' +
                                           '<td>' +
@@ -614,16 +587,13 @@ function EDEXgettransaction(coin,txid) {
             'txid': txid
         };
 
-    //console.log(ajax_data)
     $.ajax({
       type: 'POST',
       data: JSON.stringify(ajax_data),
       url: 'http://127.0.0.1:' + config.iguanaPort
     })
     .then(function(data) {
-      //console.log(data);
       res_data = JSON.parse(data);
-      //console.log(res_data);
       resolve(res_data);
     })
     .fail(function(xhr, textStatus, error) {
@@ -634,18 +604,6 @@ function EDEXgettransaction(coin,txid) {
       console.log(textStatus);
       console.log(error);
     });
-
-    /*var AjaxOutputData = IguanaAJAX('http://127.0.0.1:' + config.iguanaPort, ajax_data).done(function(data) {
-        AjaxOutputData = JSON.parse(AjaxOutputData.responseText)
-        resolve(AjaxOutputData);
-    }).fail(function(xhr, textStatus, error) {
-        // handle request failures
-        console.log(xhr.statusText);
-        if ( xhr.readyState == 0 ) {
-        }
-        console.log(textStatus);
-        console.log(error);
-    });*/
   });
 }
 
@@ -660,12 +618,8 @@ function EDEXgetaddrbyaccount_cache(coin) {
                            '</span>',
           active_edexcoinmodecode = sessionStorage.getItem('edexTmpMode');
 
-      //console.log(query[coin].addresses)
-
       Promise.all(query[coin].addresses.map((coinaddr_value, coinaddr_index) => {
         return new Promise((resolve, reject) => {
-          //console.log(coinaddr_index);
-          //console.log(coinaddr_value);
           coinaddr_balances = query[coin][coinaddr_value].getbalance.data;
 
           if (coinaddr_balances.interest !== undefined) {
@@ -684,12 +638,10 @@ function EDEXgetaddrbyaccount_cache(coin) {
             		};
           }
 
-          //console.log(pass_data);
           resolve(pass_data);
         });
       }))
       .then(result => {
-        //console.log(result);
         resolve(result);
       });
     });
@@ -948,19 +900,10 @@ function EDEXimportprivkey(params_data) {
 }
 
 function EDEX_ProcessRefreshData(gettxdata, refreshdata){
-  //console.log(gettxdata);
-  //console.log(refreshdata);
-
   return new Promise((resolve, reject) => {
     Promise.all(gettxdata.vin.map((vin_value, vin_index) => {
-      //console.log(vin_index);
-      //console.log(vin_value);
-
       return new Promise((resolve, reject) => {
         Promise.all(refreshdata.map((refresh_value, refresh_index) => {
-          //console.log(refresh_index);
-          //console.log(refresh_value);
-
           if (refreshdata[refresh_index] !== undefined && refresh_value.txid == vin_value.txid) {
             delete refreshdata[refresh_index];
             refreshdata = refreshdata;
@@ -972,14 +915,12 @@ function EDEX_ProcessRefreshData(gettxdata, refreshdata){
     .then(result=> {
       var res_data = result[result.length - 1],
       		refresh_final = [];
-      //console.log(res_data);
 
       $.each(res_data,function(index) {
         if(res_data[index] !== undefined) {
           refresh_final.push(res_data[index]);
         }
       });
-      //console.log(refresh_final)
       resolve(refresh_final);
     });
   });
@@ -989,11 +930,8 @@ function EDEX_GetTxIDList(gettxdata) {
 	return new Promise((resolve, reject) => {
 		get_txid_list = [];
 		$.each(gettxdata.vin, function(vin_index, vin_value) {
-			//console.log(vin_index)
-			//console.log(vin_value)
 			get_txid_list.push(vin_value.txid);
-		})
-		//console.log(get_txid_list)
+		});
 		resolve(get_txid_list);
 	});
 }
@@ -1025,5 +963,6 @@ function EDEX_RemoveTXID(_obj, txidArray) {
   } else {
     console.log('basilisk node is missing');
   }
+  
   return _obj;
 }

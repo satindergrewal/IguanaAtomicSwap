@@ -72,7 +72,6 @@ templates.bottomIncludes =
 
 <!-- Iguana API Scripts -->
 <script src="assets/scripts/iguana_api.js" type="text/javascript"></script>
-<script src="assets/scripts/iguana_api/IguanaUnused.js" type="text/javascript"></script>
 <script src="assets/scripts/iguana_api/IguanaHandle.js" type="text/javascript"></script>
 <script src="assets/scripts/iguana_api/IguanaAddcoin.js" type="text/javascript"></script>
 <script src="assets/scripts/iguana_api/IguanaEDEX.js" type="text/javascript"></script>

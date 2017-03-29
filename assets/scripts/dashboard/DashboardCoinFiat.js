@@ -149,7 +149,7 @@ function ShowCoinProgressBar(coin) {
 
 			// TODO: refactor
 			if (typeof CoinInfoData.bundles == 'undefined') {
-				//console.log(coin+' is undefined');
+
 			} else {
 				if ( parseInt(CoinInfoData.RTheight) != 0 ) {
 					var coin_blocks = parseInt(CoinInfoData.blocks),

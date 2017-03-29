@@ -40,25 +40,24 @@ function Iguana_activehandle(callback) {
 					'method': 'activehandle'
 				};
 
-    $.ajax({
-      data: JSON.stringify(ajax_data),
-      url: 'http://127.0.0.1:' + config.iguanaPort,
-      type: 'POST',
-      dataType: 'json'
-    })
-    .then(result => {
-      //console.log(result);
-      resolve(result);
-    })
-    .fail(function(xhr, textStatus, error) {
-      // handle request failures
-      console.log(xhr.statusText);
-      if ( xhr.readyState == 0 ) {
-        Iguana_ServiceUnavailable();
-      }
-      console.log(textStatus);
-      console.log(error);
-    });
+	    $.ajax({
+	      data: JSON.stringify(ajax_data),
+	      url: 'http://127.0.0.1:' + config.iguanaPort,
+	      type: 'POST',
+	      dataType: 'json'
+	    })
+	    .then(result => {
+	      resolve(result);
+	    })
+	    .fail(function(xhr, textStatus, error) {
+	      // handle request failures
+	      console.log(xhr.statusText);
+	      if ( xhr.readyState == 0 ) {
+	        Iguana_ServiceUnavailable();
+	      }
+	      console.log(textStatus);
+	      console.log(error);
+	    });
 	});
 }
 

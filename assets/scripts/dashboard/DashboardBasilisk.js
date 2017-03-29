@@ -17,7 +17,6 @@ function ShowBasiliskFetchDataProgress(coin) {
         listunspent_status = NOT_FOUND,
         refresh_status = NOT_FOUND,
         res_data;
-    //console.log(query)
 
     res_data = {
       'addresses': false,
@@ -28,56 +27,39 @@ function ShowBasiliskFetchDataProgress(coin) {
     }
 
     if (!query) {
-      //console.log('data not found.')
       res_data.coin = false;
-      //console.log(res_data)
     } else if (!query[coin]) {
-      //console.log(coin + ' not found.')
       coin_exists = false;
       res_data.coin = coin_exists;
-      //console.log(res_data)
     } else if (!('addresses' in query[coin])) {
-      //console.log(coin + ' addresses not found.')
       addresses_exists = false;
       res_data.coin = coin_exists;
-      //console.log(res_data)
     } else {
       Promise.all(query[coin].addresses.map((coinaddr_value,coinaddr_index) => {
         return new Promise((resolve, reject) => {
-          //console.log(coinaddr_index)
-          //console.log(coinaddr_value)
           var data = query[coin][coinaddr_value].getbalance;
-          //console.log(data)
 
           if (!('getbalance' in query[coin][coinaddr_value])) {
-            //console.log(coin + '>>>' + coinaddr_value + ' => getbalance not found.')
             getbalance_exists = false;
           } else {
-            //console.log(query[coin][coinaddr_value].getbalance.status)
             getbalance_status = query[coin][coinaddr_value].getbalance.status;
           }
 
           if (!('listtransactions' in query[coin][coinaddr_value])) {
-            //console.log(coin + '>>>' + coinaddr_value + ' => listtransactions not found.')
             listtransactions_exists = false;
           } else {
-            //console.log(query[coin][coinaddr_value].listtransactions.status)
             listtransactions_status = query[coin][coinaddr_value].listtransactions.status;
           }
 
           if (!('listunspent' in query[coin][coinaddr_value])) {
-            //console.log(coin + '>>>' + coinaddr_value + ' => listunspent not found.')
             listunspent_exists = false;
           } else {
-            //console.log(query[coin][coinaddr_value].listunspent.status)
             listunspent_status = query[coin][coinaddr_value].listunspent.status;
           }
 
           if (!('refresh' in query[coin][coinaddr_value])) {
-            //console.log(coin + '>>>' + coinaddr_value + ' => refresh not found.')
             refresh_exists = false;
           } else {
-            //console.log(query[coin][coinaddr_value].refresh.status)
             refresh_status = query[coin][coinaddr_value].refresh.status;
           }
 
@@ -98,15 +80,9 @@ function ShowBasiliskFetchDataProgress(coin) {
         });
       }))
       .then(result => {
-         //console.log(result);
-				//var res_data.coin = coin_exists;
-				//var res_data.addresses = addresses_exists;
 				var BasiliskFetchData = '';
 
         $.each(result, function(result_index, result_val) {
-          //console.log(result_index);
-          //console.log(result_val);
-
           var tmp_listunspent_lable_color = '',
          			tmp_listtransactions_lable_color = '',
           		tmp_getbalance_lable_color = '',
@@ -180,7 +156,6 @@ function ShowBasiliskFetchDataProgress(coin) {
               break;
             case NOT_FOUND:
               tmp_refresh_lable_color = 'danger';
-              //$('#edexcoin_dashboard_basilisk_refresh_status').show();
               break;
           }
 
@@ -201,13 +176,6 @@ function ShowBasiliskFetchDataProgress(coin) {
           		'</td>' +
             '</tr>';
           $('.tbl_edexcoin_dashboard_basilisk_refresh_status tbody').html(BasiliskFetchData);
-          //console.log(result_val.refresh_status)
-
-          /*if (result[result.length-1] == result_val && result_val.listtransactions_status !== 'done' && result_val.getbalance_status !== 'done' && result_val.refresh_status !== 'done' ) {
-              $('#edexcoin_dashboard_basilisk_refresh_status').show()
-          } else {
-              $('#edexcoin_dashboard_basilisk_refresh_status').hide()
-          }*/
         });
       });
     }
@@ -260,10 +228,8 @@ function SwitchBasicliskFull(switch_data) {
 				toastr.success(switch_data.currency + ' ' + _lang[defaultLang].TOASTR.SWITCHED_TO + ' ' + mode_value + ' ' + _lang[defaultLang].TOASTR.MODE, _lang[defaultLang].TOASTR.COIN_NOTIFICATION);
 			} else if (SwitchCoinDataOutput.result === 'coin already there') {
 				console.log('coin already there');
-				//toastr.info("Looks like" + switch_data.currency + "already running.", "Coin Notification");
 			} else if (SwitchCoinDataOutput.result === null) {
 				console.log('coin already there');
-				//toastr.info("Looks like" + switch_data.currency + "already running.", "Coin Notification");
 			}
 		},
 		error: function(xhr, textStatus, error) {
