@@ -436,8 +436,8 @@ function assetchain_pax_menu_actions(coin) {
     case 'REVS':
       renderAssetGFX('supernet', 'jumblr', coin);
       break;
-    case 'WIRELESS':
-      renderAssetGFX('wireless', 'wireless', coin);
+    case 'WLC':
+      renderAssetGFX('wireless', 'wireless', 'Wireless (WLC)');
       break;
     case 'PANGEA':
       renderAssetGFX('pangea', 'jumblr', coin);
@@ -449,7 +449,7 @@ function assetchain_pax_menu_actions(coin) {
       renderAssetGFX('supernet', 'jumblr', coin);
       break;
     case 'BET':
-      renderAssetGFX('wireless', 'wireless', coin);
+      renderAssetGFX('bet', 'bet', coin);
       break;
     case 'CRYPTO':
       renderAssetGFX('supernet', 'jumblr', coin);
@@ -458,7 +458,7 @@ function assetchain_pax_menu_actions(coin) {
       renderAssetGFX('supernet', 'jumblr', coin);
       break;
     case 'SHARK':
-      renderAssetGFX('wireless', 'wireless', coin);
+      renderAssetGFX('shark', 'shark', coin);
       break;
     case 'BOTS':
       renderAssetGFX('supernet', 'jumblr', coin);
@@ -476,7 +476,10 @@ function assetchain_pax_menu_actions(coin) {
       renderAssetGFX('ceal', 'ceal', coin);
       break;
     case 'MESH':
-      renderAssetGFX('mesh', 'mesh', coin);
+      renderAssetGFX('mesh', 'mesh', 'SuperMesh (MESH)');
+      break;
+    case 'BTC':
+      renderAssetGFX('btc', 'btc', '(BTC)');
       break;
     case 'USD':
       renderAssetGFX('usd', 'usd', 'US Dollar (USD)');
@@ -610,9 +613,9 @@ function applyKMDWalletStyle() {
   	'background-repeat': 'no-repeat',
   	'background-position': '0%'
   });
+  $('#easydex_kmd_wallet_actions_header').show();
   $(
   	'#easydex_acpax_wallet_actions_header,' +
-  	'#easydex_kmd_wallet_actions_header,' +
   	'#easydex_zec_wallet_actions_header,' +
   	'#jumblr_actions_header,' +
   	'#easydex_btc_btcd_balances_header'
