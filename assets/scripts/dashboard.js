@@ -1085,7 +1085,7 @@ var Dashboard = function() {
 
 				});
 			}
-		}, 1000);
+		}, 10000);
 
 		var FetchBasiliskData = setInterval(function() {
 			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin'),
