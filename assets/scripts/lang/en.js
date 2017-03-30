@@ -92,7 +92,7 @@ const _lang = {
       'FILL_SEND_FORM': 'Fill Send Form',
       'FILL_SEND_DETAILS': 'Fill sending transaction details',
       'CONFIRMING': 'Confirming',
-      'CONFIRM_DETAILS': 'Confirm if detials are correct',
+      'CONFIRM_DETAILS': 'Confirm if details are correct',
       'PROCESSING_TX': 'Processing Tx',
       'PROCESSING_DETAILS': 'Processing and showing details',
       'SEND_FROM': 'Send From',
