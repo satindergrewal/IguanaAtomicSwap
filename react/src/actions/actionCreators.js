@@ -15,7 +15,8 @@ function triggerToaster(display, message, title, _type) {
 export function addCoin(coin, mode) {
 	console.log('coin, mode', coin + ' ' + mode);
   return dispatch => {
-    dispatch(triggerToaster(true, 'Coin ' + coin + ' added in ' + mode, 'Coin message', 'warning'))
+    dispatch(shepherdGetConfig);
+    //dispatch(triggerToaster(true, 'Coin ' + coin + ' added in ' + mode, 'Coin message', 'warning'))
     /*return fetch(``)
       .then(response => response.json())
       .then(json => dispatch(r(json)))*/
@@ -24,14 +25,18 @@ export function addCoin(coin, mode) {
 
 export function shepherdGetConfig() {
   return dispatch => {
-		return fetch('http://127.0.0.1:17777/shepherd/getconf', {
-			
-		})
-    //.then(response => response.json())
+  	return fetch('http://127.0.0.1:17777/shepherd/getconf', {
+      method: 'POST'
+    })
+    .then(response => response.json())
     //.then(json => dispatch(r(json)))
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'Failed to get mode config', 'Error', 'error'))
+    });
   }
 
-function Shepherd_getConf(coin) {
+/*function Shepherd_getConf(coin) {
 	var result = [],
 			ajax_data = { 'chain': coin };
 
@@ -52,5 +57,5 @@ function Shepherd_getConf(coin) {
 	});
 
 	return result;
-}	
+}*/
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-import { addCoin } from '../../actions/actionCreators';
+import { addCoin, shepherdGetConfig } from '../../actions/actionCreators';
 import { startCurrencyAssetChain } from './payload';
 import Store from '../../store';
 
@@ -21,7 +21,7 @@ class AddCoin extends React.Component {
         disabled: true,
         checked: false,
       },
-      mode: null,
+      mode: -2,
     };
     this.updateSelectedCoin = this.updateSelectedCoin.bind(this);
     this.updateSelectedMode = this.updateSelectedMode.bind(this);
@@ -54,7 +54,7 @@ class AddCoin extends React.Component {
         disabled: e.target.value.indexOf('native') > -1 ? false : true,
         checked: defaultMode === 'native' ? true : false,
       },
-      mode: modeToValue[defaultMode],
+      mode: modeToValue[defaultMode] !== undefined ? modeToValue[defaultMode] : -2,
     }));
   }
 
@@ -98,7 +98,8 @@ class AddCoin extends React.Component {
   }
 
   activateCoin() {
-    console.log(startCurrencyAssetChain(this.state.selectedCoin.split('|')[0], this.state.mode));
+    Store.dispatch(shepherdGetConfig());
+    //console.log(startCurrencyAssetChain(this.state.selectedCoin.split('|')[0], this.state.mode));
     //Store.dispatch(addCoin(this.state.selectedCoin.split('|')[0], this.state.mode));
   }
 
@@ -193,7 +194,7 @@ class AddCoin extends React.Component {
                   </div>
                 </div>
                 <div className="col-sm-4">
-                  <button type="button" className="btn btn-primary mdl_addcoin_done_btn-login" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn-login" onClick={this.activateCoin} disabled={this.state.selectedCoin === '-Select-'}>{translate('INDEX.ACTIVATE_COIN')}</button>
+                  <button type="button" className="btn btn-primary mdl_addcoin_done_btn-login" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn-login" onClick={this.activateCoin} disabled={this.state.mode === -2 }>{translate('INDEX.ACTIVATE_COIN')}</button>
                 </div>
                 <div className="col-sm-12 text-center">
                   <div className="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login">
