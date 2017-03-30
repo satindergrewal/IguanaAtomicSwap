@@ -55,7 +55,7 @@ function getPassthruAgent() {
 	return passthru_agent;
 }
 
-function CheckIfConnected() {
+function CheckIfConnected(cb) {
 	var result = [],
 			extcoin = $('[data-extcoin]').attr('data-extcoin'),
 			passthru_agent = getPassthruAgent(),
@@ -82,7 +82,7 @@ function CheckIfConnected() {
 
 	console.log(ajax_data);
 	$.ajax({
-		async: false,
+		//async: false,
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
 		url: 'http://127.0.0.1:' + config.iguanaPort,
@@ -98,6 +98,8 @@ function CheckIfConnected() {
 			} else {
 				result.push(AjaxOutputData.errors);
 			}
+
+			cb.call(this, result);			
 		},
 		error: function(xhr, textStatus, error) {
 			console.log('failed getting Coin History.');
@@ -107,12 +109,15 @@ function CheckIfConnected() {
 			}
 			console.log(textStatus);
 			console.log(error);
+
+			cb.call(this, result);
 		}
 	});
 
 	return result;
 }
 
+// TODO: this func is not used anywhere
 function CheckIfWalletEncrypted() {
 	var result = [],
 			passthru_agent = getPassthruAgent(),
@@ -195,7 +200,6 @@ function KMD_getInfo_rtrn(cb) {
 	}
 
 	$.ajax({
-		//async: true,
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
 		url: 'http://127.0.0.1:' + config.iguanaPort,
@@ -222,6 +226,7 @@ function KMD_getInfo_rtrn(cb) {
 			}
 			console.log(textStatus);
 			console.log(error);
+			cb.call(this, result);
 		}
 	});
 
