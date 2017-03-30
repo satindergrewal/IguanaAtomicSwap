@@ -82,7 +82,6 @@ function CheckIfConnected(cb) {
 
 	console.log(ajax_data);
 	$.ajax({
-		//async: false,
 		type: 'POST',
 		data: JSON.stringify(ajax_data),
 		url: 'http://127.0.0.1:' + config.iguanaPort,

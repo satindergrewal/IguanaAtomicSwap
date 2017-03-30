@@ -44,12 +44,20 @@ function RunKMDInitFunctions() {
 							'function': 'getinfo',
 							'hex': ''
 						};
+				if (isCorsproxy) {
+					ajax_data = {
+						'agent': 'bitcoinrpc',
+						'method': 'getinfo',
+						'params': []
+					}
+				}						
 
 				console.log(ajax_data);
 				$.ajax({
 					type: 'POST',
 					data: JSON.stringify(ajax_data),
-					url: 'http://127.0.0.1:' + config.iguanaPort,
+					headers: isCorsproxy ? { 'Authorization': 'Basic ' + btoa(rpcAuth.user + ':' + rpcAuth.pass) } : {},
+ 					url: isCorsproxy ? 'http://localhost:1337/localhost:7771' : 'http://127.0.0.1:' + config.iguanaPort,
 					success: function(data, textStatus, jqXHR) {
 						var AjaxOutputData = JSON.parse(data);
 
@@ -60,13 +68,17 @@ function RunKMDInitFunctions() {
 						}
 					},
 					error: function(xhr, textStatus, error) {
-						console.log('failed getting Coin History.');
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-							Iguana_ServiceUnavailable();
+						if (isCorsproxy) {
+							startBestBlockInterval();
+						} else {		
+							console.log('failed getting Coin History.');
+							console.log(xhr.statusText);
+							if ( xhr.readyState == 0 ) {
+								Iguana_ServiceUnavailable();
+							}
+							console.log(textStatus);
+							console.log(error);
 						}
-						console.log(textStatus);
-						console.log(error);
 					}
 				});
 			}
@@ -129,7 +141,7 @@ function RunKMDInitFunctions() {
 							}
 						});
 					}
-				}, 2000);
+				}, 5000);
 			}
 
 			if (sessionStorage.getItem('edexTmpMode') === 'Native') {
@@ -168,5 +180,4 @@ function RunKMDInitFunctions() {
 		NProgress.done();
 	}
 	CheckIfConnected(_RunKMDInitFunctions);
-
 }
