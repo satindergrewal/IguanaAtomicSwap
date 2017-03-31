@@ -54,10 +54,9 @@ function checkCoinType(coin) {
 	}
 }
 
-export function startCurrencyAssetChain(coin, mode) {
+export function startCurrencyAssetChain(confpath, coin, mode) {
 	var AddCoinDataPayload = {};
 	var tmpPendValue = 4;
-	var confpath = 'somepath';
 
 	if ( checkCoinType(coin) === 'currency_ac' ) {
 		/*var AddCoinDataPayload = {},
@@ -165,7 +164,7 @@ export function startCurrencyAssetChain(coin, mode) {
 			_payloadVarRegular.VALIDATE = 1;
 			_payloadVarRegular.startpend = 4;
 			_payloadVarRegular.endpend = 4;
-			_payloadVarRegular.path = confpath[0].path;
+			_payloadVarRegular.path = confpath;
 
 			const USDDiff = {
 				'coin': 'USD',

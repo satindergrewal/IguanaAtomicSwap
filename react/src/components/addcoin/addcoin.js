@@ -1,7 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 import { addCoin, shepherdGetConfig } from '../../actions/actionCreators';
-import { startCurrencyAssetChain } from './payload';
+//import { startCurrencyAssetChain } from './payload';
 import Store from '../../store';
 
 class AddCoin extends React.Component {
@@ -98,9 +98,8 @@ class AddCoin extends React.Component {
   }
 
   activateCoin() {
-    Store.dispatch(shepherdGetConfig());
     //console.log(startCurrencyAssetChain(this.state.selectedCoin.split('|')[0], this.state.mode));
-    //Store.dispatch(addCoin(this.state.selectedCoin.split('|')[0], this.state.mode));
+    Store.dispatch(addCoin(this.state.selectedCoin.split('|')[0], this.state.mode));
   }
 
   render() {
