@@ -10,14 +10,14 @@ const _lang = {
       'SELECT': '-Select-',
       'FULL_MODE': 'Full mode',
       'FULL_MODE_DESC': 'Adding a coin in Full mode will download its complete blockchain to your local machine. ' +
-      									'This is the most optimum mode for performance, but will require higher system requirements to have one or multiple coins running in Full mode on your local machine.',
+                        'This is the most optimum mode for performance, but will require higher system requirements to have one or multiple coins running in Full mode on your local machine.',
       'BASILISK_MODE': 'Basilisk Mode',
       'BASILISK_MODE_DESC': 'In Basilisk Mode, a coin will not download its Full blockchain to the local machine. ' +
-      											'This mode is best if you have less disk space on your machine, or your system has slower performance. ' +
-      											'It will be fully functional, but a bit slower to perform as compared to Full mode.',
+                            'This mode is best if you have less disk space on your machine, or your system has slower performance. ' +
+                            'It will be fully functional, but a bit slower to perform as compared to Full mode.',
       'NATIVE_MODE': 'Native Mode',
       'NATIVE_MODE_DESC1': 'This mode is ONLY available for KOMODO Coin, PAX FIAT Chains, Assetchains, and Geckochains. ' +
-      										 'This mode uses the',
+                           'This mode uses the',
       'NATIVE_MODE_DESC2': 'instead of the',
       'NATIVE_MODE_DESC3': 'to query blockchain data',
       'NATIVE_MODE_DESC4': 'is the so far mode which will allow you to do',
@@ -63,10 +63,10 @@ const _lang = {
       'COPY': 'copy',
       'ACTIVATING_WALLET_RT': 'Activating wallet once Real Time blocks starts syncing...',
       'IGUANA_FULL_MODE_SYNC_P1': 'An Iguana Full Mode coin synchronizes the blockchain using an entirely different format than traditional blockchain software. ' +
-      														'Iguana\'s Full Mode uses Memory Mapped Files and stores data in bundles. ' +
-      														'That\'s why you see four different colored synchronizing progress bars.',
+                                  'Iguana\'s Full Mode uses Memory Mapped Files and stores data in bundles. ' +
+                                  'That\'s why you see four different colored synchronizing progress bars.',
       'IGUANA_FULL_MODE_SYNC_P2': 'Once all these progress bars reach 100%, the Real Time blocks start synchronizing. ' +
-      														'Only after the Real Time sync mode activates will you be able to see current data in your wallet and make any transactions.',
+                                  'Only after the Real Time sync mode activates will you be able to see current data in your wallet and make any transactions.',
       'IGUANA_FULL_MODE_SYNC_P3': 'Please wait for all other progress bars to disappear and the first blue bar turns to green.<br/>' +
                                   'That would mean the wallet is in Real Time Sync mode.',
       'FETCHING_COIN_DATA': 'Fetching coin data from network. Please wait...',
@@ -92,7 +92,7 @@ const _lang = {
       'FILL_SEND_FORM': 'Fill Send Form',
       'FILL_SEND_DETAILS': 'Fill sending transaction details',
       'CONFIRMING': 'Confirming',
-      'CONFIRM_DETAILS': 'Confirm if details are correct',
+      'CONFIRM_DETAILS': 'Confirm if detials are correct',
       'PROCESSING_TX': 'Processing Tx',
       'PROCESSING_DETAILS': 'Processing and showing details',
       'SEND_FROM': 'Send From',
@@ -165,7 +165,7 @@ const _lang = {
       'IMPORT_KEYS_DESC_P1': 'This section allows you to import private key of all iguana supported coins, Assetchain, Geckochain, or PAXchain by the wallet.',
       'IMPORT_KEYS_DESC_P2': 'It is not mandatory to have that coin active in the wallet for which you are executing import private key process.',
       'IMPORT_KEYS_DESC_P3': 'You\'ll also notice the private key you imported for one coin or chain will also be showing a new address in all other coin wallets\' receiving address section. ' +
-      			     'It is normal.',
+                 'It is normal.',
       'INPUT_PRIV_KEY': 'Input Private Key',
       'IMPORT_PRIV_KEY': 'Import Private Key',
       'DEBUG_LOG': 'Debug Log',
@@ -180,42 +180,42 @@ const _lang = {
       'ACTIVATING': 'Activating'
     },
     'JUMBLR': {
-    	'NOTICE': 'EXPERIMENTAL TEST VERSION ONLY',
-    	'DESCRIPTION': 'Jumblr feature is very experimental and for now, is Only enabled for testing and debugging.' +
-    								 'Please use the current version of Jumblr only with small amounts if you are participating in testing this feature.',
-    	'NEED_NATIVE': 'Need Native Mode Komodo',
-    	'TO_USE_JUMBLR': 'To use Jumblr feature, you need to activate Komodo in Native Mode.',
-    	'IF_YOU_ALREADY_RUNNING': 'If you are already running Komodo in either Basilisk Mode or Full Mode, close the wallet and restart again to start Komodo In Native Mode.',
-    	'THIS_SCREEN_DOESNT_REFRESH': 'This screen does not auto refresh. ' +
-    						'You will need to hit the Refresh button on the top right corner of the screen to get latest Jumblr data.',
-    	'FEW_SECURITY_NOTES': 'Few Security Notes for your Privacy and Anonymity of funds',
-    	'FEW_SECURITY_NOTES_DESC1': 'Jumblr addresses (BTC Jumbler and KMD Jumbler) addresses are your Private Addresses.',
-    	'FEW_SECURITY_NOTES_DESC2': 'DO NOT SHARE your Jumblr addresses with anyone.',
-    	'FEW_SECURITY_NOTES_DESC3': 'Jumblr addresses are like YOUR PASSWORD. Keep them safe, secure and hidden.',
-    	'FEW_SECURITY_NOTES_DESC4': 'Only YOU should know your Jumblr Address. Nobody else.',
-    	'FEW_SECURITY_NOTES_DESC5': 'Sharing your Jumblr Addresses with ANYONE will defeat the purpose of using Jumblr, and your funds and transactions will not be private anymore.',
-    	'ACCESS_JUMBLR_FUNDS': 'How to Access your Jumblr Funds',
-    	'ADDRESS_ACCESSIBLE_EASILY': 'Your Jumbler Addresses are accessible easily. For example you logged into your wallet with passphrase',
-    	'TO_ACCESS': 'To access your Jumbler address funds Logout.',
-    	'CLOSE_IAPP': 'Close Iguana App.',
-    	'START_IAPP': 'Start Iguana App again.',
-    	'START_KMD': 'Start Komodo in either Full Mode or Basilisk Mode.',
-    	'WORD_JUMBLR': 'Then add word \'jumblr \' before your passphrase.',
-    	'SMALL_LETTERS': '"jumblr" is all in small letters.',
-    	'WHITE_SPACE': 'There is a white space after "jumblr ".',
-    	'PER_EXAMPLE': 'So as per this example, your Jumbler Addresses are accessible with:',
-    	'LOGIN_WITH_JUMBLR': 'You\'ll login with your Jumblr passphrase to access funds and will be able to use it just like any other wallet address.',
-    	'AGAIN_DONT_SHARE': 'Again, DO NOT SHARE YOUR JUMBLR ADDRESS WITH ANYONE.',
-    	'USING_JUMBLR': 'Using Jumblr',
-    	'RUN_KMD': 'Run Komodo in Native Mode',
-    	'LOGIN_KMD': 'Login with your passphrase',
-    	'GO_TO': 'Go to Jumblr Menu',
-    	'FIND_DEPOSIT_ADDR': 'There find your Deposit Address for coin you want to anonymise your funds. (For a start only KMD is supported. BTC support will come in later versions)',
-    	'YOU_SEND_FUNDS': 'You send your funds to deposit address.',
-    	'KEEP_WALLET_OPEN': 'Keep your wallet open',
-    	'IMPORTANT_FUNDS': '[IMPORTANT] Funds are processed in lot sizes 100 KMD, 1000 KMD, and 10,000 KMD.',
-    	'LARGE_LOT': 'The large lot sizes will process first, and then smaller.',
-    	'EG': 'For example, you sent 1393 KMD to KMD Deposit Address.<br>' +
+      'NOTICE': 'EXPERIMENTAL TEST VERSION ONLY',
+      'DESCRIPTION': 'Jumblr feature is very experimental and for now, is Only enabled for testing and debugging.' +
+                     'Please use the current version of Jumblr only with small amounts if you are participating in testing this feature.',
+      'NEED_NATIVE': 'Need Native Mode Komodo',
+      'TO_USE_JUMBLR': 'To use Jumblr feature, you need to activate Komodo in Native Mode.',
+      'IF_YOU_ALREADY_RUNNING': 'If you are already running Komodo in either Basilisk Mode or Full Mode, close the wallet and restart again to start Komodo In Native Mode.',
+      'THIS_SCREEN_DOESNT_REFRESH': 'This screen does not auto refresh. ' +
+                'You will need to hit the Refresh button on the top right corner of the screen to get latest Jumblr data.',
+      'FEW_SECURITY_NOTES': 'Few Security Notes for your Privacy and Anonymity of funds',
+      'FEW_SECURITY_NOTES_DESC1': 'Jumblr addresses (BTC Jumbler and KMD Jumbler) addresses are your Private Addresses.',
+      'FEW_SECURITY_NOTES_DESC2': 'DO NOT SHARE your Jumblr addresses with anyone.',
+      'FEW_SECURITY_NOTES_DESC3': 'Jumblr addresses are like YOUR PASSWORD. Keep them safe, secure and hidden.',
+      'FEW_SECURITY_NOTES_DESC4': 'Only YOU should know your Jumblr Address. Nobody else.',
+      'FEW_SECURITY_NOTES_DESC5': 'Sharing your Jumblr Addresses with ANYONE will defeat the purpose of using Jumblr, and your funds and transactions will not be private anymore.',
+      'ACCESS_JUMBLR_FUNDS': 'How to Access your Jumblr Funds',
+      'ADDRESS_ACCESSIBLE_EASILY': 'Your Jumbler Addresses are accessible easily. For example you logged into your wallet with passphrase',
+      'TO_ACCESS': 'To access your Jumbler address funds Logout.',
+      'CLOSE_IAPP': 'Close Iguana App.',
+      'START_IAPP': 'Start Iguana App again.',
+      'START_KMD': 'Start Komodo in either Full Mode or Basilisk Mode.',
+      'WORD_JUMBLR': 'Then add word \'jumblr \' before your passphrase.',
+      'SMALL_LETTERS': '"jumblr" is all in small letters.',
+      'WHITE_SPACE': 'There is a white space after "jumblr ".',
+      'PER_EXAMPLE': 'So as per this example, your Jumbler Addresses are accessible with:',
+      'LOGIN_WITH_JUMBLR': 'You\'ll login with your Jumblr passphrase to access funds and will be able to use it just like any other wallet address.',
+      'AGAIN_DONT_SHARE': 'Again, DO NOT SHARE YOUR JUMBLR ADDRESS WITH ANYONE.',
+      'USING_JUMBLR': 'Using Jumblr',
+      'RUN_KMD': 'Run Komodo in Native Mode',
+      'LOGIN_KMD': 'Login with your passphrase',
+      'GO_TO': 'Go to Jumblr Menu',
+      'FIND_DEPOSIT_ADDR': 'There find your Deposit Address for coin you want to anonymise your funds. (For a start only KMD is supported. BTC support will come in later versions)',
+      'YOU_SEND_FUNDS': 'You send your funds to deposit address.',
+      'KEEP_WALLET_OPEN': 'Keep your wallet open',
+      'IMPORTANT_FUNDS': '[IMPORTANT] Funds are processed in lot sizes 100 KMD, 1000 KMD, and 10,000 KMD.',
+      'LARGE_LOT': 'The large lot sizes will process first, and then smaller.',
+      'EG': 'For example, you sent 1393 KMD to KMD Deposit Address.<br>' +
             'First it will process 1000 KMD<br>' +
             'then 100 KMD<br>' +
             'then 100 KMD<br>' +
@@ -276,6 +276,7 @@ const _lang = {
       'ALREADY_RUNNING': 'already running',
       'STARTED_IN': 'started in',
       'IGUANA_CONN_ERR_ALT': 'Unable to connect with iguana service. 127.0.0.1:7778',
+      'KOMODO_ERR': 'Unable to start Komodod',
       'IGUANA_ARE_YOU_SURE': 'Are you sure Iguana is running?',
       'SIGNED_TX_GENERATED': 'Signed transaction generated',
       'SIGNED_TX_GENERATED_FAIL': 'Signed transaction Failed to generate',
