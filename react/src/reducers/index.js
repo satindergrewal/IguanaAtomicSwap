@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
-//import { coins } from './coins';
+import { AddCoin } from './addcoin';
 import { toaster } from './toaster';
 //import { loader } from './loader';
 
 const rootReducer = combineReducers({
-  //coins,
+  AddCoin,
   toaster,
   //loader,
   routing: routerReducer,

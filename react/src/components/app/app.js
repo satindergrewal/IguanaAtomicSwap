@@ -6,6 +6,7 @@ import Main from '../main/main';
 function mapStateToProps(state) {
   return {
     toaster: state.toaster,
+    AddCoin: state.AddCoin,
   };
 }
 

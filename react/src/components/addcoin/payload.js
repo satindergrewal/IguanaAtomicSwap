@@ -57,36 +57,11 @@ function checkCoinType(coin) {
 export function startCurrencyAssetChain(confpath, coin, mode) {
 	var AddCoinDataPayload = {};
 	var tmpPendValue = 4;
+	var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
 
 	if ( checkCoinType(coin) === 'currency_ac' ) {
-		/*var AddCoinDataPayload = {},
-	  		tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-	  		AddCoinData;
-
-		console.log('currency_ac_mode', mode);
-	  logincoinfullname = coin;
-
-	  if ( mode == '1' ) {
-	    logincoinmodeinfo = 'Full';
-	    AddCoinData = {
-	      'userpass': tmpIguanaRPCAuth,
-	      'agent': 'iguana',
-	      'method': 'paxfiats',
-	      'mask': 1
-			};
-	  }
-	  if ( mode == '0' ) {
-	    logincoinmodeinfo = 'Basilisk';
-	    AddCoinData = {
-	      'userpass': tmpIguanaRPCAuth,
-	      'agent': 'basilisk',
-	      'method': 'paxfiats',
-	      'mask': 1
-			};
-	  }*/
-
 		var _payloadVar = {
-			'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+			'userpass': tmpIguanaRPCAuth,
 			'unitval': '20',
 			'zcash': 1,
 			'RELAY': mode,

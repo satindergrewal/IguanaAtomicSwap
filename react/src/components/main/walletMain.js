@@ -7,7 +7,7 @@ class WalletMain extends React.Component {
   render() {
     return (
       <div>
-        <AddCoin {...this.props} />
+        <AddCoin {...this.props.AddCoin} />
         <Login {...this.props} />
         <Toaster {...this.props.toaster} />
       </div>

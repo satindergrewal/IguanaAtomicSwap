@@ -1,17 +1,35 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
+import { toggleAddcoinModal } from '../../actions/actionCreators';
+import Store from '../../store';
 
 class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      display: true,
+      ieWarning: false,
+      login: false,
+      signup: false,
+      activateCoin: true,
+    };
+    this.toggleActivateCoinForm = this.toggleActivateCoinForm.bind(this);
+  }
+
+  toggleActivateCoinForm() {
+    Store.dispatch(toggleAddcoinModal(true, false));
+  }
+
   render() {
     return (
-      <div id="wallet-login">
+      <div id="wallet-login" className={this.state.display ? 'show' : 'hide'}>
         <div className="page animsition vertical-align text-center fade-in" data-animsition-in="fade-in" data-animsition-out="fade-out">
           <div className="page-content vertical-align-middle">
             <div className="brand">
               <img className="brand-img" src="assets/images/easydex-logo-big.png" alt="SuperNET Iguana" />
             </div>
 
-            <div id="section-ie-warning" style={{ display: 'none' }}>
+            <div id="section-ie-warning" className={this.state.ieWarning ? 'show' : 'hide'}>
               <div className="panel">
                 <div className="panel-heading">
                   <h3 className="panel-title">{translate('INDEX.UNSUPPORTED_BROWSER')}</h3>
@@ -25,7 +43,7 @@ class Login extends React.Component {
                 </div>
                 <div className="panel-body">
                   <p style={{ color: '#424242' }}>
-                    {translate('INDEX.PLEASE_USE')} <a href="https://www.google.com/chrome/">Google Chrome</a> <span data-lang="INDEX.OR"></span> <a href="https://www.firefox.com">Mozilla FireFox</a> {translate('INDEX.TO_USE')} EasyDEX-GUI. {translate('INDEX.PLEASE_CLICK_ON')}.
+                    {translate('INDEX.PLEASE_USE')} <a href="https://www.google.com/chrome/">Google Chrome</a> {translate('INDEX.OR')} <a href="https://www.firefox.com">Mozilla FireFox</a> {translate('INDEX.TO_USE')} EasyDEX-GUI. {translate('INDEX.PLEASE_CLICK_ON')}.
                   </p>
                   <div className="col-sm-6 col-xs-6">
                     <a href="https://www.google.com/chrome/"><img className="brand-img" src="assets/images/browsers/chrome.png" alt="Google Chrome" /></a>
@@ -37,7 +55,7 @@ class Login extends React.Component {
               </div>
             </div>
 
-            <div id="section-login" style={{ display: 'none' }}>
+            <div id="section-login" className={this.state.login ? 'show' : 'hide'}>
               <h4 style={{ color: '#fff' }} id="login-welcome">{translate('INDEX.WELCOME_LOGIN')}</h4>
               <form className="login-form" autoComplete="off">
                 <div className="form-group form-material floating">
@@ -52,14 +70,14 @@ class Login extends React.Component {
               </form>
             </div>
 
-            <div id="section-login-addcoin-btn">
+            <div id="section-login-addcoin-btn" className={this.state.activateCoin ? 'show' : 'hide'}>
               <h4 style={{ color: '#fff' }} id="login-welcome">{translate('INDEX.WELCOME_PLEASE_ADD')}</h4>
               <div className="form-group form-material floating" style={{width: '540px', margin: '30px 0'}}>
-                <button className="btn btn-lg btn-primary btn-block ladda-button" id="start-coin-login" role="menuitem" data-edexcoinmenu="COIN" data-target="#AddCoinDilogModel-login" data-toggle="modal" data-style="expand-left" data-plugin="ladda"><span className="ladda-label">{translate('INDEX.ACTIVATE_COIN')}</span></button>
+                <button className="btn btn-lg btn-primary btn-block ladda-button" id="start-coin-login" role="menuitem" data-edexcoinmenu="COIN" data-target="#AddCoinDilogModel-login" data-toggle="modal" data-style="expand-left" data-plugin="ladda" onClick={this.toggleActivateCoinForm}><span className="ladda-label">{translate('INDEX.ACTIVATE_COIN')}</span></button>
               </div>
             </div>
 
-            <div id="section-register" style={{ display: 'none' }}>
+            <div id="section-register" className={this.state.signup ? 'show' : 'hide'}>
               <form className="register-form" role="form" autoComplete="off">
                 <h4 className="hint" style={{ color: '#fff' }}>
                   {translate('INDEX.SELECT_SEED_TYPE')}:

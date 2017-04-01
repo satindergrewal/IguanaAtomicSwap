@@ -1,7 +1,6 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-import { addCoin, shepherdGetConfig } from '../../actions/actionCreators';
-//import { startCurrencyAssetChain } from './payload';
+import { addCoin, toggleAddcoinModal } from '../../actions/actionCreators';
 import Store from '../../store';
 
 class AddCoin extends React.Component {
@@ -22,6 +21,7 @@ class AddCoin extends React.Component {
         checked: false,
       },
       mode: -2,
+      display: false,
     };
     this.updateSelectedCoin = this.updateSelectedCoin.bind(this);
     this.updateSelectedMode = this.updateSelectedMode.bind(this);
@@ -29,6 +29,15 @@ class AddCoin extends React.Component {
     this.setBasiliskMode = this.setBasiliskMode.bind(this);
     this.setFullMode = this.setFullMode.bind(this);
     this.activateCoin = this.activateCoin.bind(this);
+    this.dismiss = this.dismiss.bind(this);
+  }
+
+  componentWillReceiveProps(props) {
+    if (props) {
+      this.setState(Object.assign({}, this.state, {
+        display: props.display,
+      }));
+    }
   }
 
   updateSelectedCoin(e) {
@@ -88,28 +97,31 @@ class AddCoin extends React.Component {
     this.updateSelectedMode('1');
   }
 
-  handleForm(e) {
+  /*handleForm(e) {
     e.preventDefault();
     e.target.reset();
     this.setState({
       mode: '',
       selectedCoin: null,
     });
-  }
+  }*/
 
   activateCoin() {
-    //console.log(startCurrencyAssetChain(this.state.selectedCoin.split('|')[0], this.state.mode));
     Store.dispatch(addCoin(this.state.selectedCoin.split('|')[0], this.state.mode));
+  }
+
+  dismiss() {
+    Store.dispatch(toggleAddcoinModal(false, false));
   }
 
   render() {
     return (
       <div>
-        <div className="modal show modal-3d-sign in add-coin-modal" id="AddCoinDilogModel-login" aria-hidden="true" aria-labelledby="AddCoinDilogModel-login" role="dialog" tabIndex="-1">
+        <div className={'modal modal-3d-sign add-coin-modal ' + (this.state.display ? 'show in' : 'fade hide')} id="AddCoinDilogModel-login" aria-hidden="true" aria-labelledby="AddCoinDilogModel-login" role="dialog" tabIndex="-1">
           <div className="modal-dialog modal-center modal-lg">
             <div className="modal-content">
               <div className="modal-header bg-orange-a400 wallet-send-header">
-                <button type="button" className="close white" data-dismiss="modal" aria-label="Close">
+                <button type="button" className="close white" data-dismiss="modal" aria-label="Close" onClick={this.dismiss}>
                   <span aria-hidden="true">×</span>
                 </button>
                 <h4 className="modal-title white">{translate('INDEX.SELECT_A_COIN')}</h4>
@@ -243,7 +255,7 @@ class AddCoin extends React.Component {
             </div>
           </div>
         </div>
-        <div className="modal-backdrop fade in"></div>
+        <div className={'modal-backdrop ' + (this.state.display ? 'show in' : 'fade hide')}></div>
       </div>
     );
   }

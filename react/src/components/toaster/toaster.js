@@ -36,17 +36,20 @@ class Toaster extends React.Component {
     this.setInitialState();
   }
 
+  // TODO: multiple toasts
   renderToast() {
     setTimeout(() => {
-      //this.setInitialState();
+      this.setInitialState();
     }, 5000);
 
     return (
-      <div id="toast-container" className="toast-bottom-right" aria-live="polite" role="alert">
-        <div className={"toast toast-" + this.state.type}>
-          <button className="toast-close-button" role="button" onClick={this.dismissToast}>×</button>
-          <div className="toast-title">{this.state.title}</div>
-          <div className="toast-message">{this.state.message}</div>
+      <div className="toaster">
+        <div id="toast-container" className="single-toast toast-bottom-right" aria-live="polite" role="alert">
+          <div className={"toast toast-" + this.state.type}>
+            <button className="toast-close-button" role="button" onClick={this.dismissToast}>×</button>
+            <div className="toast-title">{this.state.title}</div>
+            <div className="toast-message">{this.state.message}</div>
+          </div>
         </div>
       </div>
     );
