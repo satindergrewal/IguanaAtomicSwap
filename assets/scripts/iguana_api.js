@@ -185,7 +185,7 @@ function Iguana_utxorawtx(data) {
 function checkAC(coinVal) {
 	if (coinVal == 'SUPERNET' ||
 			coinVal == 'REVS' ||
-			coinVal == 'WIRELESS' ||
+			coinVal == 'WLC' ||
 			coinVal == 'DEX' ||
 			coinVal == 'PANGEA' ||
 			coinVal == 'JUMBLR' ||
@@ -199,6 +199,7 @@ function checkAC(coinVal) {
 			coinVal == 'KV' ||
 			coinVal == 'CEAL' ||
 			coinVal == 'MESH' ||
+			coinVal == 'BTC' ||
 			coinVal == 'USD' ||
 			coinVal == 'RON' ||
 			coinVal == 'EUR' ||

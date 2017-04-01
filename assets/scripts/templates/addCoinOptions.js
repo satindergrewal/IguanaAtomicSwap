@@ -9,7 +9,7 @@ templates.addCoinOptions =
   <option value="DGB">Digibyte (DGB)</option>
   <option value="DOGE">Dogecoin (DOGE)</option>
   <option value="FRK">Franko (FRK)</option>
-  <option value="GMC">Gamerscoin (GMC)</option>
+  <option value="GAME">GameCredits (GAME)</option>
   <option value="KMD">Komodo (KMD)</option>
   <option value="LTC">Litecoin (LTC)</option>
   <option value="MZC">MazaCoin (MZC)</option>
@@ -34,7 +34,7 @@ templates.addCoinOptions =
   <option value="SHARK">SHARK (SHARK)</option>
   <option value="MESH">SpaceMesh (MESH)</option>
   <option value="SUPERNET">SUPERNET (SUPERNET)</option>
-  <option value="WIRELESS">WIRELESS (WIRELESS)</option>
+  <option value="WLC">WIRELESS (WLC)</option>
 </optgroup>
 <optgroup label="Fiat Currencies">
   <option value="AUD">Australian Dollar (AUD)</option>

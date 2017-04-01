@@ -665,9 +665,9 @@ var Dashboard = function() {
 									coinlogo = 'franko';
 									coinname = 'Franko';
 									break;
-								case 'GMC':
-									coinlogo = 'gamerscoin';
-									coinname = 'Gamerscoin';
+								case 'GAME':
+									coinlogo = 'GAME';
+									coinname = 'GameCredits';
 									break;
 								case 'SUPERNET':
 									coinlogo = 'SUPERNET';
@@ -677,8 +677,8 @@ var Dashboard = function() {
 									coinlogo = 'REVS';
 									coinname = 'REVS';
 									break;
-								case 'WIRELESS':
-									coinlogo = 'WIRELESS';
+								case 'WLC':
+									coinlogo = 'WLC';
 									coinname = 'WIRELESS';
 									break;
 								case 'PANGEA':
@@ -939,6 +939,13 @@ var Dashboard = function() {
 				$('#addcoin_mdl_native_mode').prop('disabled', true);
 				$('#addcoin_mdl_full_mode').prop('disabled', false);
 			}
+			if (tmp_coin_val == 'ZEC') {
+				$('#addcoin_mdl_basilisk_mode').prop('disabled', true);
+				$('#addcoin_mdl_native_mode')
+					.prop('disabled', false)
+					.prop('checked', true);
+				$('#addcoin_mdl_full_mode').prop('disabled', true);
+			}
 		});
 	}
 
@@ -1078,7 +1085,7 @@ var Dashboard = function() {
 
 				});
 			}
-		}, 1000);
+		}, 5000);
 
 		var FetchBasiliskData = setInterval(function() {
 			var active_edexcoin = $('[data-edexcoin]').attr('data-edexcoin'),

@@ -66,20 +66,20 @@ var WalletSettings = function() {
 											var EncryptWalletDataOutput = JSON.parse(data);
 
 											console.log(EncryptWalletDataOutput[wifkey_coin_handle + 'wif']);
-											WifKeyDivContent += '<table class="table">';
-																						'<tr>' +
-																							'<td style="width: 5%">' +
-																								'<b>' + wifkey_coin_handle + '</b>' +
-																							'</td>' +
-																							'<td>' + EncryptWalletDataOutput[wifkey_coin_handle] + '</td>' +
-																						'</tr>' +
-																						'<tr>' +
-																							'<td>' +
-																								'<b>' + wifkey_coin_handle + 'Wif</b>' +
-																							'</td>' +
-																							'<td>' + EncryptWalletDataOutput[wifkey_coin_handle + 'wif'] + '</td>' +
-																						'</tr>' +
-																					'</table>';
+											var WifKeyDivContent = '<table class="table">' +
+																							'<tr>' +
+																								'<td style="width: 5%">' +
+																									'<b>' + wifkey_coin_handle + '</b>' +
+																								'</td>' +
+																								'<td>' + EncryptWalletDataOutput[wifkey_coin_handle] + '</td>' +
+																							'</tr>' +
+																							'<tr>' +
+																								'<td>' +
+																									'<b>' + wifkey_coin_handle + 'Wif</b>' +
+																								'</td>' +
+																								'<td>' + EncryptWalletDataOutput[wifkey_coin_handle + 'wif'] + '</td>' +
+																							'</tr>' +
+																						'</table>';
 											$('#wif-priv-keys').html(WifKeyDivContent);
 										},
 										error: function(xhr, textStatus, error) {
