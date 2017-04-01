@@ -126,7 +126,12 @@ templates.bottomIncludes =
       socket.on('messages', function(data) {
         console.log(data);
       });
-
+      socket.on('service', function(data) {
+        console.log('service', data);
+        if (data.komodod && data.komodod.error === 'start error') {
+          toastr.error(_lang[defaultLang].TOASTR.KOMODO_ERR, _lang[defaultLang].TOASTR.SERVICE_NOTIFICATION + '.');
+        }
+      });
       lang();
     });
   })(document, window, jQuery);

@@ -129,7 +129,7 @@ function RunKMDInitFunctions() {
 							}
 						});
 					}
-				}, 2000);
+				}, 5000);
 			}
 
 			if (sessionStorage.getItem('edexTmpMode') === 'Native') {
@@ -168,5 +168,4 @@ function RunKMDInitFunctions() {
 		NProgress.done();
 	}
 	CheckIfConnected(_RunKMDInitFunctions);
-
 }
