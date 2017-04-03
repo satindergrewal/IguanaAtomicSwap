@@ -2,6 +2,8 @@ import React from 'react';
 import Config from '../../config';
 import WalletMain from './walletMain';
 import { iguanaSetRPCAuth } from '../../util/auth';
+import Store from '../../store';
+import { getDexCoins, iguanaActiveHandle } from '../../actions/actionCreators';
 
 class Main extends React.Component {
   constructor(props) {
@@ -11,13 +13,28 @@ class Main extends React.Component {
     this.loading = this.loading.bind(this);
     this.isWalletUnlocked = this.isWalletUnlocked.bind(this);
     this.state = {
-      user: false,
+      isLoggedIn: false,
+      coins: null,
+      activeCoins: false,
+      activeHandleInterval: null,
     };
+  }
+
+  componentDidMount() {
+    Store.dispatch(iguanaActiveHandle());
+    var _iguanaActiveHandle = setInterval(function() {
+      Store.dispatch(iguanaActiveHandle());
+    }, 30000);
+
+    this.setState(Object.assign({}, this.state, {
+      activeHandleInterval: _iguanaActiveHandle,
+    }));
   }
 
   componentWillMount() {
     console.log('mounting main component');
     // set userpass param
+    Store.dispatch(getDexCoins());
     iguanaSetRPCAuth();
     if (sessionStorage.getItem('session')) {
       this.setState({

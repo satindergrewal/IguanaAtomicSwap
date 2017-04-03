@@ -4,6 +4,9 @@ import { translate } from '../translate/translate';
 
 export const TOASTER_MESSAGE = 'TOASTER_MESSAGE';
 export const DISPLAY_ADDCOIN_MODAL = 'DISPLAY_ADDCOIN_MODAL';
+export const GET_ACTIVE_COINS = 'GET_ACTIVE_COINS';
+export const LOGIN = 'LOGIN';
+export const ACTIVE_HANDLE = 'ACTIVE_HANDLE';
 
 function triggerToaster(display, message, title, _type) {
   return {
@@ -20,6 +23,33 @@ function toggleAddcoinModalState(display, isLogin) {
     type: DISPLAY_ADDCOIN_MODAL,
     display: display,
     isLogin: isLogin,
+  }
+}
+
+function dashboardCoinsState(json) {
+  return {
+    type: GET_ACTIVE_COINS,
+    coins: json,
+    activeCoins: Object.keys(json.native).length || Object.keys(json.basilisk).length || Object.keys(json.full).length ? true : false
+  }
+}
+
+function iguanaWalletPassphraseState(json, dispatch) {
+  console.log('passp', json);
+  sessionStorage.setItem('IguanaActiveAccount', JSON.stringify(json));
+  dispatch(triggerToaster(true, translate('TOASTR.LOGIN_SUCCESSFULL'), translate('TOASTR.ACCOUNT_NOTIFICATION'), 'success'));
+
+  return {
+    type: LOGIN,
+    isLoggedIn: json && json.pubkey ? true : false,
+  }
+}
+
+function iguanaActiveHandleState(json) {
+  return {
+    type: ACTIVE_HANDLE,
+    isLoggedIn: JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey === json.pubkey && json.status === 'unlocked' ? true : false,
+    handle: json,
   }
 }
 
@@ -93,8 +123,8 @@ export function addCoinResult(coin, mode) {
   };
 
   return dispatch => {
-    //dispatch(shepherdGetConfig(coin, mode));
-    dispatch(triggerToaster(true, coin + ' ' + translate('TOASTR.COIN_STARTED') + modeToValue[defaultMode] + ' ' + translate('TOASTR.MODE'), translate('TOASTR.COIN_NOTIFICATION'), 'success'));
+    dispatch(triggerToaster(true, coin + ' ' + translate('TOASTR.COIN_STARTED') + modeToValue[mode] + ' ' + translate('TOASTR.MODE'), translate('TOASTR.COIN_NOTIFICATION'), 'success'));
+    dispatch(getDexCoins());
   }
 }
 
@@ -115,3 +145,101 @@ export function shepherdGetConfig(coin, mode) {
     .then(json => dispatch(shepherdHerd(coin, mode, json)));
   }
 }
+
+export function getDexCoins() {
+  return dispatch => {
+    return fetch('http://127.0.0.1:7778', {
+      method: 'POST',
+      //mode: 'no-cors'
+      body: JSON.stringify({
+        'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+        'agent': 'InstantDEX',
+        'method': 'allcoins',
+      })
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'Error getDexCoins', 'Error', 'error'))
+
+    })
+    .then(response => response.json())
+    .then(json => dispatch(dashboardCoinsState(json)));
+  }
+}
+
+function rpcErrorHandler(json, dispatch) {
+  console.log('json', json);
+  if (json && json.error) {
+    if (json.error === 'bitcoinrpc needs coin that is active') {
+      dispatch(triggerToaster(true, 'No active coin', translate('TOASTR.SERVICE_NOTIFICATION'), 'error'));
+    }
+  }
+}
+
+export function iguanaWalletPassphrase(_passphrase) {
+  return dispatch => {
+    return fetch('http://127.0.0.1:7778', {
+      method: 'POST',
+      body: JSON.stringify({
+        'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+        'handle': '',
+        'password': _passphrase,
+        'timeout': '2592000',
+        'agent': 'bitcoinrpc',
+        'method': 'walletpassphrase'
+      }),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'Error iguanaWalletPassphrase', 'Error', 'error'))
+    })
+    .then(response => response.json())
+    .then(json => dispatch(iguanaWalletPassphraseState(json, dispatch)));
+  }
+}
+
+export function iguanaActiveHandle() {
+  return dispatch => {
+    return fetch('http://127.0.0.1:7778', {
+      method: 'POST',
+      body: JSON.stringify({
+        'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+        'agent': 'SuperNET',
+        'method': 'activehandle'
+      }),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'Error iguanaActiveHandle', 'Error', 'error'))
+    })
+    .then(response => response.json())
+    .then(json => dispatch(iguanaActiveHandleState(json)));
+  }
+}
+
+/*function Shepherd_SysInfo() {
+  return new Promise((resolve) => {
+    $.ajax({
+      type: 'GET',
+      url: 'http://127.0.0.1:17777/shepherd/sysinfo',
+      contentType: 'application/json' // send as JSON
+    })
+    .done(function(data) {
+      resolve(data);
+    });
+  });
+}
+
+function Shepherd_SendPendValue() {
+  Shepherd_SysInfo().then(function(result){
+    var ram_data = formatBytes(result.totalmem_bytes)
+    var pend_val = null;
+    if (ram_data.size === 'GB') {
+      if (ram_data.ramsize >= '63' ) { pend_val = 16; }
+      if (ram_data.ramsize >= '31' ) { pend_val = 8; }
+      if (ram_data.ramsize >= '15' ) { pend_val = 4; }
+      if (ram_data.ramsize <= '15' ) { pend_val = 1; }
+    } else { pend_val = 1; }
+    sessionStorage.setItem('IguanaPendValue', pend_val);
+  })
+}*/
