@@ -1,5 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
+import { dashboardChangeSection, toggleAddcoinModal } from '../../actions/actionCreators';
+import Store from '../../store';
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -8,14 +10,25 @@ class Navbar extends React.Component {
       openDropMenu: false,
     };
     this.openDropMenu = this.openDropMenu.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   openDropMenu() {
     this.setState(Object.assign({}, this.state, {
       openDropMenu: !this.state.openDropMenu,
     }));
+  }
 
-    console.log(this.state);
+  toggleAddCoinModal() {
+    Store.dispatch(toggleAddcoinModal(true, false));
+  }
+
+  dashboardChangeSection(sectionName) {
+    Store.dispatch(dashboardChangeSection(sectionName));
+  }
+
+  logout() {
+    // logout
   }
 
   render() {
@@ -54,22 +67,22 @@ class Navbar extends React.Component {
                 </a>
               </li>
               <li className="active nav-top-menu">
-                <a href="javascript:void(0)" id="nav-dashboard" onClick={this.dashboard}>
+                <a href="javascript:void(0)" id="nav-dashboard" onClick={() => this.dashboardChangeSection('wallets')}>
                   <i className="site-menu-icon" aria-hidden="true"></i> {translate('INDEX.WALLETS')}
                 </a>
               </li>
               <li className="nav-top-menu">
-                <a href="javascript:void(0)" id="nav-easydex" onClick={this.edex}>
+                <a href="javascript:void(0)" id="nav-easydex" onClick={() => this.dashboardChangeSection('edex')}>
                   <i className="site-menu-icon" aria-hidden="true"></i> EasyDEX
                 </a>
               </li>
               <li className="nav-top-menu">
-                <a href="javascript:void(0)" id="nav-jumblr" onClick={this.Jumblr}>
+                <a href="javascript:void(0)" id="nav-jumblr" onClick={() => this.dashboardChangeSection('jumblr')}>
                   <i className="site-menu-icon" aria-hidden="true"></i> Jumblr
                 </a>
               </li>
               <li className="nav-top-menu">
-                <a href="javascript:void(0)" id="nav-iguana-atomic-explorer" onClick={this.atomic}>
+                <a href="javascript:void(0)" id="nav-iguana-atomic-explorer" onClick={() => this.dashboardChangeSection('atomic')}>
                   <i className="site-menu-icon" aria-hidden="true"></i> Atomic Explorer
                 </a>
               </li>
@@ -92,12 +105,12 @@ class Navbar extends React.Component {
                 </a>
                 <ul className="dropdown-menu" role="menu">
                   <li role="presentation">
-                    <a href="javascript:void(0)" role="menuitem" id="nav-iguana-wallet-settings" onClick={this.settings}>
+                    <a href="javascript:void(0)" role="menuitem" id="nav-iguana-wallet-settings" onClick={() => this.dashboardChangeSection('settings')}>
                       <i className="icon md-settings" aria-hidden="true"></i> {translate('INDEX.SETTINGS')}
                     </a>
                   </li>
                   <li role="presentation">
-                    <a href="javascript:void(0)" role="menuitem" id="nav-about-iguana" onClick={this.about}>
+                    <a href="javascript:void(0)" role="menuitem" id="nav-about-iguana" onClick={() => this.dashboardChangeSection('about')}>
                       <i className="icon md-settings" aria-hidden="true"></i> {translate('INDEX.ABOUT_IGUANA')}
                     </a>
                   </li>

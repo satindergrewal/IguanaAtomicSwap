@@ -7,6 +7,8 @@ export const DISPLAY_ADDCOIN_MODAL = 'DISPLAY_ADDCOIN_MODAL';
 export const GET_ACTIVE_COINS = 'GET_ACTIVE_COINS';
 export const LOGIN = 'LOGIN';
 export const ACTIVE_HANDLE = 'ACTIVE_HANDLE';
+export const DASHBOARD_SECTION_CHANGE = 'DASHBOARD_SECTION_CHANGE';
+export const DASHBOARD_ACTIVE_COIN_CHANGE = 'DASHBOARD_ACTIVE_COIN_CHANGE';
 
 function triggerToaster(display, message, title, _type) {
   return {
@@ -48,8 +50,34 @@ function iguanaWalletPassphraseState(json, dispatch) {
 function iguanaActiveHandleState(json) {
   return {
     type: ACTIVE_HANDLE,
-    isLoggedIn: JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey === json.pubkey && json.status === 'unlocked' ? true : false,
+    isLoggedIn: sessionStorage.getItem('IguanaActiveAccount') && JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey === json.pubkey && json.status === 'unlocked' ? true : false,
     handle: json,
+  }
+}
+
+function dashboardChangeSectionState(sectionName) {
+  return {
+    type: DASHBOARD_SECTION_CHANGE,
+    activeSection: sectionName,
+  }
+}
+
+export function dashboardChangeSection(sectionName) {
+  return dispatch => {
+    dispatch(dashboardChangeSectionState(sectionName));
+  }
+}
+
+function dashboardChangeActiveCoinState(coin) {
+  return {
+    type: DASHBOARD_SECTION_CHANGE,
+    coin: coin,
+  }
+}
+
+export function dashboardChangeActiveCoin(coin) {
+  return dispatch => {
+    dispatch(dashboardChangeSectionState(coin));
   }
 }
 
@@ -117,14 +145,14 @@ export function shepherdHerd(coin, mode, path) {
 
 export function addCoinResult(coin, mode) {
   const modeToValue = {
-    'full': 1,
-    'basilisk': 0,
-    'native': -1,
+    '1': 'full',
+    '0': 'basilisk',
+    '-1': 'native'
   };
+  console.log('mode', mode);
 
   return dispatch => {
-    dispatch(triggerToaster(true, coin + ' ' + translate('TOASTR.COIN_STARTED') + modeToValue[mode] + ' ' + translate('TOASTR.MODE'), translate('TOASTR.COIN_NOTIFICATION'), 'success'));
-    dispatch(getDexCoins());
+    dispatch(triggerToaster(true, coin + ' ' + translate('TOASTR.STARTED_IN') + ' ' + modeToValue[mode] + ' ' + translate('TOASTR.MODE'), translate('TOASTR.COIN_NOTIFICATION'), 'success'));
   }
 }
 

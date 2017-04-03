@@ -344,14 +344,6 @@ class CoinTile extends React.Component {
     );
   }
 
-  /*openDropMenu() {
-    this.setState(Object.assign({}, this.state, {
-      openDropMenu: !this.state.openDropMenu,
-    }));
-
-    console.log(this.state);
-  }*/
-
   render() {
     return (
       <div className="page-aside" style={{paddingTop: '80px'}}>

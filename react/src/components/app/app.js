@@ -8,6 +8,8 @@ function mapStateToProps(state) {
     toaster: state.toaster,
     AddCoin: state.AddCoin,
     Main: state.Main,
+    Dashboard: state.Dashboard,
+    ActiveCoin: state.ActiveCoin,
   };
 }
 
