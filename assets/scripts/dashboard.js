@@ -933,11 +933,11 @@ var Dashboard = function() {
 					$('#addcoin_mdl_full_mode').prop('disabled', true);
 			}
 			if (tmp_coin_val == 'BTC') {
-				$('#addcoin_mdl_basilisk_mode')
-					.prop('disabled', false)
-					.prop('checked', true);
+				$('#addcoin_mdl_basilisk_mode').prop('disabled', true)
 				$('#addcoin_mdl_native_mode').prop('disabled', true);
-				$('#addcoin_mdl_full_mode').prop('disabled', false);
+				$('#addcoin_mdl_full_mode')
+						.prop('disabled', false)
+						.prop('checked', true);
 			}
 			if (tmp_coin_val == 'ZEC') {
 				$('#addcoin_mdl_basilisk_mode').prop('disabled', true);
