@@ -3,12 +3,16 @@ import { routerReducer } from 'react-router-redux';
 
 import { AddCoin } from './addcoin';
 import { toaster } from './toaster';
-//import { loader } from './loader';
+import { Main } from './main';
+import { Dashboard } from './dashboard';
+import { ActiveCoin } from './activeCoin';
 
 const rootReducer = combineReducers({
   AddCoin,
   toaster,
-  //loader,
+  Main,
+  Dashboard,
+  ActiveCoin,
   routing: routerReducer,
 });
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Dummy() {
+class Dummy extends React.Component () {
   return (
   );
 }

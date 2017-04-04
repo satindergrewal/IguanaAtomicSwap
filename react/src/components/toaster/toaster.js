@@ -1,4 +1,6 @@
 import React from 'react';
+import { dismissToasterMessage } from '../../actions/actionCreators';
+import Store from '../../store';
 
 class Toaster extends React.Component {
   constructor(props) {
@@ -20,26 +22,24 @@ class Toaster extends React.Component {
         type: props.type,
         title: props.title,
       });
+    } else {
+      this.setState({
+        display: false,
+        message: null,
+        type: null,
+        title: null,
+      });
     }
   }
 
-  setInitialState() {
-    this.setState({
-      display: false,
-      message: null,
-      type: null,
-      title: null,
-    });
-  }
-
   dismissToast() {
-    this.setInitialState();
+    Store.dispatch(dismissToasterMessage());
   }
 
   // TODO: multiple toasts
   renderToast() {
     setTimeout(() => {
-      this.setInitialState();
+      Store.dispatch(dismissToasterMessage());
     }, 5000);
 
     return (
