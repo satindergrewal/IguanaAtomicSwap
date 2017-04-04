@@ -1,6 +1,6 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-import { dashboardChangeSection, toggleAddcoinModal } from '../../actions/actionCreators';
+import { dashboardChangeSection, toggleAddcoinModal, logout } from '../../actions/actionCreators';
 import Store from '../../store';
 
 class Navbar extends React.Component {
@@ -28,7 +28,7 @@ class Navbar extends React.Component {
   }
 
   logout() {
-    // logout
+    Store.dispatch(logout());
   }
 
   render() {

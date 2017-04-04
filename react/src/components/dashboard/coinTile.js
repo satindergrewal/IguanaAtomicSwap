@@ -340,7 +340,7 @@ class CoinTile extends React.Component {
 
     return (
       items.map((item, i) =>
-        <CoinTileItem key={i} i={i} item={item} />)
+        <CoinTileItem key={i} i={i} item={item} {...this.props} />)
     );
   }
 
@@ -362,7 +362,7 @@ class CoinTile extends React.Component {
                   <input type="text" className="form-control" name="" placeholder="Search..." disabled />
                 </div>
               </div>
-              <h3 className="panel-title" data-lang="INDEX.ACTIVE_COINS"></h3>
+              <h3 className="panel-title">{translate('INDEX.ACTIVE_COINS')}</h3>
             </div>
           </div>
           <div className="wallet-widgets-list" data-plugin="pageAsideScroll">

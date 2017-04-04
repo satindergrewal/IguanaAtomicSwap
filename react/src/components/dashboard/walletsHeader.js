@@ -5,7 +5,7 @@ import { translate } from '../../translate/translate';
 
 class WalletsHeader extends React.Component {
   render() {
-    if (this.props && this.props.coin) {    
+    if (this.props && this.props.coin) {
       return (
         <div className="page-header page-header-bordered header-easydex margin-bottom-0" id="easydex-header-div">
           <h1 className="page-title">EasyDEX</h1>
@@ -19,7 +19,7 @@ class WalletsHeader extends React.Component {
               </button>
               <ul className="dropdown-menu animate dropdown-menu-right" aria-labelledby="easydex_kmd_wallet_actions_header" role="menu">
                 <li role="presentation">
-                  <a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_dashboard" data-lang="INDEX.DASHBOARD">{translate('INDEX.DASHBOARD')}</a>
+                  <a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_dashboard">{translate('INDEX.DASHBOARD')}</a>
                 </li>
                 <li role="presentation">
                   <a href="javascript:void(0)" role="menuitem" data-extcoin-menu="KMD" id="btn_kmd_wallet_send">{translate('INDEX.SEND')}</a>
