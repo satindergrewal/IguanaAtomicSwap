@@ -9,6 +9,7 @@ import WalletsNav from './walletsNav';
 import SendCoin from './sendCoin';
 import WalletsData from './walletsData';
 import Atomic from './atomic';
+import Jumblr from './jumblr';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -38,6 +39,9 @@ class Dashboard extends React.Component {
           </div>
           <div className={this.props.Dashboard.activeSection === 'atomic' ? 'show' : 'hide'}>
             <Atomic {...this.props} />
+          </div>
+          <div className={this.props.Dashboard.activeSection === 'jumblr' ? 'show' : 'hide'}>
+            <Jumblr {...this.props} />
           </div>
         </div>
       </div>
