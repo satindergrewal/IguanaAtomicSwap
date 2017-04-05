@@ -1,5 +1,5 @@
 import 'whatwg-fetch';
-import { startCurrencyAssetChain } from '../components/addcoin/payload';
+import { startCurrencyAssetChain, startAssetChain, checkCoinType } from '../components/addcoin/payload';
 import { copyToClipboard } from '../util/copyToClipboard';
 import { translate } from '../translate/translate';
 
@@ -186,8 +186,25 @@ export function dismissToasterMessage() {
 
 export function addCoin(coin, mode) {
 	console.log('coin, mode', coin + ' ' + mode);
-  return dispatch => {
-    dispatch(shepherdGetConfig(coin, mode));
+  if (mode === '-1') {
+    return dispatch => {
+      dispatch(shepherdGetConfig(coin, mode));
+    }
+  } else {
+    if (checkCoinType(coin) === 'currency_ac') {
+      console.log('cointype', 'currency_ac');
+      var _acData = startCurrencyAssetChain('', coin, mode);
+      return dispatch => {
+        dispatch(iguanaAddCoin(coin, mode, _acData));
+      }
+    }
+    if (checkCoinType(coin) === 'ac') {
+      console.log('cointype', 'ac');
+      var _acData = startAssetChain('', coin, mode);
+      return dispatch => {
+        dispatch(iguanaAddCoin(coin, mode, _acData));
+      }
+    }
   }
 }
 
@@ -208,7 +225,8 @@ export function iguanaAddCoin(coin, mode, acData) {
 }
 
 export function shepherdHerd(coin, mode, path) {
-  const herdData = {
+  var acData;
+  var herdData = {
     'ac_name': coin,
     'ac_options': [
       '-daemon=0',
@@ -217,7 +235,14 @@ export function shepherdHerd(coin, mode, path) {
       '-addnode=78.47.196.146'
     ]
   };
-  const acData = startCurrencyAssetChain(path.result, coin, mode);
+
+  if (checkCoinType(coin) === 'currency_ac') {
+    acData = startCurrencyAssetChain(path.result, coin, mode);
+  }
+  if (checkCoinType(coin) === 'ac') {
+    acData = startCurrencyAssetChain(path.result, coin, mode, true);
+    herdData.ac_options.push(acData.supply);
+  }
 
   console.log('herdData', herdData);
   return dispatch => {
