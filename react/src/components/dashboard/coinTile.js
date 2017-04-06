@@ -18,12 +18,10 @@ class CoinTile extends React.Component {
     ];
     const allCoins = this.props.Main.coins;
     var items = [];
-    console.log('tiles', this.props.Main.coins);
 
     if (this.props.Main && this.props.Main.coins) {
       modes.map(function(mode) {
         allCoins[mode].map(function(coin) {
-          console.log(coin);
           var coinlogo = '',
               coinname = '',
               modecode = '',

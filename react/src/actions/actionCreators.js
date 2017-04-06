@@ -1,5 +1,5 @@
 import 'whatwg-fetch';
-import { startCurrencyAssetChain, startAssetChain, checkCoinType } from '../components/addcoin/payload';
+import { startCurrencyAssetChain, startAssetChain, startCrypto, checkCoinType } from '../components/addcoin/payload';
 import { copyToClipboard } from '../util/copyToClipboard';
 import { translate } from '../translate/translate';
 
@@ -65,7 +65,7 @@ function dashboardCoinsState(json) {
 }
 
 function iguanaWalletPassphraseState(json, dispatch) {
-  console.log('passp', json);
+  console.log('iguanaWalletPassphraseState', json);
   sessionStorage.setItem('IguanaActiveAccount', JSON.stringify(json));
   dispatch(triggerToaster(true, translate('TOASTR.LOGIN_SUCCESSFULL'), translate('TOASTR.ACCOUNT_NOTIFICATION'), 'success'));
 
@@ -192,15 +192,19 @@ export function addCoin(coin, mode) {
     }
   } else {
     if (checkCoinType(coin) === 'currency_ac') {
-      console.log('cointype', 'currency_ac');
       var _acData = startCurrencyAssetChain('', coin, mode);
       return dispatch => {
         dispatch(iguanaAddCoin(coin, mode, _acData));
       }
     }
     if (checkCoinType(coin) === 'ac') {
-      console.log('cointype', 'ac');
       var _acData = startAssetChain('', coin, mode);
+      return dispatch => {
+        dispatch(iguanaAddCoin(coin, mode, _acData));
+      }
+    }
+    if (checkCoinType(coin) === 'crypto') {
+      var _acData = startCrypto('', coin, mode);
       return dispatch => {
         dispatch(iguanaAddCoin(coin, mode, _acData));
       }
@@ -209,7 +213,6 @@ export function addCoin(coin, mode) {
 }
 
 export function iguanaAddCoin(coin, mode, acData) {
-  console.log('acData', acData);
   return dispatch => {
     return fetch('http://127.0.0.1:7778', {
       method: 'POST',
@@ -240,8 +243,9 @@ export function shepherdHerd(coin, mode, path) {
     acData = startCurrencyAssetChain(path.result, coin, mode);
   }
   if (checkCoinType(coin) === 'ac') {
-    acData = startCurrencyAssetChain(path.result, coin, mode, true);
-    herdData.ac_options.push(acData.supply);
+    acData = startAssetChain(path.result, coin, mode);
+    var supply = startAssetChain(path.result, coin, mode, true);
+    herdData.ac_options.push('-ac_supply=' + supply);
   }
 
   console.log('herdData', herdData);

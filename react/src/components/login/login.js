@@ -22,7 +22,6 @@ class Login extends React.Component {
       this.setState({
         display: false,
       });
-      console.log(this.state);
     }
     if (props && props.Main && !props.Main.isLoggedIn) {
       this.setState({
@@ -52,7 +51,6 @@ class Login extends React.Component {
 
   loginSeed() {
     Store.dispatch(iguanaWalletPassphrase(this.state.loginPassphrase));
-    console.log(this.state);
   }
 
   render() {
@@ -93,7 +91,7 @@ class Login extends React.Component {
 
               <div id="section-login" className={this.state.activeLoginSection === 'login' ? 'show' : 'hide'}>
                 <h4 style={{ color: '#fff' }} id="login-welcome">{translate('INDEX.WELCOME_LOGIN')}</h4>
-                <form className="login-form" autoComplete="off">
+                <div className="login-form">
                   <div className="form-group form-material floating">
                     <input type="password" className="form-control" name="loginPassphrase" id="password" onChange={this.updatePassphraseLoginInput} />
                     <label className="floating-label" htmlFor="inputPassword">{translate('INDEX.WALLET_SEED')}</label>
@@ -103,7 +101,7 @@ class Login extends React.Component {
                     <button className="btn btn-lg btn-flat btn-block waves-effect" id="register-btn">{translate('INDEX.CREATE_WALLET')}</button>
                     <button className="btn btn-lg btn-flat btn-block waves-effect" id="logint-another-wallet">{translate('INDEX.LOGIN_ANOTHER_WALLET')}</button>
                   </div>
-                </form>
+                </div>
               </div>
 
               <div id="section-login-addcoin-btn" className={this.state.activeLoginSection === 'activateCoin' ? 'show' : 'hide'}>
