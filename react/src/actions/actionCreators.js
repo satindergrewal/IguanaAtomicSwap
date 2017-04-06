@@ -15,6 +15,14 @@ export const DASHBOARD_ACTIVE_COIN_BALANCE = 'DASHBOARD_ACTIVE_COIN_BALANCE';
 export const DASHBOARD_ACTIVE_COIN_SEND_FORM = 'DASHBOARD_ACTIVE_COIN_SEND_FORM';
 export const DASHBOARD_ACTIVE_COIN_RECEIVE_FORM = 'DASHBOARD_ACTIVE_COIN_RECEIVE_FORM';
 export const DASHBOARD_ACTIVE_COIN_RESET_FORMS = 'DASHBOARD_ACTIVE_COIN_RESET_FORMS';
+export const ATOMIC = 'ATOMIC';
+
+function atomicState(json) {
+  return {
+    type: ATOMIC,
+    response: json,
+  }
+}
 
 function toggleSendCoinFormState(display) {
   return {
@@ -25,8 +33,8 @@ function toggleSendCoinFormState(display) {
 
 function toggleReceiveCoinFormState(display) {
   return {
-    type: DASHBOARD_ACTIVE_COIN_SEND_FORM,
-    send: display,
+    type: DASHBOARD_ACTIVE_COIN_RECEIVE_FORM,
+    receive: display,
   }
 }
 
@@ -402,6 +410,21 @@ export function iguanaEdexBalance(coin) {
     })
     .then(response => response.json())
     .then(json => dispatch(iguanaEdexBalanceState(json)));
+  }
+}
+
+export function atomic(payload) {
+  return dispatch => {
+    return fetch('http://127.0.0.1:7778', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, payload.method, 'Atomic explorer error', 'error'))
+    })
+    .then(response => response.json())
+    .then(json => dispatch(atomicState(json)));
   }
 }
 

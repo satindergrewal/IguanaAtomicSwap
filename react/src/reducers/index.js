@@ -6,6 +6,7 @@ import { toaster } from './toaster';
 import { Main } from './main';
 import { Dashboard } from './dashboard';
 import { ActiveCoin } from './activeCoin';
+import { Atomic } from './atomic';
 
 const rootReducer = combineReducers({
   AddCoin,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   Main,
   Dashboard,
   ActiveCoin,
+  Atomic,
   routing: routerReducer,
 });
 
