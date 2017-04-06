@@ -239,6 +239,19 @@ export function shepherdHerd(coin, mode, path) {
     ]
   };
 
+  if (coin === 'ZEC') {
+    herdData = {
+      'ac_name': 'zcashd',
+      'ac_options': [
+        '-daemon=0',
+        '-server=1'
+      ]
+    };
+  }
+
+  if (checkCoinType(coin) === 'crypto') {
+    acData = startCrypto(path.result, coin, mode);
+  }
   if (checkCoinType(coin) === 'currency_ac') {
     acData = startCurrencyAssetChain(path.result, coin, mode);
   }
@@ -256,7 +269,7 @@ export function shepherdHerd(coin, mode, path) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        'herd': coin !== 'zcashd' ? 'komodod' : 'zcashd',
+        'herd': coin !== 'ZEC' ? 'komodod' : 'zcashd',
         'options': herdData
       }),
     })

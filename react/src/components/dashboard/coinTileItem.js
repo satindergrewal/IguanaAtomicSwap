@@ -17,6 +17,7 @@ class CoinTileItem extends React.Component {
 
   render() {
     const { item } = this.props;
+    
     return (
       <div className="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info" data-edexcoincode="{item.coin}">
         <div className={this.props.ActiveCoin.coin === item.coin ? 'widget widget-shadow active' : 'widget widget-shadow'}>
