@@ -25,21 +25,18 @@ class Atomic extends React.Component {
     this.setState(Object.assign({}, this.state, {
       'api': e.target.value,
     }));
-    console.log('this', this.state);
   }
 
   updateSelectedCoin(e) {
     this.setState(Object.assign({}, this.state, {
       'coin': e.target.value.split('|')[0],
     }));
-    console.log('this', this.state);
   }
 
   updateInput(e) {
     this.setState(Object.assign({}, this.state, {
       'input': e.target.value,
     }));
-    console.log('this', this.state);
   }
 
   getAtomicData() {
@@ -326,7 +323,6 @@ class Atomic extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    console.log('atomicprops', props.Atomic.response);
     if (props && props.Atomic.response) {
       if (this.state.api === 'txid' ||
           this.state.api === 'dex_getbestblockhash' ||

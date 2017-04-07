@@ -56,6 +56,18 @@ body {
   margin: 30px 0;
 }
 
+#section-iguana-wallet-settings .panel-title {
+  cursor: pointer;
+  cursor: hand;
+}
+
+#section-iguana-wallet-settings .panel-title:before {
+  content: '\F273';
+}
+#section-iguana-wallet-settings .panel-title.collapsed:before {
+  content: '\F278';
+}
+
 /*.toaster .single-toast:nth-child(0) {
   bottom: 12px;
 }

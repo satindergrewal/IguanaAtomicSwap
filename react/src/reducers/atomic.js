@@ -1,4 +1,4 @@
-import { ATOMIC } from '../actions/actionCreators'
+import { ATOMIC } from '../actions/actionCreators';
 
 export function Atomic(state = {
   response: null,

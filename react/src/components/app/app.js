@@ -11,6 +11,7 @@ function mapStateToProps(state) {
     Dashboard: state.Dashboard,
     ActiveCoin: state.ActiveCoin,
     Atomic: state.Atomic,
+    Settings: state.Settings,
   };
 }
 

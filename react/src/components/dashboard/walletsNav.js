@@ -22,8 +22,11 @@ class WalletsNav extends React.Component {
   }
 
   toggleSendCoinForm(display) {
-    console.log(display);
     Store.dispatch(toggleSendCoinForm(display));
+  }
+
+  toggleReceiveCoinForm(display) {
+    Store.dispatch(toggleReceiveCoinForm(display));
   }
 
   render() {
@@ -32,8 +35,7 @@ class WalletsNav extends React.Component {
         <div>
           <div className="col-xs-12 padding-top-20" id="no_wallet_selected">
             <div className="alert alert-info alert-dismissible" role="alert">
-              <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-              </button>
+              <button type="button" className="close" data-dismiss="alert" aria-label="Close"></button>
               <span style={{fontSize: '24px', textAlign: 'center'}}>
                 <i className="icon fa-paw" aria-hidden="true"></i> {translate('INDEX.NO_WALLET_CAPS')}
               </span>
@@ -58,7 +60,7 @@ class WalletsNav extends React.Component {
                 <button type="button" className="btn btn-primary waves-effect waves-light" data-edexcoinmenu="COIN" id="btn_edexcoin_send" onClick={() => this.toggleSendCoinForm(!this.props.ActiveCoin.send)}>
                   <i className="icon fa-send" aria-hidden="true"></i> {translate('INDEX.SEND')}
                 </button>
-                <button type="button" className="btn btn-info waves-effect waves-light" data-edexcoinmenu="COIN" id="btn_edexcoin_recieve">
+                <button type="button" className="btn btn-info waves-effect waves-light" data-edexcoinmenu="COIN" id="btn_edexcoin_recieve" onClick={() => this.toggleReceiveCoinForm(!this.props.ActiveCoin.receive)}>
                   <i className="icon fa-inbox" aria-hidden="true"></i> {translate('INDEX.RECEIVE')}
                 </button>
               </div>
