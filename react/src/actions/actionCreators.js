@@ -429,11 +429,16 @@ export function atomic(payload) {
   }
 }
 
-export function test(json) {
+export function settingsWifkeyState(json, coin) {
+  return {
+    type: GET_WIF_KEY,
+    wifkey: json[coin + 'wif'],
+    address: json[coin],
+  }
   console.log('test', json);
 }
 
-export function encryptWallet(_passphrase, cb) {
+export function encryptWallet(_passphrase, cb, coin) {
   const payload = {
       'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
       'agent': 'bitcoinrpc',
@@ -450,8 +455,30 @@ export function encryptWallet(_passphrase, cb) {
       console.log(error);
       dispatch(triggerToaster(true, 'encryptWallet', 'Error', 'error'))
     })
+    .then(dispatch(walletPassphrase(_passphrase)))
     .then(response => response.json())
-    .then(json => dispatch(cb.call(this, json)));
+    .then(json => dispatch(cb.call(this, json, coin)));
+  }
+}
+
+export function walletPassphrase(_passphrase) {
+  const payload = {
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': 'bitcoinrpc',
+      'method': 'walletpassphrase',
+      'password': _passphrase,
+      'timeout': '2592000'
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:7778', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'walletPassphrase', 'Error', 'error'))
+    })
   }
 }
 

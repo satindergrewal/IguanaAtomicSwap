@@ -1,6 +1,6 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-import { iguanaActiveHandle, encryptWallet, test } from '../../actions/actionCreators';
+import { iguanaActiveHandle, encryptWallet, settingsWifkeyState } from '../../actions/actionCreators';
 import Store from '../../store';
 import AddCoinOptionsCrypto from '../addcoin/addcoinOptionsCrypto';
 import AddCoinOptionsAC from '../addcoin/addcoinOptionsAC';
@@ -13,6 +13,7 @@ class Settings extends React.Component {
       activeTab: 0,
     };
     this.exportWifKeys = this.exportWifKeys.bind(this);
+    this.updatePassphraseInput = this.updatePassphraseInput.bind(this);
   }
 
   componentDidMount() {
@@ -26,7 +27,13 @@ class Settings extends React.Component {
   }
 
   exportWifKeys() {
-    Store.dispatch(encryptWallet('lime lime', test));
+    Store.dispatch(encryptWallet(this.state.wifkeysPassphrase, settingsWifkeyState, this.props.ActiveCoin.coin));
+  }
+
+  updatePassphraseInput(e) {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
   }
 
   render() {
@@ -200,7 +207,7 @@ class Settings extends React.Component {
                             <div className="col-sm-12"></div>
                             <form className="wifkeys-form" method="post" action="javascript:" autoComplete="off">
                               <div className="form-group form-material floating">
-                                <input type="password" className="form-control" name="wifkeys_passphrase" id="wifkeys_passphrase" />
+                                <input type="password" className="form-control" name="wifkeysPassphrase" id="wifkeys_passphrase" onChange={this.updatePassphraseInput} />
                                 <label className="floating-label" htmlFor="wifkeys_passphrase">{translate('INDEX.PASSPHRASE')}</label>
                               </div>
                               <div className="col-sm-12 col-xs-12" style={{textAlign: 'center'}}>
@@ -210,7 +217,20 @@ class Settings extends React.Component {
 
                             <div className="col-sm-12" style={{paddingTop: '15px'}}>
                               <div className="row" id="wif-priv-keys" data-plugin="masonry">
-
+                                <table class="table">
+                                  <tr>
+                                    <td style={{width: '5%'}}>
+                                      <b>{this.props.ActiveCoin.coin}</b>
+                                    </td>
+                                    <td>{this.props.Settings.address}</td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <b>{this.props.ActiveCoin.coin}Wif</b>
+                                    </td>
+                                    <td>{this.props.Settings.wifkey}</td>
+                                  </tr>
+                                </table>
                               </div>
                             </div>
                           </div>
@@ -240,7 +260,7 @@ class Settings extends React.Component {
                                 <label className="floating-label" htmlFor="import_wifkey">{translate('INDEX.INPUT_PRIV_KEY')}</label>
                               </div>
                               <div className="col-sm-12 col-xs-12" style={{textAlign: 'center'}}>
-                                <button type="submit" className="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="import_wifkey_btn">{translate('INDEX.IMPORT_PRIV_KEY')}</button>
+                                <button type="button" className="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="import_wifkey_btn">{translate('INDEX.IMPORT_PRIV_KEY')}</button>
                               </div>
                             </form>
                             <div className="col-sm-12" style={{paddingTop: '15px'}}>
