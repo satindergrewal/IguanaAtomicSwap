@@ -1,4 +1,4 @@
-import { GET_ACTIVE_COINS, LOGIN, ACTIVE_HANDLE } from '../actions/actionCreators'
+import { GET_ACTIVE_COINS, LOGIN, ACTIVE_HANDLE } from '../actions/actionCreators';
 
 export function Main(state = {
   isLoggedIn: false,
@@ -17,6 +17,7 @@ export function Main(state = {
     case ACTIVE_HANDLE:
       return Object.assign({}, state, {
         isLoggedIn: action.isLoggedIn,
+        activeHandle: action.handle,
       });
     default:
       return state;

@@ -24,8 +24,7 @@ import './styles/index.scss';
 const router = (
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/" component={App}>
-      </Route>
+      <Route path="/" component={App} />
     </Router>
   </Provider>
 );

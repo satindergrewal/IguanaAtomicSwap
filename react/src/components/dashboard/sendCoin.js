@@ -20,7 +20,6 @@ class SendCoin extends React.Component {
   }
 
   render() {
-    console.log('sendcoin', this.props);
     if (this.props && this.props.send) {
       return (
         <div className="col-sm-12 padding-top-10" data-edexcoin="COIN" id="edexcoin_send">

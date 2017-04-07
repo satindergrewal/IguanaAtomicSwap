@@ -1,5 +1,5 @@
 import 'whatwg-fetch';
-import { startCurrencyAssetChain } from '../components/addcoin/payload';
+import { startCurrencyAssetChain, startAssetChain, startCrypto, checkCoinType } from '../components/addcoin/payload';
 import { copyToClipboard } from '../util/copyToClipboard';
 import { translate } from '../translate/translate';
 
@@ -15,6 +15,15 @@ export const DASHBOARD_ACTIVE_COIN_BALANCE = 'DASHBOARD_ACTIVE_COIN_BALANCE';
 export const DASHBOARD_ACTIVE_COIN_SEND_FORM = 'DASHBOARD_ACTIVE_COIN_SEND_FORM';
 export const DASHBOARD_ACTIVE_COIN_RECEIVE_FORM = 'DASHBOARD_ACTIVE_COIN_RECEIVE_FORM';
 export const DASHBOARD_ACTIVE_COIN_RESET_FORMS = 'DASHBOARD_ACTIVE_COIN_RESET_FORMS';
+export const ATOMIC = 'ATOMIC';
+export const GET_WIF_KEY = 'GET_WIF_KEY';
+
+function atomicState(json) {
+  return {
+    type: ATOMIC,
+    response: json,
+  }
+}
 
 function toggleSendCoinFormState(display) {
   return {
@@ -25,8 +34,8 @@ function toggleSendCoinFormState(display) {
 
 function toggleReceiveCoinFormState(display) {
   return {
-    type: DASHBOARD_ACTIVE_COIN_SEND_FORM,
-    send: display,
+    type: DASHBOARD_ACTIVE_COIN_RECEIVE_FORM,
+    receive: display,
   }
 }
 
@@ -65,7 +74,7 @@ function dashboardCoinsState(json) {
 }
 
 function iguanaWalletPassphraseState(json, dispatch) {
-  console.log('passp', json);
+  console.log('iguanaWalletPassphraseState', json);
   sessionStorage.setItem('IguanaActiveAccount', JSON.stringify(json));
   dispatch(triggerToaster(true, translate('TOASTR.LOGIN_SUCCESSFULL'), translate('TOASTR.ACCOUNT_NOTIFICATION'), 'success'));
 
@@ -186,13 +195,33 @@ export function dismissToasterMessage() {
 
 export function addCoin(coin, mode) {
 	console.log('coin, mode', coin + ' ' + mode);
-  return dispatch => {
-    dispatch(shepherdGetConfig(coin, mode));
+  if (mode === '-1') {
+    return dispatch => {
+      dispatch(shepherdGetConfig(coin, mode));
+    }
+  } else {
+    if (checkCoinType(coin) === 'currency_ac') {
+      var _acData = startCurrencyAssetChain('', coin, mode);
+      return dispatch => {
+        dispatch(iguanaAddCoin(coin, mode, _acData));
+      }
+    }
+    if (checkCoinType(coin) === 'ac') {
+      var _acData = startAssetChain('', coin, mode);
+      return dispatch => {
+        dispatch(iguanaAddCoin(coin, mode, _acData));
+      }
+    }
+    if (checkCoinType(coin) === 'crypto') {
+      var _acData = startCrypto('', coin, mode);
+      return dispatch => {
+        dispatch(iguanaAddCoin(coin, mode, _acData));
+      }
+    }
   }
 }
 
 export function iguanaAddCoin(coin, mode, acData) {
-  console.log('acData', acData);
   return dispatch => {
     return fetch('http://127.0.0.1:7778', {
       method: 'POST',
@@ -208,7 +237,8 @@ export function iguanaAddCoin(coin, mode, acData) {
 }
 
 export function shepherdHerd(coin, mode, path) {
-  const herdData = {
+  var acData;
+  var herdData = {
     'ac_name': coin,
     'ac_options': [
       '-daemon=0',
@@ -217,7 +247,28 @@ export function shepherdHerd(coin, mode, path) {
       '-addnode=78.47.196.146'
     ]
   };
-  const acData = startCurrencyAssetChain(path.result, coin, mode);
+
+  if (coin === 'ZEC') {
+    herdData = {
+      'ac_name': 'zcashd',
+      'ac_options': [
+        '-daemon=0',
+        '-server=1'
+      ]
+    };
+  }
+
+  if (checkCoinType(coin) === 'crypto') {
+    acData = startCrypto(path.result, coin, mode);
+  }
+  if (checkCoinType(coin) === 'currency_ac') {
+    acData = startCurrencyAssetChain(path.result, coin, mode);
+  }
+  if (checkCoinType(coin) === 'ac') {
+    acData = startAssetChain(path.result, coin, mode);
+    var supply = startAssetChain(path.result, coin, mode, true);
+    herdData.ac_options.push('-ac_supply=' + supply);
+  }
 
   console.log('herdData', herdData);
   return dispatch => {
@@ -227,7 +278,7 @@ export function shepherdHerd(coin, mode, path) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        'herd': coin !== 'zcashd' ? 'komodod' : 'zcashd',
+        'herd': coin !== 'ZEC' ? 'komodod' : 'zcashd',
         'options': herdData
       }),
     })
@@ -360,6 +411,74 @@ export function iguanaEdexBalance(coin) {
     })
     .then(response => response.json())
     .then(json => dispatch(iguanaEdexBalanceState(json)));
+  }
+}
+
+export function atomic(payload) {
+  return dispatch => {
+    return fetch('http://127.0.0.1:7778', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, payload.method, 'Atomic explore error', 'error'))
+    })
+    .then(response => response.json())
+    .then(json => dispatch(atomicState(json)));
+  }
+}
+
+export function settingsWifkeyState(json, coin) {
+  return {
+    type: GET_WIF_KEY,
+    wifkey: json[coin + 'wif'],
+    address: json[coin],
+  }
+  console.log('test', json);
+}
+
+export function encryptWallet(_passphrase, cb, coin) {
+  const payload = {
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': 'bitcoinrpc',
+      'method': 'encryptwallet',
+      'passphrase': _passphrase
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:7778', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'encryptWallet', 'Error', 'error'))
+    })
+    .then(dispatch(walletPassphrase(_passphrase)))
+    .then(response => response.json())
+    .then(json => dispatch(cb.call(this, json, coin)));
+  }
+}
+
+export function walletPassphrase(_passphrase) {
+  const payload = {
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': 'bitcoinrpc',
+      'method': 'walletpassphrase',
+      'password': _passphrase,
+      'timeout': '2592000'
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:7778', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'walletPassphrase', 'Error', 'error'))
+    })
   }
 }
 

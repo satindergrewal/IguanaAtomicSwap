@@ -9,6 +9,10 @@ import WalletsNav from './walletsNav';
 import SendCoin from './sendCoin';
 import WalletsData from './walletsData';
 import Atomic from './atomic';
+import Jumblr from './jumblr';
+import Settings from './settings';
+import ReceiveCoin from './receiveCoin';
+import About from './about';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -19,7 +23,7 @@ class Dashboard extends React.Component {
   }
 
   renderDashboard() {
-    document.body.className = 'page-login';
+    document.body.className = '';
     //            <WalletsHeader {...this.props.ActiveCoin} />
     return (
       <div style={{height: '100%'}}>
@@ -31,6 +35,7 @@ class Dashboard extends React.Component {
             <WalletsProgress {...this.props} />
             <WalletsBalance {...this.props.ActiveCoin} />
             <SendCoin {...this.props.ActiveCoin} />
+            <ReceiveCoin {...this.props.ActiveCoin} />
             <WalletsData {...this.props.ActiveCoin} />
           </div>
           <div className={this.props.Dashboard.activeSection === 'edex' ? 'show' : 'hide'}>
@@ -38,6 +43,15 @@ class Dashboard extends React.Component {
           </div>
           <div className={this.props.Dashboard.activeSection === 'atomic' ? 'show' : 'hide'}>
             <Atomic {...this.props} />
+          </div>
+          <div className={this.props.Dashboard.activeSection === 'jumblr' ? 'show' : 'hide'}>
+            <Jumblr {...this.props} />
+          </div>
+          <div className={this.props.Dashboard.activeSection === 'settings' ? 'show' : 'hide'}>
+            <Settings {...this.props} />
+          </div>
+          <div className={this.props.Dashboard.activeSection === 'about' ? 'show' : 'hide'}>
+            <About {...this.props} />
           </div>
         </div>
       </div>

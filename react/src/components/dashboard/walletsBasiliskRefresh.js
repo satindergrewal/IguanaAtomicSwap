@@ -1,7 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 
-classNameName WalletsBasiliskRefresh extends React.Component {
+class WalletsBasiliskRefresh extends React.Component {
   render() {
     return (
       <div data-edexcoin="COIN" id="edexcoin_dashboard_basilisk_refresh_status">

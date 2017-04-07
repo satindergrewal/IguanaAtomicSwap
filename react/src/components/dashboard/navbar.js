@@ -66,22 +66,22 @@ class Navbar extends React.Component {
                   </i>
                 </a>
               </li>
-              <li className="active nav-top-menu">
+              <li className={this.props.Dashboard.activeSection === 'wallets' ? 'active nav-top-menu' : 'nav-top-menu'}>
                 <a href="javascript:void(0)" id="nav-dashboard" onClick={() => this.dashboardChangeSection('wallets')}>
                   <i className="site-menu-icon" aria-hidden="true"></i> {translate('INDEX.WALLETS')}
                 </a>
               </li>
-              <li className="nav-top-menu">
+              <li className={this.props.Dashboard.activeSection === 'edex' ? 'active nav-top-menu' : 'nav-top-menu'}>
                 <a href="javascript:void(0)" id="nav-easydex" onClick={() => this.dashboardChangeSection('edex')}>
                   <i className="site-menu-icon" aria-hidden="true"></i> EasyDEX
                 </a>
               </li>
-              <li className="nav-top-menu">
+              <li className={this.props.Dashboard.activeSection === 'jumblr' ? 'active nav-top-menu' : 'nav-top-menu'}>
                 <a href="javascript:void(0)" id="nav-jumblr" onClick={() => this.dashboardChangeSection('jumblr')}>
                   <i className="site-menu-icon" aria-hidden="true"></i> Jumblr
                 </a>
               </li>
-              <li className="nav-top-menu">
+              <li className={this.props.Dashboard.activeSection === 'atomic' ? 'active nav-top-menu' : 'nav-top-menu'}>
                 <a href="javascript:void(0)" id="nav-iguana-atomic-explorer" onClick={() => this.dashboardChangeSection('atomic')}>
                   <i className="site-menu-icon" aria-hidden="true"></i> Atomic Explorer
                 </a>
