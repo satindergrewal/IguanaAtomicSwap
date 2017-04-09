@@ -13,6 +13,9 @@ import Jumblr from './jumblr';
 import Settings from './settings';
 import ReceiveCoin from './receiveCoin';
 import About from './about';
+import WalletsBasiliskRefresh from './walletsBasiliskRefresh';
+import WalletsBasiliskConnection from './walletsBasiliskConnection';
+import WalletsNative from './walletsNative';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -36,7 +39,10 @@ class Dashboard extends React.Component {
             <WalletsBalance {...this.props.ActiveCoin} />
             <SendCoin {...this.props.ActiveCoin} />
             <ReceiveCoin {...this.props.ActiveCoin} />
-            <WalletsData {...this.props.ActiveCoin} />
+            <WalletsData {...this.props} />
+            <WalletsBasiliskRefresh {...this.props} />
+            <WalletsBasiliskConnection {...this.props} />
+            <WalletsNative {...this.props} />
           </div>
           <div className={this.props.Dashboard.activeSection === 'edex' ? 'show' : 'hide'}>
             <EDEX {...this.props} />

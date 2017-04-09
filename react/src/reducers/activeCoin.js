@@ -3,7 +3,8 @@ import {
   DASHBOARD_ACTIVE_COIN_BALANCE,
   DASHBOARD_ACTIVE_COIN_SEND_FORM,
   DASHBOARD_ACTIVE_COIN_RECEIVE_FORM,
-  DASHBOARD_ACTIVE_COIN_RESET_FORMS
+  DASHBOARD_ACTIVE_COIN_RESET_FORMS,
+  ACTIVE_COIN_GET_ADDRESSES
 } from '../actions/actionCreators';
 
 export function ActiveCoin(state = {
@@ -37,6 +38,10 @@ export function ActiveCoin(state = {
       return Object.assign({}, state, {
         send: false,
         receive: false,
+      });
+    case ACTIVE_COIN_GET_ADDRESSES:
+      return Object.assign({}, state, {
+        addresses: action.addresses,
       });
     default:
       return state;

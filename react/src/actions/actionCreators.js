@@ -1,4 +1,6 @@
 import 'whatwg-fetch';
+import 'bluebird';
+
 import Config from '../config';
 import { startCurrencyAssetChain, startAssetChain, startCrypto, checkCoinType } from '../components/addcoin/payload';
 import { copyToClipboard } from '../util/copyToClipboard';
@@ -20,6 +22,57 @@ export const ATOMIC = 'ATOMIC';
 export const GET_WIF_KEY = 'GET_WIF_KEY';
 export const GET_PEERS_LIST = 'GET_PEERS_LIST';
 export const GET_DEBUG_LOG = 'GET_DEBUG_LOG';
+export const BASILISK_REFRESH = 'BASILISK_REFRESH';
+export const BASILISK_CONNECTION = 'BASILISK_CONNECTION';
+export const SYNCING_FULL_MODE = 'SYNCING_FULL_MODE';
+export const SYNCING_NATIVE_MODE = 'SYNCING_NATIVE_MODE';
+export const ACTIVE_COIN_GET_ADDRESSES = 'ACTIVE_COIN_GET_ADDRESSES';
+export const START_INTERVAL= 'START_INTERVAL';
+export const STOP_INTERVAL= 'STOP_INTERVAL';
+
+function basiliskConnectionState(display, json) {
+  return {
+    type: BASILISK_CONNECTION,
+    basiliskConnection: display,
+    progress: json,
+  }
+}
+
+function basiliskRefreshState(display, json) {
+  return {
+    type: BASILISK_REFRESH,
+    basiliskRefresh: display,
+    progress: json,
+  }
+}
+
+export function basiliskRefresh(display) {
+  return dispatch => {
+    dispatch(basiliskRefreshState(display));
+  }
+}
+
+export function basiliskConnection(display) {
+  return dispatch => {
+    dispatch(basiliskConnectionState(display));
+  }
+}
+
+export function syncingNativeModeState(display, json) {
+  return {
+    type: SYNCING_FULL_MODE,
+    syncingNativeMode: display,
+    progress: json,
+  }
+}
+
+export function syncingFullModeState(display, json) {
+  return {
+    type: SYNCING_NATIVE_MODE,
+    syncingFullMode: display,
+    progress: json,
+  }
+}
 
 function atomicState(json) {
   return {
@@ -390,7 +443,7 @@ export function iguanaActiveHandle(getMainAddress) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'Error iguanaActiveHandle', 'Error', 'error'));
+      dispatch(triggerToaster(true, translate('TOASTR.IGUANA_ARE_YOU_SURE'), translate('TOASTR.SERVICE_NOTIFICATION'), 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(getMainAddress ? getMainAddressState(json) : iguanaActiveHandleState(json)));
@@ -566,6 +619,113 @@ export function addPeerNode(coin, ip) {
   }
 }
 
+export function getAddressesByAccountState(json, coin) {
+  test(['123', '456']);
+  return {
+    type: ACTIVE_COIN_GET_ADDRESSES,
+    addresses: json.result,
+  }
+}
+
+export function getAddressesByAccount(coin) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'coin': coin,
+    'agent': 'bitcoinrpc',
+    'method': 'getaddressesbyaccount',
+    'account': '*'
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getAddressesByAccount', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getAddressesByAccountState(json, dispatch)))
+  }
+}
+
+function getDexNotariesState(json, dispatch) {
+  return dispatch => {
+    dispatch(triggerToaster(true, 'Notaries list received', translate('TOASTR.BASILISK_NOTIFICATION'), 'success'));
+  }
+}
+
+export function getDexNotaries(coin) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'dex',
+    'method': 'getnotaries',
+    'symbol': coin
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getDexNotaries', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getDexNotariesState(json, dispatch)))
+  }
+}
+
+export function startInterval(name, handle) {
+  return {
+    type: START_INTERVAL,
+    name,
+    handle,
+  }
+}
+
+export function stopInterval(name, intervals) {
+  clearInterval(intervals[name]);
+
+  return {
+    type: STOP_INTERVAL,
+    name,
+  }
+}
+
+function getSyncInfoState(json) {
+  return {
+    type: SYNCING_FULL_MODE,
+    progress: json,
+  }
+}
+
+export function getSyncInfo(coin) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'coin': coin,
+    'agent': 'bitcoinrpc',
+    'method': 'getinfo',
+    'immediate': 100,
+    'timeout': 4000
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getSyncInfo', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getSyncInfoState(json, dispatch)))
+  }
+}
+
 function getDebugLogState(json) {
   const _data = json.result.replace('\n', '\r\n');
 
@@ -659,6 +819,35 @@ export function shepherdGetSysInfo() {
     .then(response => response.json())
     .then(json => dispatch(shepherdHerd(coin, mode, json)));
   }
+}
+
+/*export function test(coin, addr) {
+  Promise.all(addr.map((_addr, index) => {
+    const payload = {
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': 'dex',
+      'method': 'listunspent',
+      'address': _addr,
+      'symbol': coin
+    }
+    console.log('addr', _addr);
+    return new Promise((resolve, reject) => {
+      fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      })
+      .catch(function(error) {
+        console.log(error);
+        dispatch(triggerToaster(true, 'getSyncInfo', 'Error', 'error'));
+      })
+      .then(response => response.json())
+      .then(json => dispatch(getSyncInfoState(json, dispatch)))
+      resolve(index);
+    });
+  }))
+  .then(result => {
+    console.log(result);
+  });
 }
 
 /*function Shepherd_SendPendValue() {

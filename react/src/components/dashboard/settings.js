@@ -19,6 +19,7 @@ import AddCoinOptionsACFiat from '../addcoin/addcoinOptionsACFiat';
   1) pre-select active coin in add node tab
   2) add agama config section
   3) add fiat section
+  4) kickstart section
 */
 class Settings extends React.Component {
   constructor(props) {
