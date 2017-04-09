@@ -68,6 +68,19 @@ body {
   content: '\F278';
 }
 
+#section-dashboard {
+  height: 100%;
+}
+
+#section-iguana-wallet-settings {
+  background: #f3f4f5;
+}
+
+#edexcoin_dashboardinfo a {
+  cursor: pointer;
+  cursor: hand;
+}
+
 /*.toaster .single-toast:nth-child(0) {
   bottom: 12px;
 }

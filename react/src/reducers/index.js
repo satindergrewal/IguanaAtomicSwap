@@ -8,6 +8,7 @@ import { Dashboard } from './dashboard';
 import { ActiveCoin } from './activeCoin';
 import { Atomic } from './atomic';
 import { Settings } from './settings';
+import { Interval } from './interval';
 
 const rootReducer = combineReducers({
   AddCoin,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   ActiveCoin,
   Atomic,
   Settings,
+  Interval,
   routing: routerReducer,
 });
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-/*import {  } from '../../actions/actionCreators';
-import Store from '../../store';*/
+import { basiliskRefresh, basiliskConnection, getDexNotaries } from '../../actions/actionCreators';
+import Store from '../../store';
 
 class WalletsData extends React.Component {
   constructor(props) {
@@ -10,6 +10,9 @@ class WalletsData extends React.Component {
       basiliskActionsMenu: false,
     };
     this.toggleBasiliskActionsMenu = this.toggleBasiliskActionsMenu.bind(this);
+    this.basiliskRefreshAction = this.basiliskRefreshAction.bind(this);
+    this.basiliskConnectionAction = this.basiliskConnectionAction.bind(this);
+    this.getDexNotariesAction = this.getDexNotariesAction.bind(this);
   }
 
   toggleBasiliskActionsMenu() {
@@ -18,8 +21,24 @@ class WalletsData extends React.Component {
     }));
   }
 
+  basiliskRefreshAction() {
+    if (this.props.Dashboard) {
+      Store.dispatch(basiliskRefresh(!this.props.Dashboard.basiliskRefresh));
+    }
+  }
+
+  basiliskConnectionAction() {
+    if (this.props.Dashboard) {
+      Store.dispatch(basiliskConnection(!this.props.Dashboard.basiliskConnection));
+    }
+  }
+
+  getDexNotariesAction() {
+    Store.dispatch(getDexNotaries(this.props.ActiveCoin.coin));
+  }
+
   render() {
-    if (this.props && this.props.coin) {
+    if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.coin) {
       return (
         <div data-edexcoin="COIN" id="edexcoin_dashboardinfo">
           <div className="col-xs-12 margin-top-20">
@@ -28,7 +47,7 @@ class WalletsData extends React.Component {
                 <div className="col-xlg-12 col-lg-12 col-sm-12 col-xs-12 edexcoin_dashoard_section_main_div">
                   <div id="edexcoin_txhistory" className="panel">
                     <header className="panel-heading" style={{zIndex: '10'}}>
-                      <div className="panel-actions">
+                      <div className={this.props.ActiveCoin.mode === 'basilisk' ? 'panel-actions' : 'panel-actions hide'}>
                         <a href="javascript:void(0)" className="dropdown-toggle white btn-xs btn-info btn_refresh_edexcoin_dashboard" data-edexcoin="COIN" aria-expanded="false" role="button">
                           <i className="icon fa-refresh margin-right-10" aria-hidden="true"></i> {translate('INDEX.REFRESH')}
                         </a>
@@ -40,22 +59,22 @@ class WalletsData extends React.Component {
                           <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="btn_edexcoin_basilisk"
                           role="menu">
                             <li role="presentation">
-                              <a href="javascript:void(0)" className="btn_edexcoin_dashboard_getnotaries" data-edexcoin="COIN" id="btn_edexcoin_dashboard_getnotaries" role="menuitem">
+                              <a className="btn_edexcoin_dashboard_getnotaries" data-edexcoin="COIN" id="btn_edexcoin_dashboard_getnotaries" role="menuitem" onClick={this.getDexNotariesAction}>
                                 <i className="icon fa-sitemap" aria-hidden="true"></i> {translate('INDEX.GET_NOTARY_NODES_LIST')}
                               </a>
                             </li>
                             <li role="presentation">
-                              <a href="javascript:void(0)" className="btn_edexcoin_dashboard_refresh_basilisk_conn" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refresh_basilisk_conn" role="menuitem">
+                              <a className="btn_edexcoin_dashboard_refresh_basilisk_conn" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refresh_basilisk_conn" role="menuitem" onClick={this.basiliskConnectionAction}>
                                 <i className="icon wb-refresh" aria-hidden="true"></i> {translate('INDEX.REFRESH_BASILISK_CONNECTIONS')}
                               </a>
                             </li>
                             <li data-edexcoin="COIN" role="presentation">
-                              <a href="javascript:void(0)" className="btn_edexcoin_dashboard_fetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_fetchdata" role="menuitem">
+                              <a className="btn_edexcoin_dashboard_fetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_fetchdata" role="menuitem" onClick={this.basiliskRefreshAction}>
                                 <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.FETCH_WALLET_DATA')}
                               </a>
                             </li>
                             <li data-edexcoin="COIN" role="presentation">
-                              <a href="javascript:void(0)" className="btn_edexcoin_dashboard_refetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refetchdata" role="menuitem">
+                              <a className="btn_edexcoin_dashboard_refetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refetchdata" role="menuitem">
                                 <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.REFETCH_WALLET_DATA')}
                               </a>
                             </li>

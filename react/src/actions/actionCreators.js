@@ -1,4 +1,7 @@
 import 'whatwg-fetch';
+import 'bluebird';
+
+import Config from '../config';
 import { startCurrencyAssetChain, startAssetChain, startCrypto, checkCoinType } from '../components/addcoin/payload';
 import { copyToClipboard } from '../util/copyToClipboard';
 import { translate } from '../translate/translate';
@@ -17,6 +20,59 @@ export const DASHBOARD_ACTIVE_COIN_RECEIVE_FORM = 'DASHBOARD_ACTIVE_COIN_RECEIVE
 export const DASHBOARD_ACTIVE_COIN_RESET_FORMS = 'DASHBOARD_ACTIVE_COIN_RESET_FORMS';
 export const ATOMIC = 'ATOMIC';
 export const GET_WIF_KEY = 'GET_WIF_KEY';
+export const GET_PEERS_LIST = 'GET_PEERS_LIST';
+export const GET_DEBUG_LOG = 'GET_DEBUG_LOG';
+export const BASILISK_REFRESH = 'BASILISK_REFRESH';
+export const BASILISK_CONNECTION = 'BASILISK_CONNECTION';
+export const SYNCING_FULL_MODE = 'SYNCING_FULL_MODE';
+export const SYNCING_NATIVE_MODE = 'SYNCING_NATIVE_MODE';
+export const ACTIVE_COIN_GET_ADDRESSES = 'ACTIVE_COIN_GET_ADDRESSES';
+export const START_INTERVAL= 'START_INTERVAL';
+export const STOP_INTERVAL= 'STOP_INTERVAL';
+
+function basiliskConnectionState(display, json) {
+  return {
+    type: BASILISK_CONNECTION,
+    basiliskConnection: display,
+    progress: json,
+  }
+}
+
+function basiliskRefreshState(display, json) {
+  return {
+    type: BASILISK_REFRESH,
+    basiliskRefresh: display,
+    progress: json,
+  }
+}
+
+export function basiliskRefresh(display) {
+  return dispatch => {
+    dispatch(basiliskRefreshState(display));
+  }
+}
+
+export function basiliskConnection(display) {
+  return dispatch => {
+    dispatch(basiliskConnectionState(display));
+  }
+}
+
+export function syncingNativeModeState(display, json) {
+  return {
+    type: SYNCING_FULL_MODE,
+    syncingNativeMode: display,
+    progress: json,
+  }
+}
+
+export function syncingFullModeState(display, json) {
+  return {
+    type: SYNCING_NATIVE_MODE,
+    syncingFullMode: display,
+    progress: json,
+  }
+}
 
 function atomicState(json) {
   return {
@@ -178,11 +234,11 @@ export function copyCoinAddress(address) {
 
   if (_result) {
     return dispatch => {
-      dispatch(triggerToaster(true, translate('DASHBOARD.ADDR_COPIED'), translate('TOASTR.COIN_NOTIFICATION'), 'success'))
+      dispatch(triggerToaster(true, translate('DASHBOARD.ADDR_COPIED'), translate('TOASTR.COIN_NOTIFICATION'), 'success'));
     }
   } else {
     return dispatch => {
-      dispatch(triggerToaster(true, 'Couldn\'t copy address to clipboard', translate('TOASTR.COIN_NOTIFICATION'), 'error'))
+      dispatch(triggerToaster(true, 'Couldn\'t copy address to clipboard', translate('TOASTR.COIN_NOTIFICATION'), 'error'));
     }
   }
 }
@@ -223,13 +279,13 @@ export function addCoin(coin, mode) {
 
 export function iguanaAddCoin(coin, mode, acData) {
   return dispatch => {
-    return fetch('http://127.0.0.1:7778', {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(acData),
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, translate('TOASTR.FAILED_TO_ADDCOIN'), translate('TOASTR.ACCOUNT_NOTIFICATION'), 'error'))
+      dispatch(triggerToaster(true, translate('TOASTR.FAILED_TO_ADDCOIN'), translate('TOASTR.ACCOUNT_NOTIFICATION'), 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(addCoinResult(coin, mode, acData)));
@@ -272,7 +328,7 @@ export function shepherdHerd(coin, mode, path) {
 
   console.log('herdData', herdData);
   return dispatch => {
-    return fetch('http://127.0.0.1:17777/shepherd/herd', {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/herd', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -284,7 +340,7 @@ export function shepherdHerd(coin, mode, path) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, translate('FAILED_SHEPHERD_HERD'), translate('TOASTR.SERVICE_NOTIFICATION'), 'error'))
+      dispatch(triggerToaster(true, translate('FAILED_SHEPHERD_HERD'), translate('TOASTR.SERVICE_NOTIFICATION'), 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(iguanaAddCoin(coin, mode, acData)));
@@ -307,7 +363,7 @@ export function addCoinResult(coin, mode) {
 
 export function shepherdGetConfig(coin, mode) {
   return dispatch => {
-  	return fetch('http://127.0.0.1:17777/shepherd/getconf', {
+  	return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/getconf', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -316,7 +372,7 @@ export function shepherdGetConfig(coin, mode) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'Failed to get mode config', 'Error', 'error'))
+      dispatch(triggerToaster(true, 'Failed to get mode config', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(shepherdHerd(coin, mode, json)));
@@ -325,7 +381,7 @@ export function shepherdGetConfig(coin, mode) {
 
 export function getDexCoins() {
   return dispatch => {
-    return fetch('http://127.0.0.1:7778', {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       //mode: 'no-cors'
       body: JSON.stringify({
@@ -336,7 +392,7 @@ export function getDexCoins() {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'Error getDexCoins', 'Error', 'error'))
+      dispatch(triggerToaster(true, 'Error getDexCoins', 'Error', 'error'));
 
     })
     .then(response => response.json())
@@ -355,7 +411,7 @@ function rpcErrorHandler(json, dispatch) {
 
 export function iguanaWalletPassphrase(_passphrase) {
   return dispatch => {
-    return fetch('http://127.0.0.1:7778', {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify({
         'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
@@ -368,7 +424,7 @@ export function iguanaWalletPassphrase(_passphrase) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'Error iguanaWalletPassphrase', 'Error', 'error'))
+      dispatch(triggerToaster(true, 'Error iguanaWalletPassphrase', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(iguanaWalletPassphraseState(json, dispatch)));
@@ -377,7 +433,7 @@ export function iguanaWalletPassphrase(_passphrase) {
 
 export function iguanaActiveHandle(getMainAddress) {
   return dispatch => {
-    return fetch('http://127.0.0.1:7778', {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify({
         'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
@@ -387,7 +443,7 @@ export function iguanaActiveHandle(getMainAddress) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'Error iguanaActiveHandle', 'Error', 'error'))
+      dispatch(triggerToaster(true, translate('TOASTR.IGUANA_ARE_YOU_SURE'), translate('TOASTR.SERVICE_NOTIFICATION'), 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(getMainAddress ? getMainAddressState(json) : iguanaActiveHandleState(json)));
@@ -396,7 +452,7 @@ export function iguanaActiveHandle(getMainAddress) {
 
 export function iguanaEdexBalance(coin) {
   return dispatch => {
-    return fetch('http://127.0.0.1:7778', {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify({
         'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
@@ -407,7 +463,7 @@ export function iguanaEdexBalance(coin) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'Error iguanaEdexBalance', 'Error', 'error'))
+      dispatch(triggerToaster(true, 'Error iguanaEdexBalance', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(iguanaEdexBalanceState(json)));
@@ -416,13 +472,13 @@ export function iguanaEdexBalance(coin) {
 
 export function atomic(payload) {
   return dispatch => {
-    return fetch('http://127.0.0.1:7778', {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, payload.method, 'Atomic explore error', 'error'))
+      dispatch(triggerToaster(true, payload.method, 'Atomic explore error', 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(atomicState(json)));
@@ -435,25 +491,24 @@ export function settingsWifkeyState(json, coin) {
     wifkey: json[coin + 'wif'],
     address: json[coin],
   }
-  console.log('test', json);
 }
 
 export function encryptWallet(_passphrase, cb, coin) {
   const payload = {
-      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-      'agent': 'bitcoinrpc',
-      'method': 'encryptwallet',
-      'passphrase': _passphrase
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'bitcoinrpc',
+    'method': 'encryptwallet',
+    'passphrase': _passphrase
   };
 
   return dispatch => {
-    return fetch('http://127.0.0.1:7778', {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'encryptWallet', 'Error', 'error'))
+      dispatch(triggerToaster(true, 'encryptWallet', 'Error', 'error'));
     })
     .then(dispatch(walletPassphrase(_passphrase)))
     .then(response => response.json())
@@ -463,39 +518,339 @@ export function encryptWallet(_passphrase, cb, coin) {
 
 export function walletPassphrase(_passphrase) {
   const payload = {
-      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-      'agent': 'bitcoinrpc',
-      'method': 'walletpassphrase',
-      'password': _passphrase,
-      'timeout': '2592000'
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'bitcoinrpc',
+    'method': 'walletpassphrase',
+    'password': _passphrase,
+    'timeout': '2592000'
   };
 
   return dispatch => {
-    return fetch('http://127.0.0.1:7778', {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'walletPassphrase', 'Error', 'error'))
+      dispatch(triggerToaster(true, 'walletPassphrase', 'Error', 'error'));
     })
   }
 }
 
-/*function Shepherd_SysInfo() {
-  return new Promise((resolve) => {
-    $.ajax({
-      type: 'GET',
-      url: 'http://127.0.0.1:17777/shepherd/sysinfo',
-      contentType: 'application/json' // send as JSON
+export function getPeersListState(json) {
+  var peersList = {};
+  if (json && json.rawpeers && json.rawpeers.length) {
+    for (var i=0; i < json.rawpeers.length; i++) {
+      peersList[json.rawpeers[i].coin] = json.rawpeers[i].peers;
+    }
+  }
+  return {
+    type: GET_PEERS_LIST,
+    supernetPeers: json && json.supernet[0] ? json.supernet : null,
+    rawPeers: peersList,
+  }
+}
+
+export function getPeersList(coin) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'SuperNET',
+    'method': 'getpeers',
+    'activecoin': coin,
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
     })
-    .done(function(data) {
-      resolve(data);
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getPeersList', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getPeersListState(json, dispatch)))
+  }
+}
+
+function addPeerNodeState(json, dispatch) {
+  if (json.error === 'addnode needs active coin, do an addcoin first') {
+    return dispatch => {
+      dispatch(triggerToaster(true, 'Addnode needs active coin', translate('TOASTR.SETTINGS_NOTIFICATION'), 'error'));
+    }
+  }
+  if (json.result === 'peer was already connected') {
+    return dispatch => {
+      dispatch(triggerToaster(true, 'Peer was already connected', translate('TOASTR.SETTINGS_NOTIFICATION'), 'warning'));
+    }
+  }
+  if (json.result === 'addnode connection was already pending') {
+    return dispatch => {
+      dispatch(triggerToaster(true, 'Addnode connection was already pending', translate('TOASTR.SETTINGS_NOTIFICATION'), 'warning'));
+    }
+  }
+  if (json.result === 'addnode submitted') {
+    return dispatch => {
+      dispatch(triggerToaster(true, 'Peer is added', translate('TOASTR.SETTINGS_NOTIFICATION'), 'success'));
+    }
+  }
+}
+
+export function addPeerNode(coin, ip) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'iguana',
+    'method': 'addnode',
+    'activecoin': coin,
+    'ipaddr': ip
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'addPeerNode', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(addPeerNodeState(json, dispatch)))
+  }
+}
+
+export function getAddressesByAccountState(json, coin) {
+  test(['123', '456']);
+  return {
+    type: ACTIVE_COIN_GET_ADDRESSES,
+    addresses: json.result,
+  }
+}
+
+export function getAddressesByAccount(coin) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'coin': coin,
+    'agent': 'bitcoinrpc',
+    'method': 'getaddressesbyaccount',
+    'account': '*'
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getAddressesByAccount', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getAddressesByAccountState(json, dispatch)))
+  }
+}
+
+function getDexNotariesState(json, dispatch) {
+  return dispatch => {
+    dispatch(triggerToaster(true, 'Notaries list received', translate('TOASTR.BASILISK_NOTIFICATION'), 'success'));
+  }
+}
+
+export function getDexNotaries(coin) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'dex',
+    'method': 'getnotaries',
+    'symbol': coin
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getDexNotaries', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getDexNotariesState(json, dispatch)))
+  }
+}
+
+export function startInterval(name, handle) {
+  return {
+    type: START_INTERVAL,
+    name,
+    handle,
+  }
+}
+
+export function stopInterval(name, intervals) {
+  clearInterval(intervals[name]);
+
+  return {
+    type: STOP_INTERVAL,
+    name,
+  }
+}
+
+function getSyncInfoState(json) {
+  return {
+    type: SYNCING_FULL_MODE,
+    progress: json,
+  }
+}
+
+export function getSyncInfo(coin) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'coin': coin,
+    'agent': 'bitcoinrpc',
+    'method': 'getinfo',
+    'immediate': 100,
+    'timeout': 4000
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getSyncInfo', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getSyncInfoState(json, dispatch)))
+  }
+}
+
+function getDebugLogState(json) {
+  const _data = json.result.replace('\n', '\r\n');
+
+  return {
+    type: GET_DEBUG_LOG,
+    data: _data,
+  }
+}
+
+export function getDebugLog(target, linesCount) {
+  const payload = {
+    'herdname': target,
+    'lastLines': linesCount
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/debuglog', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getDebugLog', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getDebugLogState(json)))
+  }
+}
+
+function parseImportPrivKeyResponse(json, dispatch) {
+  if (json.error === 'illegal privkey') {
+    return dispatch => {
+      dispatch(triggerToaster(true, 'Illegal privkey', translate('TOASTR.SETTINGS_NOTIFICATION'), 'error'));
+    }
+  }
+  if (json.error === 'privkey already in wallet') {
+    return dispatch => {
+      dispatch(triggerToaster(true, 'Privkey already in wallet', translate('TOASTR.SETTINGS_NOTIFICATION'), 'warning'));
+    }
+  }
+  if (json && json.result !== undefined && json.result == 'success') {
+    return dispatch => {
+      dispatch(triggerToaster(true, translate('TOASTR.PRIV_KEY_IMPORTED'), translate('TOASTR.SETTINGS_NOTIFICATION'), 'success'));
+    }
+  }
+}
+
+export function importPrivKey(wifKey) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'method': 'importprivkey',
+    'params': [
+      wifKey,
+      'imported'
+    ]
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'importPrivKey', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(parseImportPrivKeyResponse(json, dispatch)))
+    .catch(function(ex) {
+      dispatch(parseImportPrivKeyResponse({ 'error': 'privkey already in wallet' }, dispatch));
+      console.log('parsing failed', ex);
+    })
+  }
+}
+
+export function shepherdGetSysInfo() {
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/sysinfo', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'Failed to get sys info', 'Error', 'error'))
+    })
+    .then(response => response.json())
+    .then(json => dispatch(shepherdHerd(coin, mode, json)));
+  }
+}
+
+/*export function test(coin, addr) {
+  Promise.all(addr.map((_addr, index) => {
+    const payload = {
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': 'dex',
+      'method': 'listunspent',
+      'address': _addr,
+      'symbol': coin
+    }
+    console.log('addr', _addr);
+    return new Promise((resolve, reject) => {
+      fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      })
+      .catch(function(error) {
+        console.log(error);
+        dispatch(triggerToaster(true, 'getSyncInfo', 'Error', 'error'));
+      })
+      .then(response => response.json())
+      .then(json => dispatch(getSyncInfoState(json, dispatch)))
+      resolve(index);
     });
+  }))
+  .then(result => {
+    console.log(result);
   });
 }
 
-function Shepherd_SendPendValue() {
+/*function Shepherd_SendPendValue() {
   Shepherd_SysInfo().then(function(result){
     var ram_data = formatBytes(result.totalmem_bytes)
     var pend_val = null;

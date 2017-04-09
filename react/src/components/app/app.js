@@ -12,6 +12,7 @@ function mapStateToProps(state) {
     ActiveCoin: state.ActiveCoin,
     Atomic: state.Atomic,
     Settings: state.Settings,
+    Interval: state.Interval,
   };
 }
 
