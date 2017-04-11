@@ -20,7 +20,7 @@ class SendCoin extends React.Component {
   }
 
   render() {
-    if (this.props && this.props.send) {
+    if (this.props && this.props.send && this.props.mode !== 'native') {
       return (
         <div className="col-sm-12 padding-top-10" data-edexcoin="COIN" id="edexcoin_send">
           <div className="col-xlg-12 col-md-12 col-sm-12 col-xs-12">

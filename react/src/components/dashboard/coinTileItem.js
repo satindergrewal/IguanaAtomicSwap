@@ -7,7 +7,8 @@ import {
   getSyncInfo,
   startInterval,
   stopInterval,
-  iguanaEdexBalance
+  iguanaEdexBalance,
+  getSyncInfoNative
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -23,16 +24,23 @@ class CoinTileItem extends React.Component {
       Store.dispatch(stopInterval('sync', this.props.Interval.interval));
       var _iguanaActiveHandle = setInterval(function() {
         Store.dispatch(getSyncInfo(coin));
+        Store.dispatch(iguanaEdexBalance(coin, mode));
+      }, 3000);
+      Store.dispatch(startInterval('sync', _iguanaActiveHandle));
+    } else if (mode === 'native' && coin !== this.props.ActiveCoin.coin) {
+      Store.dispatch(stopInterval('sync', this.props.Interval.interval));
+      var _iguanaActiveHandle = setInterval(function() {
+        Store.dispatch(getSyncInfoNative(coin));
       }, 3000);
       Store.dispatch(startInterval('sync', _iguanaActiveHandle));
     } else {
       Store.dispatch(stopInterval('sync', this.props.Interval.interval));
+      // basilisk
     }
 
     Store.dispatch(dashboardChangeActiveCoin(coin, mode));
     Store.dispatch(iguanaActiveHandle(true));
     Store.dispatch(getAddressesByAccount(coin));
-    Store.dispatch(iguanaEdexBalance(coin));
 
     /*this.setState(Object.assign({}, this.state, {
       activeHandleInterval: _iguanaActiveHandle,

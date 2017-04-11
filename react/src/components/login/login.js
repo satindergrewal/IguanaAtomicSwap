@@ -27,6 +27,7 @@ class Login extends React.Component {
       this.setState({
         display: true,
       });
+      document.body.className = 'page-login layout-full page-dark';
     }
     if (props && props.Main && props.Main.activeCoins) {
       this.setState({

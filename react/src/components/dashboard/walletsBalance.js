@@ -3,7 +3,7 @@ import { translate } from '../../translate/translate';
 
 class WalletsBalance extends React.Component {
   render() {
-    if (this.props && this.props.coin) {
+    if (this.props && this.props.coin && this.props.mode !== 'native') {
       return (
         <div id="wallet-widgets" data-plugin="masonry" data-edexcoin="COIN">
           <div className="col-xs-12">

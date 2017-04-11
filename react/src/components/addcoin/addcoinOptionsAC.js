@@ -20,7 +20,7 @@ class AddCoinOptionsAC extends React.Component {
         <option value="SHARK|basilisk|native">SHARK (SHARK)</option>
         <option value="MESH|basilisk|native">SpaceMesh (MESH)</option>
         <option value="SUPERNET|basilisk|native">SUPERNET (SUPERNET)</option>
-        <option value="WIRELESS|basilisk|native">WIRELESS (WIRELESS)</option>
+        <option value="WLC|basilisk|native">WIRELESS (WIRELESS)</option>
       </optgroup>
     );
   }

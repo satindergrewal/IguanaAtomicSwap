@@ -4,6 +4,8 @@ import {
   DASHBOARD_ACTIVE_COIN_SEND_FORM,
   DASHBOARD_ACTIVE_COIN_RECEIVE_FORM,
   DASHBOARD_ACTIVE_COIN_RESET_FORMS,
+  DASHBOARD_ACTIVE_SECTION,
+  DASHBOARD_ACTIVE_TXINFO_MODAL,
   ACTIVE_COIN_GET_ADDRESSES
 } from '../actions/actionCreators';
 
@@ -13,6 +15,8 @@ export function ActiveCoin(state = {
   send: false,
   receive: false,
   balance: 0,
+  nativeActiveSection: 'default',
+  showTransactionInfo: false,
 }, action) {
   switch (action.type) {
     case DASHBOARD_ACTIVE_COIN_CHANGE:
@@ -42,6 +46,14 @@ export function ActiveCoin(state = {
     case ACTIVE_COIN_GET_ADDRESSES:
       return Object.assign({}, state, {
         addresses: action.addresses,
+      });
+    case DASHBOARD_ACTIVE_SECTION:
+      return Object.assign({}, state, {
+        nativeActiveSection: action.section,
+      });
+    case DASHBOARD_ACTIVE_TXINFO_MODAL:
+      return Object.assign({}, state, {
+        showTransactionInfo: action.display,
       });
     default:
       return state;
