@@ -2,7 +2,13 @@ import 'whatwg-fetch';
 import 'bluebird';
 
 import Config from '../config';
-import { startCurrencyAssetChain, startAssetChain, startCrypto, checkCoinType } from '../components/addcoin/payload';
+import {
+  startCurrencyAssetChain,
+  startAssetChain,
+  startCrypto,
+  checkCoinType,
+  checkAC
+} from '../components/addcoin/payload';
 import { copyToClipboard } from '../util/copyToClipboard';
 import { translate } from '../translate/translate';
 
@@ -29,6 +35,24 @@ export const SYNCING_NATIVE_MODE = 'SYNCING_NATIVE_MODE';
 export const ACTIVE_COIN_GET_ADDRESSES = 'ACTIVE_COIN_GET_ADDRESSES';
 export const START_INTERVAL= 'START_INTERVAL';
 export const STOP_INTERVAL= 'STOP_INTERVAL';
+export const DASHBOARD_ACTIVE_SECTION = 'DASHBOARD_ACTIVE_SECTION';
+export const DASHBOARD_ACTIVE_TXINFO_MODAL = 'DASHBOARD_ACTIVE_TXINFO_MODAL';
+export const DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE = 'DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE';
+export const DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY = 'DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY';
+
+export function toggleDashboardActiveSection(name) {
+  return {
+    type: DASHBOARD_ACTIVE_SECTION,
+    section: name,
+  }
+}
+
+export function toggleDashboardTxInfoModal(display) {
+  return {
+    type: DASHBOARD_ACTIVE_TXINFO_MODAL,
+    showTransactionInfo: display,
+  }
+}
 
 function basiliskConnectionState(display, json) {
   return {
@@ -314,6 +338,17 @@ export function shepherdHerd(coin, mode, path) {
     };
   }
 
+  if (coin === 'KMD') {
+    herdData = {
+      'ac_name': 'komodod',
+      'ac_options': [
+        '-daemon=0',
+        '-server',
+        '-addnode=78.47.196.146'
+      ]
+    };
+  }
+
   if (checkCoinType(coin) === 'crypto') {
     acData = startCrypto(path.result, coin, mode);
   }
@@ -539,6 +574,7 @@ export function walletPassphrase(_passphrase) {
 
 export function getPeersListState(json) {
   var peersList = {};
+
   if (json && json.rawpeers && json.rawpeers.length) {
     for (var i=0; i < json.rawpeers.length; i++) {
       peersList[json.rawpeers[i].coin] = json.rawpeers[i].peers;
@@ -619,15 +655,18 @@ export function addPeerNode(coin, ip) {
   }
 }
 
-export function getAddressesByAccountState(json, coin) {
-  test(['123', '456']);
+export function getAddressesByAccountState(json, coin, mode) {
+  if (mode === 'basilisk') {
+    getDexBalance(coin, mode, json.result);
+  }
+
   return {
     type: ACTIVE_COIN_GET_ADDRESSES,
     addresses: json.result,
   }
 }
 
-export function getAddressesByAccount(coin) {
+export function getAddressesByAccount(coin, mode) {
   const payload = {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
     'coin': coin,
@@ -646,7 +685,7 @@ export function getAddressesByAccount(coin) {
       dispatch(triggerToaster(true, 'getAddressesByAccount', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(getAddressesByAccountState(json, dispatch)))
+    .then(json => dispatch(getAddressesByAccountState(json, coin, mode, dispatch)))
   }
 }
 
@@ -821,7 +860,72 @@ export function shepherdGetSysInfo() {
   }
 }
 
-/*export function test(coin, addr) {
+export function getSyncInfoNativeKMD() {
+  const coin = 'KMD';
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort + '/api/dex/getinfo?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth') + '&symbol=' + coin, {
+      method: 'GET',
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getSyncInfoNativeKMD', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getSyncInfoNativeState({ 'remoteKMDNode': json })))
+    .then(dispatch(getDebugLog('komodo', 1)))
+  }
+}
+
+function getSyncInfoNativeState(json) {
+  if (json && json.error && json.error === 'null return') {
+    return getSyncInfoNativeKMD();
+  } else {
+    return {
+      type: SYNCING_NATIVE_MODE,
+      progress: json,
+    }
+  }
+}
+
+function getPassthruAgent(coin) {
+  var passthru_agent;
+
+  if ( coin === 'KMD') { passthru_agent = 'komodo'; };
+  if ( coin === 'ZEC') { passthru_agent = 'zcash'; };
+
+  if (checkAC(coin)) { passthru_agent = 'iguana'; };
+
+  return passthru_agent;
+}
+
+export function getSyncInfoNative(coin) {
+  var payload = {};
+
+  payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': getPassthruAgent(coin),
+    'method': 'passthru',
+    'asset': coin,
+    'function': 'getinfo',
+    'hex': ''
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getSyncInfo', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getSyncInfoNativeState(json, dispatch)))
+  }
+}
+
+export function getDexBalance(coin, addr) {
   Promise.all(addr.map((_addr, index) => {
     const payload = {
       'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
@@ -829,7 +933,7 @@ export function shepherdGetSysInfo() {
       'method': 'listunspent',
       'address': _addr,
       'symbol': coin
-    }
+    };
     console.log('addr', _addr);
     return new Promise((resolve, reject) => {
       fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
@@ -838,16 +942,104 @@ export function shepherdGetSysInfo() {
       })
       .catch(function(error) {
         console.log(error);
-        dispatch(triggerToaster(true, 'getSyncInfo', 'Error', 'error'));
+        dispatch(triggerToaster(true, 'getDexBalance', 'Error', 'error'));
       })
       .then(response => response.json())
-      .then(json => dispatch(getSyncInfoState(json, dispatch)))
+      .then(json => console.log(json))
+      //.then(json => dispatch(getSyncInfoState(json, dispatch)))
+
       resolve(index);
     });
   }))
   .then(result => {
     console.log(result);
   });
+}
+
+export function getKMDBalanceTotal(coin) {
+  var payload;
+
+  if ( coin !== 'KMD' && coin !== 'ZEC' ) {
+    payload = {
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': 'iguana',
+      'method': 'passthru',
+      'asset': coin,
+      'function': 'z_gettotalbalance',
+      'hex': '3000'
+    };
+  } else {
+    payload = {
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': getPassthruAgent(coin),
+      'method': 'passthru',
+      'function': 'z_gettotalbalance',
+      'hex': '3000'
+    };
+  }
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getKMDBalanceTotal', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getNativeBalancesState(json)))
+  }
+}
+
+export function getNativeBalancesState(json) {
+  return {
+    type: DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE,
+    balance: json && !json.error ? json : 0,
+  }
+}
+
+export function getNativeTxHistory(coin) {
+  var payload;
+
+  if (getPassthruAgent(coin) === 'iguana') {
+    payload = {
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': 'iguana',
+      'method': 'passthru',
+      'asset': coin,
+      'function': 'listtransactions',
+      'hex': ''
+    };
+  } else {
+    payload = {
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': getPassthruAgent(coin),
+      'method': 'passthru',
+      'function': 'listtransactions',
+      'hex': ''
+    };
+  }
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getNativeTxHistory', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getNativeTxHistoryState(json)))
+  }
+}
+
+export function getNativeTxHistoryState(json) {
+  return {
+    type: DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY,
+    txhistory: json && !json.error ? json : 0,
+  }
 }
 
 /*function Shepherd_SendPendValue() {

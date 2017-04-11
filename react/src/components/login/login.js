@@ -27,6 +27,7 @@ class Login extends React.Component {
       this.setState({
         display: true,
       });
+      document.body.className = 'page-login layout-full page-dark';
     }
     if (props && props.Main && props.Main.activeCoins) {
       this.setState({
@@ -54,7 +55,7 @@ class Login extends React.Component {
   }
 
   render() {
-    if (this.state && this.state.display) {
+    if ((this.state && this.state.display) || !this.props.Main) {
       return (
         <div id="wallet-login">
           <div className="page animsition vertical-align text-center fade-in" data-animsition-in="fade-in" data-animsition-out="fade-out">
@@ -107,7 +108,7 @@ class Login extends React.Component {
               <div id="section-login-addcoin-btn" className={this.state.activeLoginSection === 'activateCoin' ? 'show' : 'hide'}>
                 <h4 style={{ color: '#fff' }} id="login-welcome">{translate('INDEX.WELCOME_PLEASE_ADD')}</h4>
                 <div className="form-group form-material floating" style={{width: '540px', margin: '30px 0'}}>
-                  <button className="btn btn-lg btn-primary btn-block ladda-button" id="start-coin-login" role="menuitem" data-edexcoinmenu="COIN" data-target="#AddCoinDilogModel-login" data-toggle="modal" data-style="expand-left" data-plugin="ladda" onClick={this.toggleActivateCoinForm}><span className="ladda-label">{translate('INDEX.ACTIVATE_COIN')}</span></button>
+                  <button className="btn btn-lg btn-primary btn-block ladda-button" id="start-coin-login" role="menuitem" data-edexcoinmenu="COIN" data-target="#AddCoinDilogModel-login" data-toggle="modal" data-style="expand-left" data-plugin="ladda" onClick={this.toggleActivateCoinForm} disabled={!this.props.Main}><span className="ladda-label">{translate('INDEX.ACTIVATE_COIN')}</span></button>
                 </div>
               </div>
 

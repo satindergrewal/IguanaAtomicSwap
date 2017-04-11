@@ -22,7 +22,7 @@ class ReceiveCoin extends React.Component {
   }
 
   render() {
-    if (this.props && this.props.receive) {
+    if (this.props && this.props.receive && this.props.mode !== 'native') {
       return (
         <div data-edexcoin="COIN" id="edexcoin_recieve">
           <div className="col-xs-12 margin-top-20">

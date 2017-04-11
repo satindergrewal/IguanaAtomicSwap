@@ -1,3 +1,59 @@
+export function checkAC(coinVal) {
+	if (coinVal == 'SUPERNET' ||
+			coinVal == 'REVS' ||
+			coinVal == 'WLC' ||
+			coinVal == 'DEX' ||
+			coinVal == 'PANGEA' ||
+			coinVal == 'JUMBLR' ||
+			coinVal == 'BET' ||
+			coinVal == 'CRYPTO' ||
+			coinVal == 'HODL' ||
+			coinVal == 'SHARK' ||
+			coinVal == 'BOTS' ||
+			coinVal == 'MGW' ||
+			coinVal == 'MVP' ||
+			coinVal == 'KV' ||
+			coinVal == 'CEAL' ||
+			coinVal == 'MESH' ||
+			coinVal == 'BTC' ||
+			coinVal == 'USD' ||
+			coinVal == 'RON' ||
+			coinVal == 'EUR' ||
+			coinVal == 'JPY' ||
+			coinVal == 'GBP' ||
+			coinVal == 'AUD' ||
+			coinVal == 'CAD' ||
+			coinVal == 'CHF' ||
+			coinVal == 'NZD' ||
+			coinVal == 'CNY' ||
+			coinVal == 'RUB' ||
+			coinVal == 'MXN' ||
+			coinVal == 'BRL' ||
+			coinVal == 'INR' ||
+			coinVal == 'HKD' ||
+			coinVal == 'TRY' ||
+			coinVal == 'ZAR' ||
+			coinVal == 'PLN' ||
+			coinVal == 'NOK' ||
+			coinVal == 'SEK' ||
+			coinVal == 'DKK' ||
+			coinVal == 'CZK' ||
+			coinVal == 'HUF' ||
+			coinVal == 'ILS' ||
+			coinVal == 'KRW' ||
+			coinVal == 'MYR' ||
+			coinVal == 'PHP' ||
+			coinVal == 'SGD' ||
+			coinVal == 'THB' ||
+			coinVal == 'BGN' ||
+			coinVal == 'IDR' ||
+			coinVal == 'HRK')	{
+		return true;
+	} else {
+		return false;
+	}
+}
+
 export function checkCoinType(coin) {
 	if (coin === 'USD' ||
 			coin === 'RON' ||
@@ -49,7 +105,7 @@ export function checkCoinType(coin) {
 			coin === 'KV' ||
 			coin === 'CEAL' ||
 			coin === 'MESH' ||
-			coin === 'WIRELESS') {
+			coin === 'WLC') {
 		return 'ac';
 	}
 

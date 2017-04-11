@@ -27,7 +27,6 @@ class Dashboard extends React.Component {
 
   renderDashboard() {
     document.body.className = '';
-    //            <WalletsHeader {...this.props.ActiveCoin} />
     return (
       <div style={{height: '100%'}}>
         <div className={this.props.Dashboard.activeSection === 'wallets' ? 'page-main' : ''} id="section-dashboard" data-edexcoin="COIN">

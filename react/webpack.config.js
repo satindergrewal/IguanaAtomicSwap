@@ -96,6 +96,7 @@ if (isProduction) {
       debug: false,
     }),
     new webpack.optimize.UglifyJsPlugin({
+      sourceMap: false,
       compress: {
         warnings: false,
         screw_ie8: true,
@@ -121,7 +122,7 @@ if (isProduction) {
       test: /\.scss$/,
       loader: ExtractTextPlugin.extract({
         fallback: 'style-loader',
-        use: 'css-loader!postcss-loader!sass-loader',
+        use: 'css-loader!postcss-loader!sass-loader!file-loader!url-loader',
       }),
     }
   );
@@ -160,7 +161,7 @@ module.exports = {
   },
   output: {
     path: buildPath,
-    publicPath: '/',
+    publicPath: '',
     filename: 'app-[hash].js',
   },
   module: {
