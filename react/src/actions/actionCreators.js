@@ -988,7 +988,11 @@ export function getKMDBalanceTotal(coin) {
       dispatch(triggerToaster(true, 'getKMDBalanceTotal', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(getNativeBalancesState(json)))
+    .then(function(json) { // TODO: figure out why komodod spits out "parse error"
+      if (json && !json.error) {
+        dispatch(getNativeBalancesState(json));
+      }
+    })
   }
 }
 
