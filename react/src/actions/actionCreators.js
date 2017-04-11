@@ -37,6 +37,8 @@ export const START_INTERVAL= 'START_INTERVAL';
 export const STOP_INTERVAL= 'STOP_INTERVAL';
 export const DASHBOARD_ACTIVE_SECTION = 'DASHBOARD_ACTIVE_SECTION';
 export const DASHBOARD_ACTIVE_TXINFO_MODAL = 'DASHBOARD_ACTIVE_TXINFO_MODAL';
+export const DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE = 'DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE';
+export const DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY = 'DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY';
 
 export function toggleDashboardActiveSection(name) {
   return {
@@ -886,18 +888,23 @@ function getSyncInfoNativeState(json) {
   }
 }
 
-export function getSyncInfoNative(coin) {
-  var payload = {},
-      passthru_agent;
+function getPassthruAgent(coin) {
+  var passthru_agent;
 
   if ( coin === 'KMD') { passthru_agent = 'komodo'; };
   if ( coin === 'ZEC') { passthru_agent = 'zcash'; };
 
   if (checkAC(coin)) { passthru_agent = 'iguana'; };
 
+  return passthru_agent;
+}
+
+export function getSyncInfoNative(coin) {
+  var payload = {};
+
   payload = {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-    'agent': passthru_agent,
+    'agent': getPassthruAgent(coin),
     'method': 'passthru',
     'asset': coin,
     'function': 'getinfo',
@@ -947,6 +954,92 @@ export function getDexBalance(coin, addr) {
   .then(result => {
     console.log(result);
   });
+}
+
+export function getKMDBalanceTotal(coin) {
+  var payload;
+
+  if ( coin !== 'KMD' && coin !== 'ZEC' ) {
+    payload = {
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': 'iguana',
+      'method': 'passthru',
+      'asset': coin,
+      'function': 'z_gettotalbalance',
+      'hex': '3000'
+    };
+  } else {
+    payload = {
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': getPassthruAgent(coin),
+      'method': 'passthru',
+      'function': 'z_gettotalbalance',
+      'hex': '3000'
+    };
+  }
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getKMDBalanceTotal', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getNativeBalancesState(json)))
+  }
+}
+
+export function getNativeBalancesState(json) {
+  return {
+    type: DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE,
+    balance: json && !json.error ? json : 0,
+  }
+}
+
+export function getNativeTxHistory(coin) {
+  var payload;
+
+  if (getPassthruAgent(coin) === 'iguana') {
+    payload = {
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': 'iguana',
+      'method': 'passthru',
+      'asset': coin,
+      'function': 'listtransactions',
+      'hex': ''
+    };
+  } else {
+    payload = {
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': getPassthruAgent(coin),
+      'method': 'passthru',
+      'function': 'listtransactions',
+      'hex': ''
+    };
+  }
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getNativeTxHistory', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getNativeTxHistoryState(json)))
+  }
+}
+
+export function getNativeTxHistoryState(json) {
+  return {
+    type: DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY,
+    txhistory: json && !json.error ? json : 0,
+  }
 }
 
 /*function Shepherd_SendPendValue() {

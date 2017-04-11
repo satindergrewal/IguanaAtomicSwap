@@ -6,7 +6,9 @@ import {
   DASHBOARD_ACTIVE_COIN_RESET_FORMS,
   DASHBOARD_ACTIVE_SECTION,
   DASHBOARD_ACTIVE_TXINFO_MODAL,
-  ACTIVE_COIN_GET_ADDRESSES
+  ACTIVE_COIN_GET_ADDRESSES,
+  DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE,
+  DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY
 } from '../actions/actionCreators';
 
 export function ActiveCoin(state = {
@@ -54,6 +56,14 @@ export function ActiveCoin(state = {
     case DASHBOARD_ACTIVE_TXINFO_MODAL:
       return Object.assign({}, state, {
         showTransactionInfo: action.display,
+      });
+    case DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE:
+      return Object.assign({}, state, {
+        balance: action.balance,
+      });
+    case DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY:
+      return Object.assign({}, state, {
+        txhistory: action.txhistory,
       });
     default:
       return state;

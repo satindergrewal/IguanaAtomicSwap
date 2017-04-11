@@ -26,7 +26,7 @@ class WalletsNative extends React.Component {
             <div id="easydex-header-div" style={{'backgroundImage': 'url("assets/images/bg/' + this.props.ActiveCoin.coin.toLowerCase() + '_transparent_header_bg.png")'}}>
               <ol className="breadcrumb">
                 <li className="header-easydex-section">
-                  <img src={'assets/images/native/' + this.props.ActiveCoin.coin.toLowerCase() + '_header_title_logo.png'} /> <span style={{fontSize: '35px', verticalAlign: 'middle'}} className={this.props.ActiveCoin.coin === 'KMD' ? 'hide' : 'show'}>{this.props.ActiveCoin.coin}</span>
+                  <img src={'assets/images/native/' + this.props.ActiveCoin.coin.toLowerCase() + '_header_title_logo.png'} /> <span style={{fontSize: '35px', verticalAlign: 'middle'}} className={this.props.ActiveCoin.coin === 'KMD' ? 'hide' : ''}>{this.props.ActiveCoin.coin}</span>
                 </li>
               </ol>
             </div>

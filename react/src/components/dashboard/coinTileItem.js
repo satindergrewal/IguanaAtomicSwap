@@ -8,7 +8,9 @@ import {
   startInterval,
   stopInterval,
   iguanaEdexBalance,
-  getSyncInfoNative
+  getSyncInfoNative,
+  getKMDBalanceTotal,
+  getNativeTxHistory
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -31,6 +33,8 @@ class CoinTileItem extends React.Component {
       Store.dispatch(stopInterval('sync', this.props.Interval.interval));
       var _iguanaActiveHandle = setInterval(function() {
         Store.dispatch(getSyncInfoNative(coin));
+        Store.dispatch(getKMDBalanceTotal(coin));
+        Store.dispatch(getNativeTxHistory(coin));
       }, 3000);
       Store.dispatch(startInterval('sync', _iguanaActiveHandle));
     } else {
