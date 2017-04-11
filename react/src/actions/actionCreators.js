@@ -343,7 +343,6 @@ export function shepherdHerd(coin, mode, path) {
       'ac_name': 'komodod',
       'ac_options': [
         '-daemon=0',
-        '-server',
         '-addnode=78.47.196.146'
       ]
     };
@@ -396,14 +395,14 @@ export function addCoinResult(coin, mode) {
   }
 }
 
-export function shepherdGetConfig(coin, mode) {
+export function _shepherdGetConfig(coin, mode) {
   return dispatch => {
-  	return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/getconf', {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/getconf', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ 'chain': coin })
+      body: JSON.stringify({ 'chain': 'komodod' })
     })
     .catch(function(error) {
       console.log(error);
@@ -411,6 +410,44 @@ export function shepherdGetConfig(coin, mode) {
     })
     .then(response => response.json())
     .then(json => dispatch(shepherdHerd(coin, mode, json)));
+  }
+}
+
+// TODO: fix setconf/getconf KMD
+
+export function shepherdGetConfig(coin, mode) {
+  if (coin === 'KMD' && mode === '-1') {
+    return dispatch => {
+      return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/getconf', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 'chain': 'komodod' })
+      })
+      .catch(function(error) {
+        console.log(error);
+        dispatch(triggerToaster(true, 'Failed to get KMD config', 'Error', 'error'));
+      })
+      .then(response => response.json())
+      .then(json => dispatch(shepherdHerd(coin, mode, json)))
+    }
+  } else {
+    return dispatch => {
+    	return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/getconf', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 'chain': coin })
+      })
+      .catch(function(error) {
+        console.log(error);
+        dispatch(triggerToaster(true, 'Failed to get mode config', 'Error', 'error'));
+      })
+      .then(response => response.json())
+      .then(json => dispatch(shepherdHerd(coin, mode, json)));
+    }
   }
 }
 
@@ -428,7 +465,6 @@ export function getDexCoins() {
     .catch(function(error) {
       console.log(error);
       dispatch(triggerToaster(true, 'Error getDexCoins', 'Error', 'error'));
-
     })
     .then(response => response.json())
     .then(json => dispatch(dashboardCoinsState(json)));
@@ -878,7 +914,7 @@ export function getSyncInfoNativeKMD() {
 }
 
 function getSyncInfoNativeState(json) {
-  if (json && json.error && json.error === 'null return') {
+  if (json && json.error) {
     return getSyncInfoNativeKMD();
   } else {
     return {
