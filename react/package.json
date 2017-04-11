@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack-dashboard -t 'EDEX-ReactJS' -- webpack-dev-server --colors --no-info",
     "build": "rm -rf ./build && NODE_ENV=\"production\" webpack",
+    "build_dist": " webpack -p --config ./webpack.config.js",
     "lint-break-on-errors": "eslint ./src ./webpack.config.js -f table --ext .js --ext .jsx",
     "lint": "eslint ./src ./webpack.config.js -f table --ext .js --ext .jsx || true",
     "preview": "NODE_ENV=\"production\" ./node_modules/webpack-dashboard/bin/webpack-dashboard.js -t 'Preview Mode - EDEX' -- ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
