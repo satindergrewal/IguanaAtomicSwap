@@ -19,6 +19,7 @@ export function ActiveCoin(state = {
   balance: 0,
   nativeActiveSection: 'default',
   showTransactionInfo: false,
+  txhistory: [],
 }, action) {
   switch (action.type) {
     case DASHBOARD_ACTIVE_COIN_CHANGE:
