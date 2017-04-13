@@ -2,6 +2,39 @@ import React from 'react';
 import { translate } from '../../translate/translate';
 
 class WalletsNativeReceive extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      openDropMenu: false,
+    };
+    this.openDropMenu = this.openDropMenu.bind(this);
+  }
+
+  openDropMenu() {
+    this.setState(Object.assign({}, this.state, {
+      openDropMenu: !this.state.openDropMenu,
+    }));
+  }
+
+  renderAddressList() {
+    if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses.length) {
+      return this.props.ActiveCoin.addresses.map((address) =>
+        <tr key={address}>
+          <td>
+            <span className="label label-default">
+              <i className="icon fa-eye"></i> {translate('IAPI.PUBLIC_SM')}
+            </span>
+          </td>
+          <td>{address}</td>
+          <td></td>
+          <td></td>
+        </tr>
+      );
+    } else {
+      return null;
+    }
+  }
+
   render() {
     if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.receive) {
       return (
@@ -13,7 +46,7 @@ class WalletsNativeReceive extends React.Component {
                   <div className="panel">
                     <header className="panel-heading">
                       <div className="panel-actions">
-                        <div className="dropdown">
+                        <div className={'dropdown' + (this.state.openDropMenu ? ' open' : '')} onClick={this.openDropMenu}>
                           <a className="dropdown-toggle white btn btn-warning" data-extcoin="COIN" id="GetNewRecievingAddress" data-toggle="dropdown" href="javascript:void(0)" aria-expanded="false" role="button">
                             <i className="icon md-arrows margin-right-10" aria-hidden="true"></i> {translate('INDEX.GET_NEW_ADDRESS')} <span className="caret"></span>
                           </a>
@@ -41,6 +74,9 @@ class WalletsNativeReceive extends React.Component {
                             <th>{translate('INDEX.ADDRESS')}</th>
                           </tr>
                         </thead>
+                        <tbody>
+                        {this.renderAddressList()}
+                        </tbody>
                         <tfoot>
                           <tr>
                             <th>{translate('INDEX.TYPE')}</th>

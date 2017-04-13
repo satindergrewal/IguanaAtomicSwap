@@ -10,7 +10,8 @@ import {
   iguanaEdexBalance,
   getSyncInfoNative,
   getKMDBalanceTotal,
-  getNativeTxHistory
+  getNativeTxHistory,
+  getKMDAddressesNative
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -27,24 +28,27 @@ class CoinTileItem extends React.Component {
       var _iguanaActiveHandle = setInterval(function() {
         Store.dispatch(getSyncInfo(coin));
         Store.dispatch(iguanaEdexBalance(coin, mode));
+        Store.dispatch(getAddressesByAccount(coin));
       }, 3000);
       Store.dispatch(startInterval('sync', _iguanaActiveHandle));
     } else if (mode === 'native' && coin !== this.props.ActiveCoin.coin) {
       Store.dispatch(stopInterval('sync', this.props.Interval.interval));
+      // TODO: add conditions to skip txhistory, balances, addresses while "activating best chain"
       var _iguanaActiveHandle = setInterval(function() {
         Store.dispatch(getSyncInfoNative(coin));
         Store.dispatch(getKMDBalanceTotal(coin));
         Store.dispatch(getNativeTxHistory(coin));
-      }, 3000);
+        Store.dispatch(getKMDAddressesNative(coin, 'public'));
+      }, coin === 'KMD' ? 15000 : 3000);
       Store.dispatch(startInterval('sync', _iguanaActiveHandle));
     } else {
       Store.dispatch(stopInterval('sync', this.props.Interval.interval));
+      Store.dispatch(getAddressesByAccount(coin));
       // basilisk
     }
 
     Store.dispatch(dashboardChangeActiveCoin(coin, mode));
     Store.dispatch(iguanaActiveHandle(true));
-    Store.dispatch(getAddressesByAccount(coin));
 
     /*this.setState(Object.assign({}, this.state, {
       activeHandleInterval: _iguanaActiveHandle,

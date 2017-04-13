@@ -801,6 +801,96 @@ export function getSyncInfo(coin) {
   }
 }
 
+function getKMDAddressesNativeState(json) {
+  return {
+    type: ACTIVE_COIN_GET_ADDRESSES,
+    addresses: json,
+  }
+}
+
+export function getKMDAddressesNative(coin, pubpriv) {
+  var payload,
+      ajax_data_to_hex = '',
+      ajax_function_input = '',
+      tmplistaddr_hex_input = '',
+      passthru_agent = getPassthruAgent(coin),
+      tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+
+  if ( pubpriv === 'public' ) {
+    ajax_function_input = 'getaddressesbyaccount';
+    tmplistaddr_hex_input = '222200';
+  }
+  if ( pubpriv === 'private' ) {
+    ajax_function_input = 'z_listaddresses';
+    tmplistaddr_hex_input = '';
+  }
+
+  if (passthru_agent === 'iguana') {
+    payload = {
+      'userpass': tmpIguanaRPCAuth,
+      'agent': passthru_agent,
+      'method': 'passthru',
+      'asset': coin,
+      'function': ajax_function_input,
+      'hex': tmplistaddr_hex_input
+    };
+  } else {
+    payload = {
+      'userpass': tmpIguanaRPCAuth,
+      'agent': passthru_agent,
+      'method': 'passthru',
+      'function': ajax_function_input,
+      'hex': tmplistaddr_hex_input
+    };
+  }
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getKMDAddressesNative', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getKMDAddressesNativeState(json, dispatch)))
+  }
+}
+
+/*function KMDListAddresses(pubpriv) {
+  NProgress.done(true);
+  NProgress.configure({
+    template: templates.nprogressBar
+  });
+  NProgress.start();
+
+
+
+  $.ajax({
+    async: false,
+    type: 'POST',
+    data: JSON.stringify(ajax_data),
+    url: 'http://127.0.0.1:' + config.iguanaPort,
+    success: function(data, textStatus, jqXHR) {
+      var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
+      result = AjaxOutputData;
+    },
+    error: function(xhr, textStatus, error) {
+      console.log('failed getting Coin History.');
+      console.log(xhr.statusText);
+      if ( xhr.readyState == 0 ) {
+        Iguana_ServiceUnavailable();
+      }
+      console.log(textStatus);
+      console.log(error);
+    }
+  });
+
+  NProgress.done();
+  return result;
+}*/
+
 function getDebugLogState(json) {
   const _data = json.result.replace('\n', '\r\n');
 

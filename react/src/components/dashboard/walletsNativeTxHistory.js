@@ -2,6 +2,56 @@ import React from 'react';
 import { translate } from '../../translate/translate';
 
 class WalletsNativeTxHistory extends React.Component {
+  renderTxType(category) {
+    if ( category == 'send' ) {
+      return (
+        <span>
+          <i className="icon fa-arrow-circle-left"></i> <span>{translate('DASHBOARD.OUT')}</span>
+        </span>
+      );
+    }
+    if ( category == 'receive' ) {
+      return (
+        <span>
+          <i className="icon fa-arrow-circle-right"></i> <span>{translate('DASHBOARD.IN')}</span>
+        </span>
+      );
+    }
+    if ( category == 'generate' ) {
+      return (
+        <span>
+          <i className="icon fa-cogs"></i> <span>{translate('DASHBOARD.MINED')}</span>
+        </span>
+      );
+    }
+    if ( category == 'immature' ) {
+      return (
+        <span>
+          <i className="icon fa-clock-o"></i> <span>{translate('DASHBOARD.IMMATURE')}</span>
+        </span>
+      );
+    }
+  }
+
+  renderTxHistoryList() {
+    if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory.length) {
+      return this.props.ActiveCoin.txhistory.map((tx) =>
+        <tr key={tx.txid}>
+          <td>
+            <span className="label label-default">
+              <i className="icon fa-eye"></i> {translate('IAPI.PUBLIC_SM')}
+            </span>
+          </td>
+          <td>{this.renderTxType(tx.category)}</td>
+          <td></td>
+          <td></td>
+        </tr>
+      );
+    } else {
+      return null;
+    }
+  }
+
   render() {
     return (
       <div data-extcoin="COIN" id="kmd_wallet_dashboardinfo">
@@ -26,6 +76,9 @@ class WalletsNativeTxHistory extends React.Component {
                           <th>{translate('INDEX.TX_DETAIL')}</th>
                         </tr>
                       </thead>
+                      <tbody>
+                      {this.renderTxHistoryList()}
+                      </tbody>
                       <tfoot>
                         <tr>
                           <th>{translate('INDEX.TYPE')}</th>
