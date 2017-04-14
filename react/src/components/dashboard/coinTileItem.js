@@ -38,7 +38,7 @@ class CoinTileItem extends React.Component {
         Store.dispatch(getSyncInfoNative(coin));
         Store.dispatch(getKMDBalanceTotal(coin));
         Store.dispatch(getNativeTxHistory(coin));
-        Store.dispatch(getKMDAddressesNative(coin, 'public'));
+        Store.dispatch(getKMDAddressesNative(coin));
       }, coin === 'KMD' ? 15000 : 3000);
       Store.dispatch(startInterval('sync', _iguanaActiveHandle));
     } else {

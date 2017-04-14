@@ -10,6 +10,7 @@ class WalletsNativeTxHistory extends React.Component {
   }
 
   // TODO: implement sorting and pagination
+  //       z transactions
 
   toggleTxInfoModal(display, txIndex) {
     Store.dispatch(toggleDashboardTxInfoModal(display, txIndex));

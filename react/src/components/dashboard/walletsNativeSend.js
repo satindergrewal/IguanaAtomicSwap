@@ -2,6 +2,34 @@ import React from 'react';
 import { translate } from '../../translate/translate';
 
 class WalletsNativeSend extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      form: null,
+      to: null,
+      amount: 0,
+      fee: 0.0001,
+    };
+    this.updateInput = this.updateInput.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  renderAddressList() {
+    return this.props.ActiveCoin.addresses.map((address) =>
+      <option key={address} value={address}>{address}</option>
+    );
+  }
+
+  updateInput(e) {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  handleSubmit() {
+    console.log(this.state);
+  }
+
   render() {
     if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.nativeActiveSection === 'send') {
       return (
@@ -18,30 +46,32 @@ class WalletsNativeSend extends React.Component {
                   <div className="row">
                     <div className="col-xlg-12 form-group form-material">
                       <label className="control-label" data-extcoin="COIN" htmlFor="kmd_wallet_send_from">{translate('INDEX.SEND_FROM')}</label>
-                      <select className="form-control form-material showkmdwalletaddrs show-tick" data-extcoin="COIN" id="kmd_wallet_send_from" title="Select Transparent or Private Address" data-size="5"></select>
+                      <select className="form-control form-material showkmdwalletaddrs show-tick" name="from" onChange={this.updateInput} data-extcoin="COIN" id="kmd_wallet_send_from" title="Select Transparent or Private Address" data-size="5">
+                      {this.renderAddressList()}
+                      </select>
                     </div>
                     <div className="col-xlg-12 form-group form-material">
                       <label className="control-label" data-extcoin="COIN" htmlFor="kmd_wallet_sendto">{translate('INDEX.SEND_TO')}</label>
-                      <input type="text" className="form-control" data-extcoin="COIN" id="kmd_wallet_sendto" name="kmd_wallet_sendto" placeholder="Enter Transparent or Private address" autoComplete="off" required />
+                      <input type="text" className="form-control" data-extcoin="COIN" name="to" onChange={this.updateInput} id="kmd_wallet_sendto" placeholder="Enter Transparent or Private address" autoComplete="off" required />
                     </div>
                     <div className="col-lg-6 form-group form-material">
                       <label className="control-label" htmlFor="kmd_wallet_amount" data-extcoin="COIN" id="kmd_wallet_amount_label">
                         <span data-extcoinname="COIN"></span>
                       </label>
-                      <input type="text" className="form-control" data-extcoin="COIN" id="kmd_wallet_amount" name="kmd_wallet_amount" placeholder="0.000" autoComplete="off" />
+                      <input type="text" className="form-control" name="amount" onChange={this.updateInput} data-extcoin="COIN" id="kmd_wallet_amount" placeholder="0.000" autoComplete="off" />
                     </div>
                     <div className="col-lg-6 form-group form-material">
                       <label className="control-label" data-extcoin="COIN" htmlFor="kmd_wallet_fee">{translate('INDEX.FEE')}</label>
-                      <input type="text" className="form-control" data-extcoin="COIN" id="kmd_wallet_fee" name="kmd_wallet_fee" placeholder="0.000" value="0.0001" autoComplete="off" />
+                      <input type="text" className="form-control" name="fee" onChange={this.updateInput} data-extcoin="COIN" id="kmd_wallet_fee" placeholder="0.000" value={this.state.fee} autoComplete="off" />
                     </div>
                     <div className="col-lg-12">
                       <span data-extcoin="KMD">
-                        <b>{translate('INDEX.TOTAL')} (<span data-extcoinname="COIN"></span> - txfee):</b> <span data-extcoin="COIN" id="kmd_wallet_total_value">0.000</span> <span data-extcoin="COIN" id="kmd_wallet_total_coinname" data-extcoinname="COIN"></span>
+                        <b>{translate('INDEX.TOTAL')}:</b> {this.state.amount} + {this.state.fee}/kb {this.props.ActiveCoin.coin}
                       </span>
                     </div>
                     <div className="col-lg-12">
-                      <button type="submit" className="btn btn-primary waves-effect waves-light pull-right" data-toggle="modal" id="kmd_wallet_send_coins_btn">
-                        {translate('INDEX.SEND')} <span data-extcoinname="COIN"></span>
+                      <button type="button" className="btn btn-primary waves-effect waves-light pull-right" data-toggle="modal" id="kmd_wallet_send_coins_btn" onClick={this.handleSubmit}>
+                        {translate('INDEX.SEND')} {this.state.amount} {this.props.ActiveCoin.coin}
                       </button>
                     </div>
                   </div>

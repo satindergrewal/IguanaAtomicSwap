@@ -1,5 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
+import { getNewKMDAddresses } from '../../actions/actionCreators';
+import Store from '../../store';
 
 class WalletsNativeReceive extends React.Component {
   constructor(props) {
@@ -35,6 +37,10 @@ class WalletsNativeReceive extends React.Component {
     }
   }
 
+  getNewAddress(type) {
+    Store.dispatch(getNewKMDAddresses(this.props.ActiveCoin.coin, type));
+  }
+
   render() {
     if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.nativeActiveSection === 'receive') {
       return (
@@ -52,12 +58,12 @@ class WalletsNativeReceive extends React.Component {
                           </a>
                           <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="GetNewRecievingAddress" role="menu">
                             <li role="presentation">
-                              <a href="javascript:void(0)" data-extcoin="COIN" id="kmd_get_new_taddr" role="menuitem">
+                              <a href="javascript:void(0)" data-extcoin="COIN" id="kmd_get_new_taddr" role="menuitem" onClick={() => this.getNewAddress('public')}>
                                 <i className="icon fa-eye" aria-hidden="true"></i> {translate('INDEX.TRANSPARENT_ADDRESS')}
                               </a>
                             </li>
                             <li data-extcoin="COIN" role="presentation">
-                              <a href="javascript:void(0)" data-extcoin="COIN" id="kmd_get_new_zaddr" role="menuitem">
+                              <a href="javascript:void(0)" data-extcoin="COIN" id="kmd_get_new_zaddr" role="menuitem" onClick={() => this.getNewAddress('private')}>
                                 <i className="icon fa-eye-slash" aria-hidden="true"></i> {translate('INDEX.PRIVATE_Z_ADDRESS')}
                               </a>
                             </li>

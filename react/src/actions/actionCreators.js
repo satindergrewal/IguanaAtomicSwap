@@ -48,8 +48,6 @@ export function toggleDashboardActiveSection(name) {
 }
 
 export function toggleDashboardTxInfoModal(display, txIndex) {
-      console.log('toggleTxInfoModal', txIndex);
-
   return {
     type: DASHBOARD_ACTIVE_TXINFO_MODAL,
     showTransactionInfo: display,
@@ -811,88 +809,64 @@ function getKMDAddressesNativeState(json) {
   }
 }
 
-export function getKMDAddressesNative(coin, pubpriv) {
-  var payload,
-      ajax_data_to_hex = '',
-      ajax_function_input = '',
-      tmplistaddr_hex_input = '',
-      passthru_agent = getPassthruAgent(coin),
-      tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
-
-  if ( pubpriv === 'public' ) {
-    ajax_function_input = 'getaddressesbyaccount';
-    tmplistaddr_hex_input = '222200';
-  }
-  if ( pubpriv === 'private' ) {
-    ajax_function_input = 'z_listaddresses';
-    tmplistaddr_hex_input = '';
-  }
-
-  if (passthru_agent === 'iguana') {
-    payload = {
-      'userpass': tmpIguanaRPCAuth,
-      'agent': passthru_agent,
-      'method': 'passthru',
-      'asset': coin,
-      'function': ajax_function_input,
-      'hex': tmplistaddr_hex_input
-    };
-  } else {
-    payload = {
-      'userpass': tmpIguanaRPCAuth,
-      'agent': passthru_agent,
-      'method': 'passthru',
-      'function': ajax_function_input,
-      'hex': tmplistaddr_hex_input
-    };
-  }
+export function getKMDAddressesNative(coin) {
+  const type = ['public', 'private'];
 
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    })
-    .catch(function(error) {
-      console.log(error);
-      dispatch(triggerToaster(true, 'getKMDAddressesNative', 'Error', 'error'));
-    })
-    .then(response => response.json())
-    .then(json => dispatch(getKMDAddressesNativeState(json, dispatch)))
+    Promise.all(type.map((_type, index) => {
+      return new Promise((resolve, reject) => {
+        var payload,
+            ajax_data_to_hex = '',
+            ajax_function_input = '',
+            tmplistaddr_hex_input = '',
+            passthru_agent = getPassthruAgent(coin),
+            tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+
+        if ( _type === 'public' ) {
+          ajax_function_input = 'getaddressesbyaccount';
+          tmplistaddr_hex_input = '222200';
+        }
+        if ( _type === 'private' ) {
+          ajax_function_input = 'z_listaddresses';
+          tmplistaddr_hex_input = '';
+        }
+
+        if (passthru_agent === 'iguana') {
+          payload = {
+            'userpass': tmpIguanaRPCAuth,
+            'agent': passthru_agent,
+            'method': 'passthru',
+            'asset': coin,
+            'function': ajax_function_input,
+            'hex': tmplistaddr_hex_input
+          };
+        } else {
+          payload = {
+            'userpass': tmpIguanaRPCAuth,
+            'agent': passthru_agent,
+            'method': 'passthru',
+            'function': ajax_function_input,
+            'hex': tmplistaddr_hex_input
+          };
+        }
+
+        fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+          method: 'POST',
+          body: JSON.stringify(payload),
+        })
+        .catch(function(error) {
+          console.log(error);
+          dispatch(triggerToaster(true, 'getKMDAddressesNative', 'Error', 'error'));
+        })
+        .then(response => response.json())
+        .then(json => resolve(json))
+      });
+    }))
+    .then(result => {
+      dispatch(getKMDAddressesNativeState(result[0].concat(result[1])));
+    });
   }
 }
-
-/*function KMDListAddresses(pubpriv) {
-  NProgress.done(true);
-  NProgress.configure({
-    template: templates.nprogressBar
-  });
-  NProgress.start();
-
-
-
-  $.ajax({
-    async: false,
-    type: 'POST',
-    data: JSON.stringify(ajax_data),
-    url: 'http://127.0.0.1:' + config.iguanaPort,
-    success: function(data, textStatus, jqXHR) {
-      var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
-      result = AjaxOutputData;
-    },
-    error: function(xhr, textStatus, error) {
-      console.log('failed getting Coin History.');
-      console.log(xhr.statusText);
-      if ( xhr.readyState == 0 ) {
-        Iguana_ServiceUnavailable();
-      }
-      console.log(textStatus);
-      console.log(error);
-    }
-  });
-
-  NProgress.done();
-  return result;
-}*/
 
 function getDebugLogState(json) {
   const _data = json.result.replace('\n', '\r\n');
@@ -1172,6 +1146,59 @@ export function getNativeTxHistoryState(json) {
   return {
     type: DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY,
     txhistory: json && !json.error ? json : 0,
+  }
+}
+
+function handleGetNewKMDAddresses(pubpriv, coin, dispatch) {
+  dispatch(triggerToaster(true, translate('KMD_NATIVE.NEW_ADDR_GENERATED'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
+  dispatch(getKMDAddressesNative(coin));
+  return {};
+}
+
+export function getNewKMDAddresses(coin, pubpriv) {
+  var payload,
+      ajax_function_input = '';
+
+  if ( pubpriv === 'public' ) {
+    ajax_function_input = 'getnewaddress';
+  }
+  if ( pubpriv === 'private' ) {
+    ajax_function_input = 'z_getnewaddress';
+  }
+
+  if (getPassthruAgent(coin) === 'iguana') {
+    payload = {
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': getPassthruAgent(coin),
+      'method': 'passthru',
+      'asset': coin,
+      'function': ajax_function_input,
+      'hex': ''
+    };
+  } else {
+    payload = {
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': coin,
+      'method': 'passthru',
+      'function': ajax_function_input,
+      'hex': ''
+    };
+  }
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getNewKMDAddresses', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(handleGetNewKMDAddresses(pubpriv, coin, dispatch)))
+    .catch(function(ex) {
+      dispatch(handleGetNewKMDAddresses(pubpriv, coin, dispatch))
+    })
   }
 }
 
