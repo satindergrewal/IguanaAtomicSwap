@@ -5,7 +5,8 @@ import {
   iguanaEdexBalance,
   toggleSendCoinForm,
   toggleReceiveCoinForm,
-  toggleSendReceiveCoinForms
+  toggleSendReceiveCoinForms,
+  toggleDashboardActiveSection
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -24,15 +25,27 @@ class WalletsNav extends React.Component {
   }
 
   toggleSendReceiveCoinForms() {
-    Store.dispatch(toggleSendReceiveCoinForms());
+    if (this.props.ActiveCoin.mode === 'native') {
+      Store.dispatch(toggleDashboardActiveSection(this.props.ActiveCoin.nativeActiveSection === 'settings' ? 'default' : 'settings'));
+    } else {
+      Store.dispatch(toggleSendReceiveCoinForms());
+    }
   }
 
   toggleSendCoinForm(display) {
-    Store.dispatch(toggleSendCoinForm(display));
+    if (this.props.ActiveCoin.mode === 'native') {
+      Store.dispatch(toggleDashboardActiveSection(this.props.ActiveCoin.nativeActiveSection === 'send' ? 'default' : 'send'));
+    } else {
+      Store.dispatch(toggleSendCoinForm(display));
+    }
   }
 
   toggleReceiveCoinForm(display) {
-    Store.dispatch(toggleReceiveCoinForm(display));
+    if (this.props.ActiveCoin.mode === 'native') {
+      Store.dispatch(toggleDashboardActiveSection(this.props.ActiveCoin.nativeActiveSection === 'receive' ? 'default' : 'receive'));
+    } else {
+      Store.dispatch(toggleReceiveCoinForm(display));
+    }
   }
 
   render() {

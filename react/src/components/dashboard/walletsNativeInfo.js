@@ -7,7 +7,7 @@ class WalletsNativeInfo extends React.Component {
   }
 
   render() {
-    if (this.props && this.props.Dashboard && this.props.Dashboard.progress) {
+    if (this.props && this.props.Dashboard && this.props.Dashboard.progress && this.props.ActiveCoin.nativeActiveSection === 'settings') {
       return (
         <div data-extcoin="COIN" id="kmd_wallet_settings">
           <div className="col-xlg-6 col-md-4">

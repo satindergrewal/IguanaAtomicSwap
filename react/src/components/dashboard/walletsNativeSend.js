@@ -3,7 +3,7 @@ import { translate } from '../../translate/translate';
 
 class WalletsNativeSend extends React.Component {
   render() {
-    if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.send) {
+    if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.nativeActiveSection === 'send') {
       return (
         <div data-extcoin="COIN" id="kmd_wallet_send">
           <div className="col-xlg-12 col-md-12 col-sm-12 col-xs-12">
