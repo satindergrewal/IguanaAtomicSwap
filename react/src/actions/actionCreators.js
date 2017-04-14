@@ -47,10 +47,13 @@ export function toggleDashboardActiveSection(name) {
   }
 }
 
-export function toggleDashboardTxInfoModal(display) {
+export function toggleDashboardTxInfoModal(display, txIndex) {
+      console.log('toggleTxInfoModal', txIndex);
+
   return {
     type: DASHBOARD_ACTIVE_TXINFO_MODAL,
     showTransactionInfo: display,
+    showTransactionInfoTxIndex: txIndex,
   }
 }
 

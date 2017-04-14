@@ -36,7 +36,7 @@ class WalletsNativeReceive extends React.Component {
   }
 
   render() {
-    if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.receive) {
+    if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.nativeActiveSection === 'receive') {
       return (
         <div data-extcoin="COIN" id="kmd_wallet_recieve">
           <div className="col-xs-12 margin-top-20">

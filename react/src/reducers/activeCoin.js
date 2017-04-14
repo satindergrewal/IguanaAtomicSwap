@@ -19,6 +19,7 @@ export function ActiveCoin(state = {
   balance: 0,
   nativeActiveSection: 'default',
   showTransactionInfo: false,
+  showTransactionInfoTxIndex: null,
   txhistory: [],
 }, action) {
   switch (action.type) {
@@ -56,7 +57,8 @@ export function ActiveCoin(state = {
       });
     case DASHBOARD_ACTIVE_TXINFO_MODAL:
       return Object.assign({}, state, {
-        showTransactionInfo: action.display,
+        showTransactionInfo: action.showTransactionInfo,
+        showTransactionInfoTxIndex: action.showTransactionInfoTxIndex,
       });
     case DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE:
       return Object.assign({}, state, {

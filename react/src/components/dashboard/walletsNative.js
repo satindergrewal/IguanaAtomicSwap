@@ -7,16 +7,11 @@ import WalletsNativeReceive from './walletsNativeReceive';
 import WalletsNativeSend from './walletsNativeSend';
 import WalletsNativeSyncProgress from './walletsNativeSyncProgress';
 import WalletsNativeTxHistory from './walletsNativeTxHistory';
-import WalletsNativeTxInfo from './walletsNativeTxInfo';
 
 class WalletsNative extends React.Component {
   constructor(props) {
     super(props);
   }
-
-      /*$('.header-easydex-section')
-      .html('<img src="assets/images/native/' + imgSrcName + '_header_title_logo.png"> <span style="font-size: 35px; vertical-align: middle">' + _coin + '</span>');
-    $('#easydex-header-div').css('background-image', 'url("assets/images/bg/' + imgBgName + '_transparent_header_bg.png")');*/
 
   render() {
     if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.mode === 'native') {
@@ -42,7 +37,6 @@ class WalletsNative extends React.Component {
                 <WalletsNativeInfo {...this.props} />
               </div>
             </div>
-            <WalletsNativeTxInfo {...this.props} />
           </div>
         </div>
       );

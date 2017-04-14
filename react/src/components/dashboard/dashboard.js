@@ -16,6 +16,7 @@ import About from './about';
 import WalletsBasiliskRefresh from './walletsBasiliskRefresh';
 import WalletsBasiliskConnection from './walletsBasiliskConnection';
 import WalletsNative from './walletsNative';
+import WalletsNativeTxInfo from './walletsNativeTxInfo';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -42,6 +43,7 @@ class Dashboard extends React.Component {
             <WalletsBasiliskRefresh {...this.props} />
             <WalletsBasiliskConnection {...this.props} />
             <WalletsNative {...this.props} />
+            <WalletsNativeTxInfo {...this.props} />
           </div>
           <div className={this.props.Dashboard.activeSection === 'edex' ? 'show' : 'hide'}>
             <EDEX {...this.props} />
