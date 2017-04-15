@@ -3,6 +3,8 @@ import { translate } from '../../translate/translate';
 import { getNewKMDAddresses } from '../../actions/actionCreators';
 import Store from '../../store';
 
+// TODO: add addr balance
+
 class WalletsNativeReceive extends React.Component {
   constructor(props) {
     super(props);
@@ -18,17 +20,18 @@ class WalletsNativeReceive extends React.Component {
     }));
   }
 
-  renderAddressList() {
-    if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses.length) {
-      return this.props.ActiveCoin.addresses.map((address) =>
-        <tr key={address}>
+  renderAddressList(type) {
+        console.log(this.props.ActiveCoin.addresses[type]);
+    if (this.props.ActiveCoin.addresses[type] && this.props.ActiveCoin.addresses[type].length) {
+      return this.props.ActiveCoin.addresses[type].map((address) =>
+        <tr key={address.address}>
           <td>
-            <span className="label label-default">
-              <i className="icon fa-eye"></i> {translate('IAPI.PUBLIC_SM')}
+            <span className={type === 'public' ? 'label label-default' : 'label label-dark'}>
+              <i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i> {type === 'public' ? translate('IAPI.PUBLIC_SM') : translate('KMD_NATIVE.PRIVATE')}
             </span>
           </td>
-          <td>{address}</td>
-          <td></td>
+          <td>{type === 'public' ? address.address : address.address.substring(0, 34) + '...'}</td>
+          <td>{address.amount}</td>
           <td></td>
         </tr>
       );
@@ -78,15 +81,18 @@ class WalletsNativeReceive extends React.Component {
                           <tr>
                             <th>{translate('INDEX.TYPE')}</th>
                             <th>{translate('INDEX.ADDRESS')}</th>
+                            <th>{translate('INDEX.AMOUNT')}</th>
                           </tr>
                         </thead>
                         <tbody>
-                        {this.renderAddressList()}
+                        {this.renderAddressList('public')}
+                        {this.renderAddressList('private')}
                         </tbody>
                         <tfoot>
                           <tr>
                             <th>{translate('INDEX.TYPE')}</th>
                             <th>{translate('INDEX.ADDRESS')}</th>
+                            <th>{translate('INDEX.AMOUNT')}</th>
                           </tr>
                         </tfoot>
                       </table>

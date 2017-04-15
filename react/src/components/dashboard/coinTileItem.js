@@ -66,7 +66,7 @@ class CoinTileItem extends React.Component {
               <img className="img-responsive" src={'assets/images/cryptologo/' + item.coinlogo + '.png'} alt="{item.coinname}"/>
               <span className={'badge up badge-' + item.modecolor} id="basfull" data-edexcoincode="{item.coin}" data-toggle="tooltip" data-placement="top" data-original-title="{item.modetip}">{item.modecode}</span>
             </a>
-            <div className="coin-name">{item.coinname} ({item.coinlogo})</div>
+            <div className="coin-name">{item.coinname} ({item.coinlogo.toUpperCase()})</div>
           </div>
         </div>
       </div>

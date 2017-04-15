@@ -11,6 +11,7 @@ class WalletsNativeTxHistory extends React.Component {
 
   // TODO: implement sorting and pagination
   //       z transactions
+  //       filter based on addr
 
   toggleTxInfoModal(display, txIndex) {
     Store.dispatch(toggleDashboardTxInfoModal(display, txIndex));
@@ -62,7 +63,7 @@ class WalletsNativeTxHistory extends React.Component {
   renderTxHistoryList() {
     if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory.length && this.props.ActiveCoin.nativeActiveSection === 'default') {
       return this.props.ActiveCoin.txhistory.map((tx, index) =>
-        <tr key={tx.txid}>
+        <tr key={tx.txid + tx.amount}>
           <td>
             <span className="label label-default">
               <i className="icon fa-eye"></i> {translate('IAPI.PUBLIC_SM')}
