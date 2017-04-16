@@ -13,7 +13,7 @@ class AddCoinOptionsCrypto extends React.Component {
         <option value="DGB|full">Digibyte (DGB)</option>
         <option value="DOGE|full">Dogecoin (DOGE)</option>
         <option value="FRK|full">Franko (FRK)</option>
-        <option value="GMC|full">Gamerscoin (GMC)</option>
+        <option value="GAME|full">Gamecredits (GAME)</option>
         <option value="KMD|basilisk|native">Komodo (KMD)</option>
         <option value="LTC|full">Litecoin (LTC)</option>
         <option value="MZC|full">MazaCoin (MZC)</option>

@@ -3,7 +3,7 @@ import { translate } from '../../translate/translate';
 import { getNewKMDAddresses, copyCoinAddress } from '../../actions/actionCreators';
 import Store from '../../store';
 
-// TODO: add addr balance
+// TODO: importaddress, importprivkey(?)
 
 class WalletsNativeReceive extends React.Component {
   constructor(props) {
