@@ -37,7 +37,7 @@ class WalletsBalance extends React.Component {
                         <i className="icon fa-eye font-size-24 vertical-align-bottom margin-right-5"></i>{translate('INDEX.BALANCE')}
                       </div>
                       <span className="pull-right padding-top-10" data-edexcoin="COIN" style={{fontSize: '22px'}}>
-                        <span data-edexcoin="COIN" id="edex_total_balance"></span> <span data-edexcoin="COIN" id="edex_total_balance_coincode">{this.props && this.props.ActiveCoin && this.props.ActiveCoin.balance ? this.props.ActiveCoin.balance : 0}</span>
+                        <span data-edexcoin="COIN" id="edex_total_balance"></span> <span data-edexcoin="COIN" id="edex_total_balance_coincode">{this.props && this.props.balance ? this.props.balance : 0}</span>
                       </span>
                     </div>
                   </div>
