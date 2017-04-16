@@ -39,6 +39,7 @@ export const DASHBOARD_ACTIVE_SECTION = 'DASHBOARD_ACTIVE_SECTION';
 export const DASHBOARD_ACTIVE_TXINFO_MODAL = 'DASHBOARD_ACTIVE_TXINFO_MODAL';
 export const DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE = 'DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE';
 export const DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY = 'DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY';
+export const DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS = 'DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS';
 
 export function toggleDashboardActiveSection(name) {
   return {
@@ -48,8 +49,6 @@ export function toggleDashboardActiveSection(name) {
 }
 
 export function toggleDashboardTxInfoModal(display, txIndex) {
-      console.log('toggleTxInfoModal', txIndex);
-
   return {
     type: DASHBOARD_ACTIVE_TXINFO_MODAL,
     showTransactionInfo: display,
@@ -811,88 +810,145 @@ function getKMDAddressesNativeState(json) {
   }
 }
 
-export function getKMDAddressesNative(coin, pubpriv) {
-  var payload,
-      ajax_data_to_hex = '',
-      ajax_function_input = '',
-      tmplistaddr_hex_input = '',
-      passthru_agent = getPassthruAgent(coin),
-      tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
-
-  if ( pubpriv === 'public' ) {
-    ajax_function_input = 'getaddressesbyaccount';
-    tmplistaddr_hex_input = '222200';
-  }
-  if ( pubpriv === 'private' ) {
-    ajax_function_input = 'z_listaddresses';
-    tmplistaddr_hex_input = '';
-  }
-
-  if (passthru_agent === 'iguana') {
-    payload = {
-      'userpass': tmpIguanaRPCAuth,
-      'agent': passthru_agent,
-      'method': 'passthru',
-      'asset': coin,
-      'function': ajax_function_input,
-      'hex': tmplistaddr_hex_input
-    };
-  } else {
-    payload = {
-      'userpass': tmpIguanaRPCAuth,
-      'agent': passthru_agent,
-      'method': 'passthru',
-      'function': ajax_function_input,
-      'hex': tmplistaddr_hex_input
-    };
-  }
+export function getKMDAddressesNative(coin) {
+  const type = ['public', 'private'];
 
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
-      method: 'POST',
-      body: JSON.stringify(payload),
+    Promise.all(type.map((_type, index) => {
+      return new Promise((resolve, reject) => {
+        var payload,
+            ajax_data_to_hex = '',
+            ajax_function_input = '',
+            tmplistaddr_hex_input = '',
+            passthru_agent = getPassthruAgent(coin),
+            tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+
+        if ( _type === 'public' ) {
+          ajax_function_input = 'getaddressesbyaccount';
+          tmplistaddr_hex_input = '222200';
+        }
+        if ( _type === 'private' ) {
+          ajax_function_input = 'z_listaddresses';
+          tmplistaddr_hex_input = '';
+        }
+
+        if (passthru_agent === 'iguana') {
+          payload = {
+            'userpass': tmpIguanaRPCAuth,
+            'agent': passthru_agent,
+            'method': 'passthru',
+            'asset': coin,
+            'function': ajax_function_input,
+            'hex': tmplistaddr_hex_input
+          };
+        } else {
+          payload = {
+            'userpass': tmpIguanaRPCAuth,
+            'agent': passthru_agent,
+            'method': 'passthru',
+            'function': ajax_function_input,
+            'hex': tmplistaddr_hex_input
+          };
+        }
+
+        fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+          method: 'POST',
+          body: JSON.stringify(payload),
+        })
+        .catch(function(error) {
+          console.log(error);
+          dispatch(triggerToaster(true, 'getKMDAddressesNative', 'Error', 'error'));
+        })
+        .then(response => response.json())
+        .then(json => resolve(json))
+      });
+    }))
+    .then(result => {
+      // TODO: split into 2 functions
+      const passthru_agent = getPassthruAgent(coin),
+            tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+      var payload;
+
+      if (passthru_agent == 'iguana') {
+        payload = {
+          'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+          'agent': passthru_agent,
+          'method': 'passthru',
+          'asset': coin,
+          'function': 'listunspent',
+          'hex': ''
+        };
+      } else {
+        payload = {
+          'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+          'agent': passthru_agent,
+          'method': 'passthru',
+          'function': 'listunspent',
+          'hex': ''
+        };
+      }
+
+      fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      })
+      .catch(function(error) {
+        console.log(error);
+        dispatch(triggerToaster(true, 'getKMDAddressesNative+Balance', 'Error', 'error'));
+      })
+      .then(response => response.json())
+      .then(function(json) {
+        const allAddrArray = json.map(res => res.address).filter((x, i, a) => a.indexOf(x) == i);
+        for (let a=0; a < allAddrArray.length; a++) {
+          const filteredArray = json.filter(res => res.address === allAddrArray[a]).map(res => res.amount);
+
+          let isNewAddr = true;
+          for (let x=0; x < 2 && isNewAddr; x++) {
+            for (let y=0; y < result[x].length && isNewAddr; y++) {
+              if (allAddrArray[a] === result[x][y]) {
+                isNewAddr = false;
+              }
+            }
+          }
+
+          if (isNewAddr) {
+            if (allAddrArray[a].substring(0, 2) === 'zc' || allAddrArray[a].substring(0, 2) === 'zt') {
+              result[1][result[1].length] = allAddrArray[a];
+            } else {
+              result[0][result[0].length] = allAddrArray[a];
+            }
+            console.log('new addr ' + allAddrArray[a] + ' | ' + allAddrArray[a].substring(0, 2));
+          }
+        }
+
+        let newAddressArray = [];
+
+        for (let a=0; a < 2; a++) {
+          newAddressArray[a] = [];
+
+          for (let b=0; b < result[a].length; b++) {
+            const filteredArray = json.filter(res => res.address === result[a][b]).map(res => res.amount);
+            let sum = 0;
+
+            for (let i=0; i < filteredArray.length; i++) {
+              sum += filteredArray[i];
+            }
+
+            newAddressArray[a][b] = {
+              address: result[a][b],
+              amount: sum,
+            };
+          }
+        }
+
+        dispatch(getKMDAddressesNativeState({
+          'public': newAddressArray[0],
+          'private': newAddressArray[1]
+        }));
+      })
     })
-    .catch(function(error) {
-      console.log(error);
-      dispatch(triggerToaster(true, 'getKMDAddressesNative', 'Error', 'error'));
-    })
-    .then(response => response.json())
-    .then(json => dispatch(getKMDAddressesNativeState(json, dispatch)))
   }
 }
-
-/*function KMDListAddresses(pubpriv) {
-  NProgress.done(true);
-  NProgress.configure({
-    template: templates.nprogressBar
-  });
-  NProgress.start();
-
-
-
-  $.ajax({
-    async: false,
-    type: 'POST',
-    data: JSON.stringify(ajax_data),
-    url: 'http://127.0.0.1:' + config.iguanaPort,
-    success: function(data, textStatus, jqXHR) {
-      var AjaxOutputData = JSON.parse(data); // Ajax output gets the whole list of unspent coin with addresses
-      result = AjaxOutputData;
-    },
-    error: function(xhr, textStatus, error) {
-      console.log('failed getting Coin History.');
-      console.log(xhr.statusText);
-      if ( xhr.readyState == 0 ) {
-        Iguana_ServiceUnavailable();
-      }
-      console.log(textStatus);
-      console.log(error);
-    }
-  });
-
-  NProgress.done();
-  return result;
-}*/
 
 function getDebugLogState(json) {
   const _data = json.result.replace('\n', '\r\n');
@@ -1172,6 +1228,186 @@ export function getNativeTxHistoryState(json) {
   return {
     type: DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY,
     txhistory: json && !json.error ? json : 0,
+  }
+}
+
+function handleGetNewKMDAddresses(pubpriv, coin, dispatch) {
+  dispatch(triggerToaster(true, translate('KMD_NATIVE.NEW_ADDR_GENERATED'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
+  dispatch(getKMDAddressesNative(coin));
+  return {};
+}
+
+export function getNewKMDAddresses(coin, pubpriv) {
+  var payload,
+      ajax_function_input = '';
+
+  if ( pubpriv === 'public' ) {
+    ajax_function_input = 'getnewaddress';
+  }
+  if ( pubpriv === 'private' ) {
+    ajax_function_input = 'z_getnewaddress';
+  }
+
+  if (getPassthruAgent(coin) === 'iguana') {
+    payload = {
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': getPassthruAgent(coin),
+      'method': 'passthru',
+      'asset': coin,
+      'function': ajax_function_input,
+      'hex': ''
+    };
+  } else {
+    payload = {
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': coin,
+      'method': 'passthru',
+      'function': ajax_function_input,
+      'hex': ''
+    };
+  }
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getNewKMDAddresses', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(handleGetNewKMDAddresses(pubpriv, coin, dispatch)))
+    .catch(function(ex) {
+      dispatch(handleGetNewKMDAddresses(pubpriv, coin, dispatch))
+    })
+  }
+}
+
+export function iguanaHashHex(data) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'hash',
+    'method': 'hex',
+    'message': data
+  };
+
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'iguanaHashHex', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => resolve(json.hex))
+  })
+}
+
+export function sendNativeTx(coin, _payload) {
+  const ajax_data_to_hex = '["' + _payload.sendFrom + '",[{"address":"' + _payload.sendTo + '","amount":' + (Number(_payload.amount) - Number(_payload.fee)) + '}]]';
+  var payload;
+
+  return dispatch => {
+    return iguanaHashHex(ajax_data_to_hex).then((hashHexJson) => {
+      console.log('sendNativeTx', hashHexJson);
+
+      if (getPassthruAgent(coin) == 'iguana') {
+        payload = {
+          'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+          'agent': getPassthruAgent(coin),
+          'method': 'passthru',
+          'asset': coin,
+          'function': 'z_sendmany',
+          'hex': hashHexJson
+        };
+      } else {
+        payload = {
+          'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+          'agent': getPassthruAgent(coin),
+          'method': 'passthru',
+          'function': 'z_sendmany',
+          'hex': hashHexJson
+        };
+      }
+
+      fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      })
+      .catch(function(error) {
+        console.log(error);
+        dispatch(triggerToaster(true, 'sendNativeTx', 'Error', 'error'));
+      })
+      .then(response => response.json())
+      .then(json => dispatch(triggerToaster(true, translate('TOASTR.TX_SENT_ALT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success')))
+      .catch(function(ex) {
+        dispatch(triggerToaster(true, translate('TOASTR.TX_SENT_ALT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
+        console.log('parsing failed', ex);
+      })
+    });
+  }
+}
+
+export function getKMDOPIDState(json) {
+  return {
+    type: DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS,
+    opids: json,
+  }
+}
+
+export function getKMDOPID(opid, coin) {
+  var tmpopid_output = '',
+      ajax_data_to_hex;
+
+  if ( opid === undefined ) {
+    ajax_data_to_hex = null;
+  } else {
+    ajax_data_to_hex = '["' + opid + '"]';
+  }
+
+  return dispatch => {
+    return iguanaHashHex(ajax_data_to_hex).then((hashHexJson) => {
+      if (hashHexJson === '5b226e756c6c225d00') {
+        hashHexJson = '';
+      }
+
+      var payload,
+          passthru_agent = getPassthruAgent(coin),
+          tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+
+      if (passthru_agent == 'iguana') {
+        payload = {
+          'userpass': tmpIguanaRPCAuth,
+          'agent': passthru_agent,
+          'method': 'passthru',
+          'asset': coin,
+          'function': 'z_getoperationstatus',
+          'hex': hashHexJson
+        };
+      } else {
+        payload = {
+          'userpass': tmpIguanaRPCAuth,
+          'agent': passthru_agent,
+          'method': 'passthru',
+          'function': 'z_getoperationstatus',
+          'hex': hashHexJson
+        };
+      }
+
+      fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      })
+      .catch(function(error) {
+        console.log(error);
+        dispatch(triggerToaster(true, 'getKMDOPID', 'Error', 'error'));
+      })
+      .then(response => response.json())
+      .then(json => dispatch(getKMDOPIDState(json)))
+    })
   }
 }
 

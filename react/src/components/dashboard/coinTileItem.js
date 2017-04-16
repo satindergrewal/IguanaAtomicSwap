@@ -11,7 +11,8 @@ import {
   getSyncInfoNative,
   getKMDBalanceTotal,
   getNativeTxHistory,
-  getKMDAddressesNative
+  getKMDAddressesNative,
+  getKMDOPID
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -38,7 +39,8 @@ class CoinTileItem extends React.Component {
         Store.dispatch(getSyncInfoNative(coin));
         Store.dispatch(getKMDBalanceTotal(coin));
         Store.dispatch(getNativeTxHistory(coin));
-        Store.dispatch(getKMDAddressesNative(coin, 'public'));
+        Store.dispatch(getKMDAddressesNative(coin));
+        Store.dispatch(getKMDOPID(null, coin));
       }, coin === 'KMD' ? 15000 : 3000);
       Store.dispatch(startInterval('sync', _iguanaActiveHandle));
     } else {
@@ -66,7 +68,7 @@ class CoinTileItem extends React.Component {
               <img className="img-responsive" src={'assets/images/cryptologo/' + item.coinlogo + '.png'} alt="{item.coinname}"/>
               <span className={'badge up badge-' + item.modecolor} id="basfull" data-edexcoincode="{item.coin}" data-toggle="tooltip" data-placement="top" data-original-title="{item.modetip}">{item.modecode}</span>
             </a>
-            <div className="coin-name">{item.coinname} ({item.coinlogo})</div>
+            <div className="coin-name">{item.coinname} ({item.coinlogo.toUpperCase()})</div>
           </div>
         </div>
       </div>
