@@ -625,6 +625,42 @@ export function getPeersListState(json) {
   }
 }
 
+/*params = {
+  'userpass': tmpIguanaRPCAuth,
+  'agent': 'dex',
+  'method': 'listtransactions',
+  'address': coinaddr_value,
+  'count': 100,
+  'skip': 0,
+  'symbol': coin
+};*/
+
+export function getFullTransactionsList(coin) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'coin': coin,
+    'method': 'listtransactions',
+    'params': [
+      0,
+      9999999,
+      []
+    ]
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getFullTransactionsList', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getNativeTxHistoryState(json)))
+  }
+}
+
 export function getPeersList(coin) {
   const payload = {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
@@ -772,7 +808,15 @@ export function stopInterval(name, intervals) {
   }
 }
 
+// TODO: add custom json parser
 function getSyncInfoState(json) {
+  try {
+    JSON.parse(json);
+    json = JSON.parse(json);
+  } catch(e) {
+    //
+  }
+
   return {
     type: SYNCING_FULL_MODE,
     progress: json,
@@ -798,8 +842,19 @@ export function getSyncInfo(coin) {
       console.log(error);
       dispatch(triggerToaster(true, 'getSyncInfo', 'Error', 'error'));
     })
-    .then(response => response.json())
-    .then(json => dispatch(getSyncInfoState(json, dispatch)))
+    .then(function(response) {
+      const _response = response.text().then(function(text) { return text; });
+
+      return _response;
+    })
+    .then(function(json) {
+      if (json.indexOf('coin is busy processing') === -1) {
+        dispatch(getSyncInfoState(json, dispatch));
+      }
+    })
+    .catch(function(error) {
+      console.log('getSyncInfo', error);
+    })
   }
 }
 
@@ -1225,9 +1280,15 @@ export function getNativeTxHistory(coin) {
 }
 
 export function getNativeTxHistoryState(json) {
+  if (json && json.error) {
+    json = null;
+  } else if (json && json.result) {
+    json = json.result;
+  }
+
   return {
     type: DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY,
-    txhistory: json && !json.error ? json : 0,
+    txhistory: json,
   }
 }
 

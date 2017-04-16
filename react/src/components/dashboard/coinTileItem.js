@@ -12,7 +12,8 @@ import {
   getKMDBalanceTotal,
   getNativeTxHistory,
   getKMDAddressesNative,
-  getKMDOPID
+  getKMDOPID,
+  getFullTransactionsList
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -29,7 +30,9 @@ class CoinTileItem extends React.Component {
       var _iguanaActiveHandle = setInterval(function() {
         Store.dispatch(getSyncInfo(coin));
         Store.dispatch(iguanaEdexBalance(coin, mode));
+        Store.dispatch(getNativeTxHistory(coin));
         Store.dispatch(getAddressesByAccount(coin));
+        Store.dispatch(getFullTransactionsList(coin));
       }, 3000);
       Store.dispatch(startInterval('sync', _iguanaActiveHandle));
     } else if (mode === 'native' && coin !== this.props.ActiveCoin.coin) {

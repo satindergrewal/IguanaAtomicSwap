@@ -1,5 +1,6 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
+import { secondsToString } from '../../util/time';
 import { basiliskRefresh, basiliskConnection, getDexNotaries } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -35,6 +36,56 @@ class WalletsData extends React.Component {
 
   getDexNotariesAction() {
     Store.dispatch(getDexNotaries(this.props.ActiveCoin.coin));
+  }
+
+  renderTxType(category) {
+    if ( category === 'send' ) {
+      return (
+        <span>
+          <i className="icon fa-arrow-circle-left"></i> <span>{translate('DASHBOARD.OUT')}</span>
+        </span>
+      );
+    }
+    if ( category === 'receive' ) {
+      return (
+        <span>
+          <i className="icon fa-arrow-circle-right"></i> <span>{translate('DASHBOARD.IN')}</span>
+        </span>
+      );
+    }
+    if ( category === 'generate' ) {
+      return (
+        <span>
+          <i className="icon fa-cogs"></i> <span>{translate('DASHBOARD.MINED')}</span>
+        </span>
+      );
+    }
+    if ( category === 'immature' ) {
+      return (
+        <span>
+          <i className="icon fa-clock-o"></i> <span>{translate('DASHBOARD.IMMATURE')}</span>
+        </span>
+      );
+    }
+  }
+
+  renderTxHistoryList() {
+    if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory.length) {
+      return this.props.ActiveCoin.txhistory.map((tx, index) =>
+        <tr key={tx.txid + tx.amount}>
+          <td>{this.renderTxType(tx.category)}</td>
+          <td>{tx.confirmations}</td>
+          <td>{tx.amount}</td>
+          <td>{secondsToString(tx.blocktime)}</td>
+          <td>{tx.address}</td>
+          <td>
+            <button type="button" className="btn btn-xs white btn-info waves-effect waves-light btn-kmdtxid" onClick={() => this.toggleTxInfoModal(!this.props.ActiveCoin.showTransactionInfo, index)}><i className="icon fa-search"></i></button>
+          </td>
+        </tr>
+      );
+    } else {
+      return null;
+    }
   }
 
   render() {
@@ -95,6 +146,9 @@ class WalletsData extends React.Component {
                             <th className="hidden-xs hidden-sm">{translate('INDEX.TX_DETAIL')}</th>
                           </tr>
                         </thead>
+                        <tbody>
+                        {this.renderTxHistoryList()}
+                        </tbody>
                         <tfoot>
                           <tr>
                             <th>{translate('INDEX.DIRECTION')}</th>
