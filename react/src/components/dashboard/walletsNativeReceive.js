@@ -1,6 +1,6 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-import { getNewKMDAddresses } from '../../actions/actionCreators';
+import { getNewKMDAddresses, copyCoinAddress } from '../../actions/actionCreators';
 import Store from '../../store';
 
 // TODO: add addr balance
@@ -20,6 +20,10 @@ class WalletsNativeReceive extends React.Component {
     }));
   }
 
+  copyZAddress(address) {
+    Store.dispatch(copyCoinAddress(address));
+  }
+
   renderAddressList(type) {
         console.log(this.props.ActiveCoin.addresses[type]);
     if (this.props.ActiveCoin.addresses[type] && this.props.ActiveCoin.addresses[type].length) {
@@ -29,6 +33,8 @@ class WalletsNativeReceive extends React.Component {
             <span className={type === 'public' ? 'label label-default' : 'label label-dark'}>
               <i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i> {type === 'public' ? translate('IAPI.PUBLIC_SM') : translate('KMD_NATIVE.PRIVATE')}
             </span>
+            &nbsp;&nbsp;
+            <button className="btn btn-default btn-xs clipboard-edexaddr" data-edexcoin="COIN" id="edexcoin_active_addr_clipboard" data-clipboard-text="" onClick={() => this.copyZAddress(address.address)}><i className="icon wb-copy" aria-hidden="true"></i> {translate('INDEX.COPY')}</button>
           </td>
           <td>{type === 'public' ? address.address : address.address.substring(0, 34) + '...'}</td>
           <td>{address.amount}</td>

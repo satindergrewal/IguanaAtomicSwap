@@ -1,6 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-import { sendNativeTx } from '../../actions/actionCreators';
+import { secondsToString } from '../../util/time';
+import { sendNativeTx, getKMDOPID } from '../../actions/actionCreators';
 import Store from '../../store';
 
 class WalletsNativeSend extends React.Component {
@@ -65,6 +66,94 @@ class WalletsNativeSend extends React.Component {
     );
   }
 
+  renderOPIDLabel(opid) {
+    if (opid.status === 'queued') {
+      return (
+        <span className="label label-warning">
+          <i className="icon fa-eye"></i> <span>{translate('KMD_NATIVE.QUEUED')}</span>
+        </span>
+      );
+    }
+    if (opid.status === 'executing') {
+      return (
+        <span className="label label-info">
+          <i className="icon fa-eye"></i> <span>{translate('KMD_NATIVE.EXECUTING')}</span>
+        </span>
+      );
+    }
+    if (opid.status === 'failed') {
+      return (
+        <span className="label label-danger">
+          <i className="icon fa-eye"></i> <span>{translate('KMD_NATIVE.FAILED')}</span>
+        </span>
+      );
+    }
+    if (opid.status === 'success') {
+      return (
+        <span className="label label-success">
+          <i className="icon fa-eye"></i> <span>{translate('KMD_NATIVE.SUCCESS')}</span>
+        </span>
+      );
+    }
+  }
+
+  renderOPIDResult(opid) {
+    var isWaitingStatus = true;
+
+    if (opid.status === 'queued') {
+      isWaitingStatus = false;
+      return (
+        <i>{translate('KMD_NATIVE.PLEASE_REFRESH')}...</i>
+      );
+    }
+    if (opid.status === 'executing') {
+      isWaitingStatus = false;
+      return (
+        <i>{translate('KMD_NATIVE.PLEASE_REFRESH')}...</i>
+      );
+    }
+    if (opid.status === 'failed') {
+      isWaitingStatus = false;
+      return (
+        <span>
+          <b>Error Code:</b> <span>{opid.error.code}</span>
+          <br />
+          <b>{translate('KMD_NATIVE.MESSAGE')}:</b> <span>{opid.error.message}</span>
+        </span>
+      );
+    }
+    if (opid.status === 'success') {
+      isWaitingStatus = false;
+      return (
+        <span>
+          <b>txid:</b> <span>{opid.result.txid}</span>
+          <br />
+          <b>{translate('KMD_NATIVE.EXECUTION_SECONDS')}:</b> <span>{opid.execution_secs}</span>
+        </span>
+      );
+    }
+    if (isWaitingStatus) {
+      return (
+        <span>Waiting...</span>
+      );
+    }
+  }
+
+  renderOPIDList() {
+    if (this.props.ActiveCoin.opids && this.props.ActiveCoin.opids.length) {
+      return this.props.ActiveCoin.opids.map((opid) =>
+        <tr key={opid.id}>
+          <td>{this.renderOPIDLabel(opid)}</td>
+          <td>{opid.id}</td>
+          <td>{secondsToString(opid.creation_time)}</td>
+          <td>{this.renderOPIDResult(opid)}</td>
+        </tr>
+      );
+    } else {
+      return null;
+    }
+  }
+
   openDropMenu() {
     this.setState(Object.assign({}, this.state, {
       addressSelectorOpen: !this.state.addressSelectorOpen,
@@ -89,6 +178,9 @@ class WalletsNativeSend extends React.Component {
   handleSubmit() {
     console.log(this.state);
     Store.dispatch(sendNativeTx(this.props.ActiveCoin.coin, this.state));
+    setTimeout(function() {
+      Store.dispatch(getKMDOPID(null, this.props.ActiveCoin.coin));
+    }, 1000);
   }
 
   render() {
@@ -163,6 +255,9 @@ class WalletsNativeSend extends React.Component {
                               <th>{translate('INDEX.RESULT')}</th>
                             </tr>
                           </thead>
+                          <tbody>
+                          {this.renderOPIDList()}
+                          </tbody>
                           <tfoot>
                             <tr>
                               <th>{translate('INDEX.STATUS')}</th>

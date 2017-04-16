@@ -8,7 +8,8 @@ import {
   DASHBOARD_ACTIVE_TXINFO_MODAL,
   ACTIVE_COIN_GET_ADDRESSES,
   DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE,
-  DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY
+  DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY,
+  DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS
 } from '../actions/actionCreators';
 
 export function ActiveCoin(state = {
@@ -21,6 +22,7 @@ export function ActiveCoin(state = {
   showTransactionInfo: false,
   showTransactionInfoTxIndex: null,
   txhistory: [],
+  opids: null,
 }, action) {
   switch (action.type) {
     case DASHBOARD_ACTIVE_COIN_CHANGE:
@@ -67,6 +69,10 @@ export function ActiveCoin(state = {
     case DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY:
       return Object.assign({}, state, {
         txhistory: action.txhistory,
+      });
+    case DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS:
+      return Object.assign({}, state, {
+        opids: action.opids,
       });
     default:
       return state;

@@ -39,6 +39,7 @@ export const DASHBOARD_ACTIVE_SECTION = 'DASHBOARD_ACTIVE_SECTION';
 export const DASHBOARD_ACTIVE_TXINFO_MODAL = 'DASHBOARD_ACTIVE_TXINFO_MODAL';
 export const DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE = 'DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE';
 export const DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY = 'DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY';
+export const DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS = 'DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS';
 
 export function toggleDashboardActiveSection(name) {
   return {
@@ -1341,8 +1342,72 @@ export function sendNativeTx(coin, _payload) {
         dispatch(triggerToaster(true, 'sendNativeTx', 'Error', 'error'));
       })
       .then(response => response.json())
-      .then(json => dispatch(triggerToaster(true, translate('TOASTR.TX_SENT_ALT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success')));
+      .then(json => dispatch(triggerToaster(true, translate('TOASTR.TX_SENT_ALT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success')))
+      .catch(function(ex) {
+        dispatch(triggerToaster(true, translate('TOASTR.TX_SENT_ALT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
+        console.log('parsing failed', ex);
+      })
     });
+  }
+}
+
+export function getKMDOPIDState(json) {
+  return {
+    type: DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS,
+    opids: json,
+  }
+}
+
+export function getKMDOPID(opid, coin) {
+  var tmpopid_output = '',
+      ajax_data_to_hex;
+
+  if ( opid === undefined ) {
+    ajax_data_to_hex = null;
+  } else {
+    ajax_data_to_hex = '["' + opid + '"]';
+  }
+
+  return dispatch => {
+    return iguanaHashHex(ajax_data_to_hex).then((hashHexJson) => {
+      if (hashHexJson === '5b226e756c6c225d00') {
+        hashHexJson = '';
+      }
+
+      var payload,
+          passthru_agent = getPassthruAgent(coin),
+          tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+
+      if (passthru_agent == 'iguana') {
+        payload = {
+          'userpass': tmpIguanaRPCAuth,
+          'agent': passthru_agent,
+          'method': 'passthru',
+          'asset': coin,
+          'function': 'z_getoperationstatus',
+          'hex': hashHexJson
+        };
+      } else {
+        payload = {
+          'userpass': tmpIguanaRPCAuth,
+          'agent': passthru_agent,
+          'method': 'passthru',
+          'function': 'z_getoperationstatus',
+          'hex': hashHexJson
+        };
+      }
+
+      fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      })
+      .catch(function(error) {
+        console.log(error);
+        dispatch(triggerToaster(true, 'getKMDOPID', 'Error', 'error'));
+      })
+      .then(response => response.json())
+      .then(json => dispatch(getKMDOPIDState(json)))
+    })
   }
 }
 
