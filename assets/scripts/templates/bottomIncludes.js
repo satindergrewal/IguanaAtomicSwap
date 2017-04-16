@@ -1,6 +1,7 @@
 templates.bottomIncludes =
 `
 <script>
+  var ipc = require('electron').ipcRenderer;
   if (typeof module === 'object') {
     window.module = module; module = undefined;
   }

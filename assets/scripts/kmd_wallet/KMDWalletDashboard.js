@@ -206,8 +206,8 @@ var KMDWalletDashboard = function() {
 			)
 			.hide();
 			$('#kmd_wallet_settings').show();
-			getKMDWalletInfo();
 			getKMDInfo();
+			getKMDWalletInfo();
 			clearSendManyFieldData();
 		});
 	};
