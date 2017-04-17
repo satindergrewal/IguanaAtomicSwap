@@ -78,7 +78,8 @@ body {
 
 #edexcoin_dashboardinfo a,
 .nav-top-menu,
-#kmd_txid_info_mdl .nav-tabs li {
+#kmd_txid_info_mdl .nav-tabs li,
+.pagination a {
   cursor: pointer;
   cursor: hand;
 }
@@ -86,6 +87,10 @@ body {
 #easydex-header-div {
   background-repeat: no-repeat;
   background-size: 100%;
+}
+
+.unselectable {
+  user-select: none;
 }
 
 /*.toaster .single-toast:nth-child(0) {

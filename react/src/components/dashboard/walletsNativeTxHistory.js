@@ -7,14 +7,32 @@ import Store from '../../store';
 class WalletsNativeTxHistory extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      itemsPerPage: 10,
+      activePage: 1,
+      itemsList: null,
+    };
+    this.updateInput = this.updateInput.bind(this);
   }
 
-  // TODO: implement sorting and pagination
+  // TODO: implement sorting
+  //       implement pagination past X items should call listtransactions to get new chunk of data
   //       z transactions
   //       filter based on addr
 
   toggleTxInfoModal(display, txIndex) {
     Store.dispatch(toggleDashboardTxInfoModal(display, txIndex));
+  }
+
+  updateInput(e) {
+    let historyToSplit = this.props.ActiveCoin.txhistory;
+    historyToSplit = historyToSplit.slice(0, e.target.value);
+
+    this.setState({
+      [e.target.name]: e.target.value,
+      activePage: 1,
+      itemsList: historyToSplit,
+    });
   }
 
   renderTxType(category) {
@@ -60,9 +78,92 @@ class WalletsNativeTxHistory extends React.Component {
     }
   }
 
+  componentWillReceiveProps(props) {
+    if (!this.state.itemsList || (this.state.itemsList && !this.state.itemsList.length)) {
+      let historyToSplit = this.props.ActiveCoin.txhistory;
+      historyToSplit = historyToSplit.slice((this.state.activePage - 1) * this.state.itemsPerPage, this.state.activePage * this.state.itemsPerPage);
+
+      this.setState(Object.assign({}, this.state, {
+        itemsList: historyToSplit,
+      }));
+    }
+  }
+
+  updateCurrentPage(page) {
+    let historyToSplit = this.props.ActiveCoin.txhistory;
+    historyToSplit = historyToSplit.slice((page - 1) * this.state.itemsPerPage, page * this.state.itemsPerPage);
+
+    this.setState(Object.assign({}, this.state, {
+      activePage: page,
+      itemsList: historyToSplit,
+    }));
+  }
+
+  renderPaginationItems() {
+    let items = [];
+
+    for (let i=0; i <= Math.floor(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage); i++) {
+      items.push(
+        <li className={this.state.activePage === i + 1 ? 'paginate_button active' : 'paginate_button'}>
+          <a aria-controls="kmd-tx-history-tbl" data-dt-idx="1" tabIndex="0" key={i + '-pagination'} onClick={this.state.activePage !== (i + 1) ? () => this.updateCurrentPage(i + 1) : null}>{i + 1}</a>
+        </li>
+      );
+    }
+
+    return items;
+  }
+
+  renderPaginationItemsPerPageSelector() {
+    if (this.props.ActiveCoin.txhistory.length > 10) {
+      return (
+        <div className="dataTables_length" id="kmd-tx-history-tbl_length">
+          <label>
+            Show&nbsp;
+            <select name="itemsPerPage" aria-controls="kmd-tx-history-tbl" className="form-control input-sm" onChange={this.updateInput}>
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>&nbsp;
+            entries
+          </label>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderPagination() {
+    if (this.props.ActiveCoin.txhistory.length > 10) {
+      return (
+        <div className="row unselectable">
+          <div className="col-sm-5">
+            <div className="dataTables_info" id="kmd-tx-history-tbl_info" role="status" aria-live="polite">Showing {((this.state.activePage - 1) * this.state.itemsPerPage) + 1} to {this.state.activePage * this.state.itemsPerPage} of {this.props.ActiveCoin.txhistory.length} entries</div>
+          </div>
+          <div className="col-sm-7">
+            <div className="dataTables_paginate paging_simple_numbers" id="kmd-tx-history-tbl_paginate">
+              <ul className="pagination">
+                <li className={this.state.activePage === 1 ? 'paginate_button previous disabled' : 'paginate_button previous'} id="kmd-tx-history-tbl_previous">
+                  <a aria-controls="kmd-tx-history-tbl" data-dt-idx="0" tabIndex="0" onClick={() => this.updateCurrentPage(this.state.activePage - 1)}>Previous</a>
+                </li>
+                {this.renderPaginationItems()}
+                <li className={this.state.activePage === Math.floor(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage) ? 'paginate_button next disabled' : 'paginate_button next'} id="kmd-tx-history-tbl_next">
+                  <a aria-controls="kmd-tx-history-tbl" data-dt-idx="2" tabIndex="0" onClick={() => this.updateCurrentPage(this.state.activePage + 1)}>Next</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   renderTxHistoryList() {
-    if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory.length && this.props.ActiveCoin.nativeActiveSection === 'default') {
-      return this.props.ActiveCoin.txhistory.map((tx, index) =>
+    if (this.state.itemsList && this.state.itemsList.length && this.props.ActiveCoin.nativeActiveSection === 'default') {
+      return this.state.itemsList.map((tx, index) =>
         <tr key={tx.txid + tx.amount}>
           <td>
             <span className="label label-default">
@@ -98,33 +199,48 @@ class WalletsNativeTxHistory extends React.Component {
                         <h3 className="panel-title">{translate('INDEX.TRANSACTION_HISTORY')}</h3>
                       </header>
                       <div className="panel-body">
-                        <table className="table table-hover dataTable table-striped" data-extcoin="COIN" id="kmd-tx-history-tbl" width="100%">
-                          <thead>
-                            <tr>
-                              <th>{translate('INDEX.TYPE')}</th>
-                              <th>{translate('INDEX.DIRECTION')}</th>
-                              <th>{translate('INDEX.CONFIRMATIONS')}</th>
-                              <th>{translate('INDEX.AMOUNT')}</th>
-                              <th>{translate('INDEX.TIME')}</th>
-                              <th>{translate('INDEX.DEST_ADDRESS')}</th>
-                              <th>{translate('INDEX.TX_DETAIL')}</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          {this.renderTxHistoryList()}
-                          </tbody>
-                          <tfoot>
-                            <tr>
-                              <th>{translate('INDEX.TYPE')}</th>
-                              <th>{translate('INDEX.DIRECTION')}</th>
-                              <th>{translate('INDEX.CONFIRMATIONS')}</th>
-                              <th>{translate('INDEX.AMOUNT')}</th>
-                              <th>{translate('INDEX.TIME')}</th>
-                              <th>{translate('INDEX.DEST_ADDRESS')}</th>
-                              <th>{translate('INDEX.TX_DETAIL')}</th>
-                            </tr>
-                          </tfoot>
-                        </table>
+                        <div className="row">
+                          <div className="col-sm-6">
+                            {this.renderPaginationItemsPerPageSelector()}
+                          </div>
+                          <div className="col-sm-6">
+                            <div id="kmd-tx-history-tbl_filter" className="dataTables_filter">
+                              <label>
+                                Search: <input type="search" className="form-control input-sm" placeholder="" aria-controls="kmd-tx-history-tbl" disabled="true" />
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <table className="table table-hover dataTable table-striped" data-extcoin="COIN" id="kmd-tx-history-tbl" width="100%">
+                            <thead>
+                              <tr>
+                                <th>{translate('INDEX.TYPE')}</th>
+                                <th>{translate('INDEX.DIRECTION')}</th>
+                                <th>{translate('INDEX.CONFIRMATIONS')}</th>
+                                <th>{translate('INDEX.AMOUNT')}</th>
+                                <th>{translate('INDEX.TIME')}</th>
+                                <th>{translate('INDEX.DEST_ADDRESS')}</th>
+                                <th>{translate('INDEX.TX_DETAIL')}</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {this.renderTxHistoryList()}
+                            </tbody>
+                            <tfoot>
+                              <tr>
+                                <th>{translate('INDEX.TYPE')}</th>
+                                <th>{translate('INDEX.DIRECTION')}</th>
+                                <th>{translate('INDEX.CONFIRMATIONS')}</th>
+                                <th>{translate('INDEX.AMOUNT')}</th>
+                                <th>{translate('INDEX.TIME')}</th>
+                                <th>{translate('INDEX.DEST_ADDRESS')}</th>
+                                <th>{translate('INDEX.TX_DETAIL')}</th>
+                              </tr>
+                            </tfoot>
+                          </table>
+                        </div>
+                        {this.renderPagination()}
                       </div>
                     </div>
                   </div>
