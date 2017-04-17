@@ -29,6 +29,13 @@ export function ActiveCoin(state = {
       return Object.assign({}, state, {
         coin: action.coin,
         mode: action.mode,
+        balance: 0,
+        txhistory: [],
+        send: false,
+        receive: false,
+        showTransactionInfo: false,
+        showTransactionInfoTxIndex: null,
+        nativeActiveSection: 'default',
       });
     case DASHBOARD_ACTIVE_COIN_BALANCE:
       return Object.assign({}, state, {
