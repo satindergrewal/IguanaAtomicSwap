@@ -12,6 +12,8 @@ import {
   DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS
 } from '../actions/actionCreators';
 
+// TODO: keep all coin data in array of objects instead of single object
+
 export function ActiveCoin(state = {
   coin: null,
   mode: null,
