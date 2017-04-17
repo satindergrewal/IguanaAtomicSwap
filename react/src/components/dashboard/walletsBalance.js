@@ -3,7 +3,7 @@ import { translate } from '../../translate/translate';
 
 class WalletsBalance extends React.Component {
   render() {
-    if (this.props && this.props.coin && this.props.mode !== 'native') {
+    if (this.props && this.props.coin && this.props.mode !== 'native' && !this.props.send && !this.props.receive) {
       return (
         <div id="wallet-widgets" data-plugin="masonry" data-edexcoin="COIN">
           <div className="col-xs-12">
@@ -65,7 +65,7 @@ class WalletsBalance extends React.Component {
             <div className={this.props.coin.mode === 'native' ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide'} data-edexcoin="COIN" id="edexcoin_getbalance_total_interest">
               <div className="widget widget-shadow" id="widgetLineareaOne">
                 <div className="widget-content">
-                  <div className="padding-20 padding-top-10">
+                  <div className={this.props.progress ? 'padding-20 margin-top-20' : 'padding-20'}>
                     <div className="clearfix">
                       <div className="pull-left padding-vertical-10">
                         <i className="icon fa-bullseye font-size-24 vertical-align-bottom margin-right-5"></i>{translate('INDEX.TOTAL_BALANCE')}

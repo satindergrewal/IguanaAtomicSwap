@@ -8,7 +8,7 @@ class WalletsProgress extends React.Component {
         return (<div style={{textAlign: 'center', padding: '10px'}}>Coin is busy processing</div>);
       } else {
         return (
-          <div id="edex-footer" data-edexcoin="COIN">
+          <div id="edex-footer" data-edexcoin="COIN" style={{marginBottom: '20px'}}>
             <div className="row no-space" data-edexcoin="COIN">
               <div data-edexcoin="COIN" id="currency-progressbars">
                 <div className="progress progress-sm">

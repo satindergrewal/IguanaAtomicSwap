@@ -89,7 +89,7 @@ class WalletsData extends React.Component {
   }
 
   render() {
-    if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.coin && this.props.ActiveCoin.mode !== 'native') {
+    if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.coin && this.props.ActiveCoin.mode !== 'native' && !this.props.ActiveCoin.send && !this.props.ActiveCoin.receive) {
       return (
         <div data-edexcoin="COIN" id="edexcoin_dashboardinfo">
           <div className="col-xs-12 margin-top-20">
