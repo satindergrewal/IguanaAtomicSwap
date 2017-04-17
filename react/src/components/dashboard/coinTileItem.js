@@ -12,7 +12,8 @@ import {
   getKMDBalanceTotal,
   getNativeTxHistory,
   getKMDAddressesNative,
-  getKMDOPID
+  getKMDOPID,
+  getFullTransactionsList
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -24,37 +25,37 @@ class CoinTileItem extends React.Component {
   }
 
   dashboardChangeActiveCoin(coin, mode) {
-    if (mode === 'full' && coin !== this.props.ActiveCoin.coin) {
+    if (coin !== this.props.ActiveCoin.coin) {
       Store.dispatch(stopInterval('sync', this.props.Interval.interval));
-      var _iguanaActiveHandle = setInterval(function() {
-        Store.dispatch(getSyncInfo(coin));
-        Store.dispatch(iguanaEdexBalance(coin, mode));
+      Store.dispatch(dashboardChangeActiveCoin(coin, mode));
+
+      if (mode === 'full') {
+        var _iguanaActiveHandle = setInterval(function() {
+          Store.dispatch(getSyncInfo(coin));
+          Store.dispatch(iguanaEdexBalance(coin, mode));
+          Store.dispatch(getAddressesByAccount(coin));
+          Store.dispatch(getFullTransactionsList(coin));
+        }, 3000);
+        Store.dispatch(startInterval('sync', _iguanaActiveHandle));
+      }
+      if (mode === 'native') {
+        // TODO: add conditions to skip txhistory, balances, addresses while "activating best chain"
+        var _iguanaActiveHandle = setInterval(function() {
+          Store.dispatch(getSyncInfoNative(coin));
+          Store.dispatch(getKMDBalanceTotal(coin));
+          Store.dispatch(getNativeTxHistory(coin));
+          Store.dispatch(getKMDAddressesNative(coin));
+          Store.dispatch(getKMDOPID(null, coin));
+        }, coin === 'KMD' ? 15000 : 3000);
+        Store.dispatch(startInterval('sync', _iguanaActiveHandle));
+      }
+      if (mode === 'basilisk') {
         Store.dispatch(getAddressesByAccount(coin));
-      }, 3000);
-      Store.dispatch(startInterval('sync', _iguanaActiveHandle));
-    } else if (mode === 'native' && coin !== this.props.ActiveCoin.coin) {
-      Store.dispatch(stopInterval('sync', this.props.Interval.interval));
-      // TODO: add conditions to skip txhistory, balances, addresses while "activating best chain"
-      var _iguanaActiveHandle = setInterval(function() {
-        Store.dispatch(getSyncInfoNative(coin));
-        Store.dispatch(getKMDBalanceTotal(coin));
-        Store.dispatch(getNativeTxHistory(coin));
-        Store.dispatch(getKMDAddressesNative(coin));
-        Store.dispatch(getKMDOPID(null, coin));
-      }, coin === 'KMD' ? 15000 : 3000);
-      Store.dispatch(startInterval('sync', _iguanaActiveHandle));
-    } else {
-      Store.dispatch(stopInterval('sync', this.props.Interval.interval));
-      Store.dispatch(getAddressesByAccount(coin));
-      // basilisk
+        // basilisk
+      }
     }
 
-    Store.dispatch(dashboardChangeActiveCoin(coin, mode));
     Store.dispatch(iguanaActiveHandle(true));
-
-    /*this.setState(Object.assign({}, this.state, {
-      activeHandleInterval: _iguanaActiveHandle,
-    }));*/
   }
 
   render() {

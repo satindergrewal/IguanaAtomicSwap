@@ -3,7 +3,7 @@ import { translate } from '../../translate/translate';
 import { getNewKMDAddresses, copyCoinAddress } from '../../actions/actionCreators';
 import Store from '../../store';
 
-// TODO: add addr balance
+// TODO: importaddress, importprivkey(?)
 
 class WalletsNativeReceive extends React.Component {
   constructor(props) {
@@ -25,8 +25,7 @@ class WalletsNativeReceive extends React.Component {
   }
 
   renderAddressList(type) {
-        console.log(this.props.ActiveCoin.addresses[type]);
-    if (this.props.ActiveCoin.addresses[type] && this.props.ActiveCoin.addresses[type].length) {
+    if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses[type] && this.props.ActiveCoin.addresses[type].length) {
       return this.props.ActiveCoin.addresses[type].map((address) =>
         <tr key={address.address}>
           <td>

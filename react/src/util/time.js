@@ -20,7 +20,7 @@ export function secondsToString(seconds) {
       hour = a.getHours() < 10 ? '0' + a.getHours() : a.getHours(),
       min = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes(),
       sec = a.getSeconds(),
-      time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+      time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min; // + ':' + sec;
 
   return time;
 }

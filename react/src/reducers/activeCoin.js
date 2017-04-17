@@ -12,6 +12,8 @@ import {
   DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS
 } from '../actions/actionCreators';
 
+// TODO: keep all coin data in array of objects instead of single object
+
 export function ActiveCoin(state = {
   coin: null,
   mode: null,
@@ -29,6 +31,13 @@ export function ActiveCoin(state = {
       return Object.assign({}, state, {
         coin: action.coin,
         mode: action.mode,
+        balance: 0,
+        txhistory: [],
+        send: false,
+        receive: false,
+        showTransactionInfo: false,
+        showTransactionInfoTxIndex: null,
+        nativeActiveSection: 'default',
       });
     case DASHBOARD_ACTIVE_COIN_BALANCE:
       return Object.assign({}, state, {
