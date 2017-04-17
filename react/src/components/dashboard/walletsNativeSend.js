@@ -22,7 +22,7 @@ class WalletsNativeSend extends React.Component {
   }
 
   renderAddressByType(type) {
-    if (this.props.ActiveCoin.addresses[type] && this.props.ActiveCoin.addresses[type].length) {
+    if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses[type] && this.props.ActiveCoin.addresses[type].length) {
       return this.props.ActiveCoin.addresses[type].map((address) =>
         <li data-original-index="2" key={address.address} className={address.amount <= 0 ? 'hide' : ''}>
           <a tabIndex="0" data-tokens="null" onClick={() => this.updateAddressSelection(address.address, type, address.amount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {address.amount} {this.props.ActiveCoin.coin} ]  {address.address}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
