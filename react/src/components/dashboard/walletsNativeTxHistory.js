@@ -79,7 +79,7 @@ class WalletsNativeTxHistory extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (!this.state.itemsList || (this.state.itemsList && !this.state.itemsList.length)) {
+    if (!this.state.itemsList || (this.state.itemsList && !this.state.itemsList.length) || (props.ActiveCoin.txhistory !== this.props.ActiveCoin.txhistory)) {
       let historyToSplit = this.props.ActiveCoin.txhistory;
       historyToSplit = historyToSplit.slice((this.state.activePage - 1) * this.state.itemsPerPage, this.state.activePage * this.state.itemsPerPage);
 

@@ -852,9 +852,6 @@ export function getSyncInfo(coin) {
         dispatch(getSyncInfoState(json, dispatch));
       }
     })
-    .catch(function(error) {
-      console.log('getSyncInfo', error);
-    })
   }
 }
 
