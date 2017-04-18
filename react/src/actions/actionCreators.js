@@ -862,8 +862,12 @@ function getKMDAddressesNativeState(json) {
   }
 }
 
-export function getKMDAddressesNative(coin) {
+export function getKMDAddressesNative(coin, mode) {
   const type = ['public', 'private'];
+
+  if (mode !== 'native') {
+    type.pop();
+  }
 
   return dispatch => {
     Promise.all(type.map((_type, index) => {
@@ -900,6 +904,16 @@ export function getKMDAddressesNative(coin) {
             'method': 'passthru',
             'function': ajax_function_input,
             'hex': tmplistaddr_hex_input
+          };
+        }
+
+        if (mode !== 'native') {
+          payload = {
+            'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+            'coin': coin,
+            'agent': 'bitcoinrpc',
+            'method': 'getaddressesbyaccount',
+            'account': '*'
           };
         }
 
@@ -940,6 +954,19 @@ export function getKMDAddressesNative(coin) {
         };
       }
 
+      if (mode === 'full') {
+        payload = {
+          'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+          'coin': coin,
+          'method': 'listunspent',
+          'params': [
+            1,
+            9999999,
+            //[ atomic_explorer_input_data_val ]
+          ]
+        };
+      }
+
       fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
         method: 'POST',
         body: JSON.stringify(payload),
@@ -950,12 +977,16 @@ export function getKMDAddressesNative(coin) {
       })
       .then(response => response.json())
       .then(function(json) {
+        if (mode === 'full') {
+          result[0] = result[0].result;
+        }
+
         const allAddrArray = json.map(res => res.address).filter((x, i, a) => a.indexOf(x) == i);
         for (let a=0; a < allAddrArray.length; a++) {
           const filteredArray = json.filter(res => res.address === allAddrArray[a]).map(res => res.amount);
 
           let isNewAddr = true;
-          for (let x=0; x < 2 && isNewAddr; x++) {
+          for (let x=0; x < result.length && isNewAddr; x++) {
             for (let y=0; y < result[x].length && isNewAddr; y++) {
               if (allAddrArray[a] === result[x][y]) {
                 isNewAddr = false;
@@ -975,7 +1006,7 @@ export function getKMDAddressesNative(coin) {
 
         let newAddressArray = [];
 
-        for (let a=0; a < 2; a++) {
+        for (let a=0; a < result.length; a++) {
           newAddressArray[a] = [];
 
           for (let b=0; b < result[a].length; b++) {

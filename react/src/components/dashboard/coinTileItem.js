@@ -33,7 +33,7 @@ class CoinTileItem extends React.Component {
         var _iguanaActiveHandle = setInterval(function() {
           Store.dispatch(getSyncInfo(coin));
           Store.dispatch(iguanaEdexBalance(coin, mode));
-          Store.dispatch(getAddressesByAccount(coin));
+          Store.dispatch(getKMDAddressesNative(coin, mode));//getAddressesByAccount(coin));
           Store.dispatch(getFullTransactionsList(coin));
         }, 3000);
         Store.dispatch(startInterval('sync', _iguanaActiveHandle));

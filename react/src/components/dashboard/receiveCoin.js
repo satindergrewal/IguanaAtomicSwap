@@ -4,16 +4,16 @@ import { translate } from '../../translate/translate';
 class ReceiveCoin extends React.Component {
   renderAddressList() {
     if (this.props.addresses && this.props.addresses.length) {
-      return this.props.addresses.map((address) =>
+      return this.props.addresses['public'].map((address) =>
         <tr key={address}>
           <td>
             <span className="label label-default">
               <i className="icon fa-eye"></i> {translate('IAPI.PUBLIC_SM')}
             </span>
           </td>
-          <td>{address}</td>
-          <td></td>
-          <td></td>
+          <td>{address.address}</td>
+          <td>{address.amount}</td>
+          <td>{address.interest ? address.interest : 'N/A'}</td>
         </tr>
       );
     } else {
