@@ -290,18 +290,14 @@ var txList;
 function fillTxIfModal(index) {
 	console.log('fillTxIfModal', txList[index]);
 	$('#kmd_txid_info_amount').text(txList[index].amount);
-	$('#kmd_txid_info_fee').text(txList[index].fee);
+	$('#kmd_txid_info_category').text(txList[index].category || txList[index].type);
+	$('#kmd_txid_info_height').text(txList[index].height);
 	$('#kmd_txid_info_confirmations').text(txList[index].confirmations);
 	$('#kmd_txid_info_blockhash').text(txList[index].blockhash);
-	$('#kmd_txid_info_blockindex').text(txList[index].blockindex);
-	$('#kmd_txid_info_blocktime').text(txList[index].blocktime);
+	$('#kmd_txid_info_timestamp').text(txList[index].timestamp);
 	$('#kmd_txid_info_txid').text(txList[index].txid);
-	$('#kmd_txid_info_walletconflicts').text(txList[index].walletconflicts);
-	$('#kmd_txid_info_time').text(txList[index].time);
-	$('#kmd_txid_info_timereceived').text(txList[index].timereceived);
-	$('#kmd_txid_info_vjoinsplit').text(txList[index].vjoinsplit);
-	$('#kmd_txid_info_details').text(txList[index].details);
-	$('#kmd_txid_info_hex').val(txList[index].hex);
+	$('#kmd_txid_info_interest').text(txList[index].interest);
+	$('#txid_info_hex').val(JSON.stringify(txList[index], null, '\t'));
 }
 
 function EdexGetTxList_cache(coin) {

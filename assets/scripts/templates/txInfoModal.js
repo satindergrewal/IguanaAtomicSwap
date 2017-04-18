@@ -38,9 +38,21 @@ tabindex="-1">
                       </td>
                     </tr>
                     <tr>
-                      <td>fee</td>
+                      <td>category/type</td>
                       <td>
-                        <span data-extcoin="COIN" id="kmd_txid_info_fee"></span>
+                        <span data-extcoin="COIN" id="kmd_txid_info_category"></span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>interest</td>
+                      <td>
+                        <span data-extcoin="COIN" id="kmd_txid_info_interest"></span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>height</td>
+                      <td>
+                        <span data-extcoin="COIN" id="kmd_txid_info_height"></span>
                       </td>
                     </tr>
                     <tr>
@@ -50,21 +62,9 @@ tabindex="-1">
                       </td>
                     </tr>
                     <tr>
-                      <td>blockhash</td>
+                      <td>timestamp</td>
                       <td>
-                        <span data-extcoin="COIN" id="kmd_txid_info_blockhash"></span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>blockindex</td>
-                      <td>
-                        <span data-extcoin="COIN" id="kmd_txid_info_blockindex"></span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>blocktime</td>
-                      <td>
-                        <span data-extcoin="COIN" id="kmd_txid_info_blocktime"></span>
+                        <span data-extcoin="COIN" id="kmd_txid_info_timestamp"></span>
                       </td>
                     </tr>
                     <tr>
@@ -73,29 +73,11 @@ tabindex="-1">
                         <span data-extcoin="COIN" id="kmd_txid_info_txid"></span>
                       </td>
                     </tr>
-                    <tr>
-                      <td>walletconflicts</td>
-                      <td>
-                        <span data-extcoin="COIN" id="kmd_txid_info_walletconflicts"></span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>time</td>
-                      <td>
-                        <span data-extcoin="COIN" id="kmd_txid_info_time"></span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>timereceived</td>
-                      <td>
-                        <span data-extcoin="COIN" id="kmd_txid_info_timereceived"></span>
-                      </td>
-                    </tr>
                   </tbody>
                 </table>
               </div>
               <div class="tab-pane" id="KmdTxIDInfotab3" data-extcoin="COIN" role="tabpanel">
-                <textarea id="txid_info_hex" data-extcoin="COIN" style="width: 100%; height: 170px" rows="10" cols="80" disabled></textarea>
+                <textarea id="txid_info_hex" data-extcoin="COIN" style="width: 100%; height: 255px" rows="10" cols="80" disabled></textarea>
               </div>
             </div>
           </div>
