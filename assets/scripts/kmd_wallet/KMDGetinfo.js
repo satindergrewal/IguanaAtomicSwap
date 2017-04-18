@@ -1,102 +1,66 @@
 function getKMDWalletInfo() {
-	var passthru_agent = getPassthruAgent(),
-			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+	var coincli_agent = SelectCoinCli();
 
-	if (passthru_agent == 'iguana') {
-		var ajax_data = {
-					'userpass': tmpIguanaRPCAuth,
-					'agent': passthru_agent,
-					'method': 'passthru',
-					'asset': $('[data-extcoin]').attr('data-extcoin'),
-					'function': 'getwalletinfo',
-					'hex': ''
+	if (coincli_agent == 'acpax') {
+		var cli_params = {
+					'cli': 'kmd',
+					'command': '-ac_name='+$('[data-extcoin]').attr('data-extcoin')+' getwalletinfo'
 				};
 	} else {
-		var ajax_data = {
-					'userpass': tmpIguanaRPCAuth,
-					'agent': passthru_agent,
-					'method': 'passthru',
-					'function': 'getwalletinfo',
-					'hex': ''
+		var cli_params = {
+					'cli': coincli_agent,
+					'command': 'getwalletinfo'
 				};
 	}
 
-	console.log(ajax_data);
-	$.ajax({
-		type: 'POST',
-		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:' + config.iguanaPort,
-		success: function(data, textStatus, jqXHR) {
-			var AjaxOutputData = JSON.parse(data);
-			$('#kmd_walletversion').text(AjaxOutputData.walletversion);
-			$('#kmd_balance').text(AjaxOutputData.balance);
-			$('#kmd_unconfirmed_balance').text(AjaxOutputData.unconfirmed_balance);
-			$('#kmd_immature_balance').text(AjaxOutputData.immature_balance);
-			$('#KMDTotalTransactionsCount').text(AjaxOutputData.txcount);
-		},
-		error: function(xhr, textStatus, error) {
-			console.log('failed getting Coin History.');
-			console.log(xhr.statusText);
-			if ( xhr.readyState == 0 ) {
-				Iguana_ServiceUnavailable();
-			}
-			console.log(textStatus);
-			console.log(error);
-		}
+	//console.log(cli_params)
+	//console.log(cli_params.cli)
+	//console.log(cli_params.command)
+	ipc.send('InvokeCoinCliAction', {"cli":cli_params.cli,"command":cli_params.command});
+	ipc.once('coincliReply', function(event, response){
+		//console.log(response);
+		response = JSON.parse(response)
+		$('#kmd_walletversion').text(response.walletversion);
+		$('#kmd_balance').text(response.balance);
+		$('#kmd_unconfirmed_balance').text(response.unconfirmed_balance);
+		$('#kmd_immature_balance').text(response.immature_balance);
+		$('#KMDTotalTransactionsCount').text(response.txcount);
 	});
 }
 
 function getKMDInfo() {
-	var passthru_agent = getPassthruAgent(),
-			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+	var coincli_agent = SelectCoinCli();
 
-	if (passthru_agent == 'iguana') {
-		var ajax_data = {
-					'userpass': tmpIguanaRPCAuth,
-					'agent': passthru_agent,
-					'method': 'passthru',
-					'asset': $('[data-extcoin]').attr('data-extcoin'),
-					'function': 'getinfo',
-					'hex': ''
+	if (coincli_agent == 'acpax') {
+		var cli_params = {
+					'cli': 'kmd',
+					'command': '-ac_name='+$('[data-extcoin]').attr('data-extcoin')+' getinfo'
 				};
 	} else {
-		var ajax_data = {
-					'userpass': tmpIguanaRPCAuth,
-					'agent': passthru_agent,
-					'method': 'passthru',
-					'function': 'getinfo',
-					'hex': ''
+		var cli_params = {
+					'cli': coincli_agent,
+					'command': 'getinfo'
 				};
 	}
 
-	console.log(ajax_data);
-	$.ajax({
-		type: 'POST',
-		data: JSON.stringify(ajax_data),
-		url: 'http://127.0.0.1:' + config.iguanaPort,
-		success: function(data, textStatus, jqXHR) {
-			var AjaxOutputData = JSON.parse(data);
-			$('#kmd_version').text(AjaxOutputData.version);
-			$('#kmd_protocolversion').text(AjaxOutputData.protocolversion);
-			$('#kmd_notarized').text(AjaxOutputData.notarized);
-			$('#kmd_notarizedhash').text(AjaxOutputData.notarizedhash);
-			$('#kmd_notarizedbtc').text(AjaxOutputData.notarizedbtc);
-			$('#kmd_blocks').text(AjaxOutputData.blocks);
-			$('#kmd_connections').text(AjaxOutputData.connections);
-			$('#kmd_difficulty').text(AjaxOutputData.difficulty);
-			$('#kmd_testnet').text(AjaxOutputData.testnet);
-			$('#kmd_paytxfee').text(AjaxOutputData.paytxfee);
-			$('#kmd_relayfee').text(AjaxOutputData.relayfee);
-			$('#kmd_errors').text(AjaxOutputData.errors);
-		},
-		error: function(xhr, textStatus, error) {
-			console.log('failed getting Coin History.');
-			console.log(xhr.statusText);
-			if ( xhr.readyState == 0 ) {
-				Iguana_ServiceUnavailable();
-			}
-			console.log(textStatus);
-			console.log(error);
-		}
+	console.log(cli_params)
+	console.log(cli_params.cli)
+	console.log(cli_params.command)
+	ipc.send('InvokeCoinCliAction', {"cli":cli_params.cli,"command":cli_params.command});
+	ipc.once('coincliReply', function(event, response){
+		console.log(response);
+		response = JSON.parse(response)
+		$('#kmd_version').text(response.version);
+		$('#kmd_protocolversion').text(response.protocolversion);
+		$('#kmd_notarized').text(response.notarized);
+		$('#kmd_notarizedhash').text(response.notarizedhash);
+		$('#kmd_notarizedbtc').text(response.notarizedbtc);
+		$('#kmd_blocks').text(response.blocks);
+		$('#kmd_connections').text(response.connections);
+		$('#kmd_difficulty').text(response.difficulty);
+		$('#kmd_testnet').text(response.testnet);
+		$('#kmd_paytxfee').text(response.paytxfee);
+		$('#kmd_relayfee').text(response.relayfee);
+		$('#kmd_errors').text(response.errors);
 	});
 }
