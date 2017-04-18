@@ -1,7 +1,12 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 import { secondsToString } from '../../util/time';
-import { basiliskRefresh, basiliskConnection, getDexNotaries } from '../../actions/actionCreators';
+import {
+  basiliskRefresh,
+  basiliskConnection,
+  getDexNotaries,
+  toggleDashboardTxInfoModal
+} from '../../actions/actionCreators';
 import Store from '../../store';
 
 class WalletsData extends React.Component {
@@ -51,6 +56,10 @@ class WalletsData extends React.Component {
       activePage: 1,
       itemsList: historyToSplit,
     });
+  }
+
+  toggleTxInfoModal(display, txIndex) {
+    Store.dispatch(toggleDashboardTxInfoModal(display, txIndex));
   }
 
   componentWillReceiveProps(props) {
