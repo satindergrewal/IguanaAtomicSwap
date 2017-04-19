@@ -52,14 +52,60 @@ class SendCoin extends React.Component {
     }, 1000);
   }
 
+  renderSignedTx(signedtx) {
+    const substrBlocks = 10;
+    const substrLength = this.props.ActiveCoin.lastSendToResponse['signedtx'].length / substrBlocks;
+    let out = [];
+
+    for (let i = 0; i < substrBlocks; i++) {
+      out.push(
+        <div key={i}>{this.props.ActiveCoin.lastSendToResponse['signedtx'].substring(i * substrLength, substrLength * i + substrLength)}</div>
+      );
+    }
+
+    return out.length ? out : null;
+  }
+
+  renderKey(key) {
+    if (key === 'signedtx') {
+      return this.renderSignedTx();
+    } else if (key === 'complete') {
+      if (this.props.ActiveCoin.lastSendToResponse[key] === true) {
+        return (
+          <span className="label label-success">true</span>
+        );
+      } else {
+        return (
+          <span className="label label-danger">false</span>
+        );
+      }
+    } else if (key === 'result') {
+      return (
+        <span>{this.props.ActiveCoin.lastSendToResponse[key]}</span>
+      );
+    } else if (key === 'error') {
+      return (
+        <span className="label label-danger">{this.props.ActiveCoin.lastSendToResponse[key]}</span>
+      );
+    } else if (key === 'sendrawtransaction') {
+      if (this.props.ActiveCoin.lastSendToResponse[key] === 'success') {
+        return (
+          <span className="label label-success">true</span>
+        );
+      } else {
+        return (
+          <span className="label label-danger">false</span>
+        );
+      }
+    }    
+  }
+
   renderSendCoinResponse() {
     if (this.props.ActiveCoin.lastSendToResponse) {
       return Object.keys(this.props.ActiveCoin.lastSendToResponse).map((key, index) =>
         <tr key={key}>
           <td>{key}</td>
-          <td>{key === 'signedtx' ? (
-            this.props.ActiveCoin.lastSendToResponse[key].substring(0, this.props.ActiveCoin.lastSendToResponse[key].length / 3) + ' ' +
-            this.props.ActiveCoin.lastSendToResponse[key].substring(this.props.ActiveCoin.lastSendToResponse[key].length / 3, this.props.ActiveCoin.lastSendToResponse[key].length * 2 / 3)) : this.props.ActiveCoin.lastSendToResponse[key]}</td>
+          <td>{this.renderKey(key)}</td>
         </tr>
       );
     } else {
