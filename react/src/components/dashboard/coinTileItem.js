@@ -25,6 +25,11 @@ class CoinTileItem extends React.Component {
     };
   }
 
+  // TODO: 1) cache native/full node data to file
+  //       2) limit amount of req per update e.g. list of addresses don't change too often
+  //       3) limit req in basilisk as much as possible incl. activehandle
+  //       4) add pending requests store
+
   dashboardChangeActiveCoin(coin, mode) {
     if (coin !== this.props.ActiveCoin.coin) {
       Store.dispatch(stopInterval('sync', this.props.Interval.interval));
@@ -34,7 +39,7 @@ class CoinTileItem extends React.Component {
         var _iguanaActiveHandle = setInterval(function() {
           Store.dispatch(getSyncInfo(coin));
           Store.dispatch(iguanaEdexBalance(coin, mode));
-          Store.dispatch(getKMDAddressesNative(coin, mode));//getAddressesByAccount(coin));
+          Store.dispatch(getKMDAddressesNative(coin, mode)); //getAddressesByAccount(coin));
           Store.dispatch(getFullTransactionsList(coin));
         }, 3000);
         Store.dispatch(startInterval('sync', _iguanaActiveHandle));
@@ -52,10 +57,12 @@ class CoinTileItem extends React.Component {
       }
       if (mode === 'basilisk') {
         var _iguanaActiveHandle = setInterval(function() {
-          Store.dispatch(getBasiliskTransactionsList(coin, 'RDbGxL8QYdEp8sMULaVZS2E6XThcTKT9Jd'));
+          if (this.props && this.props.Dashboard && this.props.Dashboard.activeHandle && this.props.Dashboard.activeHandle[coin]) {
+            Store.dispatch(getBasiliskTransactionsList(coin, this.props.Dashboard.activeHandle[coin]));
+            Store.dispatch(getKMDAddressesNative(coin, mode, this.props.Dashboard.activeHandle[coin]));
+          }
           Store.dispatch(iguanaEdexBalance(coin, mode));
-          Store.dispatch(getKMDAddressesNative(coin, mode));
-        }, 3000);
+        }.bind(this), 3000);
         Store.dispatch(startInterval('sync', _iguanaActiveHandle));
         // basilisk
       }

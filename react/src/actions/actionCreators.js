@@ -888,7 +888,7 @@ function getKMDAddressesNativeState(json) {
   }
 }
 
-export function getKMDAddressesNative(coin, mode) {
+export function getKMDAddressesNative(coin, mode, currentAddress) {
   const type = ['public', 'private'];
 
   if (mode !== 'native') {
@@ -993,133 +993,17 @@ export function getKMDAddressesNative(coin, mode) {
       }
 
       // if api cache option is off
-/*function Shepherd_GetBasiliskCache() {
-  return new Promise((resolve) => {
-    var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
-    parse_session_data = JSON.parse(JSON.parse(parse_session_data));
-
-    var session_pubkey = parse_session_data.pubkey,
-        ajax_data = { 'pubkey': session_pubkey };
-
-    $.ajax({
-      type: 'GET',
-      data: ajax_data,
-      url: 'http://127.0.0.1:17777/shepherd/cache',
-      contentType: 'application/json' // send as JSON
-    })
-    .done(function(data) {
-      resolve(data);
-      data = JSON.parse(data);
-
-      if (data.result === 'JSON parse error') {
-        Shepherd_GroomData_Delete()
-        .then(function(result) {
-          console.log('error reading cache, flushing...');
-        });
-      }
-    });
-  });
-}*/
-
       if (mode === 'basilisk') {
         payload = {
           'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
           'agent': 'dex',
           'method': 'listunspent',
-          'address': 'RDbGxL8QYdEp8sMULaVZS2E6XThcTKT9Jd',
+          'address': currentAddress,
           'symbol': coin
         };
       }
 
-      if (mode === 'basilisk') {
-        const _addressArray = mode === 'basilisk' ? result[0].result : result;
-
-        Promise.all(_addressArray.map((_address, index) => {
-          console.log('addrlength', _addressArray.length);
-          return new Promise((resolve, reject) => {
-            console.log(_address);
-            resolve(_address);
-          });
-        }))
-        .then(result => {
-          console.log('addrres', result);
-
-          fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
-            method: 'POST',
-            body: JSON.stringify(payload),
-          })
-          .catch(function(error) {
-            console.log(error);
-            dispatch(triggerToaster(true, 'getKMDAddressesNative+Balance', 'Error', 'error'));
-          })
-          .then(response => response.json())
-          .then(function(json) {
-            console.log('getaddrjson', result[0]);
-            if (mode === 'full' || mode === 'basilisk') {
-              result[0] = result[0].result;
-            }
-
-            if (mode !== 'basilisk') {
-              const allAddrArray = json.map(res => res.address).filter((x, i, a) => a.indexOf(x) == i);
-              for (let a=0; a < allAddrArray.length; a++) {
-                const filteredArray = json.filter(res => res.address === allAddrArray[a]).map(res => res.amount);
-
-                let isNewAddr = true;
-                for (let x=0; x < result.length && isNewAddr; x++) {
-                  for (let y=0; y < result[x].length && isNewAddr; y++) {
-                    if (allAddrArray[a] === result[x][y]) {
-                      isNewAddr = false;
-                    }
-                  }
-                }
-
-                if (isNewAddr) {
-                  if (allAddrArray[a].substring(0, 2) === 'zc' || allAddrArray[a].substring(0, 2) === 'zt') {
-                    result[1][result[1].length] = allAddrArray[a];
-                  } else {
-                    result[0][result[0].length] = allAddrArray[a];
-                  }
-                  console.log('new addr ' + allAddrArray[a] + ' | ' + allAddrArray[a].substring(0, 2));
-                }
-              }
-            }
-
-            let newAddressArray = [];
-
-            for (let a=0; a < result.length; a++) {
-              newAddressArray[a] = [];
-
-              for (let b=0; b < result[a].length; b++) {
-                var filteredArray;
-
-                if (mode === 'basilisk') {
-                  filteredArray = json.map(res => res.amount);
-                } else {
-                  filteredArray = json.filter(res => res.address === result[a][b]).map(res => res.amount);
-                }
-
-                let sum = 0;
-
-                for (let i=0; i < filteredArray.length; i++) {
-                  sum += filteredArray[i];
-                }
-
-                newAddressArray[a][b] = {
-                  address: result[a][b],
-                  amount: sum,
-                };
-              }
-            }
-
-            dispatch(getKMDAddressesNativeState({
-              'public': newAddressArray[0],
-              'private': newAddressArray[1]
-            }));
-          })
-        });
-      }
-
-      /*fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
         method: 'POST',
         body: JSON.stringify(payload),
       })
@@ -1129,7 +1013,6 @@ export function getKMDAddressesNative(coin, mode) {
       })
       .then(response => response.json())
       .then(function(json) {
-        console.log('getaddrjson', result[0]);
         if (mode === 'full' || mode === 'basilisk') {
           result[0] = result[0].result;
         }
@@ -1181,7 +1064,7 @@ export function getKMDAddressesNative(coin, mode) {
 
             newAddressArray[a][b] = {
               address: result[a][b],
-              amount: sum,
+              amount: currentAddress === result[a][b] ? sum : 'N/A',
             };
           }
         }
@@ -1190,10 +1073,38 @@ export function getKMDAddressesNative(coin, mode) {
           'public': newAddressArray[0],
           'private': newAddressArray[1]
         }));
-      })*/
+      })
     })
   }
 }
+
+/*function Shepherd_GetBasiliskCache() {
+  return new Promise((resolve) => {
+    var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
+    parse_session_data = JSON.parse(JSON.parse(parse_session_data));
+
+    var session_pubkey = parse_session_data.pubkey,
+        ajax_data = { 'pubkey': session_pubkey };
+
+    $.ajax({
+      type: 'GET',
+      data: ajax_data,
+      url: 'http://127.0.0.1:17777/shepherd/cache',
+      contentType: 'application/json' // send as JSON
+    })
+    .done(function(data) {
+      resolve(data);
+      data = JSON.parse(data);
+
+      if (data.result === 'JSON parse error') {
+        Shepherd_GroomData_Delete()
+        .then(function(result) {
+          console.log('error reading cache, flushing...');
+        });
+      }
+    });
+  });
+}*/
 
 function getDebugLogState(json) {
   const _data = json.result.replace('\n', '\r\n');

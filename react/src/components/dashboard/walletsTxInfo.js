@@ -66,7 +66,7 @@ class WalletsTxInfo extends React.Component {
                               <tr>
                                 <td>category</td>
                                 <td>
-                                  {txInfo.category}
+                                  {txInfo.category || txInfo.type}
                                 </td>
                               </tr>
                               <tr>
@@ -84,7 +84,7 @@ class WalletsTxInfo extends React.Component {
                               <tr>
                                 <td>blocktime</td>
                                 <td>
-                                  {secondsToString(txInfo.blocktime)}
+                                  {secondsToString(txInfo.blocktime || txInfo.timestamp)}
                                 </td>
                               </tr>
                               <tr>
