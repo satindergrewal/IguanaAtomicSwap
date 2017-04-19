@@ -1,6 +1,8 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 
+// TODO: implement sorting
+
 class ReceiveCoin extends React.Component {
   renderAddressList() {
     if (this.props.addresses && this.props.addresses['public'] && this.props.addresses['public'].length) {

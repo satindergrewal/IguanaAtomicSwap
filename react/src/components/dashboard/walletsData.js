@@ -148,14 +148,14 @@ class WalletsData extends React.Component {
   }
 
   renderTxType(category) {
-    if ( category === 'send' ) {
+    if ( category === 'send' || category === 'sent' ) {
       return (
         <span>
           <i className="icon fa-arrow-circle-left"></i> <span>{translate('DASHBOARD.OUT')}</span>
         </span>
       );
     }
-    if ( category === 'receive' ) {
+    if ( category === 'receive' || category === 'received' ) {
       return (
         <span>
           <i className="icon fa-arrow-circle-right"></i> <span>{translate('DASHBOARD.IN')}</span>
@@ -176,16 +176,23 @@ class WalletsData extends React.Component {
         </span>
       );
     }
+    if ( category === 'unknown' ) {
+      return (
+        <span>
+          <i className="icon fa-meh-o"></i> <span>{translate('DASHBOARD.UNKNOWN')}</span>
+        </span>
+      );
+    }
   }
 
   renderTxHistoryList() {
     if (this.state.itemsList && this.state.itemsList.length) {
       return this.state.itemsList.map((tx, index) =>
         <tr key={tx.txid + tx.amount}>
-          <td>{this.renderTxType(tx.category)}</td>
+          <td>{this.renderTxType(tx.category || tx.type)}</td>
           <td>{tx.confirmations}</td>
-          <td>{tx.amount}</td>
-          <td>{secondsToString(tx.blocktime)}</td>
+          <td>{tx.amount || translate('DASHBOARD.UNKNOWN')}</td>
+          <td>{secondsToString(tx.blocktime || tx.timestamp)}</td>
           <td>{tx.address}</td>
           <td>
             <button type="button" className="btn btn-xs white btn-info waves-effect waves-light btn-kmdtxid" onClick={() => this.toggleTxInfoModal(!this.props.ActiveCoin.showTransactionInfo, index)}><i className="icon fa-search"></i></button>

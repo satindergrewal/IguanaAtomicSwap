@@ -52,6 +52,12 @@ class WalletsTxInfo extends React.Component {
                           <table className="table table-striped">
                             <tbody>
                               <tr>
+                                <td>address</td>
+                                <td>
+                                {txInfo.address}
+                                </td>
+                              </tr>
+                              <tr>
                                 <td>amount</td>
                                 <td>
                                 {txInfo.amount}
@@ -85,18 +91,6 @@ class WalletsTxInfo extends React.Component {
                                 <td>txid</td>
                                 <td>
                                   {txInfo.txid}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>time</td>
-                                <td>
-                                  {secondsToString(txInfo.time)}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>timereceived</td>
-                                <td>
-                                  {secondsToString(txInfo.timereceived)}
                                 </td>
                               </tr>
                             </tbody>

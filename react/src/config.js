@@ -1,4 +1,5 @@
 module.exports = {
   iguanaCorePort: 7778,
-  agamaPort: 17777
+  agamaPort: 17777,
+  enableCacheApi: false,
 };

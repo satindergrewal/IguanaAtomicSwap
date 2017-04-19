@@ -40,6 +40,7 @@ export const DASHBOARD_ACTIVE_TXINFO_MODAL = 'DASHBOARD_ACTIVE_TXINFO_MODAL';
 export const DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE = 'DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE';
 export const DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY = 'DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY';
 export const DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS = 'DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS';
+export const DASHBOARD_ACTIVE_COIN_SENDTO = 'DASHBOARD_ACTIVE_COIN_SENDTO';
 
 export function toggleDashboardActiveSection(name) {
   return {
@@ -661,6 +662,31 @@ export function getFullTransactionsList(coin) {
   }
 }
 
+export function getBasiliskTransactionsList(coin, address) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'dex',
+    'method': 'listtransactions',
+    'address': address,
+    'count': 100,
+    'skip': 0,
+    'symbol': coin
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getBasiliskTransactionsList', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getNativeTxHistoryState(json)))
+  }
+}
+
 export function getPeersList(coin) {
   const payload = {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
@@ -907,7 +933,7 @@ export function getKMDAddressesNative(coin, mode) {
           };
         }
 
-        if (mode !== 'native') {
+        if (mode !== 'native' || mode !== 'basilisk') {
           payload = {
             'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
             'coin': coin,
@@ -962,8 +988,17 @@ export function getKMDAddressesNative(coin, mode) {
           'params': [
             1,
             9999999,
-            //[ atomic_explorer_input_data_val ]
           ]
+        };
+      }
+
+      if (mode === 'basilisk') {
+        payload = {
+          'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+          'agent': 'dex',
+          'method': 'listunspent',
+          'address': 'RDbGxL8QYdEp8sMULaVZS2E6XThcTKT9Jd',
+          'symbol': coin
         };
       }
 
@@ -977,30 +1012,33 @@ export function getKMDAddressesNative(coin, mode) {
       })
       .then(response => response.json())
       .then(function(json) {
-        if (mode === 'full') {
+        console.log('getaddrjson', result[0]);
+        if (mode === 'full' || mode === 'basilisk') {
           result[0] = result[0].result;
         }
 
-        const allAddrArray = json.map(res => res.address).filter((x, i, a) => a.indexOf(x) == i);
-        for (let a=0; a < allAddrArray.length; a++) {
-          const filteredArray = json.filter(res => res.address === allAddrArray[a]).map(res => res.amount);
+        if (mode !== 'basilisk') {
+          const allAddrArray = json.map(res => res.address).filter((x, i, a) => a.indexOf(x) == i);
+          for (let a=0; a < allAddrArray.length; a++) {
+            const filteredArray = json.filter(res => res.address === allAddrArray[a]).map(res => res.amount);
 
-          let isNewAddr = true;
-          for (let x=0; x < result.length && isNewAddr; x++) {
-            for (let y=0; y < result[x].length && isNewAddr; y++) {
-              if (allAddrArray[a] === result[x][y]) {
-                isNewAddr = false;
+            let isNewAddr = true;
+            for (let x=0; x < result.length && isNewAddr; x++) {
+              for (let y=0; y < result[x].length && isNewAddr; y++) {
+                if (allAddrArray[a] === result[x][y]) {
+                  isNewAddr = false;
+                }
               }
             }
-          }
 
-          if (isNewAddr) {
-            if (allAddrArray[a].substring(0, 2) === 'zc' || allAddrArray[a].substring(0, 2) === 'zt') {
-              result[1][result[1].length] = allAddrArray[a];
-            } else {
-              result[0][result[0].length] = allAddrArray[a];
+            if (isNewAddr) {
+              if (allAddrArray[a].substring(0, 2) === 'zc' || allAddrArray[a].substring(0, 2) === 'zt') {
+                result[1][result[1].length] = allAddrArray[a];
+              } else {
+                result[0][result[0].length] = allAddrArray[a];
+              }
+              console.log('new addr ' + allAddrArray[a] + ' | ' + allAddrArray[a].substring(0, 2));
             }
-            console.log('new addr ' + allAddrArray[a] + ' | ' + allAddrArray[a].substring(0, 2));
           }
         }
 
@@ -1010,7 +1048,14 @@ export function getKMDAddressesNative(coin, mode) {
           newAddressArray[a] = [];
 
           for (let b=0; b < result[a].length; b++) {
-            const filteredArray = json.filter(res => res.address === result[a][b]).map(res => res.amount);
+            var filteredArray;
+
+            if (mode === 'basilisk') {
+              filteredArray = json.map(res => res.amount);
+            } else {
+              filteredArray = json.filter(res => res.address === result[a][b]).map(res => res.amount);
+            }
+
             let sum = 0;
 
             for (let i=0; i < filteredArray.length; i++) {
@@ -1498,6 +1543,55 @@ export function getKMDOPID(opid, coin) {
       .then(json => dispatch(getKMDOPIDState(json)))
     })
   }
+}
+
+function sendToAddressState(json, dispatch) {
+  if (json && json.error) {
+    dispatch(triggerToaster(true, json.error, 'Error', 'error'));
+
+    return {
+      type: DASHBOARD_ACTIVE_COIN_SENDTO,
+      lastSendToResponse: json.error,
+    }
+  } else if (json && json.result && json.complete) {
+    dispatch(triggerToaster(true, translate('TOASTR.TX_SENT_ALT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
+
+    return {
+      type: DASHBOARD_ACTIVE_COIN_SENDTO,
+      lastSendToResponse: json,
+    }
+  }
+}
+
+export function sendToAddress(coin, _payload) {
+  var payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'coin': coin,
+    'method': 'sendtoaddress',
+    'params': [
+      _payload.sendTo,
+      _payload.amount,
+      'EasyDEX',
+      'EasyDEXTransaction'
+    ]
+  };
+
+  return dispatch => {
+    const json = {"result":"1c629f37ed45a4734e27e5cf699907dc29d278a09a48d8564e2bf9571687a1d9","signedtx":"0100000001ff3de00c3ef4f2eefbda19debe2d454031f80481fd7a6db07a8faa3e8094f5be010000006b48304502210093ab5029e24645acaa014fc806a43caa8ba55ebc5767647d235f568ce045cf0c022055925b481e9cb9210a17dd5df01360420aea4b3bfd8b632e9b5e506309cfac14012102743d2afdb88ede68fb5938e961b1f41c2b6267b3286516543eb4e4ab87ad0d0affffffff02a0860100000000001976a9142f4c0f91fc06ac228c120aee41741d0d3909683288aca070da14000000001976a9142f4c0f91fc06ac228c120aee41741d0d3909683288ac00000000","complete":true,"sendrawtransaction":"success","tag":"9015189477602923119"};
+    dispatch(sendToAddressState(json, dispatch));
+  }
+  /*return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'sendToAddress', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(sendToAddressHandler(json)))
+  }*/
 }
 
 /*function Shepherd_SendPendValue() {

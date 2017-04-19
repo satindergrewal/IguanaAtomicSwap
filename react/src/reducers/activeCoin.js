@@ -9,7 +9,8 @@ import {
   ACTIVE_COIN_GET_ADDRESSES,
   DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE,
   DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY,
-  DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS
+  DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS,
+  DASHBOARD_ACTIVE_COIN_SENDTO
 } from '../actions/actionCreators';
 
 // TODO: keep all coin data in array of objects instead of single object
@@ -25,6 +26,7 @@ export function ActiveCoin(state = {
   showTransactionInfoTxIndex: null,
   txhistory: [],
   opids: null,
+  lastSendToResponse: null,
 }, action) {
   switch (action.type) {
     case DASHBOARD_ACTIVE_COIN_CHANGE:
@@ -82,6 +84,10 @@ export function ActiveCoin(state = {
     case DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS:
       return Object.assign({}, state, {
         opids: action.opids,
+      });
+    case DASHBOARD_ACTIVE_COIN_SENDTO:
+      return Object.assign({}, state, {
+        lastSendToResponse: action.lastSendToResponse,
       });
     default:
       return state;

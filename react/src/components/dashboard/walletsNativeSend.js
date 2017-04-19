@@ -103,13 +103,13 @@ class WalletsNativeSend extends React.Component {
     if (opid.status === 'queued') {
       isWaitingStatus = false;
       return (
-        <i>{translate('KMD_NATIVE.PLEASE_REFRESH')}...</i>
+        <i>Awaiting in queue...</i>
       );
     }
     if (opid.status === 'executing') {
       isWaitingStatus = false;
       return (
-        <i>{translate('KMD_NATIVE.PLEASE_REFRESH')}...</i>
+        <i>Processing...</i>
       );
     }
     if (opid.status === 'failed') {
@@ -176,7 +176,6 @@ class WalletsNativeSend extends React.Component {
   }
 
   handleSubmit() {
-    console.log(this.state);
     Store.dispatch(sendNativeTx(this.props.ActiveCoin.coin, this.state));
     setTimeout(function() {
       Store.dispatch(getKMDOPID(null, this.props.ActiveCoin.coin));
@@ -238,11 +237,6 @@ class WalletsNativeSend extends React.Component {
                   <div className="col-xlg-12 col-lg-12 col-sm-12 col-xs-12">
                     <div className="panel">
                       <header className="panel-heading">
-                        <div className="panel-actions">
-                          <button className="btn btn-info btn-block" id="kmd_opids_status_btn" type="button">
-                            <i className="icon fa-repeat" aria-hidden="true"></i> {translate('INDEX.REFRESH')}
-                          </button>
-                        </div>
                         <h3 className="panel-title">{translate('INDEX.OPERATIONS_STATUSES')}</h3>
                       </header>
                       <div className="panel-body">

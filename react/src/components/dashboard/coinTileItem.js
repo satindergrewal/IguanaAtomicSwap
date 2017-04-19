@@ -13,7 +13,8 @@ import {
   getNativeTxHistory,
   getKMDAddressesNative,
   getKMDOPID,
-  getFullTransactionsList
+  getFullTransactionsList,
+  getBasiliskTransactionsList
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -50,7 +51,12 @@ class CoinTileItem extends React.Component {
         Store.dispatch(startInterval('sync', _iguanaActiveHandle));
       }
       if (mode === 'basilisk') {
-        Store.dispatch(getAddressesByAccount(coin));
+        var _iguanaActiveHandle = setInterval(function() {
+          Store.dispatch(getBasiliskTransactionsList(coin, 'RDbGxL8QYdEp8sMULaVZS2E6XThcTKT9Jd'));
+          Store.dispatch(iguanaEdexBalance(coin, mode));
+          Store.dispatch(getKMDAddressesNative(coin, mode));
+        }, 3000);
+        Store.dispatch(startInterval('sync', _iguanaActiveHandle));
         // basilisk
       }
     }
