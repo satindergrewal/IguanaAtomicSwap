@@ -45,7 +45,6 @@ export const DASHBOARD_ACTIVE_COIN_GET_CACHE = 'DASHBOARD_ACTIVE_COIN_GET_CACHE'
 export const DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR = 'DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR';
 
 export function changeMainBasiliskAddress(address) {
-  console.log('changeMainBasiliskAddress', address);
   return {
     type: DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR,
     address,
@@ -1601,7 +1600,7 @@ function sendToAddressState(json, dispatch) {
 }
 
 export function sendToAddress(coin, _payload) {
-  var payload = {
+  const payload = {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
     'coin': coin,
     'method': 'sendtoaddress',
@@ -1624,6 +1623,43 @@ export function sendToAddress(coin, _payload) {
     })
     .then(response => response.json())
     .then(json => dispatch(sendToAddressState(json, dispatch)))
+  }
+}
+
+function checkAddressBasiliskHandle(json) {
+  if (json && json.error) {
+    return dispatch => {
+      dispatch(triggerToaster(true, json.error, translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
+    }
+  }
+
+  if (json && json.coin && json.randipbits) {
+    return dispatch => {
+      dispatch(triggerToaster(true, 'Address already registered', translate('TOASTR.WALLET_NOTIFICATION'), 'warning'));
+    }
+  }
+}
+
+export function checkAddressBasilisk(coin, address) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'dex',
+    'method': 'checkaddress',
+    'address': address,
+    'symbol': coin
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'checkAddressBasilisk', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(checkAddressBasiliskHandle(json)))
   }
 }
 
