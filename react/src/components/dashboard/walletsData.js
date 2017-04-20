@@ -5,7 +5,9 @@ import {
   basiliskRefresh,
   basiliskConnection,
   getDexNotaries,
-  toggleDashboardTxInfoModal
+  toggleDashboardTxInfoModal,
+  getBasiliskTransactionsList,
+  changeMainBasiliskAddress
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -76,6 +78,13 @@ class WalletsData extends React.Component {
         }));
       }
     }
+
+    if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory === 'no data') {
+      console.log('no data', true);
+      this.setState(Object.assign({}, this.state, {
+        itemsList: 'no data',
+      }));
+    }
   }
 
   updateCurrentPage(page) {
@@ -109,8 +118,8 @@ class WalletsData extends React.Component {
           <label>
             Show&nbsp;
             <select name="itemsPerPage" aria-controls="kmd-tx-history-tbl" className="form-control input-sm" onChange={this.updateInput}>
-              <option value="1">10</option>
-              <option value="2">25</option>
+              <option value="10">10</option>
+              <option value="25">25</option>
               <option value="50">50</option>
               <option value="100">100</option>
             </select>&nbsp;
@@ -189,7 +198,7 @@ class WalletsData extends React.Component {
   }
 
   renderTxHistoryList() {
-    if (this.state.itemsList && this.state.itemsList.length) {
+    if (this.state.itemsList && this.state.itemsList.length && this.state.itemsList !== 'no data') {
       return this.state.itemsList.map((tx, index) =>
         <tr key={tx.txid + tx.amount}>
           <td>{this.renderTxType(tx.category || tx.type)}</td>
@@ -202,9 +211,29 @@ class WalletsData extends React.Component {
           </td>
         </tr>
       );
-    } else {
+    }
+
+    if (this.state.itemsList === 'no data') {
+      return (
+        <span>No data</span>
+      );
+    }
+
+    if (!this.state.itemsList) {
       return null;
     }
+  }
+
+  updateAddressSelection(address, type, amount) {
+    this.setState(Object.assign({}, this.state, {
+      currentAddress: address,
+      addressSelectorOpen: false,
+    }));
+
+    setTimeout(function() {
+      Store.dispatch(changeMainBasiliskAddress(address));
+      Store.dispatch(getBasiliskTransactionsList(this.props.ActiveCoin.coin, address));
+    }.bind(this), 100);
   }
 
   openDropMenu() {
@@ -215,7 +244,6 @@ class WalletsData extends React.Component {
 
   renderAddressByType(type) {
     if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses[type] && this.props.ActiveCoin.addresses[type].length) {
-    console.log(type);
       return this.props.ActiveCoin.addresses[type].map((address) =>
         <li key={address.address}>
           <a tabIndex="0" onClick={() => this.updateAddressSelection(address.address, type, address.amount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {address.amount} {this.props.ActiveCoin.coin} ]  {address.address}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
@@ -227,10 +255,10 @@ class WalletsData extends React.Component {
   }
 
   renderSelectorCurrentLabel() {
-    if (this.state.sendFrom) {
+    if (this.state.currentAddress) {
       return (
         <span>
-          <i className={this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {this.state.sendFromAmount} {this.props.ActiveCoin.coin} ]  {this.state.sendFrom}</span>
+          <i className={this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {this.state.sendFromAmount} {this.props.ActiveCoin.coin} ]  {this.state.currentAddress}</span>
         </span>
       );
     } else {
@@ -241,7 +269,7 @@ class WalletsData extends React.Component {
   }
 
   renderAddressList() {
-    if (this.props.Dashboard && this.props.Dashboard.activeHandle && this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin]) {
+    if (this.props.Dashboard && this.props.Dashboard.activeHandle && this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin] && this.props.ActiveCoin.mode === 'basilisk') {
       return (
         <div className={'btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ' + (this.state.addressSelectorOpen ? 'open' : '')}>
           <button type="button" className="btn dropdown-toggle btn-info" data-toggle="dropdown" data-id="kmd_wallet_send_from" title="- Select Transparent or Private Address -" aria-expanded="true" onClick={this.openDropMenu}>

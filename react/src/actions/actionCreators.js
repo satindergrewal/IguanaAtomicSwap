@@ -41,6 +41,16 @@ export const DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE = 'DASHBOARD_ACTIVE_COIN_NATIV
 export const DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY = 'DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY';
 export const DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS = 'DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS';
 export const DASHBOARD_ACTIVE_COIN_SENDTO = 'DASHBOARD_ACTIVE_COIN_SENDTO';
+export const DASHBOARD_ACTIVE_COIN_GET_CACHE = 'DASHBOARD_ACTIVE_COIN_GET_CACHE';
+export const DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR = 'DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR';
+
+export function changeMainBasiliskAddress(address) {
+  console.log('changeMainBasiliskAddress', address);
+  return {
+    type: DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR,
+    address,
+  }
+}
 
 export function toggleDashboardActiveSection(name) {
   return {
@@ -1078,33 +1088,29 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
   }
 }
 
-/*function Shepherd_GetBasiliskCache() {
-  return new Promise((resolve) => {
-    var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
-    parse_session_data = JSON.parse(JSON.parse(parse_session_data));
+function getShepherdCacheState(json) {
+  return {
+    type: DASHBOARD_ACTIVE_COIN_GET_CACHE,
+    cache: json && json.result && json.result.basilisk ? json.result.basilisk : null,
+  }
+}
 
-    var session_pubkey = parse_session_data.pubkey,
-        ajax_data = { 'pubkey': session_pubkey };
-
-    $.ajax({
-      type: 'GET',
-      data: ajax_data,
-      url: 'http://127.0.0.1:17777/shepherd/cache',
-      contentType: 'application/json' // send as JSON
+export function getShepherdCache(pubkey) {
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
-    .done(function(data) {
-      resolve(data);
-      data = JSON.parse(data);
-
-      if (data.result === 'JSON parse error') {
-        Shepherd_GroomData_Delete()
-        .then(function(result) {
-          console.log('error reading cache, flushing...');
-        });
-      }
-    });
-  });
-}*/
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getShepherdCache', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getShepherdCacheState(json)))
+  }
+}
 
 function getDebugLogState(json) {
   const _data = json.result.replace('\n', '\r\n');
@@ -1385,7 +1391,9 @@ export function getNativeTxHistoryState(json) {
     json = null;
   } else if (json && json.result) {
     json = json.result;
-  }
+  } else if (!json.length) {
+    json = 'no data';
+  } 
 
   return {
     type: DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY,
@@ -1615,7 +1623,7 @@ export function sendToAddress(coin, _payload) {
       dispatch(triggerToaster(true, 'sendToAddress', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(sendToAddressHandler(json)))
+    .then(json => dispatch(sendToAddressState(json, dispatch)))
   }
 }
 

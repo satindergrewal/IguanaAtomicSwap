@@ -14,7 +14,8 @@ import {
   getKMDAddressesNative,
   getKMDOPID,
   getFullTransactionsList,
-  getBasiliskTransactionsList
+  getBasiliskTransactionsList,
+  getShepherdCache
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -57,11 +58,14 @@ class CoinTileItem extends React.Component {
       }
       if (mode === 'basilisk') {
         var _iguanaActiveHandle = setInterval(function() {
+          const useAddress = this.props.ActiveCoin.mainBasiliskAddress ? this.props.ActiveCoin.mainBasiliskAddress : this.props.Dashboard.activeHandle[coin];
+
           if (this.props && this.props.Dashboard && this.props.Dashboard.activeHandle && this.props.Dashboard.activeHandle[coin]) {
-            Store.dispatch(getBasiliskTransactionsList(coin, this.props.Dashboard.activeHandle[coin]));
-            Store.dispatch(getKMDAddressesNative(coin, mode, this.props.Dashboard.activeHandle[coin]));
+            Store.dispatch(getBasiliskTransactionsList(coin, useAddress));
+            Store.dispatch(getKMDAddressesNative(coin, mode, useAddress));
+            Store.dispatch(getShepherdCache(this.props.Dashboard.activeHandle.pubkey));
+            Store.dispatch(iguanaEdexBalance(coin, mode));
           }
-          Store.dispatch(iguanaEdexBalance(coin, mode));
         }.bind(this), 3000);
         Store.dispatch(startInterval('sync', _iguanaActiveHandle));
         // basilisk

@@ -10,7 +10,9 @@ import {
   DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE,
   DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY,
   DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS,
-  DASHBOARD_ACTIVE_COIN_SENDTO
+  DASHBOARD_ACTIVE_COIN_SENDTO,
+  DASHBOARD_ACTIVE_COIN_GET_CACHE,
+  DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR
 } from '../actions/actionCreators';
 
 // TODO: keep all coin data in array of objects instead of single object
@@ -27,6 +29,8 @@ export function ActiveCoin(state = {
   txhistory: [],
   opids: null,
   lastSendToResponse: null,
+  cache: null,
+  mainBasiliskAddress: null,
 }, action) {
   switch (action.type) {
     case DASHBOARD_ACTIVE_COIN_CHANGE:
@@ -88,6 +92,14 @@ export function ActiveCoin(state = {
     case DASHBOARD_ACTIVE_COIN_SENDTO:
       return Object.assign({}, state, {
         lastSendToResponse: action.lastSendToResponse,
+      });
+    case DASHBOARD_ACTIVE_COIN_GET_CACHE:
+      return Object.assign({}, state, {
+        cache: action.cache,
+      });
+    case DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR:
+      return Object.assign({}, state, {
+        mainBasiliskAddress: action.address,
       });
     default:
       return state;
