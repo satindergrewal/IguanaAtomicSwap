@@ -4,7 +4,7 @@ import { secondsToString } from '../../util/time';
 import { toggleDashboardTxInfoModal } from '../../actions/actionCreators';
 import Store from '../../store';
 
-class WalletsNativeTxInfo extends React.Component {
+class WalletsTxInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +24,7 @@ class WalletsNativeTxInfo extends React.Component {
   }
 
   render() {
-    if (this.props && this.props.ActiveCoin.showTransactionInfo && this.props.ActiveCoin.nativeActiveSection === 'default' && this.props.ActiveCoin.mode === 'native') {
+    if (this.props && this.props.ActiveCoin.showTransactionInfo && this.props.ActiveCoin.mode !== 'native') {
       const txInfo = this.props.ActiveCoin.txhistory[this.props.ActiveCoin.showTransactionInfoTxIndex];
 
       return (
@@ -41,17 +41,7 @@ class WalletsNativeTxInfo extends React.Component {
                         </a>
                       </li>
                       <li className={this.state.activeTab === 1 ? 'active' : ''} role="presentation">
-                        <a data-toggle="tab" data-extcoin="COIN" aria-controls="KmdTxIDInfotab2" role="tab" onClick={() => this.openTab(1)}>
-                          <i className="icon md-plus-square" aria-hidden="true"></i>Vjointsplits, Details
-                        </a>
-                      </li>
-                      <li className={this.state.activeTab === 2 ? 'active' : ''} role="presentation">
-                        <a data-toggle="tab" data-extcoin="COIN" aria-controls="KmdTxIDInfotab3" role="tab" onClick={() => this.openTab(2)}>
-                          <i className="icon wb-briefcase" aria-hidden="true"></i>Hex
-                        </a>
-                      </li>
-                      <li className={this.state.activeTab === 3 ? 'active' : ''} role="presentation">
-                        <a data-toggle="tab" data-extcoin="COIN" aria-controls="KmdTxIDInfotab4" role="tab" onClick={() => this.openTab(3)}>
+                        <a data-toggle="tab" data-extcoin="COIN" aria-controls="KmdTxIDInfotab4" role="tab" onClick={() => this.openTab(1)}>
                           <i className="icon wb-file" aria-hidden="true"></i>Raw info
                         </a>
                       </li>
@@ -62,15 +52,21 @@ class WalletsNativeTxInfo extends React.Component {
                           <table className="table table-striped">
                             <tbody>
                               <tr>
+                                <td>address</td>
+                                <td>
+                                {txInfo.address}
+                                </td>
+                              </tr>
+                              <tr>
                                 <td>amount</td>
                                 <td>
                                 {txInfo.amount}
                                 </td>
                               </tr>
                               <tr>
-                                <td>fee</td>
+                                <td>category</td>
                                 <td>
-                                  {txInfo.fee}
+                                  {txInfo.category || txInfo.type}
                                 </td>
                               </tr>
                               <tr>
@@ -86,15 +82,9 @@ class WalletsNativeTxInfo extends React.Component {
                                 </td>
                               </tr>
                               <tr>
-                                <td>blockindex</td>
-                                <td>
-                                  {txInfo.blockindex}
-                                </td>
-                              </tr>
-                              <tr>
                                 <td>blocktime</td>
                                 <td>
-                                  {secondsToString(txInfo.blocktime)}
+                                  {secondsToString(txInfo.blocktime || txInfo.timestamp)}
                                 </td>
                               </tr>
                               <tr>
@@ -103,49 +93,10 @@ class WalletsNativeTxInfo extends React.Component {
                                   {txInfo.txid}
                                 </td>
                               </tr>
-                              <tr>
-                                <td>walletconflicts</td>
-                                <td>
-                                  {txInfo.walletconflicts.length}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>time</td>
-                                <td>
-                                  {secondsToString(txInfo.time)}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>timereceived</td>
-                                <td>
-                                  {secondsToString(txInfo.timereceived)}
-                                </td>
-                              </tr>
                             </tbody>
                           </table>
                         </div>
-                        <div className={this.state.activeTab === 1 ? 'tab-pane active' : 'tab-pane'} id="KmdTxIDInfotab2" data-extcoin="COIN" role="tabpanel">
-                          <table className="table table-striped">
-                            <tbody>
-                              <tr>
-                                <td>vjoinsplit</td>
-                                <td>
-                                  {txInfo.vjoinsplit}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>details</td>
-                                <td>
-                                  {txInfo.details}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                        <div className={this.state.activeTab === 2 ? 'tab-pane active' : 'tab-pane'} id="KmdTxIDInfotab3" data-extcoin="COIN" role="tabpanel">
-                          <textarea id="kmd_txid_info_hex" data-extcoin="COIN" style={{width: '100%', height: '170px'}} rows="10" cols="80" defaultValue={txInfo.hex} disabled></textarea>
-                        </div>
-                        <div className={this.state.activeTab === 3 ? 'tab-pane active' : 'tab-pane'} id="KmdTxIDInfotab4" data-extcoin="COIN" role="tabpanel">
+                        <div className={this.state.activeTab === 1 ? 'tab-pane active' : 'tab-pane'} id="KmdTxIDInfotab4" data-extcoin="COIN" role="tabpanel">
                           <textarea id="kmd_txid_info_hex" data-extcoin="COIN" style={{width: '100%', height: '400px'}} rows="40" cols="80" defaultValue={JSON.stringify(txInfo, null, '\t')} disabled></textarea>
                         </div>
                       </div>
@@ -167,4 +118,4 @@ class WalletsNativeTxInfo extends React.Component {
   }
 }
 
-export default WalletsNativeTxInfo;
+export default WalletsTxInfo;

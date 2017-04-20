@@ -1,19 +1,59 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
+import { checkAddressBasilisk, importAddressBasilisk } from '../../actions/actionCreators';
+import Store from '../../store';
+
+// TODO: implement sorting
+// TODO: add import address ui in basilisk
+// TODO: fallback to localstorage/stores data in case iguana is taking too long to respond
 
 class ReceiveCoin extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  checkAddressBasilisk(address) {
+    Store.dispatch(checkAddressBasilisk(this.props.coin, address));
+  }
+
+  /*importAddressBasilisk(address) {
+    Store.dispatch(importAddressBasilisk(this.props.coin, address));
+  }
+  <span className="label label-default margin-left-10 action" title="Import" onClick={() => this.importAddressBasilisk(address)}>
+  <i className="icon fa-upload"></i>
+  </span>*/
+
+  renderAddressActions(address) {
+    if (this.props.mode === 'basilisk') {
+      return (
+        <td>
+          <span className="label label-default">
+            <i className="icon fa-eye"></i> {translate('IAPI.PUBLIC_SM')}
+          </span>
+          <span className="label label-default margin-left-10 action" title="Check" onClick={() => this.checkAddressBasilisk(address)}>
+            <i className="icon fa-database"></i>
+          </span>
+        </td>
+      );
+    } else {
+      return (
+        <td>
+          <span className="label label-default">
+            <i className="icon fa-eye"></i> {translate('IAPI.PUBLIC_SM')}
+          </span>
+        </td>
+      );
+    }
+  }
+
   renderAddressList() {
-    if (this.props.addresses && this.props.addresses.length) {
-      return this.props.addresses.map((address) =>
-        <tr key={address}>
-          <td>
-            <span className="label label-default">
-              <i className="icon fa-eye"></i> {translate('IAPI.PUBLIC_SM')}
-            </span>
-          </td>
-          <td>{address}</td>
-          <td></td>
-          <td></td>
+    if (this.props.addresses && this.props.addresses['public'] && this.props.addresses['public'].length) {
+      return this.props.addresses['public'].map((address) =>
+        <tr key={address.address}>
+          {this.renderAddressActions(address.address)}
+          <td>{address.address}</td>
+          <td>{address.amount}</td>
+          <td>{address.interest ? address.interest : 'N/A'}</td>
         </tr>
       );
     } else {

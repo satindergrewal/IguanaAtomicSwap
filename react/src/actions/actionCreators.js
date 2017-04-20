@@ -40,6 +40,16 @@ export const DASHBOARD_ACTIVE_TXINFO_MODAL = 'DASHBOARD_ACTIVE_TXINFO_MODAL';
 export const DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE = 'DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE';
 export const DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY = 'DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY';
 export const DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS = 'DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS';
+export const DASHBOARD_ACTIVE_COIN_SENDTO = 'DASHBOARD_ACTIVE_COIN_SENDTO';
+export const DASHBOARD_ACTIVE_COIN_GET_CACHE = 'DASHBOARD_ACTIVE_COIN_GET_CACHE';
+export const DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR = 'DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR';
+
+export function changeMainBasiliskAddress(address) {
+  return {
+    type: DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR,
+    address,
+  }
+}
 
 export function toggleDashboardActiveSection(name) {
   return {
@@ -661,6 +671,31 @@ export function getFullTransactionsList(coin) {
   }
 }
 
+export function getBasiliskTransactionsList(coin, address) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'dex',
+    'method': 'listtransactions',
+    'address': address,
+    'count': 100,
+    'skip': 0,
+    'symbol': coin
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getBasiliskTransactionsList', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getNativeTxHistoryState(json)))
+  }
+}
+
 export function getPeersList(coin) {
   const payload = {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
@@ -862,8 +897,12 @@ function getKMDAddressesNativeState(json) {
   }
 }
 
-export function getKMDAddressesNative(coin) {
+export function getKMDAddressesNative(coin, mode, currentAddress) {
   const type = ['public', 'private'];
+
+  if (mode !== 'native') {
+    type.pop();
+  }
 
   return dispatch => {
     Promise.all(type.map((_type, index) => {
@@ -900,6 +939,16 @@ export function getKMDAddressesNative(coin) {
             'method': 'passthru',
             'function': ajax_function_input,
             'hex': tmplistaddr_hex_input
+          };
+        }
+
+        if (mode !== 'native' || mode !== 'basilisk') {
+          payload = {
+            'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+            'coin': coin,
+            'agent': 'bitcoinrpc',
+            'method': 'getaddressesbyaccount',
+            'account': '*'
           };
         }
 
@@ -940,6 +989,29 @@ export function getKMDAddressesNative(coin) {
         };
       }
 
+      if (mode === 'full') {
+        payload = {
+          'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+          'coin': coin,
+          'method': 'listunspent',
+          'params': [
+            1,
+            9999999,
+          ]
+        };
+      }
+
+      // if api cache option is off
+      if (mode === 'basilisk') {
+        payload = {
+          'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+          'agent': 'dex',
+          'method': 'listunspent',
+          'address': currentAddress,
+          'symbol': coin
+        };
+      }
+
       fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
         method: 'POST',
         body: JSON.stringify(payload),
@@ -950,36 +1022,49 @@ export function getKMDAddressesNative(coin) {
       })
       .then(response => response.json())
       .then(function(json) {
-        const allAddrArray = json.map(res => res.address).filter((x, i, a) => a.indexOf(x) == i);
-        for (let a=0; a < allAddrArray.length; a++) {
-          const filteredArray = json.filter(res => res.address === allAddrArray[a]).map(res => res.amount);
+        if (mode === 'full' || mode === 'basilisk') {
+          result[0] = result[0].result;
+        }
 
-          let isNewAddr = true;
-          for (let x=0; x < 2 && isNewAddr; x++) {
-            for (let y=0; y < result[x].length && isNewAddr; y++) {
-              if (allAddrArray[a] === result[x][y]) {
-                isNewAddr = false;
+        if (mode !== 'basilisk') {
+          const allAddrArray = json.map(res => res.address).filter((x, i, a) => a.indexOf(x) == i);
+          for (let a=0; a < allAddrArray.length; a++) {
+            const filteredArray = json.filter(res => res.address === allAddrArray[a]).map(res => res.amount);
+
+            let isNewAddr = true;
+            for (let x=0; x < result.length && isNewAddr; x++) {
+              for (let y=0; y < result[x].length && isNewAddr; y++) {
+                if (allAddrArray[a] === result[x][y]) {
+                  isNewAddr = false;
+                }
               }
             }
-          }
 
-          if (isNewAddr) {
-            if (allAddrArray[a].substring(0, 2) === 'zc' || allAddrArray[a].substring(0, 2) === 'zt') {
-              result[1][result[1].length] = allAddrArray[a];
-            } else {
-              result[0][result[0].length] = allAddrArray[a];
+            if (isNewAddr) {
+              if (allAddrArray[a].substring(0, 2) === 'zc' || allAddrArray[a].substring(0, 2) === 'zt') {
+                result[1][result[1].length] = allAddrArray[a];
+              } else {
+                result[0][result[0].length] = allAddrArray[a];
+              }
+              console.log('new addr ' + allAddrArray[a] + ' | ' + allAddrArray[a].substring(0, 2));
             }
-            console.log('new addr ' + allAddrArray[a] + ' | ' + allAddrArray[a].substring(0, 2));
           }
         }
 
         let newAddressArray = [];
 
-        for (let a=0; a < 2; a++) {
+        for (let a=0; a < result.length; a++) {
           newAddressArray[a] = [];
 
           for (let b=0; b < result[a].length; b++) {
-            const filteredArray = json.filter(res => res.address === result[a][b]).map(res => res.amount);
+            var filteredArray;
+
+            if (mode === 'basilisk') {
+              filteredArray = json.map(res => res.amount);
+            } else {
+              filteredArray = json.filter(res => res.address === result[a][b]).map(res => res.amount);
+            }
+
             let sum = 0;
 
             for (let i=0; i < filteredArray.length; i++) {
@@ -988,7 +1073,7 @@ export function getKMDAddressesNative(coin) {
 
             newAddressArray[a][b] = {
               address: result[a][b],
-              amount: sum,
+              amount: currentAddress === result[a][b] ? sum : 'N/A',
             };
           }
         }
@@ -999,6 +1084,30 @@ export function getKMDAddressesNative(coin) {
         }));
       })
     })
+  }
+}
+
+function getShepherdCacheState(json) {
+  return {
+    type: DASHBOARD_ACTIVE_COIN_GET_CACHE,
+    cache: json && json.result && json.result.basilisk ? json.result.basilisk : null,
+  }
+}
+
+export function getShepherdCache(pubkey) {
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getShepherdCache', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getShepherdCacheState(json)))
   }
 }
 
@@ -1281,7 +1390,9 @@ export function getNativeTxHistoryState(json) {
     json = null;
   } else if (json && json.result) {
     json = json.result;
-  }
+  } else if (!json.length) {
+    json = 'no data';
+  } 
 
   return {
     type: DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY,
@@ -1292,6 +1403,7 @@ export function getNativeTxHistoryState(json) {
 function handleGetNewKMDAddresses(pubpriv, coin, dispatch) {
   dispatch(triggerToaster(true, translate('KMD_NATIVE.NEW_ADDR_GENERATED'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
   dispatch(getKMDAddressesNative(coin));
+
   return {};
 }
 
@@ -1466,6 +1578,88 @@ export function getKMDOPID(opid, coin) {
       .then(response => response.json())
       .then(json => dispatch(getKMDOPIDState(json)))
     })
+  }
+}
+
+function sendToAddressState(json, dispatch) {
+  if (json && json.error) {
+    dispatch(triggerToaster(true, json.error, 'Error', 'error'));
+
+    return {
+      type: DASHBOARD_ACTIVE_COIN_SENDTO,
+      lastSendToResponse: json,
+    }
+  } else if (json && json.result && json.complete) {
+    dispatch(triggerToaster(true, translate('TOASTR.TX_SENT_ALT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
+
+    return {
+      type: DASHBOARD_ACTIVE_COIN_SENDTO,
+      lastSendToResponse: json,
+    }
+  }
+}
+
+export function sendToAddress(coin, _payload) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'coin': coin,
+    'method': 'sendtoaddress',
+    'params': [
+      _payload.sendTo,
+      _payload.amount,
+      'EasyDEX',
+      'EasyDEXTransaction'
+    ]
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'sendToAddress', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(sendToAddressState(json, dispatch)))
+  }
+}
+
+function checkAddressBasiliskHandle(json) {
+  if (json && json.error) {
+    return dispatch => {
+      dispatch(triggerToaster(true, json.error, translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
+    }
+  }
+
+  if (json && json.coin && json.randipbits) {
+    return dispatch => {
+      dispatch(triggerToaster(true, 'Address already registered', translate('TOASTR.WALLET_NOTIFICATION'), 'warning'));
+    }
+  }
+}
+
+export function checkAddressBasilisk(coin, address) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'dex',
+    'method': 'checkaddress',
+    'address': address,
+    'symbol': coin
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'checkAddressBasilisk', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(checkAddressBasiliskHandle(json)))
   }
 }
 

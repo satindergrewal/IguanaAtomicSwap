@@ -17,6 +17,7 @@ import WalletsBasiliskRefresh from './walletsBasiliskRefresh';
 import WalletsBasiliskConnection from './walletsBasiliskConnection';
 import WalletsNative from './walletsNative';
 import WalletsNativeTxInfo from './walletsNativeTxInfo';
+import WalletsTxInfo from './walletsTxInfo';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -37,11 +38,12 @@ class Dashboard extends React.Component {
             <WalletsNav {...this.props} />
             <WalletsProgress {...this.props} />
             <WalletsBalance {...this.props.ActiveCoin} />
-            <SendCoin {...this.props.ActiveCoin} />
+            <SendCoin {...this.props} />
             <ReceiveCoin {...this.props.ActiveCoin} />
             <WalletsData {...this.props} />
             <WalletsBasiliskRefresh {...this.props} />
             <WalletsBasiliskConnection {...this.props} />
+            <WalletsTxInfo {...this.props} />
             <WalletsNative {...this.props} />
             <WalletsNativeTxInfo {...this.props} />
           </div>

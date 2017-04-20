@@ -13,7 +13,9 @@ import {
   getNativeTxHistory,
   getKMDAddressesNative,
   getKMDOPID,
-  getFullTransactionsList
+  getFullTransactionsList,
+  getBasiliskTransactionsList,
+  getShepherdCache
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -24,6 +26,11 @@ class CoinTileItem extends React.Component {
     };
   }
 
+  // TODO: 1) cache native/full node data to file
+  //       2) limit amount of req per update e.g. list of addresses don't change too often
+  //       3) limit req in basilisk as much as possible incl. activehandle
+  //       4) add pending requests store
+
   dashboardChangeActiveCoin(coin, mode) {
     if (coin !== this.props.ActiveCoin.coin) {
       Store.dispatch(stopInterval('sync', this.props.Interval.interval));
@@ -33,7 +40,7 @@ class CoinTileItem extends React.Component {
         var _iguanaActiveHandle = setInterval(function() {
           Store.dispatch(getSyncInfo(coin));
           Store.dispatch(iguanaEdexBalance(coin, mode));
-          Store.dispatch(getAddressesByAccount(coin));
+          Store.dispatch(getKMDAddressesNative(coin, mode)); //getAddressesByAccount(coin));
           Store.dispatch(getFullTransactionsList(coin));
         }, 3000);
         Store.dispatch(startInterval('sync', _iguanaActiveHandle));
@@ -50,7 +57,17 @@ class CoinTileItem extends React.Component {
         Store.dispatch(startInterval('sync', _iguanaActiveHandle));
       }
       if (mode === 'basilisk') {
-        Store.dispatch(getAddressesByAccount(coin));
+        var _iguanaActiveHandle = setInterval(function() {
+          const useAddress = this.props.ActiveCoin.mainBasiliskAddress ? this.props.ActiveCoin.mainBasiliskAddress : this.props.Dashboard.activeHandle[coin];
+
+          if (this.props && this.props.Dashboard && this.props.Dashboard.activeHandle && this.props.Dashboard.activeHandle[coin]) {
+            Store.dispatch(getBasiliskTransactionsList(coin, useAddress));
+            Store.dispatch(getKMDAddressesNative(coin, mode, useAddress));
+            Store.dispatch(getShepherdCache(this.props.Dashboard.activeHandle.pubkey));
+            Store.dispatch(iguanaEdexBalance(coin, mode));
+          }
+        }.bind(this), 3000);
+        Store.dispatch(startInterval('sync', _iguanaActiveHandle));
         // basilisk
       }
     }

@@ -13,6 +13,7 @@ class WalletsNative extends React.Component {
     super(props);
   }
 
+  // <WalletsNativeAlert {...this.props} />
   render() {
     if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.mode === 'native') {
       return (
@@ -26,7 +27,6 @@ class WalletsNative extends React.Component {
               </ol>
             </div>
             <div className="page-content">
-              <WalletsNativeAlert {...this.props} />
               <WalletsNativeSyncProgress {...this.props} />
 
               <div className="row" data-extcoin="COIN" id="extcoin-wallet" data-plugin="masonry">

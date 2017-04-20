@@ -1,7 +1,14 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 import { secondsToString } from '../../util/time';
-import { basiliskRefresh, basiliskConnection, getDexNotaries } from '../../actions/actionCreators';
+import {
+  basiliskRefresh,
+  basiliskConnection,
+  getDexNotaries,
+  toggleDashboardTxInfoModal,
+  getBasiliskTransactionsList,
+  changeMainBasiliskAddress
+} from '../../actions/actionCreators';
 import Store from '../../store';
 
 class WalletsData extends React.Component {
@@ -12,12 +19,16 @@ class WalletsData extends React.Component {
       itemsPerPage: 10,
       activePage: 1,
       itemsList: null,
+      currentAddress: null,
+      addressSelectorOpen: false,
     };
     this.updateInput = this.updateInput.bind(this);
     this.toggleBasiliskActionsMenu = this.toggleBasiliskActionsMenu.bind(this);
     this.basiliskRefreshAction = this.basiliskRefreshAction.bind(this);
     this.basiliskConnectionAction = this.basiliskConnectionAction.bind(this);
     this.getDexNotariesAction = this.getDexNotariesAction.bind(this);
+    this.openDropMenu = this.openDropMenu.bind(this);
+    this.refreshTxList = this.refreshTxList.bind(this);
   }
 
   toggleBasiliskActionsMenu() {
@@ -53,6 +64,10 @@ class WalletsData extends React.Component {
     });
   }
 
+  toggleTxInfoModal(display, txIndex) {
+    Store.dispatch(toggleDashboardTxInfoModal(display, txIndex));
+  }
+
   componentWillReceiveProps(props) {
     if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory.length) {
       if (!this.state.itemsList || (this.state.itemsList && !this.state.itemsList.length) || (props.ActiveCoin.txhistory !== this.props.ActiveCoin.txhistory)) {
@@ -63,6 +78,12 @@ class WalletsData extends React.Component {
           itemsList: historyToSplit,
         }));
       }
+    }
+
+    if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory === 'no data') {
+      this.setState(Object.assign({}, this.state, {
+        itemsList: 'no data',
+      }));
     }
   }
 
@@ -97,8 +118,8 @@ class WalletsData extends React.Component {
           <label>
             Show&nbsp;
             <select name="itemsPerPage" aria-controls="kmd-tx-history-tbl" className="form-control input-sm" onChange={this.updateInput}>
-              <option value="1">10</option>
-              <option value="2">25</option>
+              <option value="10">10</option>
+              <option value="25">25</option>
               <option value="50">50</option>
               <option value="100">100</option>
             </select>&nbsp;
@@ -139,14 +160,14 @@ class WalletsData extends React.Component {
   }
 
   renderTxType(category) {
-    if ( category === 'send' ) {
+    if ( category === 'send' || category === 'sent' ) {
       return (
         <span>
           <i className="icon fa-arrow-circle-left"></i> <span>{translate('DASHBOARD.OUT')}</span>
         </span>
       );
     }
-    if ( category === 'receive' ) {
+    if ( category === 'receive' || category === 'received' ) {
       return (
         <span>
           <i className="icon fa-arrow-circle-right"></i> <span>{translate('DASHBOARD.IN')}</span>
@@ -167,21 +188,106 @@ class WalletsData extends React.Component {
         </span>
       );
     }
+    if ( category === 'unknown' ) {
+      return (
+        <span>
+          <i className="icon fa-meh-o"></i> <span>{translate('DASHBOARD.UNKNOWN')}</span>
+        </span>
+      );
+    }
   }
 
   renderTxHistoryList() {
-    if (this.state.itemsList && this.state.itemsList.length) {
+    if (this.state.itemsList && this.state.itemsList.length && this.state.itemsList !== 'no data') {
       return this.state.itemsList.map((tx, index) =>
         <tr key={tx.txid + tx.amount}>
-          <td>{this.renderTxType(tx.category)}</td>
+          <td>{this.renderTxType(tx.category || tx.type)}</td>
           <td>{tx.confirmations}</td>
-          <td>{tx.amount}</td>
-          <td>{secondsToString(tx.blocktime)}</td>
+          <td>{tx.amount || translate('DASHBOARD.UNKNOWN')}</td>
+          <td>{secondsToString(tx.blocktime || tx.timestamp)}</td>
           <td>{tx.address}</td>
           <td>
             <button type="button" className="btn btn-xs white btn-info waves-effect waves-light btn-kmdtxid" onClick={() => this.toggleTxInfoModal(!this.props.ActiveCoin.showTransactionInfo, index)}><i className="icon fa-search"></i></button>
           </td>
         </tr>
+      );
+    }
+
+    if (this.state.itemsList === 'no data') {
+      return (
+        <span>No data</span>
+      );
+    }
+
+    if (!this.state.itemsList) {
+      return null;
+    }
+  }
+
+  updateAddressSelection(address, type, amount) {
+    this.setState(Object.assign({}, this.state, {
+      currentAddress: address,
+      addressSelectorOpen: false,
+    }));
+
+    setTimeout(function() {
+      Store.dispatch(changeMainBasiliskAddress(address));
+      Store.dispatch(getBasiliskTransactionsList(this.props.ActiveCoin.coin, address));
+    }.bind(this), 100);
+  }
+
+  refreshTxList() {
+    Store.dispatch(getBasiliskTransactionsList(this.props.ActiveCoin.coin, this.props.ActiveCoin.mainBasiliskAddress));
+  }
+
+  openDropMenu() {
+    this.setState(Object.assign({}, this.state, {
+      addressSelectorOpen: !this.state.addressSelectorOpen,
+    }));
+  }
+
+  renderAddressByType(type) {
+    if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses[type] && this.props.ActiveCoin.addresses[type].length) {
+      return this.props.ActiveCoin.addresses[type].map((address) =>
+        <li key={address.address}>
+          <a tabIndex="0" onClick={() => this.updateAddressSelection(address.address, type, address.amount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {address.amount} {this.props.ActiveCoin.coin} ]  {address.address}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+        </li>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderSelectorCurrentLabel() {
+    if (this.state.currentAddress) {
+      return (
+        <span>
+          <i className={this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {this.state.sendFromAmount} {this.props.ActiveCoin.coin} ]  {this.state.currentAddress}</span>
+        </span>
+      );
+    } else {
+      return (
+        <span>- Select Transparent or Private Address -</span>
+      );
+    }
+  }
+
+  renderAddressList() {
+    if (this.props.Dashboard && this.props.Dashboard.activeHandle && this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin] && this.props.ActiveCoin.mode === 'basilisk') {
+      return (
+        <div className={'btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ' + (this.state.addressSelectorOpen ? 'open' : '')}>
+          <button type="button" className="btn dropdown-toggle btn-info" data-toggle="dropdown" data-id="kmd_wallet_send_from" title="- Select Transparent or Private Address -" aria-expanded="true" onClick={this.openDropMenu}>
+            <span className="filter-option pull-left">{this.renderSelectorCurrentLabel()} </span>&nbsp;<span className="bs-caret"><span className="caret"></span></span>
+          </button>
+          <div className="dropdown-menu open">
+            <ul className="dropdown-menu inner" role="menu">
+              <li data-original-index="1" className="selected">
+                <a tabIndex="0" data-tokens="null"><span className="text"> - Select Transparent or Private Address - </span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+              </li>
+              {this.renderAddressByType('public')}
+            </ul>
+          </div>
+        </div>
       );
     } else {
       return null;
@@ -199,7 +305,7 @@ class WalletsData extends React.Component {
                   <div id="edexcoin_txhistory" className="panel">
                     <header className="panel-heading" style={{zIndex: '10'}}>
                       <div className={this.props.ActiveCoin.mode === 'basilisk' ? 'panel-actions' : 'panel-actions hide'}>
-                        <a href="javascript:void(0)" className="dropdown-toggle white btn-xs btn-info btn_refresh_edexcoin_dashboard" data-edexcoin="COIN" aria-expanded="false" role="button">
+                        <a href="javascript:void(0)" className="dropdown-toggle white btn-xs btn-info btn_refresh_edexcoin_dashboard" data-edexcoin="COIN" aria-expanded="false" role="button" onClick={this.refreshTxList}>
                           <i className="icon fa-refresh margin-right-10" aria-hidden="true"></i> {translate('INDEX.REFRESH')}
                         </a>
                         <div className={this.state.basiliskActionsMenu ? 'dropdown open' : 'dropdown'} onClick={this.toggleBasiliskActionsMenu}>
@@ -235,6 +341,11 @@ class WalletsData extends React.Component {
                       <h4 className="panel-title">{translate('INDEX.TRANSACTION_HISTORY')}</h4>
                     </header>
                     <div className="panel-body">
+                      <div className="row">
+                        <div className="col-sm-6">
+                        {this.renderAddressList()}
+                        </div>
+                      </div>
                       <div className="row">
                         <div className="col-sm-6">
                           {this.renderPaginationItemsPerPageSelector()}
