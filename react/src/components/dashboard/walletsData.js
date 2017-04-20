@@ -17,12 +17,15 @@ class WalletsData extends React.Component {
       itemsPerPage: 10,
       activePage: 1,
       itemsList: null,
+      currentAddress: null,
+      addressSelectorOpen: false,
     };
     this.updateInput = this.updateInput.bind(this);
     this.toggleBasiliskActionsMenu = this.toggleBasiliskActionsMenu.bind(this);
     this.basiliskRefreshAction = this.basiliskRefreshAction.bind(this);
     this.basiliskConnectionAction = this.basiliskConnectionAction.bind(this);
     this.getDexNotariesAction = this.getDexNotariesAction.bind(this);
+    this.openDropMenu = this.openDropMenu.bind(this);
   }
 
   toggleBasiliskActionsMenu() {
@@ -204,6 +207,61 @@ class WalletsData extends React.Component {
     }
   }
 
+  openDropMenu() {
+    this.setState(Object.assign({}, this.state, {
+      addressSelectorOpen: !this.state.addressSelectorOpen,
+    }));
+  }
+
+  renderAddressByType(type) {
+    if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses[type] && this.props.ActiveCoin.addresses[type].length) {
+    console.log(type);
+      return this.props.ActiveCoin.addresses[type].map((address) =>
+        <li key={address.address}>
+          <a tabIndex="0" onClick={() => this.updateAddressSelection(address.address, type, address.amount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {address.amount} {this.props.ActiveCoin.coin} ]  {address.address}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+        </li>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderSelectorCurrentLabel() {
+    if (this.state.sendFrom) {
+      return (
+        <span>
+          <i className={this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {this.state.sendFromAmount} {this.props.ActiveCoin.coin} ]  {this.state.sendFrom}</span>
+        </span>
+      );
+    } else {
+      return (
+        <span>- Select Transparent or Private Address -</span>
+      );
+    }
+  }
+
+  renderAddressList() {
+    if (this.props.Dashboard && this.props.Dashboard.activeHandle && this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin]) {
+      return (
+        <div className={'btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ' + (this.state.addressSelectorOpen ? 'open' : '')}>
+          <button type="button" className="btn dropdown-toggle btn-info" data-toggle="dropdown" data-id="kmd_wallet_send_from" title="- Select Transparent or Private Address -" aria-expanded="true" onClick={this.openDropMenu}>
+            <span className="filter-option pull-left">{this.renderSelectorCurrentLabel()} </span>&nbsp;<span className="bs-caret"><span className="caret"></span></span>
+          </button>
+          <div className="dropdown-menu open">
+            <ul className="dropdown-menu inner" role="menu">
+              <li data-original-index="1" className="selected">
+                <a tabIndex="0" data-tokens="null"><span className="text"> - Select Transparent or Private Address - </span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+              </li>
+              {this.renderAddressByType('public')}
+            </ul>
+          </div>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   render() {
     if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.coin && this.props.ActiveCoin.mode !== 'native' && !this.props.ActiveCoin.send && !this.props.ActiveCoin.receive) {
       return (
@@ -251,6 +309,11 @@ class WalletsData extends React.Component {
                       <h4 className="panel-title">{translate('INDEX.TRANSACTION_HISTORY')}</h4>
                     </header>
                     <div className="panel-body">
+                      <div className="row">
+                        <div className="col-sm-6">
+                        {this.renderAddressList()}
+                        </div>
+                      </div>
                       <div className="row">
                         <div className="col-sm-6">
                           {this.renderPaginationItemsPerPageSelector()}
