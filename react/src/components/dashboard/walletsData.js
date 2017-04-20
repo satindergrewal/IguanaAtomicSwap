@@ -28,6 +28,7 @@ class WalletsData extends React.Component {
     this.basiliskConnectionAction = this.basiliskConnectionAction.bind(this);
     this.getDexNotariesAction = this.getDexNotariesAction.bind(this);
     this.openDropMenu = this.openDropMenu.bind(this);
+    this.refreshTxList = this.refreshTxList.bind(this);
   }
 
   toggleBasiliskActionsMenu() {
@@ -80,7 +81,6 @@ class WalletsData extends React.Component {
     }
 
     if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory === 'no data') {
-      console.log('no data', true);
       this.setState(Object.assign({}, this.state, {
         itemsList: 'no data',
       }));
@@ -236,6 +236,10 @@ class WalletsData extends React.Component {
     }.bind(this), 100);
   }
 
+  refreshTxList() {
+    Store.dispatch(getBasiliskTransactionsList(this.props.ActiveCoin.coin, this.props.ActiveCoin.mainBasiliskAddress));
+  }
+
   openDropMenu() {
     this.setState(Object.assign({}, this.state, {
       addressSelectorOpen: !this.state.addressSelectorOpen,
@@ -301,7 +305,7 @@ class WalletsData extends React.Component {
                   <div id="edexcoin_txhistory" className="panel">
                     <header className="panel-heading" style={{zIndex: '10'}}>
                       <div className={this.props.ActiveCoin.mode === 'basilisk' ? 'panel-actions' : 'panel-actions hide'}>
-                        <a href="javascript:void(0)" className="dropdown-toggle white btn-xs btn-info btn_refresh_edexcoin_dashboard" data-edexcoin="COIN" aria-expanded="false" role="button">
+                        <a href="javascript:void(0)" className="dropdown-toggle white btn-xs btn-info btn_refresh_edexcoin_dashboard" data-edexcoin="COIN" aria-expanded="false" role="button" onClick={this.refreshTxList}>
                           <i className="icon fa-refresh margin-right-10" aria-hidden="true"></i> {translate('INDEX.REFRESH')}
                         </a>
                         <div className={this.state.basiliskActionsMenu ? 'dropdown open' : 'dropdown'} onClick={this.toggleBasiliskActionsMenu}>
