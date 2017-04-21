@@ -26,7 +26,8 @@ class WalletsBasiliskRefresh extends React.Component {
                         <th>{translate('INDEX.REFRESH')}</th>
                       </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                    </tbody>
                   </table>
                 </div>
               </div>
