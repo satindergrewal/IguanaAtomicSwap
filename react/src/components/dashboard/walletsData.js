@@ -11,6 +11,11 @@ import {
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
+import { SocketProvider } from 'socket.io-react';
+import io from 'socket.io-client';
+
+const socket = io.connect('http://localhost:17777');
+
 class WalletsData extends React.Component {
   constructor(props) {
     super(props);
@@ -21,6 +26,8 @@ class WalletsData extends React.Component {
       itemsList: null,
       currentAddress: null,
       addressSelectorOpen: false,
+      currentStackLength: 0,
+      totalStackLength: 0,
     };
     this.updateInput = this.updateInput.bind(this);
     this.toggleBasiliskActionsMenu = this.toggleBasiliskActionsMenu.bind(this);
@@ -29,6 +36,25 @@ class WalletsData extends React.Component {
     this.getDexNotariesAction = this.getDexNotariesAction.bind(this);
     this.openDropMenu = this.openDropMenu.bind(this);
     this.refreshTxList = this.refreshTxList.bind(this);
+    socket.on('messages', msg => this.updateSocketsData(msg));
+  }
+
+  updateSocketsData(data) {
+    console.log(data);
+
+    if (data && data.message && data.message.shepherd.iguanaAPI && data.message.shepherd.iguanaAPI.totalStackLength) {
+      this.setState(Object.assign({}, this.state, {
+        totalStackLength: data.message.shepherd.iguanaAPI.totalStackLength,
+      }));
+    }
+    if (data && data.message && data.message.shepherd.iguanaAPI && data.message.shepherd.iguanaAPI.currentStackLength) {
+      this.setState(Object.assign({}, this.state, {
+        currentStackLength: data.message.shepherd.iguanaAPI.currentStackLength,
+      }));
+    }
+    if (data && data.message && data.message.shepherd.method && data.message.shepherd.method === 'cache-one' && data.message.shepherd.status === 'done') {
+      //_totalStackLength = _currentStackLength = 0;
+    }
   }
 
   toggleBasiliskActionsMenu() {
@@ -304,6 +330,7 @@ class WalletsData extends React.Component {
                 <div className="col-xlg-12 col-lg-12 col-sm-12 col-xs-12 edexcoin_dashoard_section_main_div">
                   <div id="edexcoin_txhistory" className="panel">
                     <header className="panel-heading" style={{zIndex: '10'}}>
+                      Sockets: {this.state.currentStackLength} / {this.state.totalStackLength}
                       <div className={this.props.ActiveCoin.mode === 'basilisk' ? 'panel-actions' : 'panel-actions hide'}>
                         <a href="javascript:void(0)" className="dropdown-toggle white btn-xs btn-info btn_refresh_edexcoin_dashboard" data-edexcoin="COIN" aria-expanded="false" role="button" onClick={this.refreshTxList}>
                           <i className="icon fa-refresh margin-right-10" aria-hidden="true"></i> {translate('INDEX.REFRESH')}

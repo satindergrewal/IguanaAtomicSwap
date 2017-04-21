@@ -1392,7 +1392,7 @@ export function getNativeTxHistoryState(json) {
     json = json.result;
   } else if (!json.length) {
     json = 'no data';
-  } 
+  }
 
   return {
     type: DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY,
@@ -1660,6 +1660,46 @@ export function checkAddressBasilisk(coin, address) {
     })
     .then(response => response.json())
     .then(json => dispatch(checkAddressBasiliskHandle(json)))
+  }
+}
+
+function validateAddressBasiliskHandle(json) {
+  return dispatch => {
+    if (json.iswatchonly === true) {
+      dispatch(triggerToaster(true, translate('TOASTR.VALIDATION_SUCCESS'), translate('TOASTR.BASILISK_NOTIFICATION'), 'error'));
+    }
+    if (json.iswatchonly === false) {
+      dispatch(triggerToaster(true, translate('TOASTR.ADDR_ISNT_REG'), translate('TOASTR.BASILISK_NOTIFICATION'), 'error'));
+    }
+    if (json.iswatchonly === undefined) {
+      dispatch(triggerToaster(true, translate('TOASTR.INVALID_QUERY_ALT'), translate('TOASTR.BASILISK_NOTIFICATION'), 'error'));
+    }
+    if (json.error === 'less than required responses') {
+      dispatch(triggerToaster(true, translate('TOASTR.LESS_RESPONSES_REQ'), translate('TOASTR.BASILISK_NOTIFICATION'), 'error'));
+    }
+  }
+}
+
+export function validateAddressBasilisk(coin, address) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'dex',
+    'method': 'validateaddress',
+    'address': address,
+    'symbol': coin
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'validateAddressBasilisk', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(validateAddressBasiliskHandle(json)))
   }
 }
 

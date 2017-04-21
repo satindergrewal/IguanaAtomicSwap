@@ -1,10 +1,9 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-import { checkAddressBasilisk, importAddressBasilisk } from '../../actions/actionCreators';
+import { checkAddressBasilisk, importAddressBasilisk, validateAddressBasilisk } from '../../actions/actionCreators';
 import Store from '../../store';
 
 // TODO: implement sorting
-// TODO: add import address ui in basilisk
 // TODO: fallback to localstorage/stores data in case iguana is taking too long to respond
 
 class ReceiveCoin extends React.Component {
@@ -12,8 +11,12 @@ class ReceiveCoin extends React.Component {
     super(props);
   }
 
-  checkAddressBasilisk(address) {
+  _checkAddressBasilisk(address) {
     Store.dispatch(checkAddressBasilisk(this.props.coin, address));
+  }
+
+  _validateAddressBasilisk(address) {
+    Store.dispatch(validateAddressBasilisk(this.props.coin, address));
   }
 
   /*importAddressBasilisk(address) {
@@ -30,8 +33,11 @@ class ReceiveCoin extends React.Component {
           <span className="label label-default">
             <i className="icon fa-eye"></i> {translate('IAPI.PUBLIC_SM')}
           </span>
-          <span className="label label-default margin-left-10 action" title="Check" onClick={() => this.checkAddressBasilisk(address)}>
+          <span className="label label-default margin-left-10 action" title="Check" onClick={() => this._checkAddressBasilisk(address)}>
             <i className="icon fa-database"></i>
+          </span>
+          <span className="label label-default margin-left-10 action" title="Import" onClick={() => this._validateAddressBasilisk(address)}>
+            <i className="icon fa-info-circle"></i>
           </span>
         </td>
       );
