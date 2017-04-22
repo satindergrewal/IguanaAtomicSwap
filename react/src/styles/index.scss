@@ -30,6 +30,7 @@
 @import '../assets/global/fonts/web-icons/web-icons.css';
 @import '../assets/global/fonts/brand-icons/brand-icons.min.css';
 @import '../assets/skins/orange.min.css';
+@import '../../node_modules/rc-tree/assets/index.css';
 
 #app > div {
   height: 100%;
@@ -106,6 +107,40 @@ body {
 .radio-custom input {
   cursor: pointer;
   cursor: hand;
+}
+
+.collapse {
+  overflow: hidden;
+  display: block;
+}
+
+.collapse-active {
+  transition: height 0.3s ease-out;
+}
+
+.rc-tree {
+  height: 450px;
+  overflow-y: scroll;
+  margin-top: 20px;
+
+  a {
+    pointer-events: none;
+  }
+  li span.rc-tree-iconEle {
+    display: none;
+  }
+}
+
+.rc-tree-node-content-wrapper-close + ul {
+  display: none;
+}
+.rc-tree-node-content-wrapper {
+  user-select: none;
+}
+.rc-tree-node-content-wrapper-normal {
+  color: inherit;
+  pointer-events: all;
+  user-select: all;
 }
 
 /*.toaster .single-toast:nth-child(0) {

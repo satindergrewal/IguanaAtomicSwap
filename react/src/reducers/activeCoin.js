@@ -12,7 +12,9 @@ import {
   DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS,
   DASHBOARD_ACTIVE_COIN_SENDTO,
   DASHBOARD_ACTIVE_COIN_GET_CACHE,
-  DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR
+  DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR,
+  DASHBOARD_GET_NOTARIES_LIST,
+  DASHBOARD_DISPLAY_NOTARIES_MODAL
 } from '../actions/actionCreators';
 
 // TODO: keep all coin data in array of objects instead of single object
@@ -31,6 +33,8 @@ export function ActiveCoin(state = {
   lastSendToResponse: null,
   cache: null,
   mainBasiliskAddress: null,
+  notaries: null,
+  displayNotariesModal: false,
 }, action) {
   switch (action.type) {
     case DASHBOARD_ACTIVE_COIN_CHANGE:
@@ -100,6 +104,14 @@ export function ActiveCoin(state = {
     case DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR:
       return Object.assign({}, state, {
         mainBasiliskAddress: action.address,
+      });
+    case DASHBOARD_GET_NOTARIES_LIST:
+      return Object.assign({}, state, {
+        notaries: action.notaries,
+      });
+    case DASHBOARD_DISPLAY_NOTARIES_MODAL:
+      return Object.assign({}, state, {
+        displayNotariesModal: action.display,
       });
     default:
       return state;

@@ -7,12 +7,14 @@ import {
   getDexNotaries,
   toggleDashboardTxInfoModal,
   getBasiliskTransactionsList,
-  changeMainBasiliskAddress
+  changeMainBasiliskAddress,
+  displayNotariesModal
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
 import WalletsBasiliskRefresh from './walletsBasiliskRefresh';
 import WalletsBasiliskConnection from './walletsBasiliskConnection';
+import WalletsNotariesList from './walletsNotariesList';
 
 import { SocketProvider } from 'socket.io-react';
 import io from 'socket.io-client';
@@ -43,19 +45,21 @@ class WalletsData extends React.Component {
   }
 
   updateSocketsData(data) {
-    console.log(data);
-
-    if (data && data.message && data.message.shepherd.iguanaAPI && data.message.shepherd.iguanaAPI.totalStackLength) {
+    if (data && data.message && data.message.shepherd.iguanaAPI &&
+        data.message.shepherd.iguanaAPI.totalStackLength) {
       this.setState(Object.assign({}, this.state, {
         totalStackLength: data.message.shepherd.iguanaAPI.totalStackLength,
       }));
     }
-    if (data && data.message && data.message.shepherd.iguanaAPI && data.message.shepherd.iguanaAPI.currentStackLength) {
+    if (data && data.message && data.message.shepherd.iguanaAPI &&
+        data.message.shepherd.iguanaAPI.currentStackLength) {
       this.setState(Object.assign({}, this.state, {
         currentStackLength: data.message.shepherd.iguanaAPI.currentStackLength,
       }));
     }
-    if (data && data.message && data.message.shepherd.method && data.message.shepherd.method === 'cache-one' && data.message.shepherd.status === 'done') {
+    if (data && data.message && data.message.shepherd.method &&
+        data.message.shepherd.method === 'cache-one' &&
+        data.message.shepherd.status === 'done') {
       Store.dispatch(basiliskRefresh(false));
     }
   }
@@ -80,6 +84,7 @@ class WalletsData extends React.Component {
 
   getDexNotariesAction() {
     Store.dispatch(getDexNotaries(this.props.ActiveCoin.coin));
+    Store.dispatch(displayNotariesModal(true));
   }
 
   updateInput(e) {
@@ -329,6 +334,7 @@ class WalletsData extends React.Component {
         <span>
           <WalletsBasiliskRefresh {...this.props} />
           <WalletsBasiliskConnection {...this.props} />
+          <WalletsNotariesList {...this.props} />
           <div data-edexcoin="COIN" id="edexcoin_dashboardinfo">
             <div className="col-xs-12 margin-top-20">
               <div className="panel nav-tabs-horizontal">
