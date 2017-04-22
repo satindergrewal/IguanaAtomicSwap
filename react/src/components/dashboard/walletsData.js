@@ -328,6 +328,12 @@ class WalletsData extends React.Component {
     }
   }
 
+/*
+                          <div className={this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : ''}>
+                            <strong>Processing requests:</strong> {this.state.currentStackLength} / {this.state.totalStackLength}
+                          </div>
+*/
+
   render() {
     if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.coin && this.props.ActiveCoin.mode !== 'native' && !this.props.ActiveCoin.send && !this.props.ActiveCoin.receive) {
       return (
@@ -343,8 +349,10 @@ class WalletsData extends React.Component {
                     <div id="edexcoin_txhistory" className="panel">
                       <header className="panel-heading" style={{zIndex: '10'}}>
                         <div className={this.props.ActiveCoin.mode === 'basilisk' ? 'panel-actions' : 'panel-actions hide'}>
-                          <div className={this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : ''}>
-                            <strong>Processing requests:</strong> {this.state.currentStackLength} / {this.state.totalStackLength}
+                          <div className={this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : 'progress progress-sm'} style={{width: '100%', marginBottom: '3px'}}>
+                            <div className="progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success" style={{width: 100 - (this.state.currentStackLength * 100 / this.state.totalStackLength) + '%', fontSize: '80%'}} role="progressbar">
+                              Processing requests: {this.state.currentStackLength} / {this.state.totalStackLength}
+                            </div>
                           </div>
                           <a href="javascript:void(0)" className="dropdown-toggle white btn-xs btn-info btn_refresh_edexcoin_dashboard margin-right-10" data-edexcoin="COIN" aria-expanded="false" role="button" onClick={this.refreshTxList}>
                             <i className="icon fa-refresh margin-right-10" aria-hidden="true"></i> {translate('INDEX.REFRESH')}
