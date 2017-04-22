@@ -10,14 +10,21 @@ class Login extends React.Component {
       display: false,
       activeLoginSection: 'activateCoin',
       loginPassphrase: null,
+      seedInputVisibility: false,
     };
     this.toggleActivateCoinForm = this.toggleActivateCoinForm.bind(this);
     this.updatePassphraseLoginInput = this.updatePassphraseLoginInput.bind(this);
     this.loginSeed = this.loginSeed.bind(this);
+    this.toggleSeedInputVisibility = this.toggleSeedInputVisibility.bind(this);
+  }
+
+  toggleSeedInputVisibility() {
+    this.setState({
+      seedInputVisibility: !this.state.seedInputVisibility,
+    });
   }
 
   componentWillReceiveProps(props) {
-    console.log('loginprops', props.Main);
     if (props && props.Main && props.Main.isLoggedIn) {
       this.setState({
         display: false,
@@ -29,14 +36,16 @@ class Login extends React.Component {
       });
       document.body.className = 'page-login layout-full page-dark';
     }
-    if (props && props.Main && props.Main.activeCoins) {
-      this.setState({
-        activeLoginSection: 'login',
-      });
-    } else {
-      this.setState({
-        activeLoginSection: 'activateCoin',
-      });
+    if (this.state.activeLoginSection !== 'signup') {
+      if (props && props.Main && props.Main.activeCoins) {
+        this.setState({
+          activeLoginSection: 'login',
+        });
+      } else {
+        this.setState({
+          activeLoginSection: 'activateCoin',
+        });
+      }
     }
   }
 
@@ -52,6 +61,12 @@ class Login extends React.Component {
 
   loginSeed() {
     Store.dispatch(iguanaWalletPassphrase(this.state.loginPassphrase));
+  }
+
+  updateActiveLoginSection(name) {
+    this.setState({
+      activeLoginSection: name,
+    });
   }
 
   render() {
@@ -94,12 +109,13 @@ class Login extends React.Component {
                 <h4 style={{ color: '#fff' }} id="login-welcome">{translate('INDEX.WELCOME_LOGIN')}</h4>
                 <div className="login-form">
                   <div className="form-group form-material floating">
-                    <input type="password" className="form-control" name="loginPassphrase" id="password" onChange={this.updatePassphraseLoginInput} />
+                    <input type={this.state.seedInputVisibility ? 'text' : 'password'} className="form-control" name="loginPassphrase" id="password" onChange={this.updatePassphraseLoginInput} />
+                    <i className={this.state.seedInputVisibility ? 'seed-toggle fa fa-eye-slash' : 'seed-toggle fa fa-eye'} onClick={this.toggleSeedInputVisibility}></i>
                     <label className="floating-label" htmlFor="inputPassword">{translate('INDEX.WALLET_SEED')}</label>
                   </div>
                   <button type="button" className="btn btn-primary btn-block" id="loginbtn" onClick={this.loginSeed} disabled={!this.state.loginPassphrase || !this.state.loginPassphrase.length}>{translate('INDEX.SIGN_IN')}</button>
                   <div className="form-group form-material floating">
-                    <button className="btn btn-lg btn-flat btn-block waves-effect" id="register-btn">{translate('INDEX.CREATE_WALLET')}</button>
+                    <button className="btn btn-lg btn-flat btn-block waves-effect" id="register-btn" onClick={() => this.updateActiveLoginSection('signup')}>{translate('INDEX.CREATE_WALLET')}</button>
                     <button className="btn btn-lg btn-flat btn-block waves-effect" id="logint-another-wallet">{translate('INDEX.LOGIN_ANOTHER_WALLET')}</button>
                   </div>
                 </div>
@@ -113,13 +129,13 @@ class Login extends React.Component {
               </div>
 
               <div id="section-register" className={this.state.activeLoginSection === 'signup' ? 'show' : 'hide'}>
-                <form className="register-form" role="form" autoComplete="off">
+                <div className="register-form">
                   <h4 className="hint" style={{ color: '#fff' }}>
                     {translate('INDEX.SELECT_SEED_TYPE')}:
                   </h4>
                   <div className="form-group form-material floating">
                     <div className="radio-custom radio-default radio-inline">
-                      <input type="radio" id="PassPhraseOptionsIguana" value="PassPhraseOptionsIguana" name="PassPhraseOptions" checked="" />
+                      <input type="radio" id="PassPhraseOptionsIguana" value="PassPhraseOptionsIguana" name="PassPhraseOptions" checked="true" />
                       <label htmlFor="PassPhraseOptionsIguana">Iguana (256 bits)</label>
                     </div>
                     <div className="radio-custom radio-default radio-inline">
@@ -141,9 +157,9 @@ class Login extends React.Component {
                   </div>
                   <button type="submit" id="register-submit-btn" className="btn btn-primary btn-block">{translate('INDEX.REGISTER')}</button>
                   <div className="form-group form-material floating">
-                    <button className="btn btn-lg btn-flat btn-block waves-effect" id="register-back-btn">{translate('INDEX.BACK_TO_LOGIN')}</button>
+                    <button className="btn btn-lg btn-flat btn-block waves-effect" id="register-back-btn" onClick={() => this.updateActiveLoginSection('login')}>{translate('INDEX.BACK_TO_LOGIN')}</button>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>

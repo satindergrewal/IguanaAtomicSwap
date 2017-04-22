@@ -51,7 +51,8 @@ body {
   padding-top: 44px;
 }
 
-.login-form {
+.login-form,
+.register-form {
   width: 540px;
   margin: 30px 0;
 }
@@ -92,6 +93,14 @@ body {
 
 .unselectable {
   user-select: none;
+}
+
+.seed-toggle {
+  position: absolute;
+  right: 0;
+  top: 0px;
+  cursor: pointer;
+  cursor: hand;
 }
 
 /*.toaster .single-toast:nth-child(0) {
