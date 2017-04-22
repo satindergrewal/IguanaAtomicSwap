@@ -196,14 +196,14 @@ class WalletsData extends React.Component {
   renderTxType(category) {
     if ( category === 'send' || category === 'sent' ) {
       return (
-        <span>
+        <span className="label label-danger">
           <i className="icon fa-arrow-circle-left"></i> <span>{translate('DASHBOARD.OUT')}</span>
         </span>
       );
     }
     if ( category === 'receive' || category === 'received' ) {
       return (
-        <span>
+        <span className="label label-success">
           <i className="icon fa-arrow-circle-right"></i> <span>{translate('DASHBOARD.IN')}</span>
         </span>
       );
@@ -328,12 +328,6 @@ class WalletsData extends React.Component {
     }
   }
 
-/*
-                          <div className={this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : ''}>
-                            <strong>Processing requests:</strong> {this.state.currentStackLength} / {this.state.totalStackLength}
-                          </div>
-*/
-
   render() {
     if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.coin && this.props.ActiveCoin.mode !== 'native' && !this.props.ActiveCoin.send && !this.props.ActiveCoin.receive) {
       return (
@@ -402,7 +396,7 @@ class WalletsData extends React.Component {
                           <div className="col-sm-6">
                             <div id="kmd-tx-history-tbl_filter" className="dataTables_filter">
                               <label>
-                                Search: <input type="search" className="form-control input-sm" placeholder="" aria-controls="kmd-tx-history-tbl" disabled="true" />
+                                Search: <input type="search" className="form-control input-sm" aria-controls="kmd-tx-history-tbl" disabled="true" />
                               </label>
                             </div>
                           </div>
