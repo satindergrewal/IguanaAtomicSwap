@@ -33,8 +33,7 @@ class WalletsNativeReceive extends React.Component {
             <span className={type === 'public' ? 'label label-default' : 'label label-dark'}>
               <i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i> {type === 'public' ? translate('IAPI.PUBLIC_SM') : translate('KMD_NATIVE.PRIVATE')}
             </span>
-            &nbsp;&nbsp;
-            <button className="btn btn-default btn-xs clipboard-edexaddr" data-edexcoin="COIN" id="edexcoin_active_addr_clipboard" data-clipboard-text="" onClick={() => this.copyZAddress(address.address)}><i className="icon wb-copy" aria-hidden="true"></i> {translate('INDEX.COPY')}</button>
+            <button className="btn btn-default btn-xs clipboard-edexaddr margin-left-10" data-edexcoin="COIN" id="edexcoin_active_addr_clipboard" data-clipboard-text="" onClick={() => this.copyZAddress(address.address)}><i className="icon wb-copy" aria-hidden="true"></i> {translate('INDEX.COPY')}</button>
           </td>
           <td>{type === 'public' ? address.address : address.address.substring(0, 34) + '...'}</td>
           <td>{address.amount}</td>

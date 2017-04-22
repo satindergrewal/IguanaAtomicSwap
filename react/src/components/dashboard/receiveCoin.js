@@ -1,6 +1,11 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-import { checkAddressBasilisk, importAddressBasilisk, validateAddressBasilisk } from '../../actions/actionCreators';
+import {
+  checkAddressBasilisk,
+  importAddressBasilisk,
+  validateAddressBasilisk,
+  copyCoinAddress
+} from '../../actions/actionCreators';
 import Store from '../../store';
 
 // TODO: implement sorting
@@ -19,6 +24,10 @@ class ReceiveCoin extends React.Component {
     Store.dispatch(validateAddressBasilisk(this.props.coin, address));
   }
 
+  _copyCoinAddress(address) {
+    Store.dispatch(copyCoinAddress(address));
+  }
+
   /*importAddressBasilisk(address) {
     Store.dispatch(importAddressBasilisk(this.props.coin, address));
   }
@@ -33,6 +42,7 @@ class ReceiveCoin extends React.Component {
           <span className="label label-default">
             <i className="icon fa-eye"></i> {translate('IAPI.PUBLIC_SM')}
           </span>
+          <button className="btn btn-default btn-xs clipboard-edexaddr margin-left-10" data-edexcoin="COIN" id="edexcoin_active_addr_clipboard" onClick={() => this._copyCoinAddress(address)}><i className="icon wb-copy" aria-hidden="true"></i> {translate('INDEX.COPY')}</button>
           <span className="label label-default margin-left-10 action" title="Check" onClick={() => this._checkAddressBasilisk(address)}>
             <i className="icon fa-database"></i>
           </span>
@@ -47,6 +57,7 @@ class ReceiveCoin extends React.Component {
           <span className="label label-default">
             <i className="icon fa-eye"></i> {translate('IAPI.PUBLIC_SM')}
           </span>
+          <button className="btn btn-default btn-xs clipboard-edexaddr margin-left-10" data-edexcoin="COIN" id="edexcoin_active_addr_clipboard" onClick={() => this._copyCoinAddress(address)}><i className="icon wb-copy" aria-hidden="true"></i> {translate('INDEX.COPY')}</button>
         </td>
       );
     }
