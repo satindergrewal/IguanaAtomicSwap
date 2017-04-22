@@ -43,6 +43,15 @@ export const DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS = 'DASHBOARD_ACTIVE_COIN_NATIVE_
 export const DASHBOARD_ACTIVE_COIN_SENDTO = 'DASHBOARD_ACTIVE_COIN_SENDTO';
 export const DASHBOARD_ACTIVE_COIN_GET_CACHE = 'DASHBOARD_ACTIVE_COIN_GET_CACHE';
 export const DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR = 'DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR';
+export const DASHBOARD_GET_NOTARIES_LIST = 'DASHBOARD_GET_NOTARIES_LIST';
+export const DASHBOARD_DISPLAY_NOTARIES_MODAL = 'DASHBOARD_DISPLAY_NOTARIES_MODAL';
+
+export function displayNotariesModal(display) {
+  return {
+    type: DASHBOARD_DISPLAY_NOTARIES_MODAL,
+    display,
+  }
+}
 
 export function changeMainBasiliskAddress(address) {
   return {
@@ -795,34 +804,6 @@ export function getAddressesByAccount(coin, mode) {
     })
     .then(response => response.json())
     .then(json => dispatch(getAddressesByAccountState(json, coin, mode, dispatch)))
-  }
-}
-
-function getDexNotariesState(json, dispatch) {
-  return dispatch => {
-    dispatch(triggerToaster(true, 'Notaries list received', translate('TOASTR.BASILISK_NOTIFICATION'), 'success'));
-  }
-}
-
-export function getDexNotaries(coin) {
-  const payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-    'agent': 'dex',
-    'method': 'getnotaries',
-    'symbol': coin
-  };
-
-  return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    })
-    .catch(function(error) {
-      console.log(error);
-      dispatch(triggerToaster(true, 'getDexNotaries', 'Error', 'error'));
-    })
-    .then(response => response.json())
-    .then(json => dispatch(getDexNotariesState(json, dispatch)))
   }
 }
 
@@ -1700,6 +1681,75 @@ export function validateAddressBasilisk(coin, address) {
     })
     .then(response => response.json())
     .then(json => dispatch(validateAddressBasiliskHandle(json)))
+  }
+}
+
+function getDexNotariesState(json) {
+  if (json.error === 'less than required responses') {
+    return dispatch => {
+      dispatch(triggerToaster(true, translate('TOASTR.LESS_RESPONSES_REQ'), translate('TOASTR.BASILISK_NOTIFICATION'), 'error'));
+    }
+  } else {
+    return {
+      type: DASHBOARD_GET_NOTARIES_LIST,
+      notaries: json,
+    }
+  }
+}
+
+export function getDexNotaries(coin) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'dex',
+    'method': 'getnotaries',
+    'symbol': coin
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getDexNotaries', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getDexNotariesState(json)))
+  }
+}
+
+function createNewWalletState(json) {
+  if (json && json.result && json.result === 'success') {
+    return dispatch => {
+      dispatch(triggerToaster(true, translate('TOASTR.WALLET_CREATED_SUCCESFULLY'), translate('TOASTR.ACCOUNT_NOTIFICATION'), 'success'));
+    }
+  } else {
+    return dispatch => {
+      dispatch(triggerToaster(true, 'Couldn\'t create new wallet seed', translate('TOASTR.ACCOUNT_NOTIFICATION'), 'error'));
+    }
+  }
+}
+
+export function createNewWallet(_passphrase) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'bitcoinrpc',
+    'method': 'encryptwallet',
+    'passphrase': _passphrase
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'createNewWallet', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(createNewWalletState(json)))
   }
 }
 

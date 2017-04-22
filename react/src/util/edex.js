@@ -1,5 +1,5 @@
 export function edexRemoveTXID(_obj, txidArray) {
-  var txidToStr = txidArray.join(':');
+  const txidToStr = txidArray.join(':');
 
   console.log(txidToStr);
   if (_obj, _obj.basilisk) {
