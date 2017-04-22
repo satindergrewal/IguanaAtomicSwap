@@ -8,7 +8,8 @@ import {
   toggleDashboardTxInfoModal,
   getBasiliskTransactionsList,
   changeMainBasiliskAddress,
-  displayNotariesModal
+  displayNotariesModal,
+  deleteCacheFile
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -41,6 +42,7 @@ class WalletsData extends React.Component {
     this.getDexNotariesAction = this.getDexNotariesAction.bind(this);
     this.openDropMenu = this.openDropMenu.bind(this);
     this.refreshTxList = this.refreshTxList.bind(this);
+    this.removeAndfetchNewCache = this.removeAndfetchNewCache.bind(this);
     socket.on('messages', msg => this.updateSocketsData(msg));
   }
 
@@ -62,6 +64,15 @@ class WalletsData extends React.Component {
         data.message.shepherd.status === 'done') {
       Store.dispatch(basiliskRefresh(false));
     }
+  }
+
+  removeAndfetchNewCache() {
+    Store.dispatch(deleteCacheFile({
+      'pubkey': this.props.Dashboard.activeHandle.pubkey,
+      'allcoins': false,
+      'coin': this.props.ActiveCoin.coin,
+      'calls': 'listtransactions:getbalance',
+    }));
   }
 
   toggleBasiliskActionsMenu() {
@@ -374,7 +385,7 @@ class WalletsData extends React.Component {
                                 </a>
                               </li>
                               <li data-edexcoin="COIN" role="presentation">
-                                <a className="btn_edexcoin_dashboard_refetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refetchdata" role="menuitem">
+                                <a className="btn_edexcoin_dashboard_refetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refetchdata" role="menuitem" onClick={this.removeAndfetchNewCache}>
                                   <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.REFETCH_WALLET_DATA')}
                                 </a>
                               </li>

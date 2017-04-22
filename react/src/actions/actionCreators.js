@@ -1753,6 +1753,47 @@ export function createNewWallet(_passphrase) {
   }
 }
 
+export function deleteCacheFile(_payload) {
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/groom?', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ 'filename': _payload.pubkey }),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'deleteCacheFile', 'Error', 'error'))
+    })
+    .then(response => response.json())
+    .then(json => dispatch(fetchNewCacheData(_payload)));
+  }
+}
+
+export function fetchNewCacheData(_payload) {
+  const _userpass = '?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+  const _pubkey = '&pubkey=' + _payload.pubkey;
+  const _route = _payload.allcoins ? 'cache-all' : 'cache-one';
+  const _coin = '&coin=' + _payload.coin;
+  const _calls = '&calls=' + _payload.calls;
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/' + _route + _userpass + _pubkey + _coin + _calls, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'fetchNewCacheData', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => console.log(json))
+  }
+}
+
 /*function Shepherd_SendPendValue() {
   Shepherd_SysInfo().then(function(result){
     var ram_data = formatBytes(result.totalmem_bytes)

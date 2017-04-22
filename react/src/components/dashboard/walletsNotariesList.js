@@ -4,6 +4,7 @@ import { secondsToString } from '../../util/time';
 import { toggleDashboardTxInfoModal, displayNotariesModal } from '../../actions/actionCreators';
 import Store from '../../store';
 import Tree, { TreeNode } from 'rc-tree';
+import cssAnimation from 'css-animation';
 
 function animate(node, show, done) {
   let height = node.offsetHeight;
