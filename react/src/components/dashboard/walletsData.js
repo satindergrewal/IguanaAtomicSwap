@@ -9,7 +9,8 @@ import {
   getBasiliskTransactionsList,
   changeMainBasiliskAddress,
   displayNotariesModal,
-  deleteCacheFile
+  deleteCacheFile,
+  connectNotaries
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -90,6 +91,7 @@ class WalletsData extends React.Component {
   basiliskConnectionAction() {
     if (this.props.Dashboard) {
       Store.dispatch(basiliskConnection(!this.props.Dashboard.basiliskConnection));
+      Store.dispatch(connectNotaries());
     }
   }
 

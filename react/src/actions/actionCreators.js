@@ -45,6 +45,7 @@ export const DASHBOARD_ACTIVE_COIN_GET_CACHE = 'DASHBOARD_ACTIVE_COIN_GET_CACHE'
 export const DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR = 'DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR';
 export const DASHBOARD_GET_NOTARIES_LIST = 'DASHBOARD_GET_NOTARIES_LIST';
 export const DASHBOARD_DISPLAY_NOTARIES_MODAL = 'DASHBOARD_DISPLAY_NOTARIES_MODAL';
+export const DASHBOARD_CONNECT_NOTARIES = 'DASHBOARD_CONNECT_NOTARIES';
 
 export function displayNotariesModal(display) {
   return {
@@ -1772,11 +1773,11 @@ export function deleteCacheFile(_payload) {
 }
 
 export function fetchNewCacheData(_payload) {
-  const _userpass = '?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
-  const _pubkey = '&pubkey=' + _payload.pubkey;
-  const _route = _payload.allcoins ? 'cache-all' : 'cache-one';
-  const _coin = '&coin=' + _payload.coin;
-  const _calls = '&calls=' + _payload.calls;
+  const _userpass = '?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+        _pubkey = '&pubkey=' + _payload.pubkey,
+        _route = _payload.allcoins ? 'cache-all' : 'cache-one',
+        _coin = '&coin=' + _payload.coin,
+        _calls = '&calls=' + _payload.calls;
 
   return dispatch => {
     return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/' + _route + _userpass + _pubkey + _coin + _calls, {
@@ -1791,6 +1792,91 @@ export function fetchNewCacheData(_payload) {
     })
     .then(response => response.json())
     .then(json => console.log(json))
+  }
+}
+
+function initNotaryNodesConSequence(nodes) {
+  return dispatch => {
+    Promise.all(nodes.map((node, index) => {
+      const payload = {
+        'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+        'agent': 'dex',
+        'method': 'getinfo',
+        'symbol': node
+      };
+
+      return new Promise((resolve, reject) => {
+        fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+          method: 'POST',
+          body: JSON.stringify(payload),
+        })
+        .catch(function(error) {
+          console.log(error);
+          dispatch(triggerToaster(true, 'getInfoDexNode+' + node, 'Error', 'error'));
+        })
+        .then(response => response.json())
+        .then(json => dispatch(updateNotaryNodeConState(json, nodes.length, index, node)))
+      });
+    }));
+  }
+}
+
+function updateNotaryNodeConState(json, totalNodes, currentNodeIndex, currentNodeName) {
+  if (currentNodeIndex === totalNodes - 1) {
+    return dispatch => {
+      dispatch(basiliskConnectionState(false));
+    };
+  } else {
+    if (json && json.error === 'less than required responses') {
+      return {
+        type: DASHBOARD_CONNECT_NOTARIES,
+        total: totalNodes - 1,
+        current: currentNodeIndex,
+        name: currentNodeName,
+        failedNode: currentNodeName,
+      }
+    } else {
+      return {
+        type: DASHBOARD_CONNECT_NOTARIES,
+        total: totalNodes - 1,
+        current: currentNodeIndex,
+        name: currentNodeName,
+      }
+    }
+  }
+}
+
+function connectAllNotaryNodes(json, dispatch) {
+  if (json && json.length) {
+    dispatch(initNotaryNodesConSequence(json));
+
+    return {
+      type: DASHBOARD_CONNECT_NOTARIES,
+      total: json.length - 1,
+      current: 0,
+      name: json[0],
+    }
+  }
+}
+
+export function connectNotaries() {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'dpow',
+    'method': 'notarychains'
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'connectNotaries', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(connectAllNotaryNodes(json, dispatch)))
   }
 }
 

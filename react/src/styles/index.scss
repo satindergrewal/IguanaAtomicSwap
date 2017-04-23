@@ -143,6 +143,12 @@ body {
   user-select: all;
 }
 
+#RefreshBasiliskConnectionsMdl .btn-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
 /*.toaster .single-toast:nth-child(0) {
   bottom: 12px;
 }
