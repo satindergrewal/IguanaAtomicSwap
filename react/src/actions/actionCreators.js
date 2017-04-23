@@ -46,6 +46,14 @@ export const DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR = 'DASHBOARD_ACTIVE_COIN_M
 export const DASHBOARD_GET_NOTARIES_LIST = 'DASHBOARD_GET_NOTARIES_LIST';
 export const DASHBOARD_DISPLAY_NOTARIES_MODAL = 'DASHBOARD_DISPLAY_NOTARIES_MODAL';
 export const DASHBOARD_CONNECT_NOTARIES = 'DASHBOARD_CONNECT_NOTARIES';
+export const VIEW_CACHE_DATA = 'VIEW_CACHE_DATA';
+
+export function toggleViewCacheModal(display) {
+  return {
+    type: VIEW_CACHE_DATA,
+    display,
+  }
+}
 
 export function displayNotariesModal(display) {
   return {

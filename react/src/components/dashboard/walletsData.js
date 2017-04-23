@@ -1,4 +1,5 @@
 import React from 'react';
+import Config from '../../config';
 import { translate } from '../../translate/translate';
 import { secondsToString } from '../../util/time';
 import {
@@ -10,18 +11,20 @@ import {
   changeMainBasiliskAddress,
   displayNotariesModal,
   deleteCacheFile,
-  connectNotaries
+  connectNotaries,
+  toggleViewCacheModal
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
 import WalletsBasiliskRefresh from './walletsBasiliskRefresh';
 import WalletsBasiliskConnection from './walletsBasiliskConnection';
 import WalletsNotariesList from './walletsNotariesList';
+import WalletsCacheData from './walletsCacheData';
 
 import { SocketProvider } from 'socket.io-react';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:17777');
+const socket = io.connect('http://127.0.0.1:' + Config.agamaPort);
 
 class WalletsData extends React.Component {
   constructor(props) {
@@ -43,8 +46,13 @@ class WalletsData extends React.Component {
     this.getDexNotariesAction = this.getDexNotariesAction.bind(this);
     this.openDropMenu = this.openDropMenu.bind(this);
     this.refreshTxList = this.refreshTxList.bind(this);
-    this.removeAndfetchNewCache = this.removeAndfetchNewCache.bind(this);
+    this.removeAndFetchNewCache = this.removeAndFetchNewCache.bind(this);
+    this._toggleViewCacheModal = this._toggleViewCacheModal.bind(this);
     socket.on('messages', msg => this.updateSocketsData(msg));
+  }
+
+  _toggleViewCacheModal() {
+    Store.dispatch(toggleViewCacheModal(!this.props.Dashboard.displayViewCacheModal));
   }
 
   updateSocketsData(data) {
@@ -67,7 +75,7 @@ class WalletsData extends React.Component {
     }
   }
 
-  removeAndfetchNewCache() {
+  removeAndFetchNewCache() {
     Store.dispatch(deleteCacheFile({
       'pubkey': this.props.Dashboard.activeHandle.pubkey,
       'allcoins': false,
@@ -348,6 +356,7 @@ class WalletsData extends React.Component {
           <WalletsBasiliskRefresh {...this.props} />
           <WalletsBasiliskConnection {...this.props} />
           <WalletsNotariesList {...this.props} />
+          <WalletsCacheData {...this.props} />
           <div data-edexcoin="COIN" id="edexcoin_dashboardinfo">
             <div className="col-xs-12 margin-top-20">
               <div className="panel nav-tabs-horizontal">
@@ -387,8 +396,13 @@ class WalletsData extends React.Component {
                                 </a>
                               </li>
                               <li data-edexcoin="COIN" role="presentation">
-                                <a className="btn_edexcoin_dashboard_refetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refetchdata" role="menuitem" onClick={this.removeAndfetchNewCache}>
+                                <a className="btn_edexcoin_dashboard_refetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refetchdata" role="menuitem" onClick={this.removeAndFetchNewCache}>
                                   <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.REFETCH_WALLET_DATA')}
+                                </a>
+                              </li>
+                              <li data-edexcoin="COIN" role="presentation">
+                                <a className="btn_edexcoin_dashboard_fetchdata" role="menuitem" onClick={this._toggleViewCacheModal}>
+                                  <i className="icon fa-list-alt" aria-hidden="true"></i> {translate('INDEX.VIEW_CACHE_DATA')}
                                 </a>
                               </li>
                             </ul>

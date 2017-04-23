@@ -1,7 +1,6 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-import { secondsToString } from '../../util/time';
-import { toggleDashboardTxInfoModal, displayNotariesModal } from '../../actions/actionCreators';
+import { displayNotariesModal } from '../../actions/actionCreators';
 import Store from '../../store';
 import Tree, { TreeNode } from 'rc-tree';
 import { animation } from '../../util/rc-tree-animate';
@@ -9,9 +8,6 @@ import { animation } from '../../util/rc-tree-animate';
 class WalletsNotariesList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      display: false,
-    };
     this.closeNotariesModal = this.closeNotariesModal.bind(this);
   }
 
