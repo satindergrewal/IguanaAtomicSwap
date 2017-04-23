@@ -1,5 +1,5 @@
-export function secondsToString(seconds) {
-  var a = new Date(seconds * 1000),
+export function secondsToString(seconds, skipMultiply) {
+  var a = new Date(seconds * (skipMultiply ? 1 : 1000)),
       months = [
         'Jan',
         'Feb',

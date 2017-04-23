@@ -13,8 +13,6 @@ import Jumblr from './jumblr';
 import Settings from './settings';
 import ReceiveCoin from './receiveCoin';
 import About from './about';
-import WalletsBasiliskRefresh from './walletsBasiliskRefresh';
-import WalletsBasiliskConnection from './walletsBasiliskConnection';
 import WalletsNative from './walletsNative';
 import WalletsNativeTxInfo from './walletsNativeTxInfo';
 import WalletsTxInfo from './walletsTxInfo';
@@ -29,6 +27,7 @@ class Dashboard extends React.Component {
 
   renderDashboard() {
     document.body.className = '';
+
     return (
       <div style={{height: '100%'}}>
         <div className={this.props.Dashboard.activeSection === 'wallets' ? 'page-main' : ''} id="section-dashboard" data-edexcoin="COIN">
@@ -41,8 +40,6 @@ class Dashboard extends React.Component {
             <SendCoin {...this.props} />
             <ReceiveCoin {...this.props.ActiveCoin} />
             <WalletsData {...this.props} />
-            <WalletsBasiliskRefresh {...this.props} />
-            <WalletsBasiliskConnection {...this.props} />
             <WalletsTxInfo {...this.props} />
             <WalletsNative {...this.props} />
             <WalletsNativeTxInfo {...this.props} />

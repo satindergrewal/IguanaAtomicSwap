@@ -30,6 +30,7 @@
 @import '../assets/global/fonts/web-icons/web-icons.css';
 @import '../assets/global/fonts/brand-icons/brand-icons.min.css';
 @import '../assets/skins/orange.min.css';
+@import '../../node_modules/rc-tree/assets/index.css';
 
 #app > div {
   height: 100%;
@@ -51,7 +52,8 @@ body {
   padding-top: 44px;
 }
 
-.login-form {
+.login-form,
+.register-form {
   width: 540px;
   margin: 30px 0;
 }
@@ -92,6 +94,59 @@ body {
 
 .unselectable {
   user-select: none;
+}
+
+.seed-toggle {
+  position: absolute;
+  right: 0;
+  top: 0px;
+  cursor: pointer;
+  cursor: hand;
+}
+
+.radio-custom input {
+  cursor: pointer;
+  cursor: hand;
+}
+
+.collapse {
+  overflow: hidden;
+  display: block;
+}
+
+.collapse-active {
+  transition: height 0.3s ease-out;
+}
+
+.rc-tree {
+  height: 450px;
+  overflow-y: scroll;
+  margin-top: 20px;
+
+  a {
+    pointer-events: none;
+  }
+  li span.rc-tree-iconEle {
+    display: none;
+  }
+}
+
+.rc-tree-node-content-wrapper-close + ul {
+  height: 0;
+}
+.rc-tree-node-content-wrapper {
+  user-select: none;
+}
+.rc-tree-node-content-wrapper-normal {
+  color: inherit;
+  pointer-events: all;
+  user-select: all;
+}
+
+#RefreshBasiliskConnectionsMdl .btn-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
 }
 
 /*.toaster .single-toast:nth-child(0) {

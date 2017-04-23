@@ -1,7 +1,8 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-import { toggleAddcoinModal, iguanaWalletPassphrase } from '../../actions/actionCreators';
+import { toggleAddcoinModal, iguanaWalletPassphrase, createNewWallet } from '../../actions/actionCreators';
 import Store from '../../store';
+import { PassPhraseGenerator } from '../../util/crypto/passphrasegenerator';
 
 class Login extends React.Component {
   constructor(props) {
@@ -10,14 +11,33 @@ class Login extends React.Component {
       display: false,
       activeLoginSection: 'activateCoin',
       loginPassphrase: null,
+      seedInputVisibility: false,
+      bitsOption: 256,
+      randomSeed: PassPhraseGenerator.generatePassPhrase(256),
+      randomSeedConfirm: '',
+      isSeedConfirmError: false,
     };
     this.toggleActivateCoinForm = this.toggleActivateCoinForm.bind(this);
-    this.updatePassphraseLoginInput = this.updatePassphraseLoginInput.bind(this);
+    this.updateInput = this.updateInput.bind(this);
     this.loginSeed = this.loginSeed.bind(this);
+    this.toggleSeedInputVisibility = this.toggleSeedInputVisibility.bind(this);
+    this.handleRegisterWallet = this.handleRegisterWallet.bind(this);
+  }
+
+  toggleSeedInputVisibility() {
+    this.setState({
+      seedInputVisibility: !this.state.seedInputVisibility,
+    });
+  }
+
+  generateNewSeed(bits) {
+    this.setState(Object.assign({}, this.state, {
+      randomSeed: PassPhraseGenerator.generatePassPhrase(bits),
+      bitsOption: bits,
+    }));
   }
 
   componentWillReceiveProps(props) {
-    console.log('loginprops', props.Main);
     if (props && props.Main && props.Main.isLoggedIn) {
       this.setState({
         display: false,
@@ -29,14 +49,16 @@ class Login extends React.Component {
       });
       document.body.className = 'page-login layout-full page-dark';
     }
-    if (props && props.Main && props.Main.activeCoins) {
-      this.setState({
-        activeLoginSection: 'login',
-      });
-    } else {
-      this.setState({
-        activeLoginSection: 'activateCoin',
-      });
+    if (this.state.activeLoginSection !== 'signup') {
+      if (props && props.Main && props.Main.activeCoins) {
+        this.setState({
+          activeLoginSection: 'login',
+        });
+      } else {
+        this.setState({
+          activeLoginSection: 'activateCoin',
+        });
+      }
     }
   }
 
@@ -44,14 +66,34 @@ class Login extends React.Component {
     Store.dispatch(toggleAddcoinModal(true, false));
   }
 
-  updatePassphraseLoginInput(e) {
+  updateInput(e) {
     this.setState({
       [e.target.name]: e.target.value,
+      isSeedConfirmError: false,
     });
   }
 
   loginSeed() {
     Store.dispatch(iguanaWalletPassphrase(this.state.loginPassphrase));
+  }
+
+  updateActiveLoginSection(name) {
+    this.setState({
+      activeLoginSection: name,
+    });
+  }
+
+  handleRegisterWallet() {
+    if (this.state.randomSeed === this.state.randomSeedConfirm) {
+      this.setState({
+        isSeedConfirmError: false,
+      });
+      Store.dispatch(createNewWallet(this.state.randomSeedConfirm, this.props.Dashboard.activeHandle));
+    } else {
+      this.setState({
+        isSeedConfirmError: true,
+      });
+    }
   }
 
   render() {
@@ -94,13 +136,14 @@ class Login extends React.Component {
                 <h4 style={{ color: '#fff' }} id="login-welcome">{translate('INDEX.WELCOME_LOGIN')}</h4>
                 <div className="login-form">
                   <div className="form-group form-material floating">
-                    <input type="password" className="form-control" name="loginPassphrase" id="password" onChange={this.updatePassphraseLoginInput} />
+                    <input type={this.state.seedInputVisibility ? 'text' : 'password'} className="form-control" name="loginPassphrase" id="password" onChange={this.updateInput} />
+                    <i className={this.state.seedInputVisibility ? 'seed-toggle fa fa-eye-slash' : 'seed-toggle fa fa-eye'} onClick={this.toggleSeedInputVisibility}></i>
                     <label className="floating-label" htmlFor="inputPassword">{translate('INDEX.WALLET_SEED')}</label>
                   </div>
                   <button type="button" className="btn btn-primary btn-block" id="loginbtn" onClick={this.loginSeed} disabled={!this.state.loginPassphrase || !this.state.loginPassphrase.length}>{translate('INDEX.SIGN_IN')}</button>
                   <div className="form-group form-material floating">
-                    <button className="btn btn-lg btn-flat btn-block waves-effect" id="register-btn">{translate('INDEX.CREATE_WALLET')}</button>
-                    <button className="btn btn-lg btn-flat btn-block waves-effect" id="logint-another-wallet">{translate('INDEX.LOGIN_ANOTHER_WALLET')}</button>
+                    <button className="btn btn-lg btn-flat btn-block waves-effect" id="register-btn" onClick={() => this.updateActiveLoginSection('signup')}>{translate('INDEX.CREATE_WALLET')}</button>
+                    <button className="btn btn-lg btn-flat btn-block waves-effect hide" id="logint-another-wallet">{translate('INDEX.LOGIN_ANOTHER_WALLET')}</button>
                   </div>
                 </div>
               </div>
@@ -113,37 +156,38 @@ class Login extends React.Component {
               </div>
 
               <div id="section-register" className={this.state.activeLoginSection === 'signup' ? 'show' : 'hide'}>
-                <form className="register-form" role="form" autoComplete="off">
+                <div className="register-form">
                   <h4 className="hint" style={{ color: '#fff' }}>
                     {translate('INDEX.SELECT_SEED_TYPE')}:
                   </h4>
                   <div className="form-group form-material floating">
-                    <div className="radio-custom radio-default radio-inline">
-                      <input type="radio" id="PassPhraseOptionsIguana" value="PassPhraseOptionsIguana" name="PassPhraseOptions" checked="" />
+                    <div className="radio-custom radio-default radio-inline" onClick={() => this.generateNewSeed(256)}>
+                      <input type="radio" name="PassPhraseOptions" checked={this.state.bitsOption === 256 ? true : false} />
                       <label htmlFor="PassPhraseOptionsIguana">Iguana (256 bits)</label>
                     </div>
-                    <div className="radio-custom radio-default radio-inline">
-                      <input type="radio" id="PassPhraseOptionsWaves" value="PassPhraseOptionsWaves" name="PassPhraseOptions" />
+                    <div className="radio-custom radio-default radio-inline" onClick={() => this.generateNewSeed(160)}>
+                      <input type="radio" name="PassPhraseOptions" checked={this.state.bitsOption === 160 ? true : false} />
                       <label htmlFor="PassPhraseOptionsWaves">Waves</label>
                     </div>
-                    <div className="radio-custom radio-default radio-inline">
-                      <input type="radio" id="PassPhraseOptionsNXT" value="PassPhraseOptionsNXT" name="PassPhraseOptions" />
+                    <div className="radio-custom radio-default radio-inline" onClick={() => this.generateNewSeed(128)}>
+                      <input type="radio" name="PassPhraseOptions" checked={this.state.bitsOption === 128 ? true : false} />
                       <label htmlFor="PassPhraseOptionsNXT">NXT</label>
                     </div>
                   </div>
                   <div className="form-group form-material floating">
-                    <textarea className="form-control placeholder-no-fix" type="text" placeholder="" name="walletseed" id="walletseed" style={{ height: '100px' }}></textarea>
+                    <textarea className="form-control placeholder-no-fix" type="text" id="walletseed" style={{ height: '100px' }} value={this.state.randomSeed} readOnly="true"></textarea>
                     <label className="floating-label" htmlFor="walletseed">{translate('INDEX.WALLET_SEED')}</label>
                   </div>
                   <div className="form-group form-material floating">
-                    <textarea className="form-control placeholder-no-fix" type="text" placeholder="" name="rwalletseed" id="rwalletseed" style={{ height: '100px' }}></textarea>
+                    <textarea className="form-control placeholder-no-fix" type="text" name="randomSeedConfirm" onChange={this.updateInput} id="rwalletseed" style={{ height: '100px' }}></textarea>
+                    <span className={this.state.isSeedConfirmError ? 'help-block' : 'hide'}>Please enter the same value again.</span>
                     <label className="floating-label" htmlFor="rwalletseed">{translate('INDEX.CONFIRM_SEED')}</label>
                   </div>
-                  <button type="submit" id="register-submit-btn" className="btn btn-primary btn-block">{translate('INDEX.REGISTER')}</button>
+                  <button type="button" id="register-submit-btn" className="btn btn-primary btn-block" onClick={this.handleRegisterWallet}>{translate('INDEX.REGISTER')}</button>
                   <div className="form-group form-material floating">
-                    <button className="btn btn-lg btn-flat btn-block waves-effect" id="register-back-btn">{translate('INDEX.BACK_TO_LOGIN')}</button>
+                    <button className="btn btn-lg btn-flat btn-block waves-effect" id="register-back-btn" onClick={() => this.updateActiveLoginSection('login')}>{translate('INDEX.BACK_TO_LOGIN')}</button>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>

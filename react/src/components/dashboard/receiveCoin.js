@@ -1,10 +1,14 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-import { checkAddressBasilisk, importAddressBasilisk } from '../../actions/actionCreators';
+import {
+  checkAddressBasilisk,
+  importAddressBasilisk,
+  validateAddressBasilisk,
+  copyCoinAddress
+} from '../../actions/actionCreators';
 import Store from '../../store';
 
 // TODO: implement sorting
-// TODO: add import address ui in basilisk
 // TODO: fallback to localstorage/stores data in case iguana is taking too long to respond
 
 class ReceiveCoin extends React.Component {
@@ -12,8 +16,16 @@ class ReceiveCoin extends React.Component {
     super(props);
   }
 
-  checkAddressBasilisk(address) {
+  _checkAddressBasilisk(address) {
     Store.dispatch(checkAddressBasilisk(this.props.coin, address));
+  }
+
+  _validateAddressBasilisk(address) {
+    Store.dispatch(validateAddressBasilisk(this.props.coin, address));
+  }
+
+  _copyCoinAddress(address) {
+    Store.dispatch(copyCoinAddress(address));
   }
 
   /*importAddressBasilisk(address) {
@@ -30,8 +42,12 @@ class ReceiveCoin extends React.Component {
           <span className="label label-default">
             <i className="icon fa-eye"></i> {translate('IAPI.PUBLIC_SM')}
           </span>
-          <span className="label label-default margin-left-10 action" title="Check" onClick={() => this.checkAddressBasilisk(address)}>
+          <button className="btn btn-default btn-xs clipboard-edexaddr margin-left-10" data-edexcoin="COIN" id="edexcoin_active_addr_clipboard" onClick={() => this._copyCoinAddress(address)}><i className="icon wb-copy" aria-hidden="true"></i> {translate('INDEX.COPY')}</button>
+          <span className="label label-default margin-left-10 action" title="Check" onClick={() => this._checkAddressBasilisk(address)}>
             <i className="icon fa-database"></i>
+          </span>
+          <span className="label label-default margin-left-10 action" title="Import" onClick={() => this._validateAddressBasilisk(address)}>
+            <i className="icon fa-info-circle"></i>
           </span>
         </td>
       );
@@ -41,6 +57,7 @@ class ReceiveCoin extends React.Component {
           <span className="label label-default">
             <i className="icon fa-eye"></i> {translate('IAPI.PUBLIC_SM')}
           </span>
+          <button className="btn btn-default btn-xs clipboard-edexaddr margin-left-10" data-edexcoin="COIN" id="edexcoin_active_addr_clipboard" onClick={() => this._copyCoinAddress(address)}><i className="icon wb-copy" aria-hidden="true"></i> {translate('INDEX.COPY')}</button>
         </td>
       );
     }

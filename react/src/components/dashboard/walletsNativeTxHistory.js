@@ -38,14 +38,14 @@ class WalletsNativeTxHistory extends React.Component {
   renderTxType(category) {
     if ( category === 'send' ) {
       return (
-        <span>
+        <span className="label label-danger">
           <i className="icon fa-arrow-circle-left"></i> <span>{translate('DASHBOARD.OUT')}</span>
         </span>
       );
     }
     if ( category === 'receive' ) {
       return (
-        <span>
+        <span className="label label-success">
           <i className="icon fa-arrow-circle-right"></i> <span>{translate('DASHBOARD.IN')}</span>
         </span>
       );

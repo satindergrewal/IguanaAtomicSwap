@@ -1,4 +1,5 @@
 import React from 'react';
+import Config from '../../config';
 import { translate } from '../../translate/translate';
 import { secondsToString } from '../../util/time';
 import {
@@ -7,9 +8,23 @@ import {
   getDexNotaries,
   toggleDashboardTxInfoModal,
   getBasiliskTransactionsList,
-  changeMainBasiliskAddress
+  changeMainBasiliskAddress,
+  displayNotariesModal,
+  deleteCacheFile,
+  connectNotaries,
+  toggleViewCacheModal
 } from '../../actions/actionCreators';
 import Store from '../../store';
+
+import WalletsBasiliskRefresh from './walletsBasiliskRefresh';
+import WalletsBasiliskConnection from './walletsBasiliskConnection';
+import WalletsNotariesList from './walletsNotariesList';
+import WalletsCacheData from './walletsCacheData';
+
+import { SocketProvider } from 'socket.io-react';
+import io from 'socket.io-client';
+
+const socket = io.connect('http://127.0.0.1:' + Config.agamaPort);
 
 class WalletsData extends React.Component {
   constructor(props) {
@@ -21,6 +36,8 @@ class WalletsData extends React.Component {
       itemsList: null,
       currentAddress: null,
       addressSelectorOpen: false,
+      currentStackLength: 0,
+      totalStackLength: 0,
     };
     this.updateInput = this.updateInput.bind(this);
     this.toggleBasiliskActionsMenu = this.toggleBasiliskActionsMenu.bind(this);
@@ -29,6 +46,42 @@ class WalletsData extends React.Component {
     this.getDexNotariesAction = this.getDexNotariesAction.bind(this);
     this.openDropMenu = this.openDropMenu.bind(this);
     this.refreshTxList = this.refreshTxList.bind(this);
+    this.removeAndFetchNewCache = this.removeAndFetchNewCache.bind(this);
+    this._toggleViewCacheModal = this._toggleViewCacheModal.bind(this);
+    socket.on('messages', msg => this.updateSocketsData(msg));
+  }
+
+  _toggleViewCacheModal() {
+    Store.dispatch(toggleViewCacheModal(!this.props.Dashboard.displayViewCacheModal));
+  }
+
+  updateSocketsData(data) {
+    if (data && data.message && data.message.shepherd.iguanaAPI &&
+        data.message.shepherd.iguanaAPI.totalStackLength) {
+      this.setState(Object.assign({}, this.state, {
+        totalStackLength: data.message.shepherd.iguanaAPI.totalStackLength,
+      }));
+    }
+    if (data && data.message && data.message.shepherd.iguanaAPI &&
+        data.message.shepherd.iguanaAPI.currentStackLength) {
+      this.setState(Object.assign({}, this.state, {
+        currentStackLength: data.message.shepherd.iguanaAPI.currentStackLength,
+      }));
+    }
+    if (data && data.message && data.message.shepherd.method &&
+        data.message.shepherd.method === 'cache-one' &&
+        data.message.shepherd.status === 'done') {
+      Store.dispatch(basiliskRefresh(false));
+    }
+  }
+
+  removeAndFetchNewCache() {
+    Store.dispatch(deleteCacheFile({
+      'pubkey': this.props.Dashboard.activeHandle.pubkey,
+      'allcoins': false,
+      'coin': this.props.ActiveCoin.coin,
+      'calls': 'listtransactions:getbalance',
+    }));
   }
 
   toggleBasiliskActionsMenu() {
@@ -46,11 +99,13 @@ class WalletsData extends React.Component {
   basiliskConnectionAction() {
     if (this.props.Dashboard) {
       Store.dispatch(basiliskConnection(!this.props.Dashboard.basiliskConnection));
+      Store.dispatch(connectNotaries());
     }
   }
 
   getDexNotariesAction() {
     Store.dispatch(getDexNotaries(this.props.ActiveCoin.coin));
+    Store.dispatch(displayNotariesModal(true));
   }
 
   updateInput(e) {
@@ -162,14 +217,14 @@ class WalletsData extends React.Component {
   renderTxType(category) {
     if ( category === 'send' || category === 'sent' ) {
       return (
-        <span>
+        <span className="label label-danger">
           <i className="icon fa-arrow-circle-left"></i> <span>{translate('DASHBOARD.OUT')}</span>
         </span>
       );
     }
     if ( category === 'receive' || category === 'received' ) {
       return (
-        <span>
+        <span className="label label-success">
           <i className="icon fa-arrow-circle-right"></i> <span>{translate('DASHBOARD.IN')}</span>
         </span>
       );
@@ -297,102 +352,118 @@ class WalletsData extends React.Component {
   render() {
     if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.coin && this.props.ActiveCoin.mode !== 'native' && !this.props.ActiveCoin.send && !this.props.ActiveCoin.receive) {
       return (
-        <div data-edexcoin="COIN" id="edexcoin_dashboardinfo">
-          <div className="col-xs-12 margin-top-20">
-            <div className="panel nav-tabs-horizontal">
-              <div data-edexcoin="COIN" id="edexcoin_dashoard_section">
-                <div className="col-xlg-12 col-lg-12 col-sm-12 col-xs-12 edexcoin_dashoard_section_main_div">
-                  <div id="edexcoin_txhistory" className="panel">
-                    <header className="panel-heading" style={{zIndex: '10'}}>
-                      <div className={this.props.ActiveCoin.mode === 'basilisk' ? 'panel-actions' : 'panel-actions hide'}>
-                        <a href="javascript:void(0)" className="dropdown-toggle white btn-xs btn-info btn_refresh_edexcoin_dashboard" data-edexcoin="COIN" aria-expanded="false" role="button" onClick={this.refreshTxList}>
-                          <i className="icon fa-refresh margin-right-10" aria-hidden="true"></i> {translate('INDEX.REFRESH')}
-                        </a>
-                        <div className={this.state.basiliskActionsMenu ? 'dropdown open' : 'dropdown'} onClick={this.toggleBasiliskActionsMenu}>
-                          <a className="dropdown-toggle btn-xs btn-default" data-edexcoin="COIN" id="btn_edexcoin_basilisk" data-toggle="dropdown" href="javascript:void(0)"
-                          aria-expanded="false" role="button">
-                            <i className="icon fa-magic margin-right-10" aria-hidden="true"></i> {translate('INDEX.BASILISK_ACTIONS')} <span className="caret"></span>
+        <span>
+          <WalletsBasiliskRefresh {...this.props} />
+          <WalletsBasiliskConnection {...this.props} />
+          <WalletsNotariesList {...this.props} />
+          <WalletsCacheData {...this.props} />
+          <div data-edexcoin="COIN" id="edexcoin_dashboardinfo">
+            <div className="col-xs-12 margin-top-20">
+              <div className="panel nav-tabs-horizontal">
+                <div data-edexcoin="COIN" id="edexcoin_dashoard_section">
+                  <div className="col-xlg-12 col-lg-12 col-sm-12 col-xs-12 edexcoin_dashoard_section_main_div">
+                    <div id="edexcoin_txhistory" className="panel">
+                      <header className="panel-heading" style={{zIndex: '10'}}>
+                        <div className={this.props.ActiveCoin.mode === 'basilisk' ? 'panel-actions' : 'panel-actions hide'}>
+                          <div className={this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : 'progress progress-sm'} style={{width: '100%', marginBottom: '3px'}}>
+                            <div className="progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success" style={{width: 100 - (this.state.currentStackLength * 100 / this.state.totalStackLength) + '%', fontSize: '80%'}} role="progressbar">
+                              Processing requests: {this.state.currentStackLength} / {this.state.totalStackLength}
+                            </div>
+                          </div>
+                          <a href="javascript:void(0)" className="dropdown-toggle white btn-xs btn-info btn_refresh_edexcoin_dashboard margin-right-10" data-edexcoin="COIN" aria-expanded="false" role="button" onClick={this.refreshTxList}>
+                            <i className="icon fa-refresh margin-right-10" aria-hidden="true"></i> {translate('INDEX.REFRESH')}
                           </a>
-                          <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="btn_edexcoin_basilisk"
-                          role="menu">
-                            <li role="presentation">
-                              <a className="btn_edexcoin_dashboard_getnotaries" data-edexcoin="COIN" id="btn_edexcoin_dashboard_getnotaries" role="menuitem" onClick={this.getDexNotariesAction}>
-                                <i className="icon fa-sitemap" aria-hidden="true"></i> {translate('INDEX.GET_NOTARY_NODES_LIST')}
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a className="btn_edexcoin_dashboard_refresh_basilisk_conn" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refresh_basilisk_conn" role="menuitem" onClick={this.basiliskConnectionAction}>
-                                <i className="icon wb-refresh" aria-hidden="true"></i> {translate('INDEX.REFRESH_BASILISK_CONNECTIONS')}
-                              </a>
-                            </li>
-                            <li data-edexcoin="COIN" role="presentation">
-                              <a className="btn_edexcoin_dashboard_fetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_fetchdata" role="menuitem" onClick={this.basiliskRefreshAction}>
-                                <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.FETCH_WALLET_DATA')}
-                              </a>
-                            </li>
-                            <li data-edexcoin="COIN" role="presentation">
-                              <a className="btn_edexcoin_dashboard_refetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refetchdata" role="menuitem">
-                                <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.REFETCH_WALLET_DATA')}
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <h4 className="panel-title">{translate('INDEX.TRANSACTION_HISTORY')}</h4>
-                    </header>
-                    <div className="panel-body">
-                      <div className="row">
-                        <div className="col-sm-6">
-                        {this.renderAddressList()}
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-sm-6">
-                          {this.renderPaginationItemsPerPageSelector()}
-                        </div>
-                        <div className="col-sm-6">
-                          <div id="kmd-tx-history-tbl_filter" className="dataTables_filter">
-                            <label>
-                              Search: <input type="search" className="form-control input-sm" placeholder="" aria-controls="kmd-tx-history-tbl" disabled="true" />
-                            </label>
+                          <div className={this.state.basiliskActionsMenu ? 'dropdown open' : 'dropdown'} onClick={this.toggleBasiliskActionsMenu}>
+                            <a className="dropdown-toggle btn-xs btn-default" data-edexcoin="COIN" id="btn_edexcoin_basilisk" data-toggle="dropdown" href="javascript:void(0)"
+                            aria-expanded="false" role="button">
+                              <i className="icon fa-magic margin-right-10" aria-hidden="true"></i> {translate('INDEX.BASILISK_ACTIONS')} <span className="caret"></span>
+                            </a>
+                            <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="btn_edexcoin_basilisk"
+                            role="menu">
+                              <li role="presentation">
+                                <a className="btn_edexcoin_dashboard_getnotaries" data-edexcoin="COIN" id="btn_edexcoin_dashboard_getnotaries" role="menuitem" onClick={this.getDexNotariesAction}>
+                                  <i className="icon fa-sitemap" aria-hidden="true"></i> {translate('INDEX.GET_NOTARY_NODES_LIST')}
+                                </a>
+                              </li>
+                              <li role="presentation">
+                                <a className="btn_edexcoin_dashboard_refresh_basilisk_conn" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refresh_basilisk_conn" role="menuitem" onClick={this.basiliskConnectionAction}>
+                                  <i className="icon wb-refresh" aria-hidden="true"></i> {translate('INDEX.REFRESH_BASILISK_CONNECTIONS')}
+                                </a>
+                              </li>
+                              <li data-edexcoin="COIN" role="presentation">
+                                <a className="btn_edexcoin_dashboard_fetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_fetchdata" role="menuitem" onClick={this.basiliskRefreshAction}>
+                                  <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.FETCH_WALLET_DATA')}
+                                </a>
+                              </li>
+                              <li data-edexcoin="COIN" role="presentation">
+                                <a className="btn_edexcoin_dashboard_refetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refetchdata" role="menuitem" onClick={this.removeAndFetchNewCache}>
+                                  <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.REFETCH_WALLET_DATA')}
+                                </a>
+                              </li>
+                              <li data-edexcoin="COIN" role="presentation">
+                                <a className="btn_edexcoin_dashboard_fetchdata" role="menuitem" onClick={this._toggleViewCacheModal}>
+                                  <i className="icon fa-list-alt" aria-hidden="true"></i> {translate('INDEX.VIEW_CACHE_DATA')}
+                                </a>
+                              </li>
+                            </ul>
                           </div>
                         </div>
+                        <h4 className="panel-title">{translate('INDEX.TRANSACTION_HISTORY')}</h4>
+                      </header>
+                      <div className="panel-body">
+                        <div className="row">
+                          <div className="col-sm-6">
+                          {this.renderAddressList()}
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-sm-6">
+                            {this.renderPaginationItemsPerPageSelector()}
+                          </div>
+                          <div className="col-sm-6">
+                            <div id="kmd-tx-history-tbl_filter" className="dataTables_filter">
+                              <label>
+                                Search: <input type="search" className="form-control input-sm" aria-controls="kmd-tx-history-tbl" disabled="true" />
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <table className="table table-hover dataTable table-striped" data-edexcoin="COIN" id="edex-tx-history-tbl" width="100%">
+                            <thead>
+                              <tr>
+                                <th>{translate('INDEX.DIRECTION')}</th>
+                                <th className="hidden-xs hidden-sm">{translate('INDEX.CONFIRMATIONS')}</th>
+                                <th>{translate('INDEX.AMOUNT')}</th>
+                                <th>{translate('INDEX.TIME')}</th>
+                                <th>{translate('INDEX.DEST_ADDRESS')}</th>
+                                <th className="hidden-xs hidden-sm">{translate('INDEX.TX_DETAIL')}</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {this.renderTxHistoryList()}
+                            </tbody>
+                            <tfoot>
+                              <tr>
+                                <th>{translate('INDEX.DIRECTION')}</th>
+                                <th>{translate('INDEX.CONFIRMATIONS')}</th>
+                                <th>{translate('INDEX.AMOUNT')}</th>
+                                <th>{translate('INDEX.TIME')}</th>
+                                <th>{translate('INDEX.DEST_ADDRESS')}</th>
+                                <th className="hidden-xs hidden-sm">{translate('INDEX.TX_DETAIL')}</th>
+                              </tr>
+                            </tfoot>
+                          </table>
+                        </div>
+                        {this.renderPagination()}
                       </div>
-                      <div className="row">
-                        <table className="table table-hover dataTable table-striped" data-edexcoin="COIN" id="edex-tx-history-tbl" width="100%">
-                          <thead>
-                            <tr>
-                              <th>{translate('INDEX.DIRECTION')}</th>
-                              <th className="hidden-xs hidden-sm">{translate('INDEX.CONFIRMATIONS')}</th>
-                              <th>{translate('INDEX.AMOUNT')}</th>
-                              <th>{translate('INDEX.TIME')}</th>
-                              <th>{translate('INDEX.DEST_ADDRESS')}</th>
-                              <th className="hidden-xs hidden-sm">{translate('INDEX.TX_DETAIL')}</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          {this.renderTxHistoryList()}
-                          </tbody>
-                          <tfoot>
-                            <tr>
-                              <th>{translate('INDEX.DIRECTION')}</th>
-                              <th>{translate('INDEX.CONFIRMATIONS')}</th>
-                              <th>{translate('INDEX.AMOUNT')}</th>
-                              <th>{translate('INDEX.TIME')}</th>
-                              <th>{translate('INDEX.DEST_ADDRESS')}</th>
-                              <th className="hidden-xs hidden-sm">{translate('INDEX.TX_DETAIL')}</th>
-                            </tr>
-                          </tfoot>
-                        </table>
-                      </div>
-                      {this.renderPagination()}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </span>
       );
     } else {
       return null;

@@ -4,7 +4,9 @@ import {
   BASILISK_REFRESH,
   SYNCING_FULL_MODE,
   SYNCING_NATIVE_MODE,
-  BASILISK_CONNECTION
+  BASILISK_CONNECTION,
+  DASHBOARD_CONNECT_NOTARIES,
+  VIEW_CACHE_DATA
 } from '../actions/actionCreators';
 
 export function Dashboard(state = {
@@ -12,6 +14,13 @@ export function Dashboard(state = {
   activeHandle: null,
   basiliskRefresh: false,
   basiliskConnection: false,
+  displayViewCacheModal: false,
+  connectedNotaries: {
+    total: 0,
+    current: 0,
+    currentNodeName: null,
+    failedToConnectNodes: null,
+  }
 }, action) {
   switch (action.type) {
     case DASHBOARD_SECTION_CHANGE:
@@ -41,6 +50,19 @@ export function Dashboard(state = {
       return Object.assign({}, state, {
         syncingNativeMode: action.syncingNativeMode,
         progress: action.progress,
+      });
+    case DASHBOARD_CONNECT_NOTARIES:
+      return Object.assign({}, state, {
+        connectedNotaries: {
+          total: action.total,
+          current: action.current,
+          currentNodeName: action.name,
+          failedToConnectNodes: action.failedNode,
+        }
+      });
+    case VIEW_CACHE_DATA:
+      return Object.assign({}, state, {
+        displayViewCacheModal: action.display,
       });
     default:
       return state;
