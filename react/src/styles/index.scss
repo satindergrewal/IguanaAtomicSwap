@@ -132,7 +132,7 @@ body {
 }
 
 .rc-tree-node-content-wrapper-close + ul {
-  display: none;
+  height: 0;
 }
 .rc-tree-node-content-wrapper {
   user-select: none;

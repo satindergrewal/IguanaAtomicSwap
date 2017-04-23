@@ -4,41 +4,7 @@ import { secondsToString } from '../../util/time';
 import { toggleDashboardTxInfoModal, displayNotariesModal } from '../../actions/actionCreators';
 import Store from '../../store';
 import Tree, { TreeNode } from 'rc-tree';
-import cssAnimation from 'css-animation';
-
-function animate(node, show, done) {
-  let height = node.offsetHeight;
-
-  return cssAnimation(node, 'collapse', {
-    start() {
-      if (!show) {
-        node.style.height = `${node.offsetHeight}px`;
-      } else {
-        height = node.offsetHeight;
-        node.style.height = 0;
-      }
-    },
-    active() {
-      node.style.height = `${show ? height : 0}px`;
-    },
-    end() {
-      node.style.height = '';
-      done();
-    },
-  });
-}
-
-const animation = {
-  enter(node, done) {
-    return animate(node, true, done);
-  },
-  leave(node, done) {
-    return animate(node, false, done);
-  },
-  appear(node, done) {
-    return animate(node, true, done);
-  },
-};
+import { animation } from '../../util/rc-tree-animate';
 
 class WalletsNotariesList extends React.Component {
   constructor(props) {
@@ -94,7 +60,6 @@ class WalletsNotariesList extends React.Component {
                       <div className="tab-content">
                         <div className="tab-pane active" role="tabpanel">
                           {this.renderNotariesFetching()}
-
                           <Tree defaultExpandAll={false} openAnimation={animation}>
                           {this.renderNotariesList()}
                           </Tree>
