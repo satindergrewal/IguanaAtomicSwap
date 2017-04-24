@@ -12,7 +12,8 @@ import {
   displayNotariesModal,
   deleteCacheFile,
   connectNotaries,
-  toggleViewCacheModal
+  toggleViewCacheModal,
+  fetchNewCacheData
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -91,9 +92,15 @@ class WalletsData extends React.Component {
   }
 
   basiliskRefreshAction() {
-    if (this.props.Dashboard) {
+    /*if (this.props.Dashboard) {
       Store.dispatch(basiliskRefresh(!this.props.Dashboard.basiliskRefresh));
-    }
+    }*/
+    Store.dispatch(fetchNewCacheData({
+      'pubkey': this.props.Dashboard.activeHandle.pubkey,
+      'allcoins': false,
+      'coin': this.props.ActiveCoin.coin,
+      'calls': 'listtransactions:getbalance',
+    }));
   }
 
   basiliskConnectionAction() {
@@ -392,12 +399,12 @@ class WalletsData extends React.Component {
                               </li>
                               <li data-edexcoin="COIN" role="presentation">
                                 <a className="btn_edexcoin_dashboard_fetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_fetchdata" role="menuitem" onClick={this.basiliskRefreshAction}>
-                                  <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.FETCH_WALLET_DATA')}
+                                  <i className="icon  fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.FETCH_WALLET_DATA')}
                                 </a>
                               </li>
                               <li data-edexcoin="COIN" role="presentation">
                                 <a className="btn_edexcoin_dashboard_refetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refetchdata" role="menuitem" onClick={this.removeAndFetchNewCache}>
-                                  <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.REFETCH_WALLET_DATA')}
+                                  <i className="icon fa-history" aria-hidden="true"></i> {translate('INDEX.REFETCH_WALLET_DATA')}
                                 </a>
                               </li>
                               <li data-edexcoin="COIN" role="presentation">

@@ -701,7 +701,7 @@ export function getBasiliskTransactionsList(coin, address) {
   };
 
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -1002,7 +1002,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
         };
       }
 
-      fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      fetch('http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.basiliskPort : Config.iguanaCorePort), {
         method: 'POST',
         body: JSON.stringify(payload),
       })
@@ -1272,7 +1272,7 @@ export function getDexBalance(coin, addr) {
     };
     console.log('addr', _addr);
     return new Promise((resolve, reject) => {
-      fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
         method: 'POST',
         body: JSON.stringify(payload),
       })
@@ -1640,7 +1640,7 @@ export function checkAddressBasilisk(coin, address) {
   };
 
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -1680,7 +1680,7 @@ export function validateAddressBasilisk(coin, address) {
   };
 
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -1715,7 +1715,7 @@ export function getDexNotaries(coin) {
   };
 
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -1785,10 +1785,12 @@ export function fetchNewCacheData(_payload) {
         _pubkey = '&pubkey=' + _payload.pubkey,
         _route = _payload.allcoins ? 'cache-all' : 'cache-one',
         _coin = '&coin=' + _payload.coin,
-        _calls = '&calls=' + _payload.calls;
+        _calls = '&calls=' + _payload.calls,
+        _iguanaInstancePort = Config.useBasiliskInstance ? '&port=' + Config.basiliskPort : '';
 
+  console.log('fetchNewCacheData', 'http://127.0.0.1:' + Config.agamaPort + '/shepherd/' + _route + _userpass + _pubkey + _coin + _calls + _iguanaInstancePort);
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/' + _route + _userpass + _pubkey + _coin + _calls, {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/' + _route + _userpass + _pubkey + _coin + _calls + _iguanaInstancePort, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -1814,7 +1816,7 @@ function initNotaryNodesConSequence(nodes) {
       };
 
       return new Promise((resolve, reject) => {
-        fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+        fetch('http://127.0.0.1:' + Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort, {
           method: 'POST',
           body: JSON.stringify(payload),
         })
