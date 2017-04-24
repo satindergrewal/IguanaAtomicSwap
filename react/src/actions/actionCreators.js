@@ -700,17 +700,41 @@ export function getBasiliskTransactionsList(coin, address) {
     'symbol': coin
   };
 
-  return dispatch => {
-    return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    })
-    .catch(function(error) {
-      console.log(error);
-      dispatch(triggerToaster(true, 'getBasiliskTransactionsList', 'Error', 'error'));
-    })
-    .then(response => response.json())
-    .then(json => dispatch(getNativeTxHistoryState(json)))
+  if (sessionStorage.getItem('useCache')) {
+    const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
+
+    return dispatch => {
+      return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .catch(function(error) {
+        console.log(error);
+        dispatch(triggerToaster(true, 'getBasiliskTransactionsList+cache', 'Error', 'error'));
+      })
+      .then(response => response.json())
+      .then(function(json) {
+        json = json.result.basilisk;
+        if (json[coin][address].listtransactions) {
+          dispatch(getNativeTxHistoryState({ 'result': json[coin][address].listtransactions.data }));
+        }
+      })
+    }
+  } else {
+    return dispatch => {
+      return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      })
+      .catch(function(error) {
+        console.log(error);
+        dispatch(triggerToaster(true, 'getBasiliskTransactionsList', 'Error', 'error'));
+      })
+      .then(response => response.json())
+      .then(json => dispatch(getNativeTxHistoryState(json)))
+    }
   }
 }
 
@@ -942,16 +966,38 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           };
         }
 
-        fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
-          method: 'POST',
-          body: JSON.stringify(payload),
-        })
-        .catch(function(error) {
-          console.log(error);
-          dispatch(triggerToaster(true, 'getKMDAddressesNative', 'Error', 'error'));
-        })
-        .then(response => response.json())
-        .then(json => resolve(json))
+        if (sessionStorage.getItem('useCache') && mode === 'basilisk') {
+          const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
+
+          fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+          .catch(function(error) {
+            console.log(error);
+            dispatch(triggerToaster(true, 'getKMDAddressesNative+addresslist+cache', 'Error', 'error'));
+          })
+          .then(response => response.json())
+          .then(function(json) {
+            json = json.result.basilisk;
+            if (json[coin].addresses) {
+              resolve({ 'result': json[coin].addresses });
+            }
+          })
+        } else {
+          fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+            method: 'POST',
+            body: JSON.stringify(payload),
+          })
+          .catch(function(error) {
+            console.log(error);
+            dispatch(triggerToaster(true, 'getKMDAddressesNative', 'Error', 'error'));
+          })
+          .then(response => response.json())
+          .then(json => resolve(json))
+        }
       });
     }))
     .then(result => {
@@ -1002,16 +1048,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
         };
       }
 
-      fetch('http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.basiliskPort : Config.iguanaCorePort), {
-        method: 'POST',
-        body: JSON.stringify(payload),
-      })
-      .catch(function(error) {
-        console.log(error);
-        dispatch(triggerToaster(true, 'getKMDAddressesNative+Balance', 'Error', 'error'));
-      })
-      .then(response => response.json())
-      .then(function(json) {
+      function calcBalance(result, json, dispatch, mode) {
         if (mode === 'full' || mode === 'basilisk') {
           result[0] = result[0].result;
         }
@@ -1072,7 +1109,58 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           'public': newAddressArray[0],
           'private': newAddressArray[1]
         }));
-      })
+      }
+
+      if (sessionStorage.getItem('useCache') && mode === 'basilisk') {
+        const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
+
+        fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .catch(function(error) {
+          console.log(error);
+          dispatch(triggerToaster(true, 'getKMDAddressesNative+addresslist+cache', 'Error', 'error'));
+        })
+        .then(response => response.json())
+        .then(function(json) {
+          json = json.result.basilisk;
+          // if listunspent is not in cache file retrieve new copy
+          // otherwise read from cache data
+          // TODO: save listunspent to cache file(?)
+          if (json[coin][currentAddress].listunspent) {
+            calcBalance(result, json[coin][currentAddress].listunspent, dispatch, mode);
+          } else {
+            fetch('http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.basiliskPort : Config.iguanaCorePort), {
+              method: 'POST',
+              body: JSON.stringify(payload),
+            })
+            .catch(function(error) {
+              console.log(error);
+              dispatch(triggerToaster(true, 'getKMDAddressesNative+Balance', 'Error', 'error'));
+            })
+            .then(response => response.json())
+            .then(function(json) {
+              calcBalance(result, json, dispatch, mode);
+            })
+          }
+        })
+      } else {
+        fetch('http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.basiliskPort : Config.iguanaCorePort), {
+          method: 'POST',
+          body: JSON.stringify(payload),
+        })
+        .catch(function(error) {
+          console.log(error);
+          dispatch(triggerToaster(true, 'getKMDAddressesNative+Balance', 'Error', 'error'));
+        })
+        .then(response => response.json())
+        .then(function(json) {
+          calcBalance(result, json, dispatch, mode);
+        })
+      }
     })
   }
 }
@@ -1788,7 +1876,6 @@ export function fetchNewCacheData(_payload) {
         _calls = '&calls=' + _payload.calls,
         _iguanaInstancePort = Config.useBasiliskInstance ? '&port=' + Config.basiliskPort : '';
 
-  console.log('fetchNewCacheData', 'http://127.0.0.1:' + Config.agamaPort + '/shepherd/' + _route + _userpass + _pubkey + _coin + _calls + _iguanaInstancePort);
   return dispatch => {
     return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/' + _route + _userpass + _pubkey + _coin + _calls + _iguanaInstancePort, {
       method: 'GET',

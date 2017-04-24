@@ -15,7 +15,8 @@ import {
   getKMDOPID,
   getFullTransactionsList,
   getBasiliskTransactionsList,
-  getShepherdCache
+  getShepherdCache,
+  fetchNewCacheData
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -34,6 +35,7 @@ class CoinTileItem extends React.Component {
   dashboardChangeActiveCoin(coin, mode) {
     if (coin !== this.props.ActiveCoin.coin) {
       Store.dispatch(stopInterval('sync', this.props.Interval.interval));
+      Store.dispatch(stopInterval('basilisk', this.props.Interval.interval));
       Store.dispatch(dashboardChangeActiveCoin(coin, mode));
 
       if (mode === 'full') {
@@ -67,7 +69,19 @@ class CoinTileItem extends React.Component {
             Store.dispatch(iguanaEdexBalance(coin, mode));
           }
         }.bind(this), 3000);
+
+        var _basiliskCache = setInterval(function() {
+          if (sessionStorage.getItem('useCache')) {
+            Store.dispatch(fetchNewCacheData({
+              'pubkey': this.props.Dashboard.activeHandle.pubkey,
+              'allcoins': false,
+              'coin': this.props.ActiveCoin.coin,
+              'calls': 'listtransactions:getbalance',
+            }));
+          }
+        }.bind(this), 60000);
         Store.dispatch(startInterval('sync', _iguanaActiveHandle));
+        Store.dispatch(startInterval('basilisk', _basiliskCache));
         // basilisk
       }
     }
