@@ -37,7 +37,7 @@ class CoinTileItem extends React.Component {
       Store.dispatch(getSyncInfoNative(coin));
       Store.dispatch(getKMDBalanceTotal(coin));
       Store.dispatch(getNativeTxHistory(coin));
-      Store.dispatch(getKMDAddressesNative(coin));
+      Store.dispatch(getKMDAddressesNative(coin, mode));
       Store.dispatch(getKMDOPID(null, coin));
     }
     if (mode === 'full') {
