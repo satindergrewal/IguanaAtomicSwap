@@ -956,7 +956,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           };
         }
 
-        if (mode !== 'native' && mode !== 'basilisk') {
+        if (mode === 'native' || mode === 'basilisk') {
           payload = {
             'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
             'coin': coin,
@@ -1054,7 +1054,8 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           result[0] = result[0].result;
         }
 
-        console.log('calcBalance', result);
+        console.log('calc result', result);
+        console.log('calc json', json);
 
         if (mode !== 'basilisk') {
           const allAddrArray = json.map(res => res.address).filter((x, i, a) => a.indexOf(x) == i);
