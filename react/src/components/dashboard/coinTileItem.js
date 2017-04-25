@@ -98,8 +98,6 @@ class CoinTileItem extends React.Component {
         // basilisk
       }
     }
-
-    Store.dispatch(iguanaActiveHandle(true));
   }
 
   render() {
