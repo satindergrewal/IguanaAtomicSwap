@@ -39,7 +39,7 @@ class WalletsData extends React.Component {
       addressSelectorOpen: false,
       currentStackLength: 0,
       totalStackLength: 0,
-      useCache: sessionStorage.getItem('useCache'),
+      useCache: sessionStorage.getItem('useCache') ? true : false,
     };
     this.updateInput = this.updateInput.bind(this);
     this.toggleBasiliskActionsMenu = this.toggleBasiliskActionsMenu.bind(this);
@@ -54,11 +54,16 @@ class WalletsData extends React.Component {
     socket.on('messages', msg => this.updateSocketsData(msg));
   }
 
+  componentDidMount() {
+    console.log('use cache = ', this.state.useCache);    
+  }
+
   toggleCacheApi() {
-    console.log('useCache is set to', !this.state.useCache);
-    sessionStorage.setItem('useCache', !this.state.useCache);
+    const _useCache = !this.state.useCache;
+    console.log('useCache is set to', _useCache);
+    sessionStorage.setItem('useCache', _useCache);
     this.setState(Object.assign({}, this.state, {
-      useCache: !this.state.useCache,
+      useCache: _useCache,
     }));
   }
 
