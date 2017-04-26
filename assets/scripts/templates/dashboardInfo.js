@@ -41,6 +41,11 @@ templates.dashboardInfo =
                         <i class="icon fa-cloud-download" aria-hidden="true"></i> <span data-lang="INDEX.REFETCH_WALLET_DATA"></span>
                       </a>
                     </li>
+                    <li data-edexcoin="COIN" role="presentation">
+                      <a href="javascript:void(0)" class="btn_edexcoin_dashboard_update_utxo" data-edexcoin="COIN" id="btn_edexcoin_dashboard_update_utxo" role="menuitem">
+                        <i class="icon fa-cloud-download" aria-hidden="true"></i> Refresh UTXO
+                      </a>
+                    </li>
                     <!--<li data-edexcoin="COIN" role="presentation"><a href="javascript:void(0)" class="btn_edexcoin_dashboard_register" data-edexcoin="COIN" id="btn_edexcoin_dashboard_register" role="menuitem"><i class="icon fa-sign-in" aria-hidden="true"></i> Register All Wallet Address</a></li>-->
                     <!--<li data-edexcoin="COIN" role="presentation"><a href="javascript:void(0)" class="btn_edexcoin_dashboard_validate" data-edexcoin="COIN" id="btn_edexcoin_dashboard_validate" role="menuitem"><i class="icon fa-check" aria-hidden="true"></i> Validate Address on Network</a></li>-->
                   </ul>
