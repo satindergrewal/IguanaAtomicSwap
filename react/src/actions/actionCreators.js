@@ -1175,6 +1175,31 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
   }
 }
 
+export function fetchUtxoCache(_payload) {
+  const _userpass = '?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+        _pubkey = '&pubkey=' + _payload.pubkey,
+        _route = _payload.allcoins ? 'cache-all' : 'cache-one',
+        _coin = '&coin=' + _payload.coin,
+        _calls = '&calls=' + _payload.calls,
+        _address = '&address' + _payload.address,
+        _iguanaInstancePort = Config.useBasiliskInstance ? '&port=' + Config.basiliskPort : '';
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/' + _route + _userpass + _pubkey + _coin + _calls + _address + _iguanaInstancePort, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'fetchNewCacheData', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getShepherdCache(_pubkey)))
+  }
+}
+
 function getShepherdCacheState(json) {
   return {
     type: DASHBOARD_ACTIVE_COIN_GET_CACHE,

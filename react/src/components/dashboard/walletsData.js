@@ -13,7 +13,8 @@ import {
   deleteCacheFile,
   connectNotaries,
   toggleViewCacheModal,
-  fetchNewCacheData
+  fetchNewCacheData,
+  fetchUtxoCache
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -51,6 +52,7 @@ class WalletsData extends React.Component {
     this.removeAndFetchNewCache = this.removeAndFetchNewCache.bind(this);
     this._toggleViewCacheModal = this._toggleViewCacheModal.bind(this);
     this.toggleCacheApi = this.toggleCacheApi.bind(this);
+    this._fetchUtxoCache = this._fetchUtxoCache.bind(this);
     socket.on('messages', msg => this.updateSocketsData(msg));
   }
 
@@ -98,6 +100,16 @@ class WalletsData extends React.Component {
       'coin': this.props.ActiveCoin.coin,
       'calls': 'listtransactions:getbalance',
     }));
+  }
+
+  _fetchUtxoCache() {
+    Store.dispatch(fetchUtxoCache({
+      'pubkey': this.props.Dashboard.activeHandle.pubkey,
+      'allcoins': false,
+      'coin': this.props.ActiveCoin.coin,
+      'calls': 'refresh',
+      'address': this.state.currentAddress,
+    }));    
   }
 
   toggleBasiliskActionsMenu() {
@@ -420,6 +432,11 @@ class WalletsData extends React.Component {
                               <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
                                 <a className="btn_edexcoin_dashboard_refetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refetchdata" role="menuitem" onClick={this.removeAndFetchNewCache}>
                                   <i className="icon fa-history" aria-hidden="true"></i> {translate('INDEX.REFETCH_WALLET_DATA')}
+                                </a>
+                              </li>
+                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
+                                <a className="btn_edexcoin_dashboard_refetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refetchdata" role="menuitem" onClick={this._fetchUtxoCache}>
+                                  <i className="icon fa-history" aria-hidden="true"></i> Update UTXO
                                 </a>
                               </li>
                               <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
