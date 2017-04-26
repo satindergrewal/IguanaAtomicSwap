@@ -1050,8 +1050,12 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
       }
 
       function calcBalance(result, json, dispatch, mode) {
+        console.log('result', result);
         if (mode === 'full' || mode === 'basilisk') {
           result[0] = result[0].result;
+        } else {
+          result[0] = result[0].result;
+          result[1] = result[1].result;
         }
 
         console.log('calc result', result);
@@ -1095,6 +1099,8 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             } else {
               filteredArray = json.filter(res => res.address === result[a][b]).map(res => res.amount);
             }
+            console.log('filteredArray', filteredArray);
+            console.log('addr', result[a][b]);
 
             let sum = 0;
 
