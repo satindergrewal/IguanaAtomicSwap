@@ -34,6 +34,7 @@ class CoinTileItem extends React.Component {
 
   dispatchCoinActions(coin, mode) {
     if (mode === 'native') {
+      Store.dispatch(iguanaActiveHandle(true));
       Store.dispatch(getSyncInfoNative(coin));
       Store.dispatch(getKMDBalanceTotal(coin));
       Store.dispatch(getNativeTxHistory(coin));
@@ -41,18 +42,21 @@ class CoinTileItem extends React.Component {
       Store.dispatch(getKMDOPID(null, coin));
     }
     if (mode === 'full') {
+      Store.dispatch(iguanaActiveHandle(true));
       Store.dispatch(getSyncInfo(coin));
       Store.dispatch(iguanaEdexBalance(coin, mode));
       Store.dispatch(getKMDAddressesNative(coin, mode)); //getAddressesByAccount(coin));
       Store.dispatch(getFullTransactionsList(coin));
     }
     if (mode === 'basilisk') {
+      console.log('dispatchCoinActions', mode);
       const useAddress = this.props.ActiveCoin.mainBasiliskAddress ? this.props.ActiveCoin.mainBasiliskAddress : this.props.Dashboard.activeHandle[coin];
+      Store.dispatch(iguanaActiveHandle(true));
 
       if (this.props && this.props.Dashboard && this.props.Dashboard.activeHandle && this.props.Dashboard.activeHandle[coin]) {
+        Store.dispatch(getShepherdCache(this.props.Dashboard.activeHandle.pubkey));
         Store.dispatch(getBasiliskTransactionsList(coin, useAddress));
         Store.dispatch(getKMDAddressesNative(coin, mode, useAddress));
-        Store.dispatch(getShepherdCache(this.props.Dashboard.activeHandle.pubkey));
         Store.dispatch(iguanaEdexBalance(coin, mode));
       }
     }

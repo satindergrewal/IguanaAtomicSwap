@@ -14,7 +14,9 @@ import {
   connectNotaries,
   toggleViewCacheModal,
   fetchNewCacheData,
-  fetchUtxoCache
+  fetchUtxoCache,
+  getIguanaInstancesList,
+  restartIguanaInstance
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -53,6 +55,7 @@ class WalletsData extends React.Component {
     this._toggleViewCacheModal = this._toggleViewCacheModal.bind(this);
     this.toggleCacheApi = this.toggleCacheApi.bind(this);
     this._fetchUtxoCache = this._fetchUtxoCache.bind(this);
+    this.restartBasiliskInstance = this.restartBasiliskInstance.bind(this);
     socket.on('messages', msg => this.updateSocketsData(msg));
   }
 
@@ -91,6 +94,18 @@ class WalletsData extends React.Component {
         data.message.shepherd.status === 'done') {
       Store.dispatch(basiliskRefresh(false));
     }
+  }
+
+  restartBasiliskInstance() {
+    getIguanaInstancesList().then(function(json) {
+      for (let port in json.result) {
+        if (json.result[port].mode === 'basilisk') {
+          restartIguanaInstance(json.result[port].pmid).then(function(json) {
+            console.log('restartBasiliskInstance', json);
+          });
+        }
+      }
+    });
   }
 
   removeAndFetchNewCache() {
@@ -426,7 +441,7 @@ class WalletsData extends React.Component {
                               </li>
                               <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
                                 <a className="btn_edexcoin_dashboard_fetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_fetchdata" role="menuitem" onClick={this.basiliskRefreshAction}>
-                                  <i className="icon  fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.FETCH_WALLET_DATA')}
+                                  <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.FETCH_WALLET_DATA')}
                                 </a>
                               </li>
                               <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
@@ -435,8 +450,13 @@ class WalletsData extends React.Component {
                                 </a>
                               </li>
                               <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
-                                <a className="btn_edexcoin_dashboard_refetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refetchdata" role="menuitem" onClick={this._fetchUtxoCache}>
+                                <a role="menuitem" onClick={this._fetchUtxoCache}>
                                   <i className="icon fa-history" aria-hidden="true"></i> Update UTXO
+                                </a>
+                              </li>
+                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
+                                <a role="menuitem" onClick={this.restartBasiliskInstance}>
+                                  <i className="icon fa-refresh" aria-hidden="true"></i> Restart Basilisk Instance
                                 </a>
                               </li>
                               <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
