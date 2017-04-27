@@ -332,7 +332,7 @@ export function addCoin(coin, mode) {
 }
 
 export function iguanaAddCoin(coin, mode, acData) {
-  return dispatch => {
+  function _iguanaAddCoin(dispatch) {
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(acData),
@@ -343,6 +343,19 @@ export function iguanaAddCoin(coin, mode, acData) {
     })
     .then(response => response.json())
     .then(json => dispatch(addCoinResult(coin, mode, acData)));
+  }
+
+  if (mode === 0) {
+    return dispatch => {
+      startIguanaInstance('basilisk', 'basilisk')
+      .then(function(json) {
+        _iguanaAddCoin(dispatch);
+      });
+    }
+  } else {
+    return dispatch => {
+      return _iguanaAddCoin(dispatch);
+    }
   }
 }
 
@@ -653,6 +666,7 @@ export function getPeersListState(json) {
   }
 }
 
+export function getFullTransactionsList(coin) {
 /*params = {
   'userpass': tmpIguanaRPCAuth,
   'agent': 'dex',
@@ -662,8 +676,6 @@ export function getPeersListState(json) {
   'skip': 0,
   'symbol': coin
 };*/
-
-export function getFullTransactionsList(coin) {
   const payload = {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
     'coin': coin,
@@ -1989,6 +2001,28 @@ function connectAllNotaryNodes(json, dispatch) {
       name: json[0],
     }
   }
+}
+
+export function startIguanaInstance(mode, coin) {
+  console.log('startIguanaInstance', mode + ' ' + coin);
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/forks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        mode,
+        coin
+      }),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'startIguanaInstance', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => resolve(json))
+  });
 }
 
 export function connectNotaries() {

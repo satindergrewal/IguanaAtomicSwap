@@ -57,7 +57,7 @@ class WalletsData extends React.Component {
   }
 
   componentDidMount() {
-    console.log('use cache = ', this.state.useCache);    
+    console.log('use cache = ', this.state.useCache);
   }
 
   toggleCacheApi() {
@@ -109,7 +109,7 @@ class WalletsData extends React.Component {
       'coin': this.props.ActiveCoin.coin,
       'calls': 'refresh',
       'address': this.state.currentAddress,
-    }));    
+    }));
   }
 
   toggleBasiliskActionsMenu() {
@@ -461,7 +461,7 @@ class WalletsData extends React.Component {
                             <label className="padding-top-3" htmlFor="edexcoin_cache_api" onClick={this.toggleCacheApi}>Use cache</label>
                           </div>
                         </div>
-                        <div className="row">
+                        <div className="row" style={{padding: '20px 0 10px 0'}}>
                           <div className="col-sm-6">
                             {this.renderPaginationItemsPerPageSelector()}
                           </div>
