@@ -12,7 +12,11 @@ import {
   displayNotariesModal,
   deleteCacheFile,
   connectNotaries,
-  toggleViewCacheModal
+  toggleViewCacheModal,
+  fetchNewCacheData,
+  fetchUtxoCache,
+  getIguanaInstancesList,
+  restartIguanaInstance
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -38,6 +42,7 @@ class WalletsData extends React.Component {
       addressSelectorOpen: false,
       currentStackLength: 0,
       totalStackLength: 0,
+      useCache: sessionStorage.getItem('useCache') ? true : false,
     };
     this.updateInput = this.updateInput.bind(this);
     this.toggleBasiliskActionsMenu = this.toggleBasiliskActionsMenu.bind(this);
@@ -48,7 +53,23 @@ class WalletsData extends React.Component {
     this.refreshTxList = this.refreshTxList.bind(this);
     this.removeAndFetchNewCache = this.removeAndFetchNewCache.bind(this);
     this._toggleViewCacheModal = this._toggleViewCacheModal.bind(this);
+    this.toggleCacheApi = this.toggleCacheApi.bind(this);
+    this._fetchUtxoCache = this._fetchUtxoCache.bind(this);
+    this.restartBasiliskInstance = this.restartBasiliskInstance.bind(this);
     socket.on('messages', msg => this.updateSocketsData(msg));
+  }
+
+  componentDidMount() {
+    console.log('use cache = ', this.state.useCache);
+  }
+
+  toggleCacheApi() {
+    const _useCache = !this.state.useCache;
+    console.log('useCache is set to', _useCache);
+    sessionStorage.setItem('useCache', _useCache);
+    this.setState(Object.assign({}, this.state, {
+      useCache: _useCache,
+    }));
   }
 
   _toggleViewCacheModal() {
@@ -75,12 +96,34 @@ class WalletsData extends React.Component {
     }
   }
 
+  restartBasiliskInstance() {
+    getIguanaInstancesList().then(function(json) {
+      for (let port in json.result) {
+        if (json.result[port].mode === 'basilisk') {
+          restartIguanaInstance(json.result[port].pmid).then(function(json) {
+            console.log('restartBasiliskInstance', json);
+          });
+        }
+      }
+    });
+  }
+
   removeAndFetchNewCache() {
     Store.dispatch(deleteCacheFile({
       'pubkey': this.props.Dashboard.activeHandle.pubkey,
       'allcoins': false,
       'coin': this.props.ActiveCoin.coin,
       'calls': 'listtransactions:getbalance',
+    }));
+  }
+
+  _fetchUtxoCache() {
+    Store.dispatch(fetchUtxoCache({
+      'pubkey': this.props.Dashboard.activeHandle.pubkey,
+      'allcoins': false,
+      'coin': this.props.ActiveCoin.coin,
+      'calls': 'refresh',
+      'address': this.state.currentAddress,
     }));
   }
 
@@ -91,9 +134,15 @@ class WalletsData extends React.Component {
   }
 
   basiliskRefreshAction() {
-    if (this.props.Dashboard) {
+    /*if (this.props.Dashboard) {
       Store.dispatch(basiliskRefresh(!this.props.Dashboard.basiliskRefresh));
-    }
+    }*/
+    Store.dispatch(fetchNewCacheData({
+      'pubkey': this.props.Dashboard.activeHandle.pubkey,
+      'allcoins': false,
+      'coin': this.props.ActiveCoin.coin,
+      'calls': 'listtransactions:getbalance',
+    }));
   }
 
   basiliskConnectionAction() {
@@ -390,17 +439,27 @@ class WalletsData extends React.Component {
                                   <i className="icon wb-refresh" aria-hidden="true"></i> {translate('INDEX.REFRESH_BASILISK_CONNECTIONS')}
                                 </a>
                               </li>
-                              <li data-edexcoin="COIN" role="presentation">
+                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
                                 <a className="btn_edexcoin_dashboard_fetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_fetchdata" role="menuitem" onClick={this.basiliskRefreshAction}>
                                   <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.FETCH_WALLET_DATA')}
                                 </a>
                               </li>
-                              <li data-edexcoin="COIN" role="presentation">
+                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
                                 <a className="btn_edexcoin_dashboard_refetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refetchdata" role="menuitem" onClick={this.removeAndFetchNewCache}>
-                                  <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.REFETCH_WALLET_DATA')}
+                                  <i className="icon fa-history" aria-hidden="true"></i> {translate('INDEX.REFETCH_WALLET_DATA')}
                                 </a>
                               </li>
-                              <li data-edexcoin="COIN" role="presentation">
+                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
+                                <a role="menuitem" onClick={this._fetchUtxoCache}>
+                                  <i className="icon fa-history" aria-hidden="true"></i> Update UTXO
+                                </a>
+                              </li>
+                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
+                                <a role="menuitem" onClick={this.restartBasiliskInstance}>
+                                  <i className="icon fa-refresh" aria-hidden="true"></i> Restart Basilisk Instance
+                                </a>
+                              </li>
+                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
                                 <a className="btn_edexcoin_dashboard_fetchdata" role="menuitem" onClick={this._toggleViewCacheModal}>
                                   <i className="icon fa-list-alt" aria-hidden="true"></i> {translate('INDEX.VIEW_CACHE_DATA')}
                                 </a>
@@ -415,8 +474,14 @@ class WalletsData extends React.Component {
                           <div className="col-sm-6">
                           {this.renderAddressList()}
                           </div>
+                          <div className="col-sm-2">
+                            <div className="pull-left margin-right-10">
+                              <input type="checkbox" id="edexcoin_cache_api" checked={this.state.useCache} data-plugin="switchery" data-size="small" />
+                            </div>
+                            <label className="padding-top-3" htmlFor="edexcoin_cache_api" onClick={this.toggleCacheApi}>Use cache</label>
+                          </div>
                         </div>
-                        <div className="row">
+                        <div className="row" style={{padding: '20px 0 10px 0'}}>
                           <div className="col-sm-6">
                             {this.renderPaginationItemsPerPageSelector()}
                           </div>

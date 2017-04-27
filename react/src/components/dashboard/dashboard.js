@@ -36,7 +36,7 @@ class Dashboard extends React.Component {
             <CoinTile {...this.props} />
             <WalletsNav {...this.props} />
             <WalletsProgress {...this.props} />
-            <WalletsBalance {...this.props.ActiveCoin} />
+            <WalletsBalance {...this.props} />
             <SendCoin {...this.props} />
             <ReceiveCoin {...this.props.ActiveCoin} />
             <WalletsData {...this.props} />

@@ -149,6 +149,11 @@ body {
   right: 15px;
 }
 
+.page-aside-inner .wallet-widgets-list {
+  overflow-y: auto;
+  height: 100%;
+}
+
 /*.toaster .single-toast:nth-child(0) {
   bottom: 12px;
 }

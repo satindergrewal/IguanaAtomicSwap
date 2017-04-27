@@ -39,7 +39,7 @@ class WalletsCacheData extends React.Component {
           {this.renderArrayNode(`${pre}-array-${value}`, key)}
         </TreeNode>);
     } else {
-      return Object.keys(_sourceObj.data).map((key, value) => this.renderKeyValue(pre, key, value));
+      return Object.keys(_sourceObj.data).map((key, value) => this.renderKeyValue(pre, key, _sourceObj.data[key]));
     }
   }
 

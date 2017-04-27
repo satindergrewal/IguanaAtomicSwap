@@ -1,6 +1,11 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-import { toggleAddcoinModal, iguanaWalletPassphrase, createNewWallet } from '../../actions/actionCreators';
+import {
+  toggleAddcoinModal,
+  iguanaWalletPassphrase,
+  createNewWallet,
+  iguanaActiveHandle
+} from '../../actions/actionCreators';
 import Store from '../../store';
 import { PassPhraseGenerator } from '../../util/crypto/passphrasegenerator';
 
@@ -22,6 +27,10 @@ class Login extends React.Component {
     this.loginSeed = this.loginSeed.bind(this);
     this.toggleSeedInputVisibility = this.toggleSeedInputVisibility.bind(this);
     this.handleRegisterWallet = this.handleRegisterWallet.bind(this);
+  }
+
+  componentDidMount() {
+    Store.dispatch(iguanaActiveHandle(true));
   }
 
   toggleSeedInputVisibility() {

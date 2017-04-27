@@ -332,7 +332,7 @@ export function addCoin(coin, mode) {
 }
 
 export function iguanaAddCoin(coin, mode, acData) {
-  return dispatch => {
+  function _iguanaAddCoin(dispatch) {
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(acData),
@@ -343,6 +343,20 @@ export function iguanaAddCoin(coin, mode, acData) {
     })
     .then(response => response.json())
     .then(json => dispatch(addCoinResult(coin, mode, acData)));
+  }
+
+  if (mode === 0) {
+    return dispatch => {
+      return _iguanaAddCoin(dispatch);
+      /*startIguanaInstance('basilisk', 'basilisk')
+      .then(function(json) {
+        _iguanaAddCoin(dispatch);
+      });*/
+    }
+  } else {
+    return dispatch => {
+      return _iguanaAddCoin(dispatch);
+    }
   }
 }
 
@@ -653,6 +667,7 @@ export function getPeersListState(json) {
   }
 }
 
+export function getFullTransactionsList(coin) {
 /*params = {
   'userpass': tmpIguanaRPCAuth,
   'agent': 'dex',
@@ -662,8 +677,6 @@ export function getPeersListState(json) {
   'skip': 0,
   'symbol': coin
 };*/
-
-export function getFullTransactionsList(coin) {
   const payload = {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
     'coin': coin,
@@ -700,17 +713,41 @@ export function getBasiliskTransactionsList(coin, address) {
     'symbol': coin
   };
 
-  return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    })
-    .catch(function(error) {
-      console.log(error);
-      dispatch(triggerToaster(true, 'getBasiliskTransactionsList', 'Error', 'error'));
-    })
-    .then(response => response.json())
-    .then(json => dispatch(getNativeTxHistoryState(json)))
+  if (sessionStorage.getItem('useCache')) {
+    const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
+
+    return dispatch => {
+      return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .catch(function(error) {
+        console.log(error);
+        dispatch(triggerToaster(true, 'getBasiliskTransactionsList+cache', 'Error', 'error'));
+      })
+      .then(response => response.json())
+      .then(function(json) {
+        json = json.result.basilisk;
+        if (json[coin][address].listtransactions) {
+          dispatch(getNativeTxHistoryState({ 'result': json[coin][address].listtransactions.data }));
+        }
+      })
+    }
+  } else {
+    return dispatch => {
+      return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      })
+      .catch(function(error) {
+        console.log(error);
+        dispatch(triggerToaster(true, 'getBasiliskTransactionsList', 'Error', 'error'));
+      })
+      .then(response => response.json())
+      .then(json => dispatch(getNativeTxHistoryState(json)))
+    }
   }
 }
 
@@ -932,7 +969,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           };
         }
 
-        if (mode !== 'native' || mode !== 'basilisk') {
+        if (mode === 'native' || mode === 'basilisk') {
           payload = {
             'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
             'coin': coin,
@@ -941,17 +978,40 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             'account': '*'
           };
         }
+        console.log('pl', payload);
 
-        fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
-          method: 'POST',
-          body: JSON.stringify(payload),
-        })
-        .catch(function(error) {
-          console.log(error);
-          dispatch(triggerToaster(true, 'getKMDAddressesNative', 'Error', 'error'));
-        })
-        .then(response => response.json())
-        .then(json => resolve(json))
+        if (sessionStorage.getItem('useCache') && mode === 'basilisk') {
+          const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
+
+          fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+          .catch(function(error) {
+            console.log(error);
+            dispatch(triggerToaster(true, 'getKMDAddressesNative+addresslist+cache', 'Error', 'error'));
+          })
+          .then(response => response.json())
+          .then(function(json) {
+            json = json.result.basilisk;
+            if (json[coin].addresses) {
+              resolve({ 'result': json[coin].addresses });
+            }
+          })
+        } else {
+          fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+            method: 'POST',
+            body: JSON.stringify(payload),
+          })
+          .catch(function(error) {
+            console.log(error);
+            dispatch(triggerToaster(true, 'getKMDAddressesNative', 'Error', 'error'));
+          })
+          .then(response => response.json())
+          .then(json => resolve(json))
+        }
       });
     }))
     .then(result => {
@@ -1002,19 +1062,17 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
         };
       }
 
-      fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
-        method: 'POST',
-        body: JSON.stringify(payload),
-      })
-      .catch(function(error) {
-        console.log(error);
-        dispatch(triggerToaster(true, 'getKMDAddressesNative+Balance', 'Error', 'error'));
-      })
-      .then(response => response.json())
-      .then(function(json) {
+      function calcBalance(result, json, dispatch, mode) {
+        console.log('result', result);
         if (mode === 'full' || mode === 'basilisk') {
           result[0] = result[0].result;
+        } else {
+          result[0] = result[0].result;
+          result[1] = result[1].result;
         }
+
+        console.log('calc result', result);
+        console.log('calc json', json);
 
         if (mode !== 'basilisk') {
           const allAddrArray = json.map(res => res.address).filter((x, i, a) => a.indexOf(x) == i);
@@ -1054,6 +1112,8 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             } else {
               filteredArray = json.filter(res => res.address === result[a][b]).map(res => res.amount);
             }
+            console.log('filteredArray', filteredArray);
+            console.log('addr', result[a][b]);
 
             let sum = 0;
 
@@ -1072,8 +1132,84 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           'public': newAddressArray[0],
           'private': newAddressArray[1]
         }));
-      })
+      }
+
+      if (sessionStorage.getItem('useCache') && mode === 'basilisk') {
+        const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
+
+        fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .catch(function(error) {
+          console.log(error);
+          dispatch(triggerToaster(true, 'getKMDAddressesNative+addresslist+cache', 'Error', 'error'));
+        })
+        .then(response => response.json())
+        .then(function(json) {
+          json = json.result.basilisk;
+          // if listunspent is not in cache file retrieve new copy
+          // otherwise read from cache data
+          // TODO: save listunspent to cache file(?)
+          if (json[coin][currentAddress].listunspent) {
+            calcBalance(result, json[coin][currentAddress].listunspent, dispatch, mode);
+          } else {
+            fetch('http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.basiliskPort : Config.iguanaCorePort), {
+              method: 'POST',
+              body: JSON.stringify(payload),
+            })
+            .catch(function(error) {
+              console.log(error);
+              dispatch(triggerToaster(true, 'getKMDAddressesNative+Balance', 'Error', 'error'));
+            })
+            .then(response => response.json())
+            .then(function(json) {
+              calcBalance(result, json, dispatch, mode);
+            })
+          }
+        })
+      } else {
+        fetch('http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.basiliskPort : Config.iguanaCorePort), {
+          method: 'POST',
+          body: JSON.stringify(payload),
+        })
+        .catch(function(error) {
+          console.log(error);
+          dispatch(triggerToaster(true, 'getKMDAddressesNative+Balance', 'Error', 'error'));
+        })
+        .then(response => response.json())
+        .then(function(json) {
+          calcBalance(result, json, dispatch, mode);
+        })
+      }
     })
+  }
+}
+
+export function fetchUtxoCache(_payload) {
+  const _userpass = '?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+        _pubkey = '&pubkey=' + _payload.pubkey,
+        _route = _payload.allcoins ? 'cache-all' : 'cache-one',
+        _coin = '&coin=' + _payload.coin,
+        _calls = '&calls=' + _payload.calls,
+        _address = '&address' + _payload.address,
+        _iguanaInstancePort = Config.useBasiliskInstance ? '&port=' + Config.basiliskPort : '';
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/' + _route + _userpass + _pubkey + _coin + _calls + _address + _iguanaInstancePort, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'fetchNewCacheData', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getShepherdCache(_pubkey)))
   }
 }
 
@@ -1272,7 +1408,7 @@ export function getDexBalance(coin, addr) {
     };
     console.log('addr', _addr);
     return new Promise((resolve, reject) => {
-      fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
         method: 'POST',
         body: JSON.stringify(payload),
       })
@@ -1640,7 +1776,7 @@ export function checkAddressBasilisk(coin, address) {
   };
 
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -1680,7 +1816,7 @@ export function validateAddressBasilisk(coin, address) {
   };
 
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -1715,7 +1851,7 @@ export function getDexNotaries(coin) {
   };
 
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -1785,10 +1921,11 @@ export function fetchNewCacheData(_payload) {
         _pubkey = '&pubkey=' + _payload.pubkey,
         _route = _payload.allcoins ? 'cache-all' : 'cache-one',
         _coin = '&coin=' + _payload.coin,
-        _calls = '&calls=' + _payload.calls;
+        _calls = '&calls=' + _payload.calls,
+        _iguanaInstancePort = Config.useBasiliskInstance ? '&port=' + Config.basiliskPort : '';
 
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/' + _route + _userpass + _pubkey + _coin + _calls, {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/' + _route + _userpass + _pubkey + _coin + _calls + _iguanaInstancePort, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -1814,7 +1951,7 @@ function initNotaryNodesConSequence(nodes) {
       };
 
       return new Promise((resolve, reject) => {
-        fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+        fetch('http://127.0.0.1:' + Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort, {
           method: 'POST',
           body: JSON.stringify(payload),
         })
@@ -1865,6 +2002,65 @@ function connectAllNotaryNodes(json, dispatch) {
       name: json[0],
     }
   }
+}
+
+export function startIguanaInstance(mode, coin) {
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/forks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        mode,
+        coin
+      }),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'startIguanaInstance', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => resolve(json))
+  });
+}
+
+export function getIguanaInstancesList() {
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/forks', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getIguanaInstanceList', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => resolve(json))
+  });
+}
+
+export function restartIguanaInstance(pmid) {
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/forks/restart?pmid=' + pmid, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      /*body: JSON.stringify({
+        mode,
+        coin
+      }),*/
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'restartIguanaInstance', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => resolve(json))
+  });
 }
 
 export function connectNotaries() {
