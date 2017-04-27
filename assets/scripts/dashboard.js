@@ -933,11 +933,11 @@ var Dashboard = function() {
 					$('#addcoin_mdl_full_mode').prop('disabled', true);
 			}
 			if (tmp_coin_val == 'BTC') {
-				$('#addcoin_mdl_basilisk_mode').prop('disabled', true)
+				$('#addcoin_mdl_basilisk_mode')
+					.prop('disabled', false)
+					.prop('checked', true);
 				$('#addcoin_mdl_native_mode').prop('disabled', true);
-				$('#addcoin_mdl_full_mode')
-						.prop('disabled', false)
-						.prop('checked', true);
+				$('#addcoin_mdl_full_mode').prop('disabled', false);
 			}
 			if (tmp_coin_val == 'ZEC') {
 				$('#addcoin_mdl_basilisk_mode').prop('disabled', true);
@@ -1007,6 +1007,11 @@ var Dashboard = function() {
 				});
 			});
 		});
+
+		$('.btn_edexcoin_dashboard_update_utxo').click(function() {
+			var selected_coin = $(this).data('edexcoin');
+			Shepherd_RefreshUTXO();
+		});		
 
 		$('.btn_edexcoin_dashboard_refresh_basilisk_conn').click(function() {
 			var show_mdl = setTimeout(function() {
