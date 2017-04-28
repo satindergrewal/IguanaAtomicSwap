@@ -5,4 +5,5 @@ module.exports = {
   enableCacheApi: true,
   useBasiliskInstance: true,
   openAlias: true,
+  debug: true,
 };

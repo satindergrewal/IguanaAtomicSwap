@@ -6,7 +6,8 @@ import {
   sendNativeTx,
   getKMDOPID,
   resolveOpenAliasAddress,
-  triggerToaster
+  triggerToaster,
+  iguanaUTXORawTX
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -117,10 +118,24 @@ class SendCoin extends React.Component {
   }
 
   handleSubmit() {
-    Store.dispatch(sendNativeTx(this.props.ActiveCoin.coin, this.state));
-    setTimeout(function() {
+    const utxoSet = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh;
+    const sendData = {
+            'coin': this.props.ActiveCoin.coin,
+            'sendfrom': this.state.sendFrom,
+            'sendtoaddr': this.state.sendTo,
+            'amount': this.state.amount,
+            'txfee': this.state.fee,
+            'sendsig': this.state.sendSig === true ? 0 : 1,
+            'utxos': utxoSet
+          };
+    iguanaUTXORawTX(sendData)
+    .then(function(json) {
+      console.log(json);
+    });
+    //Store.dispatch(sendNativeTx(this.props.ActiveCoin.coin, this.state));
+    /*setTimeout(function() {
       Store.dispatch(getKMDOPID(null, this.props.ActiveCoin.coin));
-    }, 1000);
+    }, 1000);*/
   }
 
   renderSignedTx(signedtx) {

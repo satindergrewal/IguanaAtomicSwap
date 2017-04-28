@@ -49,7 +49,6 @@ class CoinTileItem extends React.Component {
       Store.dispatch(getFullTransactionsList(coin));
     }
     if (mode === 'basilisk') {
-      console.log('dispatchCoinActions', mode);
       const useAddress = this.props.ActiveCoin.mainBasiliskAddress ? this.props.ActiveCoin.mainBasiliskAddress : this.props.Dashboard.activeHandle[coin];
       Store.dispatch(iguanaActiveHandle(true));
 
