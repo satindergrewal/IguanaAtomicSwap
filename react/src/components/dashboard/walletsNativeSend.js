@@ -1,7 +1,13 @@
 import React from 'react';
+import Config from '../../config';
 import { translate } from '../../translate/translate';
 import { secondsToString } from '../../util/time';
-import { sendNativeTx, getKMDOPID } from '../../actions/actionCreators';
+import {
+  sendNativeTx,
+  getKMDOPID,
+  resolveOpenAliasAddress,
+  triggerToaster
+} from '../../actions/actionCreators';
 import Store from '../../store';
 
 class WalletsNativeSend extends React.Component {
@@ -11,7 +17,8 @@ class WalletsNativeSend extends React.Component {
       addressType: null,
       sendFrom: null,
       sendFromAmount: 0,
-      sendTo: null,
+      sendTo: '',
+      sendToOA: null,
       amount: 0,
       fee: 0.0001,
       addressSelectorOpen: false,
@@ -19,6 +26,7 @@ class WalletsNativeSend extends React.Component {
     this.updateInput = this.updateInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.openDropMenu = this.openDropMenu.bind(this);
+    this.getOAdress = this.getOAdress.bind(this);
   }
 
   renderAddressByType(type) {
@@ -182,6 +190,53 @@ class WalletsNativeSend extends React.Component {
     }, 1000);
   }
 
+  getOAdress() {
+    resolveOpenAliasAddress(this.state.sendToOA)
+    .then(function(json) {
+      const reply = json.Answer;
+
+      if (reply && reply.length) {
+        for (let i = 0; i < reply.length; i++) {
+          const _address = reply[i].data.split(' ');
+          const coin = _address[0].replace('"oa1:', '');
+          const coinAddress = _address[1].replace('recipient_address=', '').replace(';', '');
+
+          if (coin.toUpperCase() === this.props.ActiveCoin.coin) {
+            this.setState(Object.assign({}, this.state, {
+              sendTo: coinAddress,
+            }));
+          }
+        }
+
+        if (this.state.sendTo === '') {
+          Store.dispatch(triggerToaster(true, 'Couldn\'t find any ' + this.props.ActiveCoin.coin +' addresses', 'OpenAlias', 'error'));
+        }
+      } else {
+        Store.dispatch(triggerToaster(true, 'Couldn\'t find any addresses', 'OpenAlias', 'error'));
+      }
+    }.bind(this));
+  }
+
+  renderOASendUI() {
+    if (Config.openAlias) {
+      return (
+        <div className="row">
+          <div className="col-lg-6 form-group form-material">
+            <label className="control-label" data-extcoin="COIN" htmlFor="kmd_wallet_sendto">{translate('INDEX.SEND_TO')} via Openalias address</label>
+            <input type="text" className="form-control" data-extcoin="COIN" name="sendToOA" onChange={this.updateInput} id="kmd_wallet_sendto" placeholder="Enter an alias as address@site.com" autoComplete="off" required />
+          </div>
+          <div className="col-lg-6 form-group form-material">
+            <button type="button" className="btn btn-primary waves-effect waves-light" data-toggle="modal" id="kmd_wallet_send_coins_btn" onClick={this.getOAdress}>
+              Get address
+            </button>
+          </div>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   render() {
     if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.nativeActiveSection === 'send') {
       return (
@@ -200,13 +255,16 @@ class WalletsNativeSend extends React.Component {
                       <label className="control-label" data-extcoin="COIN" htmlFor="kmd_wallet_send_from">{translate('INDEX.SEND_FROM')}</label>
                       {this.renderAddressList()}
                     </div>
+                  </div>
+                  {this.renderOASendUI()}
+                  <div className="row">
                     <div className="col-xlg-12 form-group form-material">
                       <label className="control-label" data-extcoin="COIN" htmlFor="kmd_wallet_sendto">{translate('INDEX.SEND_TO')}</label>
-                      <input type="text" className="form-control" data-extcoin="COIN" name="sendTo" onChange={this.updateInput} id="kmd_wallet_sendto" placeholder="Enter Transparent or Private address" autoComplete="off" required />
+                      <input type="text" className="form-control" data-extcoin="COIN" name="sendTo" onChange={this.updateInput} value={this.state.sendTo} id="kmd_wallet_sendto" placeholder="Enter Transparent or Private address" autoComplete="off" required />
                     </div>
                     <div className="col-lg-6 form-group form-material">
                       <label className="control-label" htmlFor="kmd_wallet_amount" data-extcoin="COIN" id="kmd_wallet_amount_label">
-                        <span data-extcoinname="COIN"></span>
+                        {this.props.ActiveCoin.coin}
                       </label>
                       <input type="text" className="form-control" name="amount" onChange={this.updateInput} data-extcoin="COIN" id="kmd_wallet_amount" placeholder="0.000" autoComplete="off" />
                     </div>

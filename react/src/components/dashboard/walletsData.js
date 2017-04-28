@@ -15,8 +15,7 @@ import {
   toggleViewCacheModal,
   fetchNewCacheData,
   fetchUtxoCache,
-  getIguanaInstancesList,
-  restartIguanaInstance
+  restartBasiliskInstance
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -72,6 +71,10 @@ class WalletsData extends React.Component {
     }));
   }
 
+  restartBasiliskInstance() {
+    Store.dispatch(restartBasiliskInstance());
+  }
+
   _toggleViewCacheModal() {
     Store.dispatch(toggleViewCacheModal(!this.props.Dashboard.displayViewCacheModal));
   }
@@ -94,18 +97,6 @@ class WalletsData extends React.Component {
         data.message.shepherd.status === 'done') {
       Store.dispatch(basiliskRefresh(false));
     }
-  }
-
-  restartBasiliskInstance() {
-    getIguanaInstancesList().then(function(json) {
-      for (let port in json.result) {
-        if (json.result[port].mode === 'basilisk') {
-          restartIguanaInstance(json.result[port].pmid).then(function(json) {
-            console.log('restartBasiliskInstance', json);
-          });
-        }
-      }
-    });
   }
 
   removeAndFetchNewCache() {

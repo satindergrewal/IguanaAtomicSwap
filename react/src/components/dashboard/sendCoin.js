@@ -1,6 +1,13 @@
 import React from 'react';
+import Config from '../../config';
 import { translate } from '../../translate/translate';
-import { sendToAddress } from '../../actions/actionCreators';
+import {
+  sendToAddress,
+  sendNativeTx,
+  getKMDOPID,
+  resolveOpenAliasAddress,
+  triggerToaster
+} from '../../actions/actionCreators';
 import Store from '../../store';
 
 // TODO: implement logic
@@ -12,7 +19,8 @@ class SendCoin extends React.Component {
       currentStep: 0,
       sendFrom: this.props.Dashboard && this.props.Dashboard.activeHandle ? this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin] : null,
       sendFromAmount: 0,
-      sendTo: null,
+      sendTo: '',
+      sendToOA: null,
       amount: 0,
       fee: 0.0001,
       sendSig: false,
@@ -20,6 +28,7 @@ class SendCoin extends React.Component {
     this.updateInput = this.updateInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleSendSig = this.toggleSendSig.bind(this);
+    this.getOAdress = this.getOAdress.bind(this);
   }
 
   changeSendCoinStep(step) {
@@ -97,7 +106,7 @@ class SendCoin extends React.Component {
           <span className="label label-danger">false</span>
         );
       }
-    }    
+    }
   }
 
   renderSendCoinResponse() {
@@ -107,6 +116,53 @@ class SendCoin extends React.Component {
           <td>{key}</td>
           <td>{this.renderKey(key)}</td>
         </tr>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  getOAdress() {
+    resolveOpenAliasAddress(this.state.sendToOA)
+    .then(function(json) {
+      const reply = json.Answer;
+
+      if (reply && reply.length) {
+        for (let i = 0; i < reply.length; i++) {
+          const _address = reply[i].data.split(' ');
+          const coin = _address[0].replace('"oa1:', '');
+          const coinAddress = _address[1].replace('recipient_address=', '').replace(';', '');
+
+          if (coin.toUpperCase() === this.props.ActiveCoin.coin) {
+            this.setState(Object.assign({}, this.state, {
+              sendTo: coinAddress,
+            }));
+          }
+        }
+
+        if (this.state.sendTo === '') {
+          Store.dispatch(triggerToaster(true, 'Couldn\'t find any ' + this.props.ActiveCoin.coin +' addresses', 'OpenAlias', 'error'));
+        }
+      } else {
+        Store.dispatch(triggerToaster(true, 'Couldn\'t find any addresses', 'OpenAlias', 'error'));
+      }
+    }.bind(this));
+  }
+
+  renderOASendUI() {
+    if (Config.openAlias) {
+      return (
+        <div className="row">
+          <div className="col-lg-6 form-group form-material">
+            <label className="control-label" data-extcoin="COIN" htmlFor="kmd_wallet_sendto">{translate('INDEX.SEND_TO')} via Openalias address</label>
+            <input type="text" className="form-control" data-extcoin="COIN" name="sendToOA" onChange={this.updateInput} id="kmd_wallet_sendto" placeholder="Enter an alias as address@site.com" autoComplete="off" required />
+          </div>
+          <div className="col-lg-6 form-group form-material">
+            <button type="button" className="btn btn-primary waves-effect waves-light" data-toggle="modal" id="kmd_wallet_send_coins_btn" onClick={this.getOAdress}>
+              Get address
+            </button>
+          </div>
+        </div>
       );
     } else {
       return null;
@@ -155,9 +211,12 @@ class SendCoin extends React.Component {
                       <label className="control-label" data-edexcoin="COIN" htmlFor="edexcoin_send_from">{translate('INDEX.SEND_FROM')}</label>
                       <select className="form-control form-material showedexcoinaddrs show-tick" data-edexcoin="COIN" id="edexcoin_send_from" onChange={this.updateInput} title="Select Transparent or Private Address" data-size="5"></select>
                     </div>
+                  </div>
+                  {this.renderOASendUI()}
+                  <div className="row">
                     <div className="col-xlg-12 form-group form-material">
                       <label className="control-label" data-edexcoin="COIN" htmlFor="edexcoin_sendto">{translate('INDEX.SEND_TO')}</label>
-                      <input type="text" className="form-control" data-edexcoin="COIN" id="edexcoin_sendto" name="sendTo" placeholder="Enter address" autoComplete="off" onChange={this.updateInput} required />
+                      <input type="text" className="form-control" data-edexcoin="COIN" id="edexcoin_sendto" name="sendTo" placeholder="Enter address" autoComplete="off" value={this.state.sendTo} onChange={this.updateInput} required />
                     </div>
                     <div className="col-lg-6 form-group form-material">
                       <label className="control-label" htmlFor="edexcoin_amount" data-edexcoin="COIN" id="edexcoin_amount_label">

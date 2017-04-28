@@ -157,7 +157,7 @@ function toggleSendReceiveCoinFormsState() {
   }
 }
 
-function triggerToaster(display, message, title, _type) {
+export function triggerToaster(display, message, title, _type) {
   return {
     type: TOASTER_MESSAGE,
     display,
@@ -2057,6 +2057,38 @@ export function restartIguanaInstance(pmid) {
     .catch(function(error) {
       console.log(error);
       dispatch(triggerToaster(true, 'restartIguanaInstance', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => resolve(json))
+  });
+}
+
+export function restartBasiliskInstance() {
+  return dispatch => {
+    getIguanaInstancesList()
+    .then(function(json) {
+      for (let port in json.result) {
+        if (json.result[port].mode === 'basilisk') {
+          restartIguanaInstance(json.result[port].pmid)
+          .then(function(json) {
+            console.log('restartBasiliskInstance', json);
+          });
+        }
+      }
+    });
+  }
+}
+
+export function resolveOpenAliasAddress(email) {
+  const url = email.replace('@', '.');
+
+  return new Promise((resolve, reject) => {
+    fetch('https://dns.google.com/resolve?name=' + url + '&type=txt', {
+      method: 'GET',
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'resolveOpenAliasAddress', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => resolve(json))
