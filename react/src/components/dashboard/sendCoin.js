@@ -15,6 +15,7 @@ import Store from '../../store';
 class SendCoin extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       currentStep: 0,
       sendFrom: this.props.Dashboard && this.props.Dashboard.activeHandle ? this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin] : null,
@@ -24,11 +25,72 @@ class SendCoin extends React.Component {
       amount: 0,
       fee: 0.0001,
       sendSig: false,
+      addressSelectorOpen: false,
     };
     this.updateInput = this.updateInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.openDropMenu = this.openDropMenu.bind(this);
     this.toggleSendSig = this.toggleSendSig.bind(this);
     this.getOAdress = this.getOAdress.bind(this);
+  }
+
+  renderAddressByType(type) {
+    if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses[type] && this.props.ActiveCoin.addresses[type].length) {
+      return this.props.ActiveCoin.addresses[type].map((address) =>
+        <li data-original-index="2" key={address.address} className={address.amount <= 0 ? 'hide' : ''}>
+          <a tabIndex="0" data-tokens="null" onClick={() => this.updateAddressSelection(address.address, type, address.amount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {address.amount} {this.props.ActiveCoin.coin} ]  {address.address}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+        </li>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderSelectorCurrentLabel() {
+    if (this.state.sendFrom) {
+      return (
+        <span>
+          <i className={this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {this.state.sendFromAmount} {this.props.ActiveCoin.coin} ]  {this.state.sendFrom}</span>
+        </span>
+      );
+    } else {
+      return (
+        <span>- Select Transparent or Private Address -</span>
+      );
+    }
+  }
+
+  renderAddressList() {
+    return (
+      <div className={'btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ' + (this.state.addressSelectorOpen ? 'open' : '')}>
+        <button type="button" className="btn dropdown-toggle btn-info" data-toggle="dropdown" data-id="kmd_wallet_send_from" title="- Select Transparent or Private Address -" aria-expanded="true" onClick={this.openDropMenu}>
+          <span className="filter-option pull-left">{this.renderSelectorCurrentLabel()} </span>&nbsp;<span className="bs-caret"><span className="caret"></span></span>
+        </button>
+        <div className="dropdown-menu open">
+          <ul className="dropdown-menu inner" role="menu">
+            <li data-original-index="1" className="selected">
+              <a tabIndex="0" data-tokens="null"><span className="text"> - Select Transparent or Private Address - </span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+            </li>
+            {this.renderAddressByType('public')}
+          </ul>
+        </div>
+      </div>
+    );
+  }
+
+  openDropMenu() {
+    this.setState(Object.assign({}, this.state, {
+      addressSelectorOpen: !this.state.addressSelectorOpen,
+    }));
+  }
+
+  updateAddressSelection(address, type, amount) {
+    this.setState(Object.assign({}, this.state, {
+      sendFrom: address,
+      addressType: type,
+      sendFromAmount: amount,
+      addressSelectorOpen: !this.state.addressSelectorOpen,
+    }));
   }
 
   changeSendCoinStep(step) {
@@ -209,7 +271,7 @@ class SendCoin extends React.Component {
                   <div className="row">
                     <div className={this.props.ActiveCoin.mode === 'basilisk' ? 'col-xlg-12 form-group form-material' : 'hide'}>
                       <label className="control-label" data-edexcoin="COIN" htmlFor="edexcoin_send_from">{translate('INDEX.SEND_FROM')}</label>
-                      <select className="form-control form-material showedexcoinaddrs show-tick" data-edexcoin="COIN" id="edexcoin_send_from" onChange={this.updateInput} title="Select Transparent or Private Address" data-size="5"></select>
+                      {this.renderAddressList()}
                     </div>
                   </div>
                   {this.renderOASendUI()}
