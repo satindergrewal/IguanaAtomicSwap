@@ -324,6 +324,7 @@ class WalletsData extends React.Component {
     this.setState(Object.assign({}, this.state, {
       currentAddress: address,
       addressSelectorOpen: false,
+      activePage: 1,
     }));
 
     setTimeout(function() {
