@@ -64,6 +64,7 @@ class WalletsData extends React.Component {
 
   toggleCacheApi() {
     const _useCache = !this.state.useCache;
+
     console.log('useCache is set to', _useCache);
     sessionStorage.setItem('useCache', _useCache);
     this.setState(Object.assign({}, this.state, {
@@ -353,11 +354,23 @@ class WalletsData extends React.Component {
     }
   }
 
+  renderAddressAmount() {
+    if (this.props.ActiveCoin.addresses['public'] && this.props.ActiveCoin.addresses['public'].length) {
+      for (let i = 0; i < this.props.ActiveCoin.addresses['public'].length; i++) {
+        if (this.props.ActiveCoin.addresses['public'][i].address === this.state.currentAddress) {
+          return this.props.ActiveCoin.addresses['public'][i].amount;
+        }
+      }
+    } else {
+      return 0;
+    }
+  }
+
   renderSelectorCurrentLabel() {
     if (this.state.currentAddress) {
       return (
         <span>
-          <i className={this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {this.state.sendFromAmount} {this.props.ActiveCoin.coin} ]  {this.state.currentAddress}</span>
+          <i className={this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {this.renderAddressAmount()} {this.props.ActiveCoin.coin} ]  {this.state.currentAddress}</span>
         </span>
       );
     } else {

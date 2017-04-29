@@ -3,6 +3,7 @@ import Config from '../../config';
 import { translate } from '../../translate/translate';
 import {
   sendToAddress,
+  sendFromAddress,
   sendNativeTx,
   getKMDOPID,
   resolveOpenAliasAddress,
@@ -26,22 +27,47 @@ class SendCoin extends React.Component {
       amount: 0,
       fee: 0.0001,
       sendSig: false,
+      sendApiType: false,
       addressSelectorOpen: false,
     };
     this.updateInput = this.updateInput.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleBasiliskSend = this.handleBasiliskSend.bind(this);
     this.openDropMenu = this.openDropMenu.bind(this);
     this.toggleSendSig = this.toggleSendSig.bind(this);
     this.getOAdress = this.getOAdress.bind(this);
+    this.toggleSendAPIType = this.toggleSendAPIType.bind(this);
+  }
+
+  renderAddressAmount(address) {
+    if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses['public'] && this.props.ActiveCoin.addresses['public'].length) {
+      for (let i = 0; i < this.props.ActiveCoin.addresses['public'].length; i++) {
+        if (this.props.ActiveCoin.addresses['public'][i].address === address) {
+          return this.props.ActiveCoin.addresses['public'][i].amount;
+        }
+      }
+    } else {
+      return 0;
+    }
   }
 
   renderAddressByType(type) {
     if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses[type] && this.props.ActiveCoin.addresses[type].length) {
-      return this.props.ActiveCoin.addresses[type].map((address) =>
-        <li data-original-index="2" key={address.address} className={address.amount <= 0 ? 'hide' : ''}>
-          <a tabIndex="0" data-tokens="null" onClick={() => this.updateAddressSelection(address.address, type, address.amount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {address.amount} {this.props.ActiveCoin.coin} ]  {address.address}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
-        </li>
-      );
+      if (this.state.sendApiType) {
+        const mainAddress = this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin];
+        const mainAddressAmount = this.renderAddressAmount(mainAddress);
+
+        return(
+          <li data-original-index="2" key={mainAddress} className={mainAddressAmount <= 0 ? 'hide' : ''}>
+            <a tabIndex="0" data-tokens="null" onClick={() => this.updateAddressSelection(mainAddress, type, mainAddressAmount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {mainAddressAmount} {this.props.ActiveCoin.coin} ]  {mainAddress}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+          </li>
+        );
+      } else {
+        return this.props.ActiveCoin.addresses[type].map((address) =>
+          <li data-original-index="2" key={address.address} className={address.amount <= 0 ? 'hide' : ''}>
+            <a tabIndex="0" data-tokens="null" onClick={() => this.updateAddressSelection(address.address, type, address.amount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {address.amount} {this.props.ActiveCoin.coin} ]  {address.address}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+          </li>
+        );
+      }
     } else {
       return null;
     }
@@ -52,6 +78,16 @@ class SendCoin extends React.Component {
       return (
         <span>
           <i className={this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {this.state.sendFromAmount} {this.props.ActiveCoin.coin} ]  {this.state.sendFrom}</span>
+        </span>
+      );
+    } else if (this.state.sendApiType) {
+      const mainAddress = this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin];
+      const mainAddressAmount = this.renderAddressAmount(mainAddress);
+
+      console.log('sendApiType', this.state.sendApiType);
+      return (
+        <span>
+          <i className={this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {mainAddressAmount} {this.props.ActiveCoin.coin} ]  {mainAddress}</span>
         </span>
       );
     } else {
@@ -89,7 +125,7 @@ class SendCoin extends React.Component {
     this.setState(Object.assign({}, this.state, {
       sendFrom: address,
       addressType: type,
-      sendFromAmount: amount,
+      sendFromAmount: amount ? amount : this.props.ActiveCoin.addresses[type][address].amount,
       addressSelectorOpen: !this.state.addressSelectorOpen,
     }));
   }
@@ -100,7 +136,12 @@ class SendCoin extends React.Component {
     }));
 
     if (step === 2) {
-      Store.dispatch(sendToAddress(this.props.ActiveCoin.coin, this.state));
+      if (!this.state.sendApiType) {
+        handleBasiliskSend();
+      } else {
+        Store.dispatch(sendToAddress(this.props.ActiveCoin.coin, this.state));
+      }
+      //Store.dispatch(sendFromAddress(this.props.ActiveCoin.coin, this.state));
     }
   }
 
@@ -110,14 +151,19 @@ class SendCoin extends React.Component {
     }));
   }
 
+  toggleSendAPIType() {
+    this.setState(Object.assign({}, this.state, {
+      sendApiType: !this.state.sendApiType,
+    }));
+  }
+
   updateInput(e) {
     this.setState({
       [e.target.name]: e.target.value,
     });
-    console.log(this.state);
   }
 
-  handleSubmit() {
+  handleBasiliskSend() {
     const utxoSet = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh;
     const sendData = {
             'coin': this.props.ActiveCoin.coin,
@@ -130,6 +176,19 @@ class SendCoin extends React.Component {
           };
     iguanaUTXORawTX(sendData)
     .then(function(json) {
+      console.log('sendData', sendData);
+      console.log('iguanaUTXORawTXJSON', json);
+      if (json.result === 'success' && json.completed === true) {
+        Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_GENERATED') + '.', translate('TOASTR.WALLET_NOTIFICATION')));
+
+        if (sendData.sendsig === 1) {
+          Store.dispatch(triggerToaster(true, translate('TOASTR.SENDING_TX') + '.', translate('TOASTR.WALLET_NOTIFICATION')));
+          ajax_data_dexrawtx = {
+            'signedtx': json.signedtx,
+            'coin': sendData.coin
+          };
+        }
+      }
       console.log(json);
     });
     //Store.dispatch(sendNativeTx(this.props.ActiveCoin.coin, this.state));
@@ -218,7 +277,7 @@ class SendCoin extends React.Component {
         }
 
         if (this.state.sendTo === '') {
-          Store.dispatch(triggerToaster(true, 'Couldn\'t find any ' + this.props.ActiveCoin.coin +' addresses', 'OpenAlias', 'error'));
+          Store.dispatch(triggerToaster(true, 'Couldn\'t find any ' + this.props.ActiveCoin.coin + ' addresses', 'OpenAlias', 'error'));
         }
       } else {
         Store.dispatch(triggerToaster(true, 'Couldn\'t find any addresses', 'OpenAlias', 'error'));
@@ -231,13 +290,30 @@ class SendCoin extends React.Component {
       return (
         <div className="row">
           <div className="col-lg-6 form-group form-material">
-            <label className="control-label" data-extcoin="COIN" htmlFor="kmd_wallet_sendto">{translate('INDEX.SEND_TO')} via Openalias address</label>
+            <label className="control-label" data-extcoin="COIN" htmlFor="kmd_wallet_sendto">Fetch OpenAlias recipient address</label>
             <input type="text" className="form-control" data-extcoin="COIN" name="sendToOA" onChange={this.updateInput} id="kmd_wallet_sendto" placeholder="Enter an alias as address@site.com" autoComplete="off" required />
           </div>
           <div className="col-lg-6 form-group form-material">
             <button type="button" className="btn btn-primary waves-effect waves-light" data-toggle="modal" id="kmd_wallet_send_coins_btn" onClick={this.getOAdress}>
               Get address
             </button>
+          </div>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderSendApiTypeSelector() {
+    if (this.props.ActiveCoin.mode === 'basilisk') {
+      return (
+        <div className="row">
+          <div className="col-lg-10 margin-bottom-10">
+            <div className="pull-left margin-right-10">
+              <input type="checkbox" id="edexcoin_send_api_type" data-plugin="switchery" data-size="small" />
+            </div>
+            <label className="padding-top-3" htmlFor="edexcoin_send_api_type" onClick={this.toggleSendAPIType}>Send via sendtoaddress API</label>
           </div>
         </div>
       );
@@ -283,6 +359,7 @@ class SendCoin extends React.Component {
               </div>
               <div className="panel-body container-fluid">
                 <form className="edexcoin-send-form" data-edexcoin="COIN" method="post" role="form" autoComplete="off">
+                  {this.renderSendApiTypeSelector()}
                   <div className="row">
                     <div className={this.props.ActiveCoin.mode === 'basilisk' ? 'col-xlg-12 form-group form-material' : 'hide'}>
                       <label className="control-label" data-edexcoin="COIN" htmlFor="edexcoin_send_from">{translate('INDEX.SEND_FROM')}</label>

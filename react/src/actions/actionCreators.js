@@ -978,7 +978,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             'account': '*'
           };
         }
-        console.log('pl', payload);
+        //console.log('pl', payload);
 
         if (sessionStorage.getItem('useCache') && mode === 'basilisk') {
           const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
@@ -1063,7 +1063,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
       }
 
       function calcBalance(result, json, dispatch, mode) {
-        console.log('result', result);
+        //console.log('result', result);
         if (mode === 'full' || mode === 'basilisk') {
           result[0] = result[0].result;
         } else {
@@ -1071,8 +1071,8 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           result[1] = result[1].result;
         }
 
-        console.log('calc result', result);
-        console.log('calc json', json);
+        //console.log('calc result', result);
+        //console.log('calc json', json);
 
         if (mode !== 'basilisk') {
           const allAddrArray = json.map(res => res.address).filter((x, i, a) => a.indexOf(x) == i);
@@ -1112,8 +1112,8 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             } else {
               filteredArray = json.filter(res => res.address === result[a][b]).map(res => res.amount);
             }
-            console.log('filteredArray', filteredArray);
-            console.log('addr', result[a][b]);
+            //console.log('filteredArray', filteredArray);
+            //console.log('addr', result[a][b]);
 
             let sum = 0;
 
@@ -1752,6 +1752,34 @@ export function sendToAddress(coin, _payload) {
   }
 }
 
+export function sendFromAddress(coin, _payload) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'coin': coin,
+    'method': 'sendfrom',
+    'params': [
+      _payload.sendFrom,
+      _payload.sendTo,
+      _payload.amount,
+      'EasyDEX',
+      'EasyDEXTransaction'
+    ]
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'sendFromAddress', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(sendToAddressState(json, dispatch)))
+  }
+}
+
 function checkAddressBasiliskHandle(json) {
   if (json && json.error) {
     return dispatch => {
@@ -2114,6 +2142,38 @@ export function connectNotaries() {
     .then(response => response.json())
     .then(json => dispatch(connectAllNotaryNodes(json, dispatch)))
   }
+}
+
+export function iguanaUTXORawTX(data) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'symbol': data.coin,
+    'agent': 'basilisk',
+    'method': 'utxorawtx',
+    'vals': {
+      'timelock': 0,
+      'changeaddr': data.sendfrom,
+      'destaddr': data.sendtoaddr,
+      'txfee': data.txfee,
+      'amount': data.amount,
+      'sendflag': data.sendsig
+    },
+    'utxos': data.utxos
+  };
+  console.log('iguanaUTXORawTXExport', payload);
+
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'iguanaUTXORawTX', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => resolve(json))
+  });
 }
 
 /*function Shepherd_SendPendValue() {
