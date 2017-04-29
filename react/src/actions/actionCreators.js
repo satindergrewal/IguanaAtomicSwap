@@ -504,6 +504,8 @@ export function getDexCoins() {
         'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
         'agent': 'InstantDEX',
         'method': 'allcoins',
+        'immediate': 60000,
+        'timeout': 60000
       })
     })
     .catch(function(error) {
@@ -534,7 +536,8 @@ export function iguanaWalletPassphrase(_passphrase) {
         'password': _passphrase,
         'timeout': '2592000',
         'agent': 'bitcoinrpc',
-        'method': 'walletpassphrase'
+        'method': 'walletpassphrase',
+        'immediate': 60000,
       }),
     })
     .catch(function(error) {
@@ -553,7 +556,9 @@ export function iguanaActiveHandle(getMainAddress) {
       body: JSON.stringify({
         'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
         'agent': 'SuperNET',
-        'method': 'activehandle'
+        'method': 'activehandle',
+        'immediate': 60000,
+        'timeout': 60000
       }),
     })
     .catch(function(error) {
@@ -573,7 +578,9 @@ export function iguanaEdexBalance(coin) {
         'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
         'agent': 'bitcoinrpc',
         'method': 'getbalance',
-        'coin': coin
+        'coin': coin,
+        'immediate': 60000,
+        'timeout': 60000
       }),
     })
     .catch(function(error) {
@@ -613,7 +620,9 @@ export function encryptWallet(_passphrase, cb, coin) {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
     'agent': 'bitcoinrpc',
     'method': 'encryptwallet',
-    'passphrase': _passphrase
+    'passphrase': _passphrase,
+    'immediate': 60000,
+    'timeout': 60000
   };
 
   return dispatch => {
@@ -637,7 +646,8 @@ export function walletPassphrase(_passphrase) {
     'agent': 'bitcoinrpc',
     'method': 'walletpassphrase',
     'password': _passphrase,
-    'timeout': '2592000'
+    'timeout': '2592000',
+    'immediate': 60000,
   };
 
   return dispatch => {
@@ -685,7 +695,9 @@ export function getFullTransactionsList(coin) {
       0,
       9999999,
       []
-    ]
+    ],
+    'immediate': 60000,
+    'timeout': 60000
   };
 
   return dispatch => {
@@ -710,7 +722,9 @@ export function getBasiliskTransactionsList(coin, address) {
     'address': address,
     'count': 100,
     'skip': 0,
-    'symbol': coin
+    'symbol': coin,
+    'immediate': 60000,
+    'timeout': 60000
   };
 
   if (sessionStorage.getItem('useCache')) {
@@ -757,6 +771,8 @@ export function getPeersList(coin) {
     'agent': 'SuperNET',
     'method': 'getpeers',
     'activecoin': coin,
+    'immediate': 60000,
+    'timeout': 60000
   };
 
   return dispatch => {
@@ -802,7 +818,9 @@ export function addPeerNode(coin, ip) {
     'agent': 'iguana',
     'method': 'addnode',
     'activecoin': coin,
-    'ipaddr': ip
+    'ipaddr': ip,
+    'immediate': 60000,
+    'timeout': 60000
   };
 
   return dispatch => {
@@ -836,7 +854,9 @@ export function getAddressesByAccount(coin, mode) {
     'coin': coin,
     'agent': 'bitcoinrpc',
     'method': 'getaddressesbyaccount',
-    'account': '*'
+    'account': '*',
+    'immediate': 60000,
+    'timeout': 60000
   };
 
   return dispatch => {
@@ -891,8 +911,8 @@ export function getSyncInfo(coin) {
     'coin': coin,
     'agent': 'bitcoinrpc',
     'method': 'getinfo',
-    'immediate': 100,
-    'timeout': 4000
+    'immediate': 60000,
+    'timeout': 60000
   };
 
   return dispatch => {
@@ -957,7 +977,9 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             'method': 'passthru',
             'asset': coin,
             'function': ajax_function_input,
-            'hex': tmplistaddr_hex_input
+            'hex': tmplistaddr_hex_input,
+            'immediate': 60000,
+            'timeout': 60000
           };
         } else {
           payload = {
@@ -965,7 +987,9 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             'agent': passthru_agent,
             'method': 'passthru',
             'function': ajax_function_input,
-            'hex': tmplistaddr_hex_input
+            'hex': tmplistaddr_hex_input,
+            'immediate': 60000,
+            'timeout': 60000
           };
         }
 
@@ -975,7 +999,9 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             'coin': coin,
             'agent': 'bitcoinrpc',
             'method': 'getaddressesbyaccount',
-            'account': '*'
+            'account': '*',
+            'immediate': 60000,
+            'timeout': 60000
           };
         }
         //console.log('pl', payload);
@@ -1027,7 +1053,9 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           'method': 'passthru',
           'asset': coin,
           'function': 'listunspent',
-          'hex': ''
+          'hex': '',
+          'immediate': 60000,
+          'timeout': 60000
         };
       } else {
         payload = {
@@ -1035,7 +1063,9 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           'agent': passthru_agent,
           'method': 'passthru',
           'function': 'listunspent',
-          'hex': ''
+          'hex': '',
+          'immediate': 60000,
+          'timeout': 60000
         };
       }
 
@@ -1047,7 +1077,9 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           'params': [
             1,
             9999999,
-          ]
+          ],
+          'immediate': 60000,
+          'timeout': 60000
         };
       }
 
@@ -1058,7 +1090,9 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           'agent': 'dex',
           'method': 'listunspent',
           'address': currentAddress,
-          'symbol': coin
+          'symbol': coin,
+          'immediate': 60000,
+          'timeout': 60000
         };
       }
 
@@ -1321,7 +1355,9 @@ export function importPrivKey(wifKey) {
     'params': [
       wifKey,
       'imported'
-    ]
+    ],
+    'immediate': 60000,
+    'timeout': 60000
   };
 
   return dispatch => {
@@ -1407,7 +1443,9 @@ export function getSyncInfoNative(coin) {
     'method': 'passthru',
     'asset': coin,
     'function': 'getinfo',
-    'hex': ''
+    'hex': '',
+    'immediate': 60000,
+    'timeout': 60000
   };
 
   return dispatch => {
@@ -1431,7 +1469,9 @@ export function getDexBalance(coin, addr) {
       'agent': 'dex',
       'method': 'listunspent',
       'address': _addr,
-      'symbol': coin
+      'symbol': coin,
+      'immediate': 60000,
+      'timeout': 60000
     };
     console.log('addr', _addr);
     return new Promise((resolve, reject) => {
@@ -1465,7 +1505,9 @@ export function getKMDBalanceTotal(coin) {
       'method': 'passthru',
       'asset': coin,
       'function': 'z_gettotalbalance',
-      'hex': '3000'
+      'hex': '3000',
+      'immediate': 60000,
+      'timeout': 60000
     };
   } else {
     payload = {
@@ -1473,7 +1515,9 @@ export function getKMDBalanceTotal(coin) {
       'agent': getPassthruAgent(coin),
       'method': 'passthru',
       'function': 'z_gettotalbalance',
-      'hex': '3000'
+      'hex': '3000',
+      'immediate': 60000,
+      'timeout': 60000
     };
   }
 
@@ -1512,7 +1556,9 @@ export function getNativeTxHistory(coin) {
       'method': 'passthru',
       'asset': coin,
       'function': 'listtransactions',
-      'hex': ''
+      'hex': '',
+      'immediate': 60000,
+      'timeout': 60000
     };
   } else {
     payload = {
@@ -1520,7 +1566,9 @@ export function getNativeTxHistory(coin) {
       'agent': getPassthruAgent(coin),
       'method': 'passthru',
       'function': 'listtransactions',
-      'hex': ''
+      'hex': '',
+      'immediate': 60000,
+      'timeout': 60000
     };
   }
 
@@ -1578,7 +1626,9 @@ export function getNewKMDAddresses(coin, pubpriv) {
       'method': 'passthru',
       'asset': coin,
       'function': ajax_function_input,
-      'hex': ''
+      'hex': '',
+      'immediate': 60000,
+      'timeout': 60000
     };
   } else {
     payload = {
@@ -1586,7 +1636,9 @@ export function getNewKMDAddresses(coin, pubpriv) {
       'agent': coin,
       'method': 'passthru',
       'function': ajax_function_input,
-      'hex': ''
+      'hex': '',
+      'immediate': 60000,
+      'timeout': 60000
     };
   }
 
@@ -1612,7 +1664,9 @@ export function iguanaHashHex(data) {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
     'agent': 'hash',
     'method': 'hex',
-    'message': data
+    'message': data,
+    'immediate': 60000,
+    'timeout': 60000
   };
 
   return new Promise((resolve, reject) => {
@@ -1644,7 +1698,9 @@ export function sendNativeTx(coin, _payload) {
           'method': 'passthru',
           'asset': coin,
           'function': 'z_sendmany',
-          'hex': hashHexJson
+          'hex': hashHexJson,
+          'immediate': 60000,
+          'timeout': 60000
         };
       } else {
         payload = {
@@ -1652,7 +1708,9 @@ export function sendNativeTx(coin, _payload) {
           'agent': getPassthruAgent(coin),
           'method': 'passthru',
           'function': 'z_sendmany',
-          'hex': hashHexJson
+          'hex': hashHexJson,
+          'immediate': 60000,
+          'timeout': 60000
         };
       }
 
@@ -1708,7 +1766,9 @@ export function getKMDOPID(opid, coin) {
           'method': 'passthru',
           'asset': coin,
           'function': 'z_getoperationstatus',
-          'hex': hashHexJson
+          'hex': hashHexJson,
+          'immediate': 60000,
+          'timeout': 60000
         };
       } else {
         payload = {
@@ -1716,7 +1776,9 @@ export function getKMDOPID(opid, coin) {
           'agent': passthru_agent,
           'method': 'passthru',
           'function': 'z_getoperationstatus',
-          'hex': hashHexJson
+          'hex': hashHexJson,
+          'immediate': 60000,
+          'timeout': 60000
         };
       }
 
@@ -1752,6 +1814,13 @@ function sendToAddressState(json, dispatch) {
   }
 }
 
+export function clearLastSendToResponseState() {
+  return {
+    type: DASHBOARD_ACTIVE_COIN_SENDTO,
+    lastSendToResponse: null,
+  }
+}
+
 export function sendToAddress(coin, _payload) {
   const payload = {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
@@ -1762,7 +1831,9 @@ export function sendToAddress(coin, _payload) {
       _payload.amount,
       'EasyDEX',
       'EasyDEXTransaction'
-    ]
+    ],
+    'immediate': 60000,
+    'timeout': 60000
   };
 
   return dispatch => {
@@ -1790,7 +1861,9 @@ export function sendFromAddress(coin, _payload) {
       _payload.amount,
       'EasyDEX',
       'EasyDEXTransaction'
-    ]
+    ],
+    'immediate': 60000,
+    'timeout': 60000
   };
 
   return dispatch => {
@@ -1827,7 +1900,9 @@ export function checkAddressBasilisk(coin, address) {
     'agent': 'dex',
     'method': 'checkaddress',
     'address': address,
-    'symbol': coin
+    'symbol': coin,
+    'immediate': 60000,
+    'timeout': 60000
   };
 
   return dispatch => {
@@ -1867,7 +1942,9 @@ export function validateAddressBasilisk(coin, address) {
     'agent': 'dex',
     'method': 'validateaddress',
     'address': address,
-    'symbol': coin
+    'symbol': coin,
+    'immediate': 60000,
+    'timeout': 60000
   };
 
   return dispatch => {
@@ -1902,7 +1979,9 @@ export function getDexNotaries(coin) {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
     'agent': 'dex',
     'method': 'getnotaries',
-    'symbol': coin
+    'symbol': coin,
+    'immediate': 60000,
+    'timeout': 60000
   };
 
   return dispatch => {
@@ -1936,7 +2015,9 @@ export function createNewWallet(_passphrase) {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
     'agent': 'bitcoinrpc',
     'method': 'encryptwallet',
-    'passphrase': _passphrase
+    'passphrase': _passphrase,
+    'immediate': 60000,
+    'timeout': 60000
   };
 
   return dispatch => {
@@ -1972,6 +2053,7 @@ export function deleteCacheFile(_payload) {
 }
 
 export function fetchNewCacheData(_payload) {
+  console.log('fetchNewCacheData', true);
   const _userpass = '?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
         _pubkey = '&pubkey=' + _payload.pubkey,
         _route = _payload.allcoins ? 'cache-all' : 'cache-one',
@@ -2002,7 +2084,9 @@ function initNotaryNodesConSequence(nodes) {
         'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
         'agent': 'dex',
         'method': 'getinfo',
-        'symbol': node
+        'symbol': node,
+        'immediate': 60000,
+        'timeout': 60000
       };
 
       return new Promise((resolve, reject) => {
@@ -2154,7 +2238,9 @@ export function connectNotaries() {
   const payload = {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
     'agent': 'dpow',
-    'method': 'notarychains'
+    'method': 'notarychains,',
+    'immediate': 60000,
+    'timeout': 60000
   };
 
   return dispatch => {
@@ -2185,7 +2271,9 @@ export function iguanaUTXORawTX(data) {
       'amount': data.amount,
       'sendflag': data.sendsig
     },
-    'utxos': data.utxos
+    'utxos': data.utxos,
+    'immediate': 60000,
+    'timeout': 60000
   };
   console.log('iguanaUTXORawTXExport', payload);
 
