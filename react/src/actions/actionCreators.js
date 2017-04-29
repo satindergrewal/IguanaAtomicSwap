@@ -1020,7 +1020,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
       var payload;
 
-      if (passthru_agent == 'iguana') {
+      if (passthru_agent === 'iguana') {
         payload = {
           'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
           'agent': passthru_agent,
@@ -1149,12 +1149,12 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
         })
         .then(response => response.json())
         .then(function(json) {
+          var updatedCache = Object.assign({}, json.result);
           json = json.result.basilisk;
           // if listunspent is not in cache file retrieve new copy
           // otherwise read from cache data
-          // TODO: save listunspent to cache file(?)
           if (json[coin][currentAddress].listunspent) {
-            calcBalance(result, json[coin][currentAddress].listunspent, dispatch, mode);
+            calcBalance(result, json[coin][currentAddress].listunspent.data, dispatch, mode);
           } else {
             fetch('http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.basiliskPort : Config.iguanaCorePort), {
               method: 'POST',
@@ -1166,6 +1166,12 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             })
             .then(response => response.json())
             .then(function(json) {
+              updatedCache.basilisk[coin][currentAddress].listunspent = {
+                'data': json,
+                'status': 'done',
+                'timestamp': Date.now(),
+              };
+              dispatch(shepherdGroomPost(pubkey, updatedCache));
               calcBalance(result, json, dispatch, mode);
             })
           }
@@ -1185,6 +1191,27 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
         })
       }
     })
+  }
+}
+
+export function shepherdGroomPost(_filename, _payload) {
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/groom/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'filename': _filename,
+        'payload': JSON.stringify(_payload),
+      }),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'shepherdGroomPost', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => console.log(json))
   }
 }
 

@@ -84,7 +84,6 @@ class SendCoin extends React.Component {
       const mainAddress = this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin];
       const mainAddressAmount = this.renderAddressAmount(mainAddress);
 
-      console.log('sendApiType', this.state.sendApiType);
       return (
         <span>
           <i className={this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {mainAddressAmount} {this.props.ActiveCoin.coin} ]  {mainAddress}</span>

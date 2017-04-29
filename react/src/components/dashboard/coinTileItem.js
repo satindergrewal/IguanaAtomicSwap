@@ -56,7 +56,7 @@ class CoinTileItem extends React.Component {
         Store.dispatch(getShepherdCache(this.props.Dashboard.activeHandle.pubkey));
         Store.dispatch(getBasiliskTransactionsList(coin, useAddress));
         Store.dispatch(getKMDAddressesNative(coin, mode, useAddress));
-        Store.dispatch(iguanaEdexBalance(coin, mode));
+        //Store.dispatch(iguanaEdexBalance(coin, mode));
       }
     }
   }
