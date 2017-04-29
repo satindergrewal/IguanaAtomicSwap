@@ -445,7 +445,7 @@ class WalletsData extends React.Component {
                                 </a>
                               </li>
                               <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
-                                <a className="btn_edexcoin_dashboard_fetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_fetchdata" role="menuitem" onClick={this.basiliskRefreshAction}>
+                                <a className="btn_edexcoin_dashboard_fetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_fetchdata" role="menuitem" onClick={this.basiliskRefreshActionOne}>
                                   <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.FETCH_WALLET_DATA')}
                                 </a>
                               </li>
@@ -457,6 +457,11 @@ class WalletsData extends React.Component {
                               <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
                                 <a role="menuitem" onClick={this._fetchUtxoCache}>
                                   <i className="icon fa-history" aria-hidden="true"></i> Update UTXO
+                                </a>
+                              </li>
+                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
+                                <a role="menuitem" onClick={this.basiliskRefreshAction}>
+                                  <i className="icon fa-cloud-download" aria-hidden="true"></i> Fetch all
                                 </a>
                               </li>
                               <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
