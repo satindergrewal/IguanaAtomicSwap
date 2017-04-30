@@ -2,6 +2,7 @@ import React from 'react';
 import Config from '../../config';
 import { translate } from '../../translate/translate';
 import { secondsToString } from '../../util/time';
+import { sortByDate } from '../../util/sort';
 import {
   basiliskRefresh,
   basiliskConnection,
@@ -156,7 +157,7 @@ class WalletsData extends React.Component {
     this.setState({
       [e.target.name]: e.target.value,
       activePage: 1,
-      itemsList: historyToSplit,
+      itemsList: sortByDate(historyToSplit),
     });
   }
 
@@ -171,7 +172,7 @@ class WalletsData extends React.Component {
         historyToSplit = historyToSplit.slice((this.state.activePage - 1) * this.state.itemsPerPage, this.state.activePage * this.state.itemsPerPage);
 
         this.setState(Object.assign({}, this.state, {
-          itemsList: historyToSplit,
+          itemsList: sortByDate(historyToSplit),
         }));
       }
     }
@@ -189,7 +190,7 @@ class WalletsData extends React.Component {
 
     this.setState(Object.assign({}, this.state, {
       activePage: page,
-      itemsList: historyToSplit,
+      itemsList: sortByDate(historyToSplit),
     }));
   }
 
