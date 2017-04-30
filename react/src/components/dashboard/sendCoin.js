@@ -138,7 +138,7 @@ class SendCoin extends React.Component {
     }));
 
     if (step === 2) {
-      if (!this.state.sendApiType) {
+      if (!this.state.sendApiType && this.props.ActiveCoin.mode === 'basilisk') {
         handleBasiliskSend();
       } else {
         Store.dispatch(sendToAddress(this.props.ActiveCoin.coin, this.state));
