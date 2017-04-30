@@ -118,6 +118,13 @@ class WalletsData extends React.Component {
       'calls': 'refresh',
       'address': this.state.currentAddress,
     }));
+    console.log('_fetchUtxoCache', {
+      'pubkey': this.props.Dashboard.activeHandle.pubkey,
+      'allcoins': false,
+      'coin': this.props.ActiveCoin.coin,
+      'calls': 'refresh',
+      'address': this.state.currentAddress,
+    });
   }
 
   toggleBasiliskActionsMenu() {
