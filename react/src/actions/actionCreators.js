@@ -48,6 +48,8 @@ export const DASHBOARD_DISPLAY_NOTARIES_MODAL = 'DASHBOARD_DISPLAY_NOTARIES_MODA
 export const DASHBOARD_CONNECT_NOTARIES = 'DASHBOARD_CONNECT_NOTARIES';
 export const VIEW_CACHE_DATA = 'VIEW_CACHE_DATA';
 
+var iguanaForks = {}; // forks in mem array
+
 export function toggleViewCacheModal(display) {
   return {
     type: VIEW_CACHE_DATA,
@@ -305,10 +307,10 @@ export function dismissToasterMessage() {
 
 export function addCoin(coin, mode) {
 	console.log('coin, mode', coin + ' ' + mode);
-  startIguanaInstance(mode, coin)
+  /*startIguanaInstance(mode, coin)
   .then(function(json) {
     console.log('addCoin+startIguanaInstance', json);
-  });
+  });*/
   if (mode === '-1') {
     return dispatch => {
       dispatch(shepherdGetConfig(coin, mode));
@@ -1010,7 +1012,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           };
         }
 
-        if (mode === 'native' || mode === 'basilisk') {
+        if (mode === 'full' || mode === 'basilisk') {
           payload = {
             'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
             'coin': coin,
@@ -1021,7 +1023,6 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             'timeout': 60000
           };
         }
-        //console.log('pl', payload);
 
         if (sessionStorage.getItem('useCache') && mode === 'basilisk') {
           const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
@@ -1117,9 +1118,6 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
         //console.log('result', result);
         if (mode === 'full' || mode === 'basilisk') {
           result[0] = result[0].result;
-        } else {
-          result[0] = result[0].result;
-          result[1] = result[1].result;
         }
 
         //console.log('calc result', result);
