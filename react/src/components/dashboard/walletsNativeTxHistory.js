@@ -26,13 +26,13 @@ class WalletsNativeTxHistory extends React.Component {
   }
 
   updateInput(e) {
-    let historyToSplit = this.props.ActiveCoin.txhistory;
+    let historyToSplit = sortByDate(this.props.ActiveCoin.txhistory);
     historyToSplit = historyToSplit.slice(0, e.target.value);
 
     this.setState({
       [e.target.name]: e.target.value,
       activePage: 1,
-      itemsList: sortByDate(historyToSplit),
+      itemsList: historyToSplit,
     });
   }
 
@@ -82,23 +82,23 @@ class WalletsNativeTxHistory extends React.Component {
   componentWillReceiveProps(props) {
     if (!this.state.itemsList || (this.state.itemsList && !this.state.itemsList.length) || (props.ActiveCoin.txhistory !== this.props.ActiveCoin.txhistory)) {
       if (this.props.ActiveCoin.txhistory) {
-        let historyToSplit = this.props.ActiveCoin.txhistory;
+        let historyToSplit = sortByDate(this.props.ActiveCoin.txhistory);
         historyToSplit = historyToSplit.slice((this.state.activePage - 1) * this.state.itemsPerPage, this.state.activePage * this.state.itemsPerPage);
 
         this.setState(Object.assign({}, this.state, {
-          itemsList: sortByDate(historyToSplit),
+          itemsList: historyToSplit,
         }));
       }
     }
   }
 
   updateCurrentPage(page) {
-    let historyToSplit = this.props.ActiveCoin.txhistory;
+    let historyToSplit = sortByDate(this.props.ActiveCoin.txhistory);
     historyToSplit = historyToSplit.slice((page - 1) * this.state.itemsPerPage, page * this.state.itemsPerPage);
 
     this.setState(Object.assign({}, this.state, {
       activePage: page,
-      itemsList: sortByDate(historyToSplit),
+      itemsList: historyToSplit,
     }));
   }
 
