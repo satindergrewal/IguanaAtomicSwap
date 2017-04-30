@@ -2,6 +2,7 @@ import React from 'react';
 import Config from '../../config';
 import { translate } from '../../translate/translate';
 import { secondsToString } from '../../util/time';
+import { sortByDate } from '../../util/sort';
 import {
   basiliskRefresh,
   basiliskConnection,
@@ -15,8 +16,7 @@ import {
   toggleViewCacheModal,
   fetchNewCacheData,
   fetchUtxoCache,
-  getIguanaInstancesList,
-  restartIguanaInstance
+  restartBasiliskInstance
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -65,11 +65,16 @@ class WalletsData extends React.Component {
 
   toggleCacheApi() {
     const _useCache = !this.state.useCache;
+
     console.log('useCache is set to', _useCache);
     sessionStorage.setItem('useCache', _useCache);
     this.setState(Object.assign({}, this.state, {
       useCache: _useCache,
     }));
+  }
+
+  restartBasiliskInstance() {
+    Store.dispatch(restartBasiliskInstance());
   }
 
   _toggleViewCacheModal() {
@@ -94,18 +99,6 @@ class WalletsData extends React.Component {
         data.message.shepherd.status === 'done') {
       Store.dispatch(basiliskRefresh(false));
     }
-  }
-
-  restartBasiliskInstance() {
-    getIguanaInstancesList().then(function(json) {
-      for (let port in json.result) {
-        if (json.result[port].mode === 'basilisk') {
-          restartIguanaInstance(json.result[port].pmid).then(function(json) {
-            console.log('restartBasiliskInstance', json);
-          });
-        }
-      }
-    });
   }
 
   removeAndFetchNewCache() {
@@ -158,7 +151,7 @@ class WalletsData extends React.Component {
   }
 
   updateInput(e) {
-    let historyToSplit = this.props.ActiveCoin.txhistory;
+    let historyToSplit = sortByDate(this.props.ActiveCoin.txhistory);
     historyToSplit = historyToSplit.slice(0, e.target.value);
 
     this.setState({
@@ -175,7 +168,7 @@ class WalletsData extends React.Component {
   componentWillReceiveProps(props) {
     if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory.length) {
       if (!this.state.itemsList || (this.state.itemsList && !this.state.itemsList.length) || (props.ActiveCoin.txhistory !== this.props.ActiveCoin.txhistory)) {
-        let historyToSplit = this.props.ActiveCoin.txhistory;
+        let historyToSplit = sortByDate(this.props.ActiveCoin.txhistory);
         historyToSplit = historyToSplit.slice((this.state.activePage - 1) * this.state.itemsPerPage, this.state.activePage * this.state.itemsPerPage);
 
         this.setState(Object.assign({}, this.state, {
@@ -192,7 +185,7 @@ class WalletsData extends React.Component {
   }
 
   updateCurrentPage(page) {
-    let historyToSplit = this.props.ActiveCoin.txhistory;
+    let historyToSplit = sortByDate(this.props.ActiveCoin.txhistory);
     historyToSplit = historyToSplit.slice((page - 1) * this.state.itemsPerPage, page * this.state.itemsPerPage);
 
     this.setState(Object.assign({}, this.state, {
@@ -250,7 +243,7 @@ class WalletsData extends React.Component {
                   <a aria-controls="kmd-tx-history-tbl" data-dt-idx="0" tabIndex="0" onClick={() => this.updateCurrentPage(this.state.activePage - 1)}>Previous</a>
                 </li>
                 {this.renderPaginationItems()}
-                <li className={this.state.activePage === Math.floor(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage) ? 'paginate_button next disabled' : 'paginate_button next'} id="kmd-tx-history-tbl_next">
+                <li className={this.state.activePage > Math.floor(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage) ? 'paginate_button next disabled' : 'paginate_button next'} id="kmd-tx-history-tbl_next">
                   <a aria-controls="kmd-tx-history-tbl" data-dt-idx="2" tabIndex="0" onClick={() => this.updateCurrentPage(this.state.activePage + 1)}>Next</a>
                 </li>
               </ul>
@@ -332,6 +325,7 @@ class WalletsData extends React.Component {
     this.setState(Object.assign({}, this.state, {
       currentAddress: address,
       addressSelectorOpen: false,
+      activePage: 1,
     }));
 
     setTimeout(function() {
@@ -350,6 +344,21 @@ class WalletsData extends React.Component {
     }));
   }
 
+  renderUseCacheToggle() {
+    if (this.props.ActiveCoin.mode === 'basilisk') {
+      return (
+        <div className="col-sm-2">
+          <div className="pull-left margin-right-10">
+            <input type="checkbox" id="edexcoin_cache_api" checked={this.state.useCache} data-plugin="switchery" data-size="small" />
+          </div>
+          <label className="padding-top-3" htmlFor="edexcoin_cache_api" onClick={this.toggleCacheApi}>Use cache</label>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   renderAddressByType(type) {
     if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses[type] && this.props.ActiveCoin.addresses[type].length) {
       return this.props.ActiveCoin.addresses[type].map((address) =>
@@ -362,11 +371,23 @@ class WalletsData extends React.Component {
     }
   }
 
+  renderAddressAmount() {
+    if (this.props.ActiveCoin.addresses['public'] && this.props.ActiveCoin.addresses['public'].length) {
+      for (let i = 0; i < this.props.ActiveCoin.addresses['public'].length; i++) {
+        if (this.props.ActiveCoin.addresses['public'][i].address === this.state.currentAddress) {
+          return this.props.ActiveCoin.addresses['public'][i].amount;
+        }
+      }
+    } else {
+      return 0;
+    }
+  }
+
   renderSelectorCurrentLabel() {
     if (this.state.currentAddress) {
       return (
         <span>
-          <i className={this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {this.state.sendFromAmount} {this.props.ActiveCoin.coin} ]  {this.state.currentAddress}</span>
+          <i className={this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {this.renderAddressAmount()} {this.props.ActiveCoin.coin} ]  {this.state.currentAddress}</span>
         </span>
       );
     } else {
@@ -440,7 +461,7 @@ class WalletsData extends React.Component {
                                 </a>
                               </li>
                               <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
-                                <a className="btn_edexcoin_dashboard_fetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_fetchdata" role="menuitem" onClick={this.basiliskRefreshAction}>
+                                <a className="btn_edexcoin_dashboard_fetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_fetchdata" role="menuitem" onClick={this.basiliskRefreshActionOne}>
                                   <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.FETCH_WALLET_DATA')}
                                 </a>
                               </li>
@@ -452,6 +473,11 @@ class WalletsData extends React.Component {
                               <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
                                 <a role="menuitem" onClick={this._fetchUtxoCache}>
                                   <i className="icon fa-history" aria-hidden="true"></i> Update UTXO
+                                </a>
+                              </li>
+                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
+                                <a role="menuitem" onClick={this.basiliskRefreshAction}>
+                                  <i className="icon fa-cloud-download" aria-hidden="true"></i> Fetch all
                                 </a>
                               </li>
                               <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
@@ -474,12 +500,7 @@ class WalletsData extends React.Component {
                           <div className="col-sm-6">
                           {this.renderAddressList()}
                           </div>
-                          <div className="col-sm-2">
-                            <div className="pull-left margin-right-10">
-                              <input type="checkbox" id="edexcoin_cache_api" checked={this.state.useCache} data-plugin="switchery" data-size="small" />
-                            </div>
-                            <label className="padding-top-3" htmlFor="edexcoin_cache_api" onClick={this.toggleCacheApi}>Use cache</label>
-                          </div>
+                          {this.renderUseCacheToggle}
                         </div>
                         <div className="row" style={{padding: '20px 0 10px 0'}}>
                           <div className="col-sm-6">

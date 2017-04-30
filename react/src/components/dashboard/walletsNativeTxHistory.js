@@ -1,6 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 import { secondsToString } from '../../util/time';
+import { sortByDate } from '../../util/sort';
 import { toggleDashboardTxInfoModal } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -25,7 +26,7 @@ class WalletsNativeTxHistory extends React.Component {
   }
 
   updateInput(e) {
-    let historyToSplit = this.props.ActiveCoin.txhistory;
+    let historyToSplit = sortByDate(this.props.ActiveCoin.txhistory);
     historyToSplit = historyToSplit.slice(0, e.target.value);
 
     this.setState({
@@ -81,7 +82,7 @@ class WalletsNativeTxHistory extends React.Component {
   componentWillReceiveProps(props) {
     if (!this.state.itemsList || (this.state.itemsList && !this.state.itemsList.length) || (props.ActiveCoin.txhistory !== this.props.ActiveCoin.txhistory)) {
       if (this.props.ActiveCoin.txhistory) {
-        let historyToSplit = this.props.ActiveCoin.txhistory;
+        let historyToSplit = sortByDate(this.props.ActiveCoin.txhistory);
         historyToSplit = historyToSplit.slice((this.state.activePage - 1) * this.state.itemsPerPage, this.state.activePage * this.state.itemsPerPage);
 
         this.setState(Object.assign({}, this.state, {
@@ -92,7 +93,7 @@ class WalletsNativeTxHistory extends React.Component {
   }
 
   updateCurrentPage(page) {
-    let historyToSplit = this.props.ActiveCoin.txhistory;
+    let historyToSplit = sortByDate(this.props.ActiveCoin.txhistory);
     historyToSplit = historyToSplit.slice((page - 1) * this.state.itemsPerPage, page * this.state.itemsPerPage);
 
     this.setState(Object.assign({}, this.state, {
@@ -150,7 +151,7 @@ class WalletsNativeTxHistory extends React.Component {
                   <a aria-controls="kmd-tx-history-tbl" data-dt-idx="0" tabIndex="0" onClick={() => this.updateCurrentPage(this.state.activePage - 1)}>Previous</a>
                 </li>
                 {this.renderPaginationItems()}
-                <li className={this.state.activePage === Math.floor(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage) ? 'paginate_button next disabled' : 'paginate_button next'} id="kmd-tx-history-tbl_next">
+                <li className={this.state.activePage > Math.floor(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage) ? 'paginate_button next disabled' : 'paginate_button next'} id="kmd-tx-history-tbl_next">
                   <a aria-controls="kmd-tx-history-tbl" data-dt-idx="2" tabIndex="0" onClick={() => this.updateCurrentPage(this.state.activePage + 1)}>Next</a>
                 </li>
               </ul>
