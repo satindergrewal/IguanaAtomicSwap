@@ -1172,7 +1172,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
 
             newAddressArray[a][b] = {
               address: result[a][b],
-              amount: currentAddress === result[a][b] ? sum : 'N/A',
+              amount: currentAddress === result[a][b] || mode === 'native' ? sum : 'N/A',
             };
           }
         }
