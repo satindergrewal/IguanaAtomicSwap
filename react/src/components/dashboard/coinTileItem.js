@@ -45,7 +45,7 @@ class CoinTileItem extends React.Component {
       Store.dispatch(iguanaActiveHandle(true));
       Store.dispatch(getSyncInfo(coin));
       Store.dispatch(iguanaEdexBalance(coin, mode));
-      Store.dispatch(getKMDAddressesNative(coin, mode)); //getAddressesByAccount(coin));
+      Store.dispatch(getAddressesByAccount(coin, mode));
       Store.dispatch(getFullTransactionsList(coin));
     }
     if (mode === 'basilisk') {
@@ -68,6 +68,7 @@ class CoinTileItem extends React.Component {
       Store.dispatch(dashboardChangeActiveCoin(coin, mode));
 
       this.dispatchCoinActions(coin, mode);
+
       if (mode === 'full') {
         var _iguanaActiveHandle = setInterval(function() {
           this.dispatchCoinActions(coin, mode);

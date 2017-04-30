@@ -343,6 +343,21 @@ class WalletsData extends React.Component {
     }));
   }
 
+  renderUseCacheToggle() {
+    if (this.props.ActiveCoin.mode === 'basilisk') {
+      return (
+        <div className="col-sm-2">
+          <div className="pull-left margin-right-10">
+            <input type="checkbox" id="edexcoin_cache_api" checked={this.state.useCache} data-plugin="switchery" data-size="small" />
+          </div>
+          <label className="padding-top-3" htmlFor="edexcoin_cache_api" onClick={this.toggleCacheApi}>Use cache</label>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   renderAddressByType(type) {
     if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses[type] && this.props.ActiveCoin.addresses[type].length) {
       return this.props.ActiveCoin.addresses[type].map((address) =>
@@ -484,12 +499,7 @@ class WalletsData extends React.Component {
                           <div className="col-sm-6">
                           {this.renderAddressList()}
                           </div>
-                          <div className="col-sm-2">
-                            <div className="pull-left margin-right-10">
-                              <input type="checkbox" id="edexcoin_cache_api" checked={this.state.useCache} data-plugin="switchery" data-size="small" />
-                            </div>
-                            <label className="padding-top-3" htmlFor="edexcoin_cache_api" onClick={this.toggleCacheApi}>Use cache</label>
-                          </div>
+                          {this.renderUseCacheToggle}
                         </div>
                         <div className="row" style={{padding: '20px 0 10px 0'}}>
                           <div className="col-sm-6">

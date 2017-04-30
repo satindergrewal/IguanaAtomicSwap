@@ -8,7 +8,8 @@ import {
   getKMDOPID,
   resolveOpenAliasAddress,
   triggerToaster,
-  iguanaUTXORawTX
+  iguanaUTXORawTX,
+  clearLastSendToResponseState
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -130,6 +131,8 @@ class SendCoin extends React.Component {
   }
 
   changeSendCoinStep(step) {
+    Store.dispatch(clearLastSendToResponseState());
+
     this.setState(Object.assign({}, this.state, {
       currentStep: step,
     }));
@@ -253,7 +256,9 @@ class SendCoin extends React.Component {
         </tr>
       );
     } else {
-      return null;
+      return (
+        <span>Processing transaction...</span>
+      );
     }
   }
 

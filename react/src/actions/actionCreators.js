@@ -838,13 +838,15 @@ export function addPeerNode(coin, ip) {
 }
 
 export function getAddressesByAccountState(json, coin, mode) {
+  json = json.result.map(res => Object.assign({}, res, { 'address': res }));
+  console.log('getAddressesByAccountState', json);
   if (mode === 'basilisk') {
     getDexBalance(coin, mode, json.result);
   }
 
   return {
     type: ACTIVE_COIN_GET_ADDRESSES,
-    addresses: json.result,
+    addresses: { 'public': json.result },
   }
 }
 
