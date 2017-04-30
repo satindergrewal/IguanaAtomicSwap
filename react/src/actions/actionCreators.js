@@ -305,6 +305,10 @@ export function dismissToasterMessage() {
 
 export function addCoin(coin, mode) {
 	console.log('coin, mode', coin + ' ' + mode);
+  startIguanaInstance(mode, coin)
+  .then(function(json) {
+    console.log('addCoin+startIguanaInstance', json);
+  });
   if (mode === '-1') {
     return dispatch => {
       dispatch(shepherdGetConfig(coin, mode));
@@ -838,8 +842,19 @@ export function addPeerNode(coin, ip) {
 }
 
 export function getAddressesByAccountState(json, coin, mode) {
-  json = json.result.map(res => Object.assign({}, res, { 'address': res }));
-  console.log('getAddressesByAccountState', json);
+  if (mode === 'full') {
+    let publicAddressArray = [];
+
+    for (let i = 0; i < json.result.length; i++) {
+      publicAddressArray.push({
+        'address': json.result[i],
+        'amount': 'N/A'
+      });
+    }
+
+    json.result = publicAddressArray;
+  }
+
   if (mode === 'basilisk') {
     getDexBalance(coin, mode, json.result);
   }
