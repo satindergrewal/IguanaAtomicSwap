@@ -123,7 +123,8 @@ export function checkCoinType(coin) {
 			coin === 'FRK' ||
 			coin === 'GAME' ||
 			coin === 'ZEC' ||
-			coin === 'KMD') {
+			coin === 'KMD' ||
+			coin === 'ZET') {
 		return 'crypto';
 	}
 }
