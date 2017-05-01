@@ -1270,7 +1270,7 @@ export function fetchUtxoCache(_payload) {
         _route = _payload.allcoins ? 'cache-all' : 'cache-one',
         _coin = '&coin=' + _payload.coin,
         _calls = '&calls=' + _payload.calls,
-        _address = '&address' + _payload.address,
+        _address = '&address=' + _payload.address,
         _iguanaInstancePort = Config.useBasiliskInstance ? '&port=' + Config.basiliskPort : '';
 
   return dispatch => {
@@ -1826,6 +1826,13 @@ function sendToAddressState(json, dispatch) {
       type: DASHBOARD_ACTIVE_COIN_SENDTO,
       lastSendToResponse: json,
     }
+  }
+}
+
+export function sendToAddressStateAlt(json) {
+  return {
+    type: DASHBOARD_ACTIVE_COIN_SENDTO,
+    lastSendToResponse: json,
   }
 }
 

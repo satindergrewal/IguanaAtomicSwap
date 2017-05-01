@@ -9,7 +9,8 @@ import {
   resolveOpenAliasAddress,
   triggerToaster,
   iguanaUTXORawTX,
-  clearLastSendToResponseState
+  clearLastSendToResponseState,
+  sendToAddressStateAlt
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -139,7 +140,7 @@ class SendCoin extends React.Component {
 
     if (step === 2) {
       if (!this.state.sendApiType && this.props.ActiveCoin.mode === 'basilisk') {
-        handleBasiliskSend();
+        this.handleBasiliskSend();
       } else {
         Store.dispatch(sendToAddress(this.props.ActiveCoin.coin, this.state));
       }
@@ -166,7 +167,9 @@ class SendCoin extends React.Component {
   }
 
   handleBasiliskSend() {
-    const utxoSet = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh;
+    const refreshData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh;
+    const listunspentData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].listunspent;
+    const utxoSet = refreshData && refreshData.data || listunspentData && listunspentData.data;
     const sendData = {
             'coin': this.props.ActiveCoin.coin,
             'sendfrom': this.state.sendFrom,
@@ -181,15 +184,20 @@ class SendCoin extends React.Component {
       console.log('sendData', sendData);
       console.log('iguanaUTXORawTXJSON', json);
       if (json.result === 'success' && json.completed === true) {
-        Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_GENERATED') + '.', translate('TOASTR.WALLET_NOTIFICATION')));
+        Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_GENERATED') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
+        Store.dispatch(sendToAddressStateAlt(json));
 
         if (sendData.sendsig === 1) {
-          Store.dispatch(triggerToaster(true, translate('TOASTR.SENDING_TX') + '.', translate('TOASTR.WALLET_NOTIFICATION')));
-          ajax_data_dexrawtx = {
+          //Store.dispatch(triggerToaster(true, translate('TOASTR.SENDING_TX') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
+          /*ajax_data_dexrawtx = {
             'signedtx': json.signedtx,
             'coin': sendData.coin
-          };
+          };*/
+        } else {
+          Store.dispatch(sendToAddressStateAlt(json));
         }
+      } else {
+        Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_GENERATED_FAIL') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
       }
       console.log(json);
     });
