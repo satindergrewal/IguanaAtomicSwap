@@ -306,7 +306,7 @@ export function dismissToasterMessage() {
 }
 
 export function addCoin(coin, mode, syncOnly) {
-	console.log('coin, mode', coin + ' ' + mode);
+	console.log('coin, mode, syncOnly', coin + ' ' + mode + ' ' + syncOnly);
   /*startIguanaInstance(mode, coin)
   .then(function(json) {
     console.log('addCoin+startIguanaInstance', json);
@@ -317,27 +317,36 @@ export function addCoin(coin, mode, syncOnly) {
     }
   } else {
     if (checkCoinType(coin) === 'currency_ac') {
-      var _acData = startCurrencyAssetChain('', coin, mode);
+      const _acData = startCurrencyAssetChain('', coin, mode);
+
       return dispatch => {
         dispatch(iguanaAddCoin(coin, mode, _acData));
       }
     }
     if (checkCoinType(coin) === 'ac') {
-      var _acData = startAssetChain('', coin, mode);
+      const _acData = startAssetChain('', coin, mode);
+
       return dispatch => {
         dispatch(iguanaAddCoin(coin, mode, _acData));
       }
     }
     if (checkCoinType(coin) === 'crypto') {
-      var _acData = startCrypto('', coin, mode);
+      const _acData = startCrypto('', coin, mode);
+
       if (syncOnly) {
-        startIguanaInstance(mode + '/sync', coin)
-        .then(function(json) {
-          console.log('started ' + coin + ' / ' mode + ' fork', json);
-          return dispatch => {
+        const modeToValue = {
+          '1': 'full',
+          '0': 'basilisk',
+          '-1': 'native'
+        };
+
+        return dispatch => {
+          startIguanaInstance(modeToValue[mode] + '/sync', coin)
+          .then(function(json) {
+            console.log('started ' + coin + ' / ' + modeToValue[mode] + ' fork', json);
             dispatch(iguanaAddCoin(coin, mode, _acData));
-          }
-        });
+          });
+        }
       } else {
         return dispatch => {
           dispatch(iguanaAddCoin(coin, mode, _acData));
@@ -1133,8 +1142,9 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
         //console.log('calc result', result);
         //console.log('calc json', json);
 
-        if (mode !== 'basilisk') {
+        if (mode !== 'basilisk' && json && json.length) {
           const allAddrArray = json.map(res => res.address).filter((x, i, a) => a.indexOf(x) == i);
+
           for (let a=0; a < allAddrArray.length; a++) {
             const filteredArray = json.filter(res => res.address === allAddrArray[a]).map(res => res.amount);
 
@@ -2317,6 +2327,29 @@ export function iguanaUTXORawTX(data) {
     .catch(function(error) {
       console.log(error);
       dispatch(triggerToaster(true, 'iguanaUTXORawTX', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => resolve(json))
+  });
+}
+
+export function dexSendRawTX(data) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'dex',
+    'method': 'sendrawtransaction',
+    'signedtx': data.signedtx,
+    'symbol': data.coin
+  };
+
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'dexSendRawTX', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => resolve(json))
