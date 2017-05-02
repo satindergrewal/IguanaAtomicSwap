@@ -258,9 +258,9 @@ class SendCoin extends React.Component {
           <span className="label label-success">{this.props.ActiveCoin.lastSendToResponse[key] === true ? 'true' : 'success'}</span>
         );
       } else {
-        if (this.props.ActiveCoin.lastSendToResponse[key] && this.props.ActiveCoin.lastSendToResponse[key].length > 20 && key === 'result') {
+        if (key === 'result' && this.props.ActiveCoin.lastSendToResponse.result && !Object.keys(this.props.ActiveCoin.lastSendToResponse.result).length) {
           return (
-            <span>{this.props.ActiveCoin.lastSendToResponse[key]}</span>
+            <span>{this.props.ActiveCoin.lastSendToResponse.result}</span>
           );
         } else {
           return (
@@ -269,9 +269,15 @@ class SendCoin extends React.Component {
         }
       }
     } else if (key === 'error') {
-      return (
-        <span className="label label-danger">{this.props.ActiveCoin.lastSendToResponse[key]}</span>
-      );
+      if (Object.keys(this.props.ActiveCoin.lastSendToResponse[key]).length) {
+        return (
+          <span>{JSON.stringify(this.props.ActiveCoin.lastSendToResponse[key], null, '\t')}</span>
+        );
+      } else {
+        return (
+          <span className="label label-danger">{this.props.ActiveCoin.lastSendToResponse[key]}</span>
+        );
+      }
     } else if (key === 'sendrawtransaction') {
       if (this.props.ActiveCoin.lastSendToResponse[key] === 'success') {
         return (
