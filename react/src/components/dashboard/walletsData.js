@@ -118,6 +118,13 @@ class WalletsData extends React.Component {
       'calls': 'refresh',
       'address': this.state.currentAddress,
     }));
+    console.log('_fetchUtxoCache', {
+      'pubkey': this.props.Dashboard.activeHandle.pubkey,
+      'allcoins': false,
+      'coin': this.props.ActiveCoin.coin,
+      'calls': 'refresh',
+      'address': this.state.currentAddress,
+    });
   }
 
   toggleBasiliskActionsMenu() {
@@ -197,7 +204,7 @@ class WalletsData extends React.Component {
   renderPaginationItems() {
     let items = [];
 
-    for (let i=0; i <= Math.floor(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage); i++) {
+    for (let i=0; i < Math.ceil(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage); i++) {
       items.push(
         <li className={this.state.activePage === i + 1 ? 'paginate_button active' : 'paginate_button'}>
           <a aria-controls="kmd-tx-history-tbl" data-dt-idx="1" tabIndex="0" key={i + '-pagination'} onClick={this.state.activePage !== (i + 1) ? () => this.updateCurrentPage(i + 1) : null}>{i + 1}</a>

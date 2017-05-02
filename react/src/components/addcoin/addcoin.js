@@ -25,6 +25,7 @@ class AddCoin extends React.Component {
       },
       mode: -2,
       display: false,
+      syncOnly: false,
     };
     this.updateSelectedCoin = this.updateSelectedCoin.bind(this);
     this.updateSelectedMode = this.updateSelectedMode.bind(this);
@@ -33,6 +34,13 @@ class AddCoin extends React.Component {
     this.setFullMode = this.setFullMode.bind(this);
     this.activateCoin = this.activateCoin.bind(this);
     this.dismiss = this.dismiss.bind(this);
+    this.toggleSyncOnlyMode = this.toggleSyncOnlyMode.bind(this);
+  }
+
+  toggleSyncOnlyMode() {
+    this.setState(Object.assign({}, this.state, {
+      syncOnly: this.state.syncOnly,
+    }));
   }
 
   componentWillReceiveProps(props) {
@@ -110,7 +118,7 @@ class AddCoin extends React.Component {
   }*/
 
   activateCoin() {
-    Store.dispatch(addCoin(this.state.selectedCoin.split('|')[0], this.state.mode));
+    Store.dispatch(addCoin(this.state.selectedCoin.split('|')[0], this.state.mode, syncOnly));
   }
 
   dismiss() {
@@ -171,6 +179,12 @@ class AddCoin extends React.Component {
                       <span className="labelauty-checked" style={{ display: this.state.nativeMode.checked ? 'inline-block' : 'none' }}>{translate('INDEX.NATIVE_MODE')}</span>
                     </label>
                   </div>
+                </div>
+                <div className={this.state.mode === 1 ? 'col-sm-12' : 'hide'}>
+                  <div className="pull-left margin-right-10">
+                    <input type="checkbox" id="addcoin_sync_only" data-plugin="switchery" data-size="small" />
+                  </div>
+                  <label className="padding-top-3 padding-bottom-10" htmlFor="addcoin_sync_only" onClick={this.toggleSyncOnlyMode}>Sync only</label>
                 </div>
                 <div className="col-sm-12">
                   <p>

@@ -9,7 +9,8 @@ import {
   resolveOpenAliasAddress,
   triggerToaster,
   iguanaUTXORawTX,
-  clearLastSendToResponseState
+  clearLastSendToResponseState,
+  sendToAddressStateAlt
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -139,7 +140,7 @@ class SendCoin extends React.Component {
 
     if (step === 2) {
       if (!this.state.sendApiType && this.props.ActiveCoin.mode === 'basilisk') {
-        handleBasiliskSend();
+        this.handleBasiliskSend();
       } else {
         Store.dispatch(sendToAddress(this.props.ActiveCoin.coin, this.state));
       }
@@ -166,7 +167,9 @@ class SendCoin extends React.Component {
   }
 
   handleBasiliskSend() {
-    const utxoSet = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh;
+    const refreshData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh;
+    const listunspentData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].listunspent;
+    const utxoSet = refreshData && refreshData.data || listunspentData && listunspentData.data;
     const sendData = {
             'coin': this.props.ActiveCoin.coin,
             'sendfrom': this.state.sendFrom,
@@ -181,15 +184,21 @@ class SendCoin extends React.Component {
       console.log('sendData', sendData);
       console.log('iguanaUTXORawTXJSON', json);
       if (json.result === 'success' && json.completed === true) {
-        Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_GENERATED') + '.', translate('TOASTR.WALLET_NOTIFICATION')));
+        Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_GENERATED') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
+        Store.dispatch(sendToAddressStateAlt(json));
 
         if (sendData.sendsig === 1) {
-          Store.dispatch(triggerToaster(true, translate('TOASTR.SENDING_TX') + '.', translate('TOASTR.WALLET_NOTIFICATION')));
-          ajax_data_dexrawtx = {
+          //Store.dispatch(triggerToaster(true, translate('TOASTR.SENDING_TX') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
+          /*ajax_data_dexrawtx = {
             'signedtx': json.signedtx,
             'coin': sendData.coin
-          };
+          };*/
+        } else {
+          Store.dispatch(sendToAddressStateAlt(json));
         }
+      } else {
+        Store.dispatch(sendToAddressStateAlt(json));
+        Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_GENERATED_FAIL') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
       }
       console.log(json);
     });
@@ -199,14 +208,22 @@ class SendCoin extends React.Component {
     }, 1000);*/
   }
 
-  renderSignedTx(signedtx) {
-    const substrBlocks = 10;
-    const substrLength = this.props.ActiveCoin.lastSendToResponse['signedtx'].length / substrBlocks;
+  renderSignedTx(isRawTx) {
+    let substrBlocks;
+
+    if (this.props.ActiveCoin.mode === 'basilisk') {
+      substrBlocks = isRawTx ? 3 : 8;
+    } else {
+      substrBlocks = 10;
+    }
+
+    const _lastSendToResponse = this.props.ActiveCoin.lastSendToResponse[isRawTx ? 'rawtx' : 'signedtx'];
+    const substrLength = _lastSendToResponse.length / substrBlocks;
     let out = [];
 
     for (let i = 0; i < substrBlocks; i++) {
       out.push(
-        <div key={i}>{this.props.ActiveCoin.lastSendToResponse['signedtx'].substring(i * substrLength, substrLength * i + substrLength)}</div>
+        <div key={i}>{_lastSendToResponse.substring(i * substrLength, substrLength * i + substrLength)}</div>
       );
     }
 
@@ -216,20 +233,18 @@ class SendCoin extends React.Component {
   renderKey(key) {
     if (key === 'signedtx') {
       return this.renderSignedTx();
-    } else if (key === 'complete') {
-      if (this.props.ActiveCoin.lastSendToResponse[key] === true) {
+    } else if (key === 'rawtx') {
+      return this.renderSignedTx(true);
+    } else if (key === 'complete' || key === 'completed' || key === 'result') {
+      if (this.props.ActiveCoin.lastSendToResponse[key] === true || this.props.ActiveCoin.lastSendToResponse[key] === 'success') {
         return (
-          <span className="label label-success">true</span>
+          <span className="label label-success">{this.props.ActiveCoin.lastSendToResponse[key] === true ? 'true' : 'success'}</span>
         );
       } else {
         return (
           <span className="label label-danger">false</span>
         );
       }
-    } else if (key === 'result') {
-      return (
-        <span>{this.props.ActiveCoin.lastSendToResponse[key]}</span>
-      );
     } else if (key === 'error') {
       return (
         <span className="label label-danger">{this.props.ActiveCoin.lastSendToResponse[key]}</span>
@@ -244,11 +259,18 @@ class SendCoin extends React.Component {
           <span className="label label-danger">false</span>
         );
       }
+    } else if (key === 'txid' || key === 'sent') {
+      return (
+        <span>{this.props.ActiveCoin.lastSendToResponse[key]}</span>
+      );
+    } else if (key === 'tag') {
+      return null;
     }
   }
 
   renderSendCoinResponse() {
     if (this.props.ActiveCoin.lastSendToResponse) {
+      console.log('renderSendCoinResponse', this.props.ActiveCoin.lastSendToResponse);
       return Object.keys(this.props.ActiveCoin.lastSendToResponse).map((key, index) =>
         <tr key={key}>
           <td>{key}</td>
@@ -393,7 +415,7 @@ class SendCoin extends React.Component {
                     </div>
                     <div className="col-lg-10 margin-top-10">
                       <div className="pull-left margin-right-10">
-                        <input type="checkbox" id="edexcoin_send_sig" onClick={this.toggleSendSig} data-plugin="switchery" data-size="small" />
+                        <input type="checkbox" id="edexcoin_send_sig" data-plugin="switchery" data-size="small" />
                       </div>
                       <label className="padding-top-3" htmlFor="edexcoin_send_sig" onClick={this.toggleSendSig}>{translate('INDEX.DONT_SEND')}</label>
                     </div>

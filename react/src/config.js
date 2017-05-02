@@ -4,6 +4,7 @@ module.exports = {
   agamaPort: 17777,
   enableCacheApi: true,
   useBasiliskInstance: true,
-  openAlias: true,
+  useForksAll: true,
+  openAlias: false,
   debug: true,
 };
