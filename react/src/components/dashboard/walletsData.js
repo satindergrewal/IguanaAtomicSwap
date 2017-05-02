@@ -42,7 +42,7 @@ class WalletsData extends React.Component {
       addressSelectorOpen: false,
       currentStackLength: 0,
       totalStackLength: 0,
-      useCache: sessionStorage.getItem('useCache') ? true : false,
+      useCache: true,
     };
     this.updateInput = this.updateInput.bind(this);
     this.toggleBasiliskActionsMenu = this.toggleBasiliskActionsMenu.bind(this);
