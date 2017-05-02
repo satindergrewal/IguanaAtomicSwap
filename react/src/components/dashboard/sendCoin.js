@@ -200,13 +200,14 @@ class SendCoin extends React.Component {
           };
           dexSendRawTX(dexrawtxData)
           .then(function(dexRawTxJson) {
+            console.log('dexRawTxJson', dexRawTxJson);
             if (dexRawTxJson.error === undefined) {
               Store.dispatch(sendToAddressStateAlt(dexRawTxJson));
-              Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_SENT'), translate('TOASTR.WALLET_NOTIFICATION')));
+              Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_SENT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
               console.log('utxo remove', true);
             } else {
               console.log('utxo alt');
-              Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_SENT'), translate('TOASTR.WALLET_NOTIFICATION')));
+              Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_SENT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
               Store.dispatch(sendToAddressStateAlt(dexRawTxJson));
             }
           });
@@ -307,7 +308,47 @@ class SendCoin extends React.Component {
       );
     } else {
       return (
-        <span>Processing transaction...</span>
+        <div style={{padding: '20px', textAlign: 'center'}}>
+          <div style={{padding: '10px 0'}}>Processing transaction...</div>
+          <div className="loader-wrapper active">
+            <div className="loader-layer loader-blue">
+              <div className="loader-circle-left">
+                <div className="circle"></div>
+              </div>
+              <div className="loader-circle-gap"></div>
+              <div className="loader-circle-right">
+                <div className="circle"></div>
+              </div>
+            </div>
+            <div className="loader-layer loader-red">
+              <div className="loader-circle-left">
+                <div className="circle"></div>
+              </div>
+              <div className="loader-circle-gap"></div>
+              <div className="loader-circle-right">
+                <div className="circle"></div>
+              </div>
+            </div>
+            <div className="loader-layer loader-green">
+              <div className="loader-circle-left">
+                <div className="circle"></div>
+              </div>
+              <div className="loader-circle-gap"></div>
+              <div className="loader-circle-right">
+                <div className="circle"></div>
+              </div>
+            </div>
+            <div className="loader-layer loader-yellow">
+              <div className="loader-circle-left">
+                <div className="circle"></div>
+              </div>
+              <div className="loader-circle-gap"></div>
+              <div className="loader-circle-right">
+                <div className="circle"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       );
     }
   }
