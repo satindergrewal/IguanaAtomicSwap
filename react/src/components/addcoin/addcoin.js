@@ -39,7 +39,7 @@ class AddCoin extends React.Component {
 
   toggleSyncOnlyMode() {
     this.setState(Object.assign({}, this.state, {
-      syncOnly: this.state.syncOnly,
+      syncOnly: !this.state.syncOnly,
     }));
   }
 
@@ -108,17 +108,8 @@ class AddCoin extends React.Component {
     this.updateSelectedMode('1');
   }
 
-  /*handleForm(e) {
-    e.preventDefault();
-    e.target.reset();
-    this.setState({
-      mode: '',
-      selectedCoin: null,
-    });
-  }*/
-
   activateCoin() {
-    Store.dispatch(addCoin(this.state.selectedCoin.split('|')[0], this.state.mode, syncOnly));
+    Store.dispatch(addCoin(this.state.selectedCoin.split('|')[0], this.state.mode, this.state.syncOnly));
   }
 
   dismiss() {

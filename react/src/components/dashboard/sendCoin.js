@@ -10,7 +10,8 @@ import {
   triggerToaster,
   iguanaUTXORawTX,
   clearLastSendToResponseState,
-  sendToAddressStateAlt
+  sendToAddressStateAlt,
+  dexSendRawTX
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -41,7 +42,9 @@ class SendCoin extends React.Component {
   }
 
   renderAddressAmount(address) {
-    if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses['public'] && this.props.ActiveCoin.addresses['public'].length) {
+    if (this.props.ActiveCoin.addresses &&
+        this.props.ActiveCoin.addresses['public'] &&
+        this.props.ActiveCoin.addresses['public'].length) {
       for (let i = 0; i < this.props.ActiveCoin.addresses['public'].length; i++) {
         if (this.props.ActiveCoin.addresses['public'][i].address === address) {
           return this.props.ActiveCoin.addresses['public'][i].amount;
@@ -53,7 +56,9 @@ class SendCoin extends React.Component {
   }
 
   renderAddressByType(type) {
-    if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses[type] && this.props.ActiveCoin.addresses[type].length) {
+    if (this.props.ActiveCoin.addresses &&
+        this.props.ActiveCoin.addresses[type] &&
+        this.props.ActiveCoin.addresses[type].length) {
       if (this.state.sendApiType) {
         const mainAddress = this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin];
         const mainAddressAmount = this.renderAddressAmount(mainAddress);
@@ -179,20 +184,32 @@ class SendCoin extends React.Component {
             'sendsig': this.state.sendSig === true ? 0 : 1,
             'utxos': utxoSet
           };
+
     iguanaUTXORawTX(sendData)
     .then(function(json) {
       console.log('sendData', sendData);
       console.log('iguanaUTXORawTXJSON', json);
       if (json.result === 'success' && json.completed === true) {
         Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_GENERATED') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
-        Store.dispatch(sendToAddressStateAlt(json));
 
         if (sendData.sendsig === 1) {
           //Store.dispatch(triggerToaster(true, translate('TOASTR.SENDING_TX') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
-          /*ajax_data_dexrawtx = {
+          const dexrawtxData = {
             'signedtx': json.signedtx,
             'coin': sendData.coin
-          };*/
+          };
+          dexSendRawTX(dexrawtxData)
+          .then(function(dexRawTxJson) {
+            if (dexRawTxJson.error === undefined) {
+              Store.dispatch(sendToAddressStateAlt(dexRawTxJson));
+              Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_SENT'), translate('TOASTR.WALLET_NOTIFICATION')));
+              console.log('utxo remove', true);
+            } else {
+              console.log('utxo alt');
+              Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_SENT'), translate('TOASTR.WALLET_NOTIFICATION')));
+              Store.dispatch(sendToAddressStateAlt(dexRawTxJson));
+            }
+          });
         } else {
           Store.dispatch(sendToAddressStateAlt(json));
         }
@@ -241,9 +258,15 @@ class SendCoin extends React.Component {
           <span className="label label-success">{this.props.ActiveCoin.lastSendToResponse[key] === true ? 'true' : 'success'}</span>
         );
       } else {
-        return (
-          <span className="label label-danger">false</span>
-        );
+        if (this.props.ActiveCoin.lastSendToResponse[key].length > 20 && key === 'result') {
+          return (
+            <span>{this.props.ActiveCoin.lastSendToResponse[key]}</span>
+          );
+        } else {
+          return (
+            <span className="label label-danger">false</span>
+          );
+        }
       }
     } else if (key === 'error') {
       return (
@@ -270,7 +293,6 @@ class SendCoin extends React.Component {
 
   renderSendCoinResponse() {
     if (this.props.ActiveCoin.lastSendToResponse) {
-      console.log('renderSendCoinResponse', this.props.ActiveCoin.lastSendToResponse);
       return Object.keys(this.props.ActiveCoin.lastSendToResponse).map((key, index) =>
         <tr key={key}>
           <td>{key}</td>
