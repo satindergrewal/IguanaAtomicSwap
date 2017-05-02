@@ -258,7 +258,7 @@ class SendCoin extends React.Component {
           <span className="label label-success">{this.props.ActiveCoin.lastSendToResponse[key] === true ? 'true' : 'success'}</span>
         );
       } else {
-        if (this.props.ActiveCoin.lastSendToResponse[key].length > 20 && key === 'result') {
+        if (this.props.ActiveCoin.lastSendToResponse[key] && this.props.ActiveCoin.lastSendToResponse[key].length > 20 && key === 'result') {
           return (
             <span>{this.props.ActiveCoin.lastSendToResponse[key]}</span>
           );
