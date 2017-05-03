@@ -2,6 +2,7 @@ import React from 'react';
 import Config from '../../config';
 import { translate } from '../../translate/translate';
 import { checkTimestamp, secondsElapsedToString, secondsToString } from '../../util/time';
+import { edexGetTxIDList, edexRemoveTXID } from '../../util/cacheFormat';
 import {
   sendToAddress,
   sendFromAddress,
@@ -14,7 +15,8 @@ import {
   sendToAddressStateAlt,
   dexSendRawTX,
   fetchUtxoCache,
-  basiliskRefresh
+  basiliskRefresh,
+  edexGetTransaction
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -279,14 +281,75 @@ class SendCoin extends React.Component {
             'coin': sendData.coin
           };
           dexSendRawTX(dexrawtxData)
-          .then(function(dexRawTxJson) {
-            console.log('dexRawTxJson', dexRawTxJson);
+          .then(function(dexRawTxJSON) {
+            console.log('dexRawTxJson', dexRawTxJSON);
             if (dexRawTxJson.indexOf('"error":{"code"') > -1) {
               Store.dispatch(triggerToaster(true, 'Transaction failed', translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
-              Store.dispatch(sendToAddressStateAlt(JSON.parse(dexRawTxJson)));
+              Store.dispatch(sendToAddressStateAlt(JSON.parse(dexRawTxJSON)));
             } else {
               Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_SENT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
               Store.dispatch(sendToAddressStateAlt(json));
+
+              let getTxidData = function() {
+                return new Promise(function(resolve, reject) {
+                  Store.dispatch(triggerToaster(true, translate('TOASTR.GETTING_TXID_INFO') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'info'));
+                  
+                  edexGetTransaction({
+                    'coin': sendData.coin,
+                    'txid': dexRawTxJSON.txid
+                  })
+                  .then(function(json) {
+                    resolve(json);
+                  });
+                });
+              }
+
+              let processRefreshUTXOs = function(vinData) {
+                return new Promise(function(resolve, reject) {
+                  edexGetTxIDList(vinData)
+                  .then(function(json) {
+                    console.log(json);
+                    resolve(json);
+                  });
+                });
+              }
+
+              /*var process_refresh_utxos = function(gettxdata) {
+                return new Promise(function(resolve, reject) {
+                  console.log(gettxdata);
+                  console.log(utxos_set);
+                  EDEX_GetTxIDList(gettxdata).then(function(get_txid_list) {
+                    console.log(get_txid_list);
+                    resolve(get_txid_list);
+                  });
+                });
+              }
+
+              var get_data_cache_contents = function(get_txid_list) {
+                return new Promise(function(resolve, reject) {
+                  console.log(get_txid_list);
+                  console.log(send_data);
+                  console.log(send_data.sendfrom);
+
+                  Shepherd_GroomData_Get().then(function(result) {
+                    console.log(result);
+                    var save_this_data = EDEX_RemoveTXID(result, get_txid_list);
+                    console.log(save_this_data);
+                    resolve(save_this_data);
+                  });
+                });
+              }
+
+              var save_new_cache_data = function(save_this_data) {
+                return new Promise(function(resolve, reject) {
+                  console.log(save_this_data);
+
+                  Shepherd_GroomData_Post(save_this_data).then(function(result) {
+                    console.log(result);
+                    resolve(result);
+                  });
+                });
+              }*/
               console.log('utxo remove', true);
             }
           });

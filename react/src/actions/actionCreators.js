@@ -2364,6 +2364,63 @@ export function dexSendRawTX(data) {
   });
 }
 
+export function edexGetTransaction(data) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'symbol': data.coin,
+    'agent': 'dex',
+    'method': 'gettransaction',
+    'vout': 1,
+    'txid': data.txid
+  };
+  console.log('edexGetTransaction', payload);
+
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'edexGetTransaction', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => resolve(json))
+  });
+}
+
+function EDEXgettransaction(coin,txid) {
+  return new Promise((resolve) => {
+    var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+        ajax_data = {
+            'userpass': tmpIguanaRPCAuth,
+            'symbol': coin,
+            'agent': 'dex',
+            'method': 'gettransaction',
+            'vout': 1,
+            'txid': txid
+        };
+
+    $.ajax({
+      type: 'POST',
+      data: JSON.stringify(ajax_data),
+      url: 'http://127.0.0.1:' + config.iguanaPort
+    })
+    .then(function(data) {
+      res_data = JSON.parse(data);
+      resolve(res_data);
+    })
+    .fail(function(xhr, textStatus, error) {
+      // handle request failures
+      console.log(xhr.statusText);
+      if ( xhr.readyState == 0 ) {
+      }
+      console.log(textStatus);
+      console.log(error);
+    });
+  });
+}
+
 /*function Shepherd_SendPendValue() {
   Shepherd_SysInfo().then(function(result){
     var ram_data = formatBytes(result.totalmem_bytes)
