@@ -1,7 +1,11 @@
 import React from 'react';
 import Config from '../../config';
 import { translate } from '../../translate/translate';
-import { checkTimestamp, secondsElapsedToString, secondsToString } from '../../util/time';
+import {
+  checkTimestamp,
+  secondsElapsedToString,
+  secondsToString
+} from '../../util/time';
 import { edexGetTxIDList, edexRemoveTXID } from '../../util/cacheFormat';
 import {
   sendToAddress,
@@ -216,6 +220,12 @@ class SendCoin extends React.Component {
       sendFromAmount: amount ? amount : this.props.ActiveCoin.addresses[type][address].amount,
       addressSelectorOpen: !this.state.addressSelectorOpen,
     }));
+
+    this.renderCachedUTXOInfo();
+  }
+
+  renderCachedUTXOInfo() {
+
   }
 
   changeSendCoinStep(step) {
@@ -231,7 +241,6 @@ class SendCoin extends React.Component {
       } else {
         Store.dispatch(sendToAddress(this.props.ActiveCoin.coin, this.state));
       }
-      //Store.dispatch(sendFromAddress(this.props.ActiveCoin.coin, this.state));
     }
   }
 
@@ -293,7 +302,7 @@ class SendCoin extends React.Component {
               let getTxidData = function() {
                 return new Promise(function(resolve, reject) {
                   Store.dispatch(triggerToaster(true, translate('TOASTR.GETTING_TXID_INFO') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'info'));
-                  
+
                   edexGetTransaction({
                     'coin': sendData.coin,
                     'txid': dexRawTxJSON.txid
