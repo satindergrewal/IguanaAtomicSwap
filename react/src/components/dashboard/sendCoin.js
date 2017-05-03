@@ -1,6 +1,7 @@
 import React from 'react';
 import Config from '../../config';
 import { translate } from '../../translate/translate';
+import { checkTimestamp, secondsElapsedToString, secondsToString } from '../../util/time';
 import {
   sendToAddress,
   sendFromAddress,
@@ -11,11 +12,15 @@ import {
   iguanaUTXORawTX,
   clearLastSendToResponseState,
   sendToAddressStateAlt,
-  dexSendRawTX
+  dexSendRawTX,
+  fetchUtxoCache,
+  basiliskRefresh
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
-// TODO: implement logic
+import { SocketProvider } from 'socket.io-react';
+import io from 'socket.io-client';
+const socket = io.connect('http://127.0.0.1:' + Config.agamaPort);
 
 class SendCoin extends React.Component {
   constructor(props) {
@@ -32,6 +37,8 @@ class SendCoin extends React.Component {
       sendSig: false,
       sendApiType: false,
       addressSelectorOpen: false,
+      currentStackLength: 0,
+      totalStackLength: 0,
     };
     this.updateInput = this.updateInput.bind(this);
     this.handleBasiliskSend = this.handleBasiliskSend.bind(this);
@@ -39,6 +46,79 @@ class SendCoin extends React.Component {
     this.toggleSendSig = this.toggleSendSig.bind(this);
     this.getOAdress = this.getOAdress.bind(this);
     this.toggleSendAPIType = this.toggleSendAPIType.bind(this);
+    this.renderUTXOCacheInfo = this.renderUTXOCacheInfo.bind(this);
+    this._fetchNewUTXOData = this._fetchNewUTXOData.bind(this);
+    socket.on('messages', msg => this.updateSocketsData(msg));
+  }
+
+  updateSocketsData(data) {
+    console.log('sockets', data);
+    if (data && data.message && data.message.shepherd.iguanaAPI &&
+        data.message.shepherd.iguanaAPI.totalStackLength) {
+      this.setState(Object.assign({}, this.state, {
+        totalStackLength: data.message.shepherd.iguanaAPI.totalStackLength,
+      }));
+    }
+    if (data && data.message && data.message.shepherd.iguanaAPI &&
+        data.message.shepherd.iguanaAPI.currentStackLength) {
+      this.setState(Object.assign({}, this.state, {
+        currentStackLength: data.message.shepherd.iguanaAPI.currentStackLength,
+      }));
+    }
+    if (data && data.message && data.message.shepherd.method &&
+        data.message.shepherd.method === 'cache-one' &&
+        data.message.shepherd.status === 'done') {
+      Store.dispatch(basiliskRefresh(false));
+    }
+  }
+
+  _fetchNewUTXOData() {
+    Store.dispatch(fetchUtxoCache({
+      'pubkey': this.props.Dashboard.activeHandle.pubkey,
+      'allcoins': false,
+      'coin': this.props.ActiveCoin.coin,
+      'calls': 'refresh',
+      'address': this.state.sendFrom,
+    }));
+    console.log('_fetchUtxoCache', {
+      'pubkey': this.props.Dashboard.activeHandle.pubkey,
+      'allcoins': false,
+      'coin': this.props.ActiveCoin.coin,
+      'calls': 'refresh',
+      'address': this.state.sendFrom,
+    });
+  }
+
+  renderUTXOCacheInfo() {
+    if (this.props.ActiveCoin.mode === 'basilisk' &&
+        this.state.sendFrom &&
+        !this.state.sendApiType &&
+        this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom] &&
+        this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh) {
+      const refreshCacheData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh;
+      const timestamp = checkTimestamp(refreshCacheData.timestamp);
+      const isReadyToUpdate = timestamp > 600 ? true : false;
+
+      return (
+        <div className="col-lg-12">
+          <hr />
+          Total UTXO available: {refreshCacheData.data.length}<br />
+          Last updated @ {secondsToString(refreshCacheData.timestamp, true)} | {secondsElapsedToString(timestamp)} ago<br />
+          <div className={isReadyToUpdate ? 'hide' : ''}>Next update available in {secondsElapsedToString(600 - timestamp)}s</div>
+          <div className={this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : 'progress progress-sm'} style={{width: '100%', marginBottom: '10px', marginTop: '10px'}}>
+            <div className="progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success" style={{width: 100 - (this.state.currentStackLength * 100 / this.state.totalStackLength) + '%', fontSize: '80%'}} role="progressbar">
+              Processing requests: {this.state.currentStackLength} / {this.state.totalStackLength}
+            </div>
+          </div>
+          <button type="button" style={{marginTop: '10px'}} className={isReadyToUpdate ? 'btn btn-primary waves-effect waves-light' : 'hide'} onClick={this._fetchNewUTXOData}>
+            Update
+          </button>
+          <hr />
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 
   renderAddressAmount(address) {
@@ -200,14 +280,14 @@ class SendCoin extends React.Component {
           };
           dexSendRawTX(dexrawtxData)
           .then(function(dexRawTxJson) {
-            if (dexRawTxJson.error === undefined) {
-              Store.dispatch(sendToAddressStateAlt(dexRawTxJson));
-              Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_SENT'), translate('TOASTR.WALLET_NOTIFICATION')));
-              console.log('utxo remove', true);
+            console.log('dexRawTxJson', dexRawTxJson);
+            if (dexRawTxJson.indexOf('"error":{"code"') > -1) {
+              Store.dispatch(triggerToaster(true, 'Transaction failed', translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
+              Store.dispatch(sendToAddressStateAlt(JSON.parse(dexRawTxJson)));
             } else {
-              console.log('utxo alt');
-              Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_SENT'), translate('TOASTR.WALLET_NOTIFICATION')));
-              Store.dispatch(sendToAddressStateAlt(dexRawTxJson));
+              Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_SENT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
+              Store.dispatch(sendToAddressStateAlt(json));
+              console.log('utxo remove', true);
             }
           });
         } else {
@@ -307,7 +387,47 @@ class SendCoin extends React.Component {
       );
     } else {
       return (
-        <span>Processing transaction...</span>
+        <div style={{padding: '20px', textAlign: 'center'}}>
+          <div style={{padding: '10px 0'}}>Processing transaction...</div>
+          <div className="loader-wrapper active">
+            <div className="loader-layer loader-blue">
+              <div className="loader-circle-left">
+                <div className="circle"></div>
+              </div>
+              <div className="loader-circle-gap"></div>
+              <div className="loader-circle-right">
+                <div className="circle"></div>
+              </div>
+            </div>
+            <div className="loader-layer loader-red">
+              <div className="loader-circle-left">
+                <div className="circle"></div>
+              </div>
+              <div className="loader-circle-gap"></div>
+              <div className="loader-circle-right">
+                <div className="circle"></div>
+              </div>
+            </div>
+            <div className="loader-layer loader-green">
+              <div className="loader-circle-left">
+                <div className="circle"></div>
+              </div>
+              <div className="loader-circle-gap"></div>
+              <div className="loader-circle-right">
+                <div className="circle"></div>
+              </div>
+            </div>
+            <div className="loader-layer loader-yellow">
+              <div className="loader-circle-left">
+                <div className="circle"></div>
+              </div>
+              <div className="loader-circle-gap"></div>
+              <div className="loader-circle-right">
+                <div className="circle"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       );
     }
   }
@@ -447,6 +567,7 @@ class SendCoin extends React.Component {
                       </div>
                       <label className="padding-top-3" htmlFor="edexcoin_send_sig" onClick={this.toggleSendSig}>{translate('INDEX.DONT_SEND')}</label>
                     </div>
+                    {this.renderUTXOCacheInfo()}
                     <div className="col-lg-2">
                       <button type="button" className="btn btn-primary waves-effect waves-light pull-right edexcoin_send_coins_btn_step1" onClick={() => this.changeSendCoinStep(1)}>
                         {translate('INDEX.SEND')} {Number(this.state.amount) - Number(this.state.fee)} {this.props.ActiveCoin.coin}

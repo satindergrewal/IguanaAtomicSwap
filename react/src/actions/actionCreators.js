@@ -2351,8 +2351,16 @@ export function dexSendRawTX(data) {
       console.log(error);
       dispatch(triggerToaster(true, 'dexSendRawTX', 'Error', 'error'));
     })
-    .then(response => response.json())
-    .then(json => resolve(json))
+    .then(function(response) {
+      const _response = response.text().then(function(text) { return text; });
+
+      return _response;
+    })
+    .then(function(json) {
+      resolve(json);
+    })
+    //.then(response => response.json())
+    //.then(json => resolve(json))
   });
 }
 

@@ -24,3 +24,23 @@ export function secondsToString(seconds, skipMultiply) {
 
   return time;
 }
+
+export function checkTimestamp(dateToCheck) {
+  var currentEpochTime = new Date(Date.now()) / 1000,
+      secondsElapsed = Number(currentEpochTime) - Number(dateToCheck / 1000);
+
+  return Math.floor(secondsElapsed);
+}
+
+export function secondsElapsedToString(timestamp) { // in seconds
+  const secondsElapsed = checkTimestamp(timestamp);
+
+  let hours = Math.floor(timestamp / 3600);
+  let minutes = Math.floor((timestamp - (hours * 3600)) / 60);
+  let seconds = timestamp - (hours * 3600) - (minutes * 60);
+  let returnTimeVal = (hours > 0 ? hours + ' hour(s) ' : '') +
+                      (minutes > 0 ? minutes + ' minute(s) ' : '') +
+                      (seconds > 0 ? seconds + ' second(s) ' : '');
+  
+  return returnTimeVal;
+}
