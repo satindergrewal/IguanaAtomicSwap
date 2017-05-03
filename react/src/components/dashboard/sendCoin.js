@@ -201,14 +201,13 @@ class SendCoin extends React.Component {
           dexSendRawTX(dexrawtxData)
           .then(function(dexRawTxJson) {
             console.log('dexRawTxJson', dexRawTxJson);
-            if (dexRawTxJson.error === undefined) {
-              Store.dispatch(sendToAddressStateAlt(dexRawTxJson));
-              Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_SENT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
-              console.log('utxo remove', true);
+            if (dexRawTxJson.indexOf('"error":{"code"') > -1) {
+              Store.dispatch(triggerToaster(true, 'Transaction failed', translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
+              Store.dispatch(sendToAddressStateAlt(JSON.parse(dexRawTxJson)));
             } else {
-              console.log('utxo alt');
               Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_SENT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
-              Store.dispatch(sendToAddressStateAlt(dexRawTxJson));
+              Store.dispatch(sendToAddressStateAlt(json));
+              console.log('utxo remove', true);
             }
           });
         } else {

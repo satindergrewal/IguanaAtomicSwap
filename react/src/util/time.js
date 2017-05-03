@@ -24,3 +24,10 @@ export function secondsToString(seconds, skipMultiply) {
 
   return time;
 }
+
+export function checkTimestamp(dateToCheck) {
+  var currentEpochTime = new Date(Date.now()) / 1000,
+      secondsElapsed = Number(currentEpochTime) - Number(dateToCheck / 1000);
+
+  return Math.floor(secondsElapsed);
+}
