@@ -32,15 +32,15 @@ export function checkTimestamp(dateToCheck) {
   return Math.floor(secondsElapsed);
 }
 
-export function secondsElapsedToString(timestamp) {
+export function secondsElapsedToString(timestamp) { // in seconds
   const secondsElapsed = checkTimestamp(timestamp);
 
-  let secNum = timestamp; // don't forget the second param
-  let hours = Math.floor(secNum / 3600);
-  let minutes = Math.floor((secNum - (hours * 3600)) / 60);
-  let seconds = secNum - (hours * 3600) - (minutes * 60);
-
-  let returnTimeVal = (hours > 0 ? hours + ' hour(s) ' : '') + (hours > 0 ? minutes + ' minute(s) ' : '') + (seconds > 0 ? seconds + ' second(s) ' : '');
+  let hours = Math.floor(timestamp / 3600);
+  let minutes = Math.floor((timestamp - (hours * 3600)) / 60);
+  let seconds = timestamp - (hours * 3600) - (minutes * 60);
+  let returnTimeVal = (hours > 0 ? hours + ' hour(s) ' : '') +
+                      (minutes > 0 ? minutes + ' minute(s) ' : '') +
+                      (seconds > 0 ? seconds + ' second(s) ' : '');
   
   return returnTimeVal;
 }

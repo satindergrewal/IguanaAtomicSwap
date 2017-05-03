@@ -12,11 +12,15 @@ import {
   iguanaUTXORawTX,
   clearLastSendToResponseState,
   sendToAddressStateAlt,
-  dexSendRawTX
+  dexSendRawTX,
+  fetchUtxoCache,
+  basiliskRefresh
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
-// TODO: implement logic
+import { SocketProvider } from 'socket.io-react';
+import io from 'socket.io-client';
+const socket = io.connect('http://127.0.0.1:' + Config.agamaPort);
 
 class SendCoin extends React.Component {
   constructor(props) {
@@ -33,6 +37,8 @@ class SendCoin extends React.Component {
       sendSig: false,
       sendApiType: false,
       addressSelectorOpen: false,
+      currentStackLength: 0,
+      totalStackLength: 0,
     };
     this.updateInput = this.updateInput.bind(this);
     this.handleBasiliskSend = this.handleBasiliskSend.bind(this);
@@ -41,11 +47,45 @@ class SendCoin extends React.Component {
     this.getOAdress = this.getOAdress.bind(this);
     this.toggleSendAPIType = this.toggleSendAPIType.bind(this);
     this.renderUTXOCacheInfo = this.renderUTXOCacheInfo.bind(this);
-    this.fetchNewUTXOData = this.fetchNewUTXOData.bind(this);
+    this._fetchNewUTXOData = this._fetchNewUTXOData.bind(this);
+    socket.on('messages', msg => this.updateSocketsData(msg));
   }
 
-  fetchNewUTXOData() {
+  updateSocketsData(data) {
+    if (data && data.message && data.message.shepherd.iguanaAPI &&
+        data.message.shepherd.iguanaAPI.totalStackLength) {
+      this.setState(Object.assign({}, this.state, {
+        totalStackLength: data.message.shepherd.iguanaAPI.totalStackLength,
+      }));
+    }
+    if (data && data.message && data.message.shepherd.iguanaAPI &&
+        data.message.shepherd.iguanaAPI.currentStackLength) {
+      this.setState(Object.assign({}, this.state, {
+        currentStackLength: data.message.shepherd.iguanaAPI.currentStackLength,
+      }));
+    }
+    if (data && data.message && data.message.shepherd.method &&
+        data.message.shepherd.method === 'cache-one' &&
+        data.message.shepherd.status === 'done') {
+      Store.dispatch(basiliskRefresh(false));
+    }
+  }
 
+  _fetchNewUTXOData() {
+    Store.dispatch(fetchUtxoCache({
+      'pubkey': this.props.Dashboard.activeHandle.pubkey,
+      'allcoins': false,
+      'coin': this.props.ActiveCoin.coin,
+      'calls': 'refresh',
+      'address': this.state.sendFrom,
+    }));
+    console.log('_fetchUtxoCache', {
+      'pubkey': this.props.Dashboard.activeHandle.pubkey,
+      'allcoins': false,
+      'coin': this.props.ActiveCoin.coin,
+      'calls': 'refresh',
+      'address': this.state.sendFrom,
+    });
   }
 
   renderUTXOCacheInfo() {
@@ -62,8 +102,13 @@ class SendCoin extends React.Component {
           <hr />
           Total UTXO available: {refreshCacheData.data.length}<br />
           Last updated @ {secondsToString(refreshCacheData.timestamp, true)} | {secondsElapsedToString(timestamp)} ago<br />
-          <div className={isReadyToUpdate ? 'hide' : ''}>Next update available in {600 - timestamp}s</div>
-          <button type="button" className={isReadyToUpdate ? 'btn btn-primary waves-effect waves-light' : 'hide'} onClick={this.fetchNewUTXOData}>
+          <div className={isReadyToUpdate ? 'hide' : ''}>Next update available in {secondsElapsedToString(600 - timestamp)}s</div>
+          <div className={this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : 'progress progress-sm'} style={{width: '100%', marginBottom: '10px', marginTop: '10px'}}>
+            <div className="progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success" style={{width: 100 - (this.state.currentStackLength * 100 / this.state.totalStackLength) + '%', fontSize: '80%'}} role="progressbar">
+              Processing requests: {this.state.currentStackLength} / {this.state.totalStackLength}
+            </div>
+          </div>
+          <button type="button" style={{marginTop: '10px'}} className={isReadyToUpdate ? 'btn btn-primary waves-effect waves-light' : 'hide'} onClick={this._fetchNewUTXOData}>
             Update
           </button>
           <hr />
