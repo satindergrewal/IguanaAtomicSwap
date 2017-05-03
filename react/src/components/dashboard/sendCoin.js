@@ -52,6 +52,7 @@ class SendCoin extends React.Component {
   }
 
   updateSocketsData(data) {
+    console.log('sockets', data);
     if (data && data.message && data.message.shepherd.iguanaAPI &&
         data.message.shepherd.iguanaAPI.totalStackLength) {
       this.setState(Object.assign({}, this.state, {
@@ -91,6 +92,7 @@ class SendCoin extends React.Component {
   renderUTXOCacheInfo() {
     if (this.props.ActiveCoin.mode === 'basilisk' &&
         this.state.sendFrom &&
+        !this.state.sendApiType &&
         this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom] &&
         this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh) {
       const refreshCacheData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh;
