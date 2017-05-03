@@ -1,6 +1,7 @@
 import React from 'react';
 import Config from '../../config';
 import { translate } from '../../translate/translate';
+import { checkTimestamp, secondsElapsedToString, secondsToString } from '../../util/time';
 import {
   sendToAddress,
   sendFromAddress,
@@ -39,6 +40,38 @@ class SendCoin extends React.Component {
     this.toggleSendSig = this.toggleSendSig.bind(this);
     this.getOAdress = this.getOAdress.bind(this);
     this.toggleSendAPIType = this.toggleSendAPIType.bind(this);
+    this.renderUTXOCacheInfo = this.renderUTXOCacheInfo.bind(this);
+    this.fetchNewUTXOData = this.fetchNewUTXOData.bind(this);
+  }
+
+  fetchNewUTXOData() {
+
+  }
+
+  renderUTXOCacheInfo() {
+    if (this.props.ActiveCoin.mode === 'basilisk' &&
+        this.state.sendFrom &&
+        this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom] &&
+        this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh) {
+      const refreshCacheData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh;
+      const timestamp = checkTimestamp(refreshCacheData.timestamp);
+      const isReadyToUpdate = timestamp > 600 ? true : false;
+
+      return (
+        <div className="col-lg-12">
+          <hr />
+          Total UTXO available: {refreshCacheData.data.length}<br />
+          Last updated @ {secondsToString(refreshCacheData.timestamp, true)} | {secondsElapsedToString(timestamp)} ago<br />
+          <div className={isReadyToUpdate ? 'hide' : ''}>Next update available in {600 - timestamp}s</div>
+          <button type="button" className={isReadyToUpdate ? 'btn btn-primary waves-effect waves-light' : 'hide'} onClick={this.fetchNewUTXOData}>
+            Update
+          </button>
+          <hr />
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 
   renderAddressAmount(address) {
@@ -487,6 +520,7 @@ class SendCoin extends React.Component {
                       </div>
                       <label className="padding-top-3" htmlFor="edexcoin_send_sig" onClick={this.toggleSendSig}>{translate('INDEX.DONT_SEND')}</label>
                     </div>
+                    {this.renderUTXOCacheInfo()}
                     <div className="col-lg-2">
                       <button type="button" className="btn btn-primary waves-effect waves-light pull-right edexcoin_send_coins_btn_step1" onClick={() => this.changeSendCoinStep(1)}>
                         {translate('INDEX.SEND')} {Number(this.state.amount) - Number(this.state.fee)} {this.props.ActiveCoin.coin}
