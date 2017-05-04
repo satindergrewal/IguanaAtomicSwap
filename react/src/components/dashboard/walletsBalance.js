@@ -2,6 +2,22 @@ import React from 'react';
 import { translate } from '../../translate/translate';
 
 class WalletsBalance extends React.Component {
+  constructor(props) {
+    super(props);
+    this.isFullySynced = this.isFullySynced.bind(bind);
+  }
+
+  isFullySynced() {
+    if ((Number(this.props.Dashboard.progress.balances) +
+        Number(this.props.Dashboard.progress.validated) +
+        Number(this.props.Dashboard.progress.bundles) +
+        Number(this.props.Dashboard.progress.utxo)) / 4 === 100) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   render() {
     if (this.props &&
         this.props.ActiveCoin &&
@@ -12,7 +28,7 @@ class WalletsBalance extends React.Component {
       return (
         <div id="wallet-widgets" data-plugin="masonry" data-edexcoin="COIN">
           <div className="col-xs-12">
-            <div className={this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'full' ? 'col-xs-12' : 'col-xs-12 hide'}>
+            <div className={this.props.ActiveCoin.mode === 'native' || (this.props.ActiveCoin.mode === 'full' && !this.isFullySynced())  ? 'col-xs-12' : 'col-xs-12 hide'}>
               <div role="alert" className="alert alert-info alert-dismissible" data-edexcoin="COIN" id="edexcoin-wallet-waitingrt-alert">
                 <button aria-label="Close" data-dismiss="alert" className="close" type="button">
                   <span aria-hidden="true">×</span>
