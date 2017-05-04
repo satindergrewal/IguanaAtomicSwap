@@ -2094,6 +2094,25 @@ export function deleteCacheFile(_payload) {
   }
 }
 
+export function getCacheFile() {
+  const _pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
+
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/groom?pubkey=' + _pubkey, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getCacheFile', 'Error', 'error'))
+    })
+    .then(response => response.json())
+    .then(json => resolve(json))
+  })
+}
+
 export function fetchNewCacheData(_payload) {
   console.log('fetchNewCacheData', true);
   const _userpass = '?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
