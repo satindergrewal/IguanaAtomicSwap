@@ -16,7 +16,8 @@ import {
   dexSendRawTX,
   fetchUtxoCache,
   basiliskRefresh,
-  edexGetTransaction
+  edexGetTransaction,
+  getCacheFile
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -41,6 +42,26 @@ class SendCoin extends React.Component {
       addressSelectorOpen: false,
       currentStackLength: 0,
       totalStackLength: 0,
+      vin: [
+        {
+          "txid": "8f5d3bc7ff1d8abdedefa4ed71c2a085a5fec62b8491c08e4a6ed53925df0235",
+          "vout": 0,
+          "scriptSig": {
+            "asm": "3045022100ea6442b209ab48b7109f13399fa12f85915ee2204a21698b85454987d9303fe1022025e4630c684af9b982b243420d69e094d0fc708aaccf11b83fd9320fe4dd45f701 02bee71575d87c7285eda952358175af10879081a0cc6b94623aac6cb2c6a51eae",
+            "hex": "483045022100ea6442b209ab48b7109f13399fa12f85915ee2204a21698b85454987d9303fe1022025e4630c684af9b982b243420d69e094d0fc708aaccf11b83fd9320fe4dd45f7012102bee71575d87c7285eda952358175af10879081a0cc6b94623aac6cb2c6a51eae"
+          },
+          "sequence": 4294967295
+        },
+        {
+          "txid": "4cfb597119d4239e8fa75486d1ba4c62cef615a52568aca1bc9be3b457c12eac",
+          "vout": 0,
+          "scriptSig": {
+            "asm": "3044022001c1481b5fb142a1f38f8387c8d0ba6e4d6c6a96a8c6765ce805ce841cb2a58b02206caec099e209a469b78c22c674be77d92698fff94b4521c0d5e462ac5b19627c01 02bee71575d87c7285eda952358175af10879081a0cc6b94623aac6cb2c6a51eae",
+            "hex": "473044022001c1481b5fb142a1f38f8387c8d0ba6e4d6c6a96a8c6765ce805ce841cb2a58b02206caec099e209a469b78c22c674be77d92698fff94b4521c0d5e462ac5b19627c012102bee71575d87c7285eda952358175af10879081a0cc6b94623aac6cb2c6a51eae"
+          },
+          "sequence": 4294967295
+        }
+      ]
     };
     this.updateInput = this.updateInput.bind(this);
     this.handleBasiliskSend = this.handleBasiliskSend.bind(this);
@@ -275,15 +296,15 @@ class SendCoin extends React.Component {
         Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_GENERATED') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
 
         if (sendData.sendsig === 1) {
-          //Store.dispatch(triggerToaster(true, translate('TOASTR.SENDING_TX') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
+          // Store.dispatch(triggerToaster(true, translate('TOASTR.SENDING_TX') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
           const dexrawtxData = {
             'signedtx': json.signedtx,
             'coin': sendData.coin
           };
           dexSendRawTX(dexrawtxData)
           .then(function(dexRawTxJSON) {
-            console.log('dexRawTxJson', dexRawTxJSON);
-            if (dexRawTxJson.indexOf('"error":{"code"') > -1) {
+            console.log('dexRawTxJSON', dexRawTxJSON);
+            if (dexRawTxJSON.indexOf('"error":{"code"') > -1) {
               Store.dispatch(triggerToaster(true, 'Transaction failed', translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
               Store.dispatch(sendToAddressStateAlt(JSON.parse(dexRawTxJSON)));
             } else {
@@ -299,6 +320,7 @@ class SendCoin extends React.Component {
                     'txid': dexRawTxJSON.txid
                   })
                   .then(function(json) {
+                    console.log('gettx', json);
                     resolve(json);
                   });
                 });
@@ -306,50 +328,52 @@ class SendCoin extends React.Component {
 
               let processRefreshUTXOs = function(vinData) {
                 return new Promise(function(resolve, reject) {
-                  edexGetTxIDList(vinData)
-                  .then(function(json) {
-                    console.log(json);
-                    resolve(json);
-                  });
+                  let edexGetTxIDListRes = edexGetTxIDList(vinData);
+                  resolve(edexGetTxIDListRes);
                 });
               }
 
-              /*var process_refresh_utxos = function(gettxdata) {
+              let getDataCacheContents = function(txidListToRemove) {
                 return new Promise(function(resolve, reject) {
-                  console.log(gettxdata);
-                  console.log(utxos_set);
-                  EDEX_GetTxIDList(gettxdata).then(function(get_txid_list) {
-                    console.log(get_txid_list);
-                    resolve(get_txid_list);
-                  });
-                });
-              }
+                  console.log(txidListToRemove);
+                  console.log(sendData);
 
-              var get_data_cache_contents = function(get_txid_list) {
-                return new Promise(function(resolve, reject) {
-                  console.log(get_txid_list);
-                  console.log(send_data);
-                  console.log(send_data.sendfrom);
-
-                  Shepherd_GroomData_Get().then(function(result) {
+                  getCacheFile()
+                  .then(function(result) {
                     console.log(result);
-                    var save_this_data = EDEX_RemoveTXID(result, get_txid_list);
-                    console.log(save_this_data);
-                    resolve(save_this_data);
+                    let saveThisData = edexRemoveTXID(result, txidListToRemove);
+                    console.log(saveThisData);
+                    resolve(saveThisData);
                   });
                 });
               }
 
-              var save_new_cache_data = function(save_this_data) {
+              let saveNewCacheData = function(saveThisData) {
                 return new Promise(function(resolve, reject) {
-                  console.log(save_this_data);
+                  console.log('saveNewCacheData', saveThisData);
 
-                  Shepherd_GroomData_Post(save_this_data).then(function(result) {
+                  shepherdGroomPost(saveThisData)
+                  .then(function(result) {
+                    console.log('saveNewCacheData', saveThisData);
                     console.log(result);
                     resolve(result);
                   });
                 });
-              }*/
+              }
+
+              setTimeout(function() {
+                getTxidData()
+                .then(function(gettxdata) {
+                  return processRefreshUTXOs(gettxdata.vin);
+                })
+                .then(function(new_utxos_set) {
+                  return getDataCacheContents(new_utxos_set);
+                })
+                .then(function(save_this_data) {
+                  return saveNewCacheData(save_this_data);
+                });
+              }, 2000);
+
               console.log('utxo remove', true);
             }
           });
@@ -362,10 +386,6 @@ class SendCoin extends React.Component {
       }
       console.log(json);
     });
-    //Store.dispatch(sendNativeTx(this.props.ActiveCoin.coin, this.state));
-    /*setTimeout(function() {
-      Store.dispatch(getKMDOPID(null, this.props.ActiveCoin.coin));
-    }, 1000);*/
   }
 
   renderSignedTx(isRawTx) {
