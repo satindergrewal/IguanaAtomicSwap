@@ -154,6 +154,17 @@ body {
   height: 100%;
 }
 
+.display-sync-only-coins-toggle {
+  cursor: pointer;
+}
+.display-sync-only-coins-toggle:hover {
+  color: #ffa726;
+}
+
+.sync-only-forks {
+  color: #757575;
+}
+
 /*.toaster .single-toast:nth-child(0) {
   bottom: 12px;
 }

@@ -47,8 +47,19 @@ export const DASHBOARD_GET_NOTARIES_LIST = 'DASHBOARD_GET_NOTARIES_LIST';
 export const DASHBOARD_DISPLAY_NOTARIES_MODAL = 'DASHBOARD_DISPLAY_NOTARIES_MODAL';
 export const DASHBOARD_CONNECT_NOTARIES = 'DASHBOARD_CONNECT_NOTARIES';
 export const VIEW_CACHE_DATA = 'VIEW_CACHE_DATA';
+export const SYNC_ONLY_MODAL_TOGGLE = 'SYNC_ONLY_MODAL_TOGGLE';
+export const SYNC_ONLY_DATA = 'SYNC_ONLY_DATA';
+export const LOAD_APP_CONFIG = 'LOAD_APP_CONFIG';
+export const SAVE_APP_CONFIG = 'SAVE_APP_CONFIG';
 
 var iguanaForks = {}; // forks in mem array
+
+export function toggleSyncOnlyModal(display) {
+  return {
+    type: SYNC_ONLY_MODAL_TOGGLE,
+    display,
+  }
+}
 
 export function toggleViewCacheModal(display) {
   return {
@@ -343,8 +354,10 @@ export function addCoin(coin, mode, syncOnly) {
         return dispatch => {
           startIguanaInstance(modeToValue[mode] + '/sync', coin)
           .then(function(json) {
-            console.log('started ' + coin + ' / ' + modeToValue[mode] + ' fork', json);
-            dispatch(iguanaAddCoin(coin, mode, _acData));
+            setTimeout(function() {
+              console.log('started ' + coin + ' / ' + modeToValue[mode] + ' fork', json);
+              dispatch(iguanaAddCoin(coin, mode, _acData, json.result));
+            }, 2000);
           });
         }
       } else {
@@ -356,9 +369,9 @@ export function addCoin(coin, mode, syncOnly) {
   }
 }
 
-export function iguanaAddCoin(coin, mode, acData) {
+export function iguanaAddCoin(coin, mode, acData, port) {
   function _iguanaAddCoin(dispatch) {
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch('http://127.0.0.1:' + (port ? port : Config.iguanaCorePort), {
       method: 'POST',
       body: JSON.stringify(acData),
     })
@@ -2433,10 +2446,8 @@ export function edexGetTransaction(data) {
 
 function getAppConfigState(json) {
   return {
-    type: DASHBOARD_CONNECT_NOTARIES,
-    total: json.length - 1,
-    current: 0,
-    name: json[0],
+    type: LOAD_APP_CONFIG,
+    config: json,
   }
 }
 
@@ -2454,6 +2465,36 @@ export function getAppConfig() {
     })
     .then(response => response.json())
     .then(json => dispatch(getAppConfigState(json)))
+  }
+}
+
+function getSyncOnlyForksState(json) {
+  /*try {
+    JSON.parse(json.result);
+  } catch(e) {
+    console.log(e);
+  }*/
+
+  return {
+    type: SYNC_ONLY_DATA,
+    forks: JSON.parse(json.result),
+  }
+}
+
+export function getSyncOnlyForks() {
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/forks/info/show', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getSyncOnlyForks', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getSyncOnlyForksState(json)))
   }
 }
 
