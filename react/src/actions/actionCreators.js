@@ -47,8 +47,19 @@ export const DASHBOARD_GET_NOTARIES_LIST = 'DASHBOARD_GET_NOTARIES_LIST';
 export const DASHBOARD_DISPLAY_NOTARIES_MODAL = 'DASHBOARD_DISPLAY_NOTARIES_MODAL';
 export const DASHBOARD_CONNECT_NOTARIES = 'DASHBOARD_CONNECT_NOTARIES';
 export const VIEW_CACHE_DATA = 'VIEW_CACHE_DATA';
+export const SYNC_ONLY_MODAL_TOGGLE = 'SYNC_ONLY_MODAL_TOGGLE';
+export const SYNC_ONLY_DATA = 'SYNC_ONLY_DATA';
+export const LOAD_APP_CONFIG = 'LOAD_APP_CONFIG';
+export const SAVE_APP_CONFIG = 'SAVE_APP_CONFIG';
 
 var iguanaForks = {}; // forks in mem array
+
+export function toggleSyncOnlyModal(display) {
+  return {
+    type: SYNC_ONLY_MODAL_TOGGLE,
+    display,
+  }
+}
 
 export function toggleViewCacheModal(display) {
   return {
@@ -305,7 +316,7 @@ export function dismissToasterMessage() {
   }
 }
 
-export function addCoin(coin, mode, syncOnly) {
+export function addCoin(coin, mode, syncOnly, port) {
 	console.log('coin, mode, syncOnly', coin + ' ' + mode + ' ' + syncOnly);
   /*startIguanaInstance(mode, coin)
   .then(function(json) {
@@ -343,22 +354,30 @@ export function addCoin(coin, mode, syncOnly) {
         return dispatch => {
           startIguanaInstance(modeToValue[mode] + '/sync', coin)
           .then(function(json) {
-            console.log('started ' + coin + ' / ' + modeToValue[mode] + ' fork', json);
-            dispatch(iguanaAddCoin(coin, mode, _acData));
+            setTimeout(function() {
+              console.log('started ' + coin + ' / ' + modeToValue[mode] + ' fork', json);
+              dispatch(iguanaAddCoin(coin, mode, _acData, json.result));
+            }, 2000);
           });
         }
       } else {
-        return dispatch => {
-          dispatch(iguanaAddCoin(coin, mode, _acData));
+        if (port) {
+          return dispatch => {
+            dispatch(iguanaAddCoin(coin, mode, _acData, port));
+          }
+        } else {
+          return dispatch => {
+            dispatch(iguanaAddCoin(coin, mode, _acData));
+          }
         }
       }
     }
   }
 }
 
-export function iguanaAddCoin(coin, mode, acData) {
+export function iguanaAddCoin(coin, mode, acData, port) {
   function _iguanaAddCoin(dispatch) {
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch('http://127.0.0.1:' + (port ? port : Config.iguanaCorePort), {
       method: 'POST',
       body: JSON.stringify(acData),
     })
@@ -2094,6 +2113,25 @@ export function deleteCacheFile(_payload) {
   }
 }
 
+export function getCacheFile() {
+  const _pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
+
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/groom?pubkey=' + _pubkey, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getCacheFile', 'Error', 'error'))
+    })
+    .then(response => response.json())
+    .then(json => resolve(json))
+  })
+}
+
 export function fetchNewCacheData(_payload) {
   console.log('fetchNewCacheData', true);
   const _userpass = '?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
@@ -2362,6 +2400,125 @@ export function dexSendRawTX(data) {
     //.then(response => response.json())
     //.then(json => resolve(json))
   });
+}
+
+export function edexGetTransaction(data) {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'symbol': data.coin,
+    'agent': 'dex',
+    'method': 'gettransaction',
+    'vout': 1,
+    'txid': data.txid
+  };
+  console.log('edexGetTransaction', payload);
+
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'edexGetTransaction', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => resolve(json))
+  });
+}
+
+/*export function saveAppConfig() {
+  const payload = {
+    'herdname': target,
+    'lastLines': linesCount
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/debuglog', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getDebugLog', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getDebugLogState(json)))
+  }
+}*/
+
+function getAppConfigState(json) {
+  return {
+    type: LOAD_APP_CONFIG,
+    config: json,
+  }
+}
+
+export function getAppConfig() {
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/appconf', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getAppConfig', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getAppConfigState(json)))
+  }
+}
+
+function getSyncOnlyForksState(json) {
+  /*try {
+    JSON.parse(json.result);
+  } catch(e) {
+    console.log(e);
+  }*/
+
+  return {
+    type: SYNC_ONLY_DATA,
+    forks: JSON.parse(json.result),
+  }
+}
+
+export function getSyncOnlyForks() {
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/forks/info/show', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getSyncOnlyForks', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getSyncOnlyForksState(json)))
+  }
+}
+
+export function stopIguanaFork(pmid) {
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/forks/stop?pmid=' + pmid, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'stopIguanaFork', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(triggerToaster(true, 'Iguana instance is stopped', translate('TOASTR.SERVICE_NOTIFICATION'), 'success')))
+  }
 }
 
 /*function Shepherd_SendPendValue() {

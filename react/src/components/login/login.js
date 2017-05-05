@@ -4,7 +4,10 @@ import {
   toggleAddcoinModal,
   iguanaWalletPassphrase,
   createNewWallet,
-  iguanaActiveHandle
+  iguanaActiveHandle,
+  toggleSyncOnlyModal,
+  startInterval,
+  getSyncOnlyForks
 } from '../../actions/actionCreators';
 import Store from '../../store';
 import { PassPhraseGenerator } from '../../util/crypto/passphrasegenerator';
@@ -27,6 +30,18 @@ class Login extends React.Component {
     this.loginSeed = this.loginSeed.bind(this);
     this.toggleSeedInputVisibility = this.toggleSeedInputVisibility.bind(this);
     this.handleRegisterWallet = this.handleRegisterWallet.bind(this);
+    this.openSyncOnlyModal = this.openSyncOnlyModal.bind(this);
+  }
+
+  openSyncOnlyModal() {
+    Store.dispatch(getSyncOnlyForks());
+
+    var _iguanaActiveHandle = setInterval(function() {
+      Store.dispatch(getSyncOnlyForks());
+    }.bind(this), 3000);
+    Store.dispatch(startInterval('syncOnly', _iguanaActiveHandle));
+
+    Store.dispatch(toggleSyncOnlyModal(true));
   }
 
   componentDidMount() {
@@ -113,6 +128,12 @@ class Login extends React.Component {
             <div className="page-content vertical-align-middle">
               <div className="brand">
                 <img className="brand-img" src="assets/images/easydex-logo-big.png" alt="SuperNET Iguana" />
+              </div>
+
+              <div style={{padding: '20px 0'}}>
+                <span className="display-sync-only-coins-toggle" onClick={this.openSyncOnlyModal}>
+                  <i className="fa fa-cubes"></i> Display sync only coins progress
+                </span>
               </div>
 
               <div id="section-ie-warning" className={this.state.activeLoginSection === 'ieWarning' ? 'show' : 'hide'}>

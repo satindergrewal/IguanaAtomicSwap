@@ -13,6 +13,7 @@ function mapStateToProps(state) {
     Atomic: state.Atomic,
     Settings: state.Settings,
     Interval: state.Interval,
+    SyncOnly: state.SyncOnly,
   };
 }
 
