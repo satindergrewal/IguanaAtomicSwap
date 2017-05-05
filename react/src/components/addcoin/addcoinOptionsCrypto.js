@@ -3,13 +3,13 @@ import { translate } from '../../translate/translate';
 
 class AddCoinOptionsCrypto extends React.Component {
   render() {
-    //<option value="ANC|full" data-full-mode="true">AnonCoin (ANC)</option>
-    //<option value="MZC|full">MazaCoin (MZC)</option>
-    //<option value="SYS|full">SysCoin (SYS)</option>
     return (
       <optgroup label="Crypto Currencies">
         <option value="BTCD|full">BitcoinDark (BTCD)</option>
         <option value="BTC|full|basilisk">Bitcoin (BTC)</option>
+        <option value="ANC|full" data-full-mode="true">AnonCoin (ANC)</option>
+        <option value="MZC|full">MazaCoin (MZC)</option>
+        <option value="SYS|full">SysCoin (SYS)</option>
         <option value="BTM|full">Bitmark (BTM)</option>
         <option value="CARB|full">Carboncoin (CARB)</option>
         <option value="DGB|full">Digibyte (DGB)</option>

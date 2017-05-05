@@ -163,6 +163,36 @@ body {
 
 .sync-only-forks {
   color: #757575;
+
+  .modal-body {
+    overflow-y: auto;
+  }
+  .badge.up {
+    position: absolute;
+    top: 40px;
+    left: 65px;
+    margin: 0 5px;
+  }
+  .avatar {
+    width: 20%;
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+
+    img {
+      width: 55px;
+      display: inherit;
+    }
+  }
+  .progress-bars {
+    padding-left: 40px;
+    display: inline-block;
+    width: 80%;
+    margin: 0 auto;
+  }
+  .padding-bottom-60:last-child {
+    padding-bottom: 0 !important;
+  }
 }
 
 /*.toaster .single-toast:nth-child(0) {

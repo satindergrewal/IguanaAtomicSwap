@@ -316,7 +316,7 @@ export function dismissToasterMessage() {
   }
 }
 
-export function addCoin(coin, mode, syncOnly) {
+export function addCoin(coin, mode, syncOnly, port) {
 	console.log('coin, mode, syncOnly', coin + ' ' + mode + ' ' + syncOnly);
   /*startIguanaInstance(mode, coin)
   .then(function(json) {
@@ -361,8 +361,14 @@ export function addCoin(coin, mode, syncOnly) {
           });
         }
       } else {
-        return dispatch => {
-          dispatch(iguanaAddCoin(coin, mode, _acData));
+        if (port) {
+          return dispatch => {
+            dispatch(iguanaAddCoin(coin, mode, _acData, port));
+          }
+        } else {
+          return dispatch => {
+            dispatch(iguanaAddCoin(coin, mode, _acData));
+          }
         }
       }
     }
@@ -2495,6 +2501,23 @@ export function getSyncOnlyForks() {
     })
     .then(response => response.json())
     .then(json => dispatch(getSyncOnlyForksState(json)))
+  }
+}
+
+export function stopIguanaFork(pmid) {
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/forks/stop?pmid=' + pmid, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'stopIguanaFork', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(triggerToaster(true, 'Iguana instance is stopped', translate('TOASTR.SERVICE_NOTIFICATION'), 'success')))
   }
 }
 
