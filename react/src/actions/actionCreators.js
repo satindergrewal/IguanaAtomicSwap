@@ -2408,36 +2408,53 @@ export function edexGetTransaction(data) {
   });
 }
 
-function EDEXgettransaction(coin,txid) {
-  return new Promise((resolve) => {
-    var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-        ajax_data = {
-            'userpass': tmpIguanaRPCAuth,
-            'symbol': coin,
-            'agent': 'dex',
-            'method': 'gettransaction',
-            'vout': 1,
-            'txid': txid
-        };
+/*export function saveAppConfig() {
+  const payload = {
+    'herdname': target,
+    'lastLines': linesCount
+  };
 
-    $.ajax({
-      type: 'POST',
-      data: JSON.stringify(ajax_data),
-      url: 'http://127.0.0.1:' + config.iguanaPort
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/debuglog', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
     })
-    .then(function(data) {
-      res_data = JSON.parse(data);
-      resolve(res_data);
-    })
-    .fail(function(xhr, textStatus, error) {
-      // handle request failures
-      console.log(xhr.statusText);
-      if ( xhr.readyState == 0 ) {
-      }
-      console.log(textStatus);
+    .catch(function(error) {
       console.log(error);
-    });
-  });
+      dispatch(triggerToaster(true, 'getDebugLog', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getDebugLogState(json)))
+  }
+}*/
+
+function getAppConfigState(json) {
+  return {
+    type: DASHBOARD_CONNECT_NOTARIES,
+    total: json.length - 1,
+    current: 0,
+    name: json[0],
+  }
+}
+
+export function getAppConfig() {
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/appconf', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getAppConfig', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getAppConfigState(json)))
+  }
 }
 
 /*function Shepherd_SendPendValue() {
