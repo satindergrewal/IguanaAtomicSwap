@@ -51,8 +51,15 @@ export const SYNC_ONLY_MODAL_TOGGLE = 'SYNC_ONLY_MODAL_TOGGLE';
 export const SYNC_ONLY_DATA = 'SYNC_ONLY_DATA';
 export const LOAD_APP_CONFIG = 'LOAD_APP_CONFIG';
 export const SAVE_APP_CONFIG = 'SAVE_APP_CONFIG';
+export const SERVICE_ERROR = 'SERVICE_ERROR';
 
 var iguanaForks = {}; // forks in mem array
+
+function updateErrosStack(method) {
+  return {
+    apiMethod: method,
+  }
+}
 
 export function toggleSyncOnlyModal(display) {
   return {
@@ -607,6 +614,7 @@ export function iguanaActiveHandle(getMainAddress) {
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(updateErrosStack('activeHandle'));
       dispatch(triggerToaster(true, translate('TOASTR.IGUANA_ARE_YOU_SURE'), translate('TOASTR.SERVICE_NOTIFICATION'), 'error'));
     })
     .then(response => response.json())
@@ -923,6 +931,7 @@ export function getAddressesByAccount(coin, mode) {
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(updateErrosStack('activeHandle'));
       dispatch(triggerToaster(true, 'getAddressesByAccount', 'Error', 'error'));
     })
     .then(response => response.json())
