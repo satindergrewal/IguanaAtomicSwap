@@ -1,6 +1,11 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-import { addCoin, toggleAddcoinModal } from '../../actions/actionCreators';
+import {
+  addCoin,
+  toggleAddcoinModal,
+  shepherdGetCoinList,
+  shepherdPostCoinList
+} from '../../actions/actionCreators';
 import Store from '../../store';
 import AddCoinOptionsCrypto from './addcoinOptionsCrypto';
 import AddCoinOptionsAC from './addcoinOptionsAC';
@@ -10,37 +15,75 @@ class AddCoin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedCoin: null,
-      fullMode: {
-        disabled: true,
-        checked: false,
+      coins: [],
+      defaultCoinState: {
+        selectedCoin: null,
+        fullMode: {
+          disabled: true,
+          checked: false,
+        },
+        basiliskMode: {
+          disabled: true,
+          checked: false,
+        },
+        nativeMode: {
+          disabled: true,
+          checked: false,
+        },
+        mode: -2,
+        syncOnly: false,
       },
-      basiliskMode: {
-        disabled: true,
-        checked: false,
-      },
-      nativeMode: {
-        disabled: true,
-        checked: false,
-      },
-      mode: -2,
       display: false,
-      syncOnly: false,
+      actionsMenu: false,
     };
-    this.updateSelectedCoin = this.updateSelectedCoin.bind(this);
-    this.updateSelectedMode = this.updateSelectedMode.bind(this);
-    this.setNativeMode = this.setNativeMode.bind(this);
-    this.setBasiliskMode = this.setBasiliskMode.bind(this);
-    this.setFullMode = this.setFullMode.bind(this);
     this.activateCoin = this.activateCoin.bind(this);
     this.dismiss = this.dismiss.bind(this);
-    this.toggleSyncOnlyMode = this.toggleSyncOnlyMode.bind(this);
+    this.addNewItem = this.addNewItem.bind(this);
+    this.activateAllCoins = this.activateAllCoins.bind(this);
+    this.toggleActionsMenu = this.toggleActionsMenu.bind(this);
+    this.saveCoinSelection = this.saveCoinSelection.bind(this);
+    this.loadCoinSelection = this.loadCoinSelection.bind(this);
   }
 
-  toggleSyncOnlyMode() {
+  saveCoinSelection() {
+    shepherdPostCoinList(this.state.coins)
+    .then(function(json) {
+      console.log(json);
+      this.toggleActionsMenu();
+    }.bind(this));
+  }
+
+  loadCoinSelection() {
+    shepherdGetCoinList()
+    .then(function(json) {
+      console.log(json);
+      this.setState(Object.assign({}, this.state, {
+        coins: json.result,
+        actionsMenu: false,
+      }));
+    }.bind(this));
+  }
+
+  toggleSyncOnlyMode(index) {
+    let _coins = this.state.coins;
+
+    _coins[index] = Object.assign({}, _coins[index], {
+      syncOnly: !this.state.coins[index].syncOnly,
+    });
+
     this.setState(Object.assign({}, this.state, {
-      syncOnly: !this.state.syncOnly,
+      coins: _coins,
     }));
+  }
+
+  toggleActionsMenu() {
+    this.setState(Object.assign({}, this.state, {
+      actionsMenu: !this.state.actionsMenu,
+    }));
+  }
+
+  componentWillMount() {
+    this.addNewItem();
   }
 
   componentWillReceiveProps(props) {
@@ -51,7 +94,7 @@ class AddCoin extends React.Component {
     }
   }
 
-  updateSelectedCoin(e) {
+  updateSelectedCoin(e, index) {
     const coin = e.target.value.split('|');
     const defaultMode = coin[1];
     const modeToValue = {
@@ -59,8 +102,9 @@ class AddCoin extends React.Component {
       'basilisk': 0,
       'native': -1,
     };
+    let _coins = this.state.coins;
 
-    this.setState(Object.assign({}, this.state, {
+    _coins[index] = {
       [e.target.name]: e.target.value,
       fullMode: {
         disabled: e.target.value.indexOf('full') > -1 ? false : true,
@@ -75,11 +119,19 @@ class AddCoin extends React.Component {
         checked: defaultMode === 'native' ? true : false,
       },
       mode: modeToValue[defaultMode] !== undefined ? modeToValue[defaultMode] : -2,
+      syncOnly: this.state.coins[index].syncOnly,
+    }
+
+    this.setState(Object.assign({}, this.state, {
+      coins: _coins
     }));
   }
 
-  updateSelectedMode(_value) {
-    this.setState(Object.assign({}, this.state, {
+  updateSelectedMode(_value, index) {
+    let _coins = this.state.coins;
+
+    _coins[index] = {
+      selectedCoin: _coins[index].selectedCoin,
       fullMode: {
         ...this.state.fullMode,
         checked: _value === '1' ? true : false,
@@ -93,27 +145,121 @@ class AddCoin extends React.Component {
         checked: _value === '-1' ? true : false,
       },
       mode: _value,
+      syncOnly: this.state.coins[index].syncOnly,
+    };
+
+    this.setState(Object.assign({}, this.state, {
+      coins: _coins
     }));
-  }
 
-  setNativeMode() {
-    this.updateSelectedMode('-1');
-  }
-
-  setBasiliskMode() {
-    this.updateSelectedMode('0');
-  }
-
-  setFullMode() {
-    this.updateSelectedMode('1');
+    console.log(this.state.coins);
   }
 
   activateCoin() {
-    Store.dispatch(addCoin(this.state.selectedCoin.split('|')[0], this.state.mode, this.state.syncOnly));
+    Store.dispatch(addCoin(this.state.coins[0].selectedCoin.split('|')[0], this.state.coins[0].mode, this.state.coins[0].syncOnly));
   }
 
   dismiss() {
     Store.dispatch(toggleAddcoinModal(false, false));
+  }
+
+  addNewItem() {
+    let _coins = this.state.coins;
+    _coins.push(this.state.defaultCoinState);
+
+    this.setState(Object.assign({}, this.state, {
+      coins: _coins,
+    }));
+  }
+
+  removeCoin(index) {
+    let _coins = this.state.coins;
+    _coins.splice(index, 1);
+
+    this.setState(Object.assign({}, this.state, {
+      coins: _coins,
+    }));
+  }
+
+  activateAllCoins() {
+    Store.dispatch(addCoin(this.state.coins[0].selectedCoin.split('|')[0], this.state.coins[0].mode, this.state.coins[0].syncOnly));
+
+    for (let i = 1; i < this.state.coins.length; i++) {
+      const _item = this.state.coins[i];
+
+      setTimeout(function() {
+        Store.dispatch(addCoin(_item.selectedCoin.split('|')[0], _item.mode, _item.syncOnly));
+      }, 2000 * i);
+    }
+  }
+
+  renderCoinSelectors() {
+    let items = [];
+
+    for (let i = 0; i < this.state.coins.length; i++) {
+      const _item = this.state.coins[i];
+      const _coin = _item.selectedCoin || '';
+
+      items.push(
+        <div className={this.state.coins.length > 1 ? 'multi' : 'single'} key={'add-coin-' + i}>
+          <div className="col-sm-8">
+            <div className="form-group">
+              <select className="form-control form-material" name="selectedCoin" id="addcoin_select_coin_mdl_options-login" value={_coin} onChange={(event) => this.updateSelectedCoin(event, i)}>
+                <option>{translate('INDEX.SELECT')}</option>
+                <AddCoinOptionsCrypto />
+                <AddCoinOptionsAC />
+                <AddCoinOptionsACFiat />
+              </select>
+            </div>
+          </div>
+          <div className={this.state.coins.length > 1 ? 'hide' : 'col-sm-4'}>
+            <button type="button" className="btn btn-primary mdl_addcoin_done_btn-login" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn-login" onClick={() => this.activateCoin(i)} disabled={_item.mode === -2 }>{translate('INDEX.ACTIVATE_COIN')}</button>
+          </div>
+          <div className="col-sm-12 text-center">
+            <div className="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login">
+              <input type="radio" className="to-labelauty labelauty" name={`mode-${i}`} id={`addcoin_mdl_full_mode_login-${i}`} disabled={_item.fullMode.disabled} checked={_item.fullMode.checked} />
+              <label htmlFor={`addcoin_mdl_full_mode_login-${i}`} onClick={() => this.updateSelectedMode('1', i)} style={{ pointerEvents: _item.fullMode.disabled ? 'none' : 'all' }}>
+                <span className="labelauty-unchecked-image" style={{ display: _item.fullMode.checked ? 'none' : 'inline-block' }}></span>
+                <span className="labelauty-unchecked" style={{ display: _item.fullMode.checked ? 'none' : 'inline-block' }}>{translate('INDEX.FULL_MODE')}</span>
+                <span className="labelauty-checked-image" style={{ display: _item.fullMode.checked ? 'inline-block' : 'none' }}></span>
+                <span className="labelauty-checked" style={{ display: _item.fullMode.checked ? 'inline-block' : 'none' }}>{translate('INDEX.FULL_MODE')}</span>
+              </label>
+            </div>
+            <div className="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login">
+              <input type="radio" className="to-labelauty labelauty" name={`mode-${i}`} id={`addcoin_mdl_basilisk_mode_login-${i}`} disabled={_item.basiliskMode.disabled} checked={_item.basiliskMode.checked} />
+              <label htmlFor={`addcoin_mdl_basilisk_mode_login-${i}`} onClick={() => this.updateSelectedMode('0', i)} style={{ pointerEvents: _item.basiliskMode.disabled ? 'none' : 'all' }}>
+                <span className="labelauty-unchecked-image" style={{ display: _item.basiliskMode.checked ? 'none' : 'inline-block' }}></span>
+                <span className="labelauty-unchecked" style={{ display: _item.basiliskMode.checked ? 'none' : 'inline-block' }}>{translate('INDEX.BASILISK_MODE')}</span>
+                <span className="labelauty-checked-image" style={{ display: _item.basiliskMode.checked ? 'inline-block' : 'none' }}></span>
+                <span className="labelauty-checked" style={{ display: _item.basiliskMode.checked ? 'inline-block' : 'none' }}>{translate('INDEX.BASILISK_MODE')}</span>
+              </label>
+            </div>
+            <div className="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12 style-addcoin-lbl-mdl-login">
+              <input type="radio" className="to-labelauty labelauty" name={`mode-${i}`} id={`addcoin_mdl_native_mode_login-${i}`} disabled={_item.nativeMode.disabled} checked={_item.nativeMode.checked} />
+              <label htmlFor={`addcoin_mdl_native_mode_login-${i}`} onClick={() => this.updateSelectedMode('-1', i)} style={{ pointerEvents: _item.nativeMode.disabled ? 'none' : 'all' }}>
+                <span className="labelauty-unchecked-image" style={{ display: _item.nativeMode.checked ? 'none' : 'inline-block' }}></span>
+                <span className="labelauty-unchecked" style={{ display: _item.nativeMode.checked ? 'none' : 'inline-block' }}>{translate('INDEX.NATIVE_MODE')}</span>
+                <span className="labelauty-checked-image" style={{ display: _item.nativeMode.checked ? 'inline-block' : 'none' }}></span>
+                <span className="labelauty-checked" style={{ display: _item.nativeMode.checked ? 'inline-block' : 'none' }}>{translate('INDEX.NATIVE_MODE')}</span>
+              </label>
+            </div>
+          </div>
+          <div className={this.state.coins.length > 1 && i !== 0 ? 'col-sm-1' : 'hide'}>
+            <button type="button" className="btn btn-primary mdl_addcoin_done_btn-login" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn-login" onClick={() => this.removeCoin(i)}>
+              <i className="fa fa-trash-o"></i>
+            </button>
+          </div>
+          <div className={_item.mode === '1' || _item.mode === 1 ? 'col-sm-12' : 'hide'}>
+            <div className="pull-left margin-right-10">
+              <input type="checkbox" id="addcoin_sync_only" data-plugin="switchery" data-size="small" checked={_item.syncOnly} />
+            </div>
+            <label className="padding-top-3 padding-bottom-10" htmlFor="addcoin_sync_only" onClick={() => this.toggleSyncOnlyMode(i)}>Sync only</label>
+          </div>
+        </div>
+      );
+    }
+
+    return items;
   }
 
   render() {
@@ -129,53 +275,17 @@ class AddCoin extends React.Component {
                 <h4 className="modal-title white">{translate('INDEX.SELECT_A_COIN')}</h4>
               </div>
               <div className="modal-body">
-                <div className="col-sm-8">
-                  <div className="form-group">
-                    <select className="form-control form-material" name="selectedCoin" id="addcoin_select_coin_mdl_options-login" onChange={this.updateSelectedCoin}>
-                      <option>{translate('INDEX.SELECT')}</option>
-                      <AddCoinOptionsCrypto />
-                      <AddCoinOptionsAC />
-                      <AddCoinOptionsACFiat />
-                    </select>
-                  </div>
-                </div>
-                <div className="col-sm-4">
-                  <button type="button" className="btn btn-primary mdl_addcoin_done_btn-login" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn-login" onClick={this.activateCoin} disabled={this.state.mode === -2 }>{translate('INDEX.ACTIVATE_COIN')}</button>
-                </div>
-                <div className="col-sm-12 text-center">
-                  <div className="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login">
-                    <input type="radio" className="to-labelauty labelauty" name="mode" id="addcoin_mdl_full_mode_login" disabled={this.state.fullMode.disabled} checked={this.state.fullMode.checked} />
-                    <label htmlFor="addcoin_mdl_full_mode_login" onClick={this.setFullMode} style={{ pointerEvents: this.state.fullMode.disabled ? 'none' : 'all' }}>
-                      <span className="labelauty-unchecked-image" style={{ display: this.state.fullMode.checked ? 'none' : 'inline-block' }}></span>
-                      <span className="labelauty-unchecked" style={{ display: this.state.fullMode.checked ? 'none' : 'inline-block' }}>{translate('INDEX.FULL_MODE')}</span>
-                      <span className="labelauty-checked-image" style={{ display: this.state.fullMode.checked ? 'inline-block' : 'none' }}></span>
-                      <span className="labelauty-checked" style={{ display: this.state.fullMode.checked ? 'inline-block' : 'none' }}>{translate('INDEX.FULL_MODE')}</span>
-                    </label>
-                  </div>
-                  <div className="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login">
-                    <input type="radio" className="to-labelauty labelauty" name="mode" id="addcoin_mdl_basilisk_mode_login" disabled={this.state.basiliskMode.disabled} checked={this.state.basiliskMode.checked} />
-                    <label htmlFor="addcoin_mdl_basilisk_mode_login" onClick={this.setBasiliskMode} style={{ pointerEvents: this.state.basiliskMode.disabled ? 'none' : 'all' }}>
-                      <span className="labelauty-unchecked-image" style={{ display: this.state.basiliskMode.checked ? 'none' : 'inline-block' }}></span>
-                      <span className="labelauty-unchecked" style={{ display: this.state.basiliskMode.checked ? 'none' : 'inline-block' }}>{translate('INDEX.BASILISK_MODE')}</span>
-                      <span className="labelauty-checked-image" style={{ display: this.state.basiliskMode.checked ? 'inline-block' : 'none' }}></span>
-                      <span className="labelauty-checked" style={{ display: this.state.basiliskMode.checked ? 'inline-block' : 'none' }}>{translate('INDEX.BASILISK_MODE')}</span>
-                    </label>
-                  </div>
-                  <div className="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12 style-addcoin-lbl-mdl-login">
-                    <input type="radio" className="to-labelauty labelauty" name="mode" id="addcoin_mdl_native_mode_login" disabled={this.state.nativeMode.disabled} checked={this.state.nativeMode.checked} />
-                    <label htmlFor="addcoin_mdl_native_mode_login" onClick={this.setNativeMode} style={{ pointerEvents: this.state.nativeMode.disabled ? 'none' : 'all' }}>
-                      <span className="labelauty-unchecked-image" style={{ display: this.state.nativeMode.checked ? 'none' : 'inline-block' }}></span>
-                      <span className="labelauty-unchecked" style={{ display: this.state.nativeMode.checked ? 'none' : 'inline-block' }}>{translate('INDEX.NATIVE_MODE')}</span>
-                      <span className="labelauty-checked-image" style={{ display: this.state.nativeMode.checked ? 'inline-block' : 'none' }}></span>
-                      <span className="labelauty-checked" style={{ display: this.state.nativeMode.checked ? 'inline-block' : 'none' }}>{translate('INDEX.NATIVE_MODE')}</span>
-                    </label>
-                  </div>
-                </div>
-                <div className={this.state.mode === 1 ? 'col-sm-12' : 'hide'}>
-                  <div className="pull-left margin-right-10">
-                    <input type="checkbox" id="addcoin_sync_only" data-plugin="switchery" data-size="small" />
-                  </div>
-                  <label className="padding-top-3 padding-bottom-10" htmlFor="addcoin_sync_only" onClick={this.toggleSyncOnlyMode}>Sync only</label>
+                <button className="btn btn-primary btn-add-coin-item" onClick={this.addNewItem}>+</button>
+                <button className="btn btn-outline-primary btn-add-coin-item-options" onClick={this.toggleActionsMenu}>
+                  <i className={this.state.actionsMenu ? 'fa-chevron-up' : 'fa-chevron-down' }></i>
+                </button>
+                <span className={!this.state.actionsMenu ? 'hide' : ''}>
+                  <button className="btn btn-outline-primary btn-save-coin-selection" onClick={this.saveCoinSelection}>Save Selection</button>
+                  <button className="btn btn-outline-primary btn-load-coin-selection" onClick={this.loadCoinSelection}>Load Selection</button>
+                </span>
+                {this.renderCoinSelectors()}
+                <div className={this.state.coins.length > 1 ? 'col-sm-12' : 'hide'} style={{textAlign: 'center', margin: '20px 0'}}>
+                  <button type="button" className="btn btn-primary col-sm-4" style={{float: 'none'}} data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn-login" onClick={this.activateAllCoins}>Activate all</button>
                 </div>
                 <div className="col-sm-12">
                   <p>

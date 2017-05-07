@@ -17,9 +17,10 @@ import {
   DASHBOARD_DISPLAY_NOTARIES_MODAL
 } from '../actions/actionCreators';
 
-// TODO: keep all coin data in array of objects instead of single object
+// TODO: refactor
 
 export function ActiveCoin(state = {
+  coins: {},
   coin: null,
   mode: null,
   send: false,
@@ -38,17 +39,88 @@ export function ActiveCoin(state = {
 }, action) {
   switch (action.type) {
     case DASHBOARD_ACTIVE_COIN_CHANGE:
-      return Object.assign({}, state, {
-        coin: action.coin,
-        mode: action.mode,
-        balance: 0,
-        txhistory: [],
-        send: false,
-        receive: false,
-        showTransactionInfo: false,
-        showTransactionInfoTxIndex: null,
-        nativeActiveSection: 'default',
-      });
+      if (state.coins[action.coin]) {
+        const _coinData = state.coins[action.coin];
+        const _coinDataToStore = {
+          addresses: state.addresses,
+          coin: state.coin,
+          mode: state.mode,
+          balance: state.balance,
+          txhistory: state.txhistory,
+          send: state.send,
+          receive: state.receive,
+          showTransactionInfo: state.showTransactionInfo,
+          showTransactionInfoTxIndex: state.showTransactionInfoTxIndex,
+          nativeActiveSection: state.nativeActiveSection,
+          lastSendToResponse: state.lastSendToResponse,
+          mainBasiliskAddress: state.mainBasiliskAddress,
+          opids: state.opids,
+        };
+        let _coins = state.coins;
+        _coins[state.coin] = _coinDataToStore;
+
+        return Object.assign({}, state, {
+          coins: _coins,
+          addresses: _coinData.addresses,
+          coin: _coinData.coin,
+          mode: _coinData.mode,
+          balance: _coinData.balance,
+          txhistory: _coinData.txhistory,
+          send: _coinData.send,
+          receive: _coinData.receive,
+          showTransactionInfo: _coinData.showTransactionInfo,
+          showTransactionInfoTxIndex: _coinData.showTransactionInfoTxIndex,
+          nativeActiveSection: _coinData.nativeActiveSection,
+          lastSendToResponse: _coinData.lastSendToResponse,
+          mainBasiliskAddress: _coinData.mainBasiliskAddress,
+          opids: _coinData.opids,
+        });
+      } else {
+        if (state.coin) {
+          const _coinData = {
+            addresses: state.addresses,
+            coin: state.coin,
+            mode: state.mode,
+            balance: state.balance,
+            txhistory: state.txhistory,
+            send: state.send,
+            receive: state.receive,
+            showTransactionInfo: state.showTransactionInfo,
+            showTransactionInfoTxIndex: state.showTransactionInfoTxIndex,
+            nativeActiveSection: state.nativeActiveSection,
+            lastSendToResponse: state.lastSendToResponse,
+            mainBasiliskAddress: state.mainBasiliskAddress,
+            opids: state.opids,
+          };
+          let _coins = state.coins;
+          _coins[state.coin] = _coinData;
+
+          return Object.assign({}, state, {
+            coins: _coins,
+            coin: action.coin,
+            mode: action.mode,
+            balance: 0,
+            txhistory: 'loading',
+            send: false,
+            receive: false,
+            showTransactionInfo: false,
+            showTransactionInfoTxIndex: null,
+            nativeActiveSection: 'default',
+          });
+        } else {
+          return Object.assign({}, state, {
+            coin: action.coin,
+            mode: action.mode,
+            balance: 0,
+            txhistory: 'loading',
+            send: false,
+            receive: false,
+            showTransactionInfo: false,
+            showTransactionInfoTxIndex: null,
+            nativeActiveSection: 'default',
+          });
+        }
+      }
     case DASHBOARD_ACTIVE_COIN_BALANCE:
       return Object.assign({}, state, {
         balance: action.balance,

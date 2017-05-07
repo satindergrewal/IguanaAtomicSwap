@@ -51,8 +51,15 @@ export const SYNC_ONLY_MODAL_TOGGLE = 'SYNC_ONLY_MODAL_TOGGLE';
 export const SYNC_ONLY_DATA = 'SYNC_ONLY_DATA';
 export const LOAD_APP_CONFIG = 'LOAD_APP_CONFIG';
 export const SAVE_APP_CONFIG = 'SAVE_APP_CONFIG';
+export const SERVICE_ERROR = 'SERVICE_ERROR';
 
 var iguanaForks = {}; // forks in mem array
+
+function updateErrosStack(method) {
+  return {
+    apiMethod: method,
+  }
+}
 
 export function toggleSyncOnlyModal(display) {
   return {
@@ -607,6 +614,7 @@ export function iguanaActiveHandle(getMainAddress) {
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(updateErrosStack('activeHandle'));
       dispatch(triggerToaster(true, translate('TOASTR.IGUANA_ARE_YOU_SURE'), translate('TOASTR.SERVICE_NOTIFICATION'), 'error'));
     })
     .then(response => response.json())
@@ -771,7 +779,7 @@ export function getBasiliskTransactionsList(coin, address) {
     'timeout': 60000
   };
 
-  if (sessionStorage.getItem('useCache')) {
+  //if (sessionStorage.getItem('useCache')) {
     const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
 
     return dispatch => {
@@ -787,13 +795,17 @@ export function getBasiliskTransactionsList(coin, address) {
       })
       .then(response => response.json())
       .then(function(json) {
+        if (json.result && json.result.indexOf('no file with handle') > -1) {
+          console.log('new cache');
+        }
+
         json = json.result.basilisk;
         if (json[coin][address].listtransactions) {
           dispatch(getNativeTxHistoryState({ 'result': json[coin][address].listtransactions.data }));
         }
       })
     }
-  } else {
+  /*} else {
     return dispatch => {
       return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
         method: 'POST',
@@ -806,7 +818,7 @@ export function getBasiliskTransactionsList(coin, address) {
       .then(response => response.json())
       .then(json => dispatch(getNativeTxHistoryState(json)))
     }
-  }
+  }*/
 }
 
 export function getPeersList(coin) {
@@ -923,6 +935,7 @@ export function getAddressesByAccount(coin, mode) {
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(updateErrosStack('activeHandle'));
       dispatch(triggerToaster(true, 'getAddressesByAccount', 'Error', 'error'));
     })
     .then(response => response.json())
@@ -1062,7 +1075,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           };
         }
 
-        if (sessionStorage.getItem('useCache') && mode === 'basilisk') {
+        if (/*sessionStorage.getItem('useCache') &&*/ mode === 'basilisk') {
           const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
 
           fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
@@ -1222,7 +1235,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
         }));
       }
 
-      if (sessionStorage.getItem('useCache') && mode === 'basilisk') {
+      if (/*sessionStorage.getItem('useCache') &&*/ mode === 'basilisk') {
         const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
 
         fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
@@ -1328,14 +1341,26 @@ export function fetchUtxoCache(_payload) {
   }
 }
 
-function getShepherdCacheState(json) {
-  return {
-    type: DASHBOARD_ACTIVE_COIN_GET_CACHE,
-    cache: json && json.result && json.result.basilisk ? json.result.basilisk : null,
+function getShepherdCacheState(json, pubkey, coin) {
+  if (json.result && json.error && json.result.indexOf('no file with handle') > -1) {
+    console.log('new cache');
+    return dispatch => {
+      dispatch(fetchNewCacheData({
+        'pubkey': pubkey,
+        'allcoins': false,
+        'coin': coin,
+        'calls': 'listtransactions:getbalance:listunspent',
+      }));
+    }
+  } else {
+    return {
+      type: DASHBOARD_ACTIVE_COIN_GET_CACHE,
+      cache: json && json.result && json.result.basilisk ? json.result.basilisk : null,
+    }
   }
 }
 
-export function getShepherdCache(pubkey) {
+export function getShepherdCache(pubkey, coin) {
   return dispatch => {
     return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
       method: 'GET',
@@ -1348,7 +1373,7 @@ export function getShepherdCache(pubkey) {
       dispatch(triggerToaster(true, 'getShepherdCache', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(getShepherdCacheState(json)))
+    .then(json => dispatch(getShepherdCacheState(json, pubkey, coin)))
   }
 }
 
@@ -2519,6 +2544,41 @@ export function stopIguanaFork(pmid) {
     .then(response => response.json())
     .then(json => dispatch(triggerToaster(true, 'Iguana instance is stopped', translate('TOASTR.SERVICE_NOTIFICATION'), 'success')))
   }
+}
+
+export function shepherdGetCoinList() {
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/coinslist', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'shepherdGetCoinList', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => resolve(json))
+  });
+}
+
+export function shepherdPostCoinList(data) {
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/coinslist', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ 'payload': data }),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'shepherdPostCoinList', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => resolve(json))
+  });
 }
 
 /*function Shepherd_SendPendValue() {

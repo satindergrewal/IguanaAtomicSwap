@@ -10,6 +10,7 @@ import { Atomic } from './atomic';
 import { Settings } from './settings';
 import { Interval } from './interval';
 import { SyncOnly } from './syncOnly';
+import { Errors } from './errors';
 
 const rootReducer = combineReducers({
   AddCoin,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   Settings,
   Interval,
   SyncOnly,
+  Errors,
   routing: routerReducer,
 });
 

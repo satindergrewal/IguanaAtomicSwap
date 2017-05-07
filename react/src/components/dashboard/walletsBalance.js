@@ -4,11 +4,11 @@ import { translate } from '../../translate/translate';
 class WalletsBalance extends React.Component {
   constructor(props) {
     super(props);
-    this.isFullySynced = this.isFullySynced.bind(bind);
+    this.isFullySynced = this.isFullySynced.bind(this);
   }
 
   isFullySynced() {
-    if ((Number(this.props.Dashboard.progress.balances) +
+    if (this.props.Dashboard.progress && (Number(this.props.Dashboard.progress.balances) +
         Number(this.props.Dashboard.progress.validated) +
         Number(this.props.Dashboard.progress.bundles) +
         Number(this.props.Dashboard.progress.utxo)) / 4 === 100) {

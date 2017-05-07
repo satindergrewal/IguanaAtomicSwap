@@ -53,7 +53,7 @@ class CoinTileItem extends React.Component {
       Store.dispatch(iguanaActiveHandle(true));
 
       if (this.props && this.props.Dashboard && this.props.Dashboard.activeHandle && this.props.Dashboard.activeHandle[coin]) {
-        Store.dispatch(getShepherdCache(this.props.Dashboard.activeHandle.pubkey));
+        Store.dispatch(getShepherdCache(this.props.Dashboard.activeHandle.pubkey, coin));
         Store.dispatch(getBasiliskTransactionsList(coin, useAddress));
         Store.dispatch(getKMDAddressesNative(coin, mode, useAddress));
         //Store.dispatch(iguanaEdexBalance(coin, mode));
@@ -88,14 +88,12 @@ class CoinTileItem extends React.Component {
         }.bind(this), 3000);
 
         var _basiliskCache = setInterval(function() {
-          if (sessionStorage.getItem('useCache')) {
-            Store.dispatch(fetchNewCacheData({
-              'pubkey': this.props.Dashboard.activeHandle.pubkey,
-              'allcoins': false,
-              'coin': this.props.ActiveCoin.coin,
-              'calls': 'listtransactions:getbalance',
-            }));
-          }
+          Store.dispatch(fetchNewCacheData({
+            'pubkey': this.props.Dashboard.activeHandle.pubkey,
+            'allcoins': false,
+            'coin': this.props.ActiveCoin.coin,
+            'calls': 'listtransactions:getbalance',
+          }));
         }.bind(this), 60000);
         Store.dispatch(startInterval('sync', _iguanaActiveHandle));
         Store.dispatch(startInterval('basilisk', _basiliskCache));
