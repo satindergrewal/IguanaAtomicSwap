@@ -14,6 +14,7 @@ function mapStateToProps(state) {
     Settings: state.Settings,
     Interval: state.Interval,
     SyncOnly: state.SyncOnly,
+    Errors: state.Errors,
   };
 }
 
