@@ -173,7 +173,7 @@ class WalletsData extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory !== 'loading' && this.props.ActiveCoin.txhistory.length) {
+    if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory !== 'loading' && this.props.ActiveCoin.txhistory !== 'no data' && this.props.ActiveCoin.txhistory.length) {
       if (!this.state.itemsList || (this.state.itemsList && !this.state.itemsList.length) || (props.ActiveCoin.txhistory !== this.props.ActiveCoin.txhistory)) {
         let historyToSplit = sortByDate(this.props.ActiveCoin.txhistory);
         historyToSplit = historyToSplit.slice((this.state.activePage - 1) * this.state.itemsPerPage, this.state.activePage * this.state.itemsPerPage);
