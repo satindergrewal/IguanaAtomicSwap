@@ -7,7 +7,9 @@ import {
   iguanaActiveHandle,
   toggleSyncOnlyModal,
   startInterval,
-  getSyncOnlyForks
+  stopInterval,
+  getSyncOnlyForks,
+  getDexCoins
 } from '../../actions/actionCreators';
 import Store from '../../store';
 import { PassPhraseGenerator } from '../../util/crypto/passphrasegenerator';
@@ -66,11 +68,21 @@ class Login extends React.Component {
       this.setState({
         display: false,
       });
+
+      // Store.dispatch(stopInterval('activeCoins', this.props.Interval.interval));
     }
     if (props && props.Main && !props.Main.isLoggedIn) {
       this.setState({
         display: true,
       });
+
+      if (!this.props.Interval.interval.activeCoins) {
+        var _iguanaActiveCoins = setInterval(function() {
+          Store.dispatch(getDexCoins());
+        }.bind(this), 10000);
+        Store.dispatch(startInterval('activeCoins', _iguanaActiveCoins));
+      }
+
       document.body.className = 'page-login layout-full page-dark';
     }
     if (this.state.activeLoginSection !== 'signup') {
