@@ -41,9 +41,26 @@ export function ActiveCoin(state = {
     case DASHBOARD_ACTIVE_COIN_CHANGE:
       if (state.coins[action.coin]) {
         const _coinData = state.coins[action.coin];
+        const _coinDataToStore = {
+          addresses: state.addresses,
+          coin: state.coin,
+          mode: state.mode,
+          balance: state.balance,
+          txhistory: state.txhistory,
+          send: state.send,
+          receive: state.receive,
+          showTransactionInfo: state.showTransactionInfo,
+          showTransactionInfoTxIndex: state.showTransactionInfoTxIndex,
+          nativeActiveSection: state.nativeActiveSection,
+          lastSendToResponse: state.lastSendToResponse,
+          mainBasiliskAddress: state.mainBasiliskAddress,
+          opids: state.opids,
+        };
+        let _coins = state.coins;
+        _coins[state.coin] = _coinDataToStore;
 
         return Object.assign({}, state, {
-          coins: state.coins,
+          coins: _coins,
           addresses: _coinData.addresses,
           coin: _coinData.coin,
           mode: _coinData.mode,
