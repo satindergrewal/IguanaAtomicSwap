@@ -173,7 +173,7 @@ class WalletsData extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory.length) {
+    if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory !== 'loading' && this.props.ActiveCoin.txhistory.length) {
       if (!this.state.itemsList || (this.state.itemsList && !this.state.itemsList.length) || (props.ActiveCoin.txhistory !== this.props.ActiveCoin.txhistory)) {
         let historyToSplit = sortByDate(this.props.ActiveCoin.txhistory);
         historyToSplit = historyToSplit.slice((this.state.activePage - 1) * this.state.itemsPerPage, this.state.activePage * this.state.itemsPerPage);
@@ -187,6 +187,10 @@ class WalletsData extends React.Component {
     if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory === 'no data') {
       this.setState(Object.assign({}, this.state, {
         itemsList: 'no data',
+      }));
+    } else if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory === 'loading') {
+      this.setState(Object.assign({}, this.state, {
+        itemsList: 'loading',
       }));
     }
   }
@@ -216,7 +220,7 @@ class WalletsData extends React.Component {
   }
 
   renderPaginationItemsPerPageSelector() {
-    if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory.length > 10) {
+    if (this.props.ActiveCoin.txhistory && this.state.itemsList !== 'loading' && this.props.ActiveCoin.txhistory.length > 10) {
       return (
         <div className="dataTables_length" id="kmd-tx-history-tbl_length">
           <label>
@@ -237,7 +241,7 @@ class WalletsData extends React.Component {
   }
 
   renderPagination() {
-    if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory.length > 10) {
+    if (this.props.ActiveCoin.txhistory && this.state.itemsList !== 'loading' && this.props.ActiveCoin.txhistory.length > 10) {
       return (
         <div className="row unselectable">
           <div className="col-sm-5">
@@ -302,29 +306,25 @@ class WalletsData extends React.Component {
   }
 
   renderTxHistoryList() {
-    if (this.state.itemsList && this.state.itemsList.length && this.state.itemsList !== 'no data') {
-      return this.state.itemsList.map((tx, index) =>
-        <tr key={tx.txid + tx.amount}>
-          <td>{this.renderTxType(tx.category || tx.type)}</td>
-          <td>{tx.confirmations}</td>
-          <td>{tx.amount || translate('DASHBOARD.UNKNOWN')}</td>
-          <td>{secondsToString(tx.blocktime || tx.timestamp)}</td>
-          <td>{tx.address}</td>
-          <td>
-            <button type="button" className="btn btn-xs white btn-info waves-effect waves-light btn-kmdtxid" onClick={() => this.toggleTxInfoModal(!this.props.ActiveCoin.showTransactionInfo, index)}><i className="icon fa-search"></i></button>
-          </td>
-        </tr>
-      );
-    }
-
-    if (this.state.itemsList === 'no data') {
+    if (this.state.itemsList === 'loading') {
       return (
-        <span>No data</span>
+        <div>Loading history...</div>
       );
-    }
-
-    if (!this.state.itemsList) {
-      return null;
+    } else {
+      if (this.state.itemsList && this.state.itemsList.length && this.state.itemsList !== 'no data') {
+        return this.state.itemsList.map((tx, index) =>
+          <tr key={tx.txid + tx.amount}>
+            <td>{this.renderTxType(tx.category || tx.type)}</td>
+            <td>{tx.confirmations}</td>
+            <td>{tx.amount || translate('DASHBOARD.UNKNOWN')}</td>
+            <td>{secondsToString(tx.blocktime || tx.timestamp)}</td>
+            <td>{tx.address}</td>
+            <td>
+              <button type="button" className="btn btn-xs white btn-info waves-effect waves-light btn-kmdtxid" onClick={() => this.toggleTxInfoModal(!this.props.ActiveCoin.showTransactionInfo, index)}><i className="icon fa-search"></i></button>
+            </td>
+          </tr>
+        );
+      }
     }
   }
 
@@ -405,7 +405,10 @@ class WalletsData extends React.Component {
   }
 
   renderAddressList() {
-    if (this.props.Dashboard && this.props.Dashboard.activeHandle && this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin] && this.props.ActiveCoin.mode === 'basilisk') {
+    if (this.props.Dashboard &&
+        this.props.Dashboard.activeHandle &&
+        this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin] &&
+        this.props.ActiveCoin.mode === 'basilisk') {
       return (
         <div className={'btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ' + (this.state.addressSelectorOpen ? 'open' : '')}>
           <button type="button" className="btn dropdown-toggle btn-info" data-toggle="dropdown" data-id="kmd_wallet_send_from" title="- Select Transparent or Private Address -" aria-expanded="true" onClick={this.openDropMenu}>
