@@ -156,7 +156,7 @@ class AddCoin extends React.Component {
   }
 
   activateCoin() {
-    Store.dispatch(addCoin(this.state.selectedCoin.split('|')[0], this.state.mode, this.state.syncOnly));
+    Store.dispatch(addCoin(this.state.coins[0].selectedCoin.split('|')[0], this.state.coins[0].mode, this.state.coins[0].syncOnly));
   }
 
   dismiss() {
