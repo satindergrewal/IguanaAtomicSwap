@@ -119,26 +119,36 @@ class SendCoin extends React.Component {
     if (this.props.ActiveCoin.mode === 'basilisk' &&
         this.state.sendFrom &&
         !this.state.sendApiType &&
-        this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom] &&
-        this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh ||
-        this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].listunspent) {
-      const refreshCacheData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh || this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].listunspent;
-      const timestamp = checkTimestamp(refreshCacheData.timestamp);
-      const isReadyToUpdate = timestamp > 600 ? true : false;
+        this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom]) {
+        let refreshCacheData,
+              timestamp,
+              isReadyToUpdate,
+              waitUntilCallIsFinished = this.state.currentStackLength > 1 ? true : false;
 
+      if (this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh ||
+        this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].listunspent) {
+        refreshCacheData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh || this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].listunspent;
+        timestamp = checkTimestamp(refreshCacheData.timestamp);
+        isReadyToUpdate = timestamp > 600 ? true : false;
+      } else {
+        isReadyToUpdate = true;
+      }
+      
       return (
         <div className="col-lg-12">
           <hr />
-          Total UTXO available: {refreshCacheData.data.length}<br />
-          Last updated @ {secondsToString(refreshCacheData.timestamp, true)} | {secondsElapsedToString(timestamp)} ago<br />
+          Total UTXO available: {refreshCacheData ? refreshCacheData.data.length : 'N/A. Press update button.'}<br />
+          <div className={!timestamp ? 'hide' : ''}>
+            Last updated @ {secondsToString(refreshCacheData ? refreshCacheData.timestamp : 0, true)} | {secondsElapsedToString(timestamp || 0)} ago<br />
+          </div>
           <div className={isReadyToUpdate ? 'hide' : ''}>Next update available in {secondsElapsedToString(600 - timestamp)}s</div>
           <div className={this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : 'progress progress-sm'} style={{width: '100%', marginBottom: '10px', marginTop: '10px'}}>
             <div className="progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success" style={{width: 100 - (this.state.currentStackLength * 100 / this.state.totalStackLength) + '%', fontSize: '80%'}} role="progressbar">
               Processing requests: {this.state.currentStackLength} / {this.state.totalStackLength}
             </div>
           </div>
-          <button type="button" style={{marginTop: '10px'}} className={isReadyToUpdate ? 'btn btn-primary waves-effect waves-light' : 'hide'} onClick={this._fetchNewUTXOData}>
-            Update
+          <button type="button" style={{marginTop: '10px'}} className={isReadyToUpdate ? 'btn btn-primary waves-effect waves-light' : 'hide'} onClick={this._fetchNewUTXOData} disabled={waitUntilCallIsFinished}>
+            {waitUntilCallIsFinished ? 'Locked, please wait...' : 'Update'}
           </button>
           <hr />
         </div>
@@ -281,7 +291,7 @@ class SendCoin extends React.Component {
   handleBasiliskSend() {
     const refreshData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh;
     const listunspentData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].listunspent;
-    const utxoSet = refreshData && refreshData.data || listunspentData && listunspentData.data;
+    const utxoSet = (refreshData && refreshData.data) || (listunspentData && listunspentData.data);
     const sendData = {
             'coin': this.props.ActiveCoin.coin,
             'sendfrom': this.state.sendFrom,
