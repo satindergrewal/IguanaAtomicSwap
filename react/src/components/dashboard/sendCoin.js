@@ -73,7 +73,6 @@ class SendCoin extends React.Component {
     this.toggleSendSig = this.toggleSendSig.bind(this);
     this.getOAdress = this.getOAdress.bind(this);
     this.toggleSendAPIType = this.toggleSendAPIType.bind(this);
-    this.renderUTXOCacheInfo = this.renderUTXOCacheInfo.bind(this);
     this._fetchNewUTXOData = this._fetchNewUTXOData.bind(this);
     socket.on('messages', msg => this.updateSocketsData(msg));
   }
@@ -241,12 +240,6 @@ class SendCoin extends React.Component {
       sendFromAmount: amount ? amount : this.props.ActiveCoin.addresses[type][address].amount,
       addressSelectorOpen: !this.state.addressSelectorOpen,
     }));
-
-    this.renderCachedUTXOInfo();
-  }
-
-  renderCachedUTXOInfo() {
-
   }
 
   changeSendCoinStep(step) {
@@ -274,6 +267,7 @@ class SendCoin extends React.Component {
   toggleSendAPIType() {
     this.setState(Object.assign({}, this.state, {
       sendApiType: !this.state.sendApiType,
+      sendFrom: this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin],
     }));
   }
 
