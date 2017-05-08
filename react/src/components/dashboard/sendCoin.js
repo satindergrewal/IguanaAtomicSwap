@@ -120,8 +120,9 @@ class SendCoin extends React.Component {
         this.state.sendFrom &&
         !this.state.sendApiType &&
         this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom] &&
-        this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh) {
-      const refreshCacheData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh;
+        this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh ||
+        this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].listunspent) {
+      const refreshCacheData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh || this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].listunspent;
       const timestamp = checkTimestamp(refreshCacheData.timestamp);
       const isReadyToUpdate = timestamp > 600 ? true : false;
 
