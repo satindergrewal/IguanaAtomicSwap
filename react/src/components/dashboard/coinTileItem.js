@@ -83,6 +83,13 @@ class CoinTileItem extends React.Component {
         Store.dispatch(startInterval('sync', _iguanaActiveHandle));
       }
       if (mode === 'basilisk') {
+        Store.dispatch(fetchNewCacheData({
+          'pubkey': this.props.Dashboard.activeHandle.pubkey,
+          'allcoins': false,
+          'coin': coin,
+          'calls': 'listtransactions:getbalance',
+        }));
+
         var _iguanaActiveHandle = setInterval(function() {
           this.dispatchCoinActions(coin, mode);
         }.bind(this), 3000);

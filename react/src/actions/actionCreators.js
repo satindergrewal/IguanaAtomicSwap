@@ -795,7 +795,7 @@ export function getBasiliskTransactionsList(coin, address) {
       })
       .then(response => response.json())
       .then(function(json) {
-        if (json.result && json.result.indexOf('no file with handle') > -1) {
+        if (json.result && !json.result.basilisk && json.result.indexOf('no file with handle') > -1) {
           console.log('new cache');
         }
 
