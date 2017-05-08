@@ -106,13 +106,6 @@ class SendCoin extends React.Component {
       'calls': 'refresh',
       'address': this.state.sendFrom,
     }));
-    console.log('_fetchUtxoCache', {
-      'pubkey': this.props.Dashboard.activeHandle.pubkey,
-      'allcoins': false,
-      'coin': this.props.ActiveCoin.coin,
-      'calls': 'refresh',
-      'address': this.state.sendFrom,
-    });
   }
 
   renderUTXOCacheInfo() {
@@ -121,9 +114,9 @@ class SendCoin extends React.Component {
         !this.state.sendApiType &&
         this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom]) {
         let refreshCacheData,
-              timestamp,
-              isReadyToUpdate,
-              waitUntilCallIsFinished = this.state.currentStackLength > 1 ? true : false;
+            timestamp,
+            isReadyToUpdate,
+            waitUntilCallIsFinished = this.state.currentStackLength > 1 ? true : false;
 
       if (this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh ||
         this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].listunspent) {
@@ -310,7 +303,6 @@ class SendCoin extends React.Component {
         Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_GENERATED') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
 
         if (sendData.sendsig === 1) {
-          // Store.dispatch(triggerToaster(true, translate('TOASTR.SENDING_TX') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
           const dexrawtxData = {
             'signedtx': json.signedtx,
             'coin': sendData.coin
@@ -331,7 +323,7 @@ class SendCoin extends React.Component {
 
                   edexGetTransaction({
                     'coin': sendData.coin,
-                    'txid': dexRawTxJSON.txid
+                    'txid': dexRawTxJSON.txid ? dexRawTxJSON.txid : dexRawTxJSON
                   })
                   .then(function(json) {
                     console.log('gettx', json);
@@ -375,6 +367,7 @@ class SendCoin extends React.Component {
                 });
               }
 
+              Store.dispatch(triggerToaster(true, 'Processing UTXO...', translate('TOASTR.WALLET_NOTIFICATION'), 'info'));
               setTimeout(function() {
                 getTxidData()
                 .then(function(gettxdata) {
@@ -386,7 +379,7 @@ class SendCoin extends React.Component {
                 .then(function(save_this_data) {
                   return saveNewCacheData(save_this_data);
                 });
-              }, 2000);
+              }, 6000);
 
               console.log('utxo remove', true);
             }
@@ -485,7 +478,10 @@ class SendCoin extends React.Component {
     } else {
       return (
         <div style={{padding: '20px', textAlign: 'center'}}>
-          <div style={{padding: '10px 0'}}>Processing transaction...</div>
+          <div style={{padding: '10px 0'}}>
+            Processing transaction...
+            Note: it may take a few minutes to complete the transaction.
+          </div>
           <div className="loader-wrapper active">
             <div className="loader-layer loader-blue">
               <div className="loader-circle-left">

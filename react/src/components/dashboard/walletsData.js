@@ -16,7 +16,8 @@ import {
   toggleViewCacheModal,
   fetchNewCacheData,
   fetchUtxoCache,
-  restartBasiliskInstance
+  restartBasiliskInstance,
+  changeActiveAddress
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -329,6 +330,8 @@ class WalletsData extends React.Component {
   }
 
   updateAddressSelection(address, type, amount) {
+    Store.dispatch(changeActiveAddress(address));
+    
     this.setState(Object.assign({}, this.state, {
       currentAddress: address,
       addressSelectorOpen: false,

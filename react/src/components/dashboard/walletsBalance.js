@@ -18,6 +18,20 @@ class WalletsBalance extends React.Component {
     }
   }
 
+  renderBalance() {
+    if (this.props.ActiveCoin.mode === 'full') {
+      const _balance = this.props.ActiveCoin.balance || 0;
+      return _balance;
+    } else {
+      if (this.props.ActiveCoin.activeAddress && this.props.ActiveCoin.cache[this.props.ActiveCoin.activeAddress].getbalance) {
+        const _balance = this.props.ActiveCoin.cache[this.props.ActiveCoin.activeAddress].getbalance;
+        console.log('balance', _balance);
+      } else {
+        return 'N/A';
+      }
+    }
+  }
+
   render() {
     if (this.props &&
         this.props.ActiveCoin &&
@@ -58,7 +72,7 @@ class WalletsBalance extends React.Component {
                         <i className="icon fa-eye font-size-24 vertical-align-bottom margin-right-5"></i>{translate('INDEX.BALANCE')}
                       </div>
                       <span className="pull-right padding-top-10" data-edexcoin="COIN" style={{fontSize: '22px'}}>
-                        <span data-edexcoin="COIN" id="edex_total_balance"></span> <span data-edexcoin="COIN" id="edex_total_balance_coincode">{this.props.ActiveCoin && this.props.ActiveCoin.balance ? this.props.ActiveCoin.balance : 0}</span>
+                        <span data-edexcoin="COIN" id="edex_total_balance"></span> <span data-edexcoin="COIN" id="edex_total_balance_coincode">{this.renderBalance()}</span>
                       </span>
                     </div>
                   </div>

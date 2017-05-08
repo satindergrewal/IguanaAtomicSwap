@@ -52,8 +52,16 @@ export const SYNC_ONLY_DATA = 'SYNC_ONLY_DATA';
 export const LOAD_APP_CONFIG = 'LOAD_APP_CONFIG';
 export const SAVE_APP_CONFIG = 'SAVE_APP_CONFIG';
 export const SERVICE_ERROR = 'SERVICE_ERROR';
+export const DASHBOARD_ACTIVE_ADDRESS = 'DASHBOARD_ACTIVE_ADDRESS';
 
 var iguanaForks = {}; // forks in mem array
+
+export function changeActiveAddress(address) {
+  return {
+    type: DASHBOARD_ACTIVE_ADDRESS,
+    address,
+  }
+}
 
 function updateErrosStack(method) {
   return {
