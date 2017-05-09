@@ -1620,7 +1620,6 @@ export function getKMDBalanceTotal(coin) {
       'asset': coin,
       'function': 'z_gettotalbalance',
       'hex': '3000',
-      'immediate': 60000,
       'timeout': 60000
     };
   } else {
@@ -1630,7 +1629,6 @@ export function getKMDBalanceTotal(coin) {
       'method': 'passthru',
       'function': 'z_gettotalbalance',
       'hex': '3000',
-      'immediate': 60000,
       'timeout': 60000
     };
   }
@@ -1838,7 +1836,7 @@ export function sendNativeTx(coin, _payload) {
       })
       .then(response => response.json())
       .then(function(json) {
-        if (json.error && json.error.indexOf('code:') > -1) {
+        if (json.error && json.error.toString().indexOf('code:') > -1) {
           dispatch(triggerToaster(true, 'Send failed', translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
         } else {
           dispatch(triggerToaster(true, translate('TOASTR.TX_SENT_ALT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
