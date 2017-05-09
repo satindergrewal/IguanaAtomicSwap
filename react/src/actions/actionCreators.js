@@ -1351,7 +1351,7 @@ export function fetchUtxoCache(_payload) {
 
 function getShepherdCacheState(json, pubkey, coin) {
   if (json.result && json.error && json.result.indexOf('no file with handle') > -1) {
-    console.log('new cache');
+    console.log('request new cache', true);
     return dispatch => {
       dispatch(fetchNewCacheData({
         'pubkey': pubkey,
@@ -1810,7 +1810,13 @@ export function sendNativeTx(coin, _payload) {
         dispatch(triggerToaster(true, 'sendNativeTx', 'Error', 'error'));
       })
       .then(response => response.json())
-      .then(json => dispatch(triggerToaster(true, translate('TOASTR.TX_SENT_ALT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success')))
+      .then(function(json) {
+        if (json.error && json.error.indexOf('code:') > -1) {
+          dispatch(triggerToaster(true, 'Send failed', translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
+        } else {
+          dispatch(triggerToaster(true, translate('TOASTR.TX_SENT_ALT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
+        }
+      })
       .catch(function(ex) {
         dispatch(triggerToaster(true, translate('TOASTR.TX_SENT_ALT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
         console.log('parsing failed', ex);
@@ -2146,8 +2152,8 @@ export function deleteCacheFile(_payload) {
   }
 }
 
-export function getCacheFile() {
-  const _pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
+export function getCacheFile(pubkey) {
+  const _pubkey = pubkey || JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
 
   return new Promise((resolve, reject) => {
     fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/groom?pubkey=' + _pubkey, {

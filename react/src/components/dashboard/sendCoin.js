@@ -21,7 +21,8 @@ import {
   fetchUtxoCache,
   basiliskRefresh,
   edexGetTransaction,
-  getCacheFile
+  getCacheFile,
+  shepherdGroomPost
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -126,7 +127,7 @@ class SendCoin extends React.Component {
       } else {
         isReadyToUpdate = true;
       }
-      
+
       return (
         <div className="col-lg-12">
           <hr />
@@ -344,9 +345,9 @@ class SendCoin extends React.Component {
                   console.log(txidListToRemove);
                   console.log(sendData);
 
-                  getCacheFile()
+                  getCacheFile(this.props.Dashboard.activeHandle.pubkey)
                   .then(function(result) {
-                    console.log(result);
+                    console.log('got cache file', result);
                     let saveThisData = edexRemoveTXID(result, txidListToRemove);
                     console.log(saveThisData);
                     resolve(saveThisData);
@@ -479,7 +480,7 @@ class SendCoin extends React.Component {
       return (
         <div style={{padding: '20px', textAlign: 'center'}}>
           <div style={{padding: '10px 0'}}>
-            Processing transaction...
+            Processing transaction...<br />
             Note: it may take a few minutes to complete the transaction.
           </div>
           <div className="loader-wrapper active">

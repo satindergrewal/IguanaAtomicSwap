@@ -23,8 +23,8 @@ class WalletsBalance extends React.Component {
       const _balance = this.props.ActiveCoin.balance || 0;
       return _balance;
     } else {
-      if (this.props.ActiveCoin.activeAddress && this.props.ActiveCoin.cache[this.props.ActiveCoin.activeAddress].getbalance) {
-        const _balance = this.props.ActiveCoin.cache[this.props.ActiveCoin.activeAddress].getbalance;
+      if (this.props.ActiveCoin.activeAddress && this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance) {
+        const _balance = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance;
         console.log('balance', _balance);
       } else {
         return 'N/A';

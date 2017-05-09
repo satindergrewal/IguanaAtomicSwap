@@ -187,7 +187,7 @@ class WalletsNativeSend extends React.Component {
     Store.dispatch(sendNativeTx(this.props.ActiveCoin.coin, this.state));
     setTimeout(function() {
       Store.dispatch(getKMDOPID(null, this.props.ActiveCoin.coin));
-    }, 1000);
+    }.bind(this), 1000);
   }
 
   getOAdress() {
