@@ -16,7 +16,8 @@ import {
   getFullTransactionsList,
   getBasiliskTransactionsList,
   getShepherdCache,
-  fetchNewCacheData
+  fetchNewCacheData,
+  changeActiveAddress
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -31,6 +32,9 @@ class CoinTileItem extends React.Component {
   //       2) limit amount of req per update e.g. list of addresses don't change too often
   //       3) limit req in basilisk as much as possible incl. activehandle
   //       4) add pending requests store
+
+  // TODO: update all addresses once in 20 min, current address every 10 min
+  // always fetch main addr data and current selected address
 
   dispatchCoinActions(coin, mode) {
     if (mode === 'native') {
@@ -83,11 +87,15 @@ class CoinTileItem extends React.Component {
         Store.dispatch(startInterval('sync', _iguanaActiveHandle));
       }
       if (mode === 'basilisk') {
+        const _basiliskMainAddress = this.props.Dashboard.activeHandle[coin];
+        Store.dispatch(changeActiveAddress(_basiliskMainAddress));
+
         Store.dispatch(fetchNewCacheData({
           'pubkey': this.props.Dashboard.activeHandle.pubkey,
           'allcoins': false,
           'coin': coin,
           'calls': 'listtransactions:getbalance',
+          'address': this.props.ActiveCoin.activeAddress,
         }));
 
         var _iguanaActiveHandle = setInterval(function() {
@@ -101,7 +109,7 @@ class CoinTileItem extends React.Component {
             'coin': this.props.ActiveCoin.coin,
             'calls': 'listtransactions:getbalance',
           }));
-        }.bind(this), 60000);
+        }.bind(this), 240000);
         Store.dispatch(startInterval('sync', _iguanaActiveHandle));
         Store.dispatch(startInterval('basilisk', _basiliskCache));
         // basilisk

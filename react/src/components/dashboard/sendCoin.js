@@ -22,7 +22,7 @@ import {
   basiliskRefresh,
   edexGetTransaction,
   getCacheFile,
-  shepherdGroomPost
+  shepherdGroomPostPromise
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -47,26 +47,6 @@ class SendCoin extends React.Component {
       addressSelectorOpen: false,
       currentStackLength: 0,
       totalStackLength: 0,
-      vin: [
-        {
-          "txid": "8f5d3bc7ff1d8abdedefa4ed71c2a085a5fec62b8491c08e4a6ed53925df0235",
-          "vout": 0,
-          "scriptSig": {
-            "asm": "3045022100ea6442b209ab48b7109f13399fa12f85915ee2204a21698b85454987d9303fe1022025e4630c684af9b982b243420d69e094d0fc708aaccf11b83fd9320fe4dd45f701 02bee71575d87c7285eda952358175af10879081a0cc6b94623aac6cb2c6a51eae",
-            "hex": "483045022100ea6442b209ab48b7109f13399fa12f85915ee2204a21698b85454987d9303fe1022025e4630c684af9b982b243420d69e094d0fc708aaccf11b83fd9320fe4dd45f7012102bee71575d87c7285eda952358175af10879081a0cc6b94623aac6cb2c6a51eae"
-          },
-          "sequence": 4294967295
-        },
-        {
-          "txid": "4cfb597119d4239e8fa75486d1ba4c62cef615a52568aca1bc9be3b457c12eac",
-          "vout": 0,
-          "scriptSig": {
-            "asm": "3044022001c1481b5fb142a1f38f8387c8d0ba6e4d6c6a96a8c6765ce805ce841cb2a58b02206caec099e209a469b78c22c674be77d92698fff94b4521c0d5e462ac5b19627c01 02bee71575d87c7285eda952358175af10879081a0cc6b94623aac6cb2c6a51eae",
-            "hex": "473044022001c1481b5fb142a1f38f8387c8d0ba6e4d6c6a96a8c6765ce805ce841cb2a58b02206caec099e209a469b78c22c674be77d92698fff94b4521c0d5e462ac5b19627c012102bee71575d87c7285eda952358175af10879081a0cc6b94623aac6cb2c6a51eae"
-          },
-          "sequence": 4294967295
-        }
-      ]
     };
     this.updateInput = this.updateInput.bind(this);
     this.handleBasiliskSend = this.handleBasiliskSend.bind(this);
@@ -75,6 +55,7 @@ class SendCoin extends React.Component {
     this.getOAdress = this.getOAdress.bind(this);
     this.toggleSendAPIType = this.toggleSendAPIType.bind(this);
     this._fetchNewUTXOData = this._fetchNewUTXOData.bind(this);
+    this.testCacheFormat = this.testCacheFormat.bind(this);
     socket.on('messages', msg => this.updateSocketsData(msg));
   }
 
@@ -126,6 +107,12 @@ class SendCoin extends React.Component {
         isReadyToUpdate = timestamp > 600 ? true : false;
       } else {
         isReadyToUpdate = true;
+      }
+
+      console.log(this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh);
+      if (this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh.data.error &&
+          this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh.data.error === 'request failed') {
+        timestamp = null;
       }
 
       return (
@@ -282,10 +269,23 @@ class SendCoin extends React.Component {
     });
   }
 
+  testCacheFormat() {
+    const txidListToRemove = ['5d5538179c524d511774de00a0b7f6ab1fa57780546d05b9da81c258c3b8db17', '3e629af281600e3d45b3f134c4b2045911104749575a2702f5d1cd9a45bfa7cb'];
+   
+    console.log(this.props.Dashboard.activeHandle.pubkey);
+    getCacheFile(this.props.Dashboard.activeHandle.pubkey)
+    .then(function(result) {
+      console.log('got cache file', result);
+      let saveThisData = edexRemoveTXID(result.result, txidListToRemove);
+      console.log('saveThisData', saveThisData);
+    });
+  }
+
   handleBasiliskSend() {
     const refreshData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh;
     const listunspentData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].listunspent;
     const utxoSet = (refreshData && refreshData.data) || (listunspentData && listunspentData.data);
+    const _pubkey = this.props.Dashboard.activeHandle.pubkey;
     const sendData = {
             'coin': this.props.ActiveCoin.coin,
             'sendfrom': this.state.sendFrom,
@@ -334,6 +334,8 @@ class SendCoin extends React.Component {
               }
 
               let processRefreshUTXOs = function(vinData) {
+                console.log('vin', vinData);
+
                 return new Promise(function(resolve, reject) {
                   let edexGetTxIDListRes = edexGetTxIDList(vinData);
                   resolve(edexGetTxIDListRes);
@@ -345,11 +347,11 @@ class SendCoin extends React.Component {
                   console.log(txidListToRemove);
                   console.log(sendData);
 
-                  getCacheFile(this.props.Dashboard.activeHandle.pubkey)
+                  getCacheFile(_pubkey)
                   .then(function(result) {
                     console.log('got cache file', result);
-                    let saveThisData = edexRemoveTXID(result, txidListToRemove);
-                    console.log(saveThisData);
+                    let saveThisData = edexRemoveTXID(result.result, txidListToRemove);
+                    console.log('saveThisData', saveThisData);
                     resolve(saveThisData);
                   });
                 });
@@ -359,7 +361,7 @@ class SendCoin extends React.Component {
                 return new Promise(function(resolve, reject) {
                   console.log('saveNewCacheData', saveThisData);
 
-                  shepherdGroomPost(saveThisData)
+                  shepherdGroomPostPromise(_pubkey, saveThisData)
                   .then(function(result) {
                     console.log('saveNewCacheData', saveThisData);
                     console.log(result);
@@ -595,6 +597,7 @@ class SendCoin extends React.Component {
       return (
         <div className="col-sm-12 padding-top-10" data-edexcoin="COIN" id="edexcoin_send">
           <div className="col-xlg-12 col-md-12 col-sm-12 col-xs-12">
+          <button onClick={this.testCacheFormat}>test</button>
             <div className="steps row" style={{marginTop: '10px'}}>
               <div className={this.state.currentStep === 0 ? 'step col-md-4 current' : 'step col-md-4'} id="edexcoin_send_step_1">
                 <span className="step-number">1</span>

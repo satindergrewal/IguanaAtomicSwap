@@ -11,7 +11,7 @@ export function edexGetTxIDList(getTxData) {
 }
 
 export function edexRemoveTXID(_obj, txidArray) {
-  let txidToStr = txidArray.join(':');
+  let txidToStr = ':' + txidArray.join(':');
 
   console.log(txidToStr);
 
@@ -27,6 +27,7 @@ export function edexRemoveTXID(_obj, txidArray) {
                 _obj.basilisk[key][coinAddr].refresh.data.length > 0) {
               for (let i = 0; i < _obj.basilisk[key][coinAddr].refresh.data.length; i++) {
                 if (txidToStr.indexOf(_obj.basilisk[key][coinAddr].refresh.data[i].txid) > -1) {
+                  console.log('cacheformat remove node', _obj.basilisk[key][coinAddr].refresh.data[i].txid);
                   _obj.basilisk[key][coinAddr].refresh.data.splice(i, 1);
                 }
               }
@@ -38,4 +39,6 @@ export function edexRemoveTXID(_obj, txidArray) {
   } else {
     console.log('basilisk node is missing');
   }
+
+  return _obj;
 }

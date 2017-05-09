@@ -39,7 +39,7 @@ class WalletsData extends React.Component {
       itemsPerPage: 10,
       activePage: 1,
       itemsList: null,
-      currentAddress: null,
+      currentAddress: this.props.Dashboard && this.props.Dashboard.activeHandle ? this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin] : null,
       addressSelectorOpen: false,
       currentStackLength: 0,
       totalStackLength: 0,
@@ -331,7 +331,7 @@ class WalletsData extends React.Component {
 
   updateAddressSelection(address, type, amount) {
     Store.dispatch(changeActiveAddress(address));
-    
+
     this.setState(Object.assign({}, this.state, {
       currentAddress: address,
       addressSelectorOpen: false,

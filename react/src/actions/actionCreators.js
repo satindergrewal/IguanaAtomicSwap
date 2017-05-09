@@ -1304,6 +1304,9 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
 }
 
 export function shepherdGroomPost(_filename, _payload) {
+  console.log('shepherdGroomPost to file ', _filename);
+  console.log('shepherdGroomPost payload ', _payload);
+
   return dispatch => {
     return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/groom/', {
       method: 'POST',
@@ -1322,6 +1325,30 @@ export function shepherdGroomPost(_filename, _payload) {
     .then(response => response.json())
     .then(json => console.log(json))
   }
+}
+
+export function shepherdGroomPostPromise(_filename, _payload) {
+  console.log('shepherdGroomPostPromise to file ', _filename);
+  console.log('shepherdGroomPostPromise payload ', _payload);
+
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/groom/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'filename': _filename,
+        'payload': JSON.stringify(_payload),
+      }),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'shepherdGroomPostPromise', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => resolve(json))
+  })
 }
 
 export function fetchUtxoCache(_payload) {
@@ -2156,7 +2183,7 @@ export function getCacheFile(pubkey) {
   const _pubkey = pubkey || JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
 
   return new Promise((resolve, reject) => {
-    fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/groom?pubkey=' + _pubkey, {
+    fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/groom?filename=' + _pubkey, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
