@@ -68,9 +68,8 @@ class Login extends React.Component {
       this.setState({
         display: false,
       });
-
-      // Store.dispatch(stopInterval('activeCoins', this.props.Interval.interval));
     }
+
     if (props && props.Main && !props.Main.isLoggedIn) {
       this.setState({
         display: true,
@@ -85,6 +84,7 @@ class Login extends React.Component {
 
       document.body.className = 'page-login layout-full page-dark';
     }
+
     if (this.state.activeLoginSection !== 'signup') {
       if (props && props.Main && props.Main.activeCoins) {
         this.setState({
@@ -124,11 +124,18 @@ class Login extends React.Component {
       this.setState({
         isSeedConfirmError: false,
       });
+
       Store.dispatch(createNewWallet(this.state.randomSeedConfirm, this.props.Dashboard.activeHandle));
     } else {
       this.setState({
         isSeedConfirmError: true,
       });
+    }
+  }
+
+  handleKeydown(e) {
+    if (e.key === 'Enter') {
+      this.loginSeed();
     }
   }
 
@@ -178,7 +185,7 @@ class Login extends React.Component {
                 <h4 style={{ color: '#fff' }} id="login-welcome">{translate('INDEX.WELCOME_LOGIN')}</h4>
                 <div className="login-form">
                   <div className="form-group form-material floating">
-                    <input type={this.state.seedInputVisibility ? 'text' : 'password'} className="form-control" name="loginPassphrase" id="password" onChange={this.updateInput} />
+                    <input type={this.state.seedInputVisibility ? 'text' : 'password'} className="form-control" name="loginPassphrase" id="password" onChange={this.updateInput} onKeyDown={(event) => this.handleKeydown(event)} />
                     <i className={this.state.seedInputVisibility ? 'seed-toggle fa fa-eye-slash' : 'seed-toggle fa fa-eye'} onClick={this.toggleSeedInputVisibility}></i>
                     <label className="floating-label" htmlFor="inputPassword">{translate('INDEX.WALLET_SEED')}</label>
                   </div>
