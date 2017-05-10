@@ -39,7 +39,7 @@ class WalletsData extends React.Component {
       itemsPerPage: 10,
       activePage: 1,
       itemsList: null,
-      currentAddress: this.props.Dashboard && this.props.Dashboard.activeHandle ? this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin] : null,
+      currentAddress: null,
       addressSelectorOpen: false,
       currentStackLength: 0,
       totalStackLength: 0,
@@ -51,7 +51,6 @@ class WalletsData extends React.Component {
     this.basiliskConnectionAction = this.basiliskConnectionAction.bind(this);
     this.getDexNotariesAction = this.getDexNotariesAction.bind(this);
     this.openDropMenu = this.openDropMenu.bind(this);
-    this.refreshTxList = this.refreshTxList.bind(this);
     this.removeAndFetchNewCache = this.removeAndFetchNewCache.bind(this);
     this._toggleViewCacheModal = this._toggleViewCacheModal.bind(this);
     this.toggleCacheApi = this.toggleCacheApi.bind(this);
@@ -134,15 +133,22 @@ class WalletsData extends React.Component {
     }));
   }
 
-  basiliskRefreshAction() {
-    /*if (this.props.Dashboard) {
-      Store.dispatch(basiliskRefresh(!this.props.Dashboard.basiliskRefresh));
-    }*/
+  basiliskRefreshActionOne() {
     Store.dispatch(fetchNewCacheData({
       'pubkey': this.props.Dashboard.activeHandle.pubkey,
       'allcoins': false,
       'coin': this.props.ActiveCoin.coin,
       'calls': 'listtransactions:getbalance',
+    }));
+  }
+
+  basiliskRefreshAction() {
+    Store.dispatch(fetchNewCacheData({
+      'pubkey': this.props.Dashboard.activeHandle.pubkey,
+      'allcoins': false,
+      'coin': this.props.ActiveCoin.coin,
+      'calls': 'listtransactions:getbalance',
+      'address': this.props.ActiveCoin.activeAddress,
     }));
   }
 
@@ -174,6 +180,12 @@ class WalletsData extends React.Component {
   }
 
   componentWillReceiveProps(props) {
+    if (!this.state.currentAddress && this.props.ActiveCoin.activeAddress) {
+      this.setState(Object.assign({}, this.state, {
+        currentAddress: this.props.ActiveCoin.activeAddress,
+      }));
+    }
+
     if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory !== 'loading' && this.props.ActiveCoin.txhistory !== 'no data' && this.props.ActiveCoin.txhistory.length) {
       if (!this.state.itemsList || (this.state.itemsList && !this.state.itemsList.length) || (props.ActiveCoin.txhistory !== this.props.ActiveCoin.txhistory)) {
         let historyToSplit = sortByDate(this.props.ActiveCoin.txhistory);
@@ -344,15 +356,34 @@ class WalletsData extends React.Component {
     }.bind(this), 100);
   }
 
-  refreshTxList() {
-    Store.dispatch(getBasiliskTransactionsList(this.props.ActiveCoin.coin, this.props.ActiveCoin.mainBasiliskAddress));
-  }
-
   openDropMenu() {
     this.setState(Object.assign({}, this.state, {
       addressSelectorOpen: !this.state.addressSelectorOpen,
     }));
   }
+
+  /*filterTable() {
+    function myFunction() {
+      // Declare variables
+      var input, filter, table, tr, td, i;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+
+      // Loop through all table rows, and hide those who don't match the search query
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+  }*/
 
   renderUseCacheToggle() {
     if (this.props.ActiveCoin.mode === 'basilisk') {
@@ -382,7 +413,7 @@ class WalletsData extends React.Component {
   }
 
   renderAddressAmount() {
-    if (this.props.ActiveCoin.addresses['public'] && this.props.ActiveCoin.addresses['public'].length) {
+    if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses['public'] && this.props.ActiveCoin.addresses['public'].length) {
       for (let i = 0; i < this.props.ActiveCoin.addresses['public'].length; i++) {
         if (this.props.ActiveCoin.addresses['public'][i].address === this.state.currentAddress) {
           return this.props.ActiveCoin.addresses['public'][i].amount;
@@ -433,7 +464,12 @@ class WalletsData extends React.Component {
   }
 
   render() {
-    if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.coin && this.props.ActiveCoin.mode !== 'native' && !this.props.ActiveCoin.send && !this.props.ActiveCoin.receive) {
+    if (this.props &&
+        this.props.ActiveCoin &&
+        this.props.ActiveCoin.coin &&
+        this.props.ActiveCoin.mode !== 'native' &&
+        !this.props.ActiveCoin.send &&
+        !this.props.ActiveCoin.receive) {
       return (
         <span>
           <WalletsBasiliskRefresh {...this.props} />
@@ -453,9 +489,6 @@ class WalletsData extends React.Component {
                               Processing requests: {this.state.currentStackLength} / {this.state.totalStackLength}
                             </div>
                           </div>
-                          <a href="javascript:void(0)" className="dropdown-toggle white btn-xs btn-info btn_refresh_edexcoin_dashboard margin-right-10" data-edexcoin="COIN" aria-expanded="false" role="button" onClick={this.refreshTxList}>
-                            <i className="icon fa-refresh margin-right-10" aria-hidden="true"></i> {translate('INDEX.REFRESH')}
-                          </a>
                           <div className={this.state.basiliskActionsMenu ? 'dropdown open' : 'dropdown'} onClick={this.toggleBasiliskActionsMenu}>
                             <a className="dropdown-toggle btn-xs btn-default" data-edexcoin="COIN" id="btn_edexcoin_basilisk" data-toggle="dropdown" href="javascript:void(0)"
                             aria-expanded="false" role="button">
@@ -475,7 +508,12 @@ class WalletsData extends React.Component {
                               </li>
                               <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
                                 <a className="btn_edexcoin_dashboard_fetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_fetchdata" role="menuitem" onClick={this.basiliskRefreshActionOne}>
-                                  <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.FETCH_WALLET_DATA')}
+                                  <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.FETCH_WALLET_DATA')} (active address)
+                                </a>
+                              </li>
+                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
+                                <a role="menuitem" onClick={this.basiliskRefreshAction}>
+                                  <i className="icon fa-cloud-download" aria-hidden="true"></i> Fetch (all addresses)
                                 </a>
                               </li>
                               <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
@@ -483,19 +521,14 @@ class WalletsData extends React.Component {
                                   <i className="icon fa-history" aria-hidden="true"></i> {translate('INDEX.REFETCH_WALLET_DATA')}
                                 </a>
                               </li>
-                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
+                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''} style={{display: 'none'}}>
                                 <a role="menuitem" onClick={this._fetchUtxoCache}>
                                   <i className="icon fa-history" aria-hidden="true"></i> Update UTXO
                                 </a>
                               </li>
                               <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
-                                <a role="menuitem" onClick={this.basiliskRefreshAction}>
-                                  <i className="icon fa-cloud-download" aria-hidden="true"></i> Fetch all
-                                </a>
-                              </li>
-                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
                                 <a role="menuitem" onClick={this.restartBasiliskInstance}>
-                                  <i className="icon fa-refresh" aria-hidden="true"></i> Restart Basilisk Instance
+                                  <i className="icon fa-refresh" aria-hidden="true"></i> Restart Basilisk Instance (!)
                                 </a>
                               </li>
                               <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
@@ -510,7 +543,7 @@ class WalletsData extends React.Component {
                       </header>
                       <div className="panel-body">
                         <div className="row">
-                          <div className="col-sm-6">
+                          <div className="col-sm-8">
                           {this.renderAddressList()}
                           </div>
                           {this.renderUseCacheToggle}

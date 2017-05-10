@@ -88,10 +88,9 @@ class CoinTileItem extends React.Component {
       }
       if (mode === 'basilisk') {
         const _basiliskMainAddress = this.props.Dashboard.activeHandle[coin];
-        if (_basiliskMainAddress) {
-          Store.dispatch(changeActiveAddress(_basiliskMainAddress));
-          console.log('_basiliskMainAddress', _basiliskMainAddress);
+        Store.dispatch(changeActiveAddress(_basiliskMainAddress));
 
+        if (_basiliskMainAddress) {
           Store.dispatch(fetchNewCacheData({
             'pubkey': this.props.Dashboard.activeHandle.pubkey,
             'allcoins': false,
