@@ -19,22 +19,41 @@ class WalletsBalance extends React.Component {
   }
 
   renderBalance(type) {
-    let _balance = 'N/A';
+    let _balance = '0';
 
     if (this.props.ActiveCoin.mode === 'full') {
       _balance = this.props.ActiveCoin.balance || 0;
     } else {
       if (this.props.ActiveCoin.cache) {
-        if (type === 'main' && this.props.ActiveCoin.mode === 'basilisk' && this.props.ActiveCoin.activeAddress && this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance) {
+        if (type === 'main' &&
+            this.props.ActiveCoin.mode === 'basilisk' &&
+            this.props.ActiveCoin.activeAddress &&
+            this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance &&
+            this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data &&
+            this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.balance) {
           _balance = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.balance;
         }
 
-        if (type === 'interest' && this.props.ActiveCoin.mode === 'basilisk' && this.props.ActiveCoin.activeAddress && this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance) {
+        if (type === 'interest' &&
+            this.props.ActiveCoin.mode === 'basilisk' &&
+            this.props.ActiveCoin.activeAddress &&
+            this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance &&
+            this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data &&
+            this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.interest) {
           _balance = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.interest;
         }
 
-        if (type === 'total' && this.props.ActiveCoin.mode === 'basilisk' && this.props.ActiveCoin.activeAddress && this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance) {
-          _balance = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.balance + this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.interest;
+        if (type === 'total' &&
+            this.props.ActiveCoin.mode === 'basilisk' &&
+            this.props.ActiveCoin.activeAddress &&
+            this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance &&
+            this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data &&
+            (this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.balance ||
+            this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.interest)) {
+          const _regBalance = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.balance ? this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.balance : 0;
+          const _regInterest = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.interest ? this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.interest : 0;
+
+          _balance = _regBalance + _regInterest;
         }
       }
     }
