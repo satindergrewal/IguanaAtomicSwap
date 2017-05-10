@@ -18,18 +18,28 @@ class WalletsBalance extends React.Component {
     }
   }
 
-  renderBalance() {
+  renderBalance(type) {
+    let _balance = 'N/A';
+
     if (this.props.ActiveCoin.mode === 'full') {
-      const _balance = this.props.ActiveCoin.balance || 0;
-      return _balance;
+      _balance = this.props.ActiveCoin.balance || 0;
     } else {
-      if (this.props.ActiveCoin.activeAddress && this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance) {
-        const _balance = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance;
-        console.log('balance', _balance);
-      } else {
-        return 'N/A';
+      if (this.props.ActiveCoin.cache) {
+        if (type === 'main' && this.props.ActiveCoin.mode === 'basilisk' && this.props.ActiveCoin.activeAddress && this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance) {
+          _balance = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.balance;
+        }
+
+        if (type === 'interest' && this.props.ActiveCoin.mode === 'basilisk' && this.props.ActiveCoin.activeAddress && this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance) {
+          _balance = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.interest;
+        }
+
+        if (type === 'total' && this.props.ActiveCoin.mode === 'basilisk' && this.props.ActiveCoin.activeAddress && this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance) {
+          _balance = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.balance + this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.interest;
+        }
       }
     }
+
+    return _balance;
   }
 
   render() {
@@ -72,7 +82,7 @@ class WalletsBalance extends React.Component {
                         <i className="icon fa-eye font-size-24 vertical-align-bottom margin-right-5"></i>{translate('INDEX.BALANCE')}
                       </div>
                       <span className="pull-right padding-top-10" data-edexcoin="COIN" style={{fontSize: '22px'}}>
-                        <span data-edexcoin="COIN" id="edex_total_balance"></span> <span data-edexcoin="COIN" id="edex_total_balance_coincode">{this.renderBalance()}</span>
+                        {this.renderBalance('main')} {this.props.ActiveCoin.coin}
                       </span>
                     </div>
                   </div>
@@ -80,7 +90,7 @@ class WalletsBalance extends React.Component {
               </div>
             </div>
 
-            <div className={this.props.ActiveCoin.mode === 'native'|| (this.props.ActiveCoin.mode === 'basilisk' && this.props.ActiveCoin.coin === 'KMD') ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide'} data-edexcoin="COIN" id="edexcoin_getbalance_interest">
+            <div className={this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide'} data-edexcoin="COIN" id="edexcoin_getbalance_interest">
               <div className="widget widget-shadow" id="widgetLineareaOne">
                 <div className="widget-content">
                   <div className="padding-20 padding-top-10">
@@ -89,7 +99,7 @@ class WalletsBalance extends React.Component {
                         <i className="icon fa-money font-size-24 vertical-align-bottom margin-right-5"></i>{translate('INDEX.INTEREST_EARNED')}
                       </div>
                       <span className="pull-right padding-top-10" data-edexcoin="COIN" style={{fontSize: '22px'}}>
-                        <span data-edexcoin="COIN" id="edex_interest_balance"></span> <span data-edexcoin="COIN" id="edex_total_interest_coincode"></span>
+                        {this.renderBalance('interest')} {this.props.ActiveCoin.coin}
                       </span>
                     </div>
                   </div>
@@ -97,7 +107,7 @@ class WalletsBalance extends React.Component {
               </div>
             </div>
 
-            <div className={this.props.ActiveCoin.mode === 'native' || (this.props.ActiveCoin.mode === 'basilisk' && this.props.ActiveCoin.coin === 'KMD') ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide'} data-edexcoin="COIN" id="edexcoin_getbalance_total_interest">
+            <div className={this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide'} data-edexcoin="COIN" id="edexcoin_getbalance_total_interest">
               <div className="widget widget-shadow" id="widgetLineareaOne">
                 <div className="widget-content">
                   <div className="padding-20 padding-top-10">
@@ -106,7 +116,7 @@ class WalletsBalance extends React.Component {
                         <i className="icon fa-bullseye font-size-24 vertical-align-bottom margin-right-5"></i>{translate('INDEX.TOTAL_BALANCE')}
                       </div>
                       <span className="pull-right padding-top-10" data-edexcoin="COIN" style={{fontSize: '22px'}}>
-                        <span data-edexcoin="COIN" id="edex_total_balance_interest"></span> <span data-edexcoin="COIN" id="edex_total_balance_interest_coincode"></span>
+                        {this.renderBalance('total')} {this.props.ActiveCoin.coin}
                       </span>
                     </div>
                   </div>
