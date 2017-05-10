@@ -1357,7 +1357,7 @@ export function fetchUtxoCache(_payload) {
         _route = _payload.allcoins ? 'cache-all' : 'cache-one',
         _coin = '&coin=' + _payload.coin,
         _calls = '&calls=' + _payload.calls,
-        _address = '&address=' + _payload.address,
+        _address = _payload.address ? ('&address=' + _payload.address) : '',
         _iguanaInstancePort = Config.useBasiliskInstance ? '&port=' + Config.basiliskPort : '';
 
   return dispatch => {
@@ -2203,10 +2203,11 @@ export function fetchNewCacheData(_payload) {
         _route = _payload.allcoins ? 'cache-all' : 'cache-one',
         _coin = '&coin=' + _payload.coin,
         _calls = '&calls=' + _payload.calls,
+        _address = _payload.address ? ('&address=' + _payload.address) : '',
         _iguanaInstancePort = Config.useBasiliskInstance ? '&port=' + Config.basiliskPort : '';
 
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/' + _route + _userpass + _pubkey + _coin + _calls + _iguanaInstancePort, {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/' + _route + _userpass + _pubkey + _coin + _calls + _address + _iguanaInstancePort, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
