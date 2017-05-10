@@ -16,7 +16,8 @@ import {
   getFullTransactionsList,
   getBasiliskTransactionsList,
   getShepherdCache,
-  fetchNewCacheData
+  fetchNewCacheData,
+  changeActiveAddress
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -31,6 +32,9 @@ class CoinTileItem extends React.Component {
   //       2) limit amount of req per update e.g. list of addresses don't change too often
   //       3) limit req in basilisk as much as possible incl. activehandle
   //       4) add pending requests store
+
+  // TODO: update all addresses once in 20 min, current address every 10 min
+  // always fetch main addr data and current selected address
 
   dispatchCoinActions(coin, mode) {
     if (mode === 'native') {
@@ -51,9 +55,9 @@ class CoinTileItem extends React.Component {
     if (mode === 'basilisk') {
       const useAddress = this.props.ActiveCoin.mainBasiliskAddress ? this.props.ActiveCoin.mainBasiliskAddress : this.props.Dashboard.activeHandle[coin];
       Store.dispatch(iguanaActiveHandle(true));
+      Store.dispatch(getShepherdCache(JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey, coin));
 
       if (this.props && this.props.Dashboard && this.props.Dashboard.activeHandle && this.props.Dashboard.activeHandle[coin]) {
-        Store.dispatch(getShepherdCache(this.props.Dashboard.activeHandle.pubkey, coin));
         Store.dispatch(getBasiliskTransactionsList(coin, useAddress));
         Store.dispatch(getKMDAddressesNative(coin, mode, useAddress));
         //Store.dispatch(iguanaEdexBalance(coin, mode));
@@ -83,21 +87,35 @@ class CoinTileItem extends React.Component {
         Store.dispatch(startInterval('sync', _iguanaActiveHandle));
       }
       if (mode === 'basilisk') {
-        var _iguanaActiveHandle = setInterval(function() {
-          this.dispatchCoinActions(coin, mode);
-        }.bind(this), 3000);
+        const _basiliskMainAddress = this.props.Dashboard.activeHandle[coin] || JSON.parse(sessionStorage.getItem('IguanaActiveAccount'))[coin];
+        Store.dispatch(changeActiveAddress(_basiliskMainAddress));
 
-        var _basiliskCache = setInterval(function() {
+        if (_basiliskMainAddress) {
           Store.dispatch(fetchNewCacheData({
             'pubkey': this.props.Dashboard.activeHandle.pubkey,
             'allcoins': false,
-            'coin': this.props.ActiveCoin.coin,
+            'coin': coin,
             'calls': 'listtransactions:getbalance',
+            'address': _basiliskMainAddress,
           }));
-        }.bind(this), 60000);
-        Store.dispatch(startInterval('sync', _iguanaActiveHandle));
-        Store.dispatch(startInterval('basilisk', _basiliskCache));
-        // basilisk
+
+          var _iguanaActiveHandle = setInterval(function() {
+            this.dispatchCoinActions(coin, mode);
+          }.bind(this), 3000);
+
+          var _basiliskCache = setInterval(function() {
+            Store.dispatch(fetchNewCacheData({
+              'pubkey': this.props.Dashboard.activeHandle.pubkey,
+              'allcoins': false,
+              'coin': this.props.ActiveCoin.coin,
+              'calls': 'listtransactions:getbalance',
+              'address': _basiliskMainAddress,
+            }));
+          }.bind(this), 240000);
+          Store.dispatch(startInterval('sync', _iguanaActiveHandle));
+          Store.dispatch(startInterval('basilisk', _basiliskCache));
+          // basilisk
+        }
       }
     }
   }

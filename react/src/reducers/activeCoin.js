@@ -14,7 +14,8 @@ import {
   DASHBOARD_ACTIVE_COIN_GET_CACHE,
   DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR,
   DASHBOARD_GET_NOTARIES_LIST,
-  DASHBOARD_DISPLAY_NOTARIES_MODAL
+  DASHBOARD_DISPLAY_NOTARIES_MODAL,
+  DASHBOARD_ACTIVE_ADDRESS,
 } from '../actions/actionCreators';
 
 // TODO: refactor
@@ -36,6 +37,7 @@ export function ActiveCoin(state = {
   mainBasiliskAddress: null,
   notaries: null,
   displayNotariesModal: false,
+  activeAddress: null,
 }, action) {
   switch (action.type) {
     case DASHBOARD_ACTIVE_COIN_CHANGE:
@@ -55,6 +57,7 @@ export function ActiveCoin(state = {
           lastSendToResponse: state.lastSendToResponse,
           mainBasiliskAddress: state.mainBasiliskAddress,
           opids: state.opids,
+          activeBasiliskAddress: state.activeBasiliskAddress,
         };
         let _coins = state.coins;
         _coins[state.coin] = _coinDataToStore;
@@ -74,6 +77,7 @@ export function ActiveCoin(state = {
           lastSendToResponse: _coinData.lastSendToResponse,
           mainBasiliskAddress: _coinData.mainBasiliskAddress,
           opids: _coinData.opids,
+          activeBasiliskAddress: _coinData.activeBasiliskAddress,
         });
       } else {
         if (state.coin) {
@@ -91,6 +95,7 @@ export function ActiveCoin(state = {
             lastSendToResponse: state.lastSendToResponse,
             mainBasiliskAddress: state.mainBasiliskAddress,
             opids: state.opids,
+            activeBasiliskAddress: state.activeBasiliskAddress,
           };
           let _coins = state.coins;
           _coins[state.coin] = _coinData;
@@ -184,6 +189,10 @@ export function ActiveCoin(state = {
     case DASHBOARD_DISPLAY_NOTARIES_MODAL:
       return Object.assign({}, state, {
         displayNotariesModal: action.display,
+      });
+    case DASHBOARD_ACTIVE_ADDRESS:
+      return Object.assign({}, state, {
+        activeAddress: action.address,
       });
     default:
       return state;

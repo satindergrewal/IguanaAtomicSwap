@@ -7,7 +7,8 @@ import {
   importPrivKey,
   getDebugLog,
   getPeersList,
-  addPeerNode
+  addPeerNode,
+  getAppConfig
 } from '../../actions/actionCreators';
 import Store from '../../store';
 import AddCoinOptionsCrypto from '../addcoin/addcoinOptionsCrypto';
@@ -42,6 +43,7 @@ class Settings extends React.Component {
 
   componentDidMount() {
     Store.dispatch(iguanaActiveHandle());
+    Store.dispatch(getAppConfig());
   }
 
   openTab(elemId, tab) {
@@ -361,6 +363,43 @@ class Settings extends React.Component {
                         <div className={this.state.activeTab === 6 ? 'panel-collapse collapse in' : 'panel-collapse collapse'} style={{height: this.state.activeTab === 6 ? this.state.activeTabHeight + 'px' : '10px'}} id="DebugLogTab" aria-labelledby="DebugLog" role="tabpanel">
                           <div className="panel-body">
                             <p>{translate('INDEX.DEBUG_LOG_DESC')}</p>
+                            <div className="col-sm-12"></div>
+                            <form className="read-debug-log-import-form" method="post" action="javascript:" autoComplete="off">
+                              <div className="form-group form-material floating">
+                                <input type="text" className="form-control" name="debugLinesCount" id="read_debug_log_lines" value={this.state.debugLinesCount} onChange={this.updateInput} />
+                                <label className="floating-label" htmlFor="read_debug_log_lines">{translate('INDEX.DEBUG_LOG_LINES')}</label>
+                              </div>
+                              <div className="form-group form-material floating">
+                                <select className="form-control form-material" name="debugTarget" id="settings_select_debuglog_options" onChange={this.updateInput}>
+                                  <option value="iguana">Iguana</option>
+                                  <option value="komodo">Komodo</option>
+                                </select>
+                                <label className="floating-label" htmlFor="settings_select_debuglog_options">{translate('INDEX.TARGET')}</label>
+                              </div>
+                              <div className="col-sm-12 col-xs-12" style={{textAlign: 'center'}}>
+                                <button type="button" className="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="read_debug_log_btn" onClick={this.readDebugLog}>{translate('INDEX.LOAD_DEBUG_LOG')}</button>
+                              </div>
+                              <div className="col-sm-12 col-xs-12" style={{textAlign: 'left'}}>
+                                <br />
+                                <div style={{padding: '20px 0'}}>{this.props.Settings.debugLog}</div>
+                              </div>
+                            </form>
+                            <div className="col-sm-12" style={{paddingTop: '15px'}}>
+                              <div className="row" data-plugin="masonry"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="panel" id="AppSettings">
+                        <div className="panel-heading" role="tab" onClick={() => this.openTab('AppSettings', 7)}>
+                          <a className={this.state.activeTab === 6 ? 'panel-title' : 'panel-title collapsed'} data-toggle="collapse" data-parent="#AppSettings">
+                            <i className="icon md-info" aria-hidden="true"></i>App Settings (config.json)
+                          </a>
+                        </div>
+                        <div className={this.state.activeTab === 7 ? 'panel-collapse collapse in' : 'panel-collapse collapse'} style={{height: this.state.activeTab === 7 ? this.state.activeTabHeight + 'px' : '10px'}} id="DebugLogTab" aria-labelledby="DebugLog" role="tabpanel">
+                          <div className="panel-body">
+                            <p>Manage app settings</p>
                             <div className="col-sm-12"></div>
                             <form className="read-debug-log-import-form" method="post" action="javascript:" autoComplete="off">
                               <div className="form-group form-material floating">
