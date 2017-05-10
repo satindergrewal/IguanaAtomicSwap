@@ -33,7 +33,6 @@ const socket = io.connect('http://127.0.0.1:' + Config.agamaPort);
 class SendCoin extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       currentStep: 0,
       sendFrom: this.props.Dashboard && this.props.Dashboard.activeHandle ? this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin] : null,
@@ -47,6 +46,7 @@ class SendCoin extends React.Component {
       addressSelectorOpen: false,
       currentStackLength: 0,
       totalStackLength: 0,
+      utxoMethodInProgress: false,
     };
     this.updateInput = this.updateInput.bind(this);
     this.handleBasiliskSend = this.handleBasiliskSend.bind(this);
@@ -55,8 +55,15 @@ class SendCoin extends React.Component {
     this.getOAdress = this.getOAdress.bind(this);
     this.toggleSendAPIType = this.toggleSendAPIType.bind(this);
     this._fetchNewUTXOData = this._fetchNewUTXOData.bind(this);
-    this.testCacheFormat = this.testCacheFormat.bind(this);
     socket.on('messages', msg => this.updateSocketsData(msg));
+  }
+
+  componentWillReceiveProps(props) {
+    if (!this.state.sendFrom && this.props.ActiveCoin.activeAddress) {
+      this.setState(Object.assign({}, this.state, {
+        sendFrom: this.props.ActiveCoin.activeAddress,
+      }));
+    }
   }
 
   updateSocketsData(data) {
@@ -109,8 +116,9 @@ class SendCoin extends React.Component {
         isReadyToUpdate = true;
       }
 
-      console.log(this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh);
-      if (this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh.data.error &&
+      if (this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh &&
+          this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh.data &&
+          this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh.data.error &&
           this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh.data.error === 'request failed') {
         timestamp = null;
       }
@@ -118,7 +126,7 @@ class SendCoin extends React.Component {
       return (
         <div className="col-lg-12">
           <hr />
-          Total UTXO available: {refreshCacheData ? refreshCacheData.data.length : 'N/A. Press update button.'}<br />
+          Total UTXO available: {refreshCacheData ? refreshCacheData.data && refreshCacheData.data.length : 'N/A. Press update button.'}<br />
           <div className={!timestamp ? 'hide' : ''}>
             Last updated @ {secondsToString(refreshCacheData ? refreshCacheData.timestamp : 0, true)} | {secondsElapsedToString(timestamp || 0)} ago<br />
           </div>
@@ -132,6 +140,10 @@ class SendCoin extends React.Component {
             {waitUntilCallIsFinished ? 'Locked, please wait...' : 'Update'}
           </button>
           <hr />
+          <div>
+            Split funds
+            <hr />
+          </div>
         </div>
       );
     } else {
@@ -239,6 +251,7 @@ class SendCoin extends React.Component {
 
     this.setState(Object.assign({}, this.state, {
       currentStep: step,
+      utxoMethodInProgress: !this.state.sendApiType && this.props.ActiveCoin.mode === 'basilisk' ? true : false,
     }));
 
     if (step === 2) {
@@ -269,23 +282,12 @@ class SendCoin extends React.Component {
     });
   }
 
-  testCacheFormat() {
-    const txidListToRemove = ['5d5538179c524d511774de00a0b7f6ab1fa57780546d05b9da81c258c3b8db17', '3e629af281600e3d45b3f134c4b2045911104749575a2702f5d1cd9a45bfa7cb'];
-   
-    console.log(this.props.Dashboard.activeHandle.pubkey);
-    getCacheFile(this.props.Dashboard.activeHandle.pubkey)
-    .then(function(result) {
-      console.log('got cache file', result);
-      let saveThisData = edexRemoveTXID(result.result, txidListToRemove);
-      console.log('saveThisData', saveThisData);
-    });
-  }
-
   handleBasiliskSend() {
     const refreshData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh;
     const listunspentData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].listunspent;
     const utxoSet = (refreshData && refreshData.data) || (listunspentData && listunspentData.data);
     const _pubkey = this.props.Dashboard.activeHandle.pubkey;
+    const forceUpdateCache = this._fetchNewUTXOData;
     const sendData = {
             'coin': this.props.ActiveCoin.coin,
             'sendfrom': this.state.sendFrom,
@@ -314,6 +316,10 @@ class SendCoin extends React.Component {
             if (dexRawTxJSON.indexOf('"error":{"code"') > -1) {
               Store.dispatch(triggerToaster(true, 'Transaction failed', translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
               Store.dispatch(sendToAddressStateAlt(JSON.parse(dexRawTxJSON)));
+
+              this.setState(Object.assign({}, this.state, {
+                utxoMethodInProgress: false,
+              }));
             } else {
               Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_SENT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
               Store.dispatch(sendToAddressStateAlt(json));
@@ -366,12 +372,21 @@ class SendCoin extends React.Component {
                     console.log('saveNewCacheData', saveThisData);
                     console.log(result);
                     resolve(result);
-                  });
-                });
-              }
+                    forceUpdateCache();
+                    Store.dispatch(triggerToaster(true, 'Local UTXO data is updated. Ready to send new transaction.', translate('TOASTR.WALLET_NOTIFICATION'), 'info'));
 
-              Store.dispatch(triggerToaster(true, 'Processing UTXO...', translate('TOASTR.WALLET_NOTIFICATION'), 'info'));
-              setTimeout(function() {
+                    this.setState(Object.assign({}, this.state, {
+                      utxoMethodInProgress: false,
+                    }));
+                  }.bind(this));
+                }.bind(this));
+              }.bind(this);
+
+              Store.dispatch(triggerToaster(true, 'Awaiting transaction data response...', translate('TOASTR.WALLET_NOTIFICATION'), 'info'));
+
+              function waterfallUTXOProcess() {
+                Store.dispatch(triggerToaster(true, 'Processing UTXO...', translate('TOASTR.WALLET_NOTIFICATION'), 'info'));
+
                 getTxidData()
                 .then(function(gettxdata) {
                   return processRefreshUTXOs(gettxdata.vin);
@@ -382,20 +397,39 @@ class SendCoin extends React.Component {
                 .then(function(save_this_data) {
                   return saveNewCacheData(save_this_data);
                 });
-              }, 6000);
+              }
+
+              let sentTxData = setInterval(function() {
+                getTxidData()
+                .then(function(gettxdata) {
+                  if (gettxdata.vin && gettxdata.vin.length) {
+                    clearInterval(sentTxData);
+                    waterfallUTXOProcess();
+                  }
+                })
+              }, 1000);
 
               console.log('utxo remove', true);
             }
-          });
+          }.bind(this));
         } else {
           Store.dispatch(sendToAddressStateAlt(json));
+
+          this.setState(Object.assign({}, this.state, {
+            utxoMethodInProgress: false,
+          }));
         }
       } else {
         Store.dispatch(sendToAddressStateAlt(json));
         Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_GENERATED_FAIL') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
+
+        this.setState(Object.assign({}, this.state, {
+          utxoMethodInProgress: false,
+        }));
       }
+
       console.log(json);
-    });
+    }.bind(this));
   }
 
   renderSignedTx(isRawTx) {
@@ -597,7 +631,6 @@ class SendCoin extends React.Component {
       return (
         <div className="col-sm-12 padding-top-10" data-edexcoin="COIN" id="edexcoin_send">
           <div className="col-xlg-12 col-md-12 col-sm-12 col-xs-12">
-          <button onClick={this.testCacheFormat}>test</button>
             <div className="steps row" style={{marginTop: '10px'}}>
               <div className={this.state.currentStep === 0 ? 'step col-md-4 current' : 'step col-md-4'} id="edexcoin_send_step_1">
                 <span className="step-number">1</span>
@@ -717,6 +750,9 @@ class SendCoin extends React.Component {
             <div className="panel" id="edexcoin-send-txdetails-screen">
               <div className="panel-heading">
                 <h4 className="panel-title">{translate('INDEX.TRANSACTION_RESULT')}</h4>
+                <div className={!this.state.sendSig ? 'hide' : 'center'}>
+                  You picked option "{translate('INDEX.DONT_SEND')}"
+                </div>
                 <table className="table table-hover table-striped edexcoin_sendto_result" data-edexcoin="COIN" id="edexcoin_sendto_result">
                   <thead>
                     <tr>
@@ -730,7 +766,7 @@ class SendCoin extends React.Component {
                 </table>
                 <div className="widget-body-footer">
                   <div className="widget-actions margin-bottom-15 margin-right-15">
-                    <button type="button" className="btn btn-primary" id="edexcoin_send_coins_anothertx_btn" onClick={() => this.changeSendCoinStep(0)}>{translate('INDEX.MAKE_ANOTHER_TX')}</button>
+                    <button type="button" className="btn btn-primary" id="edexcoin_send_coins_anothertx_btn" onClick={() => this.changeSendCoinStep(0)} disabled={this.state.utxoMethodInProgress}>{!this.state.utxoMethodInProgress ? translate('INDEX.MAKE_ANOTHER_TX') : 'Please wait...'}</button>
                   </div>
                 </div>
               </div>

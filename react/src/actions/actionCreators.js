@@ -1099,6 +1099,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           .then(response => response.json())
           .then(function(json) {
             json = json.result.basilisk;
+
             if (json[coin].addresses) {
               resolve({ 'result': json[coin].addresses });
             }
@@ -1262,8 +1263,8 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           json = json.result.basilisk;
           // if listunspent is not in cache file retrieve new copy
           // otherwise read from cache data
-          if (json[coin][currentAddress].listunspent) {
-            calcBalance(result, json[coin][currentAddress].listunspent.data, dispatch, mode);
+          if (json[coin][currentAddress].refresh) {
+            calcBalance(result, json[coin][currentAddress].refresh.data, dispatch, mode);
           } else {
             fetch('http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.basiliskPort : Config.iguanaCorePort), {
               method: 'POST',
@@ -1275,7 +1276,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             })
             .then(response => response.json())
             .then(function(json) {
-              updatedCache.basilisk[coin][currentAddress].listunspent = {
+              updatedCache.basilisk[coin][currentAddress].refresh = {
                 'data': json,
                 'status': 'done',
                 'timestamp': Date.now(),

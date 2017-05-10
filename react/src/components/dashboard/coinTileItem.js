@@ -87,7 +87,7 @@ class CoinTileItem extends React.Component {
         Store.dispatch(startInterval('sync', _iguanaActiveHandle));
       }
       if (mode === 'basilisk') {
-        const _basiliskMainAddress = this.props.Dashboard.activeHandle[coin];
+        const _basiliskMainAddress = this.props.Dashboard.activeHandle[coin] || JSON.parse(sessionStorage.getItem('IguanaActiveAccount'))[coin];
         Store.dispatch(changeActiveAddress(_basiliskMainAddress));
 
         if (_basiliskMainAddress) {
