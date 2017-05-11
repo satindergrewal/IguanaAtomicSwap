@@ -76,7 +76,7 @@ class Navbar extends React.Component {
                   <i className="site-menu-icon" aria-hidden="true"></i> EasyDEX
                 </a>
               </li>
-              <li className={this.props.Dashboard.activeSection === 'jumblr' ? 'active nav-top-menu' : 'nav-top-menu'}>
+              <li className={this.props.Dashboard.activeSection === 'jumblr' ? 'active nav-top-menu' : 'nav-top-menu'} style={{display: 'none'}}>
                 <a href="javascript:void(0)" id="nav-jumblr" onClick={() => this.dashboardChangeSection('jumblr')}>
                   <i className="site-menu-icon" aria-hidden="true"></i> Jumblr
                 </a>

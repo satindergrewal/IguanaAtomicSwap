@@ -288,6 +288,7 @@ class SendCoin extends React.Component {
     const utxoSet = (refreshData && refreshData.data) || (listunspentData && listunspentData.data);
     const _pubkey = this.props.Dashboard.activeHandle.pubkey;
     const forceUpdateCache = this._fetchNewUTXOData;
+    const _sendFrom = this.state.sendFrom;
     const sendData = {
             'coin': this.props.ActiveCoin.coin,
             'sendfrom': this.state.sendFrom,
@@ -356,7 +357,7 @@ class SendCoin extends React.Component {
                   getCacheFile(_pubkey)
                   .then(function(result) {
                     console.log('got cache file', result);
-                    let saveThisData = edexRemoveTXID(result.result, txidListToRemove);
+                    let saveThisData = edexRemoveTXID(result.result, _sendFrom, txidListToRemove);
                     console.log('saveThisData', saveThisData);
                     resolve(saveThisData);
                   });

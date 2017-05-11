@@ -8,7 +8,9 @@ import {
   getDebugLog,
   getPeersList,
   addPeerNode,
-  getAppConfig
+  getAppConfig,
+  saveAppConfig,
+  getAppInfo
 } from '../../actions/actionCreators';
 import Store from '../../store';
 import AddCoinOptionsCrypto from '../addcoin/addcoinOptionsCrypto';
@@ -30,6 +32,7 @@ class Settings extends React.Component {
       debugLinesCount: 10,
       debugTarget: 'iguana',
       activeTabHeight: '10px',
+      appSettings: [],
     };
     this.exportWifKeys = this.exportWifKeys.bind(this);
     this.updateInput = this.updateInput.bind(this);
@@ -44,12 +47,16 @@ class Settings extends React.Component {
   componentDidMount() {
     Store.dispatch(iguanaActiveHandle());
     Store.dispatch(getAppConfig());
+    Store.dispatch(getAppInfo());
+  }
+
+  _saveAppConfig() {
+    Store.dispatch(saveAppConfig);
   }
 
   openTab(elemId, tab) {
-    console.log(elemId);
     const _height = document.querySelector('#' + elemId + ' .panel-collapse .panel-body').clientHeight;
-    console.log(_height);
+
     this.setState(Object.assign({}, this.state, {
       activeTab: tab,
       activeTabHeight: _height,
@@ -110,6 +117,51 @@ class Settings extends React.Component {
     } else {
       return null;
     }
+  }
+
+  renderConfigEditForm() {
+    console.log(this.props.Settings.appSettings);
+    let items = [];
+    const _appConfig = this.props.Settings.appSettings;
+
+    for (let key in this.props.Settings.appSettings) {
+      if (Object.keys(this.props.Settings.appSettings[key]).length && key !== 'host') {
+        items.push(
+          <tr key={`app-settings-${key}`}>
+            <td style={{padding: '15px'}}>
+              {key}
+            </td>
+            <td style={{padding: '15px'}}></td>
+          </tr>
+        );
+
+        for (let _key in this.props.Settings.appSettings[key]) {
+          items.push(
+            <tr key={`app-settings-${key}-${_key}`}>
+              <td style={{padding: '15px', paddingLeft: '30px'}}>
+                {_key}
+              </td>
+              <td style={{padding: '15px'}}>
+                <input type="text" name={`app-settings-${_key}-edit`} defaultValue={_appConfig[key][_key]} />
+              </td>
+            </tr>
+          );
+        }
+      } else {
+        items.push(
+          <tr key={`app-settings-${key}`}>
+            <td style={{padding: '15px'}}>
+              {key}
+            </td>
+            <td style={{padding: '15px'}}>
+              <input type="text" name={`app-settings-${key}-edit`} defaultValue={_appConfig[key]} />
+            </td>
+          </tr>
+        );
+      }
+    }
+
+    return items;
   }
 
   updateInput(e) {
@@ -393,13 +445,45 @@ class Settings extends React.Component {
 
                       <div className="panel" id="AppSettings">
                         <div className="panel-heading" role="tab" onClick={() => this.openTab('AppSettings', 7)}>
-                          <a className={this.state.activeTab === 6 ? 'panel-title' : 'panel-title collapsed'} data-toggle="collapse" data-parent="#AppSettings">
-                            <i className="icon md-info" aria-hidden="true"></i>App Settings (config.json)
+                          <a className={this.state.activeTab === 7 ? 'panel-title' : 'panel-title collapsed'} data-toggle="collapse" data-parent="#AppSettings">
+                            <i className="icon md-info" aria-hidden="true"></i>App Config (config.json)
                           </a>
                         </div>
                         <div className={this.state.activeTab === 7 ? 'panel-collapse collapse in' : 'panel-collapse collapse'} style={{height: this.state.activeTab === 7 ? this.state.activeTabHeight + 'px' : '10px'}} id="DebugLogTab" aria-labelledby="DebugLog" role="tabpanel">
                           <div className="panel-body">
-                            <p>Manage app settings</p>
+                            <p>Manage app config</p>
+                            <p>
+                              <strong>Most changes to app config require wallet restart!</strong>
+                            </p>
+                            <div className="col-sm-12"></div>
+                            <form className="read-debug-log-import-form" method="post" action="javascript:" autoComplete="off">
+                              <div className="col-sm-12" style={{paddingTop: '15px'}}>
+                                <div className="row" data-plugin="masonry"></div>
+                              </div>
+                              <div className="col-sm-12" style={{paddingTop: '15px'}}>
+                                <table>
+                                  <tbody>
+                                  {this.renderConfigEditForm()}
+                                  </tbody>
+                                </table>
+                              </div>
+                              <div className="col-sm-12 col-xs-12" style={{textAlign: 'center'}}>
+                                <button type="button" className="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="read_debug_log_btn" onClick={this._saveAppConfig}>Save app config</button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="panel" id="AppInfo">
+                        <div className="panel-heading" role="tab" onClick={() => this.openTab('AppInfo', 8)}>
+                          <a className={this.state.activeTab === 8 ? 'panel-title' : 'panel-title collapsed'} data-toggle="collapse" data-parent="#AppInfoAccordion">
+                            <i className="icon md-info" aria-hidden="true"></i>App Info
+                          </a>
+                        </div>
+                        <div className={this.state.activeTab === 8 ? 'panel-collapse collapse in' : 'panel-collapse collapse'} style={{height: this.state.activeTab === 8 ? this.state.activeTabHeight + 'px' : '10px'}} aria-labelledby="DebugLog" role="tabpanel">
+                          <div className="panel-body">
+                            <p>{translate('INDEX.DEBUG_LOG_DESC')}</p>
                             <div className="col-sm-12"></div>
                             <form className="read-debug-log-import-form" method="post" action="javascript:" autoComplete="off">
                               <div className="form-group form-material floating">

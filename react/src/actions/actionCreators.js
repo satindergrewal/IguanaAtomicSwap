@@ -53,6 +53,7 @@ export const LOAD_APP_CONFIG = 'LOAD_APP_CONFIG';
 export const SAVE_APP_CONFIG = 'SAVE_APP_CONFIG';
 export const SERVICE_ERROR = 'SERVICE_ERROR';
 export const DASHBOARD_ACTIVE_ADDRESS = 'DASHBOARD_ACTIVE_ADDRESS';
+export const LOAD_APP_INFO = 'LOAD_APP_INFO';
 
 var iguanaForks = {}; // forks in mem array
 
@@ -2493,28 +2494,23 @@ export function edexGetTransaction(data) {
   });
 }
 
-/*export function saveAppConfig() {
-  const payload = {
-    'herdname': target,
-    'lastLines': linesCount
-  };
-
+export function saveAppConfig(_payload) {
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/debuglog', {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/appconf', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(_payload),
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'getDebugLog', 'Error', 'error'));
+      dispatch(triggerToaster(true, 'saveAppConfig', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(getDebugLogState(json)))
+    .then(json => dispatch(getAppConfigState(json)))
   }
-}*/
+}
 
 function getAppConfigState(json) {
   return {
@@ -2622,16 +2618,26 @@ export function shepherdPostCoinList(data) {
   });
 }
 
-/*function Shepherd_SendPendValue() {
-  Shepherd_SysInfo().then(function(result){
-    var ram_data = formatBytes(result.totalmem_bytes)
-    var pend_val = null;
-    if (ram_data.size === 'GB') {
-      if (ram_data.ramsize >= '63' ) { pend_val = 16; }
-      if (ram_data.ramsize >= '31' ) { pend_val = 8; }
-      if (ram_data.ramsize >= '15' ) { pend_val = 4; }
-      if (ram_data.ramsize <= '15' ) { pend_val = 1; }
-    } else { pend_val = 1; }
-    sessionStorage.setItem('IguanaPendValue', pend_val);
-  })
-}*/
+function getAppInfoState(json) {
+  return {
+    type: LOAD_APP_INFO,
+    info: json,
+  }
+}
+
+export function getAppInfo() {
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/appinfo', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getAppInfo', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(getAppInfoState(json)))
+  }
+}
