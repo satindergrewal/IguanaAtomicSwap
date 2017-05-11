@@ -139,16 +139,18 @@ class SendCoin extends React.Component {
           <button type="button" style={{marginTop: '10px'}} className={isReadyToUpdate ? 'btn btn-primary waves-effect waves-light' : 'hide'} onClick={this._fetchNewUTXOData} disabled={waitUntilCallIsFinished}>
             {waitUntilCallIsFinished ? 'Locked, please wait...' : 'Update'}
           </button>
-          <hr />
-          <div>
-            Split funds
-            <hr />
-          </div>
         </div>
       );
     } else {
       return null;
     }
+    /*
+          <hr />
+          <div>
+            Split funds
+            <hr />
+          </div>
+    */
   }
 
   renderAddressAmount(address) {
