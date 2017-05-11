@@ -1,6 +1,17 @@
 export const _lang = {
   'EN': {
     'INDEX': {
+      'FETCHING_NOTARIES_LIST': 'Fetching notaries list data',
+      'TOTAL_NOTARIES': 'Notaries list. Total nodes count',
+      'CLOSE': 'Close',
+      'SHOW': 'Show',
+      'SHOWING': 'Showing',
+      'OF': 'of',
+      'TO': 'to',
+      'PREVIOUS': 'Previous',
+      'NEXT': 'Next',
+      'ENTRIES_SM': 'entries',
+      'COIN_IS_BUSY': 'Coin is busy processing',
       'REFRESHING_BASILISK_NET': 'Refreshing Basilisk Network Connections',
       'SELECT_A_COIN': 'Select Coin to add to EasyDEX',
       'WALLETS': 'Wallets',
@@ -180,6 +191,18 @@ export const _lang = {
       'ADDR_SM': 'address',
       'ACTIVATING': 'Activating'
     },
+    'ATOMIC': {
+      'RAW_OUTPUT': 'Raw Output',
+      'SUBMIT': 'Submit',
+      'INPUT_PLACEHOLDER': 'addr, txid, blockash etc.',
+      'SELECT_COMMAND': 'Select Command',
+    },
+    'ADD_COIN': {
+      'SYNC_ONLY': 'Sync only',
+      'SAVE_SELECTION': 'Save Selection',
+      'LOAD_SELECTION': 'Load Selection',
+      'ACTIVATE_ALL': 'Activate all',
+    },
     'JUMBLR': {
       'NOTICE': 'EXPERIMENTAL TEST VERSION ONLY',
       'DESCRIPTION': 'Jumblr feature is very experimental and for now, is Only enabled for testing and debugging.' +
@@ -345,7 +368,9 @@ export const _lang = {
       'WALLET_LOCKED_LOGIN': 'Wallet Locked. Please login.',
       'UNLOCK': 'Unlock',
       'SIGN_IN': 'Sign In',
-      'WELCOME': 'Welcome'
+      'WELCOME': 'Welcome',
+      'DISPLAY_SYNC_ONLY': 'Display sync only coins progress',
+      'ENTER_VALUE_AGAIN': 'Please enter the same value again'
     },
     'SIDEBAR': {
       'EDEX_MOTTO': 'Most Secure, Easy and Native Decentralised Exchange',

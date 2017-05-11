@@ -143,7 +143,7 @@ class Login extends React.Component {
     if ((this.state && this.state.display) || !this.props.Main) {
       return (
         <div id="wallet-login">
-          <div className="page animsition vertical-align text-center fade-in" data-animsition-in="fade-in" data-animsition-out="fade-out">
+          <div className="page animsition vertical-align text-center fade-in">
             <div className="page-content vertical-align-middle">
               <div className="brand">
                 <img className="brand-img" src="assets/images/easydex-logo-big.png" alt="SuperNET Iguana" />
@@ -151,7 +151,7 @@ class Login extends React.Component {
 
               <div style={{padding: '20px 0'}}>
                 <span className="display-sync-only-coins-toggle" onClick={this.openSyncOnlyModal}>
-                  <i className="fa fa-cubes"></i> Display sync only coins progress
+                  <i className="fa fa-cubes"></i> {translate('LOGIN.DISPLAY_SYNC_ONLY')}
                 </span>
               </div>
 
@@ -185,7 +185,13 @@ class Login extends React.Component {
                 <h4 style={{ color: '#fff' }} id="login-welcome">{translate('INDEX.WELCOME_LOGIN')}</h4>
                 <div className="login-form">
                   <div className="form-group form-material floating">
-                    <input type={this.state.seedInputVisibility ? 'text' : 'password'} className="form-control" name="loginPassphrase" id="password" onChange={this.updateInput} onKeyDown={(event) => this.handleKeydown(event)} />
+                    <input
+                      type={this.state.seedInputVisibility ? 'text' : 'password'}
+                      className="form-control"
+                      name="loginPassphrase"
+                      id="password"
+                      onChange={this.updateInput}
+                      onKeyDown={(event) => this.handleKeydown(event)} />
                     <i className={this.state.seedInputVisibility ? 'seed-toggle fa fa-eye-slash' : 'seed-toggle fa fa-eye'} onClick={this.toggleSeedInputVisibility}></i>
                     <label className="floating-label" htmlFor="inputPassword">{translate('INDEX.WALLET_SEED')}</label>
                   </div>
@@ -200,7 +206,14 @@ class Login extends React.Component {
               <div id="section-login-addcoin-btn" className={this.state.activeLoginSection === 'activateCoin' ? 'show' : 'hide'}>
                 <h4 style={{ color: '#fff' }} id="login-welcome">{translate('INDEX.WELCOME_PLEASE_ADD')}</h4>
                 <div className="form-group form-material floating" style={{width: '540px', margin: '30px 0'}}>
-                  <button className="btn btn-lg btn-primary btn-block ladda-button" id="start-coin-login" role="menuitem" data-edexcoinmenu="COIN" data-target="#AddCoinDilogModel-login" data-toggle="modal" data-style="expand-left" data-plugin="ladda" onClick={this.toggleActivateCoinForm} disabled={!this.props.Main}><span className="ladda-label">{translate('INDEX.ACTIVATE_COIN')}</span></button>
+                  <button
+                    className="btn btn-lg btn-primary btn-block ladda-button"
+                    id="start-coin-login"
+                    role="menuitem"
+                    onClick={this.toggleActivateCoinForm}
+                    disabled={!this.props.Main}>
+                    <span className="ladda-label">{translate('INDEX.ACTIVATE_COIN')}</span>
+                  </button>
                 </div>
               </div>
 
@@ -229,7 +242,7 @@ class Login extends React.Component {
                   </div>
                   <div className="form-group form-material floating">
                     <textarea className="form-control placeholder-no-fix" type="text" name="randomSeedConfirm" onChange={this.updateInput} id="rwalletseed" style={{ height: '100px' }}></textarea>
-                    <span className={this.state.isSeedConfirmError ? 'help-block' : 'hide'}>Please enter the same value again.</span>
+                    <span className={this.state.isSeedConfirmError ? 'help-block' : 'hide'}>{translate('LOGIN.ENTER_VALUE_AGAIN')}.</span>
                     <label className="floating-label" htmlFor="rwalletseed">{translate('INDEX.CONFIRM_SEED')}</label>
                   </div>
                   <button type="button" id="register-submit-btn" className="btn btn-primary btn-block" onClick={this.handleRegisterWallet}>{translate('INDEX.REGISTER')}</button>

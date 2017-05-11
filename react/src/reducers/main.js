@@ -1,4 +1,8 @@
-import { GET_ACTIVE_COINS, LOGIN, ACTIVE_HANDLE } from '../actions/actionCreators';
+import {
+  GET_ACTIVE_COINS,
+  LOGIN,
+  ACTIVE_HANDLE
+} from '../actions/actionCreators';
 
 export function Main(state = {
   isLoggedIn: false,

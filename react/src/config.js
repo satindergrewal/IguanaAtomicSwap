@@ -7,4 +7,5 @@ module.exports = {
   useForksAll: true,
   openAlias: false,
   debug: true,
+  defaultLang: 'EN',
 };

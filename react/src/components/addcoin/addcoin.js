@@ -48,7 +48,6 @@ class AddCoin extends React.Component {
   saveCoinSelection() {
     shepherdPostCoinList(this.state.coins)
     .then(function(json) {
-      console.log(json);
       this.toggleActionsMenu();
     }.bind(this));
   }
@@ -56,7 +55,6 @@ class AddCoin extends React.Component {
   loadCoinSelection() {
     shepherdGetCoinList()
     .then(function(json) {
-      console.log(json);
       this.setState(Object.assign({}, this.state, {
         coins: json.result,
         actionsMenu: false,
@@ -156,7 +154,11 @@ class AddCoin extends React.Component {
   }
 
   activateCoin() {
-    Store.dispatch(addCoin(this.state.coins[0].selectedCoin.split('|')[0], this.state.coins[0].mode, this.state.coins[0].syncOnly));
+    Store.dispatch(addCoin(
+      this.state.coins[0].selectedCoin.split('|')[0],
+      this.state.coins[0].mode,
+      this.state.coins[0].syncOnly
+    ));
   }
 
   dismiss() {
@@ -182,13 +184,21 @@ class AddCoin extends React.Component {
   }
 
   activateAllCoins() {
-    Store.dispatch(addCoin(this.state.coins[0].selectedCoin.split('|')[0], this.state.coins[0].mode, this.state.coins[0].syncOnly));
+    Store.dispatch(addCoin(
+      this.state.coins[0].selectedCoin.split('|')[0],
+      this.state.coins[0].mode,
+      this.state.coins[0].syncOnly
+    ));
 
     for (let i = 1; i < this.state.coins.length; i++) {
       const _item = this.state.coins[i];
 
       setTimeout(function() {
-        Store.dispatch(addCoin(_item.selectedCoin.split('|')[0], _item.mode, _item.syncOnly));
+        Store.dispatch(addCoin(
+          _item.selectedCoin.split('|')[0],
+          _item.mode,
+          _item.syncOnly
+        ));
       }, 2000 * i);
     }
   }
@@ -204,7 +214,12 @@ class AddCoin extends React.Component {
         <div className={this.state.coins.length > 1 ? 'multi' : 'single'} key={'add-coin-' + i}>
           <div className="col-sm-8">
             <div className="form-group">
-              <select className="form-control form-material" name="selectedCoin" id="addcoin_select_coin_mdl_options-login" value={_coin} onChange={(event) => this.updateSelectedCoin(event, i)}>
+              <select
+                className="form-control form-material"
+                name="selectedCoin"
+                id="addcoin_select_coin_mdl_options-login"
+                value={_coin}
+                onChange={(event) => this.updateSelectedCoin(event, i)}>
                 <option>{translate('INDEX.SELECT')}</option>
                 <AddCoinOptionsCrypto />
                 <AddCoinOptionsAC />
@@ -213,7 +228,12 @@ class AddCoin extends React.Component {
             </div>
           </div>
           <div className={this.state.coins.length > 1 ? 'hide' : 'col-sm-4'}>
-            <button type="button" className="btn btn-primary mdl_addcoin_done_btn-login" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn-login" onClick={() => this.activateCoin(i)} disabled={_item.mode === -2 }>{translate('INDEX.ACTIVATE_COIN')}</button>
+            <button
+              type="button"
+              className="btn btn-primary mdl_addcoin_done_btn-login"
+              id="mdl_addcoin_done_btn-login"
+              onClick={() => this.activateCoin(i)}
+              disabled={_item.mode === -2 }>{translate('INDEX.ACTIVATE_COIN')}</button>
           </div>
           <div className="col-sm-12 text-center">
             <div className="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login">
@@ -253,7 +273,7 @@ class AddCoin extends React.Component {
             <div className="pull-left margin-right-10">
               <input type="checkbox" id="addcoin_sync_only" data-plugin="switchery" data-size="small" checked={_item.syncOnly} />
             </div>
-            <label className="padding-top-3 padding-bottom-10" htmlFor="addcoin_sync_only" onClick={() => this.toggleSyncOnlyMode(i)}>Sync only</label>
+            <label className="padding-top-3 padding-bottom-10" htmlFor="addcoin_sync_only" onClick={() => this.toggleSyncOnlyMode(i)}>{translate('ADD_COIN.SYNC_ONLY')}</label>
           </div>
         </div>
       );
@@ -265,7 +285,13 @@ class AddCoin extends React.Component {
   render() {
     return (
       <div>
-        <div className={'modal modal-3d-sign add-coin-modal ' + (this.state.display ? 'show in' : 'fade hide')} id="AddCoinDilogModel-login" aria-hidden="true" aria-labelledby="AddCoinDilogModel-login" role="dialog" tabIndex="-1">
+        <div
+          className={'modal modal-3d-sign add-coin-modal ' + (this.state.display ? 'show in' : 'fade hide')}
+          id="AddCoinDilogModel-login"
+          aria-hidden="true"
+          aria-labelledby="AddCoinDilogModel-login"
+          role="dialog"
+          tabIndex="-1">
           <div className="modal-dialog modal-center modal-lg">
             <div className="modal-content">
               <div className="modal-header bg-orange-a400 wallet-send-header">
@@ -280,12 +306,19 @@ class AddCoin extends React.Component {
                   <i className={this.state.actionsMenu ? 'fa-chevron-up' : 'fa-chevron-down' }></i>
                 </button>
                 <span className={!this.state.actionsMenu ? 'hide' : ''}>
-                  <button className="btn btn-outline-primary btn-save-coin-selection" onClick={this.saveCoinSelection}>Save Selection</button>
-                  <button className="btn btn-outline-primary btn-load-coin-selection" onClick={this.loadCoinSelection}>Load Selection</button>
+                  <button className="btn btn-outline-primary btn-save-coin-selection" onClick={this.saveCoinSelection}>{translate('ADD_COIN.SAVE_SELECTION')}</button>
+                  <button className="btn btn-outline-primary btn-load-coin-selection" onClick={this.loadCoinSelection}>{translate('ADD_COIN.LOAD_SELECTION')}</button>
                 </span>
                 {this.renderCoinSelectors()}
                 <div className={this.state.coins.length > 1 ? 'col-sm-12' : 'hide'} style={{textAlign: 'center', margin: '20px 0'}}>
-                  <button type="button" className="btn btn-primary col-sm-4" style={{float: 'none'}} data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn-login" onClick={this.activateAllCoins}>Activate all</button>
+                  <button
+                    type="button"
+                    className="btn btn-primary col-sm-4"
+                    style={{float: 'none'}}
+                    data-toggle="modal"
+                    data-dismiss="modal"
+                    id="mdl_addcoin_done_btn-login"
+                    onClick={this.activateAllCoins}>{translate('ADD_COIN.ACTIVATE_ALL')}</button>
                 </div>
                 <div className="col-sm-12">
                   <p>

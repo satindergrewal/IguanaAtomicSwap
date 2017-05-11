@@ -55,7 +55,7 @@ class Settings extends React.Component {
   }
 
   openTab(elemId, tab) {
-    const _height = document.querySelector('#' + elemId + ' .panel-collapse .panel-body').clientHeight;
+    const _height = document.querySelector('#' + elemId + ' .panel-collapse .panel-body').offsetHeight;
 
     this.setState(Object.assign({}, this.state, {
       activeTab: tab,
@@ -533,15 +533,10 @@ class Settings extends React.Component {
                       </div>
                       <div className={this.state.activeTab === 7 ? 'panel-collapse collapse in' : 'panel-collapse collapse'} style={{height: this.state.activeTab === 7 ? this.state.activeTabHeight + 'px' : '10px'}} id="DebugLogTab" aria-labelledby="DebugLog" role="tabpanel">
                         <div className="panel-body">
-                          <p>Manage app config</p>
                           <p>
                             <strong>Most changes to app config require wallet restart!</strong>
                           </p>
-                          <div className="col-sm-12"></div>
                           <form className="read-debug-log-import-form" method="post" action="javascript:" autoComplete="off">
-                            <div className="col-sm-12" style={{paddingTop: '15px'}}>
-                              <div className="row" data-plugin="masonry"></div>
-                            </div>
                             <div className="col-sm-12" style={{paddingTop: '15px'}}>
                               <table>
                                 <tbody>
@@ -549,14 +544,13 @@ class Settings extends React.Component {
                                 </tbody>
                               </table>
                             </div>
-                            <div className="col-sm-12 col-xs-12" style={{textAlign: 'center'}}>
+                            <div className="col-sm-12 col-xs-12" style={{textAlign: 'center', paddingTop: '25px', paddingBottom: '25px'}}>
                               <button type="button" className="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="read_debug_log_btn" onClick={this._saveAppConfig}>Save app config</button>
                             </div>
                           </form>
                         </div>
                       </div>
                     </div>
-
                     {this.renderAppInfoTab()}
                   </div>
                 </div>
