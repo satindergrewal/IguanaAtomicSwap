@@ -186,7 +186,10 @@ class WalletsData extends React.Component {
       }));
     }
 
-    if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory !== 'loading' && this.props.ActiveCoin.txhistory !== 'no data' && this.props.ActiveCoin.txhistory.length) {
+    if (this.props.ActiveCoin.txhistory &&
+        this.props.ActiveCoin.txhistory !== 'loading' &&
+        this.props.ActiveCoin.txhistory !== 'no data' &&
+        this.props.ActiveCoin.txhistory.length) {
       if (!this.state.itemsList || (this.state.itemsList && !this.state.itemsList.length) || (props.ActiveCoin.txhistory !== this.props.ActiveCoin.txhistory)) {
         let historyToSplit = sortByDate(this.props.ActiveCoin.txhistory);
         historyToSplit = historyToSplit.slice((this.state.activePage - 1) * this.state.itemsPerPage, this.state.activePage * this.state.itemsPerPage);
@@ -323,6 +326,10 @@ class WalletsData extends React.Component {
       return (
         <div>Loading history...</div>
       );
+    } else if (this.state.itemsList === 'no data') {
+      return (
+        <div>No data</div>
+      );
     } else {
       if (this.state.itemsList && this.state.itemsList.length && this.state.itemsList !== 'no data') {
         return this.state.itemsList.map((tx, index) =>
@@ -354,6 +361,14 @@ class WalletsData extends React.Component {
       Store.dispatch(changeMainBasiliskAddress(address));
       Store.dispatch(getBasiliskTransactionsList(this.props.ActiveCoin.coin, address));
     }.bind(this), 100);
+
+    Store.dispatch(fetchNewCacheData({
+      'pubkey': this.props.Dashboard.activeHandle.pubkey,
+      'allcoins': false,
+      'coin': this.props.ActiveCoin.coin,
+      'calls': 'listtransactions:getbalance',
+      'address': address,
+    }));
   }
 
   openDropMenu() {
