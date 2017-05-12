@@ -29,26 +29,26 @@ class WalletsTxInfo extends React.Component {
 
       return (
         <div>
-          <div className="modal show" data-extcoin="COIN" id="kmd_txid_info_mdl" aria-hidden="false" role="dialog">
+          <div className="modal show" id="kmd_txid_info_mdl" aria-hidden="false" role="dialog">
             <div className="modal-dialog modal-center modal-lg">
               <div className="modal-content">
                 <div className="modal-body" style={{height: '590px'}}>
                   <div className="panel nav-tabs-horizontal">
-                    <ul className="nav nav-tabs nav-tabs-line" data-plugin="nav-tabs" role="tablist">
+                    <ul className="nav nav-tabs nav-tabs-line" role="tablist">
                       <li className={this.state.activeTab === 0 ? 'active' : ''} role="presentation">
-                        <a data-toggle="tab" data-extcoin="COIN" aria-controls="KmdTxIDInfotab1" role="tab" onClick={() => this.openTab(0)}>
+                        <a data-toggle="tab" aria-controls="KmdTxIDInfotab1" role="tab" onClick={() => this.openTab(0)}>
                           <i className="icon md-balance-wallet" aria-hidden="true"></i>TxID Info
                         </a>
                       </li>
                       <li className={this.state.activeTab === 1 ? 'active' : ''} role="presentation">
-                        <a data-toggle="tab" data-extcoin="COIN" aria-controls="KmdTxIDInfotab4" role="tab" onClick={() => this.openTab(1)}>
+                        <a data-toggle="tab" aria-controls="KmdTxIDInfotab4" role="tab" onClick={() => this.openTab(1)}>
                           <i className="icon wb-file" aria-hidden="true"></i>Raw info
                         </a>
                       </li>
                     </ul>
                     <div className="panel-body">
                       <div className="tab-content">
-                        <div className={this.state.activeTab === 0 ? 'tab-pane active' : 'tab-pane'} id="KmdTxIDInfotab1" data-extcoin="COIN" role="tabpanel">
+                        <div className={this.state.activeTab === 0 ? 'tab-pane active' : 'tab-pane'} id="KmdTxIDInfotab1" role="tabpanel">
                           <table className="table table-striped">
                             <tbody>
                               <tr>
@@ -96,8 +96,8 @@ class WalletsTxInfo extends React.Component {
                             </tbody>
                           </table>
                         </div>
-                        <div className={this.state.activeTab === 1 ? 'tab-pane active' : 'tab-pane'} id="KmdTxIDInfotab4" data-extcoin="COIN" role="tabpanel">
-                          <textarea id="kmd_txid_info_hex" data-extcoin="COIN" style={{width: '100%', height: '400px'}} rows="40" cols="80" defaultValue={JSON.stringify(txInfo, null, '\t')} disabled></textarea>
+                        <div className={this.state.activeTab === 1 ? 'tab-pane active' : 'tab-pane'} id="KmdTxIDInfotab4" role="tabpanel">
+                          <textarea id="kmd_txid_info_hex" style={{width: '100%', height: '400px'}} rows="40" cols="80" defaultValue={JSON.stringify(txInfo, null, '\t')} disabled></textarea>
                         </div>
                       </div>
                     </div>

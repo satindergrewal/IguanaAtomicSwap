@@ -1,4 +1,7 @@
-import { SYNC_ONLY_MODAL_TOGGLE, SYNC_ONLY_DATA } from '../actions/actionCreators';
+import {
+  SYNC_ONLY_MODAL_TOGGLE,
+  SYNC_ONLY_DATA
+} from '../actions/actionCreators';
 
 export function SyncOnly(state = {
   display: false,

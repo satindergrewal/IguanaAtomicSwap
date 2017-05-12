@@ -18,17 +18,19 @@ class WalletsNotariesList extends React.Component {
   renderNotariesFetching() {
     if (!this.props.ActiveCoin.notaries) {
       return (
-        <div>Fetching notaries list data...</div>
+        <div>{translate('INDEX.FETCHING_NOTARIES_LIST')}...</div>
       );
     } else {
       return (
-        <div>Notaries list. Total nodes count: {this.props.ActiveCoin.notaries.numnotaries}</div>
+        <div>{translate('INDEX.TOTAL_NOTARIES')}: {this.props.ActiveCoin.notaries.numnotaries}</div>
       );
     }
   }
 
   renderNotariesList() {
-    if (this.props.ActiveCoin.notaries && this.props.ActiveCoin.notaries.notaries && this.props.ActiveCoin.notaries.notaries.length) {
+    if (this.props.ActiveCoin.notaries &&
+        this.props.ActiveCoin.notaries.notaries &&
+        this.props.ActiveCoin.notaries.notaries.length) {
       return this.props.ActiveCoin.notaries.notaries.map((node, index) =>
         <TreeNode title={`Node ${index}`} key={`node-${index}`}>
           <TreeNode key={`node-${index}-btc`} title={`BTC: ${node.BTCaddress}`} />
@@ -47,7 +49,7 @@ class WalletsNotariesList extends React.Component {
 
       return (
         <div>
-          <div className="modal show" data-extcoin="COIN" id="kmd_txid_info_mdl" aria-hidden="false" role="dialog">
+          <div className="modal show" id="kmd_txid_info_mdl" aria-hidden="false" role="dialog">
             <div className="modal-dialog modal-center modal-lg">
               <div className="modal-content">
                 <div className="modal-body" style={{height: '590px'}}>
@@ -65,7 +67,7 @@ class WalletsNotariesList extends React.Component {
                   </div>
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-default" onClick={this.closeNotariesModal}>Close</button>
+                  <button type="button" className="btn btn-default" onClick={this.closeNotariesModal}>{translate('INDEX.CLOSE')}</button>
                 </div>
               </div>
             </div>
