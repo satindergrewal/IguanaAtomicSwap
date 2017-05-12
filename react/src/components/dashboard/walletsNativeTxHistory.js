@@ -148,7 +148,7 @@ class WalletsNativeTxHistory extends React.Component {
       return (
         <div className="row unselectable">
           <div className="col-sm-5">
-            <div className="dataTables_info" id="kmd-tx-history-tbl_info" role="status" aria-live="polite">{translate('INDEX.SHOWING')} {((this.state.activePage - 1) * this.state.itemsPerPage) + 1} {translate('INDEX.TO')} {this.state.activePage * this.state.itemsPerPage} {translate('INDEX.OF')} {this.props.ActiveCoin.txhistory.length} entries</div>
+            <div className="dataTables_info" id="kmd-tx-history-tbl_info" role="status" aria-live="polite">{translate('INDEX.SHOWING')} {((this.state.activePage - 1) * this.state.itemsPerPage) + 1} {translate('INDEX.TO')} {this.state.activePage * this.state.itemsPerPage} {translate('INDEX.OF')} {this.props.ActiveCoin.txhistory.length} {translate('INDEX.ENTRIES_SM')}</div>
           </div>
           <div className="col-sm-7">
             <div className="dataTables_paginate paging_simple_numbers" id="kmd-tx-history-tbl_paginate">
@@ -175,7 +175,9 @@ class WalletsNativeTxHistory extends React.Component {
       return 'no data';
     } else if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory === 'loading') {
       return 'loading history...';
-    } else if (this.props.ActiveCoin.txhistory && (this.props.ActiveCoin.txhistory !== 'loading' && this.props.ActiveCoin.txhistory !== 'no data')) {
+    } else if (
+      this.props.ActiveCoin.txhistory &&
+      (this.props.ActiveCoin.txhistory !== 'loading' && this.props.ActiveCoin.txhistory !== 'no data')) {
       if (this.state.itemsList && this.state.itemsList.length && this.props.ActiveCoin.nativeActiveSection === 'default') {
         return this.state.itemsList.map((tx, index) =>
           <tr key={tx.txid + tx.amount}>
@@ -221,13 +223,13 @@ class WalletsNativeTxHistory extends React.Component {
                           <div className="col-sm-6">
                             <div id="kmd-tx-history-tbl_filter" className="dataTables_filter">
                               <label>
-                                Search: <input type="search" className="form-control input-sm" placeholder="" aria-controls="kmd-tx-history-tbl" disabled="true" />
+                                {translate('INDEX.SEARCH')}: <input type="search" className="form-control input-sm" aria-controls="kmd-tx-history-tbl" disabled="true" />
                               </label>
                             </div>
                           </div>
                         </div>
                         <div className="row">
-                          <table className="table table-hover dataTable table-striped" data-extcoin="COIN" id="kmd-tx-history-tbl" width="100%">
+                          <table className="table table-hover dataTable table-striped" id="kmd-tx-history-tbl" width="100%">
                             <thead>
                               <tr>
                                 <th>{translate('INDEX.TYPE')}</th>

@@ -357,18 +357,20 @@ class WalletsData extends React.Component {
       activePage: 1,
     }));
 
-    setTimeout(function() {
-      Store.dispatch(changeMainBasiliskAddress(address));
-      Store.dispatch(getBasiliskTransactionsList(this.props.ActiveCoin.coin, address));
-    }.bind(this), 100);
+    if (this.props.ActiveCoin.mode === 'basilisk') {
+      setTimeout(function() {
+        Store.dispatch(changeMainBasiliskAddress(address));
+        Store.dispatch(getBasiliskTransactionsList(this.props.ActiveCoin.coin, address));
+      }.bind(this), 100);
 
-    Store.dispatch(fetchNewCacheData({
-      'pubkey': this.props.Dashboard.activeHandle.pubkey,
-      'allcoins': false,
-      'coin': this.props.ActiveCoin.coin,
-      'calls': 'listtransactions:getbalance',
-      'address': address,
-    }));
+      Store.dispatch(fetchNewCacheData({
+        'pubkey': this.props.Dashboard.activeHandle.pubkey,
+        'allcoins': false,
+        'coin': this.props.ActiveCoin.coin,
+        'calls': 'listtransactions:getbalance',
+        'address': address,
+      }));
+    }
   }
 
   openDropMenu() {
