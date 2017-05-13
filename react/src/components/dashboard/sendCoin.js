@@ -157,12 +157,12 @@ class SendCoin extends React.Component {
 
   renderAddressAmount(address) {
     if (this.props.ActiveCoin.addresses &&
-        this.props.ActiveCoin.addresses['public'] &&
-        this.props.ActiveCoin.addresses['public'].length) {
-      for (let i = 0; i < this.props.ActiveCoin.addresses['public'].length; i++) {
-        if (this.props.ActiveCoin.addresses['public'][i].address === address) {
-          if (this.props.ActiveCoin.addresses['public'][i].amount !== 'N/A') {
-            return this.props.ActiveCoin.addresses['public'][i].amount;
+        this.props.ActiveCoin.addresses.public &&
+        this.props.ActiveCoin.addresses.public.length) {
+      for (let i = 0; i < this.props.ActiveCoin.addresses.public.length; i++) {
+        if (this.props.ActiveCoin.addresses.public[i].address === address) {
+          if (this.props.ActiveCoin.addresses.public[i].amount !== 'N/A') {
+            return this.props.ActiveCoin.addresses.public[i].amount;
           }
         }
       }
@@ -181,7 +181,7 @@ class SendCoin extends React.Component {
 
         return(
           <li data-original-index="2" key={mainAddress} className={mainAddressAmount <= 0 ? 'hide' : ''}>
-            <a tabIndex="0" data-tokens="null" onClick={() => this.updateAddressSelection(mainAddress, type, mainAddressAmount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {mainAddressAmount} {this.props.ActiveCoin.coin} ]  {mainAddress}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+            <a tabIndex="0" onClick={() => this.updateAddressSelection(mainAddress, type, mainAddressAmount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {mainAddressAmount} {this.props.ActiveCoin.coin} ]  {mainAddress}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
           </li>
         );
       } else {
@@ -197,7 +197,7 @@ class SendCoin extends React.Component {
 
           items.push(
             <li data-original-index="2" key={address.address} className={address.amount <= 0 ? 'hide' : ''}>
-              <a tabIndex="0" data-tokens="null" onClick={() => this.updateAddressSelection(address.address, type, _amount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {_amount} {this.props.ActiveCoin.coin} ]  {address.address}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+              <a tabIndex="0" onClick={() => this.updateAddressSelection(address.address, type, _amount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {_amount} {this.props.ActiveCoin.coin} ]  {address.address}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
             </li>
           );
         }
@@ -240,8 +240,8 @@ class SendCoin extends React.Component {
         </button>
         <div className="dropdown-menu open">
           <ul className="dropdown-menu inner" role="menu">
-            <li data-original-index="1" className="selected">
-              <a tabIndex="0" data-tokens="null"><span className="text"> - Select Transparent or Private Address - </span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+            <li className="selected">
+              <a tabIndex="0"><span className="text"> - Select Transparent or Private Address - </span><span className="glyphicon glyphicon-ok check-mark"></span></a>
             </li>
             {this.renderAddressByType('public')}
           </ul>
@@ -307,6 +307,7 @@ class SendCoin extends React.Component {
     });
   }
 
+  // TODO: move to action creators
   handleBasiliskSend() {
     const refreshData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].refresh;
     const listunspentData = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].listunspent;
@@ -620,11 +621,11 @@ class SendCoin extends React.Component {
       return (
         <div className="row">
           <div className="col-lg-6 form-group form-material">
-            <label className="control-label" data-extcoin="COIN" htmlFor="kmd_wallet_sendto">Fetch OpenAlias recipient address</label>
-            <input type="text" className="form-control" data-extcoin="COIN" name="sendToOA" onChange={this.updateInput} id="kmd_wallet_sendto" placeholder="Enter an alias as address@site.com" autoComplete="off" required />
+            <label className="control-label" htmlFor="kmd_wallet_sendto">Fetch OpenAlias recipient address</label>
+            <input type="text" className="form-control" name="sendToOA" onChange={this.updateInput} id="kmd_wallet_sendto" placeholder="Enter an alias as address@site.com" autoComplete="off" required />
           </div>
           <div className="col-lg-6 form-group form-material">
-            <button type="button" className="btn btn-primary waves-effect waves-light" data-toggle="modal" id="kmd_wallet_send_coins_btn" onClick={this.getOAdress}>
+            <button type="button" className="btn btn-primary waves-effect waves-light" id="kmd_wallet_send_coins_btn" onClick={this.getOAdress}>
               Get address
             </button>
           </div>
@@ -641,7 +642,7 @@ class SendCoin extends React.Component {
         <div className="row">
           <div className="col-lg-10 margin-bottom-10">
             <div className="pull-left margin-right-10">
-              <input type="checkbox" id="edexcoin_send_api_type" data-plugin="switchery" data-size="small" />
+              <input type="checkbox" id="edexcoin_send_api_type" />
             </div>
             <label className="padding-top-3" htmlFor="edexcoin_send_api_type" onClick={this.toggleSendAPIType}>Send via sendtoaddress API</label>
           </div>
@@ -655,7 +656,7 @@ class SendCoin extends React.Component {
   render() {
     if (this.props.ActiveCoin && this.props.ActiveCoin.send && this.props.ActiveCoin.mode !== 'native') {
       return (
-        <div className="col-sm-12 padding-top-10" data-edexcoin="COIN" id="edexcoin_send">
+        <div className="col-sm-12 padding-top-10" id="edexcoin_send">
           <div className="col-xlg-12 col-md-12 col-sm-12 col-xs-12">
             <div className="steps row" style={{marginTop: '10px'}}>
               <div className={this.state.currentStep === 0 ? 'step col-md-4 current' : 'step col-md-4'} id="edexcoin_send_step_1">
@@ -700,21 +701,21 @@ class SendCoin extends React.Component {
                   <div className="row">
                     <div className="col-xlg-12 form-group form-material">
                       <label className="control-label" data-edexcoin="COIN" htmlFor="edexcoin_sendto">{translate('INDEX.SEND_TO')}</label>
-                      <input type="text" className="form-control" data-edexcoin="COIN" id="edexcoin_sendto" name="sendTo" placeholder="Enter address" autoComplete="off" value={this.state.sendTo} onChange={this.updateInput} required />
+                      <input type="text" className="form-control" id="edexcoin_sendto" name="sendTo" placeholder="Enter address" autoComplete="off" value={this.state.sendTo} onChange={this.updateInput} required />
                     </div>
                     <div className="col-lg-6 form-group form-material">
                       <label className="control-label" htmlFor="edexcoin_amount" data-edexcoin="COIN" id="edexcoin_amount_label">
                         {this.props.ActiveCoin.coin}
                       </label>
-                      <input type="text" className="form-control" data-edexcoin="COIN" id="edexcoin_amount" name="amount" placeholder="0.000" autoComplete="off" onChange={this.updateInput} />
+                      <input type="text" className="form-control" id="edexcoin_amount" name="amount" placeholder="0.000" autoComplete="off" onChange={this.updateInput} />
                     </div>
                     <div className="col-lg-6 form-group form-material">
                       <label className="control-label" data-edexcoin="COIN" htmlFor="edexcoin_fee">{translate('INDEX.FEE')}</label>
-                      <input type="text" className="form-control" data-edexcoin="COIN" id="edexcoin_fee" name="fee" defaultValue={this.state.fee} placeholder="0.000" autoComplete="off" onChange={this.updateInput} />
+                      <input type="text" className="form-control" id="edexcoin_fee" name="fee" defaultValue={this.state.fee} placeholder="0.000" autoComplete="off" onChange={this.updateInput} />
                     </div>
                     <div className="col-lg-12">
                       <span data-edexcoin="KMD">
-                        <b>{translate('INDEX.TOTAL')} (<span data-edexcoin="COIN">{translate('INDEX.AMOUNT_SM')}</span> - txfee):</b> <span data-edexcoin="COIN" id="edexcoin_total_value">{Number(this.state.amount) - Number(this.state.fee)}</span> {this.props.ActiveCoin.coin}
+                        <b>{translate('INDEX.TOTAL')} ({translate('INDEX.AMOUNT_SM')} - txfee):</b> <span id="edexcoin_total_value">{Number(this.state.amount) - Number(this.state.fee)}</span> {this.props.ActiveCoin.coin}
                       </span>
                     </div>
                     <div className="col-lg-10 margin-top-10">
@@ -779,7 +780,7 @@ class SendCoin extends React.Component {
                 <div className={!this.state.sendSig ? 'hide' : 'center'}>
                   You picked option "{translate('INDEX.DONT_SEND')}"
                 </div>
-                <table className="table table-hover table-striped edexcoin_sendto_result" data-edexcoin="COIN" id="edexcoin_sendto_result">
+                <table className="table table-hover table-striped edexcoin_sendto_result" id="edexcoin_sendto_result">
                   <thead>
                     <tr>
                       <th>{translate('INDEX.KEY')}</th>
