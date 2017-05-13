@@ -268,7 +268,28 @@ function logoutState(json, dispatch) {
 
 export function logout() {
   return dispatch => {
-    dispatch(logoutState());
+    dispatch(walletLock());
+  }
+}
+
+function walletLock() {
+  const payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'bitcoinrpc',
+    'method': 'walletlock',
+  };
+
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'walletLock', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(json => dispatch(logoutState(json)))
   }
 }
 
