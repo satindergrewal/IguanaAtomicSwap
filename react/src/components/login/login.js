@@ -199,6 +199,15 @@ class Login extends React.Component {
                   <div className="form-group form-material floating">
                     <button className="btn btn-lg btn-flat btn-block waves-effect" id="register-btn" onClick={() => this.updateActiveLoginSection('signup')}>{translate('INDEX.CREATE_WALLET')}</button>
                     <button className="btn btn-lg btn-flat btn-block waves-effect hide" id="logint-another-wallet">{translate('INDEX.LOGIN_ANOTHER_WALLET')}</button>
+                    <button
+                      className="btn btn-lg btn-flat btn-block waves-effect"
+                      id="register-btn"
+                      role="menuitem"
+                      onClick={this.toggleActivateCoinForm}
+                      disabled={!this.props.Main}
+                      style={{marginTop: '20px'}}>
+                      <span className="ladda-label">{translate('INDEX.ACTIVATE_COIN')}</span>
+                    </button>
                   </div>
                 </div>
               </div>

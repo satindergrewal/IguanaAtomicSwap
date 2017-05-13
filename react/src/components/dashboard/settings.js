@@ -22,6 +22,7 @@ import AddCoinOptionsACFiat from '../addcoin/addcoinOptionsACFiat';
   1) pre-select active coin in add node tab
   2) add fiat section
   3) kickstart section
+  4) batch export/import wallet addresses
 */
 class Settings extends React.Component {
   constructor(props) {
