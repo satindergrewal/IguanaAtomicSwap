@@ -4,7 +4,8 @@ import {
   addCoin,
   toggleAddcoinModal,
   shepherdGetCoinList,
-  shepherdPostCoinList
+  shepherdPostCoinList,
+  triggerToaster
 } from '../../actions/actionCreators';
 import Store from '../../store';
 import AddCoinOptionsCrypto from './addcoinOptionsCrypto';
@@ -55,10 +56,14 @@ class AddCoin extends React.Component {
   loadCoinSelection() {
     shepherdGetCoinList()
     .then(function(json) {
-      this.setState(Object.assign({}, this.state, {
-        coins: json.result,
-        actionsMenu: false,
-      }));
+      if (json.msg !== 'error') {      
+        this.setState(Object.assign({}, this.state, {
+          coins: json.result,
+          actionsMenu: false,
+        }));
+      } else {
+        Store.dispatch(triggerToaster(true, 'Local coin list is not found', 'Coin Selection', 'info'));
+      }
     }.bind(this));
   }
 
