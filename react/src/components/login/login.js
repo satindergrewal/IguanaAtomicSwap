@@ -206,7 +206,7 @@ class Login extends React.Component {
                       onClick={this.toggleActivateCoinForm}
                       disabled={!this.props.Main}
                       style={{marginTop: '20px'}}>
-                      <span className="ladda-label">{translate('INDEX.ACTIVATE_COIN')}</span>
+                      <span className="ladda-label">Add another coin</span>
                     </button>
                   </div>
                 </div>

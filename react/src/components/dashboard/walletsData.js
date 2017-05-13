@@ -454,6 +454,7 @@ class WalletsData extends React.Component {
           if (this.props.ActiveCoin.addresses.public[i].amount && this.props.ActiveCoin.addresses.public[i].amount !== 'N/A') {
             return this.props.ActiveCoin.addresses.public[i].amount;
           } else {
+            const address = this.props.ActiveCoin.addresses.public[i].address;
             const _amount = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][address].getbalance.data && this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][address].getbalance.data.balance ? this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][address].getbalance.data.balance : 'N/A';
             return _amount;
           }
