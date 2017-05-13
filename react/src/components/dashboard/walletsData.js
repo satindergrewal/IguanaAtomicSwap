@@ -56,6 +56,7 @@ class WalletsData extends React.Component {
     this.toggleCacheApi = this.toggleCacheApi.bind(this);
     this._fetchUtxoCache = this._fetchUtxoCache.bind(this);
     this.restartBasiliskInstance = this.restartBasiliskInstance.bind(this);
+    this.basiliskRefreshActionOne = this.basiliskRefreshActionOne.bind(this);
     socket.on('messages', msg => this.updateSocketsData(msg));
   }
 
