@@ -134,7 +134,7 @@ class WalletsData extends React.Component {
     }));
   }
 
-  basiliskRefreshActionOne() {
+  basiliskRefreshAction() {
     Store.dispatch(fetchNewCacheData({
       'pubkey': this.props.Dashboard.activeHandle.pubkey,
       'allcoins': false,
@@ -143,7 +143,7 @@ class WalletsData extends React.Component {
     }));
   }
 
-  basiliskRefreshAction() {
+  basiliskRefreshActionOne() {
     Store.dispatch(fetchNewCacheData({
       'pubkey': this.props.Dashboard.activeHandle.pubkey,
       'allcoins': false,

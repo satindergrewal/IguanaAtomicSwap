@@ -126,7 +126,7 @@ class AddCoin extends React.Component {
     }
 
     this.setState(Object.assign({}, this.state, {
-      coins: _coins
+      coins: _coins,
     }));
   }
 
@@ -164,6 +164,11 @@ class AddCoin extends React.Component {
       this.state.coins[0].mode,
       this.state.coins[0].syncOnly
     ));
+
+    this.removeCoin();
+    this.addNewItem();
+
+    Store.dispatch(toggleAddcoinModal(false, false));
   }
 
   dismiss() {
@@ -204,7 +209,18 @@ class AddCoin extends React.Component {
           _item.mode,
           _item.syncOnly
         ));
-      }, 2000 * i);
+
+        if (i === this.state.coins.length - 1) {
+          let _coins = [];
+          _coins.push(this.state.defaultCoinState);
+
+          this.setState(Object.assign({}, this.state, {
+            coins: _coins,
+          }));
+
+          Store.dispatch(toggleAddcoinModal(false, false));
+        }
+      }.bind(this), 2000 * i);
     }
   }
 

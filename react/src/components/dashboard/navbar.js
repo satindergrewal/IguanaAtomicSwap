@@ -1,6 +1,11 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-import { dashboardChangeSection, toggleAddcoinModal, logout } from '../../actions/actionCreators';
+import {
+  dashboardChangeSection,
+  toggleAddcoinModal,
+  logout,
+  stopInterval
+} from '../../actions/actionCreators';
 import Store from '../../store';
 
 class Navbar extends React.Component {
@@ -28,6 +33,8 @@ class Navbar extends React.Component {
   }
 
   logout() {
+    Store.dispatch(stopInterval('sync', this.props.Interval.interval));
+    Store.dispatch(stopInterval('basilisk', this.props.Interval.interval));
     Store.dispatch(logout());
   }
 
