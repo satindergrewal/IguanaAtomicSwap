@@ -132,7 +132,7 @@ export function checkCoinType(coin) {
 export function startCrypto(confpath, coin, mode) {
 	var tmpinternval = 0,
 			AddCoinData = {},
-			tmpPendValue = 4, // TODO: hook up to shepherd sysinfo
+			tmpPendValue = 1, // TODO: hook up to shepherd sysinfo
 			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
 
 	if (coin !== 'BTC' && coin !== 'LTC' && coin !== 'DOGE') {
@@ -174,7 +174,7 @@ export function startCrypto(confpath, coin, mode) {
 
 export function startCurrencyAssetChain(confpath, coin, mode) {
 	var AddCoinDataPayload = {},
-			tmpPendValue,
+			tmpPendValue = 1,
 			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
 
 	if (coin !== 'BTC' && coin !== 'LTC' && coin !== 'DOGE') {
