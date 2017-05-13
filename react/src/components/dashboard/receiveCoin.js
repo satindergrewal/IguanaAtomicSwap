@@ -28,13 +28,6 @@ class ReceiveCoin extends React.Component {
     Store.dispatch(copyCoinAddress(address));
   }
 
-  /*importAddressBasilisk(address) {
-    Store.dispatch(importAddressBasilisk(this.props.coin, address));
-  }
-  <span className="label label-default margin-left-10 action" title="Import" onClick={() => this.importAddressBasilisk(address)}>
-  <i className="icon fa-upload"></i>
-  </span>*/
-
   renderAddressActions(address) {
     if (this.props.mode === 'basilisk') {
       return (
@@ -64,15 +57,32 @@ class ReceiveCoin extends React.Component {
   }
 
   renderAddressList() {
-    if (this.props.addresses && this.props.addresses['public'] && this.props.addresses['public'].length) {
-      return this.props.addresses['public'].map((address) =>
-        <tr key={address.address}>
-          {this.renderAddressActions(address.address)}
-          <td>{address.address}</td>
-          <td>{address.amount}</td>
-          <td>{address.interest ? address.interest : 'N/A'}</td>
-        </tr>
-      );
+    if (this.props.addresses &&
+        this.props.addresses.public &&
+        this.props.addresses.public.length) {
+      let items = [];
+
+      for (let i = 0; i < this.props.addresses.public.length; i++) {
+        let address = this.props.addresses.public[i];
+
+        if (this.props.mode === 'basilisk' && address.amount === 'N/A') {
+          address.amount = this.props.cache[this.props.coin][address.address].getbalance.data && this.props.cache[this.props.coin][address.address].getbalance.data.balance ? this.props.cache[this.props.coin][address.address].getbalance.data.balance : 'N/A';
+        }
+        if (this.props.mode === 'basilisk' && (address.interest === 'N/A' || !address.interest)) {
+          address.interest = this.props.cache[this.props.coin][address.address].getbalance.data && this.props.cache[this.props.coin][address.address].getbalance.data.interest ? this.props.cache[this.props.coin][address.address].getbalance.data.interest : 'N/A';
+        }
+
+        items.push(
+          <tr key={address.address}>
+            {this.renderAddressActions(address.address)}
+            <td>{address.address}</td>
+            <td>{address.amount}</td>
+            <td>{address.interest ? address.interest : 'N/A'}</td>
+          </tr>
+        );
+      }
+
+      return items;
     } else {
       return null;
     }

@@ -28,6 +28,7 @@ class WalletsBalance extends React.Component {
         if (type === 'main' &&
             this.props.ActiveCoin.mode === 'basilisk' &&
             this.props.ActiveCoin.activeAddress &&
+            this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress]&&
             this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance &&
             this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data &&
             this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.balance) {
@@ -37,6 +38,7 @@ class WalletsBalance extends React.Component {
         if (type === 'interest' &&
             this.props.ActiveCoin.mode === 'basilisk' &&
             this.props.ActiveCoin.activeAddress &&
+            this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress] &&
             this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance &&
             this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data &&
             this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.interest) {
@@ -46,6 +48,7 @@ class WalletsBalance extends React.Component {
         if (type === 'total' &&
             this.props.ActiveCoin.mode === 'basilisk' &&
             this.props.ActiveCoin.activeAddress &&
+            this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress] &&
             this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance &&
             this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data &&
             (this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.balance ||
