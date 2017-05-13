@@ -2501,14 +2501,14 @@ export function saveAppConfig(_payload) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(_payload),
+      body: JSON.stringify({ 'payload': _payload }),
     })
     .catch(function(error) {
       console.log(error);
       dispatch(triggerToaster(true, 'saveAppConfig', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(getAppConfigState(json)))
+    .then(json => dispatch(getAppConfig()))
   }
 }
 

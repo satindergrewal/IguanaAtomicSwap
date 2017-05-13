@@ -20,9 +20,8 @@ import AddCoinOptionsACFiat from '../addcoin/addcoinOptionsACFiat';
 /*
   TODO:
   1) pre-select active coin in add node tab
-  2) add agama config section
-  3) add fiat section
-  4) kickstart section
+  2) add fiat section
+  3) kickstart section
 */
 class Settings extends React.Component {
   constructor(props) {
@@ -32,26 +31,24 @@ class Settings extends React.Component {
       debugLinesCount: 10,
       debugTarget: 'iguana',
       activeTabHeight: '10px',
-      appSettings: [],
+      appSettings: {},
     };
     this.exportWifKeys = this.exportWifKeys.bind(this);
     this.updateInput = this.updateInput.bind(this);
+    this.updateInputSettings = this.updateInputSettings.bind(this);
     this.importWifKey = this.importWifKey.bind(this);
     this.readDebugLog = this.readDebugLog.bind(this);
     this.checkNodes = this.checkNodes.bind(this);
     this.addNode = this.addNode.bind(this);
     this.renderPeersList = this.renderPeersList.bind(this);
     this.renderSNPeersList = this.renderSNPeersList.bind(this);
+    this._saveAppConfig = this._saveAppConfig.bind(this);
   }
 
   componentDidMount() {
     Store.dispatch(iguanaActiveHandle());
     Store.dispatch(getAppConfig());
     Store.dispatch(getAppInfo());
-  }
-
-  _saveAppConfig() {
-    Store.dispatch(saveAppConfig);
   }
 
   openTab(elemId, tab) {
@@ -201,13 +198,43 @@ class Settings extends React.Component {
     }
   }
 
+  updateInputSettings(e) {
+    let _appSettings = this.state.appSettings;
+    _appSettings[e.target.name] = e.target.value;
+
+    this.setState({
+      appSettings: _appSettings,
+    });
+
+    console.log(this.state.appSettings);
+  }
+
+  _saveAppConfig() {
+    const _appSettings = this.state.appSettings;
+    let _appSettingsPristine = Object.assign({}, this.props.Settings.appSettings);
+
+    for (let key in _appSettings) {
+      if (key.indexOf('__') === -1) {
+        _appSettingsPristine[key] = _appSettings[key];
+        // console.log('key changed: ' + key + ', value: ' + _appSettings[key]);
+      } else {
+        const _nestedKey = key.split('__');
+        _appSettingsPristine[_nestedKey[0]][_nestedKey[1]] = _appSettings[key];
+        // console.log('key changed: ' + _nestedKey[0] + '.' + _nestedKey[1] + ', value: ' + _appSettings[key]);
+      }
+    }
+
+    // console.log('changed settings obj', _appSettingsPristine);
+    Store.dispatch(saveAppConfig(_appSettingsPristine));
+  }
+
   renderConfigEditForm() {
-    console.log(this.props.Settings.appSettings);
     let items = [];
     const _appConfig = this.props.Settings.appSettings;
 
-    for (let key in this.props.Settings.appSettings) {
-      if (Object.keys(this.props.Settings.appSettings[key]).length && key !== 'host') {
+    for (let key in _appConfig) {
+      console.log();
+      if (typeof _appConfig[key] === 'object') {
         items.push(
           <tr key={`app-settings-${key}`}>
             <td style={{padding: '15px'}}>
@@ -217,14 +244,14 @@ class Settings extends React.Component {
           </tr>
         );
 
-        for (let _key in this.props.Settings.appSettings[key]) {
+        for (let _key in _appConfig[key]) {
           items.push(
             <tr key={`app-settings-${key}-${_key}`}>
               <td style={{padding: '15px', paddingLeft: '30px'}}>
                 {_key}
               </td>
               <td style={{padding: '15px'}}>
-                <input type="text" name={`app-settings-${_key}-edit`} defaultValue={_appConfig[key][_key]} />
+                <input type="text" name={`${key}__${_key}`} defaultValue={_appConfig[key][_key]} onChange={this.updateInputSettings} />
               </td>
             </tr>
           );
@@ -236,7 +263,7 @@ class Settings extends React.Component {
               {key}
             </td>
             <td style={{padding: '15px'}}>
-              <input type="text" name={`app-settings-${key}-edit`} defaultValue={_appConfig[key]} />
+              <input type="text" name={`${key}`} defaultValue={_appConfig[key]} onChange={this.updateInputSettings} />
             </td>
           </tr>
         );
@@ -559,7 +586,7 @@ class Settings extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
