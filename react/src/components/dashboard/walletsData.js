@@ -56,6 +56,7 @@ class WalletsData extends React.Component {
     this.toggleCacheApi = this.toggleCacheApi.bind(this);
     this._fetchUtxoCache = this._fetchUtxoCache.bind(this);
     this.restartBasiliskInstance = this.restartBasiliskInstance.bind(this);
+    this.basiliskRefreshActionOne = this.basiliskRefreshActionOne.bind(this);
     socket.on('messages', msg => this.updateSocketsData(msg));
   }
 
@@ -133,7 +134,7 @@ class WalletsData extends React.Component {
     }));
   }
 
-  basiliskRefreshActionOne() {
+  basiliskRefreshAction() {
     Store.dispatch(fetchNewCacheData({
       'pubkey': this.props.Dashboard.activeHandle.pubkey,
       'allcoins': false,
@@ -142,7 +143,7 @@ class WalletsData extends React.Component {
     }));
   }
 
-  basiliskRefreshAction() {
+  basiliskRefreshActionOne() {
     Store.dispatch(fetchNewCacheData({
       'pubkey': this.props.Dashboard.activeHandle.pubkey,
       'allcoins': false,
@@ -226,7 +227,7 @@ class WalletsData extends React.Component {
 
     for (let i=0; i < Math.ceil(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage); i++) {
       items.push(
-        <li className={this.state.activePage === i + 1 ? 'paginate_button active' : 'paginate_button'}>
+        <li key={i + '-pagination-link'} className={this.state.activePage === i + 1 ? 'paginate_button active' : 'paginate_button'}>
           <a aria-controls="kmd-tx-history-tbl" data-dt-idx="1" tabIndex="0" key={i + '-pagination'} onClick={this.state.activePage !== (i + 1) ? () => this.updateCurrentPage(i + 1) : null}>{i + 1}</a>
         </li>
       );
@@ -418,22 +419,45 @@ class WalletsData extends React.Component {
   }
 
   renderAddressByType(type) {
-    if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses[type] && this.props.ActiveCoin.addresses[type].length) {
-      return this.props.ActiveCoin.addresses[type].map((address) =>
-        <li key={address.address}>
-          <a tabIndex="0" onClick={() => this.updateAddressSelection(address.address, type, address.amount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {address.amount} {this.props.ActiveCoin.coin} ]  {address.address}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
-        </li>
-      );
+    if (this.props.ActiveCoin.addresses &&
+        this.props.ActiveCoin.addresses[type] &&
+        this.props.ActiveCoin.addresses[type].length) {
+        let items = [];
+
+        for (let i = 0; i < this.props.ActiveCoin.addresses[type].length; i++) {
+          const address = this.props.ActiveCoin.addresses[type][i];
+          let _amount = address.amount;
+
+          if (this.props.ActiveCoin.mode === 'basilisk') {
+            _amount = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][address.address] && this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][address.address].getbalance.data && this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][address.address].getbalance.data.balance ? this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][address.address].getbalance.data.balance : 'N/A';
+          }
+
+          items.push(
+            <li key={address.address}>
+              <a tabIndex="0" onClick={() => this.updateAddressSelection(address.address, type, _amount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {_amount} {this.props.ActiveCoin.coin} ]  {address.address}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+            </li>
+          );
+        }
+
+        return items;
     } else {
       return null;
     }
   }
 
   renderAddressAmount() {
-    if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses['public'] && this.props.ActiveCoin.addresses['public'].length) {
-      for (let i = 0; i < this.props.ActiveCoin.addresses['public'].length; i++) {
-        if (this.props.ActiveCoin.addresses['public'][i].address === this.state.currentAddress) {
-          return this.props.ActiveCoin.addresses['public'][i].amount;
+    if (this.props.ActiveCoin.addresses &&
+        this.props.ActiveCoin.addresses.public &&
+        this.props.ActiveCoin.addresses.public.length) {
+      for (let i = 0; i < this.props.ActiveCoin.addresses.public.length; i++) {
+        if (this.props.ActiveCoin.addresses.public[i].address === this.state.currentAddress) {
+          if (this.props.ActiveCoin.addresses.public[i].amount && this.props.ActiveCoin.addresses.public[i].amount !== 'N/A') {
+            return this.props.ActiveCoin.addresses.public[i].amount;
+          } else {
+            const address = this.props.ActiveCoin.addresses.public[i].address;
+            const _amount = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][address].getbalance.data && this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][address].getbalance.data.balance ? this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][address].getbalance.data.balance : 'N/A';
+            return _amount;
+          }
         }
       }
     } else {

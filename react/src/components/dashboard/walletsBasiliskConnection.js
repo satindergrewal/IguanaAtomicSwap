@@ -24,7 +24,7 @@ class WalletsBasiliskConnection extends React.Component {
                   <h4 className="modal-title white">
                     <span className="icon fa-refresh" style={{margin: '0'}}></span> {translate('INDEX.REFRESHING_BASILISK_NET')}...
                   </h4>
-                  <button type="button" className="close btn-close" data-dismiss="alert" aria-label="Close" onClick={this.basiliskConnectionAction}>
+                  <button type="button" className="close btn-close" aria-label="Close" onClick={this.basiliskConnectionAction}>
                     <span aria-hidden="true">&times;</span>
                     <span className="sr-only">{translate('INDEX.CLOSE')}</span>
                   </button>
@@ -72,9 +72,9 @@ class WalletsBasiliskConnection extends React.Component {
                     {translate('IAPI.CON_STATUS') + '... ' + this.props.Dashboard.connectedNotaries.current + '/' + this.props.Dashboard.connectedNotaries.total + ': ' + this.props.Dashboard.connectedNotaries.currentNodeName} <span className="pull-right" id="basilisk-connections-refresh-percent">{Math.floor(this.props.Dashboard.connectedNotaries.current * 100 / this.props.Dashboard.connectedNotaries.total)}%</span>
                   </h5>
                   <div className="progress progress-sm">
-                    <div className="progress-bar progress-bar-info progress-bar-striped active" style={{width: Math.floor(this.props.Dashboard.connectedNotaries.current * 100 / this.props.Dashboard.connectedNotaries.total) + '%', fontSize: '80%'}} role="progressbar" data-edexcoin="COIN" id="basilisk-connections-refresh-progress-bar"></div>
+                    <div className="progress-bar progress-bar-info progress-bar-striped active" style={{width: Math.floor(this.props.Dashboard.connectedNotaries.current * 100 / this.props.Dashboard.connectedNotaries.total) + '%', fontSize: '80%'}} role="progressbar" id="basilisk-connections-refresh-progress-bar"></div>
                   </div>
-                  <pre data-edexcoin="COIN" id="basilisk-connections-refresh-status-output">
+                  <pre id="basilisk-connections-refresh-status-output">
                   {this.props.Dashboard.connectedNotaries.failedToConnectNodes ? 'Failed: ' + this.props.Dashboard.connectedNotaries.failedToConnectNodes : null}
                   </pre>
                 </div>

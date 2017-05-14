@@ -12,6 +12,9 @@ import Store from '../../store';
 class SyncOnly extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      autoRestartedForks: {}
+    };
     this.closeSyncOnlyModal = this.closeSyncOnlyModal.bind(this);
   }
 
@@ -113,6 +116,39 @@ class SyncOnly extends React.Component {
       'logo': coinlogo,
       'name': coinname
     };
+  }
+
+  componentWillReceiveProps(props) {
+    // console.log('SyncOnly', props);
+    if (props.SyncOnly) {
+      for (let port in this.props.SyncOnly.forks) {
+        const forkInfo = this.props.SyncOnly.forks[port];
+
+        if (!this.state.autoRestartedForks[port] &&
+            forkInfo &&
+            forkInfo.registry &&
+            forkInfo.getinfo &&
+            forkInfo.getinfo.error &&
+            forkInfo.getinfo.error === 'bitcoinrpc needs coin that is active') {
+          console.log('fork add coin required');
+          let _autoRestartedForks = Object.assign({}, this.state.autoRestartedForks);
+          _autoRestartedForks[port] = true;
+
+          this.setState({
+            autoRestartedForks: _autoRestartedForks,
+          });
+          Store.dispatch(addCoin(forkInfo.registry.coin, '1', null, port));
+          setTimeout(function() {
+            let _autoRestartedForks = Object.assign({}, this.state.autoRestartedForks);
+            _autoRestartedForks[port] = false;
+
+            this.setState({
+              autoRestartedForks: _autoRestartedForks,
+            });
+          }.bind(this), 10000);
+        }
+      }
+    }
   }
 
   closeSyncOnlyModal() {

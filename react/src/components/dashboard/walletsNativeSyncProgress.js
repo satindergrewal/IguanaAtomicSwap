@@ -55,7 +55,7 @@ class WalletsNativeSyncProgress extends React.Component {
           <h4>
             {translate('INDEX.ACTIVATING_CHAIN')}{this.renderActivatingBestChainProgress()}
           </h4>
-          <p data-extcoin="COIN" id="extcoin-wallet-connection-alert-text">{translate('INDEX.KMD_STARTED')}</p>
+          <p id="extcoin-wallet-connection-alert-text">{translate('INDEX.KMD_STARTED')}</p>
         </div>
       );
     } else {
@@ -69,7 +69,7 @@ class WalletsNativeSyncProgress extends React.Component {
         <div>
           {this.renderChainActivationNotification()}
           <div className="row" style={{margin: '-20px 0px 10px 0px'}}>
-            <div className="col-xs-12" data-extcoin="COIN" id="extcoin-progressbars">
+            <div className="col-xs-12" id="extcoin-progressbars">
               <div className="progress">
                 {this.renderSyncPercentagePlaceholder()}
               </div>

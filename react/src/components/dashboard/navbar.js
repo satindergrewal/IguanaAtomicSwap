@@ -1,6 +1,11 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-import { dashboardChangeSection, toggleAddcoinModal, logout } from '../../actions/actionCreators';
+import {
+  dashboardChangeSection,
+  toggleAddcoinModal,
+  logout,
+  stopInterval
+} from '../../actions/actionCreators';
 import Store from '../../store';
 
 class Navbar extends React.Component {
@@ -28,6 +33,8 @@ class Navbar extends React.Component {
   }
 
   logout() {
+    Store.dispatch(stopInterval('sync', this.props.Interval.interval));
+    Store.dispatch(stopInterval('basilisk', this.props.Interval.interval));
     Store.dispatch(logout());
   }
 
@@ -82,14 +89,14 @@ class Navbar extends React.Component {
                 </a>
               </li>
               <li className={this.props.Dashboard.activeSection === 'atomic' ? 'active nav-top-menu' : 'nav-top-menu'}>
-                <a href="javascript:void(0)" id="nav-iguana-atomic-explorer" onClick={() => this.dashboardChangeSection('atomic')}>
+                <a id="nav-iguana-atomic-explorer" onClick={() => this.dashboardChangeSection('atomic')}>
                   <i className="site-menu-icon" aria-hidden="true"></i> Atomic Explorer
                 </a>
               </li>
             </ul>
             <ul className="nav navbar-toolbar navbar-right navbar-toolbar-right">
               <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem" data-edexcoinmenu="COIN" id="btn_edexcoin_addcoin" data-target="#AddCoinDilogModel" data-toggle="modal" style={{ paddingBottom: '10px', paddingTop: '16px' }}  onClick={this.toggleAddCoinModal}>
+                <a href="javascript:void(0)" role="menuitem" id="btn_edexcoin_addcoin" data-toggle="modal" style={{ paddingBottom: '10px', paddingTop: '16px' }} onClick={this.toggleAddCoinModal}>
                   <span>
                     <img src="assets/images/icons/activatecoin.png" alt="Add Coin" />
                   </span>
@@ -111,7 +118,7 @@ class Navbar extends React.Component {
                   </li>
                   <li role="presentation">
                     <a href="javascript:void(0)" role="menuitem" id="nav-about-iguana" onClick={() => this.dashboardChangeSection('about')}>
-                      <i className="icon md-settings" aria-hidden="true"></i> {translate('INDEX.ABOUT_IGUANA')}
+                      <i className="icon fa-users" aria-hidden="true"></i> {translate('INDEX.ABOUT_IGUANA')}
                     </a>
                   </li>
                   <li className="divider" role="presentation"></li>

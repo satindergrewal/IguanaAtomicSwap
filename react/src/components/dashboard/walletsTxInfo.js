@@ -24,7 +24,9 @@ class WalletsTxInfo extends React.Component {
   }
 
   render() {
-    if (this.props && this.props.ActiveCoin.showTransactionInfo && this.props.ActiveCoin.mode !== 'native') {
+    if (this.props &&
+        this.props.ActiveCoin.showTransactionInfo &&
+        this.props.ActiveCoin.mode !== 'native') {
       const txInfo = this.props.ActiveCoin.txhistory[this.props.ActiveCoin.showTransactionInfoTxIndex];
 
       return (

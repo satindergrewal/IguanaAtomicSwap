@@ -20,9 +20,9 @@ import AddCoinOptionsACFiat from '../addcoin/addcoinOptionsACFiat';
 /*
   TODO:
   1) pre-select active coin in add node tab
-  2) add agama config section
-  3) add fiat section
-  4) kickstart section
+  2) add fiat section
+  3) kickstart section
+  4) batch export/import wallet addresses
 */
 class Settings extends React.Component {
   constructor(props) {
@@ -32,26 +32,24 @@ class Settings extends React.Component {
       debugLinesCount: 10,
       debugTarget: 'iguana',
       activeTabHeight: '10px',
-      appSettings: [],
+      appSettings: {},
     };
     this.exportWifKeys = this.exportWifKeys.bind(this);
     this.updateInput = this.updateInput.bind(this);
+    this.updateInputSettings = this.updateInputSettings.bind(this);
     this.importWifKey = this.importWifKey.bind(this);
     this.readDebugLog = this.readDebugLog.bind(this);
     this.checkNodes = this.checkNodes.bind(this);
     this.addNode = this.addNode.bind(this);
     this.renderPeersList = this.renderPeersList.bind(this);
     this.renderSNPeersList = this.renderSNPeersList.bind(this);
+    this._saveAppConfig = this._saveAppConfig.bind(this);
   }
 
   componentDidMount() {
     Store.dispatch(iguanaActiveHandle());
     Store.dispatch(getAppConfig());
     Store.dispatch(getAppInfo());
-  }
-
-  _saveAppConfig() {
-    Store.dispatch(saveAppConfig);
   }
 
   openTab(elemId, tab) {
@@ -201,13 +199,42 @@ class Settings extends React.Component {
     }
   }
 
+  updateInputSettings(e) {
+    let _appSettings = this.state.appSettings;
+    _appSettings[e.target.name] = e.target.value;
+
+    this.setState({
+      appSettings: _appSettings,
+    });
+
+    console.log(this.state.appSettings);
+  }
+
+  _saveAppConfig() {
+    const _appSettings = this.state.appSettings;
+    let _appSettingsPristine = Object.assign({}, this.props.Settings.appSettings);
+
+    for (let key in _appSettings) {
+      if (key.indexOf('__') === -1) {
+        _appSettingsPristine[key] = _appSettings[key];
+        // console.log('key changed: ' + key + ', value: ' + _appSettings[key]);
+      } else {
+        const _nestedKey = key.split('__');
+        _appSettingsPristine[_nestedKey[0]][_nestedKey[1]] = _appSettings[key];
+        // console.log('key changed: ' + _nestedKey[0] + '.' + _nestedKey[1] + ', value: ' + _appSettings[key]);
+      }
+    }
+
+    // console.log('changed settings obj', _appSettingsPristine);
+    Store.dispatch(saveAppConfig(_appSettingsPristine));
+  }
+
   renderConfigEditForm() {
-    console.log(this.props.Settings.appSettings);
     let items = [];
     const _appConfig = this.props.Settings.appSettings;
 
-    for (let key in this.props.Settings.appSettings) {
-      if (Object.keys(this.props.Settings.appSettings[key]).length && key !== 'host') {
+    for (let key in _appConfig) {
+      if (typeof _appConfig[key] === 'object') {
         items.push(
           <tr key={`app-settings-${key}`}>
             <td style={{padding: '15px'}}>
@@ -217,14 +244,14 @@ class Settings extends React.Component {
           </tr>
         );
 
-        for (let _key in this.props.Settings.appSettings[key]) {
+        for (let _key in _appConfig[key]) {
           items.push(
             <tr key={`app-settings-${key}-${_key}`}>
               <td style={{padding: '15px', paddingLeft: '30px'}}>
                 {_key}
               </td>
               <td style={{padding: '15px'}}>
-                <input type="text" name={`app-settings-${_key}-edit`} defaultValue={_appConfig[key][_key]} />
+                <input type="text" name={`${key}__${_key}`} defaultValue={_appConfig[key][_key]} onChange={this.updateInputSettings} />
               </td>
             </tr>
           );
@@ -236,7 +263,7 @@ class Settings extends React.Component {
               {key}
             </td>
             <td style={{padding: '15px'}}>
-              <input type="text" name={`app-settings-${key}-edit`} defaultValue={_appConfig[key]} />
+              <input type="text" name={`${key}`} defaultValue={_appConfig[key]} onChange={this.updateInputSettings} />
             </td>
           </tr>
         );
@@ -252,19 +279,30 @@ class Settings extends React.Component {
     });
   }
 
+  renderLB(_translationID) {
+    const _translationComponents = translate(_translationID).split('<br>');
+
+    return _translationComponents.map((_translation) =>
+      <span>
+        {_translation}
+        <br />
+      </span>
+    );
+  }
+
   render() {
     return (
-      <div data-animsition-in="fade-in" data-animsition-out="fade-out" style={{marginLeft: '0'}}>
+      <div style={{marginLeft: '0'}}>
         <div className="page-content" id="section-iguana-wallet-settings">
-          <div className="row" id="iguana-wallet-settings" data-plugin="masonry">
+          <div className="row" id="iguana-wallet-settings">
             <div className="col-xlg-12 col-md-12">
-              <div className="row" id="iguana-wallet-settings" data-plugin="masonry">
+              <div className="row" id="iguana-wallet-settings">
                 <div className="col-xlg-12 col-md-12">
                   <h4 className="font-size-14 text-uppercase">{translate('INDEX.WALLET_SETTINGS')}</h4>
                   <div className="panel-group" id="SettingsAccordion" aria-multiselectable="true" role="tablist">
                     <div className="panel" id="WalletInfo">
                       <div className="panel-heading" role="tab" onClick={() => this.openTab('WalletInfo', 0)}>
-                        <a className={this.state.activeTab === 0 ? 'panel-title' : 'panel-title collapsed'} data-toggle="collapse" data-parent="#SettingsAccordion">
+                        <a className={this.state.activeTab === 0 ? 'panel-title' : 'panel-title collapsed'}>
                           <i className="icon md-balance-wallet" aria-hidden="true"></i>{translate('INDEX.WALLET_INFO')}
                         </a>
                       </div>
@@ -415,10 +453,10 @@ class Settings extends React.Component {
                       <div className={this.state.activeTab === 4 ? 'panel-collapse collapse in' : 'panel-collapse collapse'} style={{height: this.state.activeTab === 4 ? this.state.activeTabHeight + 'px' : '10px'}} id="ExportKeysTab" aria-labelledby="ExportKeys" role="tabpanel">
                         <div className="panel-body">
                           <p>
-                            <div>{translate('INDEX.ONLY_ACTIVE_WIF_KEYS')}</div><br/>
-                            <b>
+                            <div>{this.renderLB('INDEX.ONLY_ACTIVE_WIF_KEYS')}</div><br/>
+                            <strong>
                               <i>{translate('INDEX.PLEASE_KEEP_KEYS_SAFE')}</i>
-                            </b>
+                            </strong>
                           </p>
                           <div className="col-sm-12"></div>
                           <form className="wifkeys-form" method="post" action="javascript:" autoComplete="off">
@@ -436,13 +474,13 @@ class Settings extends React.Component {
                               <table className={this.props.Settings && this.props.Settings.address ? 'table show' : 'table hide'}>
                                 <tr>
                                   <td style={{width: '5%'}}>
-                                    <b>{this.props.ActiveCoin.coin}</b>
+                                    <strong>{this.props.ActiveCoin.coin}</strong>
                                   </td>
                                   <td>{this.props.Settings.address}</td>
                                 </tr>
                                 <tr>
                                   <td>
-                                    <b>{this.props.ActiveCoin.coin}Wif</b>
+                                    <strong>{this.props.ActiveCoin.coin}Wif</strong>
                                   </td>
                                   <td>{this.props.Settings.wifkey}</td>
                                 </tr>
@@ -462,96 +500,108 @@ class Settings extends React.Component {
                       <div className={this.state.activeTab === 5 ? 'panel-collapse collapse in' : 'panel-collapse collapse'} style={{height: this.state.activeTab === 5 ? this.state.activeTabHeight + 'px' : '10px'}} id="ImportKeysTab" aria-labelledby="ImportKeys" role="tabpanel">
                         <div className="panel-body">
                           <p>
-                            <div>{translate('INDEX.IMPORT_KEYS_DESC_P1')}</div><br/>
-                            <div>{translate('INDEX.IMPORT_KEYS_DESC_P2')}</div><br/>
-                            <div>{translate('INDEX.IMPORT_KEYS_DESC_P3')}</div><br/>
-                            <b>
-                              <i>{translate('INDEX.PLEASE_KEEP_KEYS_SAFE')}</i>
-                            </b>
+                            <div>{ translate('INDEX.IMPORT_KEYS_DESC_P1') }</div><br/>
+                            <div>{ translate('INDEX.IMPORT_KEYS_DESC_P2') }</div><br/>
+                            <div>{ translate('INDEX.IMPORT_KEYS_DESC_P3') }</div><br/>
+                            <strong>
+                              <i>{ translate('INDEX.PLEASE_KEEP_KEYS_SAFE') }</i>
+                            </strong>
                           </p>
                           <div className="col-sm-12"></div>
                           <form className="wifkeys-import-form" method="post" action="javascript:" autoComplete="off">
                             <div className="form-group form-material floating">
-                              <input type="text" className="form-control" name="importWifKey" id="import_wifkey" onChange={this.updateInput} />
-                              <label className="floating-label" htmlFor="import_wifkey">{translate('INDEX.INPUT_PRIV_KEY')}</label>
+                              <input type="text" className="form-control" name="importWifKey" id="import_wifkey" onChange={ this.updateInput } />
+                              <label className="floating-label" htmlFor="import_wifkey">{ translate('INDEX.INPUT_PRIV_KEY') }</label>
                             </div>
-                            <div className="col-sm-12 col-xs-12" style={{textAlign: 'center'}}>
-                              <button type="button" className="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="import_wifkey_btn" onClick={this.importWifKey}>{translate('INDEX.IMPORT_PRIV_KEY')}</button>
+                            <div className="col-sm-12 col-xs-12" style={{ textAlign: 'center' }}>
+                              <button
+                                type="button"
+                                className="btn btn-primary waves-effect waves-light"
+                                id="import_wifkey_btn"
+                                onClick={ this.importWifKey }>{ translate('INDEX.IMPORT_PRIV_KEY') }</button>
                             </div>
                           </form>
-                          <div className="col-sm-12" style={{paddingTop: '15px'}}>
-                            <div className="row" id="wif-priv-keys" data-plugin="masonry">
-
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </div>
 
                     <div className="panel" id="DebugLog">
-                      <div className="panel-heading" role="tab" onClick={() => this.openTab('DebugLog', 6)}>
-                        <a className={this.state.activeTab === 6 ? 'panel-title' : 'panel-title collapsed'} data-toggle="collapse" data-parent="#SettingsAccordion">
-                          <i className="icon md-info" aria-hidden="true"></i>{translate('INDEX.DEBUG_LOG')}
+                      <div className="panel-heading" role="tab" onClick={ () => this.openTab('DebugLog', 6) }>
+                        <a className={ this.state.activeTab === 6 ? 'panel-title' : 'panel-title collapsed' }>
+                          <i className="icon fa-bug" aria-hidden="true"></i>{ translate('INDEX.DEBUG_LOG') }
                         </a>
                       </div>
-                      <div className={this.state.activeTab === 6 ? 'panel-collapse collapse in' : 'panel-collapse collapse'} style={{height: this.state.activeTab === 6 ? this.state.activeTabHeight + 'px' : '10px'}} id="DebugLogTab" aria-labelledby="DebugLog" role="tabpanel">
+                      <div className={ this.state.activeTab === 6 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
+                           style={{ height: this.state.activeTab === 6 ? this.state.activeTabHeight + 'px' : '10px' }}
+                           id="DebugLogTab" aria-labelledby="DebugLog" role="tabpanel">
                         <div className="panel-body">
-                          <p>{translate('INDEX.DEBUG_LOG_DESC')}</p>
+                          <p>{ translate('INDEX.DEBUG_LOG_DESC') }</p>
                           <div className="col-sm-12"></div>
                           <form className="read-debug-log-import-form" method="post" action="javascript:" autoComplete="off">
                             <div className="form-group form-material floating">
-                              <input type="text" className="form-control" name="debugLinesCount" id="read_debug_log_lines" value={this.state.debugLinesCount} onChange={this.updateInput} />
-                              <label className="floating-label" htmlFor="read_debug_log_lines">{translate('INDEX.DEBUG_LOG_LINES')}</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="debugLinesCount"
+                                id="read_debug_log_lines"
+                                value={ this.state.debugLinesCount }
+                                onChange={ this.updateInput } />
+                              <label className="floating-label" htmlFor="read_debug_log_lines">{ translate('INDEX.DEBUG_LOG_LINES') }</label>
                             </div>
                             <div className="form-group form-material floating">
-                              <select className="form-control form-material" name="debugTarget" id="settings_select_debuglog_options" onChange={this.updateInput}>
+                              <select className="form-control form-material" name="debugTarget" id="settings_select_debuglog_options" onChange={ this.updateInput }>
                                 <option value="iguana">Iguana</option>
                                 <option value="komodo">Komodo</option>
                               </select>
-                              <label className="floating-label" htmlFor="settings_select_debuglog_options">{translate('INDEX.TARGET')}</label>
+                              <label className="floating-label" htmlFor="settings_select_debuglog_options">{ translate('INDEX.TARGET') }</label>
                             </div>
-                            <div className="col-sm-12 col-xs-12" style={{textAlign: 'center'}}>
-                              <button type="button" className="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="read_debug_log_btn" onClick={this.readDebugLog}>{translate('INDEX.LOAD_DEBUG_LOG')}</button>
+                            <div className="col-sm-12 col-xs-12" style={{ textAlign: 'center'}}>
+                              <button
+                                type="button"
+                                className="btn btn-primary waves-effect waves-light"
+                                id="read_debug_log_btn"
+                                onClick={ this.readDebugLog }>{ translate('INDEX.LOAD_DEBUG_LOG') }</button>
                             </div>
-                            <div className="col-sm-12 col-xs-12" style={{textAlign: 'left'}}>
-                              <br />
-                              <div style={{padding: '20px 0'}}>{this.props.Settings.debugLog}</div>
+                            <div className="col-sm-12 col-xs-12" style={{ textAlign: 'left' }}>
+                              <div style={{ padding: '20px 0', paddingTop: '40px' }}>{ this.props.Settings.debugLog }</div>
                             </div>
                           </form>
-                          <div className="col-sm-12" style={{paddingTop: '15px'}}>
-                            <div className="row" data-plugin="masonry"></div>
-                          </div>
                         </div>
                       </div>
                     </div>
 
                     <div className="panel" id="AppSettings">
-                      <div className="panel-heading" role="tab" onClick={() => this.openTab('AppSettings', 7)}>
-                        <a className={this.state.activeTab === 7 ? 'panel-title' : 'panel-title collapsed'} data-toggle="collapse" data-parent="#AppSettings">
-                          <i className="icon md-info" aria-hidden="true"></i>App Config (config.json)
+                      <div className="panel-heading" role="tab" onClick={ () => this.openTab('AppSettings', 7) }>
+                        <a className={ this.state.activeTab === 7 ? 'panel-title' : 'panel-title collapsed' }>
+                          <i className="icon fa-wrench" aria-hidden="true"></i>{ translate('SETTINGS.APP_CONFIG') } (config.json)
                         </a>
                       </div>
-                      <div className={this.state.activeTab === 7 ? 'panel-collapse collapse in' : 'panel-collapse collapse'} style={{height: this.state.activeTab === 7 ? this.state.activeTabHeight + 'px' : '10px'}} id="DebugLogTab" aria-labelledby="DebugLog" role="tabpanel">
+                      <div
+                        className={ this.state.activeTab === 7 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
+                        style={{ height: this.state.activeTab === 7 ? this.state.activeTabHeight + 'px' : '10px' }}
+                        id="DebugLogTab" aria-labelledby="DebugLog" role="tabpanel">
                         <div className="panel-body">
                           <p>
-                            <strong>Most changes to app config require wallet restart!</strong>
+                            <strong>{ translate('SETTINGS.CONFIG_RESTART_REQUIRED') }</strong>
                           </p>
-                          <form className="read-debug-log-import-form" method="post" action="javascript:" autoComplete="off">
-                            <div className="col-sm-12" style={{paddingTop: '15px'}}>
-                              <table>
-                                <tbody>
-                                {this.renderConfigEditForm()}
-                                </tbody>
-                              </table>
-                            </div>
-                            <div className="col-sm-12 col-xs-12" style={{textAlign: 'center', paddingTop: '25px', paddingBottom: '25px'}}>
-                              <button type="button" className="btn btn-primary waves-effect waves-light" data-toggle="modal" data-dismiss="modal" id="read_debug_log_btn" onClick={this._saveAppConfig}>Save app config</button>
-                            </div>
-                          </form>
+                          <div className="col-sm-12" style={{ paddingTop: '15px' }}>
+                            <table>
+                              <tbody>
+                              { this.renderConfigEditForm() }
+                              </tbody>
+                            </table>
+                          </div>
+                          <div className="col-sm-12 col-xs-12" style={{ textAlign: 'center', paddingTop: '25px', paddingBottom: '25px' }}>
+                            <button
+                              type="button"
+                              className="btn btn-primary waves-effect waves-light"
+                              id="read_debug_log_btn"
+                              onClick={ this._saveAppConfig }>{ translate('SETTINGS.SAVE_APP_CONFIG') }</button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    {this.renderAppInfoTab()}
+                    { this.renderAppInfoTab() }
                   </div>
                 </div>
               </div>
@@ -559,7 +609,7 @@ class Settings extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

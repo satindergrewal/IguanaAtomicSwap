@@ -125,7 +125,9 @@ class WalletsCacheData extends React.Component {
   }
 
   renderCoinData() {
-    if (this.props.ActiveCoin.notaries && this.props.ActiveCoin.notaries.notaries && this.props.ActiveCoin.notaries.notaries.length) {
+    if (this.props.ActiveCoin.notaries &&
+        this.props.ActiveCoin.notaries.notaries &&
+        this.props.ActiveCoin.notaries.notaries.length) {
       return this.props.ActiveCoin.notaries.notaries.map((node, index) =>
         <TreeNode title={`Node ${index}`} key={`node-${index}`}>
           <TreeNode key={`node-${index}-btc`} title={`BTC: ${node.BTCaddress}`} />
@@ -139,7 +141,9 @@ class WalletsCacheData extends React.Component {
   }
 
   render() {
-    if (this.props && this.props.ActiveCoin.mode === 'basilisk' && this.props.Dashboard.displayViewCacheModal) {
+    if (this.props &&
+        this.props.ActiveCoin.mode === 'basilisk' &&
+        this.props.Dashboard.displayViewCacheModal) {
 
       return (
         <div>

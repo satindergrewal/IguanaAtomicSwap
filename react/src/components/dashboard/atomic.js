@@ -6,6 +6,10 @@ import AddCoinOptionsCrypto from '../addcoin/addcoinOptionsCrypto';
 import AddCoinOptionsAC from '../addcoin/addcoinOptionsAC';
 import AddCoinOptionsACFiat from '../addcoin/addcoinOptionsACFiat';
 
+/*
+  TODO:
+  pre-select active coin
+*/
 class Atomic extends React.Component {
   constructor(props) {
     super(props);
@@ -41,7 +45,7 @@ class Atomic extends React.Component {
 
   getAtomicData() {
     const tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
-    var ExplorerInputData;
+    let ExplorerInputData;
 
     switch (this.state.api) {
       case 'history':

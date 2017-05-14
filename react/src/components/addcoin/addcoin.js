@@ -4,7 +4,8 @@ import {
   addCoin,
   toggleAddcoinModal,
   shepherdGetCoinList,
-  shepherdPostCoinList
+  shepherdPostCoinList,
+  triggerToaster
 } from '../../actions/actionCreators';
 import Store from '../../store';
 import AddCoinOptionsCrypto from './addcoinOptionsCrypto';
@@ -55,10 +56,14 @@ class AddCoin extends React.Component {
   loadCoinSelection() {
     shepherdGetCoinList()
     .then(function(json) {
-      this.setState(Object.assign({}, this.state, {
-        coins: json.result,
-        actionsMenu: false,
-      }));
+      if (json.msg !== 'error') {      
+        this.setState(Object.assign({}, this.state, {
+          coins: json.result,
+          actionsMenu: false,
+        }));
+      } else {
+        Store.dispatch(triggerToaster(true, 'Local coin list is not found', 'Coin Selection', 'info'));
+      }
     }.bind(this));
   }
 
@@ -121,7 +126,7 @@ class AddCoin extends React.Component {
     }
 
     this.setState(Object.assign({}, this.state, {
-      coins: _coins
+      coins: _coins,
     }));
   }
 
@@ -159,6 +164,11 @@ class AddCoin extends React.Component {
       this.state.coins[0].mode,
       this.state.coins[0].syncOnly
     ));
+
+    this.removeCoin();
+    this.addNewItem();
+
+    Store.dispatch(toggleAddcoinModal(false, false));
   }
 
   dismiss() {
@@ -199,7 +209,18 @@ class AddCoin extends React.Component {
           _item.mode,
           _item.syncOnly
         ));
-      }, 2000 * i);
+
+        if (i === this.state.coins.length - 1) {
+          let _coins = [];
+          _coins.push(this.state.defaultCoinState);
+
+          this.setState(Object.assign({}, this.state, {
+            coins: _coins,
+          }));
+
+          Store.dispatch(toggleAddcoinModal(false, false));
+        }
+      }.bind(this), 2000 * i);
     }
   }
 
