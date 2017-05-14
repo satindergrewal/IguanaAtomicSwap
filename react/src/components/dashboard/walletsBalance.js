@@ -72,10 +72,10 @@ class WalletsBalance extends React.Component {
         !this.props.ActiveCoin.send &&
         !this.props.ActiveCoin.receive) {
       return (
-        <div id="wallet-widgets" data-plugin="masonry" data-edexcoin="COIN">
+        <div id="wallet-widgets">
           <div className="col-xs-12">
-            <div className={this.props.ActiveCoin.mode === 'native' || (this.props.ActiveCoin.mode === 'full' && !this.isFullySynced())  ? 'col-xs-12' : 'col-xs-12 hide'}>
-              <div role="alert" className="alert alert-info alert-dismissible" data-edexcoin="COIN" id="edexcoin-wallet-waitingrt-alert">
+            <div className={this.props.ActiveCoin.mode === 'native' || (this.props.ActiveCoin.mode === 'full' && !this.isFullySynced()) ? 'col-xs-12' : 'col-xs-12 hide'}>
+              <div role="alert" className="alert alert-info alert-dismissible" id="edexcoin-wallet-waitingrt-alert">
                 <button aria-label="Close" data-dismiss="alert" className="close" type="button">
                   <span aria-hidden="true">×</span>
                 </button>
@@ -85,7 +85,7 @@ class WalletsBalance extends React.Component {
                 <p style={{fontWeight: '600'}}>{translate('INDEX.IGUANA_FULL_MODE_SYNC_P3')}</p>
               </div>
 
-              <div role="alert" className="alert alert-info alert-dismissible" data-edexcoin="COIN" id="edexcoin-wallet-waitingcache-alert">
+              <div role="alert" className="alert alert-info alert-dismissible" id="edexcoin-wallet-waitingcache-alert">
                 <button aria-label="Close" data-dismiss="alert" className="close" type="button">
                   <span aria-hidden="true">×</span>
                 </button>
@@ -95,7 +95,7 @@ class WalletsBalance extends React.Component {
                 <p style={{fontWeight: '600'}}>{translate('INDEX.IGUANA_FULL_MODE_SYNC_P3')}</p>
               </div>
             </div>
-            <div className="col-lg-12 col-xs-12" data-edexcoin="COIN" id="edexcoin_getbalance_t">
+            <div className={this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-12 col-xs-12'} id="edexcoin_getbalance_t">
               <div className="widget widget-shadow" id="widgetLineareaOne">
                 <div className="widget-content">
                   <div className="padding-20 padding-top-10">
@@ -103,7 +103,7 @@ class WalletsBalance extends React.Component {
                       <div className="pull-left padding-vertical-10">
                         <i className="icon fa-eye font-size-24 vertical-align-bottom margin-right-5"></i>{translate('INDEX.BALANCE')}
                       </div>
-                      <span className="pull-right padding-top-10" data-edexcoin="COIN" style={{fontSize: '22px'}}>
+                      <span className="pull-right padding-top-10" style={{fontSize: '22px'}}>
                         {this.renderBalance('main')} {this.props.ActiveCoin.coin}
                       </span>
                     </div>
@@ -112,7 +112,7 @@ class WalletsBalance extends React.Component {
               </div>
             </div>
 
-            <div className={this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide'} data-edexcoin="COIN" id="edexcoin_getbalance_interest">
+            <div className={this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide'} id="edexcoin_getbalance_interest">
               <div className="widget widget-shadow" id="widgetLineareaOne">
                 <div className="widget-content">
                   <div className="padding-20 padding-top-10">
@@ -120,7 +120,7 @@ class WalletsBalance extends React.Component {
                       <div className="pull-left padding-vertical-10">
                         <i className="icon fa-money font-size-24 vertical-align-bottom margin-right-5"></i>{translate('INDEX.INTEREST_EARNED')}
                       </div>
-                      <span className="pull-right padding-top-10" data-edexcoin="COIN" style={{fontSize: '22px'}}>
+                      <span className="pull-right padding-top-10" style={{fontSize: '22px'}}>
                         {this.renderBalance('interest')} {this.props.ActiveCoin.coin}
                       </span>
                     </div>
@@ -129,7 +129,7 @@ class WalletsBalance extends React.Component {
               </div>
             </div>
 
-            <div className={this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide'} data-edexcoin="COIN" id="edexcoin_getbalance_total_interest">
+            <div className={this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide'} id="edexcoin_getbalance_total_interest">
               <div className="widget widget-shadow" id="widgetLineareaOne">
                 <div className="widget-content">
                   <div className="padding-20 padding-top-10">
