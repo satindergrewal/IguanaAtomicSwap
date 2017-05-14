@@ -26,6 +26,7 @@ class Login extends React.Component {
       randomSeed: PassPhraseGenerator.generatePassPhrase(256),
       randomSeedConfirm: '',
       isSeedConfirmError: false,
+      displaySeedBackupModal: false,
     };
     this.toggleActivateCoinForm = this.toggleActivateCoinForm.bind(this);
     this.updateInput = this.updateInput.bind(this);
@@ -33,6 +34,8 @@ class Login extends React.Component {
     this.toggleSeedInputVisibility = this.toggleSeedInputVisibility.bind(this);
     this.handleRegisterWallet = this.handleRegisterWallet.bind(this);
     this.openSyncOnlyModal = this.openSyncOnlyModal.bind(this);
+    this.toggleSeedBackupModal = this.toggleSeedBackupModal.bind(this);
+    this.execWalletCreate = this.execWalletCreate.bind(this);
   }
 
   openSyncOnlyModal() {
@@ -119,13 +122,19 @@ class Login extends React.Component {
     });
   }
 
+  execWalletCreate() {
+    Store.dispatch(createNewWallet(this.state.randomSeedConfirm, this.props.Dashboard.activeHandle));
+
+    this.setState({
+      activeLoginSection: 'activateCoin',
+      displaySeedBackupModal: false,
+      isSeedConfirmError: false,
+    });
+  }
+
   handleRegisterWallet() {
     if (this.state.randomSeed === this.state.randomSeedConfirm) {
-      this.setState({
-        isSeedConfirmError: false,
-      });
-
-      Store.dispatch(createNewWallet(this.state.randomSeedConfirm, this.props.Dashboard.activeHandle));
+      this.toggleSeedBackupModal();
     } else {
       this.setState({
         isSeedConfirmError: true,
@@ -139,10 +148,37 @@ class Login extends React.Component {
     }
   }
 
+  toggleSeedBackupModal() {
+    this.setState(Object.assign({}, this.state, {
+      displaySeedBackupModal: !this.state.displaySeedBackupModal,
+    }));
+  }
+
+  renderSwallModal() {
+    if (this.state.displaySeedBackupModal) {
+      return (
+        <div className="swal2-container">
+          <div className="swal2-overlay" tabIndex="-1" style={{opacity: 1, display: 'block'}}></div>
+          <div className="swal2-modal show-swal2 visible" style={{display: 'block', width: '500px', padding: '20px', marginLeft: '-250px', background: 'rgb(255, 255, 255)', marginTop: '-230px'}} tabIndex="-1">
+          <div className="swal2-icon swal2-warning pulse-warning" style={{display: 'block'}}>!</div>
+          <h2>{translate('LOGIN.SAVED_WALLET_SEED')}</h2>
+          <div className="swal2-content" style={{display: 'block'}}>{translate('LOGIN.SEED_MAKE_SURE_BACKUP')}</div>
+          <hr className="swal2-spacer" style={{display: 'block'}} />
+          <button className="swal2-confirm styled" style={{backgroundColor: 'rgb(48, 133, 214)', borderLeftColor: 'rgb(48, 133, 214)', borderRightColor: 'rgb(48, 133, 214)'}} onClick={this.execWalletCreate}>{translate('LOGIN.YES_I_BACKUP')}</button>
+          <button className="swal2-cancel styled" style={{display: 'inline-block', backgroundColor: 'rgb(221, 51, 51)'}} onClick={this.toggleSeedBackupModal}>{translate('LOGIN.CANCEL')}</button>
+        </div>
+      </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   render() {
     if ((this.state && this.state.display) || !this.props.Main) {
       return (
         <div id="wallet-login">
+          {this.renderSwallModal()}
           <div className="page animsition vertical-align text-center fade-in">
             <div className="page-content vertical-align-middle">
               <div className="brand">

@@ -369,6 +369,7 @@ export const _lang = {
       'SEED_MAKE_SURE_BACKUP': 'Make sure you have it backed up. Without this seed you won\'t be able to access your wallet in the future!',
       'YES_I_BACKUP': 'Yes, I have taken backup.',
       'WALLET_LOCKED_LOGIN': 'Wallet Locked. Please login.',
+      'CANCEL': 'Cancel',
       'UNLOCK': 'Unlock',
       'SIGN_IN': 'Sign In',
       'WELCOME': 'Welcome',
