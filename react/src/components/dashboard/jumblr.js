@@ -17,6 +17,17 @@ class Jumblr extends React.Component {
     }));
   }
 
+  renderLB(_translationID) {
+    const _translationComponents = translate(_translationID).split('<br>');
+
+    return _translationComponents.map((_translation) =>
+      <span>
+        {_translation}
+        <br />
+      </span>
+    );
+  }
+
   render() {
     return (
       <div className="page" data-animsition-in="fade-in" data-animsition-out="fade-out" style={{marginLeft: '0'}}>
@@ -121,7 +132,7 @@ class Jumblr extends React.Component {
                         <li>{translate('JUMBLR.IMPORTANT_FUNDS')}</li>
                         <li>{translate('JUMBLR.LARGE_LOT')}</li>
                       </ul>
-                      <p>{translate('JUMBLR.EG')}</p>
+                      <p>{this.renderLB('JUMBLR.EG')}</p>
                       <p>{translate('JUMBLR.93_KMD')}</p>
                       <p>{translate('JUMBLR.TO_CLEAR_THEM')}</p>
                       <p>{translate('JUMBLR.WHEN_IT_TOTALS')}</p>

@@ -64,6 +64,17 @@ class WalletsBalance extends React.Component {
     return _balance;
   }
 
+  renderLB(_translationID) {
+    const _translationComponents = translate(_translationID).split('<br>');
+
+    return _translationComponents.map((_translation) =>
+      <span>
+        {_translation}
+        <br />
+      </span>
+    );
+  }
+
   render() {
     if (this.props &&
         this.props.ActiveCoin &&
@@ -82,7 +93,7 @@ class WalletsBalance extends React.Component {
                 <h4>{translate('INDEX.ACTIVATING_WALLET_RT')}</h4>
                 <p data-edexcoin="COIN" id="edexcoin-wallet-waitingrt-alert-text">{translate('INDEX.IGUANA_FULL_MODE_SYNC_P1')}</p>
                 <p>{translate('INDEX.IGUANA_FULL_MODE_SYNC_P2')}</p>
-                <p style={{fontWeight: '600'}}>{translate('INDEX.IGUANA_FULL_MODE_SYNC_P3')}</p>
+                <p style={{fontWeight: '600'}}>{this.renderLB('INDEX.IGUANA_FULL_MODE_SYNC_P3')}</p>
               </div>
 
               <div role="alert" className="alert alert-info alert-dismissible" id="edexcoin-wallet-waitingcache-alert">
@@ -92,7 +103,7 @@ class WalletsBalance extends React.Component {
                 <h4>{translate('INDEX.FETCHING_COIN_DATA')}</h4>
                 <p data-edexcoin="COIN" id="edexcoin-wallet-waitingcache-alert-text">{translate('INDEX.IGUANA_FULL_MODE_SYNC_P1')}</p>
                 <p>{translate('INDEX.IGUANA_FULL_MODE_SYNC_P2')}</p>
-                <p style={{fontWeight: '600'}}>{translate('INDEX.IGUANA_FULL_MODE_SYNC_P3')}</p>
+                <p style={{fontWeight: '600'}}>{this.renderLB('INDEX.IGUANA_FULL_MODE_SYNC_P3')}</p>
               </div>
             </div>
             <div className={this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-12 col-xs-12'} id="edexcoin_getbalance_t">

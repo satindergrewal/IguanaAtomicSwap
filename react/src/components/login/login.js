@@ -158,14 +158,14 @@ class Login extends React.Component {
     if (this.state.displaySeedBackupModal) {
       return (
         <div className="swal2-container">
-          <div className="swal2-overlay" tabIndex="-1" style={{opacity: 1, display: 'block'}}></div>
-          <div className="swal2-modal show-swal2 visible" style={{display: 'block', width: '500px', padding: '20px', marginLeft: '-250px', background: 'rgb(255, 255, 255)', marginTop: '-230px'}} tabIndex="-1">
-          <div className="swal2-icon swal2-warning pulse-warning" style={{display: 'block'}}>!</div>
-          <h2>{translate('LOGIN.SAVED_WALLET_SEED')}</h2>
-          <div className="swal2-content" style={{display: 'block'}}>{translate('LOGIN.SEED_MAKE_SURE_BACKUP')}</div>
-          <hr className="swal2-spacer" style={{display: 'block'}} />
-          <button className="swal2-confirm styled" style={{backgroundColor: 'rgb(48, 133, 214)', borderLeftColor: 'rgb(48, 133, 214)', borderRightColor: 'rgb(48, 133, 214)'}} onClick={this.execWalletCreate}>{translate('LOGIN.YES_I_BACKUP')}</button>
-          <button className="swal2-cancel styled" style={{display: 'inline-block', backgroundColor: 'rgb(221, 51, 51)'}} onClick={this.toggleSeedBackupModal}>{translate('LOGIN.CANCEL')}</button>
+          <div className="swal2-overlay" tabIndex="-1" style={{ opacity: 1, display: 'block' }}></div>
+          <div className="swal2-modal show-swal2 visible" style={{ display: 'block', width: '500px', padding: '20px', marginLeft: '-250px', background: 'rgb(255, 255, 255)', marginTop: '-230px' }} tabIndex="-1">
+          <div className="swal2-icon swal2-warning pulse-warning" style={{ display: 'block' }}>!</div>
+          <h2>{ translate('LOGIN.SAVED_WALLET_SEED') }</h2>
+          <div className="swal2-content" style={{ display: 'block' }}>{ translate('LOGIN.SEED_MAKE_SURE_BACKUP') }</div>
+          <hr className="swal2-spacer" style={{ display: 'block' }} />
+          <button className="swal2-confirm styled" style={{ backgroundColor: 'rgb(48, 133, 214)', borderLeftColor: 'rgb(48, 133, 214)', borderRightColor: 'rgb(48, 133, 214)' }} onClick={ this.execWalletCreate }>{ translate('LOGIN.YES_I_BACKUP') }</button>
+          <button className="swal2-cancel styled" style={{ display: 'inline-block', backgroundColor: 'rgb(221, 51, 51)'}} onClick={ this.toggleSeedBackupModal }>{ translate('LOGIN.CANCEL') }</button>
         </div>
       </div>
       );
@@ -178,34 +178,34 @@ class Login extends React.Component {
     if ((this.state && this.state.display) || !this.props.Main) {
       return (
         <div id="wallet-login">
-          {this.renderSwallModal()}
+          { this.renderSwallModal() }
           <div className="page animsition vertical-align text-center fade-in">
             <div className="page-content vertical-align-middle">
               <div className="brand">
                 <img className="brand-img" src="assets/images/easydex-logo-big.png" alt="SuperNET Iguana" />
               </div>
 
-              <div style={{padding: '20px 0'}}>
-                <span className="display-sync-only-coins-toggle" onClick={this.openSyncOnlyModal}>
-                  <i className="fa fa-cubes"></i> {translate('LOGIN.DISPLAY_SYNC_ONLY')}
+              <div style={{ padding: '20px 0' }}>
+                <span className="display-sync-only-coins-toggle" onClick={ this.openSyncOnlyModal }>
+                  <i className="fa fa-cubes"></i> { translate('LOGIN.DISPLAY_SYNC_ONLY') }
                 </span>
               </div>
 
-              <div id="section-ie-warning" className={this.state.activeLoginSection === 'ieWarning' ? 'show' : 'hide'}>
+              <div id="section-ie-warning" className={ this.state.activeLoginSection === 'ieWarning' ? 'show' : 'hide' }>
                 <div className="panel">
                   <div className="panel-heading">
-                    <h3 className="panel-title">{translate('INDEX.UNSUPPORTED_BROWSER')}</h3>
+                    <h3 className="panel-title">{ translate('INDEX.UNSUPPORTED_BROWSER') }</h3>
                   </div>
                   <div className="alert alert-danger alert-dismissible" role="alert">
                     <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
-                      <span className="sr-only">{translate('INDEX.CLOSE')}</span>
+                      <span className="sr-only">{ translate('INDEX.CLOSE') }</span>
                     </button>
-                    {translate('INDEX.IE_UNSUPPORTED')}
+                    { translate('INDEX.IE_UNSUPPORTED') }
                   </div>
                   <div className="panel-body">
                     <p style={{ color: '#424242' }}>
-                      {translate('INDEX.PLEASE_USE')} <a href="https://www.google.com/chrome/">Google Chrome</a> {translate('INDEX.OR')} <a href="https://www.firefox.com">Mozilla FireFox</a> {translate('INDEX.TO_USE')} EasyDEX-GUI. {translate('INDEX.PLEASE_CLICK_ON')}.
+                      { translate('INDEX.PLEASE_USE') } <a href="https://www.google.com/chrome/">Google Chrome</a> { translate('INDEX.OR') } <a href="https://www.firefox.com">Mozilla FireFox</a> { translate('INDEX.TO_USE') } EasyDEX-GUI. { translate('INDEX.PLEASE_CLICK_ON') }.
                     </p>
                     <div className="col-sm-6 col-xs-6">
                       <a href="https://www.google.com/chrome/"><img className="brand-img" src="assets/images/browsers/chrome.png" alt="Google Chrome" /></a>
@@ -217,12 +217,12 @@ class Login extends React.Component {
                 </div>
               </div>
 
-              <div id="section-login" className={this.state.activeLoginSection === 'login' ? 'show' : 'hide'}>
+              <div id="section-login" className={ this.state.activeLoginSection === 'login' ? 'show' : 'hide' }>
                 <h4 style={{ color: '#fff' }} id="login-welcome">{translate('INDEX.WELCOME_LOGIN')}</h4>
                 <div className="login-form">
                   <div className="form-group form-material floating">
                     <input
-                      type={this.state.seedInputVisibility ? 'text' : 'password'}
+                      type={ this.state.seedInputVisibility ? 'text' : 'password' }
                       className="form-control"
                       name="loginPassphrase"
                       id="password"
@@ -242,7 +242,7 @@ class Login extends React.Component {
                       onClick={this.toggleActivateCoinForm}
                       disabled={!this.props.Main}
                       style={{marginTop: '20px'}}>
-                      <span className="ladda-label">Add another coin</span>
+                      <span className="ladda-label">{translate('ADD_COIN.ADD_ANOTHER_COIN')}</span>
                     </button>
                   </div>
                 </div>
@@ -265,7 +265,7 @@ class Login extends React.Component {
               <div id="section-register" className={this.state.activeLoginSection === 'signup' ? 'show' : 'hide'}>
                 <div className="register-form">
                   <h4 className="hint" style={{ color: '#fff' }}>
-                    {translate('INDEX.SELECT_SEED_TYPE')}:
+                    { translate('INDEX.SELECT_SEED_TYPE') }:
                   </h4>
                   <div className="form-group form-material floating">
                     <div className="radio-custom radio-default radio-inline" onClick={() => this.generateNewSeed(256)}>
@@ -287,7 +287,7 @@ class Login extends React.Component {
                   </div>
                   <div className="form-group form-material floating">
                     <textarea className="form-control placeholder-no-fix" type="text" name="randomSeedConfirm" onChange={this.updateInput} id="rwalletseed" style={{ height: '100px' }}></textarea>
-                    <span className={this.state.isSeedConfirmError ? 'help-block' : 'hide'}>{translate('LOGIN.ENTER_VALUE_AGAIN')}.</span>
+                    <span className={ this.state.isSeedConfirmError ? 'help-block' : 'hide' }>{translate('LOGIN.ENTER_VALUE_AGAIN')}.</span>
                     <label className="floating-label" htmlFor="rwalletseed">{translate('INDEX.CONFIRM_SEED')}</label>
                   </div>
                   <button type="button" id="register-submit-btn" className="btn btn-primary btn-block" onClick={this.handleRegisterWallet}>{translate('INDEX.REGISTER')}</button>
