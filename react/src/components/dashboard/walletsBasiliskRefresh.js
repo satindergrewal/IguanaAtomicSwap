@@ -12,7 +12,7 @@ class WalletsBasiliskRefresh extends React.Component {
                 <div className="panel-heading">
                   <h3 className="panel-title">{translate('INDEX.FETCHING_BASILISK_DATA')}</h3>
                   <div className="panel-actions">
-                    <a className="panel-action icon md-refresh-alt" data-toggle="panel-refresh" data-load-type="blue-only" aria-hidden="true"></a>
+                    <a className="panel-action icon md-refresh-alt" aria-hidden="true"></a>
                   </div>
                 </div>
                 <div className="table-responsive">

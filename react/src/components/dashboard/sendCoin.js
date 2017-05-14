@@ -272,12 +272,32 @@ class SendCoin extends React.Component {
   }
 
   changeSendCoinStep(step) {
-    Store.dispatch(clearLastSendToResponseState());
+    if (step === 0) {
+      Store.dispatch(clearLastSendToResponseState());
 
-    this.setState(Object.assign({}, this.state, {
-      currentStep: step,
-      utxoMethodInProgress: !this.state.sendApiType && this.props.ActiveCoin.mode === 'basilisk' ? true : false,
-    }));
+      this.setState({
+        currentStep: 0,
+        sendFrom: this.props.Dashboard && this.props.Dashboard.activeHandle ? this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin] : null,
+        sendFromAmount: 0,
+        sendTo: '',
+        sendToOA: null,
+        amount: 0,
+        fee: 0.0001,
+        sendSig: false,
+        sendApiType: false,
+        addressSelectorOpen: false,
+        currentStackLength: 0,
+        totalStackLength: 0,
+        utxoMethodInProgress: false,
+      });
+    }
+
+    if (step === 1 || step === 2) {
+      this.setState(Object.assign({}, this.state, {
+        currentStep: step,
+        utxoMethodInProgress: !this.state.sendApiType && this.props.ActiveCoin.mode === 'basilisk' ? true : false,
+      }));
+    }
 
     if (step === 2) {
       if (!this.state.sendApiType && this.props.ActiveCoin.mode === 'basilisk') {
@@ -297,6 +317,7 @@ class SendCoin extends React.Component {
   toggleSendAPIType() {
     this.setState(Object.assign({}, this.state, {
       sendApiType: !this.state.sendApiType,
+      fee: !this.state.sendApiType ? 0 : 0.0001,
       sendFrom: this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin],
     }));
   }
@@ -492,7 +513,7 @@ class SendCoin extends React.Component {
           <span className="label label-success">{this.props.ActiveCoin.lastSendToResponse[key] === true ? 'true' : 'success'}</span>
         );
       } else {
-        if (key === 'result' && this.props.ActiveCoin.lastSendToResponse.result && !Object.keys(this.props.ActiveCoin.lastSendToResponse.result).length) {
+        if (key === 'result' && this.props.ActiveCoin.lastSendToResponse.result && typeof this.props.ActiveCoin.lastSendToResponse.result !== 'object') {
           return (
             <span>{this.props.ActiveCoin.lastSendToResponse.result}</span>
           );
@@ -711,7 +732,7 @@ class SendCoin extends React.Component {
                     </div>
                     <div className="col-lg-6 form-group form-material">
                       <label className="control-label" data-edexcoin="COIN" htmlFor="edexcoin_fee">{translate('INDEX.FEE')}</label>
-                      <input type="text" className="form-control" id="edexcoin_fee" name="fee" defaultValue={this.state.fee} placeholder="0.000" autoComplete="off" onChange={this.updateInput} />
+                      <input type="text" className="form-control" id="edexcoin_fee" name="fee" defaultValue={this.state.fee} value={this.state.fee} placeholder="0.000" autoComplete="off" onChange={this.updateInput} />
                     </div>
                     <div className="col-lg-12">
                       <span data-edexcoin="KMD">
