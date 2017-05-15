@@ -42,13 +42,11 @@ class Navbar extends React.Component {
     return (
       <nav className="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
         <div className="navbar-header">
-          <button type="button" className="navbar-toggle hamburger hamburger-close navbar-toggle-left hided"
-          data-toggle="menubar">
+          <button type="button" className="navbar-toggle hamburger hamburger-close navbar-toggle-left hided">
             <span className="sr-only">{translate('INDEX.TOGGLE_NAV')}</span>
             <span className="hamburger-bar"></span>
           </button>
-          <button type="button" className="navbar-toggle collapsed" data-target="#site-navbar-collapse"
-          data-toggle="collapse">
+          <button type="button" className="navbar-toggle collapsed">
             <i className="icon md-more" aria-hidden="true"></i>
           </button>
           <div className="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
@@ -56,8 +54,7 @@ class Navbar extends React.Component {
             <img className="navbar-brand-logo hidden-md hidden-sm hidden-lg" src="assets/images/easydex-logo-dashboard-white.png" title="SuperNET Igauana white" />
             <span className="navbar-brand-text hidden-xs"></span>
           </div>
-          <button type="button" className="navbar-toggle collapsed" data-target="#site-navbar-search"
-          data-toggle="collapse">
+          <button type="button" className="navbar-toggle collapsed">
             <span className="sr-only">{translate('INDEX.TOGGLE_SEARCH')}</span>
             <i className="icon md-search" aria-hidden="true"></i>
           </button>

@@ -554,12 +554,21 @@ class SendCoin extends React.Component {
 
   renderSendCoinResponse() {
     if (this.props.ActiveCoin.lastSendToResponse) {
-      return Object.keys(this.props.ActiveCoin.lastSendToResponse).map((key, index) =>
-        <tr key={key}>
-          <td>{key}</td>
-          <td>{this.renderKey(key)}</td>
-        </tr>
-      );
+      let items = [];
+      const _response = this.props.ActiveCoin.lastSendToResponse;
+
+      for (let key in _response) {
+        if (key !== 'tag') {
+          items.push(
+            <tr key={key}>
+              <td>{key}</td>
+              <td>{this.renderKey(key)}</td>
+            </tr>
+          );
+        }
+      }
+
+      return items;
     } else {
       return (
         <div style={{padding: '20px', textAlign: 'center'}}>

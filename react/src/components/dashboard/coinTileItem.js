@@ -39,11 +39,18 @@ class CoinTileItem extends React.Component {
   dispatchCoinActions(coin, mode) {
     if (mode === 'native') {
       Store.dispatch(iguanaActiveHandle(true));
-      Store.dispatch(getSyncInfoNative(coin));
-      Store.dispatch(getKMDBalanceTotal(coin));
-      Store.dispatch(getNativeTxHistory(coin));
-      Store.dispatch(getKMDAddressesNative(coin, mode));
-      Store.dispatch(getKMDOPID(null, coin));
+      if (this.props.Dashboard.progress &&
+          this.props.Dashboard.progress.blocks &&
+          this.props.Dashboard.progress.longestchain &&
+          this.props.Dashboard.progress.blocks === this.props.Dashboard.progress.longestchain) {
+        Store.dispatch(getSyncInfoNative(coin, true));
+        Store.dispatch(getKMDBalanceTotal(coin));
+        Store.dispatch(getNativeTxHistory(coin));
+        Store.dispatch(getKMDAddressesNative(coin, mode));
+        Store.dispatch(getKMDOPID(null, coin));
+      } else {
+        Store.dispatch(getSyncInfoNative(coin));
+      }
     }
     if (mode === 'full') {
       Store.dispatch(iguanaActiveHandle(true));

@@ -276,6 +276,22 @@ body {
   text-align: center;
 }
 
+.navbar {
+  &.navbar-fixed-top {
+    .dropdown {
+      &.open {
+        .dropdown-menu {
+          right: 0;
+        }
+      }
+      .dropdown-menu {
+        display: block;
+        right: -165px;
+      }
+    }
+  }
+}
+
 /*.toaster .single-toast:nth-child(0) {
   bottom: 12px;
 }

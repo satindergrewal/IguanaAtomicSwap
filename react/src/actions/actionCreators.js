@@ -216,6 +216,8 @@ function iguanaWalletPassphraseState(json, dispatch) {
   console.log('iguanaWalletPassphraseState', json);
   sessionStorage.setItem('IguanaActiveAccount', JSON.stringify(json));
   dispatch(triggerToaster(true, translate('TOASTR.LOGIN_SUCCESSFULL'), translate('TOASTR.ACCOUNT_NOTIFICATION'), 'success'));
+  dispatch(getMainAddressState(json));
+  dispatch(iguanaActiveHandleState(json));
 
   return {
     type: LOGIN,
@@ -585,8 +587,8 @@ export function getDexCoins() {
         'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
         'agent': 'InstantDEX',
         'method': 'allcoins',
-        'immediate': 60000,
-        'timeout': 60000
+        // 'immediate': 60000,
+        // 'timeout': 60000
       })
     })
     .catch(function(error) {
@@ -618,7 +620,7 @@ export function iguanaWalletPassphrase(_passphrase) {
         'timeout': '2592000',
         'agent': 'bitcoinrpc',
         'method': 'walletpassphrase',
-        'immediate': 60000,
+        // 'immediate': 60000,
       }),
     })
     .catch(function(error) {
@@ -638,8 +640,8 @@ export function iguanaActiveHandle(getMainAddress) {
         'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
         'agent': 'SuperNET',
         'method': 'activehandle',
-        'immediate': 60000,
-        'timeout': 60000
+        // 'immediate': 60000,
+        // 'timeout': 60000
       }),
     })
     .catch(function(error) {
@@ -661,8 +663,8 @@ export function iguanaEdexBalance(coin) {
         'agent': 'bitcoinrpc',
         'method': 'getbalance',
         'coin': coin,
-        'immediate': 60000,
-        'timeout': 60000
+        // 'immediate': 60000,
+        // 'timeout': 60000
       }),
     })
     .catch(function(error) {
@@ -703,8 +705,8 @@ export function encryptWallet(_passphrase, cb, coin) {
     'agent': 'bitcoinrpc',
     'method': 'encryptwallet',
     'passphrase': _passphrase,
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
 
   return dispatch => {
@@ -729,7 +731,7 @@ export function walletPassphrase(_passphrase) {
     'method': 'walletpassphrase',
     'password': _passphrase,
     'timeout': '2592000',
-    'immediate': 60000,
+    // 'immediate': 60000,
   };
 
   return dispatch => {
@@ -778,8 +780,8 @@ export function getFullTransactionsList(coin) {
       9999999,
       []
     ],
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
 
   return dispatch => {
@@ -805,8 +807,8 @@ export function getBasiliskTransactionsList(coin, address) {
     'count': 100,
     'skip': 0,
     'symbol': coin,
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
 
   //if (sessionStorage.getItem('useCache')) {
@@ -857,8 +859,8 @@ export function getPeersList(coin) {
     'agent': 'SuperNET',
     'method': 'getpeers',
     'activecoin': coin,
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
 
   return dispatch => {
@@ -905,8 +907,8 @@ export function addPeerNode(coin, ip) {
     'method': 'addnode',
     'activecoin': coin,
     'ipaddr': ip,
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
 
   return dispatch => {
@@ -954,8 +956,8 @@ export function getAddressesByAccount(coin, mode) {
     'agent': 'bitcoinrpc',
     'method': 'getaddressesbyaccount',
     'account': '*',
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
 
   return dispatch => {
@@ -1011,8 +1013,8 @@ export function getSyncInfo(coin) {
     'coin': coin,
     'agent': 'bitcoinrpc',
     'method': 'getinfo',
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
 
   return dispatch => {
@@ -1078,8 +1080,8 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             'asset': coin,
             'function': ajax_function_input,
             'hex': tmplistaddr_hex_input,
-            'immediate': 60000,
-            'timeout': 60000
+            // 'immediate': 60000,
+            // 'timeout': 60000
           };
         } else {
           payload = {
@@ -1088,8 +1090,8 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             'method': 'passthru',
             'function': ajax_function_input,
             'hex': tmplistaddr_hex_input,
-            'immediate': 60000,
-            'timeout': 60000
+            // 'immediate': 60000,
+            // 'timeout': 60000
           };
         }
 
@@ -1100,8 +1102,8 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             'agent': 'bitcoinrpc',
             'method': 'getaddressesbyaccount',
             'account': '*',
-            'immediate': 60000,
-            'timeout': 60000
+            // 'immediate': 60000,
+            // 'timeout': 60000
           };
         }
 
@@ -1154,8 +1156,8 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           'asset': coin,
           'function': 'listunspent',
           'hex': '',
-          'immediate': 60000,
-          'timeout': 60000
+          // 'immediate': 60000,
+          // 'timeout': 60000
         };
       } else {
         payload = {
@@ -1164,8 +1166,8 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           'method': 'passthru',
           'function': 'listunspent',
           'hex': '',
-          'immediate': 60000,
-          'timeout': 60000
+          // 'immediate': 60000,
+          // 'timeout': 60000
         };
       }
 
@@ -1178,8 +1180,8 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             1,
             9999999,
           ],
-          'immediate': 60000,
-          'timeout': 60000
+          // 'immediate': 60000,
+          // 'timeout': 60000
         };
       }
 
@@ -1191,8 +1193,8 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           'method': 'listunspent',
           'address': currentAddress,
           'symbol': coin,
-          'immediate': 60000,
-          'timeout': 60000
+          // 'immediate': 60000,
+          // 'timeout': 60000
         };
       }
 
@@ -1493,8 +1495,8 @@ export function importPrivKey(wifKey) {
       wifKey,
       'imported'
     ],
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
 
   return dispatch => {
@@ -1532,7 +1534,7 @@ export function shepherdGetSysInfo() {
   }
 }
 
-export function getSyncInfoNativeKMD() {
+export function getSyncInfoNativeKMD(skipDebug) {
   const coin = 'KMD';
 
   return dispatch => {
@@ -1545,13 +1547,17 @@ export function getSyncInfoNativeKMD() {
     })
     .then(response => response.json())
     .then(json => dispatch(getSyncInfoNativeState({ 'remoteKMDNode': json })))
-    .then(dispatch(getDebugLog('komodo', 1)))
+    .then(function() {
+      if (!skipDebug) {
+        dispatch(getDebugLog('komodo', 1));
+      }
+    })
   }
 }
 
-function getSyncInfoNativeState(json) {
-  if (json && json.error) {
-    return getSyncInfoNativeKMD();
+function getSyncInfoNativeState(json, coin, skipDebug) {
+  if (coin === 'KMD' && json && json.error) {
+    return getSyncInfoNativeKMD(skipDebug);
   } else {
     return {
       type: SYNCING_NATIVE_MODE,
@@ -1571,7 +1577,7 @@ function getPassthruAgent(coin) {
   return passthru_agent;
 }
 
-export function getSyncInfoNative(coin) {
+export function getSyncInfoNative(coin, skipDebug) {
   var payload = {};
 
   payload = {
@@ -1581,8 +1587,8 @@ export function getSyncInfoNative(coin) {
     'asset': coin,
     'function': 'getinfo',
     'hex': '',
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
 
   return dispatch => {
@@ -1595,7 +1601,7 @@ export function getSyncInfoNative(coin) {
       dispatch(triggerToaster(true, 'getSyncInfo', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(getSyncInfoNativeState(json, dispatch)))
+    .then(json => dispatch(getSyncInfoNativeState(json, coin, skipDebug)))
   }
 }
 
@@ -1607,8 +1613,8 @@ export function getDexBalance(coin, addr) {
       'method': 'listunspent',
       'address': _addr,
       'symbol': coin,
-      'immediate': 60000,
-      'timeout': 60000
+      // 'immediate': 60000,
+      // 'timeout': 60000
     };
     console.log('addr', _addr);
     return new Promise((resolve, reject) => {
@@ -1643,7 +1649,7 @@ export function getKMDBalanceTotal(coin) {
       'asset': coin,
       'function': 'z_gettotalbalance',
       'hex': '3000',
-      'timeout': 60000
+      // 'timeout': 60000
     };
   } else {
     payload = {
@@ -1652,7 +1658,7 @@ export function getKMDBalanceTotal(coin) {
       'method': 'passthru',
       'function': 'z_gettotalbalance',
       'hex': '3000',
-      'timeout': 60000
+      // 'timeout': 60000
     };
   }
 
@@ -1692,8 +1698,8 @@ export function getNativeTxHistory(coin) {
       'asset': coin,
       'function': 'listtransactions',
       'hex': '',
-      'immediate': 60000,
-      'timeout': 60000
+      // 'immediate': 60000,
+      // 'timeout': 60000
     };
   } else {
     payload = {
@@ -1702,8 +1708,8 @@ export function getNativeTxHistory(coin) {
       'method': 'passthru',
       'function': 'listtransactions',
       'hex': '',
-      'immediate': 60000,
-      'timeout': 60000
+      // 'immediate': 60000,
+      // 'timeout': 60000
     };
   }
 
@@ -1762,8 +1768,8 @@ export function getNewKMDAddresses(coin, pubpriv) {
       'asset': coin,
       'function': ajax_function_input,
       'hex': '',
-      'immediate': 60000,
-      'timeout': 60000
+      // 'immediate': 60000,
+      // 'timeout': 60000
     };
   } else {
     payload = {
@@ -1772,8 +1778,8 @@ export function getNewKMDAddresses(coin, pubpriv) {
       'method': 'passthru',
       'function': ajax_function_input,
       'hex': '',
-      'immediate': 60000,
-      'timeout': 60000
+      // 'immediate': 60000,
+      // 'timeout': 60000
     };
   }
 
@@ -1800,8 +1806,8 @@ export function iguanaHashHex(data) {
     'agent': 'hash',
     'method': 'hex',
     'message': data,
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
 
   return new Promise((resolve, reject) => {
@@ -1834,8 +1840,8 @@ export function sendNativeTx(coin, _payload) {
           'asset': coin,
           'function': 'z_sendmany',
           'hex': hashHexJson,
-          'immediate': 60000,
-          'timeout': 60000
+          // 'immediate': 60000,
+          // 'timeout': 60000
         };
       } else {
         payload = {
@@ -1844,8 +1850,8 @@ export function sendNativeTx(coin, _payload) {
           'method': 'passthru',
           'function': 'z_sendmany',
           'hex': hashHexJson,
-          'immediate': 60000,
-          'timeout': 60000
+          // 'immediate': 60000,
+          // 'timeout': 60000
         };
       }
 
@@ -1908,8 +1914,8 @@ export function getKMDOPID(opid, coin) {
           'asset': coin,
           'function': 'z_getoperationstatus',
           'hex': hashHexJson,
-          'immediate': 60000,
-          'timeout': 60000
+          // 'immediate': 60000,
+          // 'timeout': 60000
         };
       } else {
         payload = {
@@ -1918,8 +1924,8 @@ export function getKMDOPID(opid, coin) {
           'method': 'passthru',
           'function': 'z_getoperationstatus',
           'hex': hashHexJson,
-          'immediate': 60000,
-          'timeout': 60000
+          // 'immediate': 60000,
+          // 'timeout': 60000
         };
       }
 
@@ -1980,8 +1986,8 @@ export function sendToAddress(coin, _payload) {
       'EasyDEX',
       'EasyDEXTransaction'
     ],
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
 
   return dispatch => {
@@ -2010,8 +2016,8 @@ export function sendFromAddress(coin, _payload) {
       'EasyDEX',
       'EasyDEXTransaction'
     ],
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
 
   return dispatch => {
@@ -2049,8 +2055,8 @@ export function checkAddressBasilisk(coin, address) {
     'method': 'checkaddress',
     'address': address,
     'symbol': coin,
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
 
   return dispatch => {
@@ -2091,8 +2097,8 @@ export function validateAddressBasilisk(coin, address) {
     'method': 'validateaddress',
     'address': address,
     'symbol': coin,
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
 
   return dispatch => {
@@ -2128,8 +2134,8 @@ export function getDexNotaries(coin) {
     'agent': 'dex',
     'method': 'getnotaries',
     'symbol': coin,
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
 
   return dispatch => {
@@ -2164,8 +2170,8 @@ export function createNewWallet(_passphrase) {
     'agent': 'bitcoinrpc',
     'method': 'encryptwallet',
     'passphrase': _passphrase,
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
 
   return dispatch => {
@@ -2253,8 +2259,8 @@ function initNotaryNodesConSequence(nodes) {
         'agent': 'dex',
         'method': 'getinfo',
         'symbol': node,
-        'immediate': 60000,
-        'timeout': 60000
+        // 'immediate': 60000,
+        // 'timeout': 60000
       };
 
       return new Promise((resolve, reject) => {
@@ -2407,8 +2413,8 @@ export function connectNotaries() {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
     'agent': 'dpow',
     'method': 'notarychains,',
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
 
   return dispatch => {
@@ -2440,8 +2446,8 @@ export function iguanaUTXORawTX(data) {
       'sendflag': data.sendsig
     },
     'utxos': data.utxos,
-    'immediate': 60000,
-    'timeout': 60000
+    // 'immediate': 60000,
+    // 'timeout': 60000
   };
   console.log('iguanaUTXORawTXExport', payload);
 

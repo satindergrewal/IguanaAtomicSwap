@@ -34,79 +34,101 @@ class WalletsTxInfo extends React.Component {
           <div className="modal show" id="kmd_txid_info_mdl" aria-hidden="false" role="dialog">
             <div className="modal-dialog modal-center modal-lg">
               <div className="modal-content">
-                <div className="modal-body" style={{height: '590px'}}>
+                <div className="modal-body" style={{ height: '590px' }}>
                   <div className="panel nav-tabs-horizontal">
                     <ul className="nav nav-tabs nav-tabs-line" role="tablist">
-                      <li className={this.state.activeTab === 0 ? 'active' : ''} role="presentation">
-                        <a data-toggle="tab" aria-controls="KmdTxIDInfotab1" role="tab" onClick={() => this.openTab(0)}>
+                      <li className={ this.state.activeTab === 0 ? 'active' : '' } role="presentation">
+                        <a
+                          data-toggle="tab"
+                          aria-controls="KmdTxIDInfotab1"
+                          role="tab"
+                          onClick={ () => this.openTab(0) }>
                           <i className="icon md-balance-wallet" aria-hidden="true"></i>TxID Info
                         </a>
                       </li>
-                      <li className={this.state.activeTab === 1 ? 'active' : ''} role="presentation">
-                        <a data-toggle="tab" aria-controls="KmdTxIDInfotab4" role="tab" onClick={() => this.openTab(1)}>
+                      <li className={ this.state.activeTab === 1 ? 'active' : '' } role="presentation">
+                        <a
+                          data-toggle="tab"
+                          aria-controls="KmdTxIDInfotab4"
+                          role="tab"
+                          onClick={ () => this.openTab(1) }>
                           <i className="icon wb-file" aria-hidden="true"></i>Raw info
                         </a>
                       </li>
                     </ul>
                     <div className="panel-body">
                       <div className="tab-content">
-                        <div className={this.state.activeTab === 0 ? 'tab-pane active' : 'tab-pane'} id="KmdTxIDInfotab1" role="tabpanel">
+                        <div
+                          className={ this.state.activeTab === 0 ? 'tab-pane active' : 'tab-pane' }
+                          id="KmdTxIDInfotab1"
+                          role="tabpanel">
                           <table className="table table-striped">
                             <tbody>
                               <tr>
-                                <td>address</td>
+                                <td>{ translate('TX_INFO.ADDRESS') }</td>
                                 <td>
-                                {txInfo.address}
+                                { txInfo.address }
                                 </td>
                               </tr>
                               <tr>
-                                <td>amount</td>
+                                <td>{ translate('TX_INFO.AMOUNT') }</td>
                                 <td>
-                                {txInfo.amount}
+                                { txInfo.amount }
                                 </td>
                               </tr>
                               <tr>
-                                <td>category</td>
+                                <td>{ translate('TX_INFO.CATEGORY') }</td>
                                 <td>
-                                  {txInfo.category || txInfo.type}
+                                  { txInfo.category || txInfo.type }
                                 </td>
                               </tr>
                               <tr>
-                                <td>confirmations</td>
+                                <td>{ translate('TX_INFO.CONFIRMATIONS') }</td>
                                 <td>
-                                  {txInfo.confirmations}
+                                  { txInfo.confirmations }
                                 </td>
                               </tr>
                               <tr>
                                 <td>blockhash</td>
                                 <td>
-                                  {txInfo.blockhash}
+                                  { txInfo.blockhash }
                                 </td>
                               </tr>
                               <tr>
                                 <td>blocktime</td>
                                 <td>
-                                  {secondsToString(txInfo.blocktime || txInfo.timestamp)}
+                                  { secondsToString(txInfo.blocktime || txInfo.timestamp) }
                                 </td>
                               </tr>
                               <tr>
                                 <td>txid</td>
                                 <td>
-                                  {txInfo.txid}
+                                  { txInfo.txid }
                                 </td>
                               </tr>
                             </tbody>
                           </table>
                         </div>
-                        <div className={this.state.activeTab === 1 ? 'tab-pane active' : 'tab-pane'} id="KmdTxIDInfotab4" role="tabpanel">
-                          <textarea id="kmd_txid_info_hex" style={{width: '100%', height: '400px'}} rows="40" cols="80" defaultValue={JSON.stringify(txInfo, null, '\t')} disabled></textarea>
+                        <div
+                          className={ this.state.activeTab === 1 ? 'tab-pane active' : 'tab-pane' }
+                          id="KmdTxIDInfotab4" role="tabpanel">
+                          <textarea
+                            id="kmd_txid_info_hex"
+                            style={{ width: '100%', height: '400px' }}
+                            rows="40"
+                            cols="80"
+                            defaultValue={ JSON.stringify(txInfo, null, '\t') } disabled></textarea>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.toggleTxInfoModal}>Close</button>
+                  <button
+                    type="button"
+                    className="btn btn-default"
+                    data-dismiss="modal"
+                    onClick={ this.toggleTxInfoModal }>{ translate('INDEX.CLOSE') }</button>
                 </div>
               </div>
             </div>

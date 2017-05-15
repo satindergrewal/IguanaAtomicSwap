@@ -18,11 +18,11 @@ class WalletsNotariesList extends React.Component {
   renderNotariesFetching() {
     if (!this.props.ActiveCoin.notaries) {
       return (
-        <div>{translate('INDEX.FETCHING_NOTARIES_LIST')}...</div>
+        <div>{ translate('INDEX.FETCHING_NOTARIES_LIST') }...</div>
       );
     } else {
       return (
-        <div>{translate('INDEX.TOTAL_NOTARIES')}: {this.props.ActiveCoin.notaries.numnotaries}</div>
+        <div>{ translate('INDEX.TOTAL_NOTARIES') }: { this.props.ActiveCoin.notaries.numnotaries }</div>
       );
     }
   }
@@ -32,10 +32,10 @@ class WalletsNotariesList extends React.Component {
         this.props.ActiveCoin.notaries.notaries &&
         this.props.ActiveCoin.notaries.notaries.length) {
       return this.props.ActiveCoin.notaries.notaries.map((node, index) =>
-        <TreeNode title={`Node ${index}`} key={`node-${index}`}>
-          <TreeNode key={`node-${index}-btc`} title={`BTC: ${node.BTCaddress}`} />
-          <TreeNode key={`node-${index}-kmd`} title={`KMD: ${node.KMDaddress}`} />
-          <TreeNode key={`node-${index}-pubkey`} title={`Pubkey: ${node.pubkey}`} />
+        <TreeNode title={ `Node ${index}` } key={ `node-${index}` }>
+          <TreeNode key={ `node-${index}-btc` } title={ `BTC: ${node.BTCaddress}` } />
+          <TreeNode key={ `node-${index}-kmd` } title={ `KMD: ${node.KMDaddress}` } />
+          <TreeNode key={ `node-${index}-pubkey` } title={ `Pubkey: ${node.pubkey}` } />
         </TreeNode>
       );
     } else {
@@ -44,7 +44,9 @@ class WalletsNotariesList extends React.Component {
   }
 
   render() {
-    if (this.props && this.props.ActiveCoin.mode === 'basilisk' && this.props.ActiveCoin.displayNotariesModal) {
+    if (this.props &&
+        this.props.ActiveCoin.mode === 'basilisk' &&
+        this.props.ActiveCoin.displayNotariesModal) {
       const notariesData = this.props.ActiveCoin.notaries ? this.props.ActiveCoin.notaries.notaries : null;
 
       return (
@@ -52,14 +54,14 @@ class WalletsNotariesList extends React.Component {
           <div className="modal show" id="kmd_txid_info_mdl" aria-hidden="false" role="dialog">
             <div className="modal-dialog modal-center modal-lg">
               <div className="modal-content">
-                <div className="modal-body" style={{height: '590px'}}>
+                <div className="modal-body" style={{ height: '590px' }}>
                   <div className="panel nav-tabs-horizontal">
                     <div className="panel-body">
                       <div className="tab-content">
                         <div className="tab-pane active" role="tabpanel">
-                          {this.renderNotariesFetching()}
-                          <Tree defaultExpandAll={false} openAnimation={animation}>
-                          {this.renderNotariesList()}
+                          { this.renderNotariesFetching() }
+                          <Tree defaultExpandAll={ false } openAnimation={ animation }>
+                          { this.renderNotariesList() }
                           </Tree>
                         </div>
                       </div>
@@ -67,7 +69,10 @@ class WalletsNotariesList extends React.Component {
                   </div>
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-default" onClick={this.closeNotariesModal}>{translate('INDEX.CLOSE')}</button>
+                  <button
+                    type="button"
+                    className="btn btn-default"
+                    onClick={ this.closeNotariesModal }>{ translate('INDEX.CLOSE') }</button>
                 </div>
               </div>
             </div>
