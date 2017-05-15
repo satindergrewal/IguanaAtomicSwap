@@ -37,31 +37,31 @@ class WalletsNativeTxHistory extends React.Component {
   }
 
   renderTxType(category) {
-    if ( category === 'send' ) {
+    if (category === 'send') {
       return (
         <span className="label label-danger">
-          <i className="icon fa-arrow-circle-left"></i> <span>{translate('DASHBOARD.OUT')}</span>
+          <i className="icon fa-arrow-circle-left"></i> <span>{ translate('DASHBOARD.OUT') }</span>
         </span>
       );
     }
-    if ( category === 'receive' ) {
+    if (category === 'receive') {
       return (
         <span className="label label-success">
-          <i className="icon fa-arrow-circle-right"></i> <span>{translate('DASHBOARD.IN')}</span>
+          <i className="icon fa-arrow-circle-right"></i> <span>{ translate('DASHBOARD.IN') }</span>
         </span>
       );
     }
-    if ( category === 'generate' ) {
+    if (category === 'generate') {
       return (
         <span>
-          <i className="icon fa-cogs"></i> <span>{translate('DASHBOARD.MINED')}</span>
+          <i className="icon fa-cogs"></i> <span>{ translate('DASHBOARD.MINED') }</span>
         </span>
       );
     }
-    if ( category === 'immature' ) {
+    if (category === 'immature') {
       return (
         <span>
-          <i className="icon fa-clock-o"></i> <span>{translate('DASHBOARD.IMMATURE')}</span>
+          <i className="icon fa-clock-o"></i> <span>{ translate('DASHBOARD.IMMATURE') }</span>
         </span>
       );
     }
@@ -71,7 +71,7 @@ class WalletsNativeTxHistory extends React.Component {
     if (!tx.address) {
       return (
         <span>
-          <i className="icon fa-bullseye"></i> <span className="label label-dark">{translate('DASHBOARD.ZADDR_NOT_LISTED')}</span>
+          <i className="icon fa-bullseye"></i> <span className="label label-dark">{ translate('DASHBOARD.ZADDR_NOT_LISTED') }</span>
         </span>
       );
     } else {
@@ -109,8 +109,11 @@ class WalletsNativeTxHistory extends React.Component {
 
     for (let i=0; i < Math.floor(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage); i++) {
       items.push(
-        <li className={this.state.activePage === i + 1 ? 'paginate_button active' : 'paginate_button'}>
-          <a aria-controls="kmd-tx-history-tbl" tabIndex="0" key={i + '-pagination'} onClick={this.state.activePage !== (i + 1) ? () => this.updateCurrentPage(i + 1) : null}>{i + 1}</a>
+        <li className={ this.state.activePage === i + 1 ? 'paginate_button active' : 'paginate_button' }>
+          <a
+            aria-controls="kmd-tx-history-tbl"
+            tabIndex="0" key={i + '-pagination'}
+            onClick={ this.state.activePage !== (i + 1) ? () => this.updateCurrentPage(i + 1) : null }>{ i + 1 }</a>
         </li>
       );
     }
@@ -126,7 +129,11 @@ class WalletsNativeTxHistory extends React.Component {
         <div className="dataTables_length" id="kmd-tx-history-tbl_length">
           <label>
             {translate('INDEX.SHOW')}&nbsp;
-            <select name="itemsPerPage" aria-controls="kmd-tx-history-tbl" className="form-control input-sm" onChange={this.updateInput}>
+            <select
+              name="itemsPerPage"
+              aria-controls="kmd-tx-history-tbl"
+              className="form-control input-sm"
+              onChange={this.updateInput}>
               <option value="10">10</option>
               <option value="25">25</option>
               <option value="50">50</option>
@@ -145,20 +152,38 @@ class WalletsNativeTxHistory extends React.Component {
     if (this.props.ActiveCoin.txhistory &&
         this.props.ActiveCoin.txhistory !== 'loading' &&
         this.props.ActiveCoin.txhistory.length > 10) {
+      const _paginationStart = ((this.state.activePage - 1) * this.state.itemsPerPage) + 1;
+      const _paginationEnd = this.state.activePage * this.state.itemsPerPage;
+      const _paginationNextState = this.state.activePage > Math.floor(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage);
+
       return (
         <div className="row unselectable">
           <div className="col-sm-5">
-            <div className="dataTables_info" id="kmd-tx-history-tbl_info" role="status" aria-live="polite">{translate('INDEX.SHOWING')} {((this.state.activePage - 1) * this.state.itemsPerPage) + 1} {translate('INDEX.TO')} {this.state.activePage * this.state.itemsPerPage} {translate('INDEX.OF')} {this.props.ActiveCoin.txhistory.length} {translate('INDEX.ENTRIES_SM')}</div>
+            <div
+              className="dataTables_info"
+              id="kmd-tx-history-tbl_info"
+              role="status"
+              aria-live="polite">{ translate('INDEX.SHOWING') } { _paginationStart } { translate('INDEX.TO') } { _paginationEnd } { translate('INDEX.OF') } { this.props.ActiveCoin.txhistory.length } { translate('INDEX.ENTRIES_SM') }</div>
           </div>
           <div className="col-sm-7">
             <div className="dataTables_paginate paging_simple_numbers" id="kmd-tx-history-tbl_paginate">
               <ul className="pagination">
-                <li className={this.state.activePage === 1 ? 'paginate_button previous disabled' : 'paginate_button previous'} id="kmd-tx-history-tbl_previous">
-                  <a aria-controls="kmd-tx-history-tbl" tabIndex="0" onClick={() => this.updateCurrentPage(this.state.activePage - 1)}>{translate('INDEX.PREVIOUS')}</a>
+                <li
+                  className={ this.state.activePage === 1 ? 'paginate_button previous disabled' : 'paginate_button previous' }
+                  id="kmd-tx-history-tbl_previous">
+                  <a
+                    aria-controls="kmd-tx-history-tbl"
+                    tabIndex="0"
+                    onClick={ () => this.updateCurrentPage(this.state.activePage - 1) }>{ translate('INDEX.PREVIOUS') }</a>
                 </li>
                 {this.renderPaginationItems()}
-                <li className={this.state.activePage > Math.floor(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage) ? 'paginate_button next disabled' : 'paginate_button next'} id="kmd-tx-history-tbl_next">
-                  <a aria-controls="kmd-tx-history-tbl" tabIndex="0" onClick={() => this.updateCurrentPage(this.state.activePage + 1)}>{translate('INDEX.NEXT')}</a>
+                <li
+                  className={ _paginationNextState ? 'paginate_button next disabled' : 'paginate_button next' }
+                  id="kmd-tx-history-tbl_next">
+                  <a
+                    aria-controls="kmd-tx-history-tbl"
+                    tabIndex="0"
+                    onClick={ () => this.updateCurrentPage(this.state.activePage + 1) }>{ translate('INDEX.NEXT') }</a>
                 </li>
               </ul>
             </div>
@@ -171,28 +196,36 @@ class WalletsNativeTxHistory extends React.Component {
   }
 
   renderTxHistoryList() {
-    if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory === 'no data') {
-      return 'no data';
-    } else if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory === 'loading') {
-      return 'loading history...';
+    if (this.props.ActiveCoin.txhistory &&
+        this.props.ActiveCoin.txhistory === 'no data') {
+      return translate('INDEX.NO_DATA');
+    } else if (
+      this.props.ActiveCoin.txhistory &&
+      this.props.ActiveCoin.txhistory === 'loading') {
+      return translate('INDEX.LOADING_HISTORY');
     } else if (
       this.props.ActiveCoin.txhistory &&
       (this.props.ActiveCoin.txhistory !== 'loading' && this.props.ActiveCoin.txhistory !== 'no data')) {
-      if (this.state.itemsList && this.state.itemsList.length && this.props.ActiveCoin.nativeActiveSection === 'default') {
+      if (this.state.itemsList &&
+          this.state.itemsList.length &&
+          this.props.ActiveCoin.nativeActiveSection === 'default') {
         return this.state.itemsList.map((tx, index) =>
           <tr key={tx.txid + tx.amount}>
             <td>
               <span className="label label-default">
-                <i className="icon fa-eye"></i> {translate('IAPI.PUBLIC_SM')}
+                <i className="icon fa-eye"></i> { translate('IAPI.PUBLIC_SM') }
               </span>
             </td>
-            <td>{this.renderTxType(tx.category)}</td>
-            <td>{tx.confirmations}</td>
-            <td>{tx.amount}</td>
-            <td>{secondsToString(tx.time)}</td>
-            <td>{this.renderAddress(tx)}</td>
+            <td>{ this.renderTxType(tx.category) }</td>
+            <td>{ tx.confirmations }</td>
+            <td>{ tx.amount }</td>
+            <td>{ secondsToString(tx.time) }</td>
+            <td>{ this.renderAddress(tx) }</td>
             <td>
-              <button type="button" className="btn btn-xs white btn-info waves-effect waves-light btn-kmdtxid" onClick={() => this.toggleTxInfoModal(!this.props.ActiveCoin.showTransactionInfo, index)}><i className="icon fa-search"></i></button>
+              <button
+                type="button"
+                className="btn btn-xs white btn-info waves-effect waves-light btn-kmdtxid"
+                onClick={ () => this.toggleTxInfoModal(!this.props.ActiveCoin.showTransactionInfo, index) }><i className="icon fa-search"></i></button>
             </td>
           </tr>
         );
@@ -203,27 +236,28 @@ class WalletsNativeTxHistory extends React.Component {
   }
 
   render() {
-    if (this.props && this.props.ActiveCoin.nativeActiveSection === 'default') {
+    if (this.props &&
+        this.props.ActiveCoin.nativeActiveSection === 'default') {
       return (
         <div className="native-transactions">
-          <div data-extcoin="COIN" id="kmd_wallet_dashboardinfo">
+          <div id="kmd_wallet_dashboardinfo">
             <div className="col-xs-12 margin-top-20">
               <div className="panel nav-tabs-horizontal">
-                <div data-extcoin="COIN" id="kmd_wallet_dashoard_section">
+                <div id="kmd_wallet_dashoard_section">
                   <div className="col-xlg-12 col-lg-12 col-sm-12 col-xs-12">
                     <div className="panel">
                       <header className="panel-heading">
-                        <h3 className="panel-title">{translate('INDEX.TRANSACTION_HISTORY')}</h3>
+                        <h3 className="panel-title">{ translate('INDEX.TRANSACTION_HISTORY') }</h3>
                       </header>
                       <div className="panel-body">
                         <div className="row">
                           <div className="col-sm-6">
-                            {this.renderPaginationItemsPerPageSelector()}
+                            { this.renderPaginationItemsPerPageSelector() }
                           </div>
                           <div className="col-sm-6">
                             <div id="kmd-tx-history-tbl_filter" className="dataTables_filter">
                               <label>
-                                {translate('INDEX.SEARCH')}: <input type="search" className="form-control input-sm" aria-controls="kmd-tx-history-tbl" disabled="true" />
+                                { translate('INDEX.SEARCH') }: <input type="search" className="form-control input-sm" aria-controls="kmd-tx-history-tbl" disabled="true" />
                               </label>
                             </div>
                           </div>
@@ -232,32 +266,32 @@ class WalletsNativeTxHistory extends React.Component {
                           <table className="table table-hover dataTable table-striped" id="kmd-tx-history-tbl" width="100%">
                             <thead>
                               <tr>
-                                <th>{translate('INDEX.TYPE')}</th>
-                                <th>{translate('INDEX.DIRECTION')}</th>
-                                <th>{translate('INDEX.CONFIRMATIONS')}</th>
-                                <th>{translate('INDEX.AMOUNT')}</th>
-                                <th>{translate('INDEX.TIME')}</th>
-                                <th>{translate('INDEX.DEST_ADDRESS')}</th>
-                                <th>{translate('INDEX.TX_DETAIL')}</th>
+                                <th>{ translate('INDEX.TYPE') }</th>
+                                <th>{ translate('INDEX.DIRECTION') }</th>
+                                <th>{ translate('INDEX.CONFIRMATIONS') }</th>
+                                <th>{ translate('INDEX.AMOUNT') }</th>
+                                <th>{ translate('INDEX.TIME') }</th>
+                                <th>{ translate('INDEX.DEST_ADDRESS') }</th>
+                                <th>{ translate('INDEX.TX_DETAIL') }</th>
                               </tr>
                             </thead>
                             <tbody>
-                            {this.renderTxHistoryList()}
+                            { this.renderTxHistoryList() }
                             </tbody>
                             <tfoot>
                               <tr>
-                                <th>{translate('INDEX.TYPE')}</th>
-                                <th>{translate('INDEX.DIRECTION')}</th>
-                                <th>{translate('INDEX.CONFIRMATIONS')}</th>
-                                <th>{translate('INDEX.AMOUNT')}</th>
-                                <th>{translate('INDEX.TIME')}</th>
-                                <th>{translate('INDEX.DEST_ADDRESS')}</th>
-                                <th>{translate('INDEX.TX_DETAIL')}</th>
+                                <th>{ translate('INDEX.TYPE') }</th>
+                                <th>{ translate('INDEX.DIRECTION') }</th>
+                                <th>{ translate('INDEX.CONFIRMATIONS') }</th>
+                                <th>{ translate('INDEX.AMOUNT') }</th>
+                                <th>{ translate('INDEX.TIME') }</th>
+                                <th>{ translate('INDEX.DEST_ADDRESS') }</th>
+                                <th>{ translate('INDEX.TX_DETAIL') }</th>
                               </tr>
                             </tfoot>
                           </table>
                         </div>
-                        {this.renderPagination()}
+                        { this.renderPagination() }
                       </div>
                     </div>
                   </div>

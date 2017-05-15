@@ -1,6 +1,8 @@
 export const _lang = {
   'EN': {
     'INDEX': {
+      'NO_DATA': 'No history available',
+      'LOADING_HISTORY': 'Loading transaction history',
       'FETCHING_NOTARIES_LIST': 'Fetching notaries list data',
       'TOTAL_NOTARIES': 'Notaries list. Total nodes count',
       'CLOSE': 'Close',
@@ -386,6 +388,12 @@ export const _lang = {
       'SAVE_APP_CONFIG': 'Save app config',
       'CONFIG_RESTART_REQUIRED': 'Most changes to app config require wallet restart!',
       'APP_CONFIG': 'App Config',
+    },
+    'TX_INFO': {
+      'ADDRESS': 'address',
+      'AMOUNT': 'amount',
+      'CATEGORY': 'category',
+      'CONFIRMATIONS': 'confirmations'
     }
   }
 };
