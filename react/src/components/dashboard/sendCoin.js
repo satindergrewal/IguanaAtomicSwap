@@ -70,19 +70,25 @@ class SendCoin extends React.Component {
 
   updateSocketsData(data) {
     console.log('sockets', data);
-    if (data && data.message && data.message.shepherd.iguanaAPI &&
+    if (data &&
+        data.message &&
+        data.message.shepherd.iguanaAPI &&
         data.message.shepherd.iguanaAPI.totalStackLength) {
       this.setState(Object.assign({}, this.state, {
         totalStackLength: data.message.shepherd.iguanaAPI.totalStackLength,
       }));
     }
-    if (data && data.message && data.message.shepherd.iguanaAPI &&
+    if (data &&
+        data.message &&
+        data.message.shepherd.iguanaAPI &&
         data.message.shepherd.iguanaAPI.currentStackLength) {
       this.setState(Object.assign({}, this.state, {
         currentStackLength: data.message.shepherd.iguanaAPI.currentStackLength,
       }));
     }
-    if (data && data.message && data.message.shepherd.method &&
+    if (data &&
+        data.message &&
+        data.message.shepherd.method &&
         data.message.shepherd.method === 'cache-one' &&
         data.message.shepherd.status === 'done') {
       Store.dispatch(basiliskRefresh(false));
@@ -128,18 +134,27 @@ class SendCoin extends React.Component {
       return (
         <div className="col-lg-12">
           <hr />
-          Total UTXO available: {refreshCacheData ? refreshCacheData.data && refreshCacheData.data.length : 'N/A. Press update button.'}<br />
-          <div className={!timestamp ? 'hide' : ''}>
-            Last updated @ {secondsToString(refreshCacheData ? refreshCacheData.timestamp : 0, true)} | {secondsElapsedToString(timestamp || 0)} ago<br />
+          { translate('SEND.TOTAL_UTXO_AVAILABLE') }: { refreshCacheData ? refreshCacheData.data && refreshCacheData.data.length : translate('SEND.PRESS_UPDATE_BTN') }<br />
+          <div className={ !timestamp ? 'hide' : '' }>
+            { translate('SEND.LAST_UPDATED') } @ { secondsToString(refreshCacheData ? refreshCacheData.timestamp : 0, true) } | { secondsElapsedToString(timestamp || 0) } { translate('SEND.AGO') }<br />
           </div>
-          <div className={isReadyToUpdate ? 'hide' : ''}>Next update available in {secondsElapsedToString(600 - timestamp)}s</div>
-          <div className={this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : 'progress progress-sm'} style={{width: '100%', marginBottom: '10px', marginTop: '10px'}}>
-            <div className="progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success" style={{width: 100 - (this.state.currentStackLength * 100 / this.state.totalStackLength) + '%', fontSize: '80%'}} role="progressbar">
-              Processing requests: {this.state.currentStackLength} / {this.state.totalStackLength}
+          <div className={ isReadyToUpdate ? 'hide' : '' }>{ translate('SEND.NEXT_UPDATE_IN') } { secondsElapsedToString(600 - timestamp) }s</div>
+          <div
+            className={ this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : 'progress progress-sm' }
+            style={{ width: '100%', marginBottom: '10px', marginTop: '10px' }}>
+            <div
+              className="progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success"
+              style={{ width: 100 - (this.state.currentStackLength * 100 / this.state.totalStackLength) + '%', fontSize: '80%' }}
+              role="progressbar">
+              { translate('SEND.PROCESSING_REQ') }: { this.state.currentStackLength } / { this.state.totalStackLength }
             </div>
           </div>
-          <button type="button" style={{marginTop: '10px'}} className={isReadyToUpdate ? 'btn btn-primary waves-effect waves-light' : 'hide'} onClick={this._fetchNewUTXOData} disabled={waitUntilCallIsFinished}>
-            {waitUntilCallIsFinished ? 'Locked, please wait...' : 'Update'}
+          <button
+            type="button"
+            style={{ marginTop: '10px' }}
+            className={ isReadyToUpdate ? 'btn btn-primary waves-effect waves-light' : 'hide' }
+            onClick={ this._fetchNewUTXOData } disabled={ waitUntilCallIsFinished }>
+            {waitUntilCallIsFinished ? translate('SEND.LOCKED_PLEASE_WAIT') + '...' : translate('SEND.UPDATE')}
           </button>
         </div>
       );
@@ -180,8 +195,13 @@ class SendCoin extends React.Component {
         const mainAddressAmount = this.renderAddressAmount(mainAddress);
 
         return(
-          <li data-original-index="2" key={mainAddress} className={mainAddressAmount <= 0 ? 'hide' : ''}>
-            <a tabIndex="0" onClick={() => this.updateAddressSelection(mainAddress, type, mainAddressAmount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {mainAddressAmount} {this.props.ActiveCoin.coin} ]  {mainAddress}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+          <li
+            data-original-index="2"
+            key={ mainAddress }
+            className={ mainAddressAmount <= 0 ? 'hide' : '' }>
+            <a
+              tabIndex="0"
+              onClick={ () => this.updateAddressSelection(mainAddress, type, mainAddressAmount) }><i className={ type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash' }></i>  <span className="text">[ { mainAddressAmount } { this.props.ActiveCoin.coin } ]  { mainAddress }</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
           </li>
         );
       } else {
@@ -196,8 +216,13 @@ class SendCoin extends React.Component {
           }
 
           items.push(
-            <li data-original-index="2" key={address.address} className={address.amount <= 0 ? 'hide' : ''}>
-              <a tabIndex="0" onClick={() => this.updateAddressSelection(address.address, type, _amount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {_amount} {this.props.ActiveCoin.coin} ]  {address.address}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+            <li
+              data-original-index="2"
+              key={ address.address }
+              className={ address.amount <= 0 ? 'hide' : '' }>
+              <a
+                tabIndex="0"
+                onClick={ () => this.updateAddressSelection(address.address, type, _amount) }><i className={ type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash' }></i>  <span className="text">[ { _amount } { this.props.ActiveCoin.coin } ]  { address.address }</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
             </li>
           );
         }
@@ -211,9 +236,18 @@ class SendCoin extends React.Component {
 
   renderSelectorCurrentLabel() {
     if (this.state.sendFrom) {
+      let _amount;
+
+      if (this.state._sendFromAmount === 0 &&
+          this.props.ActiveCoin.mode === 'basilisk') {
+        _amount = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].getbalance.data && this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].getbalance.data.balance ? this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].getbalance.data.balance : 'N/A';
+      } else {
+        _amount = this.state._sendFromAmount;
+      }
+
       return (
         <span>
-          <i className={this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {this.state.sendFromAmount} {this.props.ActiveCoin.coin} ]  {this.state.sendFrom}</span>
+          <i className={this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ { _amount } {this.props.ActiveCoin.coin} ]  {this.state.sendFrom}</span>
         </span>
       );
     } else if (this.state.sendApiType) {
