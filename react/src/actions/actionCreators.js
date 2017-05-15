@@ -925,7 +925,7 @@ export function addPeerNode(coin, ip) {
   }
 }
 
-export function getAddressesByAccountState(json, coin, mode) {
+export function setBasiliskMainAddress(json, coin, mode) {
   if (mode === 'full') {
     let publicAddressArray = [];
 
@@ -942,6 +942,31 @@ export function getAddressesByAccountState(json, coin, mode) {
   if (mode === 'basilisk') {
     getDexBalance(coin, mode, json.result);
   }
+  const _mainAddr = []
+
+  return {
+    type: ACTIVE_COIN_GET_ADDRESSES,
+    addresses: { 'public': [] },
+  }
+}
+
+export function getAddressesByAccountState(json, coin, mode) {
+  if (mode === 'full' || mode === 'basilisk') {
+    let publicAddressArray = [];
+
+    for (let i = 0; i < json.result.length; i++) {
+      publicAddressArray.push({
+        'address': json.result[i],
+        'amount': 'N/A'
+      });
+    }
+
+    json.result = publicAddressArray;
+  }
+
+  /*if (mode === 'basilisk') {
+    getDexBalance(coin, mode, json.result);
+  }*/
 
   return {
     type: ACTIVE_COIN_GET_ADDRESSES,
@@ -971,7 +996,7 @@ export function getAddressesByAccount(coin, mode) {
       dispatch(triggerToaster(true, 'getAddressesByAccount', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(getAddressesByAccountState(json, coin, mode, dispatch)))
+    .then(json => dispatch(getAddressesByAccountState(json, coin, mode)))
   }
 }
 
@@ -1403,13 +1428,13 @@ export function fetchUtxoCache(_payload) {
 
 function getShepherdCacheState(json, pubkey, coin) {
   if (json.result && json.error && json.result.indexOf('no file with handle') > -1) {
-    console.log('request new cache', true);
+    console.log('request new cache', { 'pubkey': pubkey, 'coin': coin });
     return dispatch => {
       dispatch(fetchNewCacheData({
         'pubkey': pubkey,
         'allcoins': false,
         'coin': coin,
-        'calls': 'listtransactions:getbalance:listunspent',
+        'calls': 'listtransactions:getbalance',
       }));
     }
   } else {
@@ -1605,7 +1630,7 @@ export function getSyncInfoNative(coin, skipDebug) {
   }
 }
 
-export function getDexBalance(coin, addr) {
+export function getDexBalance(coin, mode, addr) {
   Promise.all(addr.map((_addr, index) => {
     const payload = {
       'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),

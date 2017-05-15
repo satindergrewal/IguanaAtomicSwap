@@ -62,11 +62,14 @@ class CoinTileItem extends React.Component {
     if (mode === 'basilisk') {
       const useAddress = this.props.ActiveCoin.mainBasiliskAddress ? this.props.ActiveCoin.mainBasiliskAddress : this.props.Dashboard.activeHandle[coin];
       Store.dispatch(iguanaActiveHandle(true));
+      Store.dispatch(getKMDAddressesNative(coin, mode, useAddress));
       Store.dispatch(getShepherdCache(JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey, coin));
 
       if (this.props && this.props.Dashboard && this.props.Dashboard.activeHandle && this.props.Dashboard.activeHandle[coin]) {
+        if (!this.props.ActiveCoin.addresses) {
+          Store.dispatch(getAddressesByAccount(coin, mode));
+        }
         Store.dispatch(getBasiliskTransactionsList(coin, useAddress));
-        Store.dispatch(getKMDAddressesNative(coin, mode, useAddress));
         //Store.dispatch(iguanaEdexBalance(coin, mode));
       }
     }
