@@ -403,7 +403,13 @@ export const _lang = {
       'AGO': 'ago',
       'PROCESSING_REQ': 'Processing requests',
       'LOCKED_PLEASE_WAIT': 'Locked, please wait',
-      'UPDATE': 'Update'
+      'UPDATE': 'Update',
+      'SELECT_T_OR_Z_ADDR': 'Select Transparent or Private Address',
+      'ENTER_T_OR_Z_ADDR': 'Enter Transparent or Private address',
+      'AWAITING': 'Awaiting in queue',
+      'PROCESSING': 'Processing',
+      'ERROR_CODE': 'Error Code',
+      'WAITING': 'Waiting'
     }
   }
 };

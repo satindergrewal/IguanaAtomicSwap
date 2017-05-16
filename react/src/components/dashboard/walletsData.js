@@ -83,19 +83,25 @@ class WalletsData extends React.Component {
   }
 
   updateSocketsData(data) {
-    if (data && data.message && data.message.shepherd.iguanaAPI &&
+    if (data &&
+        data.message &&
+        data.message.shepherd.iguanaAPI &&
         data.message.shepherd.iguanaAPI.totalStackLength) {
       this.setState(Object.assign({}, this.state, {
         totalStackLength: data.message.shepherd.iguanaAPI.totalStackLength,
       }));
     }
-    if (data && data.message && data.message.shepherd.iguanaAPI &&
+    if (data &&
+        data.message &&
+        data.message.shepherd.iguanaAPI &&
         data.message.shepherd.iguanaAPI.currentStackLength) {
       this.setState(Object.assign({}, this.state, {
         currentStackLength: data.message.shepherd.iguanaAPI.currentStackLength,
       }));
     }
-    if (data && data.message && data.message.shepherd.method &&
+    if (data &&
+        data.message &&
+        data.message.shepherd.method &&
         data.message.shepherd.method === 'cache-one' &&
         data.message.shepherd.status === 'done') {
       Store.dispatch(basiliskRefresh(false));
@@ -120,13 +126,6 @@ class WalletsData extends React.Component {
       'calls': 'refresh',
       'address': this.state.currentAddress,
     }));
-    console.log('_fetchUtxoCache', {
-      'pubkey': this.props.Dashboard.activeHandle.pubkey,
-      'allcoins': false,
-      'coin': this.props.ActiveCoin.coin,
-      'calls': 'refresh',
-      'address': this.state.currentAddress,
-    });
   }
 
   toggleBasiliskActionsMenu() {
@@ -182,7 +181,8 @@ class WalletsData extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (!this.state.currentAddress && this.props.ActiveCoin.activeAddress) {
+    if (!this.state.currentAddress &&
+        this.props.ActiveCoin.activeAddress) {
       this.setState(Object.assign({}, this.state, {
         currentAddress: this.props.ActiveCoin.activeAddress,
       }));
@@ -192,7 +192,9 @@ class WalletsData extends React.Component {
         this.props.ActiveCoin.txhistory !== 'loading' &&
         this.props.ActiveCoin.txhistory !== 'no data' &&
         this.props.ActiveCoin.txhistory.length) {
-      if (!this.state.itemsList || (this.state.itemsList && !this.state.itemsList.length) || (props.ActiveCoin.txhistory !== this.props.ActiveCoin.txhistory)) {
+      if (!this.state.itemsList ||
+          (this.state.itemsList && !this.state.itemsList.length) ||
+          (props.ActiveCoin.txhistory !== this.props.ActiveCoin.txhistory)) {
         let historyToSplit = sortByDate(this.props.ActiveCoin.txhistory);
         historyToSplit = historyToSplit.slice((this.state.activePage - 1) * this.state.itemsPerPage, this.state.activePage * this.state.itemsPerPage);
 
@@ -202,7 +204,8 @@ class WalletsData extends React.Component {
       }
     }
 
-    if (this.props.ActiveCoin.txhistory && this.props.ActiveCoin.txhistory === 'no data') {
+    if (this.props.ActiveCoin.txhistory &&
+        this.props.ActiveCoin.txhistory === 'no data') {
       this.setState(Object.assign({}, this.state, {
         itemsList: 'no data',
       }));
@@ -228,8 +231,13 @@ class WalletsData extends React.Component {
 
     for (let i=0; i < Math.ceil(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage); i++) {
       items.push(
-        <li key={i + '-pagination-link'} className={this.state.activePage === i + 1 ? 'paginate_button active' : 'paginate_button'}>
-          <a aria-controls="kmd-tx-history-tbl" data-dt-idx="1" tabIndex="0" key={i + '-pagination'} onClick={this.state.activePage !== (i + 1) ? () => this.updateCurrentPage(i + 1) : null}>{i + 1}</a>
+        <li
+          key={ `${i}-pagination-link` }
+          className={ this.state.activePage === i + 1 ? 'paginate_button active' : 'paginate_button' }>
+          <a
+            aria-controls="kmd-tx-history-tbl"
+            tabIndex="0" key={ `${i}-pagination` }
+            onClick={ this.state.activePage !== (i + 1) ? () => this.updateCurrentPage(i + 1) : null }>{ i + 1 }</a>
         </li>
       );
     }
@@ -238,18 +246,24 @@ class WalletsData extends React.Component {
   }
 
   renderPaginationItemsPerPageSelector() {
-    if (this.props.ActiveCoin.txhistory && this.state.itemsList !== 'loading' && this.props.ActiveCoin.txhistory.length > 10) {
+    if (this.props.ActiveCoin.txhistory &&
+        this.state.itemsList !== 'loading' &&
+        this.props.ActiveCoin.txhistory.length > 10) {
       return (
         <div className="dataTables_length" id="kmd-tx-history-tbl_length">
           <label>
-            Show&nbsp;
-            <select name="itemsPerPage" aria-controls="kmd-tx-history-tbl" className="form-control input-sm" onChange={this.updateInput}>
+            { translate('INDEX.SHOW') }&nbsp;
+            <select
+              name="itemsPerPage"
+              aria-controls="kmd-tx-history-tbl"
+              className="form-control input-sm"
+              onChange={ this.updateInput }>
               <option value="10">10</option>
               <option value="25">25</option>
               <option value="50">50</option>
               <option value="100">100</option>
             </select>&nbsp;
-            entries
+            { translate('INDEX.ENTRIES_SM') }
           </label>
         </div>
       );
@@ -259,21 +273,40 @@ class WalletsData extends React.Component {
   }
 
   renderPagination() {
-    if (this.props.ActiveCoin.txhistory && this.state.itemsList !== 'loading' && this.props.ActiveCoin.txhistory.length > 10) {
+    if (this.props.ActiveCoin.txhistory &&
+        this.state.itemsList !== 'loading' &&
+        this.props.ActiveCoin.txhistory.length > 10) {
+      const _paginationFrom = ((this.state.activePage - 1) * this.state.itemsPerPage) + 1;
+      const _paginationTo = this.state.activePage * this.state.itemsPerPage;
+
       return (
         <div className="row unselectable">
           <div className="col-sm-5">
-            <div className="dataTables_info" id="kmd-tx-history-tbl_info" role="status" aria-live="polite">Showing {((this.state.activePage - 1) * this.state.itemsPerPage) + 1} to {this.state.activePage * this.state.itemsPerPage} of {this.props.ActiveCoin.txhistory.length} entries</div>
+            <div
+              className="dataTables_info"
+              id="kmd-tx-history-tbl_info"
+              role="status"
+              aria-live="polite">{ translate('INDEX.SHOWING') } { _paginationFrom } { translate('INDEX.TO') } { _paginationTo } { translate('INDEX.OF') } { this.props.ActiveCoin.txhistory.length } { translate('INDEX.ENTRIES_SM') }</div>
           </div>
           <div className="col-sm-7">
             <div className="dataTables_paginate paging_simple_numbers" id="kmd-tx-history-tbl_paginate">
               <ul className="pagination">
-                <li className={this.state.activePage === 1 ? 'paginate_button previous disabled' : 'paginate_button previous'} id="kmd-tx-history-tbl_previous">
-                  <a aria-controls="kmd-tx-history-tbl" data-dt-idx="0" tabIndex="0" onClick={() => this.updateCurrentPage(this.state.activePage - 1)}>Previous</a>
+                <li
+                  className={ this.state.activePage === 1 ? 'paginate_button previous disabled' : 'paginate_button previous' }
+                  id="kmd-tx-history-tbl_previous">
+                  <a
+                    aria-controls="kmd-tx-history-tbl"
+                    tabIndex="0"
+                    onClick={ () => this.updateCurrentPage(this.state.activePage - 1) }>{ translate('INDEX.PREVIOUS') }</a>
                 </li>
-                {this.renderPaginationItems()}
-                <li className={this.state.activePage > Math.floor(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage) ? 'paginate_button next disabled' : 'paginate_button next'} id="kmd-tx-history-tbl_next">
-                  <a aria-controls="kmd-tx-history-tbl" data-dt-idx="2" tabIndex="0" onClick={() => this.updateCurrentPage(this.state.activePage + 1)}>Next</a>
+                { this.renderPaginationItems() }
+                <li
+                  className={ this.state.activePage > Math.floor(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage) ? 'paginate_button next disabled' : 'paginate_button next' }
+                  id="kmd-tx-history-tbl_next">
+                  <a
+                    aria-controls="kmd-tx-history-tbl"
+                    tabIndex="0"
+                    onClick={ () => this.updateCurrentPage(this.state.activePage + 1) }>{ translate('INDEX.NEXT') }</a>
                 </li>
               </ul>
             </div>
@@ -286,38 +319,40 @@ class WalletsData extends React.Component {
   }
 
   renderTxType(category) {
-    if ( category === 'send' || category === 'sent' ) {
+    if (category === 'send' ||
+        category === 'sent') {
       return (
         <span className="label label-danger">
-          <i className="icon fa-arrow-circle-left"></i> <span>{translate('DASHBOARD.OUT')}</span>
+          <i className="icon fa-arrow-circle-left"></i> <span>{ translate('DASHBOARD.OUT') }</span>
         </span>
       );
     }
-    if ( category === 'receive' || category === 'received' ) {
+    if (category === 'receive' ||
+        category === 'received') {
       return (
         <span className="label label-success">
-          <i className="icon fa-arrow-circle-right"></i> <span>{translate('DASHBOARD.IN')}</span>
+          <i className="icon fa-arrow-circle-right"></i> <span>{ translate('DASHBOARD.IN') }</span>
         </span>
       );
     }
-    if ( category === 'generate' ) {
+    if (category === 'generate') {
       return (
         <span>
-          <i className="icon fa-cogs"></i> <span>{translate('DASHBOARD.MINED')}</span>
+          <i className="icon fa-cogs"></i> <span>{ translate('DASHBOARD.MINED') }</span>
         </span>
       );
     }
-    if ( category === 'immature' ) {
+    if (category === 'immature') {
       return (
         <span>
-          <i className="icon fa-clock-o"></i> <span>{translate('DASHBOARD.IMMATURE')}</span>
+          <i className="icon fa-clock-o"></i> <span>{ translate('DASHBOARD.IMMATURE') }</span>
         </span>
       );
     }
-    if ( category === 'unknown' ) {
+    if (category === 'unknown') {
       return (
         <span>
-          <i className="icon fa-meh-o"></i> <span>{translate('DASHBOARD.UNKNOWN')}</span>
+          <i className="icon fa-meh-o"></i> <span>{ translate('DASHBOARD.UNKNOWN') }</span>
         </span>
       );
     }
@@ -326,23 +361,30 @@ class WalletsData extends React.Component {
   renderTxHistoryList() {
     if (this.state.itemsList === 'loading') {
       return (
-        <div>Loading history...</div>
+        <div>{ translate('INDEX.LOADING_HISTORY') }...</div>
       );
     } else if (this.state.itemsList === 'no data') {
       return (
-        <div>No data</div>
+        <div>{ translate('INDEX.NO_DATA') }</div>
       );
     } else {
-      if (this.state.itemsList && this.state.itemsList.length && this.state.itemsList !== 'no data') {
+      if (this.state.itemsList &&
+          this.state.itemsList.length &&
+          this.state.itemsList !== 'no data') {
         return this.state.itemsList.map((tx, index) =>
-          <tr key={tx.txid + tx.amount}>
-            <td>{this.renderTxType(tx.category || tx.type)}</td>
-            <td>{tx.confirmations}</td>
-            <td>{tx.amount || translate('DASHBOARD.UNKNOWN')}</td>
-            <td>{secondsToString(tx.blocktime || tx.timestamp)}</td>
-            <td>{tx.address}</td>
+          <tr key={ tx.txid + tx.amount }>
+            <td>{ this.renderTxType(tx.category || tx.type) }</td>
+            <td>{ tx.confirmations }</td>
+            <td>{ tx.amount || translate('DASHBOARD.UNKNOWN') }</td>
+            <td>{ secondsToString(tx.blocktime || tx.timestamp) }</td>
+            <td>{ tx.address }</td>
             <td>
-              <button type="button" className="btn btn-xs white btn-info waves-effect waves-light btn-kmdtxid" onClick={() => this.toggleTxInfoModal(!this.props.ActiveCoin.showTransactionInfo, index)}><i className="icon fa-search"></i></button>
+              <button
+                type="button"
+                className="btn btn-xs white btn-info waves-effect waves-light btn-kmdtxid"
+                onClick={ () => this.toggleTxInfoModal(!this.props.ActiveCoin.showTransactionInfo, index) }>
+                <i className="icon fa-search"></i>
+              </button>
             </td>
           </tr>
         );
@@ -409,7 +451,7 @@ class WalletsData extends React.Component {
       return (
         <div className="col-sm-2">
           <div className="pull-left margin-right-10">
-            <input type="checkbox" id="edexcoin_cache_api" checked={this.state.useCache} data-plugin="switchery" data-size="small" />
+            <input type="checkbox" id="edexcoin_cache_api" checked={this.state.useCache} />
           </div>
           <label className="padding-top-3" htmlFor="edexcoin_cache_api" onClick={this.toggleCacheApi}>Use cache</label>
         </div>

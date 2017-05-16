@@ -15,21 +15,22 @@ class WalletsNative extends React.Component {
 
   // <WalletsNativeAlert {...this.props} />
   render() {
-    if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.mode === 'native') {
+    if (this.props &&
+        this.props.ActiveCoin &&
+        this.props.ActiveCoin.mode === 'native') {
       return (
-        <div className="page" data-animsition-in="fade-in" data-animsition-out="fade-out" style={{marginLeft: '0'}}>
-          <div data-extcoin="COIN" id="section-extcoin" style={{paddingTop: '0'}}>
-            <div id="easydex-header-div" style={{'backgroundImage': 'url("assets/images/bg/' + this.props.ActiveCoin.coin.toLowerCase() + '_transparent_header_bg.png")'}}>
+        <div className="page" style={{ marginLeft: '0' }}>
+          <div id="section-extcoin" style={{ paddingTop: '0' }}>
+            <div id="easydex-header-div" style={{ 'backgroundImage': 'url("assets/images/bg/' + this.props.ActiveCoin.coin.toLowerCase() + '_transparent_header_bg.png")' }}>
               <ol className="breadcrumb">
                 <li className="header-easydex-section">
-                  <img src={'assets/images/native/' + this.props.ActiveCoin.coin.toLowerCase() + '_header_title_logo.png'} /> <span style={{fontSize: '35px', verticalAlign: 'middle'}} className={this.props.ActiveCoin.coin === 'KMD' ? 'hide' : ''}>{this.props.ActiveCoin.coin}</span>
+                  <img src={ 'assets/images/native/' + this.props.ActiveCoin.coin.toLowerCase() + '_header_title_logo.png' } /> <span style={{ fontSize: '35px', verticalAlign: 'middle' }} className={ this.props.ActiveCoin.coin === 'KMD' ? 'hide' : '' }>{ this.props.ActiveCoin.coin }</span>
                 </li>
               </ol>
             </div>
             <div className="page-content">
               <WalletsNativeSyncProgress {...this.props} />
-
-              <div className="row" data-extcoin="COIN" id="extcoin-wallet" data-plugin="masonry">
+              <div className="row" id="extcoin-wallet">
                 <WalletsNativeBalance {...this.props} />
                 <WalletsNativeTxHistory {...this.props} />
                 <WalletsNativeReceive {...this.props} />

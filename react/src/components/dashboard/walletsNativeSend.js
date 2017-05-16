@@ -30,10 +30,14 @@ class WalletsNativeSend extends React.Component {
   }
 
   renderAddressByType(type) {
-    if (this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses[type] && this.props.ActiveCoin.addresses[type].length) {
+    if (this.props.ActiveCoin.addresses &&
+        this.props.ActiveCoin.addresses[type] &&
+        this.props.ActiveCoin.addresses[type].length) {
       return this.props.ActiveCoin.addresses[type].map((address) =>
-        <li data-original-index="2" key={address.address} className={address.amount <= 0 ? 'hide' : ''}>
-          <a tabIndex="0" onClick={() => this.updateAddressSelection(address.address, type, address.amount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {address.amount} {this.props.ActiveCoin.coin} ]  {address.address}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+        <li data-original-index="2" key={ address.address } className={ address.amount <= 0 ? 'hide' : '' }>
+          <a
+            tabIndex="0"
+            onClick={ () => this.updateAddressSelection(address.address, type, address.amount) }><i className={ type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash' }></i>  <span className="text">[ { address.amount } { this.props.ActiveCoin.coin } ]  { address.address }</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
         </li>
       );
     } else {
@@ -45,29 +49,37 @@ class WalletsNativeSend extends React.Component {
     if (this.state.sendFrom) {
       return (
         <span>
-          <i className={this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {this.state.sendFromAmount} {this.props.ActiveCoin.coin} ]  {this.state.sendFrom}</span>
+          <i className={ this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash' }></i>  <span className="text">[ { this.state.sendFromAmount } { this.props.ActiveCoin.coin } ]  { this.state.sendFrom }</span>
         </span>
       );
     } else {
       return (
-        <span>- Select Transparent or Private Address -</span>
+        <span>- { translate('SEND.SELECT_T_OR_Z_ADDR') } -</span>
       );
     }
   }
 
   renderAddressList() {
     return (
-      <div className={'btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ' + (this.state.addressSelectorOpen ? 'open' : '')}>
-        <button type="button" className="btn dropdown-toggle btn-info" data-toggle="dropdown" data-id="kmd_wallet_send_from" title="- Select Transparent or Private Address -" aria-expanded="true" onClick={this.openDropMenu}>
-          <span className="filter-option pull-left">{this.renderSelectorCurrentLabel()} </span>&nbsp;<span className="bs-caret"><span className="caret"></span></span>
+      <div className={ 'btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ' + (this.state.addressSelectorOpen ? 'open' : '') }>
+        <button
+          type="button"
+          className="btn dropdown-toggle btn-info"
+          title="- { translate('SEND.SELECT_T_OR_Z_ADDR') } -"
+          aria-expanded="true"
+          onClick={ this.openDropMenu }>
+          <span className="filter-option pull-left">{ this.renderSelectorCurrentLabel() } </span>
+          <span className="bs-caret">
+            <span className="caret"></span>
+          </span>
         </button>
         <div className="dropdown-menu open">
           <ul className="dropdown-menu inner" role="menu">
-            <li data-original-index="1" className="selected">
-              <a tabIndex="0" data-tokens="null"><span className="text"> - Select Transparent or Private Address - </span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+            <li className="selected">
+              <a tabIndex="0"><span className="text"> - { translate('SEND.SELECT_T_OR_Z_ADDR') } - </span><span className="glyphicon glyphicon-ok check-mark"></span></a>
             </li>
-            {this.renderAddressByType('public')}
-            {this.renderAddressByType('private')}
+            { this.renderAddressByType('public') }
+            { this.renderAddressByType('private') }
           </ul>
         </div>
       </div>
@@ -78,55 +90,55 @@ class WalletsNativeSend extends React.Component {
     if (opid.status === 'queued') {
       return (
         <span className="label label-warning">
-          <i className="icon fa-eye"></i> <span>{translate('KMD_NATIVE.QUEUED')}</span>
+          <i className="icon fa-eye"></i> <span>{ translate('KMD_NATIVE.QUEUED') }</span>
         </span>
       );
     }
     if (opid.status === 'executing') {
       return (
         <span className="label label-info">
-          <i className="icon fa-eye"></i> <span>{translate('KMD_NATIVE.EXECUTING')}</span>
+          <i className="icon fa-eye"></i> <span>{ translate('KMD_NATIVE.EXECUTING') }</span>
         </span>
       );
     }
     if (opid.status === 'failed') {
       return (
         <span className="label label-danger">
-          <i className="icon fa-eye"></i> <span>{translate('KMD_NATIVE.FAILED')}</span>
+          <i className="icon fa-eye"></i> <span>{ translate('KMD_NATIVE.FAILED') }</span>
         </span>
       );
     }
     if (opid.status === 'success') {
       return (
         <span className="label label-success">
-          <i className="icon fa-eye"></i> <span>{translate('KMD_NATIVE.SUCCESS')}</span>
+          <i className="icon fa-eye"></i> <span>{ translate('KMD_NATIVE.SUCCESS') }</span>
         </span>
       );
     }
   }
 
   renderOPIDResult(opid) {
-    var isWaitingStatus = true;
+    let isWaitingStatus = true;
 
     if (opid.status === 'queued') {
       isWaitingStatus = false;
       return (
-        <i>Awaiting in queue...</i>
+        <i>{ translate('SEND.AWAITING') }...</i>
       );
     }
     if (opid.status === 'executing') {
       isWaitingStatus = false;
       return (
-        <i>Processing...</i>
+        <i>{ translate('SEND.PROCESSING') }...</i>
       );
     }
     if (opid.status === 'failed') {
       isWaitingStatus = false;
       return (
         <span>
-          <b>Error Code:</b> <span>{opid.error.code}</span>
+          <strong>{ translate('SEND.ERROR_CODE') }:</strong> <span>{ opid.error.code }</span>
           <br />
-          <b>{translate('KMD_NATIVE.MESSAGE')}:</b> <span>{opid.error.message}</span>
+          <strong>{ translate('KMD_NATIVE.MESSAGE') }:</strong> <span>{ opid.error.message }</span>
         </span>
       );
     }
@@ -134,27 +146,28 @@ class WalletsNativeSend extends React.Component {
       isWaitingStatus = false;
       return (
         <span>
-          <b>txid:</b> <span>{opid.result.txid}</span>
+          <strong>txid:</strong> <span>{ opid.result.txid }</span>
           <br />
-          <b>{translate('KMD_NATIVE.EXECUTION_SECONDS')}:</b> <span>{opid.execution_secs}</span>
+          <strong>{ translate('KMD_NATIVE.EXECUTION_SECONDS') }:</strong> <span>{ opid.execution_secs }</span>
         </span>
       );
     }
     if (isWaitingStatus) {
       return (
-        <span>Waiting...</span>
+        <span>{ translate('SEND.WAITING') }...</span>
       );
     }
   }
 
   renderOPIDList() {
-    if (this.props.ActiveCoin.opids && this.props.ActiveCoin.opids.length) {
+    if (this.props.ActiveCoin.opids &&
+        this.props.ActiveCoin.opids.length) {
       return this.props.ActiveCoin.opids.map((opid) =>
-        <tr key={opid.id}>
-          <td>{this.renderOPIDLabel(opid)}</td>
-          <td>{opid.id}</td>
-          <td>{secondsToString(opid.creation_time)}</td>
-          <td>{this.renderOPIDResult(opid)}</td>
+        <tr key={ opid.id }>
+          <td>{ this.renderOPIDLabel(opid) }</td>
+          <td>{ opid.id }</td>
+          <td>{ secondsToString(opid.creation_time) }</td>
+          <td>{ this.renderOPIDResult(opid) }</td>
         </tr>
       );
     } else {
@@ -209,7 +222,7 @@ class WalletsNativeSend extends React.Component {
         }
 
         if (this.state.sendTo === '') {
-          Store.dispatch(triggerToaster(true, 'Couldn\'t find any ' + this.props.ActiveCoin.coin +' addresses', 'OpenAlias', 'error'));
+          Store.dispatch(triggerToaster(true, 'Couldn\'t find any ' + this.props.ActiveCoin.coin + ' addresses', 'OpenAlias', 'error'));
         }
       } else {
         Store.dispatch(triggerToaster(true, 'Couldn\'t find any addresses', 'OpenAlias', 'error'));
@@ -222,11 +235,25 @@ class WalletsNativeSend extends React.Component {
       return (
         <div className="row">
           <div className="col-lg-6 form-group form-material">
-            <label className="control-label" data-extcoin="COIN" htmlFor="kmd_wallet_sendto">{translate('INDEX.SEND_TO')} via Openalias address</label>
-            <input type="text" className="form-control" data-extcoin="COIN" name="sendToOA" onChange={this.updateInput} id="kmd_wallet_sendto" placeholder="Enter an alias as address@site.com" autoComplete="off" required />
+            <label
+              className="control-label"
+              htmlFor="kmd_wallet_sendto">{ translate('INDEX.SEND_TO') } via Openalias address</label>
+            <input
+              type="text"
+              className="form-control"
+              name="sendToOA"
+              onChange={ this.updateInput }
+              id="kmd_wallet_sendto"
+              placeholder="Enter an alias as address@site.com"
+              autoComplete="off"
+              required />
           </div>
           <div className="col-lg-6 form-group form-material">
-            <button type="button" className="btn btn-primary waves-effect waves-light" data-toggle="modal" id="kmd_wallet_send_coins_btn" onClick={this.getOAdress}>
+            <button
+              type="button"
+              className="btn btn-primary waves-effect waves-light"
+              id="kmd_wallet_send_coins_btn"
+              onClick={ this.getOAdress }>
               Get address
             </button>
           </div>
@@ -238,48 +265,80 @@ class WalletsNativeSend extends React.Component {
   }
 
   render() {
-    if (this.props && this.props.ActiveCoin && this.props.ActiveCoin.nativeActiveSection === 'send') {
+    if (this.props &&
+        this.props.ActiveCoin &&
+        this.props.ActiveCoin.nativeActiveSection === 'send') {
       return (
-        <div data-extcoin="COIN" id="kmd_wallet_send">
+        <div id="kmd_wallet_send">
           <div className="col-xlg-12 col-md-12 col-sm-12 col-xs-12">
             <div className="panel" id="projects">
               <div className="panel-heading">
                 <h3 data-extcoin="COIN" className="panel-title">
-                  {translate('INDEX.SEND')} <span data-extcoinname="COIN"></span>
+                  { translate('INDEX.SEND') } { this.props.ActiveCoin.coin }
                 </h3>
               </div>
               <div className="panel-body container-fluid">
-                <form className="extcoin-send-form" data-extcoin="COIN" method="post" role="form" autoComplete="off">
+                <form className="extcoin-send-form" method="post" role="form" autoComplete="off">
                   <div className="row">
                     <div className="col-xlg-12 form-group form-material">
-                      <label className="control-label" data-extcoin="COIN" htmlFor="kmd_wallet_send_from">{translate('INDEX.SEND_FROM')}</label>
-                      {this.renderAddressList()}
+                      <label
+                        className="control-label"
+                        htmlFor="kmd_wallet_send_from">{ translate('INDEX.SEND_FROM') }</label>
+                      { this.renderAddressList() }
                     </div>
                   </div>
-                  {this.renderOASendUI()}
+                  { this.renderOASendUI() }
                   <div className="row">
                     <div className="col-xlg-12 form-group form-material">
-                      <label className="control-label" data-extcoin="COIN" htmlFor="kmd_wallet_sendto">{translate('INDEX.SEND_TO')}</label>
-                      <input type="text" className="form-control" data-extcoin="COIN" name="sendTo" onChange={this.updateInput} value={this.state.sendTo} id="kmd_wallet_sendto" placeholder="Enter Transparent or Private address" autoComplete="off" required />
+                      <label className="control-label" htmlFor="kmd_wallet_sendto">{ translate('INDEX.SEND_TO') }</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="sendTo"
+                        onChange={ this.updateInput }
+                        value={ this.state.sendTo }
+                        id="kmd_wallet_sendto"
+                        placeholder="{ translate('SEND.ENTER_T_OR_Z_ADDR') }"
+                        autoComplete="off"
+                        required />
                     </div>
                     <div className="col-lg-6 form-group form-material">
-                      <label className="control-label" htmlFor="kmd_wallet_amount" data-extcoin="COIN" id="kmd_wallet_amount_label">
-                        {this.props.ActiveCoin.coin}
+                      <label className="control-label" htmlFor="kmd_wallet_amount" id="kmd_wallet_amount_label">
+                        { this.props.ActiveCoin.coin }
                       </label>
-                      <input type="text" className="form-control" name="amount" onChange={this.updateInput} data-extcoin="COIN" id="kmd_wallet_amount" placeholder="0.000" autoComplete="off" />
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="amount"
+                        onChange={ this.updateInput }
+                        id="kmd_wallet_amount"
+                        placeholder="0.000"
+                        autoComplete="off" />
                     </div>
                     <div className="col-lg-6 form-group form-material">
-                      <label className="control-label" data-extcoin="COIN" htmlFor="kmd_wallet_fee">{translate('INDEX.FEE')}</label>
-                      <input type="text" className="form-control" name="fee" onChange={this.updateInput} data-extcoin="COIN" id="kmd_wallet_fee" placeholder="0.000" value={this.state.fee} autoComplete="off" />
+                      <label className="control-label" htmlFor="kmd_wallet_fee">{ translate('INDEX.FEE') }</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="fee"
+                        onChange={ this.updateInput }
+                        id="kmd_wallet_fee"
+                        placeholder="0.000"
+                        value={ this.state.fee }
+                        autoComplete="off" />
                     </div>
                     <div className="col-lg-12">
-                      <span data-extcoin="KMD">
-                        <b>{translate('INDEX.TOTAL')}:</b> {this.state.amount} - {this.state.fee}/kb = {Number(this.state.amount) - Number(this.state.fee)} {this.props.ActiveCoin.coin}
+                      <span>
+                        <strong>{ translate('INDEX.TOTAL') }:</strong> { this.state.amount } - { this.state.fee }/kb = { Number(this.state.amount) - Number(this.state.fee) } { this.props.ActiveCoin.coin }
                       </span>
                     </div>
                     <div className="col-lg-12">
-                      <button type="button" className="btn btn-primary waves-effect waves-light pull-right" data-toggle="modal" id="kmd_wallet_send_coins_btn" onClick={this.handleSubmit}>
-                        {translate('INDEX.SEND')} {this.state.amount} {this.props.ActiveCoin.coin}
+                      <button
+                        type="button"
+                        className="btn btn-primary waves-effect waves-light pull-right"
+                        id="kmd_wallet_send_coins_btn"
+                        onClick={ this.handleSubmit }>
+                        { translate('INDEX.SEND') } { this.state.amount } { this.props.ActiveCoin.coin }
                       </button>
                     </div>
                   </div>
@@ -291,31 +350,34 @@ class WalletsNativeSend extends React.Component {
           <div className="col-xs-12">
             <div className="row">
               <div className="panel nav-tabs-horizontal">
-                <div data-extcoin="COIN" id="kmd_wallet_opids_status_section">
+                <div id="kmd_wallet_opids_status_section">
                   <div className="col-xlg-12 col-lg-12 col-sm-12 col-xs-12">
                     <div className="panel">
                       <header className="panel-heading">
-                        <h3 className="panel-title">{translate('INDEX.OPERATIONS_STATUSES')}</h3>
+                        <h3 className="panel-title">{ translate('INDEX.OPERATIONS_STATUSES') }</h3>
                       </header>
                       <div className="panel-body">
-                        <table className="table table-hover dataTable table-striped" data-extcoin="COIN" id="kmd-opid-status-tbl" width="100%">
+                        <table
+                          className="table table-hover dataTable table-striped"
+                          id="kmd-opid-status-tbl"
+                          width="100%">
                           <thead>
                             <tr>
-                              <th>{translate('INDEX.STATUS')}</th>
+                              <th>{ translate('INDEX.STATUS') }</th>
                               <th>ID</th>
-                              <th>{translate('INDEX.TIME')}</th>
-                              <th>{translate('INDEX.RESULT')}</th>
+                              <th>{ translate('INDEX.TIME') }</th>
+                              <th>{ translate('INDEX.RESULT') }</th>
                             </tr>
                           </thead>
                           <tbody>
-                          {this.renderOPIDList()}
+                          { this.renderOPIDList() }
                           </tbody>
                           <tfoot>
                             <tr>
-                              <th>{translate('INDEX.STATUS')}</th>
+                              <th>{ translate('INDEX.STATUS') }</th>
                               <th>ID</th>
-                              <th>{translate('INDEX.TIME')}</th>
-                              <th>{translate('INDEX.RESULT')}</th>
+                              <th>{ translate('INDEX.TIME') }</th>
+                              <th>{ translate('INDEX.RESULT') }</th>
                             </tr>
                           </tfoot>
                         </table>
