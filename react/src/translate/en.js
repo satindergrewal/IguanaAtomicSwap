@@ -394,6 +394,22 @@ export const _lang = {
       'AMOUNT': 'amount',
       'CATEGORY': 'category',
       'CONFIRMATIONS': 'confirmations'
+    },
+    'SEND': {
+      'PRESS_UPDATE_BTN': 'N/A. Press update button.',
+      'TOTAL_UTXO_AVAILABLE': 'Total UTXO available',
+      'LAST_UPDATED': 'Last updated',
+      'NEXT_UPDATE_IN': 'Next update available in',
+      'AGO': 'ago',
+      'PROCESSING_REQ': 'Processing requests',
+      'LOCKED_PLEASE_WAIT': 'Locked, please wait',
+      'UPDATE': 'Update',
+      'SELECT_T_OR_Z_ADDR': 'Select Transparent or Private Address',
+      'ENTER_T_OR_Z_ADDR': 'Enter Transparent or Private address',
+      'AWAITING': 'Awaiting in queue',
+      'PROCESSING': 'Processing',
+      'ERROR_CODE': 'Error Code',
+      'WAITING': 'Waiting'
     }
   }
 };

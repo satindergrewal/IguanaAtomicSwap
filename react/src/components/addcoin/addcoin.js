@@ -36,6 +36,7 @@ class AddCoin extends React.Component {
       },
       display: false,
       actionsMenu: false,
+      modalClassName: 'hide',
     };
     this.activateCoin = this.activateCoin.bind(this);
     this.dismiss = this.dismiss.bind(this);
@@ -56,7 +57,7 @@ class AddCoin extends React.Component {
   loadCoinSelection() {
     shepherdGetCoinList()
     .then(function(json) {
-      if (json.msg !== 'error') {      
+      if (json.msg !== 'error') {
         this.setState(Object.assign({}, this.state, {
           coins: json.result,
           actionsMenu: false,
@@ -90,10 +91,18 @@ class AddCoin extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props) {
+    if (props && props.display !== this.state.display) {
       this.setState(Object.assign({}, this.state, {
         display: props.display,
+        modalClassName: props.display ? 'show fade' : 'show fade',
       }));
+
+      setTimeout(function() {
+        this.setState(Object.assign({}, this.state, {
+          display: props.display,
+          modalClassName: props.display ? 'show in' : 'hide',
+        }));
+      }.bind(this), 100);
     }
   }
 
@@ -307,7 +316,7 @@ class AddCoin extends React.Component {
     return (
       <div>
         <div
-          className={'modal modal-3d-sign add-coin-modal ' + (this.state.display ? 'show in' : 'fade hide')}
+          className={'modal modal-3d-sign add-coin-modal ' + this.state.modalClassName}
           id="AddCoinDilogModel-login"
           aria-hidden="true"
           aria-labelledby="AddCoinDilogModel-login"
