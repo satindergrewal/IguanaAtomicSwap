@@ -286,7 +286,7 @@ class WalletsData extends React.Component {
               className="dataTables_info"
               id="kmd-tx-history-tbl_info"
               role="status"
-              aria-live="polite">{ translate('INDEX.SHOWING') } { _paginationFrom } { translate('INDEX.TO') } { _paginationTo } { translate('INDEX.OF') } { this.props.ActiveCoin.txhistory.length } { translate('INDEX.ENTRIES_SM') }</div>
+              aria-live="polite">{ translate('INDEX.SHOWING') } { _paginationFrom } { translate('INDEX.TO_ALT') } { _paginationTo } { translate('INDEX.OF') } { this.props.ActiveCoin.txhistory.length } { translate('INDEX.ENTRIES_SM') }</div>
           </div>
           <div className="col-sm-7">
             <div className="dataTables_paginate paging_simple_numbers" id="kmd-tx-history-tbl_paginate">
@@ -628,7 +628,7 @@ class WalletsData extends React.Component {
                               </li>
                               <li
                                 role="presentation"
-                                className={ !this.state.useCache || this.props.ActiveCoin.addresses.public.length === 1 ? 'hide' : '' }>
+                                className={ !this.state.useCache || this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses.public.length === 1 ? 'hide' : '' }>
                                 <a role="menuitem" onClick={ this.basiliskRefreshAction }>
                                   <i className="icon fa-cloud-download" aria-hidden="true"></i> { translate('INDEX.FETCH_ALL_ADDR') }
                                 </a>
