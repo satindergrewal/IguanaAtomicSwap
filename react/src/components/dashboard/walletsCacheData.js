@@ -26,17 +26,18 @@ class WalletsCacheData extends React.Component {
     } else {
       return (
         <div>
-          <strong>{Object.keys(this.props.ActiveCoin.cache).length}</strong> coin(s) in cache file
+          <strong>{ Object.keys(this.props.ActiveCoin.cache).length }</strong> coin(s) in cache file
         </div>
       );
     }
   }
 
   renderKeyValueParent(pre, _sourceObj) {
-    if (_sourceObj.data[0] && Object.keys(_sourceObj.data[0]).length) {
+    if (_sourceObj.data[0] &&
+        Object.keys(_sourceObj.data[0]).length) {
       return _sourceObj.data.map((key, value) =>
-        <TreeNode title={key.txid ? key.txid : `${pre}-array-${value}`} key={`{$pre}-${value}-array`}>
-          {this.renderArrayNode(`${pre}-array-${value}`, key)}
+        <TreeNode title={ key.txid ? key.txid : `${pre}-array-${value}` } key={ `{$pre}-${value}-array` }>
+          { this.renderArrayNode(`${pre}-array-${value}`, key) }
         </TreeNode>);
     } else {
       return Object.keys(_sourceObj.data).map((key, value) => this.renderKeyValue(pre, key, _sourceObj.data[key]));
@@ -49,32 +50,33 @@ class WalletsCacheData extends React.Component {
 
   renderKeyValue(pre, key, value) {
     return (
-      <TreeNode title={`${key}: ${value}`} key={`{$pre}-${key}`} />
+      <TreeNode title={ `${key}: ${value}` } key={ `{$pre}-${key}` } />
     );
   }
 
   renderCallData(coin, address, call) {
     const sourceObj = this.props.ActiveCoin.cache[coin][address];
 
-    if (sourceObj[call].data && (sourceObj[call].data.length || Object.keys(sourceObj[call].data).length)) {
+    if (sourceObj[call].data &&
+        (sourceObj[call].data.length || Object.keys(sourceObj[call].data).length)) {
       return (
-        <TreeNode title={`${call}`} key={`${coin}-${address}-${call}`}>
-          <TreeNode title={`status: ${sourceObj[call].status}`} key={`${coin}-${address}-${call}-status`} />
-          <TreeNode title={`updated @: ${secondsToString(sourceObj[call].timestamp, true)}`} key={`${coin}-${address}-${call}-timestamp`} />
-          <TreeNode title="data" key={`${coin}-${address}-${call}-data`}>
-          {this.renderKeyValueParent(`${coin}-${address}-${call}`, sourceObj[call])}
+        <TreeNode title={ `${call}`} key={`${coin}-${address}-${call}` }>
+          <TreeNode title={ `status: ${sourceObj[call].status}` } key={ `${coin}-${address}-${call}-status` } />
+          <TreeNode title={ `updated @: ${secondsToString(sourceObj[call].timestamp, true)}` } key={ `${coin}-${address}-${call}-timestamp` } />
+          <TreeNode title="data" key={ `${coin}-${address}-${call}-data` }>
+          { this.renderKeyValueParent(`${coin}-${address}-${call}`, sourceObj[call]) }
           </TreeNode>
         </TreeNode>
       );
     } else {
       return (
-        <TreeNode title={`${call} (no data)`} key={`${coin}-${address}-${call}`} />
+        <TreeNode title={ `${call} (no data)` } key={ `${coin}-${address}-${call}` } />
       );
     }
   }
 
   renderAddressCallsList(coin, address) {
-    var allCalls = [];
+    let allCalls = [];
     const sourceObj = this.props.ActiveCoin.cache[coin][address];
     const _allCalls = [
       'listtransactions',
@@ -101,8 +103,8 @@ class WalletsCacheData extends React.Component {
 
     if (addrList && addrList.length) {
       return addrList.map((address, index) =>
-        <TreeNode title={`${address}`} key={`${coin}-${address}`}>
-        {this.renderAddressCallsList(coin, address)}
+        <TreeNode title={ `${address}` } key={ `${coin}-${address}` }>
+        { this.renderAddressCallsList(coin, address) }
         </TreeNode>
       );
     } else {
@@ -111,11 +113,12 @@ class WalletsCacheData extends React.Component {
   }
 
   renderCoinRootNodes() {
-    if (this.props.ActiveCoin.cache && Object.keys(this.props.ActiveCoin.cache).length) {
+    if (this.props.ActiveCoin.cache &&
+        Object.keys(this.props.ActiveCoin.cache).length) {
       return Object.keys(this.props.ActiveCoin.cache).map((coinName, index) =>
-        <TreeNode title={`${coinName}`} key={`coin-${coinName}`}>
-          <TreeNode title="Address list" key={`${coinName}-addrlist`}>
-          {this.renderCoinAddressList(coinName)}
+        <TreeNode title={ `${coinName}` } key={ `coin-${coinName}` }>
+          <TreeNode title="Address list" key={ `${coinName}-addrlist` }>
+          { this.renderCoinAddressList(coinName) }
           </TreeNode>
         </TreeNode>
       );
@@ -129,10 +132,10 @@ class WalletsCacheData extends React.Component {
         this.props.ActiveCoin.notaries.notaries &&
         this.props.ActiveCoin.notaries.notaries.length) {
       return this.props.ActiveCoin.notaries.notaries.map((node, index) =>
-        <TreeNode title={`Node ${index}`} key={`node-${index}`}>
-          <TreeNode key={`node-${index}-btc`} title={`BTC: ${node.BTCaddress}`} />
-          <TreeNode key={`node-${index}-kmd`} title={`KMD: ${node.KMDaddress}`} />
-          <TreeNode key={`node-${index}-pubkey`} title={`Pubkey: ${node.pubkey}`} />
+        <TreeNode title={ `Node ${index}` } key={ `node-${index}` }>
+          <TreeNode key={ `node-${index}-btc` } title={ `BTC: ${node.BTCaddress}` } />
+          <TreeNode key={ `node-${index}-kmd` } title={ `KMD: ${node.KMDaddress}` } />
+          <TreeNode key={ `node-${index}-pubkey` } title={ `Pubkey: ${node.pubkey}` } />
         </TreeNode>
       );
     } else {
@@ -150,14 +153,14 @@ class WalletsCacheData extends React.Component {
           <div className="modal show" aria-hidden="false" role="dialog">
             <div className="modal-dialog modal-center modal-lg">
               <div className="modal-content">
-                <div className="modal-body" style={{height: '590px'}}>
+                <div className="modal-body" style={{ height: '590px' }}>
                   <div className="panel nav-tabs-horizontal">
                     <div className="panel-body">
                       <div className="tab-content">
                         <div className="tab-pane active" role="tabpanel">
-                          {this.renderNotariesFetching()}
-                          <Tree defaultExpandAll={false} openAnimation={animation}>
-                          {this.renderCoinRootNodes()}
+                          { this.renderNotariesFetching() }
+                          <Tree defaultExpandAll={ false } openAnimation={ animation }>
+                          { this.renderCoinRootNodes() }
                           </Tree>
                         </div>
                       </div>
@@ -165,7 +168,7 @@ class WalletsCacheData extends React.Component {
                   </div>
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-default" onClick={this.closeViewCacheModal}>Close</button>
+                  <button type="button" className="btn btn-default" onClick={ this.closeViewCacheModal }>{ translate('INDEX.CLOSE') }</button>
                 </div>
               </div>
             </div>

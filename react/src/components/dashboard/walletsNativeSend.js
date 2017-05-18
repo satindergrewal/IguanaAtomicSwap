@@ -298,7 +298,7 @@ class WalletsNativeSend extends React.Component {
                         onChange={ this.updateInput }
                         value={ this.state.sendTo }
                         id="kmd_wallet_sendto"
-                        placeholder="{ translate('SEND.ENTER_T_OR_Z_ADDR') }"
+                        placeholder={ translate('SEND.ENTER_T_OR_Z_ADDR') }
                         autoComplete="off"
                         required />
                     </div>

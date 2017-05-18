@@ -1,10 +1,16 @@
 export const _lang = {
   'EN': {
     'INDEX': {
+      'STOP': 'Stop',
+      'START': 'Start',
+      'UPDATE_UTXO': 'Update UTXO',
+      'ACTIVE_ADDRESS': 'active address',
+      'FETCH_ALL_ADDR': 'Fetch (all addresses)',
       'NO_DATA': 'No history available',
       'LOADING_HISTORY': 'Loading transaction history',
       'FETCHING_NOTARIES_LIST': 'Fetching notaries list data',
       'TOTAL_NOTARIES': 'Notaries list. Total nodes count',
+      'WAIT_UNTIL_SYNCED': 'Transactions history will be available shortly after blockchain data is synced',
       'CLOSE': 'Close',
       'SHOW': 'Show',
       'SHOWING': 'Showing',
@@ -341,7 +347,9 @@ export const _lang = {
       'ADDED_TO': 'added to',
       'SUCCESSFULLY': 'Successfully',
       'FAILED_TO_ADDCOIN': 'Failed to add iguana coin',
-      'FAILED_SHEPHERD_HERD': 'Failed to get execute shepherd herd'
+      'FAILED_SHEPHERD_HERD': 'Failed to get execute shepherd herd',
+      'COIN_SELECTION': 'Coin Selection',
+      'SELECTION_NOT_FOUND': 'Local coin list is not found'
     },
     'COIN_WALLETS': {
       'TX_FAILED': 'Transaction Failed',
@@ -363,7 +371,8 @@ export const _lang = {
       'FAILED': 'Failed',
       'SUCCESS': 'Success',
       'MESSAGE': 'Message',
-      'EXECUTION_SECONDS': 'Execution Seconds'
+      'EXECUTION_SECONDS': 'Execution Seconds',
+      'WAIT_UNTIL_SYNCED': 'Transaction history is unavailable during synchronization progresss'
     },
     'LOGIN': {
       'PWD_REQ': 'Password is required.',

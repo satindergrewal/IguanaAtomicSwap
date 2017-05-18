@@ -25,6 +25,19 @@ class WalletsNativeTxHistory extends React.Component {
     Store.dispatch(toggleDashboardTxInfoModal(display, txIndex));
   }
 
+  isFullySynced() {
+    if (this.props.Dashboard.progress &&
+        this.props.Dashboard.progress.balances &&
+        (Number(this.props.Dashboard.progress.balances) +
+        Number(this.props.Dashboard.progress.validated) +
+        Number(this.props.Dashboard.progress.bundles) +
+        Number(this.props.Dashboard.progress.utxo)) / 4 === 100) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   updateInput(e) {
     let historyToSplit = sortByDate(this.props.ActiveCoin.txhistory);
     historyToSplit = historyToSplit.slice(0, e.target.value);
@@ -202,7 +215,11 @@ class WalletsNativeTxHistory extends React.Component {
     } else if (
       this.props.ActiveCoin.txhistory &&
       this.props.ActiveCoin.txhistory === 'loading') {
-      return translate('INDEX.LOADING_HISTORY');
+      if (this.isFullySynced()) {
+        return translate('INDEX.LOADING_HISTORY');
+      } else {
+        return translate('INDEX.WAIT_UNTIL_SYNCED');
+      }
     } else if (
       this.props.ActiveCoin.txhistory &&
       (this.props.ActiveCoin.txhistory !== 'loading' && this.props.ActiveCoin.txhistory !== 'no data')) {
