@@ -286,7 +286,7 @@ class WalletsData extends React.Component {
               className="dataTables_info"
               id="kmd-tx-history-tbl_info"
               role="status"
-              aria-live="polite">{ translate('INDEX.SHOWING') } { _paginationFrom } { translate('INDEX.TO') } { _paginationTo } { translate('INDEX.OF') } { this.props.ActiveCoin.txhistory.length } { translate('INDEX.ENTRIES_SM') }</div>
+              aria-live="polite">{ translate('INDEX.SHOWING') } { _paginationFrom } { translate('INDEX.TO_ALT') } { _paginationTo } { translate('INDEX.OF') } { this.props.ActiveCoin.txhistory.length } { translate('INDEX.ENTRIES_SM') }</div>
           </div>
           <div className="col-sm-7">
             <div className="dataTables_paginate paging_simple_numbers" id="kmd-tx-history-tbl_paginate">
@@ -477,7 +477,9 @@ class WalletsData extends React.Component {
 
           items.push(
             <li key={address.address}>
-              <a tabIndex="0" onClick={() => this.updateAddressSelection(address.address, type, _amount)}><i className={type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {_amount} {this.props.ActiveCoin.coin} ]  {address.address}</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+              <a
+                tabIndex="0"
+                onClick={ () => this.updateAddressSelection(address.address, type, _amount) }><i className={ type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash' }></i>  <span className="text">[ { _amount } { this.props.ActiveCoin.coin } ]  { address.address }</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
             </li>
           );
         }
@@ -494,7 +496,8 @@ class WalletsData extends React.Component {
         this.props.ActiveCoin.addresses.public.length) {
       for (let i = 0; i < this.props.ActiveCoin.addresses.public.length; i++) {
         if (this.props.ActiveCoin.addresses.public[i].address === this.state.currentAddress) {
-          if (this.props.ActiveCoin.addresses.public[i].amount && this.props.ActiveCoin.addresses.public[i].amount !== 'N/A') {
+          if (this.props.ActiveCoin.addresses.public[i].amount &&
+              this.props.ActiveCoin.addresses.public[i].amount !== 'N/A') {
             return this.props.ActiveCoin.addresses.public[i].amount;
           } else {
             const address = this.props.ActiveCoin.addresses.public[i].address;
@@ -512,12 +515,12 @@ class WalletsData extends React.Component {
     if (this.state.currentAddress) {
       return (
         <span>
-          <i className={this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash'}></i>  <span className="text">[ {this.renderAddressAmount()} {this.props.ActiveCoin.coin} ]  {this.state.currentAddress}</span>
+          <i className={ this.state.addressType === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash' }></i>  <span className="text">[ { this.renderAddressAmount() } { this.props.ActiveCoin.coin } ]  { this.state.currentAddress }</span>
         </span>
       );
     } else {
       return (
-        <span>- Select Transparent or Private Address -</span>
+        <span>- { translate('KMD_NATIVE.SELECT_ADDRESS') } -</span>
       );
     }
   }
@@ -528,16 +531,24 @@ class WalletsData extends React.Component {
         this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin] &&
         this.props.ActiveCoin.mode === 'basilisk') {
       return (
-        <div className={'btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ' + (this.state.addressSelectorOpen ? 'open' : '')}>
-          <button type="button" className="btn dropdown-toggle btn-info" data-toggle="dropdown" data-id="kmd_wallet_send_from" title="- Select Transparent or Private Address -" aria-expanded="true" onClick={this.openDropMenu}>
-            <span className="filter-option pull-left">{this.renderSelectorCurrentLabel()} </span>&nbsp;<span className="bs-caret"><span className="caret"></span></span>
+        <div className={ 'btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ' + (this.state.addressSelectorOpen ? 'open' : '') }>
+          <button
+            type="button"
+            className="btn dropdown-toggle btn-info"
+            title={ '-' + translate('KMD_NATIVE.SELECT_ADDRESS') + '-' }
+            aria-expanded="true"
+            onClick={ this.openDropMenu }>
+            <span className="filter-option pull-left">{ this.renderSelectorCurrentLabel() } </span>&nbsp;
+            <span className="bs-caret">
+              <span className="caret"></span>
+            </span>
           </button>
           <div className="dropdown-menu open">
             <ul className="dropdown-menu inner" role="menu">
               <li data-original-index="1" className="selected">
-                <a tabIndex="0" data-tokens="null"><span className="text"> - Select Transparent or Private Address - </span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+                <a tabIndex="0"><span className="text"> - { translate('KMD_NATIVE.SELECT_ADDRESS') } - </span><span className="glyphicon glyphicon-ok check-mark"></span></a>
               </li>
-              {this.renderAddressByType('public')}
+              { this.renderAddressByType('public') }
             </ul>
           </div>
         </div>
@@ -560,118 +571,139 @@ class WalletsData extends React.Component {
           <WalletsBasiliskConnection {...this.props} />
           <WalletsNotariesList {...this.props} />
           <WalletsCacheData {...this.props} />
-          <div data-edexcoin="COIN" id="edexcoin_dashboardinfo">
+          <div id="edexcoin_dashboardinfo">
             <div className="col-xs-12 margin-top-20">
               <div className="panel nav-tabs-horizontal">
-                <div data-edexcoin="COIN" id="edexcoin_dashoard_section">
+                <div id="edexcoin_dashoard_section">
                   <div className="col-xlg-12 col-lg-12 col-sm-12 col-xs-12 edexcoin_dashoard_section_main_div">
                     <div id="edexcoin_txhistory" className="panel">
-                      <header className="panel-heading" style={{zIndex: '10'}}>
-                        <div className={this.props.ActiveCoin.mode === 'basilisk' ? 'panel-actions' : 'panel-actions hide'}>
-                          <div className={this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : 'progress progress-sm'} style={{width: '100%', marginBottom: '3px'}}>
-                            <div className="progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success" style={{width: 100 - (this.state.currentStackLength * 100 / this.state.totalStackLength) + '%', fontSize: '80%'}} role="progressbar">
-                              Processing requests: {this.state.currentStackLength} / {this.state.totalStackLength}
+                      <header className="panel-heading" style={{ zIndex: '10' }}>
+                        <div className={ this.props.ActiveCoin.mode === 'basilisk' ? 'panel-actions' : 'panel-actions hide' }>
+                          <div
+                            className={ this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : 'progress progress-sm' }
+                            style={{ width: '100%', marginBottom: '3px' }}>
+                            <div
+                              className="progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success"
+                              style={{ width: 100 - (this.state.currentStackLength * 100 / this.state.totalStackLength) + '%', fontSize: '80%' }}
+                              role="progressbar">
+                              { translate('SEND.PROCESSING_REQ') }: { this.state.currentStackLength } / { this.state.totalStackLength }
                             </div>
                           </div>
-                          <div className={this.state.basiliskActionsMenu ? 'dropdown open' : 'dropdown'} onClick={this.toggleBasiliskActionsMenu}>
-                            <a className="dropdown-toggle btn-xs btn-default" data-edexcoin="COIN" id="btn_edexcoin_basilisk" data-toggle="dropdown" href="javascript:void(0)"
-                            aria-expanded="false" role="button">
-                              <i className="icon fa-magic margin-right-10" aria-hidden="true"></i> {translate('INDEX.BASILISK_ACTIONS')} <span className="caret"></span>
+                          <div className={ this.state.basiliskActionsMenu ? 'dropdown open' : 'dropdown' } onClick={ this.toggleBasiliskActionsMenu }>
+                            <a
+                              className="dropdown-toggle btn-xs btn-default"
+                              id="btn_edexcoin_basilisk"
+                              href="javascript:void(0)"
+                              aria-expanded="false"
+                              role="button">
+                              <i className="icon fa-magic margin-right-10" aria-hidden="true"></i> { translate('INDEX.BASILISK_ACTIONS') } <span className="caret"></span>
                             </a>
-                            <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="btn_edexcoin_basilisk"
-                            role="menu">
+                            <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="btn_edexcoin_basilisk" role="menu">
                               <li role="presentation">
-                                <a className="btn_edexcoin_dashboard_getnotaries" data-edexcoin="COIN" id="btn_edexcoin_dashboard_getnotaries" role="menuitem" onClick={this.getDexNotariesAction}>
-                                  <i className="icon fa-sitemap" aria-hidden="true"></i> {translate('INDEX.GET_NOTARY_NODES_LIST')}
+                                <a
+                                  className="btn_edexcoin_dashboard_getnotaries"
+                                  id="btn_edexcoin_dashboard_getnotaries"
+                                  role="menuitem"
+                                  onClick={ this.getDexNotariesAction }>
+                                  <i className="icon fa-sitemap" aria-hidden="true"></i> { translate('INDEX.GET_NOTARY_NODES_LIST') }
                                 </a>
                               </li>
                               <li role="presentation">
-                                <a className="btn_edexcoin_dashboard_refresh_basilisk_conn" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refresh_basilisk_conn" role="menuitem" onClick={this.basiliskConnectionAction}>
-                                  <i className="icon wb-refresh" aria-hidden="true"></i> {translate('INDEX.REFRESH_BASILISK_CONNECTIONS')}
+                                <a
+                                  className="btn_edexcoin_dashboard_refresh_basilisk_conn"
+                                  id="btn_edexcoin_dashboard_refresh_basilisk_conn"
+                                  role="menuitem"
+                                  onClick={ this.basiliskConnectionAction }>
+                                  <i className="icon wb-refresh" aria-hidden="true"></i> { translate('INDEX.REFRESH_BASILISK_CONNECTIONS') }
                                 </a>
                               </li>
-                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
-                                <a className="btn_edexcoin_dashboard_fetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_fetchdata" role="menuitem" onClick={this.basiliskRefreshActionOne}>
-                                  <i className="icon fa-cloud-download" aria-hidden="true"></i> {translate('INDEX.FETCH_WALLET_DATA')} (active address)
+                              <li role="presentation" className={ !this.state.useCache ? 'hide' : '' }>
+                                <a
+                                  className="btn_edexcoin_dashboard_fetchdata"
+                                  id="btn_edexcoin_dashboard_fetchdata"
+                                  role="menuitem"
+                                  onClick={ this.basiliskRefreshActionOne }>
+                                  <i className="icon fa-cloud-download" aria-hidden="true"></i> { translate('INDEX.FETCH_WALLET_DATA') } ({ translate('INDEX.ACTIVE_ADDRESS') })
                                 </a>
                               </li>
-                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
-                                <a role="menuitem" onClick={this.basiliskRefreshAction}>
-                                  <i className="icon fa-cloud-download" aria-hidden="true"></i> Fetch (all addresses)
+                              <li
+                                role="presentation"
+                                className={ !this.state.useCache || this.props.ActiveCoin.addresses && this.props.ActiveCoin.addresses.public.length === 1 ? 'hide' : '' }>
+                                <a role="menuitem" onClick={ this.basiliskRefreshAction }>
+                                  <i className="icon fa-cloud-download" aria-hidden="true"></i> { translate('INDEX.FETCH_ALL_ADDR') }
                                 </a>
                               </li>
-                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
-                                <a className="btn_edexcoin_dashboard_refetchdata" data-edexcoin="COIN" id="btn_edexcoin_dashboard_refetchdata" role="menuitem" onClick={this.removeAndFetchNewCache}>
-                                  <i className="icon fa-history" aria-hidden="true"></i> {translate('INDEX.REFETCH_WALLET_DATA')}
+                              <li role="presentation" className={ !this.state.useCache ? 'hide' : '' }>
+                                <a
+                                  className="btn_edexcoin_dashboard_refetchdata"
+                                  id="btn_edexcoin_dashboard_refetchdata"
+                                  role="menuitem"
+                                  onClick={ this.removeAndFetchNewCache }>
+                                  <i className="icon fa-history" aria-hidden="true"></i> { translate('INDEX.REFETCH_WALLET_DATA') }
                                 </a>
                               </li>
-                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''} style={{display: 'none'}}>
-                                <a role="menuitem" onClick={this._fetchUtxoCache}>
-                                  <i className="icon fa-history" aria-hidden="true"></i> Update UTXO
+                              <li role="presentation" className={ !this.state.useCache ? 'hide' : '' } style={{ display: 'none' }}>
+                                <a role="menuitem" onClick={ this.restartBasiliskInstance }>
+                                  <i className="icon fa-refresh" aria-hidden="true"></i> Restart Basilisk Instance (unsafe!)
                                 </a>
                               </li>
-                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
-                                <a role="menuitem" onClick={this.restartBasiliskInstance}>
-                                  <i className="icon fa-refresh" aria-hidden="true"></i> Restart Basilisk Instance (!)
-                                </a>
-                              </li>
-                              <li data-edexcoin="COIN" role="presentation" className={!this.state.useCache ? 'hide' : ''}>
-                                <a className="btn_edexcoin_dashboard_fetchdata" role="menuitem" onClick={this._toggleViewCacheModal}>
-                                  <i className="icon fa-list-alt" aria-hidden="true"></i> {translate('INDEX.VIEW_CACHE_DATA')}
+                              <li role="presentation" className={ !this.state.useCache ? 'hide' : '' }>
+                                <a className="btn_edexcoin_dashboard_fetchdata" role="menuitem" onClick={ this._toggleViewCacheModal }>
+                                  <i className="icon fa-list-alt" aria-hidden="true"></i> { translate('INDEX.VIEW_CACHE_DATA') }
                                 </a>
                               </li>
                             </ul>
                           </div>
                         </div>
-                        <h4 className="panel-title">{translate('INDEX.TRANSACTION_HISTORY')}</h4>
+                        <h4 className="panel-title">{ translate('INDEX.TRANSACTION_HISTORY') }</h4>
                       </header>
                       <div className="panel-body">
                         <div className="row">
                           <div className="col-sm-8">
-                          {this.renderAddressList()}
+                          { this.renderAddressList() }
                           </div>
-                          {this.renderUseCacheToggle}
+                          { this.renderUseCacheToggle }
                         </div>
-                        <div className="row" style={{padding: '20px 0 10px 0'}}>
+                        <div className="row" style={{ padding: '20px 0 10px 0' }}>
                           <div className="col-sm-6">
-                            {this.renderPaginationItemsPerPageSelector()}
+                            { this.renderPaginationItemsPerPageSelector() }
                           </div>
                           <div className="col-sm-6">
                             <div id="kmd-tx-history-tbl_filter" className="dataTables_filter">
                               <label>
-                                Search: <input type="search" className="form-control input-sm" aria-controls="kmd-tx-history-tbl" disabled="true" />
+                                { translate('INDEX.SEARCH') }: <input type="search" className="form-control input-sm" aria-controls="kmd-tx-history-tbl" disabled="true" />
                               </label>
                             </div>
                           </div>
                         </div>
                         <div className="row">
-                          <table className="table table-hover dataTable table-striped" data-edexcoin="COIN" id="edex-tx-history-tbl" width="100%">
+                          <table className="table table-hover dataTable table-striped" id="edex-tx-history-tbl" width="100%">
                             <thead>
                               <tr>
-                                <th>{translate('INDEX.DIRECTION')}</th>
-                                <th className="hidden-xs hidden-sm">{translate('INDEX.CONFIRMATIONS')}</th>
-                                <th>{translate('INDEX.AMOUNT')}</th>
-                                <th>{translate('INDEX.TIME')}</th>
-                                <th>{translate('INDEX.DEST_ADDRESS')}</th>
-                                <th className="hidden-xs hidden-sm">{translate('INDEX.TX_DETAIL')}</th>
+                                <th>{ translate('INDEX.DIRECTION') }</th>
+                                <th className="hidden-xs hidden-sm">{ translate('INDEX.CONFIRMATIONS') }</th>
+                                <th>{ translate('INDEX.AMOUNT') }</th>
+                                <th>{ translate('INDEX.TIME') }</th>
+                                <th>{ translate('INDEX.DEST_ADDRESS') }</th>
+                                <th className="hidden-xs hidden-sm">{ translate('INDEX.TX_DETAIL') }</th>
                               </tr>
                             </thead>
                             <tbody>
-                            {this.renderTxHistoryList()}
+                            { this.renderTxHistoryList() }
                             </tbody>
                             <tfoot>
                               <tr>
-                                <th>{translate('INDEX.DIRECTION')}</th>
-                                <th>{translate('INDEX.CONFIRMATIONS')}</th>
-                                <th>{translate('INDEX.AMOUNT')}</th>
-                                <th>{translate('INDEX.TIME')}</th>
-                                <th>{translate('INDEX.DEST_ADDRESS')}</th>
-                                <th className="hidden-xs hidden-sm">{translate('INDEX.TX_DETAIL')}</th>
+                                <th>{ translate('INDEX.DIRECTION') }</th>
+                                <th>{ translate('INDEX.CONFIRMATIONS') }</th>
+                                <th>{ translate('INDEX.AMOUNT') }</th>
+                                <th>{ translate('INDEX.TIME') }</th>
+                                <th>{ translate('INDEX.DEST_ADDRESS') }</th>
+                                <th className="hidden-xs hidden-sm">{ translate('INDEX.TX_DETAIL') }</th>
                               </tr>
                             </tfoot>
                           </table>
                         </div>
-                        {this.renderPagination()}
+                        { this.renderPagination() }
                       </div>
                     </div>
                   </div>

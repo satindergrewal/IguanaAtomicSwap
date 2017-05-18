@@ -175,28 +175,48 @@ class SyncOnly extends React.Component {
       <div>
         <div>
           <div className="progress progress-sm">
-            <div className={this.isFullySynced(fork) ? 'progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success' : 'hide'} style={{width: '100%', fontSize: '80%'}} role="progressbar" id="currency-bundles">
-              {translate('INDEX.BUNDLES')} <span data-edexcoin="GAME" id="currency-bundles-percent">({fork.coin}) 100.00% - ( {fork.blocks} / {fork.blocks} ) ==&gt;&gt; RT{fork.RTheight}</span>
+            <div
+              className={ this.isFullySynced(fork) ? 'progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success' : 'hide' }
+              style={{ width: '100%', fontSize: '80%' }}
+              role="progressbar"
+              id="currency-bundles">
+              { translate('INDEX.BUNDLES') } <span id="currency-bundles-percent">({ fork.coin }) 100.00% - ( { fork.blocks } / { fork.blocks } ) ==&gt;&gt; RT{ fork.RTheight }</span>
             </div>
-            <div className={this.isFullySynced(fork) ? 'hide' : 'progress-bar progress-bar-info progress-bar-striped active'} style={{width: fork.bundles + '%', fontSize: '80%'}} role="progressbar" data-edexcoin="COIN" id="currency-bundles">
-              {translate('INDEX.BUNDLES')} <span data-edexcoin="COIN" id="currency-bundles-percent">{fork.bundles}%</span>
+            <div
+              className={ this.isFullySynced(fork) ? 'hide' : 'progress-bar progress-bar-info progress-bar-striped active' }
+              style={{ width: fork.bundles + '%', fontSize: '80%' }}
+              role="progressbar"
+              id="currency-bundles">
+              { translate('INDEX.BUNDLES') } <span id="currency-bundles-percent">{ fork.bundles }%</span>
             </div>
           </div>
         </div>
-        <div data-edexcoin="COIN" id="additional-progress-bars" className={this.isFullySynced(fork) ? 'hide' : ''}>
+        <div id="additional-progress-bars" className={ this.isFullySynced(fork) ? 'hide' : '' }>
           <div className="progress progress-sm">
-            <div className="progress-bar progress-bar-warning progress-bar-striped active" style={{width: fork.utxo + '%', fontSize: '80%'}} role="progressbar" data-edexcoin="COIN" id="currency-utxo">
-              utxo <span data-edexcoin="COIN" id="currency-utxo-percent">{fork.utxo}%</span>
+            <div
+              className="progress-bar progress-bar-warning progress-bar-striped active"
+              style={{ width: fork.utxo + '%', fontSize: '80%' }}
+              role="progressbar"
+              id="currency-utxo">
+              utxo <span id="currency-utxo-percent">{ fork.utxo }%</span>
             </div>
           </div>
           <div className="progress progress-sm">
-            <div className="progress-bar progress-bar-danger progress-bar-striped active" style={{width: fork.balances + '%', fontSize: '80%'}} role="progressbar" data-edexcoin="COIN" id="currency-balances">
-              {translate('INDEX.BALANCES')} <span data-edexcoin="COIN" id="currency-balances-percent">{fork.balances}%</span>
+            <div
+              className="progress-bar progress-bar-danger progress-bar-striped active"
+              style={{ width: fork.balances + '%', fontSize: '80%' }}
+              role="progressbar"
+              id="currency-balances">
+              { translate('INDEX.BALANCES') } <span id="currency-balances-percent">{ fork.balances }%</span>
             </div>
           </div>
           <div className="progress progress-sm">
-            <div className="progress-bar progress-bar-success progress-bar-striped active" style={{width: fork.validated + '%', fontSize: '80%'}} role="progressbar" data-edexcoin="COIN" id="currency-validated">
-              {translate('INDEX.VALIDATED')} <span data-edexcoin="COIN" id="currency-validated-percent">{fork.validated}%</span>
+            <div
+              className="progress-bar progress-bar-success progress-bar-striped active"
+              style={{ width: fork.validated + '%', fontSize: '80%' }}
+              role="progressbar"
+              id="currency-validated">
+              { translate('INDEX.VALIDATED') } <span id="currency-validated-percent">{ fork.validated }%</span>
             </div>
           </div>
         </div>
@@ -210,19 +230,25 @@ class SyncOnly extends React.Component {
     for (let port in this.props.SyncOnly.forks) {
       const forkInfo = this.props.SyncOnly.forks[port];
 
-      if (forkInfo && forkInfo.registry && forkInfo.getinfo) {
+      if (forkInfo &&
+          forkInfo.registry && forkInfo.getinfo) {
         items.push(
-          <div key={port} style={{width: '100%'}} className="padding-bottom-60">
-            <div className="avatar" href="javascript:void(0)">
-              <img className="img-responsive margin-bottom-5" src={'assets/images/cryptologo/' + this.renderCoinName(forkInfo.registry.coin).logo + '.png'} alt="{forkInfo.registry.coin}"/>
-              <span className="badge up badge-success margin-bottom-5" data-toggle="tooltip" data-placement="top" data-original-title="full">Full</span>
-              <div className="coin-name">{this.renderCoinName(forkInfo.registry.coin).name} ({forkInfo.registry.coin.toUpperCase()})</div>
+          <div key={ port } style={{ width: '100%' }} className="padding-bottom-60">
+            <div className="avatar">
+              <img
+                className="img-responsive margin-bottom-5"
+                src={ 'assets/images/cryptologo/' + this.renderCoinName(forkInfo.registry.coin).logo + '.png' }
+                alt={ forkInfo.registry.coin }/>
+              <span className="badge up badge-success margin-bottom-5">Full</span>
+              <div className="coin-name">{ this.renderCoinName(forkInfo.registry.coin).name } ({ forkInfo.registry.coin.toUpperCase() })</div>
               <div className="margin-top-10">
-                <span className="btn btn-primary" onClick={() => this._stopIguanaFork(forkInfo.registry.pmid)}>
-                  <span className="fa fa-stop"></span> Stop
+                <span className="btn btn-primary" onClick={ () => this._stopIguanaFork(forkInfo.registry.pmid) }>
+                  <span className="fa fa-stop"></span> { translate('INDEX.STOP') }
                 </span>
-                <span className="btn btn-primary margin-left-10" onClick={() => this._restartIguanaFork(forkInfo.registry.coin.toUpperCase(), forkInfo.registry.pmid, port)}>
-                  <span className="fa fa-undo"></span> Restart
+                <span
+                  className="btn btn-primary margin-left-10"
+                  onClick={ () => this._restartIguanaFork(forkInfo.registry.coin.toUpperCase(), forkInfo.registry.pmid, port) }>
+                  <span className="fa fa-undo"></span> { translate('INDEX.RESTART') }
                 </span>
               </div>
             </div>
@@ -244,17 +270,18 @@ class SyncOnly extends React.Component {
   }
 
   render() {
-    if (this.props && this.props.SyncOnly.display) {
+    if (this.props &&
+        this.props.SyncOnly.display) {
       return (
         <div>
           <div className="modal show sync-only-forks" aria-hidden="false" role="dialog">
             <div className="modal-dialog modal-center modal-lg">
               <div className="modal-content">
-                <div className="modal-body" style={{height: '590px'}}>
-                  {this.renderForksList()}
+                <div className="modal-body" style={{ height: '590px' }}>
+                  { this.renderForksList() }
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-default" onClick={this.closeSyncOnlyModal}>Close</button>
+                  <button type="button" className="btn btn-default" onClick={ this.closeSyncOnlyModal }>{ translate('INDEX.CLOSE') }</button>
                 </div>
               </div>
             </div>

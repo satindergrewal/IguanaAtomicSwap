@@ -61,9 +61,22 @@ class WalletsNativeSyncProgress extends React.Component {
 
         return(': ' + Math.floor(currentBestChain * 100 / this.props.Dashboard.progress.remoteKMDNode.blocks) + '% (blocks ' + currentBestChain + ' / ' + this.props.Dashboard.progress.remoteKMDNode.blocks + ')');
       } else {
-        return (<span id="activating-komodod-tridot">...</span>);
+        return (
+          <span id="activating-komodod-tridot">...</span>
+        );
       }
     }
+  }
+
+  renderLB(_translationID) {
+    const _translationComponents = translate(_translationID).split('<br>');
+
+    return _translationComponents.map((_translation) =>
+      <span>
+        {_translation}
+        <br />
+      </span>
+    );
   }
 
   renderChainActivationNotification() {
@@ -81,7 +94,7 @@ class WalletsNativeSyncProgress extends React.Component {
           <h4>
             { translate('INDEX.ACTIVATING_CHAIN') }{ this.renderActivatingBestChainProgress() }
           </h4>
-          <p id="extcoin-wallet-connection-alert-text">{ translate('INDEX.KMD_STARTED') }</p>
+          <p id="extcoin-wallet-connection-alert-text">{ this.renderLB('INDEX.KMD_STARTED') }</p>
         </div>
       );
     } else {

@@ -1,15 +1,22 @@
 export const _lang = {
   'EN': {
     'INDEX': {
+      'ADD_COIN': 'Add Coin',
+      'STOP': 'Stop',
+      'START': 'Start',
+      'UPDATE_UTXO': 'Update UTXO',
+      'ACTIVE_ADDRESS': 'active address',
+      'FETCH_ALL_ADDR': 'Fetch (all addresses)',
       'NO_DATA': 'No history available',
       'LOADING_HISTORY': 'Loading transaction history',
       'FETCHING_NOTARIES_LIST': 'Fetching notaries list data',
       'TOTAL_NOTARIES': 'Notaries list. Total nodes count',
+      'WAIT_UNTIL_SYNCED': 'Transactions history will be available shortly after blockchain data is synced',
       'CLOSE': 'Close',
       'SHOW': 'Show',
       'SHOWING': 'Showing',
       'OF': 'of',
-      'TO': 'to',
+      'TO_ALT': 'to',
       'SEARCH': 'Search',
       'PREVIOUS': 'Previous',
       'NEXT': 'Next',
@@ -341,7 +348,12 @@ export const _lang = {
       'ADDED_TO': 'added to',
       'SUCCESSFULLY': 'Successfully',
       'FAILED_TO_ADDCOIN': 'Failed to add iguana coin',
-      'FAILED_SHEPHERD_HERD': 'Failed to get execute shepherd herd'
+      'FAILED_SHEPHERD_HERD': 'Failed to get execute shepherd herd',
+      'COIN_SELECTION': 'Coin Selection',
+      'SELECTION_NOT_FOUND': 'Local coin list is not found',
+      'LOCAL_UTXO_UPDATED': 'Local UTXO data is updated. Ready to send new transaction.',
+      'PROCESSING_UTXO': 'Processing UTXO',
+      'AWAITING_TX_RESP': 'Awaiting transaction data response'
     },
     'COIN_WALLETS': {
       'TX_FAILED': 'Transaction Failed',
@@ -363,7 +375,8 @@ export const _lang = {
       'FAILED': 'Failed',
       'SUCCESS': 'Success',
       'MESSAGE': 'Message',
-      'EXECUTION_SECONDS': 'Execution Seconds'
+      'EXECUTION_SECONDS': 'Execution Seconds',
+      'WAIT_UNTIL_SYNCED': 'Transaction history is unavailable during synchronization progresss'
     },
     'LOGIN': {
       'PWD_REQ': 'Password is required.',
@@ -388,6 +401,24 @@ export const _lang = {
       'SAVE_APP_CONFIG': 'Save app config',
       'CONFIG_RESTART_REQUIRED': 'Most changes to app config require wallet restart!',
       'APP_CONFIG': 'App Config',
+      'APP_INFO': 'App Info',
+      'APP_RELEASE': 'App Release',
+      'NAME': 'Name',
+      'VERSION': 'Version',
+      'SYS_INFO': 'System Info',
+      'ARCH': 'Architecture',
+      'OS_TYPE': 'OS Type',
+      'OS_PLATFORM': 'OS Platfrom',
+      'OS_RELEASE': 'OS Release',
+      'CPU': 'CPU',
+      'CPU_CORES': 'CPU Cores',
+      'MEM': 'Memory',
+      'LOCATIONS': 'Locations',
+      'CACHE': 'Cache',
+      'CONFIG': 'Config',
+      'BIN': 'Bin',
+      'DIR': 'Dir',
+      'ADD_PEER_IP': 'Add Peer IP'
     },
     'TX_INFO': {
       'ADDRESS': 'address',
@@ -409,7 +440,13 @@ export const _lang = {
       'AWAITING': 'Awaiting in queue',
       'PROCESSING': 'Processing',
       'ERROR_CODE': 'Error Code',
-      'WAITING': 'Waiting'
+      'WAITING': 'Waiting',
+      'PROCESSING_TRANSACTION': 'Processing transaction',
+      'NOTE_IT_WILL_TAKE': 'Note: it may take a few minutes to complete the transaction',
+      'SEND_VIA': 'Send via',
+      'ENTER_AN_ADDRESS': 'Enter an address',
+      'YOU_PICKED_OPT': 'You picked option',
+      'PLEASE_WAIT': 'Please wait'
     }
   }
 };

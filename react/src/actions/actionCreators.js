@@ -2288,10 +2288,11 @@ function initNotaryNodesConSequence(nodes) {
         // 'timeout': 60000
       };
 
+      console.log('initNotaryNodesConSequence', nodes);
+
       return new Promise((resolve, reject) => {
-        fetch('http://127.0.0.1:' + Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort, {
-          method: 'POST',
-          body: JSON.stringify(payload),
+        fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort) + '/api/dex/getinfo?userpass=' + ('tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth')) + '&symbol=' + node, {
+          method: 'GET',
         })
         .catch(function(error) {
           console.log(error);
@@ -2305,12 +2306,14 @@ function initNotaryNodesConSequence(nodes) {
 }
 
 function updateNotaryNodeConState(json, totalNodes, currentNodeIndex, currentNodeName) {
+  console.log(currentNodeName, json);
   if (currentNodeIndex === totalNodes - 1) {
     return dispatch => {
       dispatch(basiliskConnectionState(false));
     };
   } else {
-    if (json && json.error === 'less than required responses') {
+    if (json &&
+        json.error === 'less than required responses') {
       return {
         type: DASHBOARD_CONNECT_NOTARIES,
         total: totalNodes - 1,
@@ -2437,7 +2440,7 @@ export function connectNotaries() {
   const payload = {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
     'agent': 'dpow',
-    'method': 'notarychains,',
+    'method': 'notarychains',
     // 'immediate': 60000,
     // 'timeout': 60000
   };

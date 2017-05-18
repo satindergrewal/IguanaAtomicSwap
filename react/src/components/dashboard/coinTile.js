@@ -338,19 +338,19 @@ class CoinTile extends React.Component {
 
     return (
       items.map((item, i) =>
-        <CoinTileItem key={i} i={i} item={item} {...this.props} />)
+        <CoinTileItem key={ i } i={ i } item={ item } {...this.props} />)
     );
   }
 
   render() {
     return (
-      <div className="page-aside" style={{paddingTop: '80px'}}>
+      <div className="page-aside" style={{ paddingTop: '80px' }}>
         <div className="page-aside-switch">
           <i className="icon md-chevron-left" aria-hidden="true"></i>
           <i className="icon md-chevron-right" aria-hidden="true"></i>
         </div>
         <div className="page-aside-inner">
-          <div className="search-wallet-widgets panel" style={{display: 'none'}}>
+          <div className="search-wallet-widgets panel" style={{ display: 'none' }}>
             <div className="panel-heading">
               <div className="panel-actions">
                 <div className="input-search input-group-sm">
@@ -360,14 +360,14 @@ class CoinTile extends React.Component {
                   <input type="text" className="form-control" name="" placeholder="Search..." disabled />
                 </div>
               </div>
-              <h3 className="panel-title">{translate('INDEX.ACTIVE_COINS')}</h3>
+              <h3 className="panel-title">{ translate('INDEX.ACTIVE_COINS') }</h3>
             </div>
           </div>
-          <div className="wallet-widgets-list" data-plugin="pageAsideScroll">
+          <div className="wallet-widgets-list">
             <div data-role="container">
               <div data-role="content">
                 <div className="list-group row wallet-widgets-row">
-                  {this.renderTiles()}
+                  { this.renderTiles() }
                 </div>
               </div>
             </div>

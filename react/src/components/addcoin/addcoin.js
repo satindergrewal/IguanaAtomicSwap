@@ -63,7 +63,7 @@ class AddCoin extends React.Component {
           actionsMenu: false,
         }));
       } else {
-        Store.dispatch(triggerToaster(true, 'Local coin list is not found', 'Coin Selection', 'info'));
+        Store.dispatch(triggerToaster(true, translate('TOASTR.SELECTION_NOT_FOUND'), translate('TOASTR.COIN_SELECTION'), 'info'));
       }
     }.bind(this));
   }
@@ -248,62 +248,120 @@ class AddCoin extends React.Component {
                 className="form-control form-material"
                 name="selectedCoin"
                 id="addcoin_select_coin_mdl_options-login"
-                value={_coin}
-                onChange={(event) => this.updateSelectedCoin(event, i)}>
-                <option>{translate('INDEX.SELECT')}</option>
+                value={ _coin }
+                onChange={ (event) => this.updateSelectedCoin(event, i) }>
+                <option>{ translate('INDEX.SELECT') }</option>
                 <AddCoinOptionsCrypto />
                 <AddCoinOptionsAC />
                 <AddCoinOptionsACFiat />
               </select>
             </div>
           </div>
-          <div className={this.state.coins.length > 1 ? 'hide' : 'col-sm-4'}>
+          <div className={ this.state.coins.length > 1 ? 'hide' : 'col-sm-4' }>
             <button
               type="button"
               className="btn btn-primary mdl_addcoin_done_btn-login"
               id="mdl_addcoin_done_btn-login"
-              onClick={() => this.activateCoin(i)}
-              disabled={_item.mode === -2 }>{translate('INDEX.ACTIVATE_COIN')}</button>
+              onClick={ () => this.activateCoin(i) }
+              disabled={ _item.mode === -2 }>{ translate('INDEX.ACTIVATE_COIN') }</button>
           </div>
           <div className="col-sm-12 text-center">
             <div className="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login">
-              <input type="radio" className="to-labelauty labelauty" name={`mode-${i}`} id={`addcoin_mdl_full_mode_login-${i}`} disabled={_item.fullMode.disabled} checked={_item.fullMode.checked} />
-              <label htmlFor={`addcoin_mdl_full_mode_login-${i}`} onClick={() => this.updateSelectedMode('1', i)} style={{ pointerEvents: _item.fullMode.disabled ? 'none' : 'all' }}>
-                <span className="labelauty-unchecked-image" style={{ display: _item.fullMode.checked ? 'none' : 'inline-block' }}></span>
-                <span className="labelauty-unchecked" style={{ display: _item.fullMode.checked ? 'none' : 'inline-block' }}>{translate('INDEX.FULL_MODE')}</span>
-                <span className="labelauty-checked-image" style={{ display: _item.fullMode.checked ? 'inline-block' : 'none' }}></span>
-                <span className="labelauty-checked" style={{ display: _item.fullMode.checked ? 'inline-block' : 'none' }}>{translate('INDEX.FULL_MODE')}</span>
+              <input
+                type="radio"
+                className="to-labelauty labelauty"
+                name={ `mode-${i}` }
+                id={ `addcoin_mdl_full_mode_login-${i}` }
+                disabled={ _item.fullMode.disabled }
+                checked={ _item.fullMode.checked } />
+              <label
+                htmlFor={ `addcoin_mdl_full_mode_login-${i}` }
+                onClick={ () => this.updateSelectedMode('1', i) }
+                style={{ pointerEvents: _item.fullMode.disabled ? 'none' : 'all' }}>
+                <span
+                  className="labelauty-unchecked-image"
+                  style={{ display: _item.fullMode.checked ? 'none' : 'inline-block' }}></span>
+                <span
+                  className="labelauty-unchecked"
+                  style={{ display: _item.fullMode.checked ? 'none' : 'inline-block' }}>{ translate('INDEX.FULL_MODE') }</span>
+                <span
+                  className="labelauty-checked-image"
+                  style={{ display: _item.fullMode.checked ? 'inline-block' : 'none' }}></span>
+                <span
+                  className="labelauty-checked"
+                  style={{ display: _item.fullMode.checked ? 'inline-block' : 'none' }}>{ translate('INDEX.FULL_MODE') }</span>
               </label>
             </div>
             <div className="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6 style-addcoin-lbl-mdl-login">
-              <input type="radio" className="to-labelauty labelauty" name={`mode-${i}`} id={`addcoin_mdl_basilisk_mode_login-${i}`} disabled={_item.basiliskMode.disabled} checked={_item.basiliskMode.checked} />
-              <label htmlFor={`addcoin_mdl_basilisk_mode_login-${i}`} onClick={() => this.updateSelectedMode('0', i)} style={{ pointerEvents: _item.basiliskMode.disabled ? 'none' : 'all' }}>
-                <span className="labelauty-unchecked-image" style={{ display: _item.basiliskMode.checked ? 'none' : 'inline-block' }}></span>
-                <span className="labelauty-unchecked" style={{ display: _item.basiliskMode.checked ? 'none' : 'inline-block' }}>{translate('INDEX.BASILISK_MODE')}</span>
-                <span className="labelauty-checked-image" style={{ display: _item.basiliskMode.checked ? 'inline-block' : 'none' }}></span>
-                <span className="labelauty-checked" style={{ display: _item.basiliskMode.checked ? 'inline-block' : 'none' }}>{translate('INDEX.BASILISK_MODE')}</span>
+              <input
+                type="radio"
+                className="to-labelauty labelauty"
+                name={ `mode-${i}` }
+                id={ `addcoin_mdl_basilisk_mode_login-${i}` }
+                disabled={ _item.basiliskMode.disabled }
+                checked={ _item.basiliskMode.checked } />
+              <label
+                htmlFor={ `addcoin_mdl_basilisk_mode_login-${i}` }
+                onClick={ () => this.updateSelectedMode('0', i) }
+                style={{ pointerEvents: _item.basiliskMode.disabled ? 'none' : 'all' }}>
+                <span
+                  className="labelauty-unchecked-image"
+                  style={{ display: _item.basiliskMode.checked ? 'none' : 'inline-block' }}></span>
+                <span
+                  className="labelauty-unchecked"
+                  style={{ display: _item.basiliskMode.checked ? 'none' : 'inline-block' }}>{ translate('INDEX.BASILISK_MODE') }</span>
+                <span
+                  className="labelauty-checked-image"
+                  style={{ display: _item.basiliskMode.checked ? 'inline-block' : 'none' }}></span>
+                <span
+                  className="labelauty-checked"
+                  style={{ display: _item.basiliskMode.checked ? 'inline-block' : 'none' }}>{ translate('INDEX.BASILISK_MODE') }</span>
               </label>
             </div>
             <div className="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12 style-addcoin-lbl-mdl-login">
-              <input type="radio" className="to-labelauty labelauty" name={`mode-${i}`} id={`addcoin_mdl_native_mode_login-${i}`} disabled={_item.nativeMode.disabled} checked={_item.nativeMode.checked} />
-              <label htmlFor={`addcoin_mdl_native_mode_login-${i}`} onClick={() => this.updateSelectedMode('-1', i)} style={{ pointerEvents: _item.nativeMode.disabled ? 'none' : 'all' }}>
-                <span className="labelauty-unchecked-image" style={{ display: _item.nativeMode.checked ? 'none' : 'inline-block' }}></span>
-                <span className="labelauty-unchecked" style={{ display: _item.nativeMode.checked ? 'none' : 'inline-block' }}>{translate('INDEX.NATIVE_MODE')}</span>
-                <span className="labelauty-checked-image" style={{ display: _item.nativeMode.checked ? 'inline-block' : 'none' }}></span>
-                <span className="labelauty-checked" style={{ display: _item.nativeMode.checked ? 'inline-block' : 'none' }}>{translate('INDEX.NATIVE_MODE')}</span>
+              <input
+                type="radio"
+                className="to-labelauty labelauty"
+                name={ `mode-${i}` }
+                id={ `addcoin_mdl_native_mode_login-${i}` }
+                disabled={ _item.nativeMode.disabled }
+                checked={ _item.nativeMode.checked } />
+              <label
+                htmlFor={ `addcoin_mdl_native_mode_login-${i}` }
+                onClick={ () => this.updateSelectedMode('-1', i) }
+                style={{ pointerEvents: _item.nativeMode.disabled ? 'none' : 'all' }}>
+                <span
+                  className="labelauty-unchecked-image"
+                  style={{ display: _item.nativeMode.checked ? 'none' : 'inline-block' }}></span>
+                <span
+                  className="labelauty-unchecked"
+                  style={{ display: _item.nativeMode.checked ? 'none' : 'inline-block' }}>{ translate('INDEX.NATIVE_MODE') }</span>
+                <span
+                  className="labelauty-checked-image"
+                  style={{ display: _item.nativeMode.checked ? 'inline-block' : 'none' }}></span>
+                <span
+                  className="labelauty-checked"
+                  style={{ display: _item.nativeMode.checked ? 'inline-block' : 'none' }}>{ translate('INDEX.NATIVE_MODE') }</span>
               </label>
             </div>
           </div>
-          <div className={this.state.coins.length > 1 && i !== 0 ? 'col-sm-1' : 'hide'}>
-            <button type="button" className="btn btn-primary mdl_addcoin_done_btn-login" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn-login" onClick={() => this.removeCoin(i)}>
+          <div className={ this.state.coins.length > 1 && i !== 0 ? 'col-sm-1' : 'hide' }>
+            <button
+              type="button"
+              className="btn btn-primary mdl_addcoin_done_btn-login"
+              id="mdl_addcoin_done_btn-login"
+              onClick={ () => this.removeCoin(i) }>
               <i className="fa fa-trash-o"></i>
             </button>
           </div>
-          <div className={_item.mode === '1' || _item.mode === 1 ? 'col-sm-12' : 'hide'}>
+          <div className={ _item.mode === '1' || _item.mode === 1 ? 'col-sm-12' : 'hide' }>
             <div className="pull-left margin-right-10">
-              <input type="checkbox" id="addcoin_sync_only" data-plugin="switchery" data-size="small" checked={_item.syncOnly} />
+              <input type="checkbox" id="addcoin_sync_only" checked={ _item.syncOnly } />
             </div>
-            <label className="padding-top-3 padding-bottom-10" htmlFor="addcoin_sync_only" onClick={() => this.toggleSyncOnlyMode(i)}>{translate('ADD_COIN.SYNC_ONLY')}</label>
+            <label
+              className="padding-top-3 padding-bottom-10"
+              htmlFor="addcoin_sync_only"
+              onClick={ () => this.toggleSyncOnlyMode(i) }>{ translate('ADD_COIN.SYNC_ONLY') }</label>
           </div>
         </div>
       );
@@ -316,7 +374,7 @@ class AddCoin extends React.Component {
     return (
       <div>
         <div
-          className={'modal modal-3d-sign add-coin-modal ' + this.state.modalClassName}
+          className={ 'modal modal-3d-sign add-coin-modal ' + this.state.modalClassName }
           id="AddCoinDilogModel-login"
           aria-hidden="true"
           aria-labelledby="AddCoinDilogModel-login"
@@ -325,51 +383,60 @@ class AddCoin extends React.Component {
           <div className="modal-dialog modal-center modal-lg">
             <div className="modal-content">
               <div className="modal-header bg-orange-a400 wallet-send-header">
-                <button type="button" className="close white" data-dismiss="modal" aria-label="Close" onClick={this.dismiss}>
+                <button
+                  type="button"
+                  className="close white"
+                  aria-label="Close" onClick={ this.dismiss }>
                   <span aria-hidden="true">×</span>
                 </button>
-                <h4 className="modal-title white">{translate('INDEX.SELECT_A_COIN')}</h4>
+                <h4 className="modal-title white">{ translate('INDEX.SELECT_A_COIN') }</h4>
               </div>
               <div className="modal-body">
-                <button className="btn btn-primary btn-add-coin-item" onClick={this.addNewItem}>+</button>
-                <button className="btn btn-outline-primary btn-add-coin-item-options" onClick={this.toggleActionsMenu}>
-                  <i className={this.state.actionsMenu ? 'fa-chevron-up' : 'fa-chevron-down' }></i>
+                <button className="btn btn-primary btn-add-coin-item" onClick={ this.addNewItem }>+</button>
+                <button className="btn btn-outline-primary btn-add-coin-item-options" onClick={ this.toggleActionsMenu }>
+                  <i className={ this.state.actionsMenu ? 'fa-chevron-up' : 'fa-chevron-down' }></i>
                 </button>
-                <span className={!this.state.actionsMenu ? 'hide' : ''}>
-                  <button className="btn btn-outline-primary btn-save-coin-selection" onClick={this.saveCoinSelection}>{translate('ADD_COIN.SAVE_SELECTION')}</button>
-                  <button className="btn btn-outline-primary btn-load-coin-selection" onClick={this.loadCoinSelection}>{translate('ADD_COIN.LOAD_SELECTION')}</button>
+                <span className={ !this.state.actionsMenu ? 'hide' : '' }>
+                  <button
+                    className="btn btn-outline-primary btn-save-coin-selection"
+                    onClick={ this.saveCoinSelection }>{ translate('ADD_COIN.SAVE_SELECTION') }</button>
+                  <button
+                    className="btn btn-outline-primary btn-load-coin-selection"
+                    onClick={ this.loadCoinSelection }>{ translate('ADD_COIN.LOAD_SELECTION') }</button>
                 </span>
-                {this.renderCoinSelectors()}
-                <div className={this.state.coins.length > 1 ? 'col-sm-12' : 'hide'} style={{textAlign: 'center', margin: '20px 0'}}>
+                { this.renderCoinSelectors() }
+                <div
+                  className={ this.state.coins.length > 1 ? 'col-sm-12' : 'hide' }
+                  style={{ textAlign: 'center', margin: '20px 0' }}>
                   <button
                     type="button"
                     className="btn btn-primary col-sm-4"
-                    style={{float: 'none'}}
-                    data-toggle="modal"
-                    data-dismiss="modal"
+                    style={{ float: 'none' }}
                     id="mdl_addcoin_done_btn-login"
-                    onClick={this.activateAllCoins}>{translate('ADD_COIN.ACTIVATE_ALL')}</button>
+                    onClick={ this.activateAllCoins }>{ translate('ADD_COIN.ACTIVATE_ALL') }</button>
                 </div>
                 <div className="col-sm-12">
                   <p>
-                    <strong>{translate('INDEX.FULL_MODE')}:</strong> {translate('INDEX.FULL_MODE_DESC')}
+                    <strong>{ translate('INDEX.FULL_MODE') }:</strong> { translate('INDEX.FULL_MODE_DESC') }
                   </p>
                   <p>
-                    <strong>{translate('INDEX.BASILISK_MODE')}:</strong> {translate('INDEX.BASILISK_MODE_DESC')}
+                    <strong>{ translate('INDEX.BASILISK_MODE') }:</strong> { translate('INDEX.BASILISK_MODE_DESC') }
                   </p>
                   <p>
-                    <strong>{translate('INDEX.NATIVE_MODE')}:</strong> {translate('INDEX.NATIVE_MODE_DESC1')} <strong>Komodo Daemon</strong> {translate('INDEX.NATIVE_MODE_DESC2')} <i>Iguana Daemon</i> {translate('INDEX.NATIVE_MODE_DESC3')}.
+                    <strong>{ translate('INDEX.NATIVE_MODE') }:</strong> { translate('INDEX.NATIVE_MODE_DESC1') } <strong>Komodo Daemon</strong> { translate('INDEX.NATIVE_MODE_DESC2') } <i>Iguana Daemon</i> { translate('INDEX.NATIVE_MODE_DESC3') }.
                   </p>
                   <div className="alert alert-icon alert-primary" role="alert">
-                    <button type="button" className="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <i className="icon md-info-outline" aria-hidden="true"></i> <strong>{translate('INDEX.NATIVE_MODE')}</strong> {translate('INDEX.NATIVE_MODE_DESC4')} <strong>{translate('INDEX.NATIVE_MODE_DESC5')}</strong>, <i>{translate('INDEX.NATIVE_MODE_DESC5')}</i>.
+                    <button type="button" className="close" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                    <i className="icon md-info-outline" aria-hidden="true"></i> <strong>{ translate('INDEX.NATIVE_MODE') }</strong> { translate('INDEX.NATIVE_MODE_DESC4') } <strong>{ translate('INDEX.NATIVE_MODE_DESC5') }</strong>, <i>{ translate('INDEX.NATIVE_MODE_DESC5') }</i>.
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className={'modal-backdrop ' + (this.state.display ? 'show in' : 'fade hide')}></div>
+        <div className={ 'modal-backdrop ' + (this.state.display ? 'show in' : 'fade hide') }></div>
       </div>
     );
   }

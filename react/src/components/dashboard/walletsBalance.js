@@ -8,7 +8,8 @@ class WalletsBalance extends React.Component {
   }
 
   isFullySynced() {
-    if (this.props.Dashboard.progress && (Number(this.props.Dashboard.progress.balances) +
+    if (this.props.Dashboard.progress &&
+        (Number(this.props.Dashboard.progress.balances) +
         Number(this.props.Dashboard.progress.validated) +
         Number(this.props.Dashboard.progress.bundles) +
         Number(this.props.Dashboard.progress.utxo)) / 4 === 100) {
@@ -88,37 +89,39 @@ class WalletsBalance extends React.Component {
       return (
         <div id="wallet-widgets">
           <div className="col-xs-12">
-            <div className={this.props.ActiveCoin.mode === 'native' || (this.props.ActiveCoin.mode === 'full' && !this.isFullySynced()) ? 'col-xs-12' : 'col-xs-12 hide'}>
+            <div className={ this.props.ActiveCoin.mode === 'native' || (this.props.ActiveCoin.mode === 'full' && !this.isFullySynced()) ? 'col-xs-12' : 'col-xs-12 hide' }>
               <div role="alert" className="alert alert-info alert-dismissible" id="edexcoin-wallet-waitingrt-alert">
                 <button aria-label="Close" data-dismiss="alert" className="close" type="button">
                   <span aria-hidden="true">×</span>
                 </button>
-                <h4>{translate('INDEX.ACTIVATING_WALLET_RT')}</h4>
-                <p data-edexcoin="COIN" id="edexcoin-wallet-waitingrt-alert-text">{translate('INDEX.IGUANA_FULL_MODE_SYNC_P1')}</p>
-                <p>{translate('INDEX.IGUANA_FULL_MODE_SYNC_P2')}</p>
-                <p style={{fontWeight: '600'}}>{this.renderLB('INDEX.IGUANA_FULL_MODE_SYNC_P3')}</p>
+                <h4>{ translate('INDEX.ACTIVATING_WALLET_RT') }</h4>
+                <p id="edexcoin-wallet-waitingrt-alert-text">{ translate('INDEX.IGUANA_FULL_MODE_SYNC_P1') }</p>
+                <p>{ translate('INDEX.IGUANA_FULL_MODE_SYNC_P2') }</p>
+                <p style={{ fontWeight: '600' }}>{ this.renderLB('INDEX.IGUANA_FULL_MODE_SYNC_P3') }</p>
               </div>
 
               <div role="alert" className="alert alert-info alert-dismissible" id="edexcoin-wallet-waitingcache-alert">
                 <button aria-label="Close" data-dismiss="alert" className="close" type="button">
                   <span aria-hidden="true">×</span>
                 </button>
-                <h4>{translate('INDEX.FETCHING_COIN_DATA')}</h4>
-                <p data-edexcoin="COIN" id="edexcoin-wallet-waitingcache-alert-text">{translate('INDEX.IGUANA_FULL_MODE_SYNC_P1')}</p>
-                <p>{translate('INDEX.IGUANA_FULL_MODE_SYNC_P2')}</p>
-                <p style={{fontWeight: '600'}}>{this.renderLB('INDEX.IGUANA_FULL_MODE_SYNC_P3')}</p>
+                <h4>{ translate('INDEX.FETCHING_COIN_DATA') }</h4>
+                <p id="edexcoin-wallet-waitingcache-alert-text">{ translate('INDEX.IGUANA_FULL_MODE_SYNC_P1') }</p>
+                <p>{ translate('INDEX.IGUANA_FULL_MODE_SYNC_P2') }</p>
+                <p style={{ fontWeight: '600' }}>{ this.renderLB('INDEX.IGUANA_FULL_MODE_SYNC_P3') }</p>
               </div>
             </div>
-            <div className={this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-12 col-xs-12'} id="edexcoin_getbalance_t">
+            <div
+              className={ this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-12 col-xs-12' }
+              id="edexcoin_getbalance_t">
               <div className="widget widget-shadow" id="widgetLineareaOne">
                 <div className="widget-content">
                   <div className="padding-20 padding-top-10">
                     <div className="clearfix">
                       <div className="pull-left padding-vertical-10">
-                        <i className="icon fa-eye font-size-24 vertical-align-bottom margin-right-5"></i>{translate('INDEX.BALANCE')}
+                        <i className="icon fa-eye font-size-24 vertical-align-bottom margin-right-5"></i>{ translate('INDEX.BALANCE')}
                       </div>
-                      <span className="pull-right padding-top-10" style={{fontSize: '22px'}}>
-                        {this.renderBalance('main')} {this.props.ActiveCoin.coin}
+                      <span className="pull-right padding-top-10" style={{ fontSize: '22px' }}>
+                        { this.renderBalance('main') } { this.props.ActiveCoin.coin }
                       </span>
                     </div>
                   </div>
@@ -126,16 +129,18 @@ class WalletsBalance extends React.Component {
               </div>
             </div>
 
-            <div className={this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide'} id="edexcoin_getbalance_interest">
+            <div
+              className={ this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide' }
+              id="edexcoin_getbalance_interest">
               <div className="widget widget-shadow" id="widgetLineareaOne">
                 <div className="widget-content">
                   <div className="padding-20 padding-top-10">
                     <div className="clearfix">
                       <div className="pull-left padding-vertical-10">
-                        <i className="icon fa-money font-size-24 vertical-align-bottom margin-right-5"></i>{translate('INDEX.INTEREST_EARNED')}
+                        <i className="icon fa-money font-size-24 vertical-align-bottom margin-right-5"></i>{ translate('INDEX.INTEREST_EARNED') }
                       </div>
-                      <span className="pull-right padding-top-10" style={{fontSize: '22px'}}>
-                        {this.renderBalance('interest')} {this.props.ActiveCoin.coin}
+                      <span className="pull-right padding-top-10" style={{ fontSize: '22px' }}>
+                        { this.renderBalance('interest') } { this.props.ActiveCoin.coin }
                       </span>
                     </div>
                   </div>
@@ -143,16 +148,18 @@ class WalletsBalance extends React.Component {
               </div>
             </div>
 
-            <div className={this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide'} id="edexcoin_getbalance_total_interest">
+            <div
+              className={ this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide' }
+              id="edexcoin_getbalance_total_interest">
               <div className="widget widget-shadow" id="widgetLineareaOne">
                 <div className="widget-content">
                   <div className="padding-20 padding-top-10">
                     <div className="clearfix">
                       <div className="pull-left padding-vertical-10">
-                        <i className="icon fa-bullseye font-size-24 vertical-align-bottom margin-right-5"></i>{translate('INDEX.TOTAL_BALANCE')}
+                        <i className="icon fa-bullseye font-size-24 vertical-align-bottom margin-right-5"></i>{ translate('INDEX.TOTAL_BALANCE') }
                       </div>
-                      <span className="pull-right padding-top-10" data-edexcoin="COIN" style={{fontSize: '22px'}}>
-                        {this.renderBalance('total')} {this.props.ActiveCoin.coin}
+                      <span className="pull-right padding-top-10" style={{ fontSize: '22px' }}>
+                        { this.renderBalance('total') } { this.props.ActiveCoin.coin }
                       </span>
                     </div>
                   </div>

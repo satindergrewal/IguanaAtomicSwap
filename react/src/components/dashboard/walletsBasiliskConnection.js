@@ -14,22 +14,23 @@ class WalletsBasiliskConnection extends React.Component {
   }
 
   render() {
-    if (this.props && this.props.Dashboard.basiliskConnection) {
+    if (this.props &&
+        this.props.Dashboard.basiliskConnection) {
       return (
         <div>
           <div className="modal show" id="RefreshBasiliskConnectionsMdl" aria-hidden="false" role="dialog">
             <div className="modal-dialog modal-center modal-md">
               <div className="modal-content">
-                <div className="modal-header bg-orange-a400 wallet-send-header" style={{borderRadius: '3px 3px 0 0'}}>
+                <div className="modal-header bg-orange-a400 wallet-send-header" style={{ borderRadius: '3px 3px 0 0' }}>
                   <h4 className="modal-title white">
-                    <span className="icon fa-refresh" style={{margin: '0'}}></span> {translate('INDEX.REFRESHING_BASILISK_NET')}...
+                    <span className="icon fa-refresh" style={{ margin: '0' }}></span> { translate('INDEX.REFRESHING_BASILISK_NET') }...
                   </h4>
-                  <button type="button" className="close btn-close" aria-label="Close" onClick={this.basiliskConnectionAction}>
+                  <button type="button" className="close btn-close" aria-label="Close" onClick={ this.basiliskConnectionAction }>
                     <span aria-hidden="true">&times;</span>
-                    <span className="sr-only">{translate('INDEX.CLOSE')}</span>
+                    <span className="sr-only">{ translate('INDEX.CLOSE') }</span>
                   </button>
                 </div>
-                <div className="modal-body" style={{textAlign: 'center'}}>
+                <div className="modal-body" style={{ textAlign: 'center' }}>
                   <div className="loader-wrapper active">
                     <div className="loader-layer loader-blue">
                       <div className="loader-circle-left">
@@ -69,13 +70,13 @@ class WalletsBasiliskConnection extends React.Component {
                     </div>
                   </div>
                   <h5 className="text-left">
-                    {translate('IAPI.CON_STATUS') + '... ' + this.props.Dashboard.connectedNotaries.current + '/' + this.props.Dashboard.connectedNotaries.total + ': ' + this.props.Dashboard.connectedNotaries.currentNodeName} <span className="pull-right" id="basilisk-connections-refresh-percent">{Math.floor(this.props.Dashboard.connectedNotaries.current * 100 / this.props.Dashboard.connectedNotaries.total)}%</span>
+                    { translate('IAPI.CON_STATUS') + '... ' + this.props.Dashboard.connectedNotaries.current + '/' + this.props.Dashboard.connectedNotaries.total + ': ' + this.props.Dashboard.connectedNotaries.currentNodeName} <span className="pull-right" id="basilisk-connections-refresh-percent">{ Math.floor(this.props.Dashboard.connectedNotaries.current * 100 / this.props.Dashboard.connectedNotaries.total) }%</span>
                   </h5>
                   <div className="progress progress-sm">
-                    <div className="progress-bar progress-bar-info progress-bar-striped active" style={{width: Math.floor(this.props.Dashboard.connectedNotaries.current * 100 / this.props.Dashboard.connectedNotaries.total) + '%', fontSize: '80%'}} role="progressbar" id="basilisk-connections-refresh-progress-bar"></div>
+                    <div className="progress-bar progress-bar-info progress-bar-striped active" style={{ width: Math.floor(this.props.Dashboard.connectedNotaries.current * 100 / this.props.Dashboard.connectedNotaries.total) + '%', fontSize: '80%' }} role="progressbar" id="basilisk-connections-refresh-progress-bar"></div>
                   </div>
                   <pre id="basilisk-connections-refresh-status-output">
-                  {this.props.Dashboard.connectedNotaries.failedToConnectNodes ? 'Failed: ' + this.props.Dashboard.connectedNotaries.failedToConnectNodes : null}
+                  { this.props.Dashboard.connectedNotaries.failedToConnectNodes ? 'Failed: ' + this.props.Dashboard.connectedNotaries.failedToConnectNodes : null }
                   </pre>
                 </div>
               </div>
