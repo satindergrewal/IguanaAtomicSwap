@@ -69,6 +69,7 @@ class AddCoin extends React.Component {
   }
 
   toggleSyncOnlyMode(index) {
+    console.log(index);
     let _coins = this.state.coins;
 
     _coins[index] = Object.assign({}, _coins[index], {
@@ -355,13 +356,15 @@ class AddCoin extends React.Component {
             </button>
           </div>
           <div className={ _item.mode === '1' || _item.mode === 1 ? 'col-sm-12' : 'hide' }>
-            <div className="pull-left margin-right-10">
-              <input type="checkbox" id="addcoin_sync_only" checked={ _item.syncOnly } />
+            <div className="toggle-box padding-top-3 padding-bottom-10">
+              <span className="pointer">
+                <label className="switch">
+                  <input type="checkbox" checked={ _item.syncOnly } />
+                  <div className="slider" onClick={ () => this.toggleSyncOnlyMode(i) }></div>
+                </label>
+                <div className="toggle-label" onClick={ () => this.toggleSyncOnlyMode(i) }>{ translate('ADD_COIN.SYNC_ONLY') }</div>
+              </span>
             </div>
-            <label
-              className="padding-top-3 padding-bottom-10"
-              htmlFor="addcoin_sync_only"
-              onClick={ () => this.toggleSyncOnlyMode(i) }>{ translate('ADD_COIN.SYNC_ONLY') }</label>
           </div>
         </div>
       );
