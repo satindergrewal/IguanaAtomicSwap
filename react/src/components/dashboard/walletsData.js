@@ -377,8 +377,8 @@ class WalletsData extends React.Component {
             <td>{ tx.confirmations }</td>
             <td>{ tx.amount || translate('DASHBOARD.UNKNOWN') }</td>
             <td>{ secondsToString(tx.blocktime || tx.timestamp) }</td>
-            <td>{ tx.address }</td>
-            <td>
+            <td className={ this.props.ActiveCoin.mode === 'basilisk' ? 'hide' : '' }>{ tx.address }</td>
+            <td className={ this.props.ActiveCoin.mode === 'basilisk' ? 'text-center' : '' }>
               <button
                 type="button"
                 className="btn btn-xs white btn-info waves-effect waves-light btn-kmdtxid"
@@ -684,8 +684,8 @@ class WalletsData extends React.Component {
                                 <th className="hidden-xs hidden-sm">{ translate('INDEX.CONFIRMATIONS') }</th>
                                 <th>{ translate('INDEX.AMOUNT') }</th>
                                 <th>{ translate('INDEX.TIME') }</th>
-                                <th>{ translate('INDEX.DEST_ADDRESS') }</th>
-                                <th className="hidden-xs hidden-sm">{ translate('INDEX.TX_DETAIL') }</th>
+                                <th className={ this.props.ActiveCoin.mode === 'basilisk' ? 'hide' : '' }>{ translate('INDEX.DEST_ADDRESS') }</th>
+                                <th className={ this.props.ActiveCoin.mode === 'basilisk' ? 'hidden-xs hidden-sm text-center' : 'hidden-xs hidden-sm' }>{ translate('INDEX.TX_DETAIL') }</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -697,8 +697,8 @@ class WalletsData extends React.Component {
                                 <th>{ translate('INDEX.CONFIRMATIONS') }</th>
                                 <th>{ translate('INDEX.AMOUNT') }</th>
                                 <th>{ translate('INDEX.TIME') }</th>
-                                <th>{ translate('INDEX.DEST_ADDRESS') }</th>
-                                <th className="hidden-xs hidden-sm">{ translate('INDEX.TX_DETAIL') }</th>
+                                <th className={ this.props.ActiveCoin.mode === 'basilisk' ? 'hide' : '' }>{ translate('INDEX.DEST_ADDRESS') }</th>
+                                <th className={ this.props.ActiveCoin.mode === 'basilisk' ? 'hidden-xs hidden-sm text-center' : 'hidden-xs hidden-sm' }>{ translate('INDEX.TX_DETAIL') }</th>
                               </tr>
                             </tfoot>
                           </table>
