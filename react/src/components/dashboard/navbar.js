@@ -102,6 +102,7 @@ class Navbar extends React.Component {
                   role="menuitem"
                   id="btn_edexcoin_addcoin"
                   style={{ paddingBottom: '10px', paddingTop: '16px' }}
+                  className="pointer"
                   onClick={ this.toggleAddCoinModal }>
                   <span>
                     <img src="assets/images/icons/activatecoin.png" alt={ translate('INDEX.ADD_COIN') } />
