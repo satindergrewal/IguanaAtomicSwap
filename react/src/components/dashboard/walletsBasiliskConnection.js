@@ -13,11 +13,17 @@ class WalletsBasiliskConnection extends React.Component {
     Store.dispatch(basiliskConnection(false));
   }
 
+  handleKeydown(e) {
+    if (e.key === 'Escape') {
+      this.basiliskConnectionAction();
+    }
+  }
+
   render() {
     if (this.props &&
         this.props.Dashboard.basiliskConnection) {
       return (
-        <div>
+        <div onKeyDown={ (event) => this.handleKeydown(event) }>
           <div className="modal show" id="RefreshBasiliskConnectionsMdl" aria-hidden="false" role="dialog">
             <div className="modal-dialog modal-center modal-md">
               <div className="modal-content">
