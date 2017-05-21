@@ -70,8 +70,6 @@ class WalletsData extends React.Component {
   }
 
   handleClickOutside(e) {
-    console.log(e);
-
     if (e.srcElement.className !== 'btn dropdown-toggle btn-info' &&
         (e.srcElement.offsetParent && e.srcElement.offsetParent.className !== 'btn dropdown-toggle btn-info') &&
         (e.path && e.path[4] && e.path[4].className.indexOf('showkmdwalletaddrs') === -1) &&
