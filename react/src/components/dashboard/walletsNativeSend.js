@@ -27,6 +27,25 @@ class WalletsNativeSend extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.openDropMenu = this.openDropMenu.bind(this);
     this.getOAdress = this.getOAdress.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+
+  componentWillMount() {
+    document.addEventListener('click', this.handleClickOutside, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutside, false);
+  }
+
+  handleClickOutside(e) {
+    if (e.srcElement.className !== 'btn dropdown-toggle btn-info' &&
+        (e.srcElement.offsetParent && e.srcElement.offsetParent.className !== 'btn dropdown-toggle btn-info') &&
+        (e.path && e.path[4] && e.path[4].className.indexOf('showkmdwalletaddrs') === -1)) {
+      this.setState({
+        addressSelectorOpen: false,
+      });
+    }
   }
 
   renderAddressByType(type) {

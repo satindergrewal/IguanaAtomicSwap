@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Config from '../../config';
 import { translate } from '../../translate/translate';
 import {
@@ -31,6 +32,7 @@ import io from 'socket.io-client';
 const socket = io.connect('http://127.0.0.1:' + Config.agamaPort);
 
 // TODO: prevent any cache updates rather than utxo while on send coin form
+//       fix a bug - total amount is incorrect when switching between steps
 
 class SendCoin extends React.Component {
   constructor(props) {
@@ -57,7 +59,26 @@ class SendCoin extends React.Component {
     this.getOAdress = this.getOAdress.bind(this);
     this.toggleSendAPIType = this.toggleSendAPIType.bind(this);
     this._fetchNewUTXOData = this._fetchNewUTXOData.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
     socket.on('messages', msg => this.updateSocketsData(msg));
+  }
+
+  componentWillMount() {
+    document.addEventListener('click', this.handleClickOutside, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutside, false);
+  }
+
+  handleClickOutside(e) {
+    if (e.srcElement.className !== 'btn dropdown-toggle btn-info' &&
+        (e.srcElement.offsetParent && e.srcElement.offsetParent.className !== 'btn dropdown-toggle btn-info') &&
+        (e.path && e.path[4] && e.path[4].className.indexOf('showkmdwalletaddrs') === -1)) {
+      this.setState({
+        addressSelectorOpen: false,
+      });
+    }
   }
 
   componentWillReceiveProps(props) {
@@ -270,7 +291,7 @@ class SendCoin extends React.Component {
 
   renderAddressList() {
     return (
-      <div className={ 'btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ' + (this.state.addressSelectorOpen ? 'open' : '') }>
+      <div id="showkmdwalletaddrs" className={ 'btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ' + (this.state.addressSelectorOpen ? 'open' : '') }>
         <button
           type="button"
           className="btn dropdown-toggle btn-info"

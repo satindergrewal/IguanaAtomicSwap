@@ -57,7 +57,31 @@ class WalletsData extends React.Component {
     this._fetchUtxoCache = this._fetchUtxoCache.bind(this);
     this.restartBasiliskInstance = this.restartBasiliskInstance.bind(this);
     this.basiliskRefreshActionOne = this.basiliskRefreshActionOne.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
     socket.on('messages', msg => this.updateSocketsData(msg));
+  }
+
+  componentWillMount() {
+    document.addEventListener('click', this.handleClickOutside, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutside, false);
+  }
+
+  handleClickOutside(e) {
+    console.log(e);
+
+    if (e.srcElement.className !== 'btn dropdown-toggle btn-info' &&
+        (e.srcElement.offsetParent && e.srcElement.offsetParent.className !== 'btn dropdown-toggle btn-info') &&
+        (e.path && e.path[4] && e.path[4].className.indexOf('showkmdwalletaddrs') === -1) &&
+        (e.srcElement.offsetParent && e.srcElement.offsetParent.className.indexOf('dropdown') === -1) &&
+        e.srcElement.className !== 'dropdown-toggle btn-xs btn-default') {
+      this.setState({
+        addressSelectorOpen: false,
+        basiliskActionsMenu: false,
+      });
+    }
   }
 
   componentDidMount() {
