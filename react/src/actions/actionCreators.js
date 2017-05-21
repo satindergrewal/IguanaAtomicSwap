@@ -2284,8 +2284,7 @@ function initNotaryNodesConSequence(nodes) {
         'agent': 'dex',
         'method': 'getinfo',
         'symbol': node,
-        // 'immediate': 60000,
-        // 'timeout': 60000
+        'timeout': 10000
       };
 
       console.log('initNotaryNodesConSequence', nodes);
