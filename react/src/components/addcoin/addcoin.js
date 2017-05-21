@@ -12,6 +12,8 @@ import AddCoinOptionsCrypto from './addcoinOptionsCrypto';
 import AddCoinOptionsAC from './addcoinOptionsAC';
 import AddCoinOptionsACFiat from './addcoinOptionsACFiat';
 
+// TODO: fix add coin bug
+
 class AddCoin extends React.Component {
   constructor(props) {
     super(props);
@@ -69,7 +71,6 @@ class AddCoin extends React.Component {
   }
 
   toggleSyncOnlyMode(index) {
-    console.log(index);
     let _coins = this.state.coins;
 
     _coins[index] = Object.assign({}, _coins[index], {
@@ -146,15 +147,15 @@ class AddCoin extends React.Component {
     _coins[index] = {
       selectedCoin: _coins[index].selectedCoin,
       fullMode: {
-        ...this.state.fullMode,
+        disabled: _coins[index].selectedCoin.indexOf('full') > -1 ? false : true,
         checked: _value === '1' ? true : false,
       },
       basiliskMode: {
-        ...this.state.basiliskMode,
+        disabled: _coins[index].selectedCoin.indexOf('basilisk') > -1 ? false : true,
         checked: _value === '0' ? true : false,
       },
       nativeMode: {
-        ...this.state.nativeMode,
+        disabled: _coins[index].selectedCoin.indexOf('native') > -1 ? false : true,
         checked: _value === '-1' ? true : false,
       },
       mode: _value,
@@ -165,7 +166,13 @@ class AddCoin extends React.Component {
       coins: _coins
     }));
 
-    console.log(this.state.coins);
+    console.log(_coins[index]);
+  }
+
+  handleKeydown(e) {
+    if (e.key === 'Escape') {
+      this.dismiss();
+    }
   }
 
   activateCoin() {
@@ -242,7 +249,7 @@ class AddCoin extends React.Component {
       const _coin = _item.selectedCoin || '';
 
       items.push(
-        <div className={this.state.coins.length > 1 ? 'multi' : 'single'} key={'add-coin-' + i}>
+        <div className={ this.state.coins.length > 1 ? 'multi' : 'single' } key={ 'add-coin-' + i }>
           <div className="col-sm-8">
             <div className="form-group">
               <select
@@ -250,7 +257,8 @@ class AddCoin extends React.Component {
                 name="selectedCoin"
                 id="addcoin_select_coin_mdl_options-login"
                 value={ _coin }
-                onChange={ (event) => this.updateSelectedCoin(event, i) }>
+                onChange={ (event) => this.updateSelectedCoin(event, i) }
+                autoFocus>
                 <option>{ translate('INDEX.SELECT') }</option>
                 <AddCoinOptionsCrypto />
                 <AddCoinOptionsAC />
@@ -375,7 +383,7 @@ class AddCoin extends React.Component {
 
   render() {
     return (
-      <div>
+      <div onKeyDown={ (event) => this.handleKeydown(event) }>
         <div
           className={ 'modal modal-3d-sign add-coin-modal ' + this.state.modalClassName }
           id="AddCoinDilogModel-login"
