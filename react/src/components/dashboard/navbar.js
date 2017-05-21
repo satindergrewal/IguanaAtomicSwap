@@ -4,7 +4,10 @@ import {
   dashboardChangeSection,
   toggleAddcoinModal,
   logout,
-  stopInterval
+  stopInterval,
+  toggleSyncOnlyModal,
+  startInterval,
+  getSyncOnlyForks
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -36,6 +39,17 @@ class Navbar extends React.Component {
     Store.dispatch(stopInterval('sync', this.props.Interval.interval));
     Store.dispatch(stopInterval('basilisk', this.props.Interval.interval));
     Store.dispatch(logout());
+  }
+
+  openSyncOnlyModal() {
+    Store.dispatch(getSyncOnlyForks());
+
+    var _iguanaActiveHandle = setInterval(function() {
+      Store.dispatch(getSyncOnlyForks());
+    }.bind(this), 3000);
+    Store.dispatch(startInterval('syncOnly', _iguanaActiveHandle));
+
+    Store.dispatch(toggleSyncOnlyModal(true));
   }
 
   render() {
@@ -93,6 +107,11 @@ class Navbar extends React.Component {
               <li className={ this.props.Dashboard.activeSection === 'atomic' ? 'active nav-top-menu' : 'nav-top-menu' }>
                 <a id="nav-iguana-atomic-explorer" onClick={ () => this.dashboardChangeSection('atomic') }>
                   <i className="site-menu-icon" aria-hidden="true"></i> Atomic Explorer
+                </a>
+              </li>
+              <li className="nav-top-menu">
+                <a id="nav-iguana-atomic-explorer" onClick={ () => this.openSyncOnlyModal() }>
+                  <i className="site-menu-icon" aria-hidden="true"></i> { translate('ADD_COIN.SYNC_ONLY') }
                 </a>
               </li>
             </ul>

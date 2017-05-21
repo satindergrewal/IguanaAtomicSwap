@@ -2305,7 +2305,6 @@ function initNotaryNodesConSequence(nodes) {
 }
 
 function updateNotaryNodeConState(json, totalNodes, currentNodeIndex, currentNodeName) {
-  console.log(currentNodeName, json);
   if (currentNodeIndex === totalNodes - 1) {
     return dispatch => {
       dispatch(basiliskConnectionState(false));

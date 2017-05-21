@@ -12,8 +12,6 @@ import AddCoinOptionsCrypto from './addcoinOptionsCrypto';
 import AddCoinOptionsAC from './addcoinOptionsAC';
 import AddCoinOptionsACFiat from './addcoinOptionsACFiat';
 
-// TODO: fix add coin bug
-
 class AddCoin extends React.Component {
   constructor(props) {
     super(props);
@@ -165,8 +163,6 @@ class AddCoin extends React.Component {
     this.setState(Object.assign({}, this.state, {
       coins: _coins
     }));
-
-    console.log(_coins[index]);
   }
 
   handleKeydown(e) {
