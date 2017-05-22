@@ -99,7 +99,9 @@ class Navbar extends React.Component {
                   <i className="site-menu-icon" aria-hidden="true"></i> EasyDEX
                 </a>
               </li>
-              <li className={ this.props.Dashboard.activeSection === 'jumblr' ? 'active nav-top-menu' : 'nav-top-menu' } style={{ display: 'none' }}>
+              <li
+                className={ this.props.Dashboard.activeSection === 'jumblr' ? 'active nav-top-menu' : 'nav-top-menu' }
+                style={{ display: 'none' }}>
                 <a id="nav-jumblr" onClick={ () => this.dashboardChangeSection('jumblr') }>
                   <i className="site-menu-icon" aria-hidden="true"></i> Jumblr
                 </a>
@@ -128,7 +130,9 @@ class Navbar extends React.Component {
                   </span>
                 </a>
               </li>
-              <li className={ 'dropdown' + (this.state.openDropMenu ? ' open' : '') } onClick={ this.openDropMenu }>
+              <li
+                className={ 'dropdown' + (this.state.openDropMenu ? ' open' : '') }
+                onClick={ this.openDropMenu }>
                 <a className="navbar-avatar dropdown-toggle" aria-expanded="false" role="button">
                   <span className="avatar avatar-online">
                     <img src="assets/images/iguana_profile_02.jpg" alt="iguana profile pic" />

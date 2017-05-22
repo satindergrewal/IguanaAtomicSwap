@@ -1850,20 +1850,29 @@ export function iguanaHashHex(data) {
 }
 
 export function sendNativeTx(coin, _payload) {
-  const ajax_data_to_hex = '["' + _payload.sendFrom + '",[{"address":"' + _payload.sendTo + '","amount":' + (Number(_payload.amount) - Number(_payload.fee)) + '}]]';
-  var payload;
+  let ajax_data_to_hex;
+  let payload;
+  let _apiMethod;
+
+  if (_payload.addressType === 'public') {
+    _apiMethod = 'sendtoaddress';
+    ajax_data_to_hex = '["' + _payload.sendTo + '", ' + (Number(_payload.amount) - Number(_payload.fee)) + ']';
+  } else {
+    _apiMethod = 'z_sendmany';
+    ajax_data_to_hex = '["' + _payload.sendFrom + '",[{"address":"' + _payload.sendTo + '","amount":' + (Number(_payload.amount) - Number(_payload.fee)) + '}]]';
+  }
 
   return dispatch => {
     return iguanaHashHex(ajax_data_to_hex).then((hashHexJson) => {
       console.log('sendNativeTx', hashHexJson);
 
-      if (getPassthruAgent(coin) == 'iguana') {
+      if (getPassthruAgent(coin) === 'iguana') {
         payload = {
           'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
           'agent': getPassthruAgent(coin),
           'method': 'passthru',
           'asset': coin,
-          'function': 'z_sendmany',
+          'function': _apiMethod,
           'hex': hashHexJson,
           // 'immediate': 60000,
           // 'timeout': 60000
@@ -1873,7 +1882,7 @@ export function sendNativeTx(coin, _payload) {
           'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
           'agent': getPassthruAgent(coin),
           'method': 'passthru',
-          'function': 'z_sendmany',
+          'function': _apiMethod,
           'hex': hashHexJson,
           // 'immediate': 60000,
           // 'timeout': 60000
@@ -2286,8 +2295,6 @@ function initNotaryNodesConSequence(nodes) {
         'symbol': node,
         'timeout': 10000
       };
-
-      console.log('initNotaryNodesConSequence', nodes);
 
       return new Promise((resolve, reject) => {
         fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort) + '/api/dex/getinfo?userpass=' + ('tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth')) + '&symbol=' + node, {

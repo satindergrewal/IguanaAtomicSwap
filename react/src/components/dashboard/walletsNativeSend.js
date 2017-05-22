@@ -227,7 +227,8 @@ class WalletsNativeSend extends React.Component {
     .then(function(json) {
       const reply = json.Answer;
 
-      if (reply && reply.length) {
+      if (reply &&
+          reply.length) {
         for (let i = 0; i < reply.length; i++) {
           const _address = reply[i].data.split(' ');
           const coin = _address[0].replace('"oa1:', '');
