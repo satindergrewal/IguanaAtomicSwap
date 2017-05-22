@@ -129,6 +129,9 @@ class Settings extends React.Component {
                   <div>
                     { translate('SETTINGS.VERSION') }: { this.props.Settings.appInfo.releaseInfo.version }
                   </div>
+                  <div>
+                    { translate('SETTINGS.APP_SESSION') }: { this.props.Settings.appInfo.appSession }
+                  </div>
                 </div>
               </div>
               <div className="col-sm-12" style={{ paddingTop: '20px' }}>

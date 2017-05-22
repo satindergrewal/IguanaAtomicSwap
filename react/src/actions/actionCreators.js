@@ -55,8 +55,6 @@ export const SERVICE_ERROR = 'SERVICE_ERROR';
 export const DASHBOARD_ACTIVE_ADDRESS = 'DASHBOARD_ACTIVE_ADDRESS';
 export const LOAD_APP_INFO = 'LOAD_APP_INFO';
 
-var iguanaForks = {}; // forks in mem array
-
 export function changeActiveAddress(address) {
   return {
     type: DASHBOARD_ACTIVE_ADDRESS,
@@ -282,16 +280,38 @@ function walletLock() {
   };
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'walletLock',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'walletLock', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(logoutState(json)))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(logoutState(json));
+    })
   }
 }
 
@@ -336,7 +356,7 @@ export function toggleAddcoinModal(display, isLogin) {
 }
 
 export function copyCoinAddress(address) {
-  var _result = copyToClipboard(address);
+  const _result = copyToClipboard(address);
 
   if (_result) {
     return dispatch => {
@@ -416,16 +436,38 @@ export function addCoin(coin, mode, syncOnly, port) {
 
 export function iguanaAddCoin(coin, mode, acData, port) {
   function _iguanaAddCoin(dispatch) {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'iguanaAddCoin',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + (port ? port : Config.iguanaCorePort),
+      'payload': acData,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + (port ? port : Config.iguanaCorePort), {
       method: 'POST',
       body: JSON.stringify(acData),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, translate('TOASTR.FAILED_TO_ADDCOIN'), translate('TOASTR.ACCOUNT_NOTIFICATION'), 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(addCoinResult(coin, mode, acData)));
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(addCoinResult(coin, mode, acData))
+    });
   }
 
   if (mode === 0) {
@@ -444,8 +486,8 @@ export function iguanaAddCoin(coin, mode, acData, port) {
 }
 
 export function shepherdHerd(coin, mode, path) {
-  var acData;
-  var herdData = {
+  let acData;
+  let herdData = {
     'ac_name': coin,
     'ac_options': [
       '-daemon=0',
@@ -579,24 +621,45 @@ export function shepherdGetConfig(coin, mode) {
 }
 
 export function getDexCoins() {
+  const _payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'InstantDEX',
+    'method': 'allcoins',
+  };
+
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'getDexCoins',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': _payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
-      //mode: 'no-cors'
-      body: JSON.stringify({
-        'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-        'agent': 'InstantDEX',
-        'method': 'allcoins',
-        // 'immediate': 60000,
-        // 'timeout': 60000
-      })
+      body: JSON.stringify(_payload)
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'Error getDexCoins', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(dashboardCoinsState(json)));
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(dashboardCoinsState(json));
+    });
   }
 }
 
@@ -610,65 +673,125 @@ function rpcErrorHandler(json, dispatch) {
 }
 
 export function iguanaWalletPassphrase(_passphrase) {
+  const _payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'handle': '',
+    'password': _passphrase,
+    'timeout': '2592000',
+    'agent': 'bitcoinrpc',
+    'method': 'walletpassphrase',
+  };
+
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'walletLock',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': _payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
-      body: JSON.stringify({
-        'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-        'handle': '',
-        'password': _passphrase,
-        'timeout': '2592000',
-        'agent': 'bitcoinrpc',
-        'method': 'walletpassphrase',
-        // 'immediate': 60000,
-      }),
+      body: JSON.stringify(_payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'Error iguanaWalletPassphrase', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(iguanaWalletPassphraseState(json, dispatch)));
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));    
+      dispatch(iguanaWalletPassphraseState(json, dispatch))
+    });
   }
 }
 
 export function iguanaActiveHandle(getMainAddress) {
+  const _payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'SuperNET',
+    'method': 'activehandle',
+  };
+
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'iguanaActiveHandle',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': _payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
-      body: JSON.stringify({
-        'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-        'agent': 'SuperNET',
-        'method': 'activehandle',
-        // 'immediate': 60000,
-        // 'timeout': 60000
-      }),
+      body: JSON.stringify(_payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': json,
+      }));
       dispatch(updateErrosStack('activeHandle'));
       dispatch(triggerToaster(true, translate('TOASTR.IGUANA_ARE_YOU_SURE'), translate('TOASTR.SERVICE_NOTIFICATION'), 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(getMainAddress ? getMainAddressState(json) : iguanaActiveHandleState(json)));
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(getMainAddress ? getMainAddressState(json) : iguanaActiveHandleState(json));
+    });
   }
 }
 
 export function iguanaEdexBalance(coin) {
+  const _payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'bitcoinrpc',
+    'method': 'getbalance',
+    'coin': coin,
+  };
+
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'iguanaEdexBalance',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': _payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
-      body: JSON.stringify({
-        'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-        'agent': 'bitcoinrpc',
-        'method': 'getbalance',
-        'coin': coin,
-        // 'immediate': 60000,
-        // 'timeout': 60000
-      }),
+      body: JSON.stringify(_payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'Error iguanaEdexBalance', 'Error', 'error'));
     })
     .then(response => response.json())
@@ -2699,5 +2822,23 @@ export function getAppInfo() {
     })
     .then(response => response.json())
     .then(json => dispatch(getAppInfoState(json)))
+  }
+}
+
+export function logGuiHttp(payload) {
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/guilog', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'logGuiHttp', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    // .then(json => console.log(json))
   }
 }
