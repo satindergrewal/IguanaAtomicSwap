@@ -308,7 +308,7 @@ class Settings extends React.Component {
 
   render() {
     return (
-      <div style={{marginLeft: '0'}}>
+      <div style={{ marginLeft: '0' }}>
         <div className="page-content" id="section-iguana-wallet-settings">
           <div className="row" id="iguana-wallet-settings">
             <div className="col-xlg-12 col-md-12">
