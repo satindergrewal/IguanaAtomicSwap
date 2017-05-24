@@ -1,5 +1,6 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
+import WalletsHeader from './walletsHeader';
 /*import { dashboardChangeSection, toggleAddcoinModal, logout } from '../../actions/actionCreators';
 import Store from '../../store';*/
 
@@ -31,7 +32,8 @@ class Jumblr extends React.Component {
   render() {
     return (
       <div className="page" style={{ marginLeft: '0' }}>
-        <div className="page-content" id="section-jumblr">
+        <WalletsHeader activeSection="jumblr" />
+        <div className="page-content" id="section-jumblr" style={{ marginTop: '30px' }}>
           <div className="row" id="jumblr_dashboard">
             <div className="col-xs-12" id="jumblr_testing_alert">
               <div className="alert alert-danger" role="alert">

@@ -7,7 +7,8 @@ import {
   BASILISK_CONNECTION,
   DASHBOARD_CONNECT_NOTARIES,
   VIEW_CACHE_DATA,
-  LOG_GUI_HTTP
+  LOG_GUI_HTTP,
+  TOGGLE_NOTIFICATIONS_MODAL
 } from '../actions/actionCreators';
 
 export function Dashboard(state = {
@@ -69,12 +70,15 @@ export function Dashboard(state = {
     case LOG_GUI_HTTP:
       let _guiLogState = state.guiLog;
 
-      if (_guiLogState[state.timestamp]) {
-        _guiLogState[state.timestamp].status = state.log.status;
+      if (_guiLogState[action.timestamp]) {
+        _guiLogState[action.timestamp].status = action.log.status;
+        _guiLogState[action.timestamp].response = action.log.response;
+      } else {
+        _guiLogState[action.timestamp] = action.log;
       }
 
       return Object.assign({}, state, {
-        //displayViewCacheModal: action.display,
+        guiLog: _guiLogState,
       });
     default:
       return state;

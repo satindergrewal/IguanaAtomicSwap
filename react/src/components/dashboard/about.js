@@ -3,7 +3,7 @@ import { translate } from '../../translate/translate';
 
 class About extends React.Component {
   render() {
-    return(
+    return (
       <div className="page" style={{ marginLeft: '0' }}>
         <div className="page-content" id="section-about-iguana">
           <h2>About Iguana</h2>

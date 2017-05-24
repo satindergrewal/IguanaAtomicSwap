@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 import 'bluebird';
 
-import Config from '../config';
+import _config from '../config';
 import {
   startCurrencyAssetChain,
   startAssetChain,
@@ -11,6 +11,14 @@ import {
 } from '../components/addcoin/payload';
 import { copyToClipboard } from '../util/copyToClipboard';
 import { translate } from '../translate/translate';
+
+let Config;
+
+try {
+  Config = window.require('electron').remote.getCurrentWindow();
+} catch (e) {
+  Config = _config;
+}
 
 export const TOASTER_MESSAGE = 'TOASTER_MESSAGE';
 export const DISPLAY_ADDCOIN_MODAL = 'DISPLAY_ADDCOIN_MODAL';
@@ -3423,7 +3431,6 @@ export function getAgamaLog(type) {
 }
 
 export function guiLogState(logData) {
-  console.log(logData);
   return {
     type: LOG_GUI_HTTP,
     timestamp: logData.timestamp,

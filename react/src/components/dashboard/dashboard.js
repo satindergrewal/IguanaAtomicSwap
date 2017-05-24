@@ -3,7 +3,6 @@ import Navbar from './navbar';
 import CoinTile from './coinTile';
 import EDEX from './edex';
 import WalletsBalance from './walletsBalance';
-import WalletsHeader from './walletsHeader';
 import WalletsProgress from './walletsProgress';
 import WalletsNav from './walletsNav';
 import SendCoin from './sendCoin';
