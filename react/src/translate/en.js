@@ -1,6 +1,7 @@
 export const _lang = {
   'EN': {
     'INDEX': {
+      'WALLET_INFO': 'Wallet Info',
       'ADD_COIN': 'Add Coin',
       'STOP': 'Stop',
       'START': 'Start',
@@ -418,7 +419,8 @@ export const _lang = {
       'CONFIG': 'Config',
       'BIN': 'Bin',
       'DIR': 'Dir',
-      'ADD_PEER_IP': 'Add Peer IP'
+      'ADD_PEER_IP': 'Add Peer IP',
+      'APP_SESSION': 'App Session'
     },
     'TX_INFO': {
       'ADDRESS': 'address',

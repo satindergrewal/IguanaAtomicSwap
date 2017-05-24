@@ -13,11 +13,17 @@ class WalletsBasiliskConnection extends React.Component {
     Store.dispatch(basiliskConnection(false));
   }
 
+  handleKeydown(e) {
+    if (e.key === 'Escape') {
+      this.basiliskConnectionAction();
+    }
+  }
+
   render() {
     if (this.props &&
         this.props.Dashboard.basiliskConnection) {
       return (
-        <div>
+        <div onKeyDown={ (event) => this.handleKeydown(event) }>
           <div className="modal show" id="RefreshBasiliskConnectionsMdl" aria-hidden="false" role="dialog">
             <div className="modal-dialog modal-center modal-md">
               <div className="modal-content">
@@ -75,7 +81,7 @@ class WalletsBasiliskConnection extends React.Component {
                   <div className="progress progress-sm">
                     <div className="progress-bar progress-bar-info progress-bar-striped active" style={{ width: Math.floor(this.props.Dashboard.connectedNotaries.current * 100 / this.props.Dashboard.connectedNotaries.total) + '%', fontSize: '80%' }} role="progressbar" id="basilisk-connections-refresh-progress-bar"></div>
                   </div>
-                  <pre id="basilisk-connections-refresh-status-output">
+                  <pre id="basilisk-connections-refresh-status-output" style={{ padding: '0' }}>
                   { this.props.Dashboard.connectedNotaries.failedToConnectNodes ? 'Failed: ' + this.props.Dashboard.connectedNotaries.failedToConnectNodes : null }
                   </pre>
                 </div>

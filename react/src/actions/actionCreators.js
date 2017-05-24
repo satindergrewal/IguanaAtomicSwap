@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 import 'bluebird';
 
-import Config from '../config';
+import _config from '../config';
 import {
   startCurrencyAssetChain,
   startAssetChain,
@@ -11,6 +11,14 @@ import {
 } from '../components/addcoin/payload';
 import { copyToClipboard } from '../util/copyToClipboard';
 import { translate } from '../translate/translate';
+
+let Config;
+
+try {
+  Config = window.require('electron').remote.getCurrentWindow();
+} catch (e) {
+  Config = _config;
+}
 
 export const TOASTER_MESSAGE = 'TOASTER_MESSAGE';
 export const DISPLAY_ADDCOIN_MODAL = 'DISPLAY_ADDCOIN_MODAL';
@@ -54,8 +62,7 @@ export const SAVE_APP_CONFIG = 'SAVE_APP_CONFIG';
 export const SERVICE_ERROR = 'SERVICE_ERROR';
 export const DASHBOARD_ACTIVE_ADDRESS = 'DASHBOARD_ACTIVE_ADDRESS';
 export const LOAD_APP_INFO = 'LOAD_APP_INFO';
-
-var iguanaForks = {}; // forks in mem array
+export const LOG_GUI_HTTP = 'LOG_GUI_HTTP';
 
 export function changeActiveAddress(address) {
   return {
@@ -282,16 +289,38 @@ function walletLock() {
   };
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'walletLock',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'walletLock', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(logoutState(json)))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(logoutState(json));
+    })
   }
 }
 
@@ -336,7 +365,7 @@ export function toggleAddcoinModal(display, isLogin) {
 }
 
 export function copyCoinAddress(address) {
-  var _result = copyToClipboard(address);
+  const _result = copyToClipboard(address);
 
   if (_result) {
     return dispatch => {
@@ -416,16 +445,38 @@ export function addCoin(coin, mode, syncOnly, port) {
 
 export function iguanaAddCoin(coin, mode, acData, port) {
   function _iguanaAddCoin(dispatch) {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'iguanaAddCoin',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + (port ? port : Config.iguanaCorePort),
+      'payload': acData,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + (port ? port : Config.iguanaCorePort), {
       method: 'POST',
       body: JSON.stringify(acData),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, translate('TOASTR.FAILED_TO_ADDCOIN'), translate('TOASTR.ACCOUNT_NOTIFICATION'), 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(addCoinResult(coin, mode, acData)));
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(addCoinResult(coin, mode, acData))
+    });
   }
 
   if (mode === 0) {
@@ -444,8 +495,8 @@ export function iguanaAddCoin(coin, mode, acData, port) {
 }
 
 export function shepherdHerd(coin, mode, path) {
-  var acData;
-  var herdData = {
+  let acData;
+  let herdData = {
     'ac_name': coin,
     'ac_options': [
       '-daemon=0',
@@ -579,24 +630,45 @@ export function shepherdGetConfig(coin, mode) {
 }
 
 export function getDexCoins() {
+  const _payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'InstantDEX',
+    'method': 'allcoins',
+  };
+
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'getDexCoins',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': _payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
-      //mode: 'no-cors'
-      body: JSON.stringify({
-        'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-        'agent': 'InstantDEX',
-        'method': 'allcoins',
-        // 'immediate': 60000,
-        // 'timeout': 60000
-      })
+      body: JSON.stringify(_payload)
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'Error getDexCoins', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(dashboardCoinsState(json)));
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(dashboardCoinsState(json));
+    });
   }
 }
 
@@ -610,84 +682,168 @@ function rpcErrorHandler(json, dispatch) {
 }
 
 export function iguanaWalletPassphrase(_passphrase) {
+  const _payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'handle': '',
+    'password': _passphrase,
+    'timeout': '2592000',
+    'agent': 'bitcoinrpc',
+    'method': 'walletpassphrase',
+  };
+
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'walletLock',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': _payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
-      body: JSON.stringify({
-        'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-        'handle': '',
-        'password': _passphrase,
-        'timeout': '2592000',
-        'agent': 'bitcoinrpc',
-        'method': 'walletpassphrase',
-        // 'immediate': 60000,
-      }),
+      body: JSON.stringify(_payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'Error iguanaWalletPassphrase', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(iguanaWalletPassphraseState(json, dispatch)));
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(iguanaWalletPassphraseState(json, dispatch))
+    });
   }
 }
 
 export function iguanaActiveHandle(getMainAddress) {
+  const _payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'SuperNET',
+    'method': 'activehandle',
+  };
+
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'iguanaActiveHandle',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': _payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
-      body: JSON.stringify({
-        'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-        'agent': 'SuperNET',
-        'method': 'activehandle',
-        // 'immediate': 60000,
-        // 'timeout': 60000
-      }),
+      body: JSON.stringify(_payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(updateErrosStack('activeHandle'));
       dispatch(triggerToaster(true, translate('TOASTR.IGUANA_ARE_YOU_SURE'), translate('TOASTR.SERVICE_NOTIFICATION'), 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(getMainAddress ? getMainAddressState(json) : iguanaActiveHandleState(json)));
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(getMainAddress ? getMainAddressState(json) : iguanaActiveHandleState(json));
+    });
   }
 }
 
 export function iguanaEdexBalance(coin) {
+  const _payload = {
+    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'agent': 'bitcoinrpc',
+    'method': 'getbalance',
+    'coin': coin,
+  };
+
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
-      method: 'POST',
-      body: JSON.stringify({
-        'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-        'agent': 'bitcoinrpc',
-        'method': 'getbalance',
-        'coin': coin,
-        // 'immediate': 60000,
-        // 'timeout': 60000
-      }),
-    })
-    .catch(function(error) {
-      console.log(error);
-      dispatch(triggerToaster(true, 'Error iguanaEdexBalance', 'Error', 'error'));
-    })
-    .then(response => response.json())
-    .then(json => dispatch(iguanaEdexBalanceState(json)));
+    if (coin) {
+      const _timestamp = Date.now();
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'function': 'iguanaEdexBalance',
+        'type': 'post',
+        'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+        'payload': _payload,
+        'status': 'pending',
+      }));
+
+      return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+        method: 'POST',
+        body: JSON.stringify(_payload),
+      })
+      .catch(function(error) {
+        console.log(error);
+        dispatch(logGuiHttp({
+          'timestamp': _timestamp,
+          'status': 'error',
+          'response': error,
+        }));
+        dispatch(triggerToaster(true, 'Error iguanaEdexBalance', 'Error', 'error'));
+      })
+      .then(response => response.json())
+      .then(json => dispatch(iguanaEdexBalanceState(json)));
+    }
   }
 }
 
 export function atomic(payload) {
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'atomic',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, payload.method, 'Atomic explore error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(atomicState(json)));
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(atomicState(json));
+    });
   }
 }
 
@@ -705,22 +861,42 @@ export function encryptWallet(_passphrase, cb, coin) {
     'agent': 'bitcoinrpc',
     'method': 'encryptwallet',
     'passphrase': _passphrase,
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'encryptWallet',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'encryptWallet', 'Error', 'error'));
     })
     .then(dispatch(walletPassphrase(_passphrase)))
     .then(response => response.json())
-    .then(json => dispatch(cb.call(this, json, coin)));
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(cb.call(this, json, coin))
+    });
   }
 }
 
@@ -730,18 +906,39 @@ export function walletPassphrase(_passphrase) {
     'agent': 'bitcoinrpc',
     'method': 'walletpassphrase',
     'password': _passphrase,
-    'timeout': '2592000',
-    // 'immediate': 60000,
+    'timeout': '300000',
   };
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'walletpassphrase',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'walletPassphrase', 'Error', 'error'));
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
+      dispatch(triggerToaster(true, 'walletPassphrase', 'Error', 'error'))
+    })
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
     })
   }
 }
@@ -780,21 +977,41 @@ export function getFullTransactionsList(coin) {
       9999999,
       []
     ],
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'getFullTransactionsList',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'getFullTransactionsList', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(getNativeTxHistoryState(json)))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(getNativeTxHistoryState(json));
+    })
   }
 }
 
@@ -807,50 +1024,33 @@ export function getBasiliskTransactionsList(coin, address) {
     'count': 100,
     'skip': 0,
     'symbol': coin,
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
 
-  //if (sessionStorage.getItem('useCache')) {
-    const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
+  const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
 
-    return dispatch => {
-      return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .catch(function(error) {
-        console.log(error);
-        dispatch(triggerToaster(true, 'getBasiliskTransactionsList+cache', 'Error', 'error'));
-      })
-      .then(response => response.json())
-      .then(function(json) {
-        if (json.result && !json.result.basilisk && json.result.indexOf('no file with handle') > -1) {
-          console.log('new cache');
-        }
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getBasiliskTransactionsList+cache', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then(function(json) {
+      if (json.result && !json.result.basilisk && json.result.indexOf('no file with handle') > -1) {
+        console.log('new cache');
+      }
 
-        json = json.result.basilisk;
-        if (json[coin][address].listtransactions) {
-          dispatch(getNativeTxHistoryState({ 'result': json[coin][address].listtransactions.data }));
-        }
-      })
-    }
-  /*} else {
-    return dispatch => {
-      return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
-        method: 'POST',
-        body: JSON.stringify(payload),
-      })
-      .catch(function(error) {
-        console.log(error);
-        dispatch(triggerToaster(true, 'getBasiliskTransactionsList', 'Error', 'error'));
-      })
-      .then(response => response.json())
-      .then(json => dispatch(getNativeTxHistoryState(json)))
-    }
-  }*/
+      json = json.result.basilisk;
+      if (json[coin][address].listtransactions) {
+        dispatch(getNativeTxHistoryState({ 'result': json[coin][address].listtransactions.data }));
+      }
+    })
+  }
 }
 
 export function getPeersList(coin) {
@@ -859,21 +1059,41 @@ export function getPeersList(coin) {
     'agent': 'SuperNET',
     'method': 'getpeers',
     'activecoin': coin,
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'getPeersList',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'getPeersList', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(getPeersListState(json, dispatch)))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(getPeersListState(json, dispatch));
+    })
   }
 }
 
@@ -907,21 +1127,41 @@ export function addPeerNode(coin, ip) {
     'method': 'addnode',
     'activecoin': coin,
     'ipaddr': ip,
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'addPeerNode',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'addPeerNode', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(addPeerNodeState(json, dispatch)))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(addPeerNodeState(json, dispatch));
+    })
   }
 }
 
@@ -942,7 +1182,6 @@ export function setBasiliskMainAddress(json, coin, mode) {
   if (mode === 'basilisk') {
     getDexBalance(coin, mode, json.result);
   }
-  const _mainAddr = []
 
   return {
     type: ACTIVE_COIN_GET_ADDRESSES,
@@ -951,7 +1190,8 @@ export function setBasiliskMainAddress(json, coin, mode) {
 }
 
 export function getAddressesByAccountState(json, coin, mode) {
-  if (mode === 'full' || mode === 'basilisk') {
+  if (mode === 'full' ||
+      mode === 'basilisk') {
     let publicAddressArray = [];
 
     for (let i = 0; i < json.result.length; i++) {
@@ -963,10 +1203,6 @@ export function getAddressesByAccountState(json, coin, mode) {
 
     json.result = publicAddressArray;
   }
-
-  /*if (mode === 'basilisk') {
-    getDexBalance(coin, mode, json.result);
-  }*/
 
   return {
     type: ACTIVE_COIN_GET_ADDRESSES,
@@ -981,22 +1217,42 @@ export function getAddressesByAccount(coin, mode) {
     'agent': 'bitcoinrpc',
     'method': 'getaddressesbyaccount',
     'account': '*',
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'getAddressesByAccount',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(updateErrosStack('activeHandle'));
       dispatch(triggerToaster(true, 'getAddressesByAccount', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(getAddressesByAccountState(json, coin, mode)))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(getAddressesByAccountState(json, coin, mode));
+    })
   }
 }
 
@@ -1038,17 +1294,30 @@ export function getSyncInfo(coin) {
     'coin': coin,
     'agent': 'bitcoinrpc',
     'method': 'getinfo',
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'getSyncInfo',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'getSyncInfo', 'Error', 'error'));
     })
     .then(function(response) {
@@ -1057,6 +1326,11 @@ export function getSyncInfo(coin) {
       return _response;
     })
     .then(function(json) {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
       if (json.indexOf('coin is busy processing') === -1) {
         dispatch(getSyncInfoState(json, dispatch));
       }
@@ -1081,18 +1355,18 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
   return dispatch => {
     Promise.all(type.map((_type, index) => {
       return new Promise((resolve, reject) => {
-        var payload,
+        let payload,
             ajax_data_to_hex = '',
             ajax_function_input = '',
             tmplistaddr_hex_input = '',
             passthru_agent = getPassthruAgent(coin),
             tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
 
-        if ( _type === 'public' ) {
+        if (_type === 'public') {
           ajax_function_input = 'getaddressesbyaccount';
           tmplistaddr_hex_input = '222200';
         }
-        if ( _type === 'private' ) {
+        if (_type === 'private') {
           ajax_function_input = 'z_listaddresses';
           tmplistaddr_hex_input = '';
         }
@@ -1105,8 +1379,6 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             'asset': coin,
             'function': ajax_function_input,
             'hex': tmplistaddr_hex_input,
-            // 'immediate': 60000,
-            // 'timeout': 60000
           };
         } else {
           payload = {
@@ -1115,8 +1387,6 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             'method': 'passthru',
             'function': ajax_function_input,
             'hex': tmplistaddr_hex_input,
-            // 'immediate': 60000,
-            // 'timeout': 60000
           };
         }
 
@@ -1127,12 +1397,10 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             'agent': 'bitcoinrpc',
             'method': 'getaddressesbyaccount',
             'account': '*',
-            // 'immediate': 60000,
-            // 'timeout': 60000
           };
         }
 
-        if (/*sessionStorage.getItem('useCache') &&*/ mode === 'basilisk') {
+        if (mode === 'basilisk') {
           const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
 
           fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
@@ -1154,16 +1422,38 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             }
           })
         } else {
+          const _timestamp = Date.now();
+          dispatch(logGuiHttp({
+            'timestamp': _timestamp,
+            'function': 'getKMDAddressesNative',
+            'type': 'post',
+            'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+            'payload': payload,
+            'status': 'pending',
+          }));
+
           fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
             method: 'POST',
             body: JSON.stringify(payload),
           })
           .catch(function(error) {
             console.log(error);
+            dispatch(logGuiHttp({
+              'timestamp': _timestamp,
+              'status': 'error',
+              'response': error,
+            }));
             dispatch(triggerToaster(true, 'getKMDAddressesNative', 'Error', 'error'));
           })
           .then(response => response.json())
-          .then(json => resolve(json))
+          .then(json => {
+            dispatch(logGuiHttp({
+              'timestamp': _timestamp,
+              'status': 'success',
+              'response': json,
+            }));
+            resolve(json);
+          })
         }
       });
     }))
@@ -1171,7 +1461,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
       // TODO: split into 2 functions
       const passthru_agent = getPassthruAgent(coin),
             tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
-      var payload;
+      let payload;
 
       if (passthru_agent === 'iguana') {
         payload = {
@@ -1181,8 +1471,6 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           'asset': coin,
           'function': 'listunspent',
           'hex': '',
-          // 'immediate': 60000,
-          // 'timeout': 60000
         };
       } else {
         payload = {
@@ -1191,8 +1479,6 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           'method': 'passthru',
           'function': 'listunspent',
           'hex': '',
-          // 'immediate': 60000,
-          // 'timeout': 60000
         };
       }
 
@@ -1205,8 +1491,6 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             1,
             9999999,
           ],
-          // 'immediate': 60000,
-          // 'timeout': 60000
         };
       }
 
@@ -1218,28 +1502,22 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           'method': 'listunspent',
           'address': currentAddress,
           'symbol': coin,
-          // 'immediate': 60000,
-          // 'timeout': 60000
         };
       }
 
       function calcBalance(result, json, dispatch, mode) {
-        //console.log('result', result);
         if (mode === 'full' || mode === 'basilisk') {
           result[0] = result[0].result;
         }
 
-        //console.log('calc result', result);
-        //console.log('calc json', json);
-
         if (mode !== 'basilisk' && json && json.length) {
           const allAddrArray = json.map(res => res.address).filter((x, i, a) => a.indexOf(x) == i);
 
-          for (let a=0; a < allAddrArray.length; a++) {
+          for (let a = 0; a < allAddrArray.length; a++) {
             const filteredArray = json.filter(res => res.address === allAddrArray[a]).map(res => res.amount);
 
             let isNewAddr = true;
-            for (let x=0; x < result.length && isNewAddr; x++) {
+            for (let x = 0; x < result.length && isNewAddr; x++) {
               for (let y=0; y < result[x].length && isNewAddr; y++) {
                 if (allAddrArray[a] === result[x][y]) {
                   isNewAddr = false;
@@ -1253,17 +1531,16 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
               } else {
                 result[0][result[0].length] = allAddrArray[a];
               }
-              console.log('new addr ' + allAddrArray[a] + ' | ' + allAddrArray[a].substring(0, 2));
             }
           }
         }
 
         let newAddressArray = [];
 
-        for (let a=0; a < result.length; a++) {
+        for (let a = 0; a < result.length; a++) {
           newAddressArray[a] = [];
 
-          for (let b=0; b < result[a].length; b++) {
+          for (let b = 0; b < result[a].length; b++) {
             var filteredArray;
 
             if (mode === 'basilisk') {
@@ -1271,8 +1548,6 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             } else {
               filteredArray = json.filter(res => res.address === result[a][b]).map(res => res.amount);
             }
-            //console.log('filteredArray', filteredArray);
-            //console.log('addr', result[a][b]);
 
             let sum = 0;
 
@@ -1293,7 +1568,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
         }));
       }
 
-      if (/*sessionStorage.getItem('useCache') &&*/ mode === 'basilisk') {
+      if (mode === 'basilisk') {
         const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
 
         fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
@@ -1315,16 +1590,36 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           if (json[coin][currentAddress].refresh) {
             calcBalance(result, json[coin][currentAddress].refresh.data, dispatch, mode);
           } else {
+            const _timestamp = Date.now();
+            dispatch(logGuiHttp({
+              'timestamp': _timestamp,
+              'function': 'getKMDAddressesNative+Balance',
+              'type': 'post',
+              'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.basiliskPort : Config.iguanaCorePort),
+              'payload': payload,
+              'status': 'pending',
+            }));
+
             fetch('http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.basiliskPort : Config.iguanaCorePort), {
               method: 'POST',
               body: JSON.stringify(payload),
             })
             .catch(function(error) {
               console.log(error);
+              dispatch(logGuiHttp({
+                'timestamp': _timestamp,
+                'status': 'error',
+                'response': error,
+              }));
               dispatch(triggerToaster(true, 'getKMDAddressesNative+Balance', 'Error', 'error'));
             })
             .then(response => response.json())
             .then(function(json) {
+              dispatch(logGuiHttp({
+                'timestamp': _timestamp,
+                'status': 'success',
+                'response': json,
+              }));
               updatedCache.basilisk[coin][currentAddress].refresh = {
                 'data': json,
                 'status': 'done',
@@ -1336,16 +1631,36 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           }
         })
       } else {
+        const _timestamp = Date.now();
+        dispatch(logGuiHttp({
+          'timestamp': _timestamp,
+          'function': 'getKMDAddressesNative+Balance',
+          'type': 'post',
+          'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.basiliskPort : Config.iguanaCorePort),
+          'payload': payload,
+          'status': 'pending',
+        }));
+
         fetch('http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.basiliskPort : Config.iguanaCorePort), {
           method: 'POST',
           body: JSON.stringify(payload),
         })
         .catch(function(error) {
           console.log(error);
+          dispatch(logGuiHttp({
+            'timestamp': _timestamp,
+            'status': 'error',
+            'response': error,
+          }));
           dispatch(triggerToaster(true, 'getKMDAddressesNative+Balance', 'Error', 'error'));
         })
         .then(response => response.json())
         .then(function(json) {
+          dispatch(logGuiHttp({
+            'timestamp': _timestamp,
+            'status': 'success',
+            'response': json,
+          }));
           calcBalance(result, json, dispatch, mode);
         })
       }
@@ -1354,9 +1669,6 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
 }
 
 export function shepherdGroomPost(_filename, _payload) {
-  console.log('shepherdGroomPost to file ', _filename);
-  console.log('shepherdGroomPost payload ', _payload);
-
   return dispatch => {
     return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/groom/', {
       method: 'POST',
@@ -1378,9 +1690,6 @@ export function shepherdGroomPost(_filename, _payload) {
 }
 
 export function shepherdGroomPostPromise(_filename, _payload) {
-  console.log('shepherdGroomPostPromise to file ', _filename);
-  console.log('shepherdGroomPostPromise payload ', _payload);
-
   return new Promise((resolve, reject) => {
     fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/groom/', {
       method: 'POST',
@@ -1428,7 +1737,6 @@ export function fetchUtxoCache(_payload) {
 
 function getShepherdCacheState(json, pubkey, coin) {
   if (json.result && json.error && json.result.indexOf('no file with handle') > -1) {
-    console.log('request new cache', { 'pubkey': pubkey, 'coin': coin });
     return dispatch => {
       dispatch(fetchNewCacheData({
         'pubkey': pubkey,
@@ -1520,21 +1828,41 @@ export function importPrivKey(wifKey) {
       wifKey,
       'imported'
     ],
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'importPrivKey',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'importPrivKey', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(parseImportPrivKeyResponse(json, dispatch)))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(parseImportPrivKeyResponse(json, dispatch));
+    })
     .catch(function(ex) {
       dispatch(parseImportPrivKeyResponse({ 'error': 'privkey already in wallet' }, dispatch));
       console.log('parsing failed', ex);
@@ -1563,15 +1891,37 @@ export function getSyncInfoNativeKMD(skipDebug) {
   const coin = 'KMD';
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'getSyncInfoNativeKMD',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort + '/api/dex/getinfo?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth') + '&symbol=' + coin,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort + '/api/dex/getinfo?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth') + '&symbol=' + coin, {
       method: 'GET',
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'getSyncInfoNativeKMD', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(getSyncInfoNativeState({ 'remoteKMDNode': json })))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(getSyncInfoNativeState({ 'remoteKMDNode': json }));
+    })
     .then(function() {
       if (!skipDebug) {
         dispatch(getDebugLog('komodo', 1));
@@ -1603,30 +1953,48 @@ function getPassthruAgent(coin) {
 }
 
 export function getSyncInfoNative(coin, skipDebug) {
-  var payload = {};
-
-  payload = {
+  const payload = {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
     'agent': getPassthruAgent(coin),
     'method': 'passthru',
     'asset': coin,
     'function': 'getinfo',
     'hex': '',
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'getSyncInfo',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'getSyncInfo', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(getSyncInfoNativeState(json, coin, skipDebug)))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(getSyncInfoNativeState(json, coin, skipDebug));
+    })
   }
 }
 
@@ -1638,22 +2006,41 @@ export function getDexBalance(coin, mode, addr) {
       'method': 'listunspent',
       'address': _addr,
       'symbol': coin,
-      // 'immediate': 60000,
-      // 'timeout': 60000
     };
-    console.log('addr', _addr);
+
     return new Promise((resolve, reject) => {
+      const _timestamp = Date.now();
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'function': 'getDexBalance',
+        'type': 'post',
+        'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort),
+        'payload': payload,
+        'status': 'pending',
+      }));
+
       fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
         method: 'POST',
         body: JSON.stringify(payload),
       })
       .catch(function(error) {
         console.log(error);
+        dispatch(logGuiHttp({
+          'timestamp': _timestamp,
+          'status': 'error',
+          'response': error,
+        }));
         dispatch(triggerToaster(true, 'getDexBalance', 'Error', 'error'));
       })
       .then(response => response.json())
-      .then(json => console.log(json))
-      //.then(json => dispatch(getSyncInfoState(json, dispatch)))
+      .then(json => {
+        console.log(json);
+        dispatch(logGuiHttp({
+          'timestamp': _timestamp,
+          'status': 'success',
+          'response': json,
+        }));
+      })
 
       resolve(index);
     });
@@ -1664,9 +2051,9 @@ export function getDexBalance(coin, mode, addr) {
 }
 
 export function getKMDBalanceTotal(coin) {
-  var payload;
+  let payload;
 
-  if ( coin !== 'KMD' && coin !== 'ZEC' ) {
+  if (coin !== 'KMD' && coin !== 'ZEC') {
     payload = {
       'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
       'agent': 'iguana',
@@ -1674,7 +2061,6 @@ export function getKMDBalanceTotal(coin) {
       'asset': coin,
       'function': 'z_gettotalbalance',
       'hex': '3000',
-      // 'timeout': 60000
     };
   } else {
     payload = {
@@ -1683,21 +2069,40 @@ export function getKMDBalanceTotal(coin) {
       'method': 'passthru',
       'function': 'z_gettotalbalance',
       'hex': '3000',
-      // 'timeout': 60000
     };
   }
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'getKMDBalanceTotal',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'getKMDBalanceTotal', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(function(json) { // TODO: figure out why komodod spits out "parse error"
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
       if (json && !json.error) {
         dispatch(getNativeBalancesState(json));
       }
@@ -1713,7 +2118,7 @@ export function getNativeBalancesState(json) {
 }
 
 export function getNativeTxHistory(coin) {
-  var payload;
+  let payload;
 
   if (getPassthruAgent(coin) === 'iguana') {
     payload = {
@@ -1723,8 +2128,6 @@ export function getNativeTxHistory(coin) {
       'asset': coin,
       'function': 'listtransactions',
       'hex': '',
-      // 'immediate': 60000,
-      // 'timeout': 60000
     };
   } else {
     payload = {
@@ -1733,22 +2136,42 @@ export function getNativeTxHistory(coin) {
       'method': 'passthru',
       'function': 'listtransactions',
       'hex': '',
-      // 'immediate': 60000,
-      // 'timeout': 60000
     };
   }
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'getNativeTxHistory',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'getNativeTxHistory', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(getNativeTxHistoryState(json)))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(getNativeTxHistoryState(json));
+    })
   }
 }
 
@@ -1775,7 +2198,7 @@ function handleGetNewKMDAddresses(pubpriv, coin, dispatch) {
 }
 
 export function getNewKMDAddresses(coin, pubpriv) {
-  var payload,
+  let payload,
       ajax_function_input = '';
 
   if ( pubpriv === 'public' ) {
@@ -1793,8 +2216,6 @@ export function getNewKMDAddresses(coin, pubpriv) {
       'asset': coin,
       'function': ajax_function_input,
       'hex': '',
-      // 'immediate': 60000,
-      // 'timeout': 60000
     };
   } else {
     payload = {
@@ -1803,22 +2224,42 @@ export function getNewKMDAddresses(coin, pubpriv) {
       'method': 'passthru',
       'function': ajax_function_input,
       'hex': '',
-      // 'immediate': 60000,
-      // 'timeout': 60000
     };
   }
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'getNewKMDAddresses',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'getNewKMDAddresses', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(handleGetNewKMDAddresses(pubpriv, coin, dispatch)))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(handleGetNewKMDAddresses(pubpriv, coin, dispatch));
+    })
     .catch(function(ex) {
       dispatch(handleGetNewKMDAddresses(pubpriv, coin, dispatch))
     })
@@ -1831,54 +2272,87 @@ export function iguanaHashHex(data) {
     'agent': 'hash',
     'method': 'hex',
     'message': data,
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
 
   return new Promise((resolve, reject) => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'iguanaHashHex',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'iguanaHashHex', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => resolve(json.hex))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      resolve(json.hex);
+    })
   })
 }
 
 export function sendNativeTx(coin, _payload) {
-  const ajax_data_to_hex = '["' + _payload.sendFrom + '",[{"address":"' + _payload.sendTo + '","amount":' + (Number(_payload.amount) - Number(_payload.fee)) + '}]]';
-  var payload;
+  let ajax_data_to_hex;
+  let payload;
+  let _apiMethod;
+
+  if (_payload.addressType === 'public') {
+    _apiMethod = 'sendtoaddress';
+    ajax_data_to_hex = '["' + _payload.sendTo + '", ' + (Number(_payload.amount) - Number(_payload.fee)) + ']';
+  } else {
+    _apiMethod = 'z_sendmany';
+    ajax_data_to_hex = '["' + _payload.sendFrom + '",[{"address":"' + _payload.sendTo + '","amount":' + (Number(_payload.amount) - Number(_payload.fee)) + '}]]';
+  }
 
   return dispatch => {
     return iguanaHashHex(ajax_data_to_hex).then((hashHexJson) => {
-      console.log('sendNativeTx', hashHexJson);
-
-      if (getPassthruAgent(coin) == 'iguana') {
+      if (getPassthruAgent(coin) === 'iguana') {
         payload = {
           'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
           'agent': getPassthruAgent(coin),
           'method': 'passthru',
           'asset': coin,
-          'function': 'z_sendmany',
+          'function': _apiMethod,
           'hex': hashHexJson,
-          // 'immediate': 60000,
-          // 'timeout': 60000
         };
       } else {
         payload = {
           'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
           'agent': getPassthruAgent(coin),
           'method': 'passthru',
-          'function': 'z_sendmany',
+          'function': _apiMethod,
           'hex': hashHexJson,
-          // 'immediate': 60000,
-          // 'timeout': 60000
         };
       }
+
+      const _timestamp = Date.now();
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'function': 'sendNativeTx',
+        'type': 'post',
+        'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+        'payload': payload,
+        'status': 'pending',
+      }));
 
       fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
         method: 'POST',
@@ -1886,10 +2360,21 @@ export function sendNativeTx(coin, _payload) {
       })
       .catch(function(error) {
         console.log(error);
+        dispatch(logGuiHttp({
+          'timestamp': _timestamp,
+          'status': 'error',
+          'response': error,
+        }));
         dispatch(triggerToaster(true, 'sendNativeTx', 'Error', 'error'));
       })
       .then(response => response.json())
       .then(function(json) {
+        dispatch(logGuiHttp({
+          'timestamp': _timestamp,
+          'status': 'success',
+          'response': json,
+        }));
+
         if (json.error && json.error.toString().indexOf('code:') > -1) {
           dispatch(triggerToaster(true, 'Send failed', translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
         } else {
@@ -1912,10 +2397,10 @@ export function getKMDOPIDState(json) {
 }
 
 export function getKMDOPID(opid, coin) {
-  var tmpopid_output = '',
+  let tmpopid_output = '',
       ajax_data_to_hex;
 
-  if ( opid === undefined ) {
+  if (opid === undefined) {
     ajax_data_to_hex = null;
   } else {
     ajax_data_to_hex = '["' + opid + '"]';
@@ -1927,7 +2412,7 @@ export function getKMDOPID(opid, coin) {
         hashHexJson = '';
       }
 
-      var payload,
+      let payload,
           passthru_agent = getPassthruAgent(coin),
           tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
 
@@ -1939,8 +2424,6 @@ export function getKMDOPID(opid, coin) {
           'asset': coin,
           'function': 'z_getoperationstatus',
           'hex': hashHexJson,
-          // 'immediate': 60000,
-          // 'timeout': 60000
         };
       } else {
         payload = {
@@ -1949,10 +2432,18 @@ export function getKMDOPID(opid, coin) {
           'method': 'passthru',
           'function': 'z_getoperationstatus',
           'hex': hashHexJson,
-          // 'immediate': 60000,
-          // 'timeout': 60000
         };
       }
+
+      const _timestamp = Date.now();
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'function': 'getKMDOPID',
+        'type': 'post',
+        'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+        'payload': payload,
+        'status': 'pending',
+      }));
 
       fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
         method: 'POST',
@@ -1960,10 +2451,22 @@ export function getKMDOPID(opid, coin) {
       })
       .catch(function(error) {
         console.log(error);
+        dispatch(logGuiHttp({
+          'timestamp': _timestamp,
+          'status': 'error',
+          'response': error,
+        }));
         dispatch(triggerToaster(true, 'getKMDOPID', 'Error', 'error'));
       })
       .then(response => response.json())
-      .then(json => dispatch(getKMDOPIDState(json)))
+      .then(json => {
+        dispatch(logGuiHttp({
+          'timestamp': _timestamp,
+          'status': 'success',
+          'response': json,
+        }));
+        dispatch(getKMDOPIDState(json));
+      })
     })
   }
 }
@@ -2011,21 +2514,41 @@ export function sendToAddress(coin, _payload) {
       'EasyDEX',
       'EasyDEXTransaction'
     ],
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'sendToAddress',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'sendToAddress', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(sendToAddressState(json, dispatch)))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(sendToAddressState(json, dispatch));
+    })
   }
 }
 
@@ -2041,21 +2564,41 @@ export function sendFromAddress(coin, _payload) {
       'EasyDEX',
       'EasyDEXTransaction'
     ],
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'walletLock',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'sendFromAddress', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(sendToAddressState(json, dispatch)))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(sendToAddressState(json, dispatch));
+    })
   }
 }
 
@@ -2080,21 +2623,41 @@ export function checkAddressBasilisk(coin, address) {
     'method': 'checkaddress',
     'address': address,
     'symbol': coin,
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'checkAddressBasilisk',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort),
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'checkAddressBasilisk', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(checkAddressBasiliskHandle(json)))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(checkAddressBasiliskHandle(json));
+    })
   }
 }
 
@@ -2122,21 +2685,41 @@ export function validateAddressBasilisk(coin, address) {
     'method': 'validateaddress',
     'address': address,
     'symbol': coin,
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'validateAddressBasilisk',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'validateAddressBasilisk', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(validateAddressBasiliskHandle(json)))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(validateAddressBasiliskHandle(json));
+    })
   }
 }
 
@@ -2159,21 +2742,40 @@ export function getDexNotaries(coin) {
     'agent': 'dex',
     'method': 'getnotaries',
     'symbol': coin,
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'getDexNotaries',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort),
+      'payload': payload,
+      'status': 'pending',
+    }));
     return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'getDexNotaries', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(getDexNotariesState(json)))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(getDexNotariesState(json));
+    })
   }
 }
 
@@ -2195,21 +2797,41 @@ export function createNewWallet(_passphrase) {
     'agent': 'bitcoinrpc',
     'method': 'encryptwallet',
     'passphrase': _passphrase,
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
 
   return dispatch => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'createNewWallet',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'createNewWallet', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(createNewWalletState(json)))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      dispatch(createNewWalletState(json));
+    })
   }
 }
 
@@ -2284,29 +2906,47 @@ function initNotaryNodesConSequence(nodes) {
         'agent': 'dex',
         'method': 'getinfo',
         'symbol': node,
-        // 'immediate': 60000,
-        // 'timeout': 60000
+        'timeout': 10000
       };
 
-      console.log('initNotaryNodesConSequence', nodes);
-
       return new Promise((resolve, reject) => {
+        const _timestamp = Date.now();
+        dispatch(logGuiHttp({
+          'timestamp': _timestamp,
+          'function': 'initNotaryNodesConSequence+' + node,
+          'type': 'post',
+          'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+          'payload': payload,
+          'status': 'pending',
+        }));
+
         fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort) + '/api/dex/getinfo?userpass=' + ('tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth')) + '&symbol=' + node, {
           method: 'GET',
         })
         .catch(function(error) {
           console.log(error);
+          dispatch(logGuiHttp({
+            'timestamp': _timestamp,
+            'status': 'error',
+            'response': error,
+          }));
           dispatch(triggerToaster(true, 'getInfoDexNode+' + node, 'Error', 'error'));
         })
         .then(response => response.json())
-        .then(json => dispatch(updateNotaryNodeConState(json, nodes.length, index, node)))
+        .then(json => {
+          dispatch(logGuiHttp({
+            'timestamp': _timestamp,
+            'status': 'success',
+            'response': json,
+          }));
+          dispatch(updateNotaryNodeConState(json, nodes.length, index, node));
+        })
       });
     }));
   }
 }
 
 function updateNotaryNodeConState(json, totalNodes, currentNodeIndex, currentNodeName) {
-  console.log(currentNodeName, json);
   if (currentNodeIndex === totalNodes - 1) {
     return dispatch => {
       dispatch(basiliskConnectionState(false));
@@ -2441,8 +3081,6 @@ export function connectNotaries() {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
     'agent': 'dpow',
     'method': 'notarychains',
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
 
   return dispatch => {
@@ -2474,22 +3112,42 @@ export function iguanaUTXORawTX(data) {
       'sendflag': data.sendsig
     },
     'utxos': data.utxos,
-    // 'immediate': 60000,
-    // 'timeout': 60000
   };
   console.log('iguanaUTXORawTXExport', payload);
 
   return new Promise((resolve, reject) => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'iguanaUTXORawTX',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'iguanaUTXORawTX', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => resolve(json))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      resolve(json);
+    })
   });
 }
 
@@ -2503,12 +3161,27 @@ export function dexSendRawTX(data) {
   };
 
   return new Promise((resolve, reject) => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'dexSendRawTX',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'dexSendRawTX', 'Error', 'error'));
     })
     .then(function(response) {
@@ -2517,10 +3190,13 @@ export function dexSendRawTX(data) {
       return _response;
     })
     .then(function(json) {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
       resolve(json);
     })
-    //.then(response => response.json())
-    //.then(json => resolve(json))
   });
 }
 
@@ -2533,19 +3209,40 @@ export function edexGetTransaction(data) {
     'vout': 1,
     'txid': data.txid
   };
-  console.log('edexGetTransaction', payload);
 
   return new Promise((resolve, reject) => {
+    const _timestamp = Date.now();
+    dispatch(logGuiHttp({
+      'timestamp': _timestamp,
+      'function': 'edexGetTransaction',
+      'type': 'post',
+      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'payload': payload,
+      'status': 'pending',
+    }));
+
     fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'error',
+        'response': error,
+      }));
       dispatch(triggerToaster(true, 'edexGetTransaction', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => resolve(json))
+    .then(json => {
+      dispatch(logGuiHttp({
+        'timestamp': _timestamp,
+        'status': 'success',
+        'response': json,
+      }));
+      resolve(json);
+    })
   });
 }
 
@@ -2694,5 +3391,56 @@ export function getAppInfo() {
     })
     .then(response => response.json())
     .then(json => dispatch(getAppInfoState(json)))
+  }
+}
+
+export function logGuiHttp(payload) {
+  return dispatch => {
+    dispatch(guiLogState(payload));
+
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/guilog', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'logGuiHttp', 'Error', 'error'));
+    })
+    .then(response => response.json())
+  }
+}
+
+export function getAgamaLog(type) {
+  return dispatch => {
+    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/getlog?type=' + type, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch(triggerToaster(true, 'getAgamaLog', 'Error', 'error'));
+    })
+    .then(response => response.json())
+    .then()
+  }
+}
+
+export function guiLogState(logData) {
+  return {
+    type: LOG_GUI_HTTP,
+    timestamp: logData.timestamp,
+    log: {
+      function: logData.function,
+      httpMethod: logData.type,
+      url: logData.url,
+      payload: logData.payload,
+      status: logData.status,
+      response: logData.response,
+    }
   }
 }

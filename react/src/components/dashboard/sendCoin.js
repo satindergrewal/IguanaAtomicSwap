@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Config from '../../config';
 import { translate } from '../../translate/translate';
 import {
@@ -31,6 +32,7 @@ import io from 'socket.io-client';
 const socket = io.connect('http://127.0.0.1:' + Config.agamaPort);
 
 // TODO: prevent any cache updates rather than utxo while on send coin form
+//       fix a bug - total amount is incorrect when switching between steps
 
 class SendCoin extends React.Component {
   constructor(props) {
@@ -57,7 +59,26 @@ class SendCoin extends React.Component {
     this.getOAdress = this.getOAdress.bind(this);
     this.toggleSendAPIType = this.toggleSendAPIType.bind(this);
     this._fetchNewUTXOData = this._fetchNewUTXOData.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
     socket.on('messages', msg => this.updateSocketsData(msg));
+  }
+
+  componentWillMount() {
+    document.addEventListener('click', this.handleClickOutside, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutside, false);
+  }
+
+  handleClickOutside(e) {
+    if (e.srcElement.className !== 'btn dropdown-toggle btn-info' &&
+        (e.srcElement.offsetParent && e.srcElement.offsetParent.className !== 'btn dropdown-toggle btn-info') &&
+        (e.path && e.path[4] && e.path[4].className.indexOf('showkmdwalletaddrs') === -1)) {
+      this.setState({
+        addressSelectorOpen: false,
+      });
+    }
   }
 
   componentWillReceiveProps(props) {
@@ -270,7 +291,7 @@ class SendCoin extends React.Component {
 
   renderAddressList() {
     return (
-      <div className={ 'btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ' + (this.state.addressSelectorOpen ? 'open' : '') }>
+      <div id="showkmdwalletaddrs" className={ 'btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ' + (this.state.addressSelectorOpen ? 'open' : '') }>
         <button
           type="button"
           className="btn dropdown-toggle btn-info"
@@ -733,13 +754,13 @@ class SendCoin extends React.Component {
       return (
         <div className="row">
           <div className="col-lg-10 margin-bottom-10">
-            <div className="pull-left margin-right-10">
-              <input type="checkbox" id="edexcoin_send_api_type" />
-            </div>
-            <label
-              className="padding-top-3"
-              htmlFor="edexcoin_send_api_type"
-              onClick={ this.toggleSendAPIType }>{ translate('SEND.SEND_VIA') } sendtoaddress API</label>
+            <span className="pointer">
+              <label className="switch">
+                <input type="checkbox" checked={ this.state.sendApiType } />
+                <div className="slider" onClick={ this.toggleSendAPIType }></div>
+              </label>
+              <div className="toggle-label" onClick={ this.toggleSendAPIType }>{ translate('SEND.SEND_VIA') } sendtoaddress API</div>
+            </span>
           </div>
         </div>
       );
@@ -846,16 +867,16 @@ class SendCoin extends React.Component {
                         <strong>{ translate('INDEX.TOTAL') } ({ translate('INDEX.AMOUNT_SM') } - txfee):</strong> <span id="edexcoin_total_value">{ Number(this.state.amount) - Number(this.state.fee) }</span> { this.props.ActiveCoin.coin }
                       </span>
                     </div>
-                    <div className="col-lg-10 margin-top-10">
-                      <div className="pull-left margin-right-10">
-                        <input type="checkbox" id="edexcoin_send_sig" />
-                      </div>
-                      <label
-                        className="padding-top-3"
-                        htmlFor="edexcoin_send_sig"
-                        onClick={ this.toggleSendSig }>{ translate('INDEX.DONT_SEND') }</label>
+                    <div className="col-lg-10 margin-top-30">
+                      <span className="pointer">
+                        <label className="switch">
+                          <input type="checkbox" checked={ this.state.sendSig } />
+                          <div className="slider" onClick={ this.toggleSendSig }></div>
+                        </label>
+                        <div className="toggle-label" onClick={ this.toggleSendSig }>{ translate('INDEX.DONT_SEND') }</div>
+                      </span>
                     </div>
-                    { this.renderUTXOCacheInfo()} 
+                    { this.renderUTXOCacheInfo()}
                     <div className="col-lg-12">
                       <button
                         type="button"
@@ -919,7 +940,7 @@ class SendCoin extends React.Component {
               <div className="panel-heading">
                 <h4 className="panel-title">{ translate('INDEX.TRANSACTION_RESULT') }</h4>
                 <div className={ !this.state.sendSig ? 'hide' : 'center' }>
-                  { translate('INDEX.YOU_PICKED_OPT') } "{ translate('INDEX.DONT_SEND') }"
+                  { translate('SEND.YOU_PICKED_OPT') }
                 </div>
                 <table
                   className="table table-hover table-striped edexcoin_sendto_result"

@@ -83,7 +83,7 @@ class WalletsNav extends React.Component {
                   className="btn btn-dark waves-effect waves-light"
                   id="btn_edexcoin_dashboard"
                   onClick={ this.toggleSendReceiveCoinForms }>
-                  <i className="icon md-view-dashboard" aria-hidden="true"></i> { this.props.ActiveCoin.mode !== 'native' ? translate('INDEX.DASHBOARD') : 'Settings' }
+                  <i className="icon md-view-dashboard" aria-hidden="true"></i> { this.props.ActiveCoin.mode !== 'native' ? translate('INDEX.DASHBOARD') : translate('INDEX.WALLET_INFO') }
                 </button>
                 <button
                   type="button"

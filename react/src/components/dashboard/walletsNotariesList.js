@@ -15,6 +15,12 @@ class WalletsNotariesList extends React.Component {
     Store.dispatch(displayNotariesModal(false));
   }
 
+  handleKeydown(e) {
+    if (e.key === 'Escape') {
+      this.closeNotariesModal();
+    }
+  }
+
   renderNotariesFetching() {
     if (!this.props.ActiveCoin.notaries) {
       return (
@@ -50,7 +56,7 @@ class WalletsNotariesList extends React.Component {
       const notariesData = this.props.ActiveCoin.notaries ? this.props.ActiveCoin.notaries.notaries : null;
 
       return (
-        <div>
+        <div onKeyDown={ (event) => this.handleKeydown(event) }>
           <div className="modal show" id="kmd_txid_info_mdl" aria-hidden="false" role="dialog">
             <div className="modal-dialog modal-center modal-lg">
               <div className="modal-content">

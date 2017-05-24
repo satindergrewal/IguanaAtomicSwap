@@ -16,6 +16,24 @@ class WalletsNativeReceive extends React.Component {
       openDropMenu: false,
     };
     this.openDropMenu = this.openDropMenu.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+
+  componentWillMount() {
+    document.addEventListener('click', this.handleClickOutside, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutside, false);
+  }
+
+  handleClickOutside(e) {
+    if (e.srcElement.className.indexOf('dropdown') === -1 &&
+        (e.srcElement.offsetParent && e.srcElement.offsetParent.className.indexOf('dropdown') === -1)) {
+      this.setState({
+        openDropMenu: false,
+      });
+    }
   }
 
   openDropMenu() {

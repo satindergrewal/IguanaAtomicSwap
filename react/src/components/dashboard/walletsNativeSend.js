@@ -27,6 +27,25 @@ class WalletsNativeSend extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.openDropMenu = this.openDropMenu.bind(this);
     this.getOAdress = this.getOAdress.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+
+  componentWillMount() {
+    document.addEventListener('click', this.handleClickOutside, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutside, false);
+  }
+
+  handleClickOutside(e) {
+    if (e.srcElement.className !== 'btn dropdown-toggle btn-info' &&
+        (e.srcElement.offsetParent && e.srcElement.offsetParent.className !== 'btn dropdown-toggle btn-info') &&
+        (e.path && e.path[4] && e.path[4].className.indexOf('showkmdwalletaddrs') === -1)) {
+      this.setState({
+        addressSelectorOpen: false,
+      });
+    }
   }
 
   renderAddressByType(type) {
@@ -208,7 +227,8 @@ class WalletsNativeSend extends React.Component {
     .then(function(json) {
       const reply = json.Answer;
 
-      if (reply && reply.length) {
+      if (reply &&
+          reply.length) {
         for (let i = 0; i < reply.length; i++) {
           const _address = reply[i].data.split(' ');
           const coin = _address[0].replace('"oa1:', '');

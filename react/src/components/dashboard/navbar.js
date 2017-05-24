@@ -4,7 +4,10 @@ import {
   dashboardChangeSection,
   toggleAddcoinModal,
   logout,
-  stopInterval
+  stopInterval,
+  toggleSyncOnlyModal,
+  startInterval,
+  getSyncOnlyForks
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -36,6 +39,17 @@ class Navbar extends React.Component {
     Store.dispatch(stopInterval('sync', this.props.Interval.interval));
     Store.dispatch(stopInterval('basilisk', this.props.Interval.interval));
     Store.dispatch(logout());
+  }
+
+  openSyncOnlyModal() {
+    Store.dispatch(getSyncOnlyForks());
+
+    var _iguanaActiveHandle = setInterval(function() {
+      Store.dispatch(getSyncOnlyForks());
+    }.bind(this), 3000);
+    Store.dispatch(startInterval('syncOnly', _iguanaActiveHandle));
+
+    Store.dispatch(toggleSyncOnlyModal(true));
   }
 
   render() {
@@ -85,7 +99,8 @@ class Navbar extends React.Component {
                   <i className="site-menu-icon" aria-hidden="true"></i> EasyDEX
                 </a>
               </li>
-              <li className={ this.props.Dashboard.activeSection === 'jumblr' ? 'active nav-top-menu' : 'nav-top-menu' } style={{ display: 'none' }}>
+              <li
+                className={ this.props.Dashboard.activeSection === 'jumblr' ? 'active nav-top-menu' : 'nav-top-menu' }>
                 <a id="nav-jumblr" onClick={ () => this.dashboardChangeSection('jumblr') }>
                   <i className="site-menu-icon" aria-hidden="true"></i> Jumblr
                 </a>
@@ -95,6 +110,11 @@ class Navbar extends React.Component {
                   <i className="site-menu-icon" aria-hidden="true"></i> Atomic Explorer
                 </a>
               </li>
+              <li className="nav-top-menu">
+                <a id="nav-iguana-atomic-explorer" onClick={ () => this.openSyncOnlyModal() }>
+                  <i className="site-menu-icon" aria-hidden="true"></i> { translate('ADD_COIN.SYNC_ONLY') }
+                </a>
+              </li>
             </ul>
             <ul className="nav navbar-toolbar navbar-right navbar-toolbar-right">
               <li role="presentation">
@@ -102,13 +122,16 @@ class Navbar extends React.Component {
                   role="menuitem"
                   id="btn_edexcoin_addcoin"
                   style={{ paddingBottom: '10px', paddingTop: '16px' }}
+                  className="pointer"
                   onClick={ this.toggleAddCoinModal }>
                   <span>
                     <img src="assets/images/icons/activatecoin.png" alt={ translate('INDEX.ADD_COIN') } />
                   </span>
                 </a>
               </li>
-              <li className={ 'dropdown' + (this.state.openDropMenu ? ' open' : '') } onClick={ this.openDropMenu }>
+              <li
+                className={ 'dropdown' + (this.state.openDropMenu ? ' open' : '') }
+                onClick={ this.openDropMenu }>
                 <a className="navbar-avatar dropdown-toggle" aria-expanded="false" role="button">
                   <span className="avatar avatar-online">
                     <img src="assets/images/iguana_profile_02.jpg" alt="iguana profile pic" />

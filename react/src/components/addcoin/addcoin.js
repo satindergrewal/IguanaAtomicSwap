@@ -145,15 +145,15 @@ class AddCoin extends React.Component {
     _coins[index] = {
       selectedCoin: _coins[index].selectedCoin,
       fullMode: {
-        ...this.state.fullMode,
+        disabled: _coins[index].selectedCoin.indexOf('full') > -1 ? false : true,
         checked: _value === '1' ? true : false,
       },
       basiliskMode: {
-        ...this.state.basiliskMode,
+        disabled: _coins[index].selectedCoin.indexOf('basilisk') > -1 ? false : true,
         checked: _value === '0' ? true : false,
       },
       nativeMode: {
-        ...this.state.nativeMode,
+        disabled: _coins[index].selectedCoin.indexOf('native') > -1 ? false : true,
         checked: _value === '-1' ? true : false,
       },
       mode: _value,
@@ -163,8 +163,12 @@ class AddCoin extends React.Component {
     this.setState(Object.assign({}, this.state, {
       coins: _coins
     }));
+  }
 
-    console.log(this.state.coins);
+  handleKeydown(e) {
+    if (e.key === 'Escape') {
+      this.dismiss();
+    }
   }
 
   activateCoin() {
@@ -241,7 +245,7 @@ class AddCoin extends React.Component {
       const _coin = _item.selectedCoin || '';
 
       items.push(
-        <div className={this.state.coins.length > 1 ? 'multi' : 'single'} key={'add-coin-' + i}>
+        <div className={ this.state.coins.length > 1 ? 'multi' : 'single' } key={ 'add-coin-' + i }>
           <div className="col-sm-8">
             <div className="form-group">
               <select
@@ -249,7 +253,8 @@ class AddCoin extends React.Component {
                 name="selectedCoin"
                 id="addcoin_select_coin_mdl_options-login"
                 value={ _coin }
-                onChange={ (event) => this.updateSelectedCoin(event, i) }>
+                onChange={ (event) => this.updateSelectedCoin(event, i) }
+                autoFocus>
                 <option>{ translate('INDEX.SELECT') }</option>
                 <AddCoinOptionsCrypto />
                 <AddCoinOptionsAC />
@@ -355,13 +360,15 @@ class AddCoin extends React.Component {
             </button>
           </div>
           <div className={ _item.mode === '1' || _item.mode === 1 ? 'col-sm-12' : 'hide' }>
-            <div className="pull-left margin-right-10">
-              <input type="checkbox" id="addcoin_sync_only" checked={ _item.syncOnly } />
+            <div className="toggle-box padding-top-3 padding-bottom-10">
+              <span className="pointer">
+                <label className="switch">
+                  <input type="checkbox" checked={ _item.syncOnly } />
+                  <div className="slider" onClick={ () => this.toggleSyncOnlyMode(i) }></div>
+                </label>
+                <div className="toggle-label" onClick={ () => this.toggleSyncOnlyMode(i) }>{ translate('ADD_COIN.SYNC_ONLY') }</div>
+              </span>
             </div>
-            <label
-              className="padding-top-3 padding-bottom-10"
-              htmlFor="addcoin_sync_only"
-              onClick={ () => this.toggleSyncOnlyMode(i) }>{ translate('ADD_COIN.SYNC_ONLY') }</label>
           </div>
         </div>
       );
@@ -372,7 +379,7 @@ class AddCoin extends React.Component {
 
   render() {
     return (
-      <div>
+      <div onKeyDown={ (event) => this.handleKeydown(event) }>
         <div
           className={ 'modal modal-3d-sign add-coin-modal ' + this.state.modalClassName }
           id="AddCoinDilogModel-login"

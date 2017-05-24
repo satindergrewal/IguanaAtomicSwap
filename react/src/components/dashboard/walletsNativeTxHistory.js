@@ -26,7 +26,8 @@ class WalletsNativeTxHistory extends React.Component {
   }
 
   isFullySynced() {
-    if (this.props.Dashboard.progress &&
+    if (this.props.Dashboard &&
+        this.props.Dashboard.progress &&
         this.props.Dashboard.progress.balances &&
         (Number(this.props.Dashboard.progress.balances) +
         Number(this.props.Dashboard.progress.validated) +

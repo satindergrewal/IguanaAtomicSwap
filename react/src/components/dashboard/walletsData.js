@@ -57,7 +57,29 @@ class WalletsData extends React.Component {
     this._fetchUtxoCache = this._fetchUtxoCache.bind(this);
     this.restartBasiliskInstance = this.restartBasiliskInstance.bind(this);
     this.basiliskRefreshActionOne = this.basiliskRefreshActionOne.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
     socket.on('messages', msg => this.updateSocketsData(msg));
+  }
+
+  componentWillMount() {
+    document.addEventListener('click', this.handleClickOutside, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutside, false);
+  }
+
+  handleClickOutside(e) {
+    if (e.srcElement.className !== 'btn dropdown-toggle btn-info' &&
+        (e.srcElement.offsetParent && e.srcElement.offsetParent.className !== 'btn dropdown-toggle btn-info') &&
+        (e.path && e.path[4] && e.path[4].className.indexOf('showkmdwalletaddrs') === -1) &&
+        (e.srcElement.offsetParent && e.srcElement.offsetParent.className.indexOf('dropdown') === -1) &&
+        e.srcElement.className !== 'dropdown-toggle btn-xs btn-default') {
+      this.setState({
+        addressSelectorOpen: false,
+        basiliskActionsMenu: false,
+      });
+    }
   }
 
   componentDidMount() {
@@ -377,8 +399,8 @@ class WalletsData extends React.Component {
             <td>{ tx.confirmations }</td>
             <td>{ tx.amount || translate('DASHBOARD.UNKNOWN') }</td>
             <td>{ secondsToString(tx.blocktime || tx.timestamp) }</td>
-            <td>{ tx.address }</td>
-            <td>
+            <td className={ this.props.ActiveCoin.mode === 'basilisk' ? 'hide' : '' }>{ tx.address }</td>
+            <td className={ this.props.ActiveCoin.mode === 'basilisk' ? 'text-center' : '' }>
               <button
                 type="button"
                 className="btn btn-xs white btn-info waves-effect waves-light btn-kmdtxid"
@@ -684,8 +706,8 @@ class WalletsData extends React.Component {
                                 <th className="hidden-xs hidden-sm">{ translate('INDEX.CONFIRMATIONS') }</th>
                                 <th>{ translate('INDEX.AMOUNT') }</th>
                                 <th>{ translate('INDEX.TIME') }</th>
-                                <th>{ translate('INDEX.DEST_ADDRESS') }</th>
-                                <th className="hidden-xs hidden-sm">{ translate('INDEX.TX_DETAIL') }</th>
+                                <th className={ this.props.ActiveCoin.mode === 'basilisk' ? 'hide' : '' }>{ translate('INDEX.DEST_ADDRESS') }</th>
+                                <th className={ this.props.ActiveCoin.mode === 'basilisk' ? 'hidden-xs hidden-sm text-center' : 'hidden-xs hidden-sm' }>{ translate('INDEX.TX_DETAIL') }</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -697,8 +719,8 @@ class WalletsData extends React.Component {
                                 <th>{ translate('INDEX.CONFIRMATIONS') }</th>
                                 <th>{ translate('INDEX.AMOUNT') }</th>
                                 <th>{ translate('INDEX.TIME') }</th>
-                                <th>{ translate('INDEX.DEST_ADDRESS') }</th>
-                                <th className="hidden-xs hidden-sm">{ translate('INDEX.TX_DETAIL') }</th>
+                                <th className={ this.props.ActiveCoin.mode === 'basilisk' ? 'hide' : '' }>{ translate('INDEX.DEST_ADDRESS') }</th>
+                                <th className={ this.props.ActiveCoin.mode === 'basilisk' ? 'hidden-xs hidden-sm text-center' : 'hidden-xs hidden-sm' }>{ translate('INDEX.TX_DETAIL') }</th>
                               </tr>
                             </tfoot>
                           </table>
