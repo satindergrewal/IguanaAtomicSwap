@@ -78,11 +78,11 @@ class ReceiveCoin extends React.Component {
         let address = this.props.addresses.public[i];
 
         if (this.props.mode === 'basilisk' &&
-            address.amount === 'N/A') {
+            (address.amount === 'N/A' || address.amount === 0)) {
           address.amount = this.props.cache && this.props.cache[this.props.coin][address.address] && this.props.cache[this.props.coin][address.address].getbalance.data && this.props.cache[this.props.coin][address.address].getbalance.data.balance ? this.props.cache[this.props.coin][address.address].getbalance.data.balance : 'N/A';
         }
         if (this.props.mode === 'basilisk' &&
-            (address.interest === 'N/A' || !address.interest)) {
+            (address.interest === 'N/A' || address.interest === 0 || !address.interest)) {
           address.interest = this.props.cache && this.props.cache[this.props.coin][address.address] && this.props.cache[this.props.coin][address.address].getbalance.data && this.props.cache[this.props.coin][address.address].getbalance.data.interest ? this.props.cache[this.props.coin][address.address].getbalance.data.interest : 'N/A';
         }
 

@@ -235,13 +235,13 @@ class SendCoin extends React.Component {
           if (this.props.ActiveCoin.mode === 'basilisk') {
             _amount = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][address.address] && this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][address.address].getbalance.data && this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][address.address].getbalance.data.balance ? this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][address.address].getbalance.data.balance : 'N/A';
           }
+                  console.log('mainAddressAmount ' + address.address, _amount);
 
           if (_amount !== 'N/A') {
             items.push(
               <li
-                data-original-index="2"
                 key={ address.address }
-                className={ address.amount <= 0 ? 'hide' : '' }>
+                className={ _amount <= 0 ? 'hide' : '' }>
                 <a
                   tabIndex="0"
                   onClick={ () => this.updateAddressSelection(address.address, type, _amount) }><i className={ type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash' }></i>  <span className="text">[ { _amount } { this.props.ActiveCoin.coin } ]  { address.address }</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
@@ -265,7 +265,7 @@ class SendCoin extends React.Component {
           this.props.ActiveCoin.mode === 'basilisk') {
         _amount = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].getbalance.data && this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].getbalance.data.balance ? this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].getbalance.data.balance : 'N/A';
       } else {
-        _amount = this.state._sendFromAmount;
+        _amount = this.state.sendFromAmount;
       }
 
       return (
