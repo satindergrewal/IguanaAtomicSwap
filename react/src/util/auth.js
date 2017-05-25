@@ -1,8 +1,15 @@
 import { PassPhraseGenerator } from './crypto/passphrasegenerator.js';
 import { md5 } from './crypto/md5.js';
 
+let appSessionHash;
+
+try {
+  appSessionHash = window.require('electron').remote.getCurrentWindow().appSessionHash;
+} catch (e) {
+  appSessionHash = '1234';
+}
+
 export function iguanaSetRPCAuth() {
-  var tmpPass = '1234'; //md5(PassPhraseGenerator.generatePassPhrase(128));
-  sessionStorage.setItem('IguanaRPCAuth', tmpPass);
-  console.log('passphraseGen', tmpPass);
+  sessionStorage.setItem('IguanaRPCAuth', appSessionHash);
+  console.log('passphraseGen', appSessionHash);
 }
