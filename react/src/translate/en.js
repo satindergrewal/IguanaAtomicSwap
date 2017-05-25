@@ -445,7 +445,7 @@ export const _lang = {
       'WAITING': 'Waiting',
       'PROCESSING_TRANSACTION': 'Processing transaction',
       'NOTE_IT_WILL_TAKE': 'Note: it may take a few minutes to complete the transaction',
-      'SEND_VIA': 'Send via',
+      'SEND_VIA': 'Alternative send method',
       'ENTER_AN_ADDRESS': 'Enter an address',
       'YOU_PICKED_OPT': 'You picked option',
       'PLEASE_WAIT': 'Please wait'

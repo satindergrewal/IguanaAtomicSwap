@@ -239,9 +239,8 @@ class SendCoin extends React.Component {
           if (_amount !== 'N/A') {
             items.push(
               <li
-                data-original-index="2"
                 key={ address.address }
-                className={ address.amount <= 0 ? 'hide' : '' }>
+                className={ _amount <= 0 ? 'hide' : '' }>
                 <a
                   tabIndex="0"
                   onClick={ () => this.updateAddressSelection(address.address, type, _amount) }><i className={ type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash' }></i>  <span className="text">[ { _amount } { this.props.ActiveCoin.coin } ]  { address.address }</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
@@ -265,7 +264,7 @@ class SendCoin extends React.Component {
           this.props.ActiveCoin.mode === 'basilisk') {
         _amount = this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].getbalance.data && this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].getbalance.data.balance ? this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.state.sendFrom].getbalance.data.balance : 'N/A';
       } else {
-        _amount = this.state._sendFromAmount;
+        _amount = this.state.sendFromAmount;
       }
 
       return (
@@ -561,7 +560,7 @@ class SendCoin extends React.Component {
 
     for (let i = 0; i < substrBlocks; i++) {
       out.push(
-        <div key={i}>{_lastSendToResponse.substring(i * substrLength, substrLength * i + substrLength)}</div>
+        <div key={ i }>{ _lastSendToResponse.substring(i * substrLength, substrLength * i + substrLength) }</div>
       );
     }
 
@@ -759,7 +758,7 @@ class SendCoin extends React.Component {
                 <input type="checkbox" checked={ this.state.sendApiType } />
                 <div className="slider" onClick={ this.toggleSendAPIType }></div>
               </label>
-              <div className="toggle-label" onClick={ this.toggleSendAPIType }>{ translate('SEND.SEND_VIA') } sendtoaddress API</div>
+              <div className="toggle-label" onClick={ this.toggleSendAPIType }>{ translate('SEND.SEND_VIA') } (sendtoaddress API)</div>
             </span>
           </div>
         </div>
@@ -867,7 +866,7 @@ class SendCoin extends React.Component {
                         <strong>{ translate('INDEX.TOTAL') } ({ translate('INDEX.AMOUNT_SM') } - txfee):</strong> <span id="edexcoin_total_value">{ Number(this.state.amount) - Number(this.state.fee) }</span> { this.props.ActiveCoin.coin }
                       </span>
                     </div>
-                    <div className="col-lg-10 margin-top-30">
+                    <div className={ this.state.sendApiType ? 'hide' : 'col-lg-10 margin-top-30' }>
                       <span className="pointer">
                         <label className="switch">
                           <input type="checkbox" checked={ this.state.sendSig } />
@@ -896,7 +895,7 @@ class SendCoin extends React.Component {
               <div className="panel-body">
                 <div className="row">
                   <div className="col-xs-12">
-                    <strong>{translate('INDEX.TO')}</strong>
+                    <strong>{ translate('INDEX.TO') }</strong>
                   </div>
                   <div className="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendto_addr">{ this.state.sendTo }</div>
                   <div className="col-lg-6 col-sm-6 col-xs-6">

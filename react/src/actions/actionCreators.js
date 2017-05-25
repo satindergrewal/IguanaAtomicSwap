@@ -15,7 +15,7 @@ import { translate } from '../translate/translate';
 let Config;
 
 try {
-  Config = window.require('electron').remote.getCurrentWindow();
+  Config = window.require('electron').remote.getCurrentWindow().appConfig;
 } catch (e) {
   Config = _config;
 }
@@ -386,10 +386,6 @@ export function dismissToasterMessage() {
 
 export function addCoin(coin, mode, syncOnly, port) {
 	console.log('coin, mode, syncOnly', coin + ' ' + mode + ' ' + syncOnly);
-  /*startIguanaInstance(mode, coin)
-  .then(function(json) {
-    console.log('addCoin+startIguanaInstance', json);
-  });*/
   if (mode === '-1') {
     return dispatch => {
       dispatch(shepherdGetConfig(coin, mode));
@@ -482,10 +478,6 @@ export function iguanaAddCoin(coin, mode, acData, port) {
   if (mode === 0) {
     return dispatch => {
       return _iguanaAddCoin(dispatch);
-      /*startIguanaInstance('basilisk', 'basilisk')
-      .then(function(json) {
-        _iguanaAddCoin(dispatch);
-      });*/
     }
   } else {
     return dispatch => {
@@ -591,10 +583,9 @@ export function _shepherdGetConfig(coin, mode) {
   }
 }
 
-// TODO: fix setconf/getconf KMD
-
 export function shepherdGetConfig(coin, mode) {
-  if (coin === 'KMD' && mode === '-1') {
+  if (coin === 'KMD' &&
+      mode === '-1') {
     return dispatch => {
       return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/getconf', {
         method: 'POST',
@@ -674,7 +665,8 @@ export function getDexCoins() {
 
 function rpcErrorHandler(json, dispatch) {
   console.log('json', json);
-  if (json && json.error) {
+  if (json &&
+      json.error) {
     if (json.error === 'bitcoinrpc needs coin that is active') {
       dispatch(triggerToaster(true, 'No active coin', translate('TOASTR.SERVICE_NOTIFICATION'), 'error'));
     }
@@ -722,7 +714,7 @@ export function iguanaWalletPassphrase(_passphrase) {
         'status': 'success',
         'response': json,
       }));
-      dispatch(iguanaWalletPassphraseState(json, dispatch))
+      dispatch(iguanaWalletPassphraseState(json, dispatch));
     });
   }
 }
@@ -895,7 +887,7 @@ export function encryptWallet(_passphrase, cb, coin) {
         'status': 'success',
         'response': json,
       }));
-      dispatch(cb.call(this, json, coin))
+      dispatch(cb.call(this, json, coin));
     });
   }
 }
@@ -931,7 +923,7 @@ export function walletPassphrase(_passphrase) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'walletPassphrase', 'Error', 'error'))
+      dispatch(triggerToaster(true, 'walletPassphrase', 'Error', 'error'));
     })
     .then(json => {
       dispatch(logGuiHttp({
@@ -944,10 +936,12 @@ export function walletPassphrase(_passphrase) {
 }
 
 export function getPeersListState(json) {
-  var peersList = {};
+  let peersList = {};
 
-  if (json && json.rawpeers && json.rawpeers.length) {
-    for (var i=0; i < json.rawpeers.length; i++) {
+  if (json &&
+      json.rawpeers &&
+      json.rawpeers.length) {
+    for (let i = 0; i < json.rawpeers.length; i++) {
       peersList[json.rawpeers[i].coin] = json.rawpeers[i].peers;
     }
   }
@@ -959,15 +953,6 @@ export function getPeersListState(json) {
 }
 
 export function getFullTransactionsList(coin) {
-/*params = {
-  'userpass': tmpIguanaRPCAuth,
-  'agent': 'dex',
-  'method': 'listtransactions',
-  'address': coinaddr_value,
-  'count': 100,
-  'skip': 0,
-  'symbol': coin
-};*/
   const payload = {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
     'coin': coin,
@@ -1041,7 +1026,9 @@ export function getBasiliskTransactionsList(coin, address) {
     })
     .then(response => response.json())
     .then(function(json) {
-      if (json.result && !json.result.basilisk && json.result.indexOf('no file with handle') > -1) {
+      if (json.result &&
+          !json.result.basilisk &&
+          json.result.indexOf('no file with handle') > -1) {
         console.log('new cache');
       }
 
@@ -1506,11 +1493,14 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
       }
 
       function calcBalance(result, json, dispatch, mode) {
-        if (mode === 'full' || mode === 'basilisk') {
+        if (mode === 'full' ||
+            mode === 'basilisk') {
           result[0] = result[0].result;
         }
 
-        if (mode !== 'basilisk' && json && json.length) {
+        if (mode !== 'basilisk' &&
+            json &&
+            json.length) {
           const allAddrArray = json.map(res => res.address).filter((x, i, a) => a.indexOf(x) == i);
 
           for (let a = 0; a < allAddrArray.length; a++) {
@@ -1526,7 +1516,8 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             }
 
             if (isNewAddr) {
-              if (allAddrArray[a].substring(0, 2) === 'zc' || allAddrArray[a].substring(0, 2) === 'zt') {
+              if (allAddrArray[a].substring(0, 2) === 'zc' ||
+                  allAddrArray[a].substring(0, 2) === 'zt') {
                 result[1][result[1].length] = allAddrArray[a];
               } else {
                 result[0][result[0].length] = allAddrArray[a];
@@ -1583,7 +1574,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
         })
         .then(response => response.json())
         .then(function(json) {
-          var updatedCache = Object.assign({}, json.result);
+          let updatedCache = Object.assign({}, json.result);
           json = json.result.basilisk;
           // if listunspent is not in cache file retrieve new copy
           // otherwise read from cache data
@@ -1595,12 +1586,12 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
               'timestamp': _timestamp,
               'function': 'getKMDAddressesNative+Balance',
               'type': 'post',
-              'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.basiliskPort : Config.iguanaCorePort),
+              'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.iguanaCorePort + 1 : Config.iguanaCorePort),
               'payload': payload,
               'status': 'pending',
             }));
 
-            fetch('http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.basiliskPort : Config.iguanaCorePort), {
+            fetch('http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.iguanaCorePort + 1 : Config.iguanaCorePort), {
               method: 'POST',
               body: JSON.stringify(payload),
             })
@@ -1636,12 +1627,12 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           'timestamp': _timestamp,
           'function': 'getKMDAddressesNative+Balance',
           'type': 'post',
-          'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.basiliskPort : Config.iguanaCorePort),
+          'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.iguanaCorePort + 1 : Config.iguanaCorePort),
           'payload': payload,
           'status': 'pending',
         }));
 
-        fetch('http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.basiliskPort : Config.iguanaCorePort), {
+        fetch('http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.iguanaCorePort + 1 : Config.iguanaCorePort), {
           method: 'POST',
           body: JSON.stringify(payload),
         })
@@ -1717,7 +1708,7 @@ export function fetchUtxoCache(_payload) {
         _coin = '&coin=' + _payload.coin,
         _calls = '&calls=' + _payload.calls,
         _address = _payload.address ? ('&address=' + _payload.address) : '',
-        _iguanaInstancePort = Config.useBasiliskInstance ? '&port=' + Config.basiliskPort : '';
+        _iguanaInstancePort = Config.useBasiliskInstance ? '&port=' + (Config.iguanaCorePort + 1) : '';
 
   return dispatch => {
     return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/' + _route + _userpass + _pubkey + _coin + _calls + _address + _iguanaInstancePort, {
@@ -1736,7 +1727,9 @@ export function fetchUtxoCache(_payload) {
 }
 
 function getShepherdCacheState(json, pubkey, coin) {
-  if (json.result && json.error && json.result.indexOf('no file with handle') > -1) {
+  if (json.result &&
+      json.error &&
+      json.result.indexOf('no file with handle') > -1) {
     return dispatch => {
       dispatch(fetchNewCacheData({
         'pubkey': pubkey,
@@ -1813,7 +1806,9 @@ function parseImportPrivKeyResponse(json, dispatch) {
       dispatch(triggerToaster(true, 'Privkey already in wallet', translate('TOASTR.SETTINGS_NOTIFICATION'), 'warning'));
     }
   }
-  if (json && json.result !== undefined && json.result == 'success') {
+  if (json &&
+      json.result !== undefined &&
+      json.result == 'success') {
     return dispatch => {
       dispatch(triggerToaster(true, translate('TOASTR.PRIV_KEY_IMPORTED'), translate('TOASTR.SETTINGS_NOTIFICATION'), 'success'));
     }
@@ -1931,7 +1926,9 @@ export function getSyncInfoNativeKMD(skipDebug) {
 }
 
 function getSyncInfoNativeState(json, coin, skipDebug) {
-  if (coin === 'KMD' && json && json.error) {
+  if (coin === 'KMD' &&
+      json &&
+      json.error) {
     return getSyncInfoNativeKMD(skipDebug);
   } else {
     return {
@@ -1942,7 +1939,7 @@ function getSyncInfoNativeState(json, coin, skipDebug) {
 }
 
 function getPassthruAgent(coin) {
-  var passthru_agent;
+  let passthru_agent;
 
   if ( coin === 'KMD') { passthru_agent = 'komodo'; };
   if ( coin === 'ZEC') { passthru_agent = 'zcash'; };
@@ -2014,12 +2011,12 @@ export function getDexBalance(coin, mode, addr) {
         'timestamp': _timestamp,
         'function': 'getDexBalance',
         'type': 'post',
-        'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort),
+        'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort),
         'payload': payload,
         'status': 'pending',
       }));
 
-      fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
+      fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort), {
         method: 'POST',
         body: JSON.stringify(payload),
       })
@@ -2053,7 +2050,8 @@ export function getDexBalance(coin, mode, addr) {
 export function getKMDBalanceTotal(coin) {
   let payload;
 
-  if (coin !== 'KMD' && coin !== 'ZEC') {
+  if (coin !== 'KMD' &&
+      coin !== 'ZEC') {
     payload = {
       'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
       'agent': 'iguana',
@@ -2103,7 +2101,8 @@ export function getKMDBalanceTotal(coin) {
         'status': 'success',
         'response': json,
       }));
-      if (json && !json.error) {
+      if (json &&
+          !json.error) {
         dispatch(getNativeBalancesState(json));
       }
     })
@@ -2176,7 +2175,8 @@ export function getNativeTxHistory(coin) {
 }
 
 export function getNativeTxHistoryState(json) {
-  if (json && json.error) {
+  if (json &&
+      json.error) {
     json = null;
   } else if (json && json.result) {
     json = json.result;
@@ -2201,10 +2201,10 @@ export function getNewKMDAddresses(coin, pubpriv) {
   let payload,
       ajax_function_input = '';
 
-  if ( pubpriv === 'public' ) {
+  if (pubpriv === 'public') {
     ajax_function_input = 'getnewaddress';
   }
-  if ( pubpriv === 'private' ) {
+  if (pubpriv === 'private') {
     ajax_function_input = 'z_getnewaddress';
   }
 
@@ -2375,7 +2375,8 @@ export function sendNativeTx(coin, _payload) {
           'response': json,
         }));
 
-        if (json.error && json.error.toString().indexOf('code:') > -1) {
+        if (json.error &&
+            json.error.toString().indexOf('code:') > -1) {
           dispatch(triggerToaster(true, 'Send failed', translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
         } else {
           dispatch(triggerToaster(true, translate('TOASTR.TX_SENT_ALT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
@@ -2472,7 +2473,8 @@ export function getKMDOPID(opid, coin) {
 }
 
 function sendToAddressState(json, dispatch) {
-  if (json && json.error) {
+  if (json &&
+      json.error) {
     dispatch(triggerToaster(true, json.error, 'Error', 'error'));
 
     return {
@@ -2603,13 +2605,16 @@ export function sendFromAddress(coin, _payload) {
 }
 
 function checkAddressBasiliskHandle(json) {
-  if (json && json.error) {
+  if (json &&
+      json.error) {
     return dispatch => {
       dispatch(triggerToaster(true, json.error, translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
     }
   }
 
-  if (json && json.coin && json.randipbits) {
+  if (json &&
+      json.coin &&
+      json.randipbits) {
     return dispatch => {
       dispatch(triggerToaster(true, 'Address already registered', translate('TOASTR.WALLET_NOTIFICATION'), 'warning'));
     }
@@ -2631,12 +2636,12 @@ export function checkAddressBasilisk(coin, address) {
       'timestamp': _timestamp,
       'function': 'checkAddressBasilisk',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort),
+      'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort),
       'payload': payload,
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
+    return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort), {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -2698,7 +2703,7 @@ export function validateAddressBasilisk(coin, address) {
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
+    return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort), {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -2750,11 +2755,11 @@ export function getDexNotaries(coin) {
       'timestamp': _timestamp,
       'function': 'getDexNotaries',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort),
+      'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort),
       'payload': payload,
       'status': 'pending',
     }));
-    return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort), {
+    return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort), {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -2780,7 +2785,9 @@ export function getDexNotaries(coin) {
 }
 
 function createNewWalletState(json) {
-  if (json && json.result && json.result === 'success') {
+  if (json &&
+      json.result &&
+      json.result === 'success') {
     return dispatch => {
       dispatch(triggerToaster(true, translate('TOASTR.WALLET_CREATED_SUCCESFULLY'), translate('TOASTR.ACCOUNT_NOTIFICATION'), 'success'));
     }
@@ -2880,7 +2887,7 @@ export function fetchNewCacheData(_payload) {
         _coin = '&coin=' + _payload.coin,
         _calls = '&calls=' + _payload.calls,
         _address = _payload.address ? ('&address=' + _payload.address) : '',
-        _iguanaInstancePort = Config.useBasiliskInstance ? '&port=' + Config.basiliskPort : '';
+        _iguanaInstancePort = Config.useBasiliskInstance ? '&port=' + (Config.iguanaCorePort + 1) : '';
 
   return dispatch => {
     return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/' + _route + _userpass + _pubkey + _coin + _calls + _address + _iguanaInstancePort, {
@@ -2920,7 +2927,7 @@ function initNotaryNodesConSequence(nodes) {
           'status': 'pending',
         }));
 
-        fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.basiliskPort : Config.iguanaCorePort) + '/api/dex/getinfo?userpass=' + ('tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth')) + '&symbol=' + node, {
+        fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort) + '/api/dex/getinfo?userpass=' + ('tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth')) + '&symbol=' + node, {
           method: 'GET',
         })
         .catch(function(error) {
@@ -2973,7 +2980,8 @@ function updateNotaryNodeConState(json, totalNodes, currentNodeIndex, currentNod
 }
 
 function connectAllNotaryNodes(json, dispatch) {
-  if (json && json.length) {
+  if (json &&
+      json.length) {
     dispatch(initNotaryNodesConSequence(json));
 
     return {
@@ -3030,10 +3038,6 @@ export function restartIguanaInstance(pmid) {
       headers: {
         'Content-Type': 'application/json',
       },
-      /*body: JSON.stringify({
-        mode,
-        coin
-      }),*/
     })
     .catch(function(error) {
       console.log(error);
@@ -3289,12 +3293,6 @@ export function getAppConfig() {
 }
 
 function getSyncOnlyForksState(json) {
-  /*try {
-    JSON.parse(json.result);
-  } catch(e) {
-    console.log(e);
-  }*/
-
   return {
     type: SYNC_ONLY_DATA,
     forks: JSON.parse(json.result),
@@ -3398,7 +3396,8 @@ export function logGuiHttp(payload) {
   return dispatch => {
     dispatch(guiLogState(payload));
 
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/guilog', {
+    // disabled for now
+    /*return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/guilog', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -3409,7 +3408,7 @@ export function logGuiHttp(payload) {
       console.log(error);
       dispatch(triggerToaster(true, 'logGuiHttp', 'Error', 'error'));
     })
-    .then(response => response.json())
+    .then(response => response.json())*/
   }
 }
 

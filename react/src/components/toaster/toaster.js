@@ -15,7 +15,9 @@ class Toaster extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props && props.message && props.display) {
+    if (props &&
+        props.message &&
+        props.display) {
       this.setState({
         message: props.message,
         display: props.display,
@@ -44,11 +46,15 @@ class Toaster extends React.Component {
 
     return (
       <div className="toaster">
-        <div id="toast-container" className="single-toast toast-bottom-right" aria-live="polite" role="alert">
-          <div className={"toast toast-" + this.state.type}>
-            <button className="toast-close-button" role="button" onClick={this.dismissToast}>×</button>
-            <div className="toast-title">{this.state.title}</div>
-            <div className="toast-message">{this.state.message}</div>
+        <div
+          id="toast-container"
+          className="single-toast toast-bottom-right"
+          aria-live="polite"
+          role="alert">
+          <div className={ 'toast toast-' + this.state.type }>
+            <button className="toast-close-button" role="button" onClick={ this.dismissToast }>×</button>
+            <div className="toast-title">{ this.state.title }</div>
+            <div className="toast-message">{ this.state.message }</div>
           </div>
         </div>
       </div>

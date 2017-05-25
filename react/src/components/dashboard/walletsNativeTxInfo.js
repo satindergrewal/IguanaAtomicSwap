@@ -23,6 +23,12 @@ class WalletsNativeTxInfo extends React.Component {
     }));
   }
 
+  handleKeydown(e) {
+    if (e.key === 'Escape') {
+      this.toggleTxInfoModal();
+    }
+  }
+
   render() {
     if (this.props &&
         this.props.ActiveCoin.showTransactionInfo &&
@@ -31,7 +37,7 @@ class WalletsNativeTxInfo extends React.Component {
       const txInfo = this.props.ActiveCoin.txhistory[this.props.ActiveCoin.showTransactionInfoTxIndex];
 
       return (
-        <div>
+        <div onKeyDown={ (event) => this.handleKeydown(event) }>
           <div className="modal show" id="kmd_txid_info_mdl" aria-hidden="false" role="dialog">
             <div className="modal-dialog modal-center modal-lg">
               <div className="modal-content">
