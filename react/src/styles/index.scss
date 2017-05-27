@@ -491,6 +491,16 @@ input:checked + .slider:before {
   }
 }
 
+#js-copytextarea {
+  opacity: 0;
+  height: 10px;
+  width: 200px;
+}
+
+#app {
+  height: 100%;
+}
+
 /*.toaster .single-toast:nth-child(0) {
   bottom: 12px;
 }

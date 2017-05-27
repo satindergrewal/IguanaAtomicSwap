@@ -2266,7 +2266,7 @@ export function getNewKMDAddresses(coin, pubpriv) {
   }
 }
 
-export function iguanaHashHex(data) {
+export function iguanaHashHex(data, dispatch) {
   const payload = {
     'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
     'agent': 'hash',
@@ -2324,7 +2324,7 @@ export function sendNativeTx(coin, _payload) {
   }
 
   return dispatch => {
-    return iguanaHashHex(ajax_data_to_hex).then((hashHexJson) => {
+    return iguanaHashHex(ajax_data_to_hex, dispatch).then((hashHexJson) => {
       if (getPassthruAgent(coin) === 'iguana') {
         payload = {
           'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
@@ -2408,7 +2408,7 @@ export function getKMDOPID(opid, coin) {
   }
 
   return dispatch => {
-    return iguanaHashHex(ajax_data_to_hex).then((hashHexJson) => {
+    return iguanaHashHex(ajax_data_to_hex, dispatch).then((hashHexJson) => {
       if (hashHexJson === '5b226e756c6c225d00') {
         hashHexJson = '';
       }
@@ -3434,6 +3434,7 @@ export function guiLogState(logData) {
     type: LOG_GUI_HTTP,
     timestamp: logData.timestamp,
     log: {
+      timestamp: logData.timestamp,
       function: logData.function,
       httpMethod: logData.type,
       url: logData.url,
