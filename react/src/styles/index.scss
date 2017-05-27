@@ -387,6 +387,10 @@ input:checked + .slider:before {
   display: none;
 }
 
+.notifications-modal {
+  color: #757575;
+}
+
 .notifications {
   .notice {
     position: relative;
