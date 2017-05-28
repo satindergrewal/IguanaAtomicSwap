@@ -594,14 +594,13 @@ class WalletsData extends React.Component {
                 <div id="edexcoin_dashoard_section">
                   <div className="col-xlg-12 col-lg-12 col-sm-12 col-xs-12 edexcoin_dashoard_section_main_div">
                     <div id="edexcoin_txhistory" className="panel">
-                      <header className="panel-heading" style={{ zIndex: '10' }}>
+                      <header className="panel-heading z-index-10">
                         <div className={ this.props.ActiveCoin.mode === 'basilisk' ? 'panel-actions' : 'panel-actions hide' }>
                           <div
-                            className={ this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : 'progress progress-sm' }
-                            style={{ width: '100%', marginBottom: '3px' }}>
+                            className={'full-width margin-bottom-3 ' + (this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : 'progress progress-sm') }>
                             <div
-                              className="progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success"
-                              style={{ width: 100 - (this.state.currentStackLength * 100 / this.state.totalStackLength) + '%', fontSize: '80%' }}
+                              className="progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success font-size-80-percent"
+                              style={{ width: 100 - (this.state.currentStackLength * 100 / this.state.totalStackLength) + '%'}}
                               role="progressbar">
                               { translate('SEND.PROCESSING_REQ') }: { this.state.currentStackLength } / { this.state.totalStackLength }
                             </div>
@@ -659,7 +658,7 @@ class WalletsData extends React.Component {
                                   <i className="icon fa-history" aria-hidden="true"></i> { translate('INDEX.REFETCH_WALLET_DATA') }
                                 </a>
                               </li>
-                              <li role="presentation" className={ !this.state.useCache ? 'hide' : '' } style={{ display: 'none' }}>
+                              <li role="presentation" className={'display-none ' + (!this.state.useCache ? 'hide' : '') }>
                                 <a role="menuitem" onClick={ this.restartBasiliskInstance }>
                                   <i className="icon fa-refresh" aria-hidden="true"></i> Restart Basilisk Instance (unsafe!)
                                 </a>
@@ -681,7 +680,7 @@ class WalletsData extends React.Component {
                           </div>
                           { this.renderUseCacheToggle }
                         </div>
-                        <div className="row" style={{ padding: '20px 0 10px 0' }}>
+                        <div className="row pagination-container">
                           <div className="col-sm-6">
                             { this.renderPaginationItemsPerPageSelector() }
                           </div>
