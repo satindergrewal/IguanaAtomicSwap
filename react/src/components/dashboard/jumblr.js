@@ -22,7 +22,7 @@ class Jumblr extends React.Component {
     const _translationComponents = translate(_translationID).split('<br>');
 
     return _translationComponents.map((_translation) =>
-      <span>
+      <span key={ `jumblr-label-${Math.random(0, 9) * 10}` }>
         {_translation}
         <br />
       </span>
