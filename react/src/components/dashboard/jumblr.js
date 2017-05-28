@@ -33,7 +33,7 @@ class Jumblr extends React.Component {
     return (
       <div className="page margin-left-0">
         <WalletsHeader activeSection="jumblr" />
-        <div className="page-content" id="section-jumblr margin-top-30">
+        <div className="page-content margin-top-30" id="section-jumblr">
           <div className="row" id="jumblr_dashboard">
             <div className="col-xs-12" id="jumblr_testing_alert">
               <div className="alert alert-danger" role="alert">

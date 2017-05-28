@@ -28,7 +28,7 @@ class Dashboard extends React.Component {
     document.body.className = '';
 
     return (
-      <div className='full-height'>
+      <div className="full-height">
         <div
           className={ this.props.Dashboard.activeSection === 'wallets' ? 'page-main' : '' }
           id="section-dashboard">
