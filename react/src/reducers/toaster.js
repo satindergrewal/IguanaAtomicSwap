@@ -1,4 +1,6 @@
-import { TOASTER_MESSAGE } from '../actions/actionCreators';
+import {
+  TOASTER_MESSAGE
+} from '../actions/storeType';
 
 export function toaster(state = {
 	display: false,

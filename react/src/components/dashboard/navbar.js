@@ -3,11 +3,11 @@ import { translate } from '../../translate/translate';
 import {
   dashboardChangeSection,
   toggleAddcoinModal,
-  logout,
   stopInterval,
-  toggleSyncOnlyModal,
   startInterval,
-  getSyncOnlyForks
+  toggleSyncOnlyModal,
+  getSyncOnlyForks,
+  logout
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -44,7 +44,7 @@ class Navbar extends React.Component {
   openSyncOnlyModal() {
     Store.dispatch(getSyncOnlyForks());
 
-    var _iguanaActiveHandle = setInterval(function() {
+    const _iguanaActiveHandle = setInterval(function() {
       Store.dispatch(getSyncOnlyForks());
     }.bind(this), 3000);
     Store.dispatch(startInterval('syncOnly', _iguanaActiveHandle));
@@ -63,7 +63,7 @@ class Navbar extends React.Component {
           <button type="button" className="navbar-toggle collapsed">
             <i className="icon md-more" aria-hidden="true"></i>
           </button>
-          <div className="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
+          <div className="navbar-brand navbar-brand-center site-gridmenu-toggle">
             <img
               className="navbar-brand-logo hidden-xs" src="assets/images/easydex-logo-dashboard.png"
               title="SuperNET Iguana" />
