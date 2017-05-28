@@ -413,12 +413,10 @@ class AddCoin extends React.Component {
                 </span>
                 { this.renderCoinSelectors() }
                 <div
-                  className={ this.state.coins.length > 1 ? 'col-sm-12' : 'hide' }
-                  style={{ textAlign: 'center', margin: '20px 0' }}>
+                  className={'text-align-center vertical-margin-20 horizontal-margin-0 ' + (this.state.coins.length > 1 ? 'col-sm-12' : 'hide') }>
                   <button
                     type="button"
-                    className="btn btn-primary col-sm-4"
-                    style={{ float: 'none' }}
+                    className="btn btn-primary col-sm-4 float-none"
                     id="mdl_addcoin_done_btn-login"
                     onClick={ this.activateAllCoins }>{ translate('ADD_COIN.ACTIVATE_ALL') }</button>
                 </div>
