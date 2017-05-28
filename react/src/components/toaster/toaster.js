@@ -1,69 +1,59 @@
-import React from 'react';
-import { dismissToasterMessage } from '../../actions/actionCreators';
-import Store from '../../store';
+import React from "react";
+import {dismissToasterMessage} from "../../actions/actionCreators";
+import Store from "../../store";
+import ToasterItem from "./toaster-item";
 
+/**
+ * Container component used for creating multiple toasts
+ */
 class Toaster extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      display: false,
-      message: null,
-      type: null,
-      title: null,
+      toasts: []
     };
-    this.dismissToast = this.dismissToast.bind(this);
+    this.toastId = 0;
   }
 
   componentWillReceiveProps(props) {
     if (props &&
-        props.message &&
-        props.display) {
+      props.toasts) {
       this.setState({
-        message: props.message,
-        display: props.display,
-        type: props.type,
-        title: props.title,
+        toasts: props.toasts,
+        toastId: props.toasts.length
       });
     } else {
       this.setState({
-        display: false,
-        message: null,
-        type: null,
-        title: null,
+        toasts: [],
+        toastId: 0
       });
     }
   }
 
-  dismissToast() {
-    Store.dispatch(dismissToasterMessage());
+  dismissToast(toastId) {
+    Store.dispatch(dismissToasterMessage(toastId));
   }
 
-  // TODO: multiple toasts
-  renderToast() {
-    setTimeout(() => {
-      Store.dispatch(dismissToasterMessage());
-    }, 5000);
-
+  // render all current toasts
+  render() {
     return (
-      <div className="toaster">
-        <div
-          id="toast-container"
-          className="single-toast toast-bottom-right"
-          aria-live="polite"
-          role="alert">
-          <div className={ 'toast toast-' + this.state.type }>
-            <button className="toast-close-button" role="button" onClick={ this.dismissToast }>×</button>
-            <div className="toast-title">{ this.state.title }</div>
-            <div className="toast-message">{ this.state.message }</div>
-          </div>
-        </div>
+      <div id="toast-container"
+           className="single-toast toast-bottom-right"
+           aria-live="polite"
+           role="alert">
+        {this.state.toasts
+          .map((toast) => {
+            // sets the toastId for all new toasts
+            if (!toast.toastId) {
+              toast.toastId = this.toastId++;
+            }
+
+            return (
+              <ToasterItem key={toast.toastId} {...toast} />
+            );
+          })}
       </div>
     );
-  }
-
-  render() {
-    return (this.state.message && this.state.display) ?
-      this.renderToast() : null;
   }
 }
 

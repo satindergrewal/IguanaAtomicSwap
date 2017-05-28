@@ -20,7 +20,8 @@ try {
   Config = _config;
 }
 
-export const TOASTER_MESSAGE = 'TOASTER_MESSAGE';
+export const ADD_TOASTER_MESSAGE = 'ADD_TOASTER_MESSAGE';
+export const REMOVE_TOASTER_MESSAGE = 'REMOVE_TOASTER_MESSAGE';
 export const DISPLAY_ADDCOIN_MODAL = 'DISPLAY_ADDCOIN_MODAL';
 export const GET_ACTIVE_COINS = 'GET_ACTIVE_COINS';
 export const LOGIN = 'LOGIN';
@@ -195,11 +196,19 @@ function toggleSendReceiveCoinFormsState() {
 
 export function triggerToaster(display, message, title, _type) {
   return {
-    type: TOASTER_MESSAGE,
+    type: ADD_TOASTER_MESSAGE,
     display,
     message,
     title,
     _type,
+  }
+}
+
+// triggers removing of the toast with the provided toastId
+export function dismissToaster(toastId) {
+  return {
+    type: REMOVE_TOASTER_MESSAGE,
+    toastId: toastId
   }
 }
 
@@ -378,9 +387,9 @@ export function copyCoinAddress(address) {
   }
 }
 
-export function dismissToasterMessage() {
+export function dismissToasterMessage(toastId) {
   return dispatch => {
-    dispatch(triggerToaster(false))
+    dispatch(dismissToaster(toastId))
   }
 }
 
