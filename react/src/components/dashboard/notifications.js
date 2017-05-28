@@ -109,7 +109,7 @@ class Notifications extends React.Component {
           <div className="modal show" aria-hidden="false" role="dialog">
             <div className="modal-dialog modal-center modal-lg">
               <div className="modal-content">
-                <div className="modal-body" style={{ height: '590px' }}>
+                <div className="modal-body modal-body-container">
                   <div className="panel nav-tabs-horizontal">
                     <ul className="nav nav-tabs nav-tabs-line" role="tablist">
                       <li className={ this.state.activeTab === 0 ? 'active' : 'pointer' } role="presentation">
@@ -134,7 +134,7 @@ class Notifications extends React.Component {
                         </a>
                       </li>
                     </ul>
-                    <div className="panel-body" style={{ height: '500px', overflowY: 'scroll' }}>
+                    <div className="panel-body panel-body-container">
                       <div className="tab-content">
                         <div
                           className={ this.state.activeTab === 0 ? 'tab-pane active' : 'tab-pane' }
