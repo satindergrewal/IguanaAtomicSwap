@@ -51,16 +51,6 @@ try {
   Config = _config;
 }
 
-export function triggerToaster(display, message, title, _type) {
-  return {
-    type: storeType.TOASTER_MESSAGE,
-    display,
-    message,
-    title,
-    _type,
-  }
-}
-
 export function changeActiveAddress(address) {
   return {
     type: storeType.DASHBOARD_ACTIVE_ADDRESS,
@@ -176,6 +166,24 @@ export function toggleSendReceiveCoinFormsState() {
   }
 }
 
+export function triggerToaster(display, message, title, _type) {
+  return {
+    type: storeType.ADD_TOASTER_MESSAGE,
+    display,
+    message,
+    title,
+    _type,
+  }
+}
+
+// triggers removing of the toast with the provided toastId
+export function dismissToaster(toastId) {
+  return {
+    type: storeType.REMOVE_TOASTER_MESSAGE,
+    toastId: toastId
+  }
+}
+
 export function toggleAddcoinModalState(display, isLogin) {
   return {
     type: storeType.DISPLAY_ADDCOIN_MODAL,
@@ -250,9 +258,9 @@ export function toggleAddcoinModal(display, isLogin) {
   }
 }
 
-export function dismissToasterMessage() {
+export function dismissToasterMessage(toastId) {
   return dispatch => {
-    dispatch(triggerToaster(false))
+    dispatch(dismissToaster(toastId))
   }
 }
 

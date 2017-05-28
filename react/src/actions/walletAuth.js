@@ -3,7 +3,8 @@ import { translate } from '../translate/translate';
 import {
   triggerToaster,
   Config,
-  getMainAddressState
+  getMainAddressState,
+  updateErrosStack
 } from './actionCreators';
 import {
   logGuiHttp,
