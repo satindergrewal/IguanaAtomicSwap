@@ -27,12 +27,12 @@ class WalletsNative extends React.Component {
         this.props.ActiveCoin &&
         this.props.ActiveCoin.mode === 'native') {
       return (
-        <div className="page" style={{ marginLeft: '0' }}>
-          <div id="section-extcoin" style={{ paddingTop: '0' }}>
-            <div id="easydex-header-div" style={{ 'backgroundImage': 'url("assets/images/bg/' + this.defaultBG() + '_transparent_header_bg.png")', backgroundColor: '#fff' }}>
+        <div className="page margin-left-0">
+          <div id="section-extcoin" className="padding-top-0">
+            <div id="easydex-header-div" className="background-color-white" style={{ 'backgroundImage': 'url("assets/images/bg/' + this.defaultBG() + '_transparent_header_bg.png")' }}>
               <ol className="breadcrumb">
                 <li className="header-easydex-section">
-                  <img src={ 'assets/images/native/' + this.defaultBG() + '_header_title_logo.png' } /> <span style={{ fontSize: '35px', verticalAlign: 'middle' }} className={ this.props.ActiveCoin.coin === 'KMD' ? 'hide' : '' }>{ this.props.ActiveCoin.coin }</span>
+                  <img src={ 'assets/images/native/' + this.defaultBG() + '_header_title_logo.png' } /> <span className={'easydex-section-image ' + (this.props.ActiveCoin.coin === 'KMD' ? 'hide' : '') }>{ this.props.ActiveCoin.coin }</span>
                 </li>
               </ol>
             </div>

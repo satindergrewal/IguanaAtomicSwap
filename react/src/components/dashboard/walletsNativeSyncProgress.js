@@ -7,25 +7,23 @@ class WalletsNativeSyncProgress extends React.Component {
         this.props.Dashboard.progress.longestchain === 0) {
       return (
         <div
-          className="progress-bar progress-bar-info progress-bar-striped active"
-          style={{ width: '100%', fontSize: '80%' }}
+          className="progress-bar progress-bar-info progress-bar-striped active full-width font-size-80-percent"
           role="progressbar"
           id="extcoin-sync">
           <span
             id="extcoin-sync-percent"
-            style={{ width: '100%' }}>{ translate('INDEX.SYNC_ERR_LONGESTCHAIN') }</span>
+            className="full-width">{ translate('INDEX.SYNC_ERR_LONGESTCHAIN') }</span>
         </div>
       );
     } else if (this.props.Dashboard.progress.blocks === 0) {
       return (
         <div
-          className="progress-bar progress-bar-info progress-bar-striped active"
-          style={{ width: '100%', fontSize: '80%' }}
+          className="progress-bar progress-bar-info progress-bar-striped active full-width font-size-80-percent"
           role="progressbar"
           id="extcoin-sync">
           <span
             id="extcoin-sync-percent"
-            style={{ width: '100%' }}>{ translate('INDEX.SYNC_ERR_BLOCKS') }</span>
+            className="full-width">{ translate('INDEX.SYNC_ERR_BLOCKS') }</span>
         </div>
       );
     } else {
@@ -33,8 +31,8 @@ class WalletsNativeSyncProgress extends React.Component {
 
       return (
         <div
-          className="progress-bar progress-bar-info progress-bar-striped active"
-          style={{ width: syncPercentage, fontSize: '80%' }}
+          className="progress-bar progress-bar-info progress-bar-striped active font-size-80-percent"
+          style={{ width: syncPercentage }}
           role="progressbar"
           id="extcoin-sync">
           <span
@@ -85,9 +83,8 @@ class WalletsNativeSyncProgress extends React.Component {
       return (
         <div
           role="alert"
-          className="alert alert-info alert-dismissible"
-          id="extcoin-wallet-activating-alert"
-          style={{ marginBottom: '40px' }}>
+          className="alert alert-info alert-dismissible margin-bottom-40"
+          id="extcoin-wallet-activating-alert">
           <button aria-label="Close" data-dismiss="alert" className="close" type="button">
             <span aria-hidden="true">×</span>
           </button>
@@ -109,7 +106,7 @@ class WalletsNativeSyncProgress extends React.Component {
       return (
         <div>
           { this.renderChainActivationNotification() }
-          <div className="row" style={{ margin: '-20px 0px 10px 0px' }}>
+          <div className="row sync-progress-container">
             <div className="col-xs-12" id="extcoin-progressbars">
               <div className="progress">
                 { this.renderSyncPercentagePlaceholder() }

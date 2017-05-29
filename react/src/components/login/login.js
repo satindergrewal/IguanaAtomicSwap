@@ -158,14 +158,14 @@ class Login extends React.Component {
     if (this.state.displaySeedBackupModal) {
       return (
         <div className="swal2-container">
-          <div className="swal2-overlay" tabIndex="-1" style={{ opacity: 1, display: 'block' }}></div>
-          <div className="swal2-modal show-swal2 visible" style={{ display: 'block', width: '500px', padding: '20px', marginLeft: '-250px', background: 'rgb(255, 255, 255)', marginTop: '-230px' }} tabIndex="-1">
-          <div className="swal2-icon swal2-warning pulse-warning" style={{ display: 'block' }}>!</div>
+          <div className="swal2-overlay full-opacity display-block" tabIndex="-1"></div>
+          <div className="swal2-modal show-swal2 visible swal2-modal-container" tabIndex="-1">
+          <div className="swal2-icon swal2-warning pulse-warning display-block">!</div>
           <h2>{ translate('LOGIN.SAVED_WALLET_SEED') }</h2>
-          <div className="swal2-content" style={{ display: 'block' }}>{ translate('LOGIN.SEED_MAKE_SURE_BACKUP') }</div>
-          <hr className="swal2-spacer" style={{ display: 'block' }} />
-          <button className="swal2-confirm styled" style={{ backgroundColor: 'rgb(48, 133, 214)', borderLeftColor: 'rgb(48, 133, 214)', borderRightColor: 'rgb(48, 133, 214)' }} onClick={ this.execWalletCreate }>{ translate('LOGIN.YES_I_BACKUP') }</button>
-          <button className="swal2-cancel styled" style={{ display: 'inline-block', backgroundColor: 'rgb(221, 51, 51)'}} onClick={ this.toggleSeedBackupModal }>{ translate('LOGIN.CANCEL') }</button>
+          <div className="swal2-content display-block">{ translate('LOGIN.SEED_MAKE_SURE_BACKUP') }</div>
+          <hr className="swal2-spacer display-block" />
+          <button className="swal2-confirm styled swal2-confirm-container" onClick={ this.execWalletCreate }>{ translate('LOGIN.YES_I_BACKUP') }</button>
+          <button className="swal2-cancel styled swal2-cancel-container" onClick={ this.toggleSeedBackupModal }>{ translate('LOGIN.CANCEL') }</button>
         </div>
       </div>
       );
@@ -185,7 +185,7 @@ class Login extends React.Component {
                 <img className="brand-img" src="assets/images/easydex-logo-big.png" alt="SuperNET Iguana" />
               </div>
 
-              <div style={{ padding: '20px 0' }}>
+              <div className="vertical-padding-20 horizontal-padding-0">
                 <span className="display-sync-only-coins-toggle" onClick={ this.openSyncOnlyModal }>
                   <i className="fa fa-cubes"></i> { translate('LOGIN.DISPLAY_SYNC_ONLY') }
                 </span>
@@ -204,7 +204,7 @@ class Login extends React.Component {
                     { translate('INDEX.IE_UNSUPPORTED') }
                   </div>
                   <div className="panel-body">
-                    <p style={{ color: '#424242' }}>
+                    <p className="browser-usage-container">
                       { translate('INDEX.PLEASE_USE') } <a href="https://www.google.com/chrome/">Google Chrome</a> { translate('INDEX.OR') } <a href="https://www.firefox.com">Mozilla FireFox</a> { translate('INDEX.TO_USE') } EasyDEX-GUI. { translate('INDEX.PLEASE_CLICK_ON') }.
                     </p>
                     <div className="col-sm-6 col-xs-6">
@@ -218,7 +218,7 @@ class Login extends React.Component {
               </div>
 
               <div id="section-login" className={ this.state.activeLoginSection === 'login' ? 'show' : 'hide' }>
-                <h4 style={{ color: '#fff' }} id="login-welcome">{translate('INDEX.WELCOME_LOGIN')}</h4>
+                <h4 className="color-white" id="login-welcome">{translate('INDEX.WELCOME_LOGIN')}</h4>
                 <div className="login-form">
                   <div className="form-group form-material floating">
                     <input
@@ -248,12 +248,11 @@ class Login extends React.Component {
                       className="btn btn-lg btn-flat btn-block waves-effect hide"
                       id="logint-another-wallet">{ translate('INDEX.LOGIN_ANOTHER_WALLET') }</button>
                     <button
-                      className="btn btn-lg btn-flat btn-block waves-effect"
+                      className="btn btn-lg btn-flat btn-block waves-effect margin-top-20"
                       id="register-btn"
                       role="menuitem"
                       onClick={ this.toggleActivateCoinForm }
-                      disabled={ !this.props.Main }
-                      style={{ marginTop: '20px' }}>
+                      disabled={ !this.props.Main }>
                       <span className="ladda-label">{ translate('ADD_COIN.ADD_ANOTHER_COIN') }</span>
                     </button>
                   </div>
@@ -263,10 +262,9 @@ class Login extends React.Component {
               <div
                 id="section-login-addcoin-btn"
                 className={ this.state.activeLoginSection === 'activateCoin' ? 'show' : 'hide' }>
-                <h4 style={{ color: '#fff' }} id="login-welcome">{ translate('INDEX.WELCOME_PLEASE_ADD') }</h4>
+                <h4 className="color-white" id="login-welcome">{ translate('INDEX.WELCOME_PLEASE_ADD') }</h4>
                 <div
-                  className="form-group form-material floating"
-                  style={{ width: '540px', margin: '30px 0' }}>
+                  className="form-group form-material floating width-540 vertical-margin-30 horizontal-margin-0">
                   <button
                     className="btn btn-lg btn-primary btn-block ladda-button"
                     id="start-coin-login"
@@ -282,7 +280,7 @@ class Login extends React.Component {
                 id="section-register"
                 className={ this.state.activeLoginSection === 'signup' ? 'show' : 'hide' }>
                 <div className="register-form">
-                  <h4 className="hint" style={{ color: '#fff' }}>
+                  <h4 className="hint color-white">
                     { translate('INDEX.SELECT_SEED_TYPE') }:
                   </h4>
                   <div className="form-group form-material floating">
@@ -316,22 +314,20 @@ class Login extends React.Component {
                   </div>
                   <div className="form-group form-material floating">
                     <textarea
-                      className="form-control placeholder-no-fix"
+                      className="form-control placeholder-no-fix height-100"
                       type="text"
                       id="walletseed"
-                      style={{ height: '100px' }}
                       value={ this.state.randomSeed }
                       readOnly="true"></textarea>
                     <label className="floating-label" htmlFor="walletseed">{ translate('INDEX.WALLET_SEED') }</label>
                   </div>
                   <div className="form-group form-material floating">
                     <textarea
-                      className="form-control placeholder-no-fix"
+                      className="form-control placeholder-no-fix height-100"
                       type="text"
                       name="randomSeedConfirm"
                       onChange={ this.updateInput }
-                      id="rwalletseed"
-                      style={{ height: '100px' }}></textarea>
+                      id="rwalletseed"></textarea>
                     <span className={ this.state.isSeedConfirmError ? 'help-block' : 'hide' }>{ translate('LOGIN.ENTER_VALUE_AGAIN') }.</span>
                     <label className="floating-label" htmlFor="rwalletseed">{ translate('INDEX.CONFIRM_SEED') }</label>
                   </div>

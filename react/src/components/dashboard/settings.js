@@ -120,7 +120,7 @@ class Settings extends React.Component {
             aria-labelledby="DebugLog"
             role="tabpanel">
             <div className="panel-body">
-              <div className="col-sm-12" style={{ paddingTop: '15px' }}>
+              <div className="col-sm-12 padding-top-15">
                 <div className="row">
                   <h5>{ translate('SETTINGS.APP_RELEASE') }</h5>
                   <div>
@@ -134,7 +134,7 @@ class Settings extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="col-sm-12" style={{ paddingTop: '20px' }}>
+              <div className="col-sm-12 padding-top-20">
                 <div className="row">
                   <h5>{ translate('SETTINGS.SYS_INFO') }</h5>
                   <div>
@@ -160,7 +160,7 @@ class Settings extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="col-sm-12" style={{ paddingTop: '20px' }}>
+              <div className="col-sm-12 padding-top-20">
                 <div className="row">
                   <h5>{ translate('SETTINGS.LOCATIONS') }</h5>
                   <div>
@@ -245,20 +245,20 @@ class Settings extends React.Component {
       if (typeof _appConfig[key] === 'object') {
         items.push(
           <tr key={ `app-settings-${key}` }>
-            <td style={{ padding: '15px' }}>
+            <td className="padding-15">
               { key }
             </td>
-            <td style={{ padding: '15px' }}></td>
+            <td className="padding-15"></td>
           </tr>
         );
 
         for (let _key in _appConfig[key]) {
           items.push(
             <tr key={ `app-settings-${key}-${_key}` }>
-              <td style={{ padding: '15px', paddingLeft: '30px' }}>
+              <td className="padding-15 padding-left-30">
                 { _key }
               </td>
-              <td style={{ padding: '15px' }}>
+              <td className="padding-15">
                 <input
                   type="text"
                   name={ `${key}__${_key}` }
@@ -271,10 +271,10 @@ class Settings extends React.Component {
       } else {
         items.push(
           <tr key={ `app-settings-${key}` }>
-            <td style={{ padding: '15px' }}>
+            <td className="padding-15">
               { key }
             </td>
-            <td style={{ padding: '15px' }}>
+            <td className="padding-15">
               <input
                 type="text"
                 name={ `${key}` }
@@ -308,7 +308,7 @@ class Settings extends React.Component {
 
   render() {
     return (
-      <div style={{ marginLeft: '0' }}>
+      <div className="margin-left-0">
         <div className="page-content" id="section-iguana-wallet-settings">
           <div className="row" id="iguana-wallet-settings">
             <div className="col-xlg-12 col-md-12">
@@ -338,37 +338,37 @@ class Settings extends React.Component {
                             </thead>
                             <tbody>
                               <tr>
-                                <td style={{ fontWeight: 'bold' }}>pubkey</td>
+                                <td className="wallet-info-key">pubkey</td>
                                 <td>
                                   <div id="winfo_pubkey_value">{ this.props.Main.activeHandle.pubkey }</div>
                                 </td>
                               </tr>
                               <tr>
-                                <td style={{ fontWeight: 'bold' }}>btcpubkey</td>
+                                <td className="wallet-info-key">btcpubkey</td>
                                 <td>
                                   <div id="winfo_btcpubkey_value">{ this.props.Main.activeHandle.btcpubkey }</div>
                                 </td>
                               </tr>
                               <tr>
-                                <td style={{ fontWeight: 'bold' }}>rmd160</td>
+                                <td className="wallet-info-key">rmd160</td>
                                 <td>
                                   <div id="winfo_rmd160_value">{ this.props.Main.activeHandle.rmd160 }</div>
                                 </td>
                               </tr>
                               <tr>
-                                <td style={{ fontWeight: 'bold' }}>NXT</td>
+                                <td className="wallet-info-key">NXT</td>
                                 <td>
                                   <div id="winfo_NXT_value">{ this.props.Main.activeHandle.NXT }</div>
                                 </td>
                               </tr>
                               <tr>
-                                <td style={{ fontWeight: 'bold' }}>notary</td>
+                                <td className="wallet-info-key">notary</td>
                                 <td>
                                   <div id="winfo_notary_value">{ this.props.Main.activeHandle.notary }</div>
                                 </td>
                               </tr>
                               <tr>
-                                <td style={{ fontWeight: 'bold' }}>status</td>
+                                <td className="wallet-info-key">status</td>
                                 <td>
                                   <div id="winfo_status_value">{ this.props.Main.activeHandle.status }</div>
                                 </td>
@@ -411,7 +411,7 @@ class Settings extends React.Component {
                                   </select>
                                 </div>
                               </div>
-                              <div className="col-sm-4 col-xs-12" style={{ textAlign: 'center' }}>
+                              <div className="col-sm-4 col-xs-12 text-align-center">
                                 <button
                                   type="button"
                                   className="btn btn-primary waves-effect waves-light"
@@ -457,7 +457,7 @@ class Settings extends React.Component {
                                     onChange={ this.updateInput } />
                                 </div>
                               </div>
-                              <div className="col-sm-4 col-xs-12" style={{ textAlign: 'center' }}>
+                              <div className="col-sm-4 col-xs-12 text-align-center">
                                 <button
                                   type="button"
                                   className="btn btn-primary waves-effect waves-light"
@@ -535,7 +535,7 @@ class Settings extends React.Component {
                                 onChange={ this.updateInput } />
                               <label className="floating-label" htmlFor="wifkeys_passphrase">{ translate('INDEX.PASSPHRASE') }</label>
                             </div>
-                            <div className="col-sm-12 col-xs-12" style={{ textAlign: 'center' }}>
+                            <div className="col-sm-12 col-xs-12 text-align-center">
                               <button
                                 type="button"
                                 className="btn btn-primary waves-effect waves-light"
@@ -544,11 +544,11 @@ class Settings extends React.Component {
                             </div>
                           </form>
 
-                          <div className="col-sm-12" style={{ paddingTop: '15px' }}>
+                          <div className="col-sm-12 padding-top-15">
                             <div className="row" id="wif-priv-keys">
                               <table className={ this.props.Settings && this.props.Settings.address ? 'table show' : 'table hide' }>
                                 <tr>
-                                  <td style={{ width: '5%' }}>
+                                  <td className="width-5-percent">
                                     <strong>{ this.props.ActiveCoin.coin }</strong>
                                   </td>
                                   <td>{ this.props.Settings.address }</td>
@@ -600,7 +600,7 @@ class Settings extends React.Component {
                                 className="floating-label"
                                 htmlFor="import_wifkey">{ translate('INDEX.INPUT_PRIV_KEY') }</label>
                             </div>
-                            <div className="col-sm-12 col-xs-12" style={{ textAlign: 'center' }}>
+                            <div className="col-sm-12 col-xs-12 text-align-center">
                               <button
                                 type="button"
                                 className="btn btn-primary waves-effect waves-light"
@@ -655,15 +655,15 @@ class Settings extends React.Component {
                                 className="floating-label"
                                 htmlFor="settings_select_debuglog_options">{ translate('INDEX.TARGET') }</label>
                             </div>
-                            <div className="col-sm-12 col-xs-12" style={{ textAlign: 'center'}}>
+                            <div className="col-sm-12 col-xs-12 text-align-center">
                               <button
                                 type="button"
                                 className="btn btn-primary waves-effect waves-light"
                                 id="read_debug_log_btn"
                                 onClick={ this.readDebugLog }>{ translate('INDEX.LOAD_DEBUG_LOG') }</button>
                             </div>
-                            <div className="col-sm-12 col-xs-12" style={{ textAlign: 'left' }}>
-                              <div style={{ padding: '20px 0', paddingTop: '40px' }}>{ this.props.Settings.debugLog }</div>
+                            <div className="col-sm-12 col-xs-12 text-align-left">
+                              <div className="padding-top-40 padding-bottom-20 horizontal-padding-0">{ this.props.Settings.debugLog }</div>
                             </div>
                           </form>
                         </div>
@@ -684,14 +684,14 @@ class Settings extends React.Component {
                           <p>
                             <strong>{ translate('SETTINGS.CONFIG_RESTART_REQUIRED') }</strong>
                           </p>
-                          <div className="col-sm-12" style={{ paddingTop: '15px' }}>
+                          <div className="col-sm-12 padding-top-15">
                             <table>
                               <tbody>
                               { this.renderConfigEditForm() }
                               </tbody>
                             </table>
                           </div>
-                          <div className="col-sm-12 col-xs-12" style={{ textAlign: 'center', paddingTop: '25px', paddingBottom: '25px' }}>
+                          <div className="col-sm-12 col-xs-12 text-align-center padding-top-25 padding-bottom-25">
                             <button
                               type="button"
                               className="btn btn-primary waves-effect waves-light"

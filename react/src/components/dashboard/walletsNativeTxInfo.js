@@ -41,7 +41,7 @@ class WalletsNativeTxInfo extends React.Component {
           <div className="modal show" id="kmd_txid_info_mdl" aria-hidden="false" role="dialog">
             <div className="modal-dialog modal-center modal-lg">
               <div className="modal-content">
-                <div className="modal-body" style={{ height: '590px' }}>
+                <div className="modal-body modal-body-container">
                   <div className="panel nav-tabs-horizontal">
                     <ul className="nav nav-tabs nav-tabs-line" role="tablist">
                       <li className={ this.state.activeTab === 0 ? 'active' : '' } role="presentation">
@@ -179,7 +179,7 @@ class WalletsNativeTxInfo extends React.Component {
                           role="tabpanel">
                           <textarea
                             id="kmd_txid_info_hex"
-                            style={{ width: '100%', height: '170px' }}
+                            className="full-width height-170"
                             rows="10"
                             cols="80"
                             defaultValue={ txInfo.hex } disabled></textarea>
@@ -190,7 +190,7 @@ class WalletsNativeTxInfo extends React.Component {
                           role="tabpanel">
                           <textarea
                             id="kmd_txid_info_hex"
-                            style={{ width: '100%', height: '400px' }}
+                            className="full-width height-400"
                             rows="40"
                             cols="80"
                             defaultValue={ JSON.stringify(txInfo, null, '\t') }

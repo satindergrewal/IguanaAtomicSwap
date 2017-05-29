@@ -16,9 +16,8 @@ class WalletsNativeBalance extends React.Component {
                       <i className="icon fa-eye font-size-24 vertical-align-bottom margin-right-5"></i>{ translate('INDEX.TRANSPARENT_BALANCE') }
                     </div>
                     <span
-                      className="pull-right padding-top-10"
-                      id="kmd_transparent_balance"
-                      style={{ fontSize: '22px' }}>{ this.props.ActiveCoin.balance.transparent ? this.props.ActiveCoin.balance.transparent : '-' }</span>
+                      className="pull-right padding-top-10 font-size-22"
+                      id="kmd_transparent_balance">{ this.props.ActiveCoin.balance.transparent ? this.props.ActiveCoin.balance.transparent : '-' }</span>
                   </div>
                 </div>
               </div>
@@ -34,9 +33,8 @@ class WalletsNativeBalance extends React.Component {
                       <i className="icon fa-eye-slash font-size-24 vertical-align-bottom margin-right-5"></i>{ translate('INDEX.Z_BALANCE') }
                     </div>
                     <span
-                      className="pull-right padding-top-10"
-                      id="kmd_private_balance"
-                      style={{ fontSize: '22px' }}>{ this.props.ActiveCoin.balance.private ? this.props.ActiveCoin.balance.private : '-' }</span>
+                      className="pull-right padding-top-10 font-size-22"
+                      id="kmd_private_balance">{ this.props.ActiveCoin.balance.private ? this.props.ActiveCoin.balance.private : '-' }</span>
                   </div>
                 </div>
               </div>
@@ -52,9 +50,8 @@ class WalletsNativeBalance extends React.Component {
                       <i className="icon fa-money font-size-24 vertical-align-bottom margin-right-5"></i>{ translate('INDEX.INTEREST_EARNED') }
                     </div>
                     <span
-                      className="pull-right padding-top-10"
-                      id="kmd_total_interest_balance"
-                      style={{ fontSize: '22px' }}>{ this.props.ActiveCoin.balance.interest ? this.props.ActiveCoin.balance.interest : '-' }</span>
+                      className="pull-right padding-top-10 font-size-22"
+                      id="kmd_total_interest_balance">{ this.props.ActiveCoin.balance.interest ? this.props.ActiveCoin.balance.interest : '-' }</span>
                   </div>
                 </div>
               </div>
@@ -70,9 +67,8 @@ class WalletsNativeBalance extends React.Component {
                       <i className="icon fa-bullseye font-size-24 vertical-align-bottom margin-right-5"></i>{ translate('INDEX.ZT_BALANCE') }
                     </div>
                     <span
-                      className="pull-right padding-top-10"
-                      id="kmd_total_tz_balance"
-                      style={{ fontSize: '22px' }}>{ this.props.ActiveCoin.balance.total ? this.props.ActiveCoin.balance.total : '-' }</span>
+                      className="pull-right padding-top-10 font-size-22"
+                      id="kmd_total_tz_balance">{ this.props.ActiveCoin.balance.total ? this.props.ActiveCoin.balance.total : '-' }</span>
                   </div>
                 </div>
               </div>
