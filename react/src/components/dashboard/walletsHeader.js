@@ -19,7 +19,7 @@ class WalletsHeader extends React.Component {
               <img src="assets/images/native/jumblr_header_title_logo.png" /><br /> { translate('SIDEBAR.JUMBLR_MOTTO') }
             </li>
           </ol>
-          <div className="page-header-actions" style={{ zIndex: '1', display: 'none' }}>
+          <div className="page-header-actions z-index-1 display-none">
             <div id="kmd_header_button">
               <button
                 type="button"
@@ -60,7 +60,7 @@ class WalletsHeader extends React.Component {
               </ul>
             </div>
 
-            <div id="zec_header_button" style={{ display: 'none' }}>
+            <div id="zec_header_button" className="display-none">
               <button
                 type="button"
                 id="easydex_zec_wallet_actions_header"
@@ -113,7 +113,7 @@ class WalletsHeader extends React.Component {
               </button>
             </div>
 
-            <div id="kmd_header_button" style={{ display: 'none' }}>
+            <div id="kmd_header_button" className="display-none">
               <button
                 type="button"
                 id="easydex_acpax_wallet_actions_header"
@@ -157,7 +157,7 @@ class WalletsHeader extends React.Component {
               </ul>
             </div>
 
-            <div className="row no-space width-350 hidden-xs" id="easydex_btc_btcd_balances_header" style={{ display: 'none' }}>
+            <div className="row no-space width-350 hidden-xs" id="easydex_btc_btcd_balances_header display-none">
               <div className="col-xs-6">
                 <div className="counter">
                   <span className="font-weight-medium" id="header_coinname_balance"> - BTC</span>

@@ -9,7 +9,7 @@ import Notifications from '../dashboard/notifications';
 class WalletMain extends React.Component {
   render() {
     return (
-      <div style={{height: '100%'}}>
+      <div className="full-height">
         <SyncOnly {...this.props} />
         <Dashboard {...this.props} />
         <AddCoin {...this.props.AddCoin} />

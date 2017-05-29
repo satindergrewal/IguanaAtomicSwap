@@ -60,7 +60,7 @@ class WalletsNotariesList extends React.Component {
           <div className="modal show" id="kmd_txid_info_mdl" aria-hidden="false" role="dialog">
             <div className="modal-dialog modal-center modal-lg">
               <div className="modal-content">
-                <div className="modal-body" style={{ height: '590px' }}>
+                <div className="modal-body modal-body-container">
                   <div className="panel nav-tabs-horizontal">
                     <div className="panel-body">
                       <div className="tab-content">

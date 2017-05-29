@@ -176,15 +176,14 @@ class SyncOnly extends React.Component {
         <div>
           <div className="progress progress-sm">
             <div
-              className={ this.isFullySynced(fork) ? 'progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success' : 'hide' }
-              style={{ width: '100%', fontSize: '80%' }}
+              className={'font-size-80-percent full-width ' + (this.isFullySynced(fork) ? 'progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success' : 'hide') }
               role="progressbar"
               id="currency-bundles">
               { translate('INDEX.BUNDLES') } <span id="currency-bundles-percent">({ fork.coin }) 100.00% - ( { fork.blocks } / { fork.blocks } ) ==&gt;&gt; RT{ fork.RTheight }</span>
             </div>
             <div
-              className={ this.isFullySynced(fork) ? 'hide' : 'progress-bar progress-bar-info progress-bar-striped active' }
-              style={{ width: fork.bundles + '%', fontSize: '80%' }}
+              className={'font-size-80-percent ' + (this.isFullySynced(fork) ? 'hide' : 'progress-bar progress-bar-info progress-bar-striped active') }
+              style={{ width: fork.bundles + '%' }}
               role="progressbar"
               id="currency-bundles">
               { translate('INDEX.BUNDLES') } <span id="currency-bundles-percent">{ fork.bundles }%</span>
@@ -194,8 +193,8 @@ class SyncOnly extends React.Component {
         <div id="additional-progress-bars" className={ this.isFullySynced(fork) ? 'hide' : '' }>
           <div className="progress progress-sm">
             <div
-              className="progress-bar progress-bar-warning progress-bar-striped active"
-              style={{ width: fork.utxo + '%', fontSize: '80%' }}
+              className="progress-bar progress-bar-warning progress-bar-striped active font-size-80-percent"
+              style={{ width: fork.utxo + '%' }}
               role="progressbar"
               id="currency-utxo">
               utxo <span id="currency-utxo-percent">{ fork.utxo }%</span>
@@ -203,8 +202,8 @@ class SyncOnly extends React.Component {
           </div>
           <div className="progress progress-sm">
             <div
-              className="progress-bar progress-bar-danger progress-bar-striped active"
-              style={{ width: fork.balances + '%', fontSize: '80%' }}
+              className="progress-bar progress-bar-danger progress-bar-striped active font-size-80-percent"
+              style={{ width: fork.balances + '%' }}
               role="progressbar"
               id="currency-balances">
               { translate('INDEX.BALANCES') } <span id="currency-balances-percent">{ fork.balances }%</span>
@@ -212,8 +211,8 @@ class SyncOnly extends React.Component {
           </div>
           <div className="progress progress-sm">
             <div
-              className="progress-bar progress-bar-success progress-bar-striped active"
-              style={{ width: fork.validated + '%', fontSize: '80%' }}
+              className="progress-bar progress-bar-success progress-bar-striped active font-size-80-percent"
+              style={{ width: fork.validated + '%' }}
               role="progressbar"
               id="currency-validated">
               { translate('INDEX.VALIDATED') } <span id="currency-validated-percent">{ fork.validated }%</span>
@@ -234,7 +233,7 @@ class SyncOnly extends React.Component {
           forkInfo.registry &&
           forkInfo.getinfo) {
         items.push(
-          <div key={ port } style={{ width: '100%' }} className="padding-bottom-60">
+          <div key={ port } className="padding-bottom-60 full-width">
             <div className="avatar">
               <img
                 className="img-responsive margin-bottom-5"
@@ -278,7 +277,7 @@ class SyncOnly extends React.Component {
           <div className="modal show sync-only-forks" aria-hidden="false" role="dialog">
             <div className="modal-dialog modal-center modal-lg">
               <div className="modal-content">
-                <div className="modal-body" style={{ height: '590px' }}>
+                <div className="modal-body modal-body-container">
                   { this.renderForksList() }
                 </div>
                 <div className="modal-footer">

@@ -164,19 +164,17 @@ class SendCoin extends React.Component {
           </div>
           <div className={ isReadyToUpdate ? 'hide' : '' }>{ translate('SEND.NEXT_UPDATE_IN') } { secondsElapsedToString(600 - timestamp) }s</div>
           <div
-            className={ this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : 'progress progress-sm' }
-            style={{ width: '100%', marginBottom: '10px', marginTop: '10px' }}>
+            className={'full-width margin-bottom-10 margin-top-10 ' + (this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : 'progress progress-sm') }>
             <div
-              className="progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success"
-              style={{ width: 100 - (this.state.currentStackLength * 100 / this.state.totalStackLength) + '%', fontSize: '80%' }}
+              className="progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success font-size-80-percent"
+              style={{ width: 100 - (this.state.currentStackLength * 100 / this.state.totalStackLength) + '%' }}
               role="progressbar">
               { translate('SEND.PROCESSING_REQ') }: { this.state.currentStackLength } / { this.state.totalStackLength }
             </div>
           </div>
           <button
             type="button"
-            style={{ marginTop: '10px' }}
-            className={ isReadyToUpdate ? 'btn btn-primary waves-effect waves-light' : 'hide' }
+            className={'margin-top-10 ' + (isReadyToUpdate ? 'btn btn-primary waves-effect waves-light' : 'hide') }
             onClick={ this._fetchNewUTXOData } disabled={ waitUntilCallIsFinished }>
             { waitUntilCallIsFinished ? translate('SEND.LOCKED_PLEASE_WAIT') + '...' : translate('SEND.UPDATE') }
           </button>
@@ -642,8 +640,8 @@ class SendCoin extends React.Component {
       return items;
     } else {
       return (
-        <div style={{ padding: '20px', textAlign: 'center' }}>
-          <div style={{ padding: '10px 0' }}>
+        <div className="padding-20 text-align-center">
+          <div className="vertical-padding-10 horizontal-padding-0">
             { translate('SEND.PROCESSING_TRANSACTION') }...<br />
             { translate('SEND.NOTE_IT_WILL_TAKE') }.
           </div>
@@ -778,7 +776,7 @@ class SendCoin extends React.Component {
       return (
         <div className="col-sm-12 padding-top-10" id="edexcoin_send">
           <div className="col-xlg-12 col-md-12 col-sm-12 col-xs-12">
-            <div className="steps row" style={{ marginTop: '10px' }}>
+            <div className="steps row margin-top-10">
               <div
                 className={ this.state.currentStep === 0 ? 'step col-md-4 current' : 'step col-md-4' }
                 id="edexcoin_send_step_1">
@@ -916,7 +914,7 @@ class SendCoin extends React.Component {
                     <strong>{ translate('INDEX.FROM') }</strong>
                   </div>
                   <div className="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendfrom_addr">{ this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin] }</div>
-                  <div className="col-lg-6 col-sm-6 col-xs-6" style={{ color: '#f44336' }}>
+                  <div className="col-lg-6 col-sm-6 col-xs-6 confirm-currency-send-container">
                     <span id="mdl_confirm_currency_sendfrom_total_dedcut">{ Number(this.state.amount) - Number(this.state.fee) }</span> { this.props.ActiveCoin.coin }
                   </div>
                 </div>
