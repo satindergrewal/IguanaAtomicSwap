@@ -16,7 +16,8 @@ import {
   fetchNewCacheData,
   getKMDOPID,
   getNativeTxHistory,
-  getKMDBalanceTotal
+  getKMDBalanceTotal,
+  getSyncInfoNative
 } from '../../actions/actionCreators';
 import Store from '../../store';
 

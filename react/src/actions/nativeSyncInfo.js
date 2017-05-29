@@ -1,7 +1,9 @@
 import * as storeType from './storeType';
 import {
   triggerToaster,
-  Config
+  Config,
+  getPassthruAgent,
+  getDebugLog
 } from './actionCreators';
 import {
   logGuiHttp,
@@ -18,7 +20,7 @@ export function getSyncInfoNativeKMD(skipDebug) {
       'function': 'getSyncInfoNativeKMD',
       'type': 'post',
       'url': 'http://127.0.0.1:' + Config.iguanaCorePort + '/api/dex/getinfo?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth') + '&symbol=' + coin,
-      'payload': payload,
+      'payload': '',
       'status': 'pending',
     }));
 
