@@ -206,6 +206,10 @@ class AddCoin extends React.Component {
     }));
   }
 
+  hasMoreThanOneCoin() {
+    return this.state.coins.length > 1;
+  }
+
   activateAllCoins() {
     Store.dispatch(addCoin(
       this.state.coins[0].selectedCoin.split('|')[0],
@@ -245,7 +249,7 @@ class AddCoin extends React.Component {
       const _coin = _item.selectedCoin || '';
 
       items.push(
-        <div className={ this.state.coins.length > 1 ? 'multi' : 'single' } key={ 'add-coin-' + i }>
+        <div className={ this.hasMoreThanOneCoin() ? 'multi' : 'single' } key={ 'add-coin-' + i }>
           <div className="col-sm-8">
             <div className="form-group">
               <select
@@ -262,7 +266,7 @@ class AddCoin extends React.Component {
               </select>
             </div>
           </div>
-          <div className={ this.state.coins.length > 1 ? 'hide' : 'col-sm-4' }>
+          <div className={ this.hasMoreThanOneCoin() ? 'hide' : 'col-sm-4' }>
             <button
               type="button"
               className="btn btn-primary mdl_addcoin_done_btn-login"
@@ -350,7 +354,7 @@ class AddCoin extends React.Component {
               </label>
             </div>
           </div>
-          <div className={ this.state.coins.length > 1 && i !== 0 ? 'col-sm-1' : 'hide' }>
+          <div className={ this.hasMoreThanOneCoin() && i !== 0 ? 'col-sm-1' : 'hide' }>
             <button
               type="button"
               className="btn btn-primary mdl_addcoin_done_btn-login"
@@ -413,7 +417,7 @@ class AddCoin extends React.Component {
                 </span>
                 { this.renderCoinSelectors() }
                 <div
-                  className={'text-align-center vertical-margin-20 horizontal-margin-0 ' + (this.state.coins.length > 1 ? 'col-sm-12' : 'hide') }>
+                  className={'text-align-center vertical-margin-20 horizontal-margin-0 ' + (this.hasMoreThanOneCoin() ? 'col-sm-12' : 'hide') }>
                   <button
                     type="button"
                     className="btn btn-primary col-sm-4 float-none"

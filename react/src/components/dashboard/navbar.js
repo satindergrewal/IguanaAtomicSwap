@@ -52,6 +52,10 @@ class Navbar extends React.Component {
     Store.dispatch(toggleSyncOnlyModal(true));
   }
 
+  isSectionActive(section) {
+    return this.props.Dashboard.activeSection === section;
+  }
+
   render() {
     return (
       <nav className="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
@@ -89,23 +93,23 @@ class Navbar extends React.Component {
                   </i>
                 </a>
               </li>
-              <li className={ this.props.Dashboard.activeSection === 'wallets' ? 'active nav-top-menu' : 'nav-top-menu' }>
+              <li className={ this.isSectionActive('wallets') ? 'active nav-top-menu' : 'nav-top-menu' }>
                 <a id="nav-dashboard" onClick={ () => this.dashboardChangeSection('wallets') }>
                   <i className="site-menu-icon" aria-hidden="true"></i> { translate('INDEX.WALLETS') }
                 </a>
               </li>
-              <li className={ this.props.Dashboard.activeSection === 'edex' ? 'active nav-top-menu' : 'nav-top-menu' }>
+              <li className={ this.isSectionActive('edex') ? 'active nav-top-menu' : 'nav-top-menu' }>
                 <a id="nav-easydex" onClick={ () => this.dashboardChangeSection('edex') }>
                   <i className="site-menu-icon" aria-hidden="true"></i> EasyDEX
                 </a>
               </li>
               <li
-                className={'display-none ' + (this.props.Dashboard.activeSection === 'jumblr' ? 'active nav-top-menu' : 'nav-top-menu') }>
+                className={'display-none ' + (this.isSectionActive('jumblr') ? 'active nav-top-menu' : 'nav-top-menu') }>
                 <a id="nav-jumblr" onClick={ () => this.dashboardChangeSection('jumblr') }>
                   <i className="site-menu-icon" aria-hidden="true"></i> Jumblr
                 </a>
               </li>
-              <li className={ this.props.Dashboard.activeSection === 'atomic' ? 'active nav-top-menu' : 'nav-top-menu' }>
+              <li className={ this.isSectionActive('atomic') ? 'active nav-top-menu' : 'nav-top-menu' }>
                 <a id="nav-iguana-atomic-explorer" onClick={ () => this.dashboardChangeSection('atomic') }>
                   <i className="site-menu-icon" aria-hidden="true"></i> Atomic Explorer
                 </a>

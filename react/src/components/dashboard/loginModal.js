@@ -44,6 +44,10 @@ class LoginModal extends React.Component {
     Store.dispatch(iguanaWalletPassphrase(this.state.loginPassphrase));
   }
 
+  isLoginPassphraseEmpty() {
+    return !this.state.loginPassphrase || !this.state.loginPassphrase.length;
+  }
+
   render() {
     if (this.props.Dashboard.activateLoginModal) {
       return (
@@ -95,7 +99,7 @@ class LoginModal extends React.Component {
                               className="btn btn-primary btn-block"
                               id="loginbtn"
                               onClick={ this.loginSeed }
-                              disabled={ !this.state.loginPassphrase || !this.state.loginPassphrase.length }>{ translate('INDEX.SIGN_IN') }</button>
+                              disabled={ this.isLoginPassphraseEmpty() }>{ translate('INDEX.SIGN_IN') }</button>
                           </div>
                         </div>
                       </div>
