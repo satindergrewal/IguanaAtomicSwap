@@ -2,7 +2,8 @@ import * as storeType from './storeType';
 import { translate } from '../translate/translate';
 import {
   triggerToaster,
-  Config
+  Config,
+  getDispatch
 } from './actionCreators';
 import {
   logGuiHttp,
@@ -11,7 +12,7 @@ import {
 
 export function sendToAddress(coin, _payload) {
   const payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'coin': coin,
     'method': 'sendtoaddress',
     'params': [
@@ -28,12 +29,12 @@ export function sendToAddress(coin, _payload) {
       'timestamp': _timestamp,
       'function': 'sendToAddress',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -60,7 +61,7 @@ export function sendToAddress(coin, _payload) {
 
 export function sendFromAddress(coin, _payload) {
   const payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'coin': coin,
     'method': 'sendfrom',
     'params': [
@@ -78,12 +79,12 @@ export function sendFromAddress(coin, _payload) {
       'timestamp': _timestamp,
       'function': 'sendFromAddress',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -108,9 +109,9 @@ export function sendFromAddress(coin, _payload) {
   }
 }
 
-export function iguanaUTXORawTX(data) {
+export function iguanaUTXORawTX(data, dispatch) {
   const payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'symbol': data.coin,
     'agent': 'basilisk',
     'method': 'utxorawtx',
@@ -132,18 +133,18 @@ export function iguanaUTXORawTX(data) {
       'timestamp': _timestamp,
       'function': 'iguanaUTXORawTX',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));
 
-    fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(logGuiHttp({
+      dispatch => dispatch(logGuiHttp({
         'timestamp': _timestamp,
         'status': 'error',
         'response': error,
@@ -162,9 +163,9 @@ export function iguanaUTXORawTX(data) {
   });
 }
 
-export function dexSendRawTX(data) {
+export function dexSendRawTX(data, dispatch) {
   const payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'agent': 'dex',
     'method': 'sendrawtransaction',
     'signedtx': data.signedtx,
@@ -177,7 +178,7 @@ export function dexSendRawTX(data) {
       'timestamp': _timestamp,
       'function': 'dexSendRawTX',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));

@@ -293,7 +293,7 @@ class SendCoin extends React.Component {
 
   renderAddressList() {
     return (
-      <div id="showkmdwalletaddrs" className={ 'btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ' + (this.state.addressSelectorOpen ? 'open' : '') }>
+      <div id="showkmdwalletaddrs" className={ `btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ${(this.state.addressSelectorOpen ? 'open' : '')}` }>
         <button
           type="button"
           className="btn dropdown-toggle btn-info"
@@ -359,7 +359,8 @@ class SendCoin extends React.Component {
       });
     }
 
-    if (step === 1 || step === 2) {
+    if (step === 1 ||
+        step === 2) {
       this.setState(Object.assign({}, this.state, {
         currentStep: step,
         utxoMethodInProgress: !this.state.sendApiType && this.props.ActiveCoin.mode === 'basilisk' ? true : false,
@@ -413,7 +414,7 @@ class SendCoin extends React.Component {
             'utxos': utxoSet
           };
 
-    iguanaUTXORawTX(sendData)
+    iguanaUTXORawTX(sendData, Store.dispatch)
     .then(function(json) {
       console.log('sendData', sendData);
       console.log('iguanaUTXORawTXJSON', json);
@@ -426,7 +427,7 @@ class SendCoin extends React.Component {
             'signedtx': json.signedtx,
             'coin': sendData.coin
           };
-          dexSendRawTX(dexrawtxData)
+          dexSendRawTX(dexrawtxData, Store.dispatch)
           .then(function(dexRawTxJSON) {
             console.log('dexRawTxJSON', dexRawTxJSON);
             if (dexRawTxJSON.indexOf('"error":{"code"') > -1) {
@@ -447,7 +448,7 @@ class SendCoin extends React.Component {
                   edexGetTransaction({
                     'coin': sendData.coin,
                     'txid': dexRawTxJSON.txid ? dexRawTxJSON.txid : dexRawTxJSON
-                  })
+                  }, Store.dispatch)
                   .then(function(json) {
                     console.log('gettx', json);
                     resolve(json);

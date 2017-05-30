@@ -3,9 +3,6 @@ import { dismissToasterMessage } from '../../actions/actionCreators';
 import Store from '../../store';
 import ToasterItem from './toaster-item';
 
-/**
- * Container component used for creating multiple toasts
- */
 class Toaster extends React.Component {
   constructor(props) {
     super(props);
@@ -37,7 +34,7 @@ class Toaster extends React.Component {
   renderToasts() {
     if (this.state.toasts &&
         this.state.toasts.length) {
-      this.state.toasts.map((toast) => {
+      return this.state.toasts.map((toast) => {
         // sets the toastId for all new toasts
         if (!toast.toastId) {
           toast.toastId = this.toastId++;

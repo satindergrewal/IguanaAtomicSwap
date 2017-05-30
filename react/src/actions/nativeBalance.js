@@ -15,7 +15,7 @@ export function getKMDBalanceTotal(coin) {
   if (coin !== 'KMD' &&
       coin !== 'ZEC') {
     payload = {
-      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
       'agent': 'iguana',
       'method': 'passthru',
       'asset': coin,
@@ -24,7 +24,7 @@ export function getKMDBalanceTotal(coin) {
     };
   } else {
     payload = {
-      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
       'agent': getPassthruAgent(coin),
       'method': 'passthru',
       'function': 'z_gettotalbalance',
@@ -38,12 +38,12 @@ export function getKMDBalanceTotal(coin) {
       'timestamp': _timestamp,
       'function': 'getKMDBalanceTotal',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })

@@ -31,7 +31,7 @@ export function getAddressesByAccountState(json, coin, mode) {
 
 export function getAddressesByAccount(coin, mode) {
   const payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'coin': coin,
     'agent': 'bitcoinrpc',
     'method': 'getaddressesbyaccount',
@@ -44,12 +44,12 @@ export function getAddressesByAccount(coin, mode) {
       'timestamp': _timestamp,
       'function': 'getAddressesByAccount',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })

@@ -13,7 +13,7 @@ function initNotaryNodesConSequence(nodes) {
   return dispatch => {
     Promise.all(nodes.map((node, index) => {
       const payload = {
-        'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+        'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
         'agent': 'dex',
         'method': 'getinfo',
         'symbol': node,
@@ -24,14 +24,14 @@ function initNotaryNodesConSequence(nodes) {
         const _timestamp = Date.now();
         dispatch(logGuiHttp({
           'timestamp': _timestamp,
-          'function': 'initNotaryNodesConSequence+' + node,
+          'function': `initNotaryNodesConSequence+${node}`,
           'type': 'post',
-          'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+          'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
           'payload': payload,
           'status': 'pending',
         }));
 
-        fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort) + '/api/dex/getinfo?userpass=' + ('tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth')) + '&symbol=' + node, {
+        fetch(`http://127.0.0.1:${(Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort)}/api/dex/getinfo?userpass=${('tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'))}&symbol=${node}`, {
           method: 'GET',
         })
         .catch(function(error) {
@@ -41,7 +41,7 @@ function initNotaryNodesConSequence(nodes) {
             'status': 'error',
             'response': error,
           }));
-          dispatch(triggerToaster(true, 'getInfoDexNode+' + node, 'Error', 'error'));
+          dispatch(triggerToaster(true, `getInfoDexNode+${node}`, 'Error', 'error'));
         })
         .then(response => response.json())
         .then(json => {
@@ -99,13 +99,13 @@ function connectAllNotaryNodes(json, dispatch) {
 
 export function connectNotaries() {
   const payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'agent': 'dpow',
     'method': 'notarychains',
   };
 
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -133,7 +133,7 @@ function getDexNotariesState(json) {
 
 export function getDexNotaries(coin) {
   const payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'agent': 'dex',
     'method': 'getnotaries',
     'symbol': coin,
@@ -145,11 +145,11 @@ export function getDexNotaries(coin) {
       'timestamp': _timestamp,
       'function': 'getDexNotaries',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort),
+      'url': `http://127.0.0.1:${Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));
-    return fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort), {
+    return fetch(`http://127.0.0.1:${Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })

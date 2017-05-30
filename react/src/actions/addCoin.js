@@ -126,7 +126,7 @@ export function shepherdHerd(coin, mode, path) {
     'ac_options': [
       '-daemon=0',
       '-server',
-      '-ac_name=' + coin,
+      `-ac_name=${coin}`,
       '-addnode=78.47.196.146'
     ]
   };
@@ -220,7 +220,7 @@ export function shepherdGetConfig(coin, mode) {
   if (coin === 'KMD' &&
       mode === '-1') {
     return dispatch => {
-      return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/getconf', {
+      return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/getconf`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -236,7 +236,7 @@ export function shepherdGetConfig(coin, mode) {
     }
   } else {
     return dispatch => {
-      return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/getconf', {
+      return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/getconf`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

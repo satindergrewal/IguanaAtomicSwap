@@ -10,7 +10,7 @@ import {
 
 export function deleteCacheFile(_payload) {
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/groom?', {
+    return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/groom`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ export function getCacheFile(pubkey) {
   const _pubkey = pubkey || JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
 
   return new Promise((resolve, reject) => {
-    fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/groom?filename=' + _pubkey, {
+    fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/groom?filename=${_pubkey}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -46,16 +46,16 @@ export function getCacheFile(pubkey) {
 }
 
 export function fetchNewCacheData(_payload) {
-  const _userpass = '?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-        _pubkey = '&pubkey=' + _payload.pubkey,
+  const _userpass = `?userpass=tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
+        _pubkey = `&pubkey=${_payload.pubkey}`,
         _route = _payload.allcoins ? 'cache-all' : 'cache-one',
-        _coin = '&coin=' + _payload.coin,
-        _calls = '&calls=' + _payload.calls,
-        _address = _payload.address ? ('&address=' + _payload.address) : '',
-        _iguanaInstancePort = Config.useBasiliskInstance ? '&port=' + (Config.iguanaCorePort + 1) : '';
+        _coin = `&coin=${_payload.coin}`,
+        _calls = `&calls=${_payload.calls}`,
+        _address = _payload.address ? (`&address=${_payload.address}`) : '',
+        _iguanaInstancePort = Config.useBasiliskInstance ? `&port=${Config.iguanaCorePort + 1}` : '';
 
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/' + _route + _userpass + _pubkey + _coin + _calls + _address + _iguanaInstancePort, {
+    return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/${_route}${_userpass}${_pubkey}${_coin}${_calls}${_address}${_iguanaInstancePort}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export function fetchNewCacheData(_payload) {
 
 export function getShepherdCache(pubkey, coin) {
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
+    return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/cache?pubkey=${pubkey}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -108,16 +108,16 @@ function getShepherdCacheState(json, pubkey, coin) {
 }
 
 export function fetchUtxoCache(_payload) {
-  const _userpass = '?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-        _pubkey = '&pubkey=' + _payload.pubkey,
+  const _userpass = `?userpass=tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
+        _pubkey = `&pubkey=${_payload.pubkey}`,
         _route = _payload.allcoins ? 'cache-all' : 'cache-one',
-        _coin = '&coin=' + _payload.coin,
-        _calls = '&calls=' + _payload.calls,
-        _address = _payload.address ? ('&address=' + _payload.address) : '',
-        _iguanaInstancePort = Config.useBasiliskInstance ? '&port=' + (Config.iguanaCorePort + 1) : '';
+        _coin = `&coin=${_payload.coin}`,
+        _calls = `&calls=${_payload.calls}`,
+        _address = _payload.address ? (`&address=${_payload.address}`) : '',
+        _iguanaInstancePort = Config.useBasiliskInstance ? `&port=${Config.iguanaCorePort + 1}` : '';
 
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/' + _route + _userpass + _pubkey + _coin + _calls + _address + _iguanaInstancePort, {
+    return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/${_route}${_userpass}${_pubkey}${_coin}${_calls}${_address}${_iguanaInstancePort}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -134,7 +134,7 @@ export function fetchUtxoCache(_payload) {
 
 export function shepherdGroomPost(_filename, _payload) {
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/groom/', {
+    return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/groom/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -155,7 +155,7 @@ export function shepherdGroomPost(_filename, _payload) {
 
 export function shepherdGroomPostPromise(_filename, _payload) {
   return new Promise((resolve, reject) => {
-    fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/groom/', {
+    fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/groom/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

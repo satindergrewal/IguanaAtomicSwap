@@ -9,7 +9,7 @@ export function logGuiHttp(payload) {
     dispatch(guiLogState(payload));
 
     // disabled for now
-    /*return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/guilog', {
+    /*return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/guilog`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ export function logGuiHttp(payload) {
 
 export function getAgamaLog(type) {
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/getlog?type=' + type, {
+    return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/getlog?type=${type}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

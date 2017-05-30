@@ -13,7 +13,7 @@ import {
 
 export function encryptWallet(_passphrase, cb, coin) {
   const payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'agent': 'bitcoinrpc',
     'method': 'encryptwallet',
     'passphrase': _passphrase,
@@ -25,12 +25,12 @@ export function encryptWallet(_passphrase, cb, coin) {
       'timestamp': _timestamp,
       'function': 'encryptWallet',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -58,7 +58,7 @@ export function encryptWallet(_passphrase, cb, coin) {
 
 export function walletPassphrase(_passphrase) {
   const payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'agent': 'bitcoinrpc',
     'method': 'walletpassphrase',
     'password': _passphrase,
@@ -71,12 +71,12 @@ export function walletPassphrase(_passphrase) {
       'timestamp': _timestamp,
       'function': 'walletpassphrase',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -101,7 +101,7 @@ export function walletPassphrase(_passphrase) {
 
 export function iguanaWalletPassphrase(_passphrase) {
   const _payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'handle': '',
     'password': _passphrase,
     'timeout': '2592000',
@@ -115,12 +115,12 @@ export function iguanaWalletPassphrase(_passphrase) {
       'timestamp': _timestamp,
       'function': 'iguanaWalletPassphrase',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': _payload,
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(_payload),
     })
@@ -147,7 +147,7 @@ export function iguanaWalletPassphrase(_passphrase) {
 
 export function iguanaActiveHandle(getMainAddress) {
   const _payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'agent': 'SuperNET',
     'method': 'activehandle',
   };
@@ -158,12 +158,12 @@ export function iguanaActiveHandle(getMainAddress) {
       'timestamp': _timestamp,
       'function': 'iguanaActiveHandle',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': _payload,
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(_payload),
     })

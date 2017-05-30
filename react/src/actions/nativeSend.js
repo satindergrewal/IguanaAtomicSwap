@@ -12,23 +12,23 @@ import {
 } from './log';
 
 export function sendNativeTx(coin, _payload) {
-  let ajax_data_to_hex;
+  let ajaxDataToHex;
   let payload;
   let _apiMethod;
 
   if (_payload.addressType === 'public') {
     _apiMethod = 'sendtoaddress';
-    ajax_data_to_hex = '["' + _payload.sendTo + '", ' + (Number(_payload.amount) - Number(_payload.fee)) + ']';
+    ajaxDataToHex = `["${_payload.sendTo}", ${Number(_payload.amount) - Number(_payload.fee)}]`;
   } else {
     _apiMethod = 'z_sendmany';
-    ajax_data_to_hex = '["' + _payload.sendFrom + '",[{"address":"' + _payload.sendTo + '","amount":' + (Number(_payload.amount) - Number(_payload.fee)) + '}]]';
+    ajaxDataToHex = `["${_payload.sendFrom}", [{"address": "${_payload.sendTo}", "amount": ${Number(_payload.amount) - Number(_payload.fee)}}]]`;
   }
 
   return dispatch => {
-    return iguanaHashHex(ajax_data_to_hex, dispatch).then((hashHexJson) => {
+    return iguanaHashHex(ajaxDataToHex, dispatch).then((hashHexJson) => {
       if (getPassthruAgent(coin) === 'iguana') {
         payload = {
-          'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+          'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
           'agent': getPassthruAgent(coin),
           'method': 'passthru',
           'asset': coin,
@@ -37,7 +37,7 @@ export function sendNativeTx(coin, _payload) {
         };
       } else {
         payload = {
-          'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+          'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
           'agent': getPassthruAgent(coin),
           'method': 'passthru',
           'function': _apiMethod,
@@ -50,12 +50,12 @@ export function sendNativeTx(coin, _payload) {
         'timestamp': _timestamp,
         'function': 'sendNativeTx',
         'type': 'post',
-        'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+        'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
         'payload': payload,
         'status': 'pending',
       }));
 
-      fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
         method: 'POST',
         body: JSON.stringify(payload),
       })
@@ -68,7 +68,16 @@ export function sendNativeTx(coin, _payload) {
         }));
         dispatch(triggerToaster(true, 'sendNativeTx', 'Error', 'error'));
       })
-      .then(response => response.json())
+      .then(function(response) {
+        if (_apiMethod === 'sendtoaddress') {
+          const _response = response.text().then(function(text) { return text; });
+                    
+          console.log('native sendtoaddress', _response);
+          return _response;
+        } else {
+          return response.json();
+        }
+      })
       .then(function(json) {
         dispatch(logGuiHttp({
           'timestamp': _timestamp,
@@ -83,10 +92,6 @@ export function sendNativeTx(coin, _payload) {
           dispatch(triggerToaster(true, translate('TOASTR.TX_SENT_ALT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
         }
       })
-      .catch(function(ex) {
-        dispatch(triggerToaster(true, translate('TOASTR.TX_SENT_ALT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
-        console.log('parsing failed', ex);
-      })
     });
   }
 }
@@ -99,29 +104,29 @@ export function getKMDOPIDState(json) {
 }
 
 export function getKMDOPID(opid, coin) {
-  let tmpopid_output = '',
-      ajax_data_to_hex;
+  let tmpopidOutput = '',
+      ajaxDataToHex;
 
   if (opid === undefined) {
-    ajax_data_to_hex = null;
+    ajaxDataToHex = null;
   } else {
-    ajax_data_to_hex = '["' + opid + '"]';
+    ajaxDataToHex = `["${opid}"]`;
   }
 
   return dispatch => {
-    return iguanaHashHex(ajax_data_to_hex, dispatch).then((hashHexJson) => {
+    return iguanaHashHex(ajaxDataToHex, dispatch).then((hashHexJson) => {
       if (hashHexJson === '5b226e756c6c225d00') {
         hashHexJson = '';
       }
 
       let payload,
-          passthru_agent = getPassthruAgent(coin),
-          tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+          passthruAgent = getPassthruAgent(coin),
+          tmpIguanaRPCAuth = `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`;
 
-      if (passthru_agent == 'iguana') {
+      if (passthruAgent == 'iguana') {
         payload = {
           'userpass': tmpIguanaRPCAuth,
-          'agent': passthru_agent,
+          'agent': passthruAgent,
           'method': 'passthru',
           'asset': coin,
           'function': 'z_getoperationstatus',
@@ -130,7 +135,7 @@ export function getKMDOPID(opid, coin) {
       } else {
         payload = {
           'userpass': tmpIguanaRPCAuth,
-          'agent': passthru_agent,
+          'agent': passthruAgent,
           'method': 'passthru',
           'function': 'z_getoperationstatus',
           'hex': hashHexJson,
@@ -142,12 +147,12 @@ export function getKMDOPID(opid, coin) {
         'timestamp': _timestamp,
         'function': 'getKMDOPID',
         'type': 'post',
-        'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+        'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
         'payload': payload,
         'status': 'pending',
       }));
 
-      fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
         method: 'POST',
         body: JSON.stringify(payload),
       })

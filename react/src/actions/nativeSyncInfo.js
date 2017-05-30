@@ -19,12 +19,12 @@ export function getSyncInfoNativeKMD(skipDebug) {
       'timestamp': _timestamp,
       'function': 'getSyncInfoNativeKMD',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort + '/api/dex/getinfo?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth') + '&symbol=' + coin,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}/api/dex/getinfo?userpass=tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}&symbol=${coin}`,
       'payload': '',
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort + '/api/dex/getinfo?userpass=tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth') + '&symbol=' + coin, {
+    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}/api/dex/getinfo?userpass=tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}&symbol=${coin}`, {
       method: 'GET',
     })
     .catch(function(error) {
@@ -68,7 +68,7 @@ function getSyncInfoNativeState(json, coin, skipDebug) {
 
 export function getSyncInfoNative(coin, skipDebug) {
   const payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'agent': getPassthruAgent(coin),
     'method': 'passthru',
     'asset': coin,
@@ -82,12 +82,12 @@ export function getSyncInfoNative(coin, skipDebug) {
       'timestamp': _timestamp,
       'function': 'getSyncInfo',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })

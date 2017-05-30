@@ -8,9 +8,9 @@ import {
   guiLogState
 } from './log';
 
-export function edexGetTransaction(data) {
+export function edexGetTransaction(data, dispatch) {
   const payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'symbol': data.coin,
     'agent': 'dex',
     'method': 'gettransaction',
@@ -24,12 +24,12 @@ export function edexGetTransaction(data) {
       'timestamp': _timestamp,
       'function': 'edexGetTransaction',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));
 
-    fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
