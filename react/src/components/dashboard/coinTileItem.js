@@ -21,6 +21,8 @@ import {
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
+const BASILISK_CACHE_UPDATE_TIMEOUT = 240000;
+
 class CoinTileItem extends React.Component {
   constructor(props) {
     super(props);
@@ -87,14 +89,13 @@ class CoinTileItem extends React.Component {
       this.dispatchCoinActions(coin, mode);
 
       if (mode === 'full') {
-        var _iguanaActiveHandle = setInterval(function() {
+        const _iguanaActiveHandle = setInterval(function() {
           this.dispatchCoinActions(coin, mode);
         }.bind(this), 3000);
         Store.dispatch(startInterval('sync', _iguanaActiveHandle));
       }
       if (mode === 'native') {
-        // TODO: add conditions to skip txhistory, balances, addresses while "activating best chain"
-        var _iguanaActiveHandle = setInterval(function() {
+        const _iguanaActiveHandle = setInterval(function() {
           this.dispatchCoinActions(coin, mode);
         }.bind(this), coin === 'KMD' ? 15000 : 3000);
         Store.dispatch(startInterval('sync', _iguanaActiveHandle));
@@ -112,11 +113,11 @@ class CoinTileItem extends React.Component {
             'address': _basiliskMainAddress,
           }));
 
-          var _iguanaActiveHandle = setInterval(function() {
+          const _iguanaActiveHandle = setInterval(function() {
             this.dispatchCoinActions(coin, mode);
           }.bind(this), 3000);
 
-          var _basiliskCache = setInterval(function() {
+          const _basiliskCache = setInterval(() => {
             Store.dispatch(fetchNewCacheData({
               'pubkey': this.props.Dashboard.activeHandle.pubkey,
               'allcoins': false,
@@ -124,7 +125,7 @@ class CoinTileItem extends React.Component {
               'calls': 'listtransactions:getbalance',
               'address': _basiliskMainAddress,
             }));
-          }.bind(this), 240000);
+          }, BASILISK_CACHE_UPDATE_TIMEOUT);
           Store.dispatch(startInterval('sync', _iguanaActiveHandle));
           Store.dispatch(startInterval('basilisk', _basiliskCache));
           // basilisk
@@ -145,9 +146,9 @@ class CoinTileItem extends React.Component {
             <a className="avatar margin-bottom-5" id="edexcoin-logo">
               <img
                 className="img-responsive"
-                src={ 'assets/images/cryptologo/' + item.coinlogo + '.png' }
+                src={ `assets/images/cryptologo/${item.coinlogo}.png` }
                 alt={ item.coinname }/>
-              <span className={ 'badge up badge-' + item.modecolor } id="basfull">{ item.modecode }</span>
+              <span className={ `badge up badge-${item.modecolor}` } id="basfull">{ item.modecode }</span>
             </a>
             <div className="coin-name">{ item.coinname } ({ item.coinlogo.toUpperCase() })</div>
           </div>

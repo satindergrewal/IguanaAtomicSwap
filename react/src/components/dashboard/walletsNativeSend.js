@@ -80,7 +80,7 @@ class WalletsNativeSend extends React.Component {
 
   renderAddressList() {
     return (
-      <div className={ 'btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ' + (this.state.addressSelectorOpen ? 'open' : '') }>
+      <div className={ `btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ${(this.state.addressSelectorOpen ? 'open' : '')}` }>
         <button
           type="button"
           className="btn dropdown-toggle btn-info"
@@ -106,31 +106,29 @@ class WalletsNativeSend extends React.Component {
   }
 
   renderOPIDLabel(opid) {
+    const _satatusDef = {
+      queued: {
+        icon: 'warning',
+        label: 'QUEUED'
+      },
+      executing: {
+        icon: 'info',
+        label: 'EXECUTING'
+      },
+      failed: {
+        icon: 'danger',
+        label: 'FAILED'
+      },
+      success: {
+        icon: 'success',
+        label: 'SUCCESS'
+      }
+    };
+
     if (opid.status === 'queued') {
       return (
-        <span className="label label-warning">
-          <i className="icon fa-eye"></i> <span>{ translate('KMD_NATIVE.QUEUED') }</span>
-        </span>
-      );
-    }
-    if (opid.status === 'executing') {
-      return (
-        <span className="label label-info">
-          <i className="icon fa-eye"></i> <span>{ translate('KMD_NATIVE.EXECUTING') }</span>
-        </span>
-      );
-    }
-    if (opid.status === 'failed') {
-      return (
-        <span className="label label-danger">
-          <i className="icon fa-eye"></i> <span>{ translate('KMD_NATIVE.FAILED') }</span>
-        </span>
-      );
-    }
-    if (opid.status === 'success') {
-      return (
-        <span className="label label-success">
-          <i className="icon fa-eye"></i> <span>{ translate('KMD_NATIVE.SUCCESS') }</span>
+        <span className={`label label-${_satatusDef[opid.status].icon}`}>
+          <i className="icon fa-eye"></i> <span>{ translate(`KMD_NATIVE.${_satatusDef[opid.status].label}`) }</span>
         </span>
       );
     }
@@ -217,14 +215,14 @@ class WalletsNativeSend extends React.Component {
 
   handleSubmit() {
     Store.dispatch(sendNativeTx(this.props.ActiveCoin.coin, this.state));
-    setTimeout(function() {
+    setTimeout(() => {
       Store.dispatch(getKMDOPID(null, this.props.ActiveCoin.coin));
-    }.bind(this), 1000);
+    }, 1000);
   }
 
   getOAdress() {
     resolveOpenAliasAddress(this.state.sendToOA)
-    .then(function(json) {
+    .then((json) => {
       const reply = json.Answer;
 
       if (reply &&
@@ -247,7 +245,7 @@ class WalletsNativeSend extends React.Component {
       } else {
         Store.dispatch(triggerToaster(true, 'Couldn\'t find any addresses', 'OpenAlias', 'error'));
       }
-    }.bind(this));
+    });
   }
 
   renderOASendUI() {
@@ -293,7 +291,7 @@ class WalletsNativeSend extends React.Component {
           <div className="col-xlg-12 col-md-12 col-sm-12 col-xs-12">
             <div className="panel" id="projects">
               <div className="panel-heading">
-                <h3 data-extcoin="COIN" className="panel-title">
+                <h3 className="panel-title">
                   { translate('INDEX.SEND') } { this.props.ActiveCoin.coin }
                 </h3>
               </div>

@@ -15,7 +15,7 @@ export function getNativeTxHistory(coin) {
 
   if (getPassthruAgent(coin) === 'iguana') {
     payload = {
-      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
       'agent': 'iguana',
       'method': 'passthru',
       'asset': coin,
@@ -24,7 +24,7 @@ export function getNativeTxHistory(coin) {
     };
   } else {
     payload = {
-      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
       'agent': getPassthruAgent(coin),
       'method': 'passthru',
       'function': 'listtransactions',
@@ -38,12 +38,12 @@ export function getNativeTxHistory(coin) {
       'timestamp': _timestamp,
       'function': 'getNativeTxHistory',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })

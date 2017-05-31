@@ -19,22 +19,22 @@ function handleGetNewKMDAddresses(pubpriv, coin, dispatch) {
 
 export function getNewKMDAddresses(coin, pubpriv) {
   let payload,
-      ajax_function_input = '';
+      ajaxFunctionInput = '';
 
   if (pubpriv === 'public') {
-    ajax_function_input = 'getnewaddress';
+    ajaxFunctionInput = 'getnewaddress';
   }
   if (pubpriv === 'private') {
-    ajax_function_input = 'z_getnewaddress';
+    ajaxFunctionInput = 'z_getnewaddress';
   }
 
   if (getPassthruAgent(coin) === 'iguana') {
     payload = {
-      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
       'agent': getPassthruAgent(coin),
       'method': 'passthru',
       'asset': coin,
-      'function': ajax_function_input,
+      'function': ajaxFunctionInput,
       'hex': '',
     };
   } else {
@@ -42,7 +42,7 @@ export function getNewKMDAddresses(coin, pubpriv) {
       'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
       'agent': coin,
       'method': 'passthru',
-      'function': ajax_function_input,
+      'function': ajaxFunctionInput,
       'hex': '',
     };
   }
@@ -53,12 +53,12 @@ export function getNewKMDAddresses(coin, pubpriv) {
       'timestamp': _timestamp,
       'function': 'getNewKMDAddresses',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })

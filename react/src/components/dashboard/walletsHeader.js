@@ -1,7 +1,5 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-// import { dashboardChangeSection, toggleAddcoinModal } from '../../actions/actionCreators';
-// import Store from '../../store';
 
 class WalletsHeader extends React.Component {
   render() {
@@ -11,7 +9,7 @@ class WalletsHeader extends React.Component {
         <div
           className="page-header page-header-bordered header-easydex margin-bottom-0"
           id="easydex-header-div"
-          style={{ backgroundImage: 'url("assets/images/bg/' + this.props.activeSection + '_transparent_header_bg.png")', backgroundRepeat: 'no-repeat', backgroundPosition: '0%' }}>
+          style={{ backgroundImage: `url("assets/images/bg/${this.props.activeSection}_transparent_header_bg.png")`, backgroundRepeat: 'no-repeat', backgroundPosition: '0%' }}>
           <h1 className={ this.props.activeSection === 'jumblr' ? 'hide' : 'page-title' }>EasyDEX</h1>
           <ol className="breadcrumb">
             <li className={ this.props.activeSection === 'jumblr' ? 'hide' : 'header-easydex-section' }>{ translate('INDEX.DASHBOARD') }</li>

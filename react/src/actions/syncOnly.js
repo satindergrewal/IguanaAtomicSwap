@@ -25,7 +25,7 @@ function getSyncOnlyForksState(json) {
 
 export function getSyncOnlyForks() {
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/forks/info/show', {
+    return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/forks/info/show`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export function getSyncOnlyForks() {
 
 export function stopIguanaFork(pmid) {
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/forks/stop?pmid=' + pmid, {
+    return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/forks/stop?pmid=${pmid}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

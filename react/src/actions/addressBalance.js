@@ -28,43 +28,43 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
     Promise.all(type.map((_type, index) => {
       return new Promise((resolve, reject) => {
         let payload,
-            ajax_data_to_hex = '',
-            ajax_function_input = '',
-            tmplistaddr_hex_input = '',
-            passthru_agent = getPassthruAgent(coin),
-            tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+            ajaxFunctionInput = '',
+            tmplistaddrHexInput = '',
+            passthruAgent = getPassthruAgent(coin),
+            tmpIguanaRPCAuth = `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`;
 
         if (_type === 'public') {
-          ajax_function_input = 'getaddressesbyaccount';
-          tmplistaddr_hex_input = '222200';
+          ajaxFunctionInput = 'getaddressesbyaccount';
+          tmplistaddrHexInput = '222200';
         }
         if (_type === 'private') {
-          ajax_function_input = 'z_listaddresses';
-          tmplistaddr_hex_input = '';
+          ajaxFunctionInput = 'z_listaddresses';
+          tmplistaddrHexInput = '';
         }
 
-        if (passthru_agent === 'iguana') {
+        if (passthruAgent === 'iguana') {
           payload = {
             'userpass': tmpIguanaRPCAuth,
-            'agent': passthru_agent,
+            'agent': passthruAgent,
             'method': 'passthru',
             'asset': coin,
-            'function': ajax_function_input,
-            'hex': tmplistaddr_hex_input,
+            'function': ajaxFunctionInput,
+            'hex': tmplistaddrHexInput,
           };
         } else {
           payload = {
             'userpass': tmpIguanaRPCAuth,
-            'agent': passthru_agent,
+            'agent': passthruAgent,
             'method': 'passthru',
-            'function': ajax_function_input,
-            'hex': tmplistaddr_hex_input,
+            'function': ajaxFunctionInput,
+            'hex': tmplistaddrHexInput,
           };
         }
 
-        if (mode === 'full' || mode === 'basilisk') {
+        if (mode === 'full' ||
+            mode === 'basilisk') {
           payload = {
-            'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+            'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
             'coin': coin,
             'agent': 'bitcoinrpc',
             'method': 'getaddressesbyaccount',
@@ -75,7 +75,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
         if (mode === 'basilisk') {
           const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
 
-          fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
+          fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/cache?pubkey=${pubkey}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -99,12 +99,12 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             'timestamp': _timestamp,
             'function': 'getKMDAddressesNative',
             'type': 'post',
-            'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+            'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
             'payload': payload,
             'status': 'pending',
           }));
 
-          fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+          fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
             method: 'POST',
             body: JSON.stringify(payload),
           })
@@ -131,14 +131,14 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
     }))
     .then(result => {
       // TODO: split into 2 functions
-      const passthru_agent = getPassthruAgent(coin),
-            tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+      const passthruAgent = getPassthruAgent(coin),
+            tmpIguanaRPCAuth = `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`;
       let payload;
 
-      if (passthru_agent === 'iguana') {
+      if (passthruAgent === 'iguana') {
         payload = {
-          'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-          'agent': passthru_agent,
+          'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
+          'agent': passthruAgent,
           'method': 'passthru',
           'asset': coin,
           'function': 'listunspent',
@@ -146,8 +146,8 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
         };
       } else {
         payload = {
-          'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-          'agent': passthru_agent,
+          'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
+          'agent': passthruAgent,
           'method': 'passthru',
           'function': 'listunspent',
           'hex': '',
@@ -156,7 +156,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
 
       if (mode === 'full') {
         payload = {
-          'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+          'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
           'coin': coin,
           'method': 'listunspent',
           'params': [
@@ -169,7 +169,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
       // if api cache option is off
       if (mode === 'basilisk') {
         payload = {
-          'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+          'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
           'agent': 'dex',
           'method': 'listunspent',
           'address': currentAddress,
@@ -247,7 +247,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
       if (mode === 'basilisk') {
         const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
 
-        fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
+        fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/cache?pubkey=${pubkey}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -271,12 +271,12 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
               'timestamp': _timestamp,
               'function': 'getKMDAddressesNative+Balance',
               'type': 'post',
-              'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.iguanaCorePort + 1 : Config.iguanaCorePort),
+              'url': `http://127.0.0.1:${(Config.useBasiliskInstance && mode === 'basilisk' ? Config.iguanaCorePort + 1 : Config.iguanaCorePort)}`,
               'payload': payload,
               'status': 'pending',
             }));
 
-            fetch('http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.iguanaCorePort + 1 : Config.iguanaCorePort), {
+            fetch(`http://127.0.0.1:${(Config.useBasiliskInstance && mode === 'basilisk' ? Config.iguanaCorePort + 1 : Config.iguanaCorePort)}`, {
               method: 'POST',
               body: JSON.stringify(payload),
             })
@@ -312,12 +312,12 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           'timestamp': _timestamp,
           'function': 'getKMDAddressesNative+Balance',
           'type': 'post',
-          'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.iguanaCorePort + 1 : Config.iguanaCorePort),
+          'url': `http://127.0.0.1:${(Config.useBasiliskInstance && mode === 'basilisk' ? Config.iguanaCorePort + 1 : Config.iguanaCorePort)}`,
           'payload': payload,
           'status': 'pending',
         }));
 
-        fetch('http://127.0.0.1:' + (Config.useBasiliskInstance && mode === 'basilisk' ? Config.iguanaCorePort + 1 : Config.iguanaCorePort), {
+        fetch(`http://127.0.0.1:${(Config.useBasiliskInstance && mode === 'basilisk' ? Config.iguanaCorePort + 1 : Config.iguanaCorePort)}`, {
           method: 'POST',
           body: JSON.stringify(payload),
         })
