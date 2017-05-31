@@ -53,7 +53,8 @@ class Settings extends React.Component {
   }
 
   openTab(elemId, tab) {
-    const _height = document.querySelector('#' + elemId + ' .panel-collapse .panel-body').offsetHeight;
+    console.log(`#${elemId}.panel-collapse .panel-body`);
+    const _height = document.querySelector(`#${elemId} .panel-collapse .panel-body`).offsetHeight;
 
     this.setState(Object.assign({}, this.state, {
       activeTab: tab,
@@ -217,8 +218,6 @@ class Settings extends React.Component {
     this.setState({
       appSettings: _appSettings,
     });
-
-    console.log(this.state.appSettings);
   }
 
   _saveAppConfig() {

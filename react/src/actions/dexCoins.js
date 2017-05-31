@@ -11,7 +11,7 @@ import {
 
 export function getDexCoins() {
   const _payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'agent': 'InstantDEX',
     'method': 'allcoins',
   };
@@ -22,12 +22,12 @@ export function getDexCoins() {
       'timestamp': _timestamp,
       'function': 'getDexCoins',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': _payload,
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(_payload)
     })

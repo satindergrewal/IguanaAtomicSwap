@@ -4,7 +4,8 @@ import {
   triggerToaster,
   Config,
   toggleAddcoinModal,
-  getDexCoins
+  getDexCoins,
+  startIguanaInstance
 } from './actionCreators';
 import {
   logGuiHttp,
@@ -49,10 +50,10 @@ export function addCoin(coin, mode, syncOnly, port) {
         };
 
         return dispatch => {
-          startIguanaInstance(modeToValue[mode] + '/sync', coin)
+          startIguanaInstance(`${modeToValue[mode]}/sync`, coin)
           .then(function(json) {
             setTimeout(function() {
-              console.log('started ' + coin + ' / ' + modeToValue[mode] + ' fork', json);
+              console.log(`started ${coin} / ${modeToValue[mode]} fork`, json);
               dispatch(iguanaAddCoin(coin, mode, _acData, json.result));
             }, 2000);
           });
@@ -79,12 +80,12 @@ export function iguanaAddCoin(coin, mode, acData, port) {
       'timestamp': _timestamp,
       'function': 'iguanaAddCoin',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + (port ? port : Config.iguanaCorePort),
+      'url': `http://127.0.0.1:${(port ? port : Config.iguanaCorePort)}`,
       'payload': acData,
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + (port ? port : Config.iguanaCorePort), {
+    return fetch(`http://127.0.0.1:${(port ? port : Config.iguanaCorePort)}`, {
       method: 'POST',
       body: JSON.stringify(acData),
     })
@@ -126,7 +127,7 @@ export function shepherdHerd(coin, mode, path) {
     'ac_options': [
       '-daemon=0',
       '-server',
-      '-ac_name=' + coin,
+      `-ac_name=${coin}`,
       '-addnode=78.47.196.146'
     ]
   };
@@ -160,12 +161,12 @@ export function shepherdHerd(coin, mode, path) {
   if (checkCoinType(coin) === 'ac') {
     acData = startAssetChain(path.result, coin, mode);
     const supply = startAssetChain(path.result, coin, mode, true);
-    herdData.ac_options.push('-ac_supply=' + supply);
+    herdData.ac_options.push(`-ac_supply=${supply}`);
   }
 
   console.log('herdData', herdData);
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/herd', {
+    return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/herd`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -192,7 +193,7 @@ export function addCoinResult(coin, mode) {
   };
 
   return dispatch => {
-    dispatch(triggerToaster(true, coin + ' ' + translate('TOASTR.STARTED_IN') + ' ' + modeToValue[mode] + ' ' + translate('TOASTR.MODE'), translate('TOASTR.COIN_NOTIFICATION'), 'success'));
+    dispatch(triggerToaster(true, `${coin} ${translate('TOASTR.STARTED_IN')} ${modeToValue[mode]} ${translate('TOASTR.MODE')}`, translate('TOASTR.COIN_NOTIFICATION'), 'success'));
     dispatch(toggleAddcoinModal(false, false));
     dispatch(getDexCoins());
   }
@@ -200,7 +201,7 @@ export function addCoinResult(coin, mode) {
 
 export function _shepherdGetConfig(coin, mode) {
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/getconf', {
+    return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/getconf`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -220,7 +221,7 @@ export function shepherdGetConfig(coin, mode) {
   if (coin === 'KMD' &&
       mode === '-1') {
     return dispatch => {
-      return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/getconf', {
+      return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/getconf`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -236,7 +237,7 @@ export function shepherdGetConfig(coin, mode) {
     }
   } else {
     return dispatch => {
-      return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/getconf', {
+      return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/getconf`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

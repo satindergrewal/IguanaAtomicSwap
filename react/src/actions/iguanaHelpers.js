@@ -22,7 +22,7 @@ export function getPassthruAgent(coin) {
 
 export function iguanaHashHex(data, dispatch) {
   const payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'agent': 'hash',
     'method': 'hex',
     'message': data,
@@ -34,12 +34,12 @@ export function iguanaHashHex(data, dispatch) {
       'timestamp': _timestamp,
       'function': 'iguanaHashHex',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));
 
-    fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })

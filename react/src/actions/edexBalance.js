@@ -10,7 +10,7 @@ import {
 
 export function iguanaEdexBalance(coin) {
   const _payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'agent': 'bitcoinrpc',
     'method': 'getbalance',
     'coin': coin,
@@ -23,12 +23,12 @@ export function iguanaEdexBalance(coin) {
         'timestamp': _timestamp,
         'function': 'iguanaEdexBalance',
         'type': 'post',
-        'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+        'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
         'payload': _payload,
         'status': 'pending',
       }));
 
-      return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+      return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
         method: 'POST',
         body: JSON.stringify(_payload),
       })
@@ -57,7 +57,7 @@ function iguanaEdexBalanceState(json) {
 export function getDexBalance(coin, mode, addr) {
   Promise.all(addr.map((_addr, index) => {
     const payload = {
-      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
       'agent': 'dex',
       'method': 'listunspent',
       'address': _addr,
@@ -70,12 +70,12 @@ export function getDexBalance(coin, mode, addr) {
         'timestamp': _timestamp,
         'function': 'getDexBalance',
         'type': 'post',
-        'url': 'http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort),
+        'url': `http://127.0.0.1:${Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort}`,
         'payload': payload,
         'status': 'pending',
       }));
 
-      fetch('http://127.0.0.1:' + (Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort), {
+      fetch(`http://127.0.0.1:${Config.useBasiliskInstance ? Config.iguanaCorePort + 1 : Config.iguanaCorePort}`, {
         method: 'POST',
         body: JSON.stringify(payload),
       })

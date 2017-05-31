@@ -10,7 +10,7 @@ import {
 
 export function shepherdGetCoinList() {
   return new Promise((resolve, reject) => {
-    fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/coinslist', {
+    fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/coinslist`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export function shepherdGetCoinList() {
 
 export function shepherdPostCoinList(data) {
   return new Promise((resolve, reject) => {
-    fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/coinslist', {
+    fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/coinslist`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

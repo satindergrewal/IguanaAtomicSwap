@@ -13,7 +13,7 @@ export function getBasiliskTransactionsList(coin, address) {
   const pubkey = JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey;
 
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/cache?pubkey=' + pubkey, {
+    return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/cache?pubkey=${pubkey}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

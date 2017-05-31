@@ -121,12 +121,12 @@ class WalletsNativeTxHistory extends React.Component {
   renderPaginationItems() {
     let items = [];
 
-    for (let i=0; i < Math.floor(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage); i++) {
+    for (let i = 0; i < Math.floor(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage); i++) {
       items.push(
         <li className={ this.state.activePage === i + 1 ? 'paginate_button active' : 'paginate_button' }>
           <a
             aria-controls="kmd-tx-history-tbl"
-            tabIndex="0" key={i + '-pagination'}
+            tabIndex="0" key={ `${i}-pagination` }
             onClick={ this.state.activePage !== (i + 1) ? () => this.updateCurrentPage(i + 1) : null }>{ i + 1 }</a>
         </li>
       );
@@ -142,7 +142,7 @@ class WalletsNativeTxHistory extends React.Component {
       return (
         <div className="dataTables_length" id="kmd-tx-history-tbl_length">
           <label>
-            {translate('INDEX.SHOW')}&nbsp;
+            { translate('INDEX.SHOW') }&nbsp;
             <select
               name="itemsPerPage"
               aria-controls="kmd-tx-history-tbl"
@@ -153,7 +153,7 @@ class WalletsNativeTxHistory extends React.Component {
               <option value="50">50</option>
               <option value="100">100</option>
             </select>&nbsp;
-            {translate('INDEX.ENTRIES_SM')}
+            { translate('INDEX.ENTRIES_SM') }
           </label>
         </div>
       );

@@ -18,7 +18,7 @@ function getAppInfoState(json) {
 
 export function getAppInfo() {
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/appinfo', {
+    return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/appinfo`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ export function getAppInfo() {
 export function settingsWifkeyState(json, coin) {
   return {
     type: storeType.GET_WIF_KEY,
-    wifkey: json[coin + 'wif'],
+    wifkey: json[`{$coin}wif`],
     address: json[coin],
   }
 }
@@ -63,7 +63,7 @@ function parseImportPrivKeyResponse(json, dispatch) {
 
 export function importPrivKey(wifKey) {
   const payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'method': 'importprivkey',
     'params': [
       wifKey,
@@ -77,12 +77,12 @@ export function importPrivKey(wifKey) {
       'timestamp': _timestamp,
       'function': 'importPrivKey',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -129,7 +129,7 @@ export function getDebugLog(target, linesCount) {
   };
 
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/debuglog', {
+    return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/debuglog`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -147,7 +147,7 @@ export function getDebugLog(target, linesCount) {
 
 export function getPeersList(coin) {
   const payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'agent': 'SuperNET',
     'method': 'getpeers',
     'activecoin': coin,
@@ -159,12 +159,12 @@ export function getPeersList(coin) {
       'timestamp': _timestamp,
       'function': 'getPeersList',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -232,7 +232,7 @@ function addPeerNodeState(json, dispatch) {
 
 export function addPeerNode(coin, ip) {
   const payload = {
-    'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'agent': 'iguana',
     'method': 'addnode',
     'activecoin': coin,
@@ -245,12 +245,12 @@ export function addPeerNode(coin, ip) {
       'timestamp': _timestamp,
       'function': 'addPeerNode',
       'type': 'post',
-      'url': 'http://127.0.0.1:' + Config.iguanaCorePort,
+      'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));
 
-    return fetch('http://127.0.0.1:' + Config.iguanaCorePort, {
+    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -277,7 +277,7 @@ export function addPeerNode(coin, ip) {
 
 export function saveAppConfig(_payload) {
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/appconf', {
+    return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/appconf`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -302,7 +302,7 @@ function getAppConfigState(json) {
 
 export function getAppConfig() {
   return dispatch => {
-    return fetch('http://127.0.0.1:' + Config.agamaPort + '/shepherd/appconf', {
+    return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/appconf`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

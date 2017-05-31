@@ -44,7 +44,7 @@ class Atomic extends React.Component {
   }
 
   getAtomicData() {
-    const tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
+    const tmpIguanaRPCAuth = `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`;
     let ExplorerInputData;
 
     switch (this.state.api) {
@@ -472,7 +472,7 @@ class Atomic extends React.Component {
 
     for (let i = 0; i < _options.length; i++) {
       items.push(
-        <option key={_options[i].method} value={_options[i].method}>{_options[i].name}</option>
+        <option key={ _options[i].method } value={ _options[i].method }>{ _options[i].name }</option>
       );
     }
 
@@ -506,7 +506,7 @@ class Atomic extends React.Component {
                     <select
                       className="form-control form-material"
                       id="atomic_explorer_select_command_options"
-                      onChange={this.updateSelectedAPI}>
+                      onChange={ this.updateSelectedAPI }>
                       <option value="">-{ translate('ATOMIC.SELECT_COMMAND') }-</option>
                       { this.renderAtomicOptions() }
                     </select>
