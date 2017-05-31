@@ -14,6 +14,9 @@ import {
 import Store from '../../store';
 import { PassPhraseGenerator } from '../../util/crypto/passphrasegenerator';
 
+const IGUNA_ACTIVE_HANDLE_TIMEOUT = 3000;
+const IGUNA_ACTIVE_COINS_TIMEOUT = 10000;
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -43,7 +46,7 @@ class Login extends React.Component {
 
     const _iguanaActiveHandle = setInterval(() => {
       Store.dispatch(getSyncOnlyForks());
-    }, 3000);
+    }, IGUNA_ACTIVE_HANDLE_TIMEOUT);
     Store.dispatch(startInterval('syncOnly', _iguanaActiveHandle));
 
     Store.dispatch(toggleSyncOnlyModal(true));
@@ -85,7 +88,7 @@ class Login extends React.Component {
       if (!this.props.Interval.interval.activeCoins) {
         const _iguanaActiveCoins = setInterval(() => {
           Store.dispatch(getDexCoins());
-        }, 10000);
+        }, IGUNA_ACTIVE_COINS_TIMEOUT);
         Store.dispatch(startInterval('activeCoins', _iguanaActiveCoins));
       }
 
