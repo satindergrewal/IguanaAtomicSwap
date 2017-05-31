@@ -4,7 +4,8 @@ import {
   triggerToaster,
   Config,
   toggleAddcoinModal,
-  getDexCoins
+  getDexCoins,
+  startIguanaInstance
 } from './actionCreators';
 import {
   logGuiHttp,

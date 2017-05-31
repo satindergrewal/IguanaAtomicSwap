@@ -59,7 +59,7 @@ class WalletsNativeSyncProgress extends React.Component {
           }
         }
 
-        return(': ' + Math.floor(currentBestChain * 100 / this.props.Dashboard.progress.remoteKMDNode.blocks) + '% (blocks ' + currentBestChain + ' / ' + this.props.Dashboard.progress.remoteKMDNode.blocks + ')');
+        return(`: ${Math.floor(currentBestChain * 100 / this.props.Dashboard.progress.remoteKMDNode.blocks)}% (blocks ${currentBestChain} / ${this.props.Dashboard.progress.remoteKMDNode.blocks})`);
       } else {
         return (
           <span id="activating-komodod-tridot">...</span>

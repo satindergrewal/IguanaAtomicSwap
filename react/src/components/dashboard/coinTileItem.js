@@ -21,6 +21,8 @@ import {
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
+const BASILISK_CACHE_UPDATE_TIMEOUT = 240000;
+
 class CoinTileItem extends React.Component {
   constructor(props) {
     super(props);
@@ -115,7 +117,7 @@ class CoinTileItem extends React.Component {
             this.dispatchCoinActions(coin, mode);
           }.bind(this), 3000);
 
-          const _basiliskCache = setInterval(function() {
+          const _basiliskCache = setInterval(() => {
             Store.dispatch(fetchNewCacheData({
               'pubkey': this.props.Dashboard.activeHandle.pubkey,
               'allcoins': false,
@@ -123,7 +125,7 @@ class CoinTileItem extends React.Component {
               'calls': 'listtransactions:getbalance',
               'address': _basiliskMainAddress,
             }));
-          }.bind(this), 240000);
+          }, BASILISK_CACHE_UPDATE_TIMEOUT);
           Store.dispatch(startInterval('sync', _iguanaActiveHandle));
           Store.dispatch(startInterval('basilisk', _basiliskCache));
           // basilisk

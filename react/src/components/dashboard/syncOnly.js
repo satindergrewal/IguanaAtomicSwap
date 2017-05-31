@@ -1,5 +1,6 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
+import { getCoinTitle } from '../../util/coinHelper';
 import {
   stopInterval,
   addCoin,
@@ -19,7 +20,8 @@ class SyncOnly extends React.Component {
   }
 
   isFullySynced(fork) {
-    if (fork.balances && ((Number(fork.balances) +
+    if (fork.balances &&
+        ((Number(fork.balances) +
         Number(fork.validated) +
         Number(fork.bundles) +
         Number(fork.utxo)) / 4 === 100)) {
@@ -30,96 +32,15 @@ class SyncOnly extends React.Component {
   }
 
   renderCoinName(coin) {
-    let coinlogo;
-    let coinname;
-
-    switch (coin) {
-      case 'BTC':
-        coinlogo = 'bitcoin';
-        coinname = 'Bitcoin';
-        break;
-      case 'BTCD':
-        coinlogo = 'bitcoindark';
-        coinname = 'BitcoinDark';
-        break;
-      case 'LTC':
-        coinlogo = 'litecoin';
-        coinname = 'Litecoin';
-        break;
-      case 'VPN':
-        coinlogo = 'vpncoin';
-        coinname = 'VPNcoin';
-        break;
-      case 'SYS':
-        coinlogo = 'syscoin';
-        coinname = 'Syscoin';
-        break;
-      case 'ZEC':
-        coinlogo = 'zcash';
-        coinname = 'Zcash';
-        break;
-      case 'NMC':
-        coinlogo = 'namecoin';
-        coinname = 'Namecoin';
-        break;
-      case 'DEX':
-        coinlogo = 'dex';
-        coinname = 'InstantDEX';
-        break;
-      case 'DOGE':
-        coinlogo = 'dogecoin';
-        coinname = 'Dogecoin';
-        break;
-      case 'DGB':
-        coinlogo = 'digibyte';
-        coinname = 'Digibyte';
-        break;
-      case 'MZC':
-        coinlogo = 'mazacoin';
-        coinname = 'Mazacoin';
-        break;
-      case 'UNO':
-        coinlogo = 'unobtanium';
-        coinname = 'Unobtanium';
-        break;
-      case 'ZET':
-        coinlogo = 'zetacoin';
-        coinname = 'Zetacoin';
-        break;
-      case 'KMD':
-        coinlogo = 'komodo';
-        coinname = 'Komodo';
-        break;
-      case 'BTM':
-        coinlogo = 'bitmark';
-        coinname = 'Bitmark';
-        break;
-      case 'CARB':
-        coinlogo = 'carboncoin';
-        coinname = 'Carboncoin';
-        break;
-      case 'ANC':
-        coinlogo = 'anoncoin';
-        coinname = 'AnonCoin';
-        break;
-      case 'FRK':
-        coinlogo = 'franko';
-        coinname = 'Franko';
-        break;
-      case 'GAME':
-        coinlogo = 'GAME';
-        coinname = 'GameCredits';
-        break;
-    }
+    const _coinTitle = getCoinTitle(coin);
 
     return {
-      'logo': coinlogo,
-      'name': coinname
+      'logo': _coinTitle.logo,
+      'name': _coinTitle.name
     };
   }
 
   componentWillReceiveProps(props) {
-    // console.log('SyncOnly', props);
     if (props.SyncOnly) {
       for (let port in this.props.SyncOnly.forks) {
         const forkInfo = this.props.SyncOnly.forks[port];
@@ -130,7 +51,6 @@ class SyncOnly extends React.Component {
             forkInfo.getinfo &&
             forkInfo.getinfo.error &&
             forkInfo.getinfo.error === 'bitcoinrpc needs coin that is active') {
-          console.log('fork add coin required');
           let _autoRestartedForks = Object.assign({}, this.state.autoRestartedForks);
           _autoRestartedForks[port] = true;
 
@@ -138,14 +58,15 @@ class SyncOnly extends React.Component {
             autoRestartedForks: _autoRestartedForks,
           });
           Store.dispatch(addCoin(forkInfo.registry.coin, '1', null, port));
-          setTimeout(function() {
+
+          setTimeout(() => {
             let _autoRestartedForks = Object.assign({}, this.state.autoRestartedForks);
             _autoRestartedForks[port] = false;
 
             this.setState({
               autoRestartedForks: _autoRestartedForks,
             });
-          }.bind(this), 10000);
+          }, 10000);
         }
       }
     }
@@ -238,12 +159,14 @@ class SyncOnly extends React.Component {
             <div className="avatar">
               <img
                 className="img-responsive margin-bottom-5"
-                src={ 'assets/images/cryptologo/' + this.renderCoinName(forkInfo.registry.coin).logo + '.png' }
+                src={ `assets/images/cryptologo/${this.renderCoinName(forkInfo.registry.coin).logo}.png` }
                 alt={ forkInfo.registry.coin }/>
               <span className="badge up badge-success margin-bottom-5">Full</span>
               <div className="coin-name">{ this.renderCoinName(forkInfo.registry.coin).name } ({ forkInfo.registry.coin.toUpperCase() })</div>
               <div className="margin-top-10">
-                <span className="btn btn-primary" onClick={ () => this._stopIguanaFork(forkInfo.registry.pmid) }>
+                <span
+                  className="btn btn-primary"
+                  onClick={ () => this._stopIguanaFork(forkInfo.registry.pmid) }>
                   <span className="fa fa-stop"></span> { translate('INDEX.STOP') }
                 </span>
                 <span
@@ -282,7 +205,10 @@ class SyncOnly extends React.Component {
                   { this.renderForksList() }
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-default" onClick={ this.closeSyncOnlyModal }>{ translate('INDEX.CLOSE') }</button>
+                  <button
+                    type="button"
+                    className="btn btn-default"
+                    onClick={ this.closeSyncOnlyModal }>{ translate('INDEX.CLOSE') }</button>
                 </div>
               </div>
             </div>

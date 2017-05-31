@@ -41,9 +41,9 @@ class Login extends React.Component {
   openSyncOnlyModal() {
     Store.dispatch(getSyncOnlyForks());
 
-    const _iguanaActiveHandle = setInterval(function() {
+    const _iguanaActiveHandle = setInterval(() => {
       Store.dispatch(getSyncOnlyForks());
-    }.bind(this), 3000);
+    }, 3000);
     Store.dispatch(startInterval('syncOnly', _iguanaActiveHandle));
 
     Store.dispatch(toggleSyncOnlyModal(true));
@@ -67,21 +67,25 @@ class Login extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props && props.Main && props.Main.isLoggedIn) {
+    if (props &&
+        props.Main &&
+        props.Main.isLoggedIn) {
       this.setState({
         display: false,
       });
     }
 
-    if (props && props.Main && !props.Main.isLoggedIn) {
+    if (props &&
+        props.Main &&
+        !props.Main.isLoggedIn) {
       this.setState({
         display: true,
       });
 
       if (!this.props.Interval.interval.activeCoins) {
-        const _iguanaActiveCoins = setInterval(function() {
+        const _iguanaActiveCoins = setInterval(() => {
           Store.dispatch(getDexCoins());
-        }.bind(this), 10000);
+        }, 10000);
         Store.dispatch(startInterval('activeCoins', _iguanaActiveCoins));
       }
 
@@ -89,7 +93,9 @@ class Login extends React.Component {
     }
 
     if (this.state.activeLoginSection !== 'signup') {
-      if (props && props.Main && props.Main.activeCoins) {
+      if (props &&
+          props.Main &&
+          props.Main.activeCoins) {
         this.setState({
           activeLoginSection: 'login',
         });
@@ -159,13 +165,22 @@ class Login extends React.Component {
       return (
         <div className="swal2-container">
           <div className="swal2-overlay" tabIndex="-1" style={{ opacity: 1, display: 'block' }}></div>
-          <div className="swal2-modal show-swal2 visible" style={{ display: 'block', width: '500px', padding: '20px', marginLeft: '-250px', background: 'rgb(255, 255, 255)', marginTop: '-230px' }} tabIndex="-1">
+          <div
+            className="swal2-modal show-swal2 visible"
+            style={{ display: 'block', width: '500px', padding: '20px', marginLeft: '-250px', background: 'rgb(255, 255, 255)', marginTop: '-230px' }}
+            tabIndex="-1">
           <div className="swal2-icon swal2-warning pulse-warning" style={{ display: 'block' }}>!</div>
           <h2>{ translate('LOGIN.SAVED_WALLET_SEED') }</h2>
           <div className="swal2-content" style={{ display: 'block' }}>{ translate('LOGIN.SEED_MAKE_SURE_BACKUP') }</div>
           <hr className="swal2-spacer" style={{ display: 'block' }} />
-          <button className="swal2-confirm styled" style={{ backgroundColor: 'rgb(48, 133, 214)', borderLeftColor: 'rgb(48, 133, 214)', borderRightColor: 'rgb(48, 133, 214)' }} onClick={ this.execWalletCreate }>{ translate('LOGIN.YES_I_BACKUP') }</button>
-          <button className="swal2-cancel styled" style={{ display: 'inline-block', backgroundColor: 'rgb(221, 51, 51)'}} onClick={ this.toggleSeedBackupModal }>{ translate('LOGIN.CANCEL') }</button>
+          <button
+            className="swal2-confirm styled"
+            style={{ backgroundColor: 'rgb(48, 133, 214)', borderLeftColor: 'rgb(48, 133, 214)', borderRightColor: 'rgb(48, 133, 214)' }}
+            onClick={ this.execWalletCreate }>{ translate('LOGIN.YES_I_BACKUP') }</button>
+          <button
+            className="swal2-cancel styled"
+            style={{ display: 'inline-block', backgroundColor: 'rgb(221, 51, 51)'}}
+            onClick={ this.toggleSeedBackupModal }>{ translate('LOGIN.CANCEL') }</button>
         </div>
       </div>
       );

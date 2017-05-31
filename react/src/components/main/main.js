@@ -8,6 +8,8 @@ import {
   iguanaActiveHandle
 } from '../../actions/actionCreators';
 
+const IGUANA_ACTIVE_HANDLE_TIMEOUT = 30000;
+
 class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -24,7 +26,7 @@ class Main extends React.Component {
     Store.dispatch(iguanaActiveHandle());
     const _iguanaActiveHandle = setInterval(function() {
       Store.dispatch(iguanaActiveHandle());
-    }, 30000);
+    }, IGUANA_ACTIVE_HANDLE_TIMEOUT);
 
     this.setState(Object.assign({}, this.state, {
       activeHandleInterval: _iguanaActiveHandle,
