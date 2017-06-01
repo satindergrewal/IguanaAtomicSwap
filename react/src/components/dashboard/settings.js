@@ -56,7 +56,6 @@ class Settings extends React.Component {
 
   componentWillReceiveProps(props) {
     if (this.state.tabElId) {
-      console.log('rerender opened tab');
       const _height = document.querySelector(`#${this.state.tabElId} .panel-collapse .panel-body`).offsetHeight;
 
       this.setState(Object.assign({}, this.state, {
@@ -309,6 +308,27 @@ class Settings extends React.Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
+  }
+
+  renderDebugLogData() {
+    if (this.props.Settings.debugLog) {
+      const _debugLogDataRows = this.props.Settings.debugLog.split('\n');
+
+      if (_debugLogDataRows &&
+          _debugLogDataRows.length) {
+        return _debugLogDataRows.map((_row) =>
+          <div
+            key={ `settings-debuglog-${Math.random(0, 9) * 10}` }
+            className="padding-bottom-5">{ _row }</div>
+        );
+      } else {
+        return (
+          <span>{ translate('INDEX.EMPTY_DEBUG_LOG') }</span>
+        );
+      }
+    } else {
+      return null;
+    }
   }
 
   renderLB(_translationID) {
@@ -697,7 +717,7 @@ class Settings extends React.Component {
                                 onClick={ this.readDebugLog }>{ translate('INDEX.LOAD_DEBUG_LOG') }</button>
                             </div>
                             <div className="col-sm-12 col-xs-12 text-align-left">
-                              <div className="padding-top-40 padding-bottom-20 horizontal-padding-0">{ this.props.Settings.debugLog }</div>
+                              <div className="padding-top-40 padding-bottom-20 horizontal-padding-0">{ this.renderDebugLogData() }</div>
                             </div>
                           </form>
                         </div>
