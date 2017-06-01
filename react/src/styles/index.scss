@@ -272,7 +272,7 @@ body {
       transition: all .3s;
 
       &.collapse {
-        height: 10px;
+        height: 0;
       }
     }
   }

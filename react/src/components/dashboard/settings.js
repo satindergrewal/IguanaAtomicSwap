@@ -32,7 +32,7 @@ class Settings extends React.Component {
       activeTab: 0,
       debugLinesCount: 10,
       debugTarget: 'iguana',
-      activeTabHeight: '10px',
+      activeTabHeight: '0',
       appSettings: {},
       tabElId: null,
     };
@@ -133,7 +133,7 @@ class Settings extends React.Component {
           </div>
           <div
             className={ this.state.activeTab === 8 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-            style={{ height: this.state.activeTab === 8 ? this.state.activeTabHeight + 'px' : '10px' }}
+            style={{ height: this.state.activeTab === 8 ? this.state.activeTabHeight + 'px' : '0' }}
             aria-labelledby="DebugLog"
             role="tabpanel">
             <div className="panel-body">
@@ -363,7 +363,7 @@ class Settings extends React.Component {
                       </div>
                       <div
                         className={ this.state.activeTab === 0 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 0 ? this.state.activeTabHeight + 'px' : '10px' }}
+                        style={{ height: this.state.activeTab === 0 ? this.state.activeTabHeight + 'px' : '0' }}
                         id="WalletInfoTab"
                         aria-labelledby="WalletInfo"
                         role="tabpanel">
@@ -429,7 +429,7 @@ class Settings extends React.Component {
                       </div>
                       <div
                         className={ this.state.activeTab === 1 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 1 ? this.state.activeTabHeight + 'px' : '10px' }}
+                        style={{ height: this.state.activeTab === 1 ? this.state.activeTabHeight + 'px' : '0' }}
                         id="AddNodeforCoinTab"
                         aria-labelledby="AddNodeforCoin"
                         role="tabpanel">
@@ -523,7 +523,7 @@ class Settings extends React.Component {
                       </div>
                       <div
                         className={ this.state.activeTab === 2 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 2 ? this.state.activeTabHeight + 'px' : '10px' }}
+                        style={{ height: this.state.activeTab === 2 ? this.state.activeTabHeight + 'px' : '0' }}
                         id="DumpWalletTab"
                         aria-labelledby="DumpWallet"
                         role="tabpanel">
@@ -542,7 +542,7 @@ class Settings extends React.Component {
                       </div>
                       <div
                         className={ this.state.activeTab === 3 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 3 ? this.state.activeTabHeight + 'px' : '10px' }}
+                        style={{ height: this.state.activeTab === 3 ? this.state.activeTabHeight + 'px' : '0' }}
                         id="FiatCurrencySettingsTab"
                         aria-labelledby="FiatCurrencySettings"
                         role="tabpanel">
@@ -561,7 +561,7 @@ class Settings extends React.Component {
                       </div>
                       <div
                         className={ this.state.activeTab === 4 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 4 ? this.state.activeTabHeight + 'px' : '10px' }}
+                        style={{ height: this.state.activeTab === 4 ? this.state.activeTabHeight + 'px' : '0' }}
                         id="ExportKeysTab"
                         aria-labelledby="ExportKeys"
                         role="tabpanel">
@@ -625,7 +625,7 @@ class Settings extends React.Component {
                       </div>
                       <div
                         className={ this.state.activeTab === 5 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 5 ? this.state.activeTabHeight + 'px' : '10px' }}
+                        style={{ height: this.state.activeTab === 5 ? this.state.activeTabHeight + 'px' : '0' }}
                         id="ImportKeysTab"
                         aria-labelledby="ImportKeys"
                         role="tabpanel">
@@ -674,7 +674,7 @@ class Settings extends React.Component {
                       </div>
                       <div
                         className={ this.state.activeTab === 6 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 6 ? this.state.activeTabHeight + 'px' : '10px' }}
+                        style={{ height: this.state.activeTab === 6 ? this.state.activeTabHeight + 'px' : '0' }}
                         id="DebugLogTab" aria-labelledby="DebugLog" role="tabpanel">
                         <div className="panel-body">
                           <p>{ translate('INDEX.DEBUG_LOG_DESC') }</p>
@@ -735,7 +735,7 @@ class Settings extends React.Component {
                       </div>
                       <div
                         className={ this.state.activeTab === 7 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 7 ? this.state.activeTabHeight + 'px' : '10px' }}
+                        style={{ height: this.state.activeTab === 7 ? this.state.activeTabHeight + 'px' : '0' }}
                         id="DebugLogTab" aria-labelledby="DebugLog" role="tabpanel">
                         <div className="panel-body">
                           <p>
