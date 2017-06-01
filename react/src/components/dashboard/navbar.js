@@ -19,6 +19,29 @@ class Navbar extends React.Component {
     };
     this.openDropMenu = this.openDropMenu.bind(this);
     this.logout = this.logout.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+
+  componentWillMount() {
+    document.addEventListener('click', this.handleClickOutside, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutside, false);
+  }
+
+  handleClickOutside(e) {
+    console.log(e);
+
+    if (e.srcElement.className !== 'dropdown-menu' &&
+        e.srcElement.alt !== 'iguana profile pic' &&
+        e.srcElement.offsetParent.className !== 'avatar avatar-online' &&
+        e.srcElement.className.indexOf('navbar-avatar') === -1 &&
+        (e.path && e.path[4] && e.path[4].className.indexOf('dropdown-menu') === -1)) {
+      this.setState({
+        openDropMenu: false,
+      });
+    }
   }
 
   openDropMenu() {
