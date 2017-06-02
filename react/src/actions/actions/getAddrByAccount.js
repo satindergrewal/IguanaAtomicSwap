@@ -1,8 +1,8 @@
-import * as storeType from './storeType';
+import { ACTIVE_COIN_GET_ADDRESSES } from '../storeType';
 import {
   triggerToaster,
   Config
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
@@ -24,7 +24,7 @@ export function getAddressesByAccountState(json, coin, mode) {
   }
 
   return {
-    type: storeType.ACTIVE_COIN_GET_ADDRESSES,
+    type: ACTIVE_COIN_GET_ADDRESSES,
     addresses: { 'public': json.result },
   }
 }

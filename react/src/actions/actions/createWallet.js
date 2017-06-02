@@ -1,40 +1,40 @@
-import * as storeType from './storeType';
+import { translate } from '../../translate/translate';
 import {
   triggerToaster,
   Config
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
 } from './log';
 
-function logoutState(json, dispatch) {
-  sessionStorage.removeItem('IguanaActiveAccount');
-
-  return {
-    type: storeType.LOGIN,
-    isLoggedIn: false,
+function createNewWalletState(json) {
+  if (json &&
+      json.result &&
+      json.result === 'success') {
+    return dispatch => {
+      dispatch(triggerToaster(true, translate('TOASTR.WALLET_CREATED_SUCCESFULLY'), translate('TOASTR.ACCOUNT_NOTIFICATION'), 'success'));
+    }
+  } else {
+    return dispatch => {
+      dispatch(triggerToaster(true, 'Couldn\'t create new wallet seed', translate('TOASTR.ACCOUNT_NOTIFICATION'), 'error'));
+    }
   }
 }
 
-export function logout() {
-  return dispatch => {
-    dispatch(walletLock());
-  }
-}
-
-function walletLock() {
+export function createNewWallet(_passphrase) {
   const payload = {
     'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
     'agent': 'bitcoinrpc',
-    'method': 'walletlock',
+    'method': 'encryptwallet',
+    'passphrase': _passphrase,
   };
 
   return dispatch => {
     const _timestamp = Date.now();
     dispatch(logGuiHttp({
       'timestamp': _timestamp,
-      'function': 'walletLock',
+      'function': 'createNewWallet',
       'type': 'post',
       'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
@@ -52,7 +52,7 @@ function walletLock() {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'walletLock', 'Error', 'error'));
+      dispatch(triggerToaster(true, 'createNewWallet', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => {
@@ -61,7 +61,7 @@ function walletLock() {
         'status': 'success',
         'response': json,
       }));
-      dispatch(logoutState(json));
+      dispatch(createNewWalletState(json));
     })
   }
 }

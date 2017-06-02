@@ -1,9 +1,9 @@
-import * as storeType from './storeType';
+import { DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE } from '../storeType';
 import {
   triggerToaster,
   Config,
   getPassthruAgent
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
@@ -73,7 +73,7 @@ export function getKMDBalanceTotal(coin) {
 
 export function getNativeBalancesState(json) {
   return {
-    type: storeType.DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE,
+    type: DASHBOARD_ACTIVE_COIN_NATIVE_BALANCE,
     balance: json && !json.error ? json : 0,
   }
 }

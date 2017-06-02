@@ -1,10 +1,6 @@
-import { copyToClipboard } from '../util/copyToClipboard';
-import { translate } from '../translate/translate';
-import * as storeType from './storeType';
-import {
-  triggerToaster,
-  Config
-} from './actionCreators';
+import { copyToClipboard } from '../../util/copyToClipboard';
+import { translate } from '../../translate/translate';
+import { triggerToaster } from '../actionCreators';
 
 export function copyCoinAddress(address) {
   const _result = copyToClipboard(address);

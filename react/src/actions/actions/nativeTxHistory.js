@@ -1,19 +1,41 @@
-import * as storeType from './storeType';
 import {
   triggerToaster,
-  Config
-} from './actionCreators';
+  Config,
+  getPassthruAgent,
+  getNativeTxHistoryState
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
 } from './log';
 
-export function atomic(payload) {
+export function getNativeTxHistory(coin) {
+  let payload;
+
+  if (getPassthruAgent(coin) === 'iguana') {
+    payload = {
+      'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
+      'agent': 'iguana',
+      'method': 'passthru',
+      'asset': coin,
+      'function': 'listtransactions',
+      'hex': '',
+    };
+  } else {
+    payload = {
+      'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
+      'agent': getPassthruAgent(coin),
+      'method': 'passthru',
+      'function': 'listtransactions',
+      'hex': '',
+    };
+  }
+
   return dispatch => {
     const _timestamp = Date.now();
     dispatch(logGuiHttp({
       'timestamp': _timestamp,
-      'function': 'atomic',
+      'function': 'getNativeTxHistory',
       'type': 'post',
       'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
@@ -31,7 +53,7 @@ export function atomic(payload) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, payload.method, 'Atomic Explorer error', 'error'));
+      dispatch(triggerToaster(true, 'getNativeTxHistory', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => {
@@ -40,14 +62,7 @@ export function atomic(payload) {
         'status': 'success',
         'response': json,
       }));
-      dispatch(atomicState(json));
-    });
-  }
-}
-
-function atomicState(json) {
-  return {
-    type: storeType.ATOMIC,
-    response: json,
+      dispatch(getNativeTxHistoryState(json));
+    })
   }
 }

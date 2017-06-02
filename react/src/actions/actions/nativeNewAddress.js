@@ -1,33 +1,47 @@
-import * as storeType from './storeType';
+import { translate } from '../../translate/translate';
 import {
   triggerToaster,
   Config,
-  getPassthruAgent,
-  getNativeTxHistoryState
-} from './actionCreators';
+  getPassthruAgent
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
 } from './log';
 
-export function getNativeTxHistory(coin) {
-  let payload;
+function handleGetNewKMDAddresses(pubpriv, coin, dispatch) {
+  dispatch(triggerToaster(true, translate('KMD_NATIVE.NEW_ADDR_GENERATED'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
+  dispatch(getKMDAddressesNative(coin));
+
+  return {};
+}
+
+export function getNewKMDAddresses(coin, pubpriv) {
+  let payload,
+      ajaxFunctionInput = '';
+
+  if (pubpriv === 'public') {
+    ajaxFunctionInput = 'getnewaddress';
+  }
+  if (pubpriv === 'private') {
+    ajaxFunctionInput = 'z_getnewaddress';
+  }
 
   if (getPassthruAgent(coin) === 'iguana') {
     payload = {
       'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
-      'agent': 'iguana',
+      'agent': getPassthruAgent(coin),
       'method': 'passthru',
       'asset': coin,
-      'function': 'listtransactions',
+      'function': ajaxFunctionInput,
       'hex': '',
     };
   } else {
     payload = {
-      'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
-      'agent': getPassthruAgent(coin),
+      'userpass': 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+      'agent': coin,
       'method': 'passthru',
-      'function': 'listtransactions',
+      'function': ajaxFunctionInput,
       'hex': '',
     };
   }
@@ -36,7 +50,7 @@ export function getNativeTxHistory(coin) {
     const _timestamp = Date.now();
     dispatch(logGuiHttp({
       'timestamp': _timestamp,
-      'function': 'getNativeTxHistory',
+      'function': 'getNewKMDAddresses',
       'type': 'post',
       'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
@@ -54,7 +68,7 @@ export function getNativeTxHistory(coin) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'getNativeTxHistory', 'Error', 'error'));
+      dispatch(triggerToaster(true, 'getNewKMDAddresses', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => {
@@ -63,7 +77,10 @@ export function getNativeTxHistory(coin) {
         'status': 'success',
         'response': json,
       }));
-      dispatch(getNativeTxHistoryState(json));
+      dispatch(handleGetNewKMDAddresses(pubpriv, coin, dispatch));
+    })
+    .catch(function(ex) {
+      dispatch(handleGetNewKMDAddresses(pubpriv, coin, dispatch))
     })
   }
 }

@@ -1,9 +1,12 @@
-import * as storeType from './storeType';
-import { translate } from '../translate/translate';
+import {
+  SYNC_ONLY_MODAL_TOGGLE,
+  SYNC_ONLY_DATA
+} from '../storeType';
+import { translate } from '../../translate/translate';
 import {
   triggerToaster,
   Config
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
@@ -11,14 +14,14 @@ import {
 
 export function toggleSyncOnlyModal(display) {
   return {
-    type: storeType.SYNC_ONLY_MODAL_TOGGLE,
+    type: SYNC_ONLY_MODAL_TOGGLE,
     display,
   }
 }
 
 function getSyncOnlyForksState(json) {
   return {
-    type: storeType.SYNC_ONLY_DATA,
+    type: SYNC_ONLY_DATA,
     forks: JSON.parse(json.result),
   }
 }

@@ -1,11 +1,11 @@
-import * as storeType from './storeType';
-import { translate } from '../translate/translate';
+import { DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS } from '../storeType';
+import { translate } from '../../translate/translate';
 import {
   triggerToaster,
   Config,
   getPassthruAgent,
   iguanaHashHex
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
@@ -71,7 +71,7 @@ export function sendNativeTx(coin, _payload) {
       .then(function(response) {
         if (_apiMethod === 'sendtoaddress') {
           const _response = response.text().then(function(text) { return text; });
-                    
+
           console.log('native sendtoaddress', _response);
           return _response;
         } else {
@@ -98,7 +98,7 @@ export function sendNativeTx(coin, _payload) {
 
 export function getKMDOPIDState(json) {
   return {
-    type: storeType.DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS,
+    type: DASHBOARD_ACTIVE_COIN_NATIVE_OPIDS,
     opids: json,
   }
 }

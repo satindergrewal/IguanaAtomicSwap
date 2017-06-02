@@ -1,41 +1,41 @@
-import * as storeType from './storeType';
-import { translate } from '../translate/translate';
+import { SYNCING_FULL_MODE } from '../storeType';
 import {
   triggerToaster,
   Config
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
 } from './log';
 
-function createNewWalletState(json) {
-  if (json &&
-      json.result &&
-      json.result === 'success') {
-    return dispatch => {
-      dispatch(triggerToaster(true, translate('TOASTR.WALLET_CREATED_SUCCESFULLY'), translate('TOASTR.ACCOUNT_NOTIFICATION'), 'success'));
-    }
-  } else {
-    return dispatch => {
-      dispatch(triggerToaster(true, 'Couldn\'t create new wallet seed', translate('TOASTR.ACCOUNT_NOTIFICATION'), 'error'));
-    }
+// TODO: add custom json parser
+function getSyncInfoState(json) {
+  try {
+    JSON.parse(json);
+    json = JSON.parse(json);
+  } catch(e) {
+    //
+  }
+
+  return {
+    type: SYNCING_FULL_MODE,
+    progress: json,
   }
 }
 
-export function createNewWallet(_passphrase) {
+export function getSyncInfo(coin) {
   const payload = {
     'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
+    'coin': coin,
     'agent': 'bitcoinrpc',
-    'method': 'encryptwallet',
-    'passphrase': _passphrase,
+    'method': 'getinfo',
   };
 
   return dispatch => {
     const _timestamp = Date.now();
     dispatch(logGuiHttp({
       'timestamp': _timestamp,
-      'function': 'createNewWallet',
+      'function': 'getSyncInfo',
       'type': 'post',
       'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
@@ -53,16 +53,22 @@ export function createNewWallet(_passphrase) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'createNewWallet', 'Error', 'error'));
+      dispatch(triggerToaster(true, 'getSyncInfo', 'Error', 'error'));
     })
-    .then(response => response.json())
-    .then(json => {
+    .then(function(response) {
+      const _response = response.text().then(function(text) { return text; });
+
+      return _response;
+    })
+    .then(function(json) {
       dispatch(logGuiHttp({
         'timestamp': _timestamp,
         'status': 'success',
         'response': json,
       }));
-      dispatch(createNewWalletState(json));
+      if (json.indexOf('coin is busy processing') === -1) {
+        dispatch(getSyncInfoState(json, dispatch));
+      }
     })
   }
 }

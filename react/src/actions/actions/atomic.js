@@ -1,35 +1,28 @@
-import * as storeType from './storeType';
+import { ATOMIC } from '../storeType';
 import {
   triggerToaster,
-  Config,
-  dashboardCoinsState
-} from './actionCreators';
+  Config
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
 } from './log';
 
-export function getDexCoins() {
-  const _payload = {
-    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
-    'agent': 'InstantDEX',
-    'method': 'allcoins',
-  };
-
+export function atomic(payload) {
   return dispatch => {
     const _timestamp = Date.now();
     dispatch(logGuiHttp({
       'timestamp': _timestamp,
-      'function': 'getDexCoins',
+      'function': 'atomic',
       'type': 'post',
       'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
-      'payload': _payload,
+      'payload': payload,
       'status': 'pending',
     }));
 
     return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
-      body: JSON.stringify(_payload)
+      body: JSON.stringify(payload),
     })
     .catch(function(error) {
       console.log(error);
@@ -38,7 +31,7 @@ export function getDexCoins() {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'Error getDexCoins', 'Error', 'error'));
+      dispatch(triggerToaster(true, payload.method, 'Atomic Explorer error', 'error'));
     })
     .then(response => response.json())
     .then(json => {
@@ -47,7 +40,14 @@ export function getDexCoins() {
         'status': 'success',
         'response': json,
       }));
-      dispatch(dashboardCoinsState(json));
+      dispatch(atomicState(json));
     });
+  }
+}
+
+function atomicState(json) {
+  return {
+    type: ATOMIC,
+    response: json,
   }
 }

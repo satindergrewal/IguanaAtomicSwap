@@ -1,9 +1,15 @@
-import * as storeType from './storeType';
-import { translate } from '../translate/translate';
+import {
+  LOAD_APP_INFO,
+  GET_WIF_KEY,
+  GET_DEBUG_LOG,
+  GET_PEERS_LIST,
+  LOAD_APP_CONFIG
+} from '../storeType';
+import { translate } from '../../translate/translate';
 import {
   triggerToaster,
   Config
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
@@ -11,7 +17,7 @@ import {
 
 function getAppInfoState(json) {
   return {
-    type: storeType.LOAD_APP_INFO,
+    type: LOAD_APP_INFO,
     info: json,
   }
 }
@@ -35,7 +41,7 @@ export function getAppInfo() {
 
 export function settingsWifkeyState(json, coin) {
   return {
-    type: storeType.GET_WIF_KEY,
+    type: GET_WIF_KEY,
     wifkey: json[`{$coin}wif`],
     address: json[coin],
   }
@@ -117,7 +123,7 @@ function getDebugLogState(json) {
   const _data = json.result.replace('\n', '\r\n');
 
   return {
-    type: storeType.GET_DEBUG_LOG,
+    type: GET_DEBUG_LOG,
     data: _data,
   }
 }
@@ -201,7 +207,7 @@ export function getPeersListState(json) {
   }
 
   return {
-    type: storeType.GET_PEERS_LIST,
+    type: GET_PEERS_LIST,
     supernetPeers: json && json.supernet[0] ? json.supernet : null,
     rawPeers: peersList,
   }
@@ -295,7 +301,7 @@ export function saveAppConfig(_payload) {
 
 function getAppConfigState(json) {
   return {
-    type: storeType.LOAD_APP_CONFIG,
+    type: LOAD_APP_CONFIG,
     config: json,
   }
 }

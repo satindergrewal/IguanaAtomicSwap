@@ -1,9 +1,12 @@
-import * as storeType from './storeType';
-import { translate } from '../translate/translate';
+import {
+  DASHBOARD_CONNECT_NOTARIES,
+  DASHBOARD_GET_NOTARIES_LIST
+} from '../storeType';
+import { translate } from '../../translate/translate';
 import {
   triggerToaster,
   Config
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
@@ -66,7 +69,7 @@ function updateNotaryNodeConState(json, totalNodes, currentNodeIndex, currentNod
     if (json &&
         json.error === 'less than required responses') {
       return {
-        type: storeType.DASHBOARD_CONNECT_NOTARIES,
+        type: DASHBOARD_CONNECT_NOTARIES,
         total: totalNodes - 1,
         current: currentNodeIndex,
         name: currentNodeName,
@@ -74,7 +77,7 @@ function updateNotaryNodeConState(json, totalNodes, currentNodeIndex, currentNod
       }
     } else {
       return {
-        type: storeType.DASHBOARD_CONNECT_NOTARIES,
+        type: DASHBOARD_CONNECT_NOTARIES,
         total: totalNodes - 1,
         current: currentNodeIndex,
         name: currentNodeName,
@@ -89,7 +92,7 @@ function connectAllNotaryNodes(json, dispatch) {
     dispatch(initNotaryNodesConSequence(json));
 
     return {
-      type: storeType.DASHBOARD_CONNECT_NOTARIES,
+      type: DASHBOARD_CONNECT_NOTARIES,
       total: json.length - 1,
       current: 0,
       name: json[0],
@@ -125,7 +128,7 @@ function getDexNotariesState(json) {
     }
   } else {
     return {
-      type: storeType.DASHBOARD_GET_NOTARIES_LIST,
+      type: DASHBOARD_GET_NOTARIES_LIST,
       notaries: json,
     }
   }

@@ -1,8 +1,8 @@
-import * as storeType from './storeType';
+import { DASHBOARD_ACTIVE_COIN_BALANCE } from '../storeType';
 import {
   triggerToaster,
   Config
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
@@ -49,7 +49,7 @@ export function iguanaEdexBalance(coin) {
 
 function iguanaEdexBalanceState(json) {
   return {
-    type: storeType.DASHBOARD_ACTIVE_COIN_BALANCE,
+    type: DASHBOARD_ACTIVE_COIN_BALANCE,
     balance: json && json.result ? json.result : 0,
   }
 }

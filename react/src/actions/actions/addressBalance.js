@@ -1,10 +1,12 @@
-import * as storeType from './storeType';
+import {
+  ACTIVE_COIN_GET_ADDRESSES
+} from '../storeType';
 import {
   triggerToaster,
   Config,
   shepherdGroomPost,
   getPassthruAgent
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
@@ -12,13 +14,16 @@ import {
 
 function getKMDAddressesNativeState(json) {
   return {
-    type: storeType.ACTIVE_COIN_GET_ADDRESSES,
+    type: ACTIVE_COIN_GET_ADDRESSES,
     addresses: json,
   }
 }
 
 export function getKMDAddressesNative(coin, mode, currentAddress) {
-  const type = ['public', 'private'];
+  const type = [
+    'public',
+    'private'
+  ];
 
   if (mode !== 'native') {
     type.pop();
@@ -217,7 +222,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           newAddressArray[a] = [];
 
           for (let b = 0; b < result[a].length; b++) {
-            var filteredArray;
+            let filteredArray;
 
             if (mode === 'basilisk') {
               filteredArray = json.map(res => res.amount);
@@ -226,8 +231,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             }
 
             let sum = 0;
-
-            for (let i=0; i < filteredArray.length; i++) {
+            for (let i = 0; i < filteredArray.length; i++) {
               sum += filteredArray[i];
             }
 

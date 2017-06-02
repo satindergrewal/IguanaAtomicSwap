@@ -1,41 +1,40 @@
-import * as storeType from './storeType';
+import { LOGIN } from '../storeType';
 import {
   triggerToaster,
   Config
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
 } from './log';
 
-// TODO: add custom json parser
-function getSyncInfoState(json) {
-  try {
-    JSON.parse(json);
-    json = JSON.parse(json);
-  } catch(e) {
-    //
-  }
+function logoutState(json, dispatch) {
+  sessionStorage.removeItem('IguanaActiveAccount');
 
   return {
-    type: storeType.SYNCING_FULL_MODE,
-    progress: json,
+    type: LOGIN,
+    isLoggedIn: false,
   }
 }
 
-export function getSyncInfo(coin) {
+export function logout() {
+  return dispatch => {
+    dispatch(walletLock());
+  }
+}
+
+function walletLock() {
   const payload = {
     'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
-    'coin': coin,
     'agent': 'bitcoinrpc',
-    'method': 'getinfo',
+    'method': 'walletlock',
   };
 
   return dispatch => {
     const _timestamp = Date.now();
     dispatch(logGuiHttp({
       'timestamp': _timestamp,
-      'function': 'getSyncInfo',
+      'function': 'walletLock',
       'type': 'post',
       'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
@@ -53,22 +52,16 @@ export function getSyncInfo(coin) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'getSyncInfo', 'Error', 'error'));
+      dispatch(triggerToaster(true, 'walletLock', 'Error', 'error'));
     })
-    .then(function(response) {
-      const _response = response.text().then(function(text) { return text; });
-
-      return _response;
-    })
-    .then(function(json) {
+    .then(response => response.json())
+    .then(json => {
       dispatch(logGuiHttp({
         'timestamp': _timestamp,
         'status': 'success',
         'response': json,
       }));
-      if (json.indexOf('coin is busy processing') === -1) {
-        dispatch(getSyncInfoState(json, dispatch));
-      }
+      dispatch(logoutState(json));
     })
   }
 }

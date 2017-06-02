@@ -1,12 +1,11 @@
-import * as storeType from './storeType';
-import { translate } from '../translate/translate';
+import { translate } from '../../translate/translate';
 import {
   triggerToaster,
   Config,
   toggleAddcoinModal,
   getDexCoins,
   startIguanaInstance
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
@@ -17,7 +16,7 @@ import {
   startCrypto,
   checkCoinType,
   checkAC
-} from '../components/addcoin/payload';
+} from '../../components/addcoin/payload';
 
 export function addCoin(coin, mode, syncOnly, port) {
   if (mode === '-1') {
@@ -164,7 +163,6 @@ export function shepherdHerd(coin, mode, path) {
     herdData.ac_options.push(`-ac_supply=${supply}`);
   }
 
-  console.log('herdData', herdData);
   return dispatch => {
     return fetch(`http://127.0.0.1:${Config.agamaPort}/shepherd/herd`, {
       method: 'POST',

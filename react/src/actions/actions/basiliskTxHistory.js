@@ -1,9 +1,8 @@
-import * as storeType from './storeType';
 import {
   triggerToaster,
   Config,
   getNativeTxHistoryState
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState

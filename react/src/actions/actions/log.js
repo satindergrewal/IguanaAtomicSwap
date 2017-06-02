@@ -1,8 +1,8 @@
-import * as storeType from './storeType';
+import { LOG_GUI_HTTP } from '../storeType';
 import {
   triggerToaster,
   Config
-} from './actionCreators';
+} from '../actionCreators';
 
 export function logGuiHttp(payload) {
   return dispatch => {
@@ -43,7 +43,7 @@ export function getAgamaLog(type) {
 
 export function guiLogState(logData) {
   return {
-    type: storeType.LOG_GUI_HTTP,
+    type: LOG_GUI_HTTP,
     timestamp: logData.timestamp,
     log: {
       timestamp: logData.timestamp,

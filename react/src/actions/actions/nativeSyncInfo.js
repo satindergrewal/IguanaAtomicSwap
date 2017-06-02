@@ -1,10 +1,10 @@
-import * as storeType from './storeType';
+import { SYNCING_NATIVE_MODE } from '../storeType';
 import {
   triggerToaster,
   Config,
   getPassthruAgent,
   getDebugLog
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
@@ -60,7 +60,7 @@ function getSyncInfoNativeState(json, coin, skipDebug) {
     return getSyncInfoNativeKMD(skipDebug);
   } else {
     return {
-      type: storeType.SYNCING_NATIVE_MODE,
+      type: SYNCING_NATIVE_MODE,
       progress: json,
     }
   }

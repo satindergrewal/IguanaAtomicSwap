@@ -1,13 +1,12 @@
-import * as storeType from './storeType';
 import {
   triggerToaster,
   Config
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
 } from './log';
-import { checkAC } from '../components/addcoin/payload';
+import { checkAC } from '../../components/addcoin/payload';
 
 export function getPassthruAgent(coin) {
   let passthruAgent;

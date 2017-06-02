@@ -1,11 +1,14 @@
-import * as storeType from './storeType';
-import { translate } from '../translate/translate';
+import {
+  LOGIN,
+  ACTIVE_HANDLE
+} from '../storeType';
+import { translate } from '../../translate/translate';
 import {
   triggerToaster,
   Config,
   getMainAddressState,
   updateErrosStack
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
@@ -196,14 +199,14 @@ function iguanaWalletPassphraseState(json, dispatch) {
   dispatch(iguanaActiveHandleState(json));
 
   return {
-    type: storeType.LOGIN,
+    type: LOGIN,
     isLoggedIn: json && json.pubkey ? true : false,
   }
 }
 
 function iguanaActiveHandleState(json) {
   return {
-    type: storeType.ACTIVE_HANDLE,
+    type: ACTIVE_HANDLE,
     isLoggedIn: sessionStorage.getItem('IguanaActiveAccount') && JSON.parse(sessionStorage.getItem('IguanaActiveAccount')).pubkey === json.pubkey && json.status === 'unlocked' ? true : false,
     handle: json,
   }

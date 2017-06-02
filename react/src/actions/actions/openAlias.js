@@ -1,8 +1,4 @@
-import * as storeType from './storeType';
-import {
-  triggerToaster,
-  Config
-} from './actionCreators';
+import { triggerToaster } from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState

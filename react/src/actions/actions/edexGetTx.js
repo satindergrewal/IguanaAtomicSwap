@@ -1,38 +1,34 @@
-import * as storeType from './storeType';
 import {
   triggerToaster,
-  Config,
-  getNativeTxHistoryState
-} from './actionCreators';
+  Config
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
 } from './log';
 
-export function getFullTransactionsList(coin) {
+export function edexGetTransaction(data, dispatch) {
   const payload = {
     'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
-    'coin': coin,
-    'method': 'listtransactions',
-    'params': [
-      0,
-      9999999,
-      []
-    ],
+    'symbol': data.coin,
+    'agent': 'dex',
+    'method': 'gettransaction',
+    'vout': 1,
+    'txid': data.txid
   };
 
-  return dispatch => {
+  return new Promise((resolve, reject) => {
     const _timestamp = Date.now();
     dispatch(logGuiHttp({
       'timestamp': _timestamp,
-      'function': 'getFullTransactionsList',
+      'function': 'edexGetTransaction',
       'type': 'post',
       'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
       'payload': payload,
       'status': 'pending',
     }));
 
-    return fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
+    fetch(`http://127.0.0.1:${Config.iguanaCorePort}`, {
       method: 'POST',
       body: JSON.stringify(payload),
     })
@@ -43,7 +39,7 @@ export function getFullTransactionsList(coin) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'getFullTransactionsList', 'Error', 'error'));
+      dispatch(triggerToaster(true, 'edexGetTransaction', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => {
@@ -52,7 +48,7 @@ export function getFullTransactionsList(coin) {
         'status': 'success',
         'response': json,
       }));
-      dispatch(getNativeTxHistoryState(json));
+      resolve(json);
     })
-  }
+  });
 }

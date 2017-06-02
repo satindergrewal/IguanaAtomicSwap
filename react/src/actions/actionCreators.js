@@ -8,38 +8,38 @@ import {
   logGuiHttp,
   getAgamaLog,
   guiLogState
-} from './log';
+} from './actions/log';
 
-export * from './nativeSyncInfo';
-export * from './basiliskCache';
-export * from './nativeSend';
-export * from './coinList';
-export * from './createWallet';
-export * from './nativeTxHistory';
-export * from './nativeBalance';
-export * from './nativeNewAddress';
-export * from './logout';
-export * from './basiliskProcessAddress';
-export * from './edexGetTx';
-export * from './sendFullBasilisk';
-export * from './settings';
-export * from './syncOnly';
-export * from './iguanaInstance';
-export * from './notary';
-export * from './edexBalance';
-export * from './addCoin';
-export * from './addressBalance';
-export * from './syncInfo';
-export * from './getAddrByAccount';
-export * from './atomic';
-export * from './walletAuth';
-export * from './openAlias';
-export * from './copyAddress';
-export * from './sysInfo';
-export * from './dexCoins';
-export * from './fullTxHistory';
-export * from './basiliskTxHistory';
-export * from './iguanaHelpers';
+export * from './actions/nativeSyncInfo';
+export * from './actions/basiliskCache';
+export * from './actions/nativeSend';
+export * from './actions/coinList';
+export * from './actions/createWallet';
+export * from './actions/nativeTxHistory';
+export * from './actions/nativeBalance';
+export * from './actions/nativeNewAddress';
+export * from './actions/logout';
+export * from './actions/basiliskProcessAddress';
+export * from './actions/edexGetTx';
+export * from './actions/sendFullBasilisk';
+export * from './actions/settings';
+export * from './actions/syncOnly';
+export * from './actions/iguanaInstance';
+export * from './actions/notary';
+export * from './actions/edexBalance';
+export * from './actions/addCoin';
+export * from './actions/addressBalance';
+export * from './actions/syncInfo';
+export * from './actions/getAddrByAccount';
+export * from './actions/atomic';
+export * from './actions/walletAuth';
+export * from './actions/openAlias';
+export * from './actions/copyAddress';
+export * from './actions/sysInfo';
+export * from './actions/dexCoins';
+export * from './actions/fullTxHistory';
+export * from './actions/basiliskTxHistory';
+export * from './actions/iguanaHelpers';
 
 export let Config;
 

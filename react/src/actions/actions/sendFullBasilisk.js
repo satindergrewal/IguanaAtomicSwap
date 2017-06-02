@@ -1,10 +1,10 @@
-import * as storeType from './storeType';
-import { translate } from '../translate/translate';
+import { DASHBOARD_ACTIVE_COIN_SENDTO } from '../storeType';
+import { translate } from '../../translate/translate';
 import {
   triggerToaster,
   Config,
   getDispatch
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
@@ -125,7 +125,6 @@ export function iguanaUTXORawTX(data, dispatch) {
     },
     'utxos': data.utxos,
   };
-  console.log('iguanaUTXORawTXExport', payload);
 
   return new Promise((resolve, reject) => {
     const _timestamp = Date.now();
@@ -218,14 +217,14 @@ function sendToAddressState(json, dispatch) {
     dispatch(triggerToaster(true, json.error, 'Error', 'error'));
 
     return {
-      type: storeType.DASHBOARD_ACTIVE_COIN_SENDTO,
+      type: DASHBOARD_ACTIVE_COIN_SENDTO,
       lastSendToResponse: json,
     }
   } else if (json && json.result && json.complete) {
     dispatch(triggerToaster(true, translate('TOASTR.TX_SENT_ALT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
 
     return {
-      type: storeType.DASHBOARD_ACTIVE_COIN_SENDTO,
+      type: DASHBOARD_ACTIVE_COIN_SENDTO,
       lastSendToResponse: json,
     }
   }
@@ -233,14 +232,14 @@ function sendToAddressState(json, dispatch) {
 
 export function sendToAddressStateAlt(json) {
   return {
-    type: storeType.DASHBOARD_ACTIVE_COIN_SENDTO,
+    type: DASHBOARD_ACTIVE_COIN_SENDTO,
     lastSendToResponse: json,
   }
 }
 
 export function clearLastSendToResponseState() {
   return {
-    type: storeType.DASHBOARD_ACTIVE_COIN_SENDTO,
+    type: DASHBOARD_ACTIVE_COIN_SENDTO,
     lastSendToResponse: null,
   }
 }

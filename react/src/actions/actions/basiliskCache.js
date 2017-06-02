@@ -1,8 +1,8 @@
-import * as storeType from './storeType';
+import { DASHBOARD_ACTIVE_COIN_GET_CACHE } from '../storeType';
 import {
   triggerToaster,
   Config
-} from './actionCreators';
+} from '../actionCreators';
 import {
   logGuiHttp,
   guiLogState
@@ -101,7 +101,7 @@ function getShepherdCacheState(json, pubkey, coin) {
     }
   } else {
     return {
-      type: storeType.DASHBOARD_ACTIVE_COIN_GET_CACHE,
+      type: DASHBOARD_ACTIVE_COIN_GET_CACHE,
       cache: json && json.result && json.result.basilisk ? json.result.basilisk : null,
     }
   }
