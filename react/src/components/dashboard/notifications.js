@@ -195,6 +195,13 @@ class Notifications extends React.Component {
           <span className="badge success">{ this.state.totalSuccessCalls }</span>
           <span className="badge error">{ this.state.totalErrorCalls }</span>
           <span className="badge pending">{ this.state.totalPendingCalls }</span>
+          <div className={ this.state.totalPendingCalls === 0 ? 'spinner spinner-hide' : 'spinner' }>
+            <div className="rect1"></div>
+            <div className="rect2"></div>
+            <div className="rect3"></div>
+            <div className="rect4"></div>
+            <div className="rect5"></div>
+          </div>
         </div>
         { this.renderNotificationsModal() }
       </div>

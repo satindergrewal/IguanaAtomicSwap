@@ -31,8 +31,6 @@ class Navbar extends React.Component {
   }
 
   handleClickOutside(e) {
-    console.log(e);
-
     if (e.srcElement.className !== 'dropdown-menu' &&
         e.srcElement.alt !== 'iguana profile pic' &&
         e.srcElement.offsetParent.className !== 'avatar avatar-online' &&
@@ -133,11 +131,6 @@ class Navbar extends React.Component {
                   <i className="site-menu-icon" aria-hidden="true"></i> Atomic Explorer
                 </a>
               </li>
-              <li className="nav-top-menu">
-                <a id="nav-iguana-atomic-explorer" onClick={ () => this.openSyncOnlyModal() }>
-                  <i className="site-menu-icon" aria-hidden="true"></i> { translate('ADD_COIN.SYNC_ONLY') }
-                </a>
-              </li>
             </ul>
             <ul className="nav navbar-toolbar navbar-right navbar-toolbar-right">
               <li role="presentation">
@@ -167,6 +160,14 @@ class Navbar extends React.Component {
                       id="nav-iguana-wallet-settings"
                       onClick={ () => this.dashboardChangeSection('settings') }>
                       <i className="icon md-settings" aria-hidden="true"></i> { translate('INDEX.SETTINGS') }
+                    </a>
+                  </li>
+                  <li role="presentation">
+                    <a
+                      role="menuitem"
+                      id="nav-iguana-sync-only"
+                      onClick={ () => this.openSyncOnlyModal() }>
+                      <i className="icon fa-cubes" aria-hidden="true"></i> { translate('ADD_COIN.SYNC_ONLY') }
                     </a>
                   </li>
                   <li role="presentation">
