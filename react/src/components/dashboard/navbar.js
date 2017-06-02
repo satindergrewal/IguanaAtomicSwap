@@ -33,7 +33,7 @@ class Navbar extends React.Component {
   handleClickOutside(e) {
     if (e.srcElement.className !== 'dropdown-menu' &&
         e.srcElement.alt !== 'iguana profile pic' &&
-        e.srcElement.offsetParent.className !== 'avatar avatar-online' &&
+        (e.srcElement.offsetParent && e.srcElement.offsetParent.className !== 'avatar avatar-online') &&
         e.srcElement.className.indexOf('navbar-avatar') === -1 &&
         (e.path && e.path[4] && e.path[4].className.indexOf('dropdown-menu') === -1)) {
       this.setState({
