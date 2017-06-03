@@ -35,15 +35,13 @@ class WalletsProgress extends React.Component {
               <div id="currency-progressbars">
                 <div className="progress progress-sm">
                   <div
-                    className={'full-width font-size-80-percent ' + (this.isFullySynced() ? 'progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success' : 'hide') }
-                    role="progressbar"
+                    className={ 'full-width font-size-80-percent ' + (this.isFullySynced() ? 'progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success' : 'hide') }
                     id="currency-bundles">
                     { translate('INDEX.BUNDLES') } <span id="currency-bundles-percent">({ this.props.ActiveCoin.coin }) 100.00% - ( { this.props.Dashboard.progress.blocks } / { this.props.Dashboard.progress.blocks } ) ==&gt;&gt; RT{ this.props.Dashboard.progress.RTheight }</span>
                   </div>
                   <div
-                    className={'font-size-80-percent ' + (this.isFullySynced() ? 'hide' : 'progress-bar progress-bar-info progress-bar-striped active') }
+                    className={ 'font-size-80-percent ' + (this.isFullySynced() ? 'hide' : 'progress-bar progress-bar-info progress-bar-striped active') }
                     style={{ width: this.props.Dashboard.progress.bundles + '%' }}
-                    role="progressbar"
                     id="currency-bundles">
                     { translate('INDEX.BUNDLES') } <span id="currency-bundles-percent">{ this.props.Dashboard.progress.bundles }%</span>
                   </div>
@@ -54,7 +52,6 @@ class WalletsProgress extends React.Component {
                   <div
                     className="progress-bar progress-bar-warning progress-bar-striped active font-size-80-percent"
                     style={{ width: this.props.Dashboard.progress.utxo + '%' }}
-                    role="progressbar"
                     id="currency-utxo">
                     utxo <span id="currency-utxo-percent">{ this.props.Dashboard.progress.utxo }%</span>
                   </div>
@@ -63,7 +60,6 @@ class WalletsProgress extends React.Component {
                   <div
                     className="progress-bar progress-bar-danger progress-bar-striped active font-size-80-percent"
                     style={{ width: this.props.Dashboard.progress.balances + '%' }}
-                    role="progressbar"
                     id="currency-balances">
                     { translate('INDEX.BALANCES') } <span id="currency-balances-percent">{ this.props.Dashboard.progress.balances }%</span>
                   </div>
@@ -72,7 +68,6 @@ class WalletsProgress extends React.Component {
                   <div
                     className="progress-bar progress-bar-success progress-bar-striped active font-size-80-percent"
                     style={{ width: this.props.Dashboard.progress.validated + '%' }}
-                    role="progressbar"
                     id="currency-validated">
                     { translate('INDEX.VALIDATED') } <span id="currency-validated-percent">{ this.props.Dashboard.progress.validated }%</span>
                   </div>

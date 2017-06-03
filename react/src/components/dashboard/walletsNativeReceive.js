@@ -88,32 +88,21 @@ class WalletsNativeReceive extends React.Component {
                         <div className={ 'dropdown' + (this.state.openDropMenu ? ' open' : '') } onClick={ this.openDropMenu }>
                           <a
                             className="dropdown-toggle white btn btn-warning"
-                            id="GetNewRecievingAddress"
-                            href="javascript:void(0)"
-                            aria-expanded="false"
-                            role="button">
-                            <i className="icon md-arrows margin-right-10" aria-hidden="true"></i> { translate('INDEX.GET_NEW_ADDRESS') } <span className="caret"></span>
+                            id="GetNewRecievingAddress">
+                            <i className="icon md-arrows margin-right-10"></i> { translate('INDEX.GET_NEW_ADDRESS') } <span className="caret"></span>
                           </a>
                           <ul
-                            className="dropdown-menu dropdown-menu-right"
-                            aria-labelledby="GetNewRecievingAddress"
-                            role="menu">
-                            <li role="presentation">
-                              <a
-                                href="javascript:void(0)"
-                                id="kmd_get_new_taddr"
-                                role="menuitem"
+                            className="dropdown-menu dropdown-menu-right">
+                            <li>
+                              <a id="kmd_get_new_taddr"
                                 onClick={ () => this.getNewAddress('public') }>
-                                <i className="icon fa-eye" aria-hidden="true"></i> { translate('INDEX.TRANSPARENT_ADDRESS') }
+                                <i className="icon fa-eye"></i> { translate('INDEX.TRANSPARENT_ADDRESS') }
                               </a>
                             </li>
-                            <li data-extcoin="COIN" role="presentation">
-                              <a
-                                href="javascript:void(0)"
-                                id="kmd_get_new_zaddr"
-                                role="menuitem"
+                            <li>
+                              <a id="kmd_get_new_zaddr"
                                 onClick={ () => this.getNewAddress('private') }>
-                                <i className="icon fa-eye-slash" aria-hidden="true"></i> { translate('INDEX.PRIVATE_Z_ADDRESS') }
+                                <i className="icon fa-eye-slash"></i> { translate('INDEX.PRIVATE_Z_ADDRESS') }
                               </a>
                             </li>
                           </ul>

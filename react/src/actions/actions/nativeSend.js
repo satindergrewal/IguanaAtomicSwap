@@ -16,7 +16,7 @@ export function sendNativeTx(coin, _payload) {
   let payload;
   let _apiMethod;
 
-  if (_payload.addressType === 'public') {
+  if (_payload.addressType === 'public' && _payload.sendTo.length !== 95) {
     _apiMethod = 'sendtoaddress';
     ajaxDataToHex = `["${_payload.sendTo}", ${Number(_payload.amount) - Number(_payload.fee)}]`;
   } else {

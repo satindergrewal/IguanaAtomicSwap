@@ -90,9 +90,9 @@ class WalletsBalance extends React.Component {
         <div id="wallet-widgets">
           <div className="col-xs-12">
             <div className={ this.props.ActiveCoin.mode === 'native' || (this.props.ActiveCoin.mode === 'full' && !this.isFullySynced()) ? 'col-xs-12' : 'col-xs-12 hide' }>
-              <div role="alert" className="alert alert-info alert-dismissible" id="edexcoin-wallet-waitingrt-alert">
-                <button aria-label="Close" data-dismiss="alert" className="close" type="button">
-                  <span aria-hidden="true">×</span>
+              <div className="alert alert-info alert-dismissible" id="edexcoin-wallet-waitingrt-alert">
+                <button className="close" type="button">
+                  <span>×</span>
                 </button>
                 <h4>{ translate('INDEX.ACTIVATING_WALLET_RT') }</h4>
                 <p id="edexcoin-wallet-waitingrt-alert-text">{ translate('INDEX.IGUANA_FULL_MODE_SYNC_P1') }</p>
@@ -100,9 +100,9 @@ class WalletsBalance extends React.Component {
                 <p className="font-weight-600">{ this.renderLB('INDEX.IGUANA_FULL_MODE_SYNC_P3') }</p>
               </div>
 
-              <div role="alert" className="alert alert-info alert-dismissible" id="edexcoin-wallet-waitingcache-alert">
-                <button aria-label="Close" data-dismiss="alert" className="close" type="button">
-                  <span aria-hidden="true">×</span>
+              <div className="alert alert-info alert-dismissible" id="edexcoin-wallet-waitingcache-alert">
+                <button className="close" type="button">
+                  <span>×</span>
                 </button>
                 <h4>{ translate('INDEX.FETCHING_COIN_DATA') }</h4>
                 <p id="edexcoin-wallet-waitingcache-alert-text">{ translate('INDEX.IGUANA_FULL_MODE_SYNC_P1') }</p>

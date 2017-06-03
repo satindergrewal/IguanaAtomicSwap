@@ -7,9 +7,9 @@ class WalletsNativeAlert extends React.Component {
         this.props.Dashboard &&
         !this.props.Dashboard.progress) {
       return (
-        <div role="alert" className="alert alert-danger alert-dismissible" id="extcoin-wallet-connection-alert">
-          <button aria-label="Close" data-dismiss="alert" className="close" type="button">
-            <span aria-hidden="true">×</span>
+        <div className="alert alert-danger alert-dismissible" id="extcoin-wallet-connection-alert">
+          <button className="close" type="button">
+            <span>×</span>
           </button>
           <h4>{ translate('INDEX.OOPS_ERROR') }</h4>
           <p id="extcoin-wallet-connection-alert-text">

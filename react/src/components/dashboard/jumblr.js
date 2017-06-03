@@ -36,9 +36,9 @@ class Jumblr extends React.Component {
         <div className="page-content margin-top-30" id="section-jumblr">
           <div className="row" id="jumblr_dashboard">
             <div className="col-xs-12" id="jumblr_testing_alert">
-              <div className="alert alert-danger" role="alert">
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">×</span>
+              <div className="alert alert-danger">
+                <button type="button" className="close">
+                  <span>×</span>
                 </button>
                 <span className="jumblr-header">
                   <i className="icon fa-paw" aria-hidden="true"></i> { translate('JUMBLR.NOTICE') }
@@ -50,11 +50,11 @@ class Jumblr extends React.Component {
 
             <div className="col-xs-12" id="jumblr_no_native_kmd_alert">
               <div className="alert alert-info alert-dismissible" role="alert">
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">×</span>
+                <button type="button" className="close">
+                  <span>×</span>
                 </button>
                 <span className="jumblr-header">
-                  <i className="icon fa-paw" aria-hidden="true"></i> { translate('JUMBLR.NEED_NATIVE') }
+                  <i className="icon fa-paw"></i> { translate('JUMBLR.NEED_NATIVE') }
                 </span>
                 <br />
                 { translate('JUMBLR.TO_USE_JUMBLR') }
@@ -68,23 +68,17 @@ class Jumblr extends React.Component {
             </div>
 
             <div className="col-xs-12">
-              <div className="panel-group" id="jumber_quick_info" aria-multiselectable="true" role="tablist">
+              <div className="panel-group" id="jumber_quick_info">
                 <div className="panel">
                   <div
                     className="panel-heading"
                     id="jumblr_security_notes"
-                    role="tab"
                     onClick={ () => this.openTab(0) }>
-                    <a
-                      className={ this.state.activeTab === 0 ? 'panel-title' : 'panel-title collapsed' }
-                      aria-expanded="true"
-                      aria-controls="jumblr_security_notes_1">{ translate('JUMBLR.FEW_SECURITY_NOTES') }</a>
+                    <a className={ this.state.activeTab === 0 ? 'panel-title' : 'panel-title collapsed' }>{ translate('JUMBLR.FEW_SECURITY_NOTES') }</a>
                   </div>
                   <div
                     className={ this.state.activeTab === 0 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                    id="jumblr_security_notes_1"
-                    aria-labelledby="jumblr_security_notes"
-                    role="tabpanel">
+                    id="jumblr_security_notes_1">
                     <div className="panel-body">
                       <ul>
                         <li>{ translate('JUMBLR.FEW_SECURITY_NOTES_DESC1') }</li>
@@ -100,18 +94,12 @@ class Jumblr extends React.Component {
                   <div
                     className="panel-heading"
                     id="jumblr_access_funds"
-                    role="tab"
                     onClick={ () => this.openTab(1) }>
-                    <a
-                      className={ this.state.activeTab === 1 ? 'panel-title' : 'panel-title collapsed' }
-                      aria-expanded="false"
-                      aria-controls="jumblr_access_funds_2">{ translate('JUMBLR.ACCESS_JUMBLR_FUNDS') }</a>
+                    <a className={ this.state.activeTab === 1 ? 'panel-title' : 'panel-title collapsed' }>{ translate('JUMBLR.ACCESS_JUMBLR_FUNDS') }</a>
                   </div>
                   <div
                     className={ this.state.activeTab === 1 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                    id="jumblr_access_funds_2"
-                    aria-labelledby="jumblr_access_funds"
-                    role="tabpanel">
+                    id="jumblr_access_funds_2">
                     <div className="panel-body">
                       <p>{ translate('JUMBLR.ADDRESS_ACCESSIBLE_EASILY') }</p>
                       <ul>
@@ -140,17 +128,12 @@ class Jumblr extends React.Component {
                   </div>
                 </div>
                 <div className="panel">
-                  <div className="panel-heading" id="jumblr_using_jumblr" role="tab" onClick={ () => this.openTab(2) }>
-                    <a
-                      className={ this.state.activeTab === 2 ? 'panel-title' : 'panel-title collapsed' }
-                      aria-expanded="false"
-                      aria-controls="jumblr_using_jumblr_3">{ translate('JUMBLR.USING_JUMBLR') }</a>
+                  <div className="panel-heading" id="jumblr_using_jumblr" onClick={ () => this.openTab(2) }>
+                    <a className={ this.state.activeTab === 2 ? 'panel-title' : 'panel-title collapsed' }>{ translate('JUMBLR.USING_JUMBLR') }</a>
                   </div>
                   <div
                     className={ this.state.activeTab === 2 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                    id="jumblr_using_jumblr_3"
-                    aria-labelledby="jumblr_using_jumblr"
-                    role="tabpanel">
+                    id="jumblr_using_jumblr_3">
                     <div className="panel-body">
                       <ul>
                         <li>{ translate('JUMBLR.RUN_KMD') }</li>
@@ -188,7 +171,9 @@ class Jumblr extends React.Component {
                         <td>BTC Jumblr</td>
                         <td>
                           <button type="button" className="btn btn-animate btn-animate-side btn-default btn-sm waves-effect waves-light jumblr_show_hide_addr_btc_btn">
-                            <span><i className="icon fa-eye" aria-hidden="true"></i> { translate('JUMBLR.SHOW_HIDE') }</span>
+                            <span>
+                              <i className="icon fa-eye"></i> { translate('JUMBLR.SHOW_HIDE') }
+                            </span>
                           </button>
                           <span
                             className="label label-lg label-outline label-success"

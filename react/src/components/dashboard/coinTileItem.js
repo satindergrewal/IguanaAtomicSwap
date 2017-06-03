@@ -36,10 +36,6 @@ class CoinTileItem extends React.Component {
   // TODO: 1) cache native/full node data to file
   //       2) limit amount of req per update e.g. list of addresses don't change too often
   //       3) limit req in basilisk as much as possible incl. activehandle
-  //       4) add pending requests store
-
-  // TODO: update all addresses once in 20 min, current address every 10 min
-  // always fetch main addr data and current selected address
 
   dispatchCoinActions(coin, mode) {
     if (mode === 'native') {

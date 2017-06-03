@@ -53,10 +53,8 @@ class WalletsNativeSend extends React.Component {
         this.props.ActiveCoin.addresses[type] &&
         this.props.ActiveCoin.addresses[type].length) {
       return this.props.ActiveCoin.addresses[type].map((address) =>
-        <li data-original-index="2" key={ address.address } className={ address.amount <= 0 ? 'hide' : '' }>
-          <a
-            tabIndex="0"
-            onClick={ () => this.updateAddressSelection(address.address, type, address.amount) }><i className={ type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash' }></i>  <span className="text">[ { address.amount } { this.props.ActiveCoin.coin } ]  { address.address }</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+        <li key={ address.address } className={ address.amount <= 0 ? 'hide' : '' }>
+          <a onClick={ () => this.updateAddressSelection(address.address, type, address.amount) }><i className={ type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash' }></i>  <span className="text">[ { address.amount } { this.props.ActiveCoin.coin } ]  { address.address }</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
         </li>
       );
     } else {
@@ -85,7 +83,6 @@ class WalletsNativeSend extends React.Component {
           type="button"
           className="btn dropdown-toggle btn-info"
           title="- { translate('SEND.SELECT_T_OR_Z_ADDR') } -"
-          aria-expanded="true"
           onClick={ this.openDropMenu }>
           <span className="filter-option pull-left">{ this.renderSelectorCurrentLabel() } </span>
           <span className="bs-caret">
@@ -93,9 +90,9 @@ class WalletsNativeSend extends React.Component {
           </span>
         </button>
         <div className="dropdown-menu open">
-          <ul className="dropdown-menu inner" role="menu">
+          <ul className="dropdown-menu inner">
             <li className="selected">
-              <a tabIndex="0"><span className="text"> - { translate('SEND.SELECT_T_OR_Z_ADDR') } - </span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+              <a><span className="text"> - { translate('SEND.SELECT_T_OR_Z_ADDR') } - </span><span className="glyphicon glyphicon-ok check-mark"></span></a>
             </li>
             { this.renderAddressByType('public') }
             { this.renderAddressByType('private') }
@@ -125,13 +122,11 @@ class WalletsNativeSend extends React.Component {
       }
     };
 
-    if (opid.status === 'queued') {
-      return (
-        <span className={`label label-${_satatusDef[opid.status].icon}`}>
-          <i className="icon fa-eye"></i> <span>{ translate(`KMD_NATIVE.${_satatusDef[opid.status].label}`) }</span>
-        </span>
-      );
-    }
+    return (
+      <span className={ `label label-${_satatusDef[opid.status].icon}` }>
+        <i className="icon fa-eye"></i> <span>{ translate(`KMD_NATIVE.${_satatusDef[opid.status].label}`) }</span>
+      </span>
+    );
   }
 
   renderOPIDResult(opid) {
@@ -296,7 +291,7 @@ class WalletsNativeSend extends React.Component {
                 </h3>
               </div>
               <div className="panel-body container-fluid">
-                <form className="extcoin-send-form" method="post" role="form" autoComplete="off">
+                <form className="extcoin-send-form" method="post" autoComplete="off">
                   <div className="row">
                     <div className="col-xlg-12 form-group form-material">
                       <label
@@ -355,7 +350,8 @@ class WalletsNativeSend extends React.Component {
                         type="button"
                         className="btn btn-primary waves-effect waves-light pull-right"
                         id="kmd_wallet_send_coins_btn"
-                        onClick={ this.handleSubmit }>
+                        onClick={ this.handleSubmit }
+                        disabled={ !this.state.sendFrom || !this.state.sendTo || !this.state.amount }>
                         { translate('INDEX.SEND') } { this.state.amount } { this.props.ActiveCoin.coin }
                       </button>
                     </div>

@@ -126,16 +126,14 @@ class Settings extends React.Component {
     if (releaseInfo) {
       return (
         <div className="panel" id="AppInfo" onClick={ () => this.openTab('AppInfo', 8) }>
-          <div className="panel-heading" role="tab">
+          <div className="panel-heading">
             <a className={this.state.activeTab === 8 ? 'panel-title' : 'panel-title collapsed'}>
-              <i className="icon md-info" aria-hidden="true"></i>{ translate('SETTINGS.APP_INFO') }
+              <i className="icon md-info"></i>{ translate('SETTINGS.APP_INFO') }
             </a>
           </div>
           <div
             className={ this.state.activeTab === 8 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-            style={{ height: this.state.activeTab === 8 ? this.state.activeTabHeight + 'px' : '0' }}
-            aria-labelledby="DebugLog"
-            role="tabpanel">
+            style={{ height: this.state.activeTab === 8 ? this.state.activeTabHeight + 'px' : '0' }}>
             <div className="panel-body">
               <div className="col-sm-12 padding-top-15">
                 <div className="row">
@@ -351,22 +349,20 @@ class Settings extends React.Component {
               <div className="row" id="iguana-wallet-settings">
                 <div className="col-xlg-12 col-md-12">
                   <h4 className="font-size-14 text-uppercase">{ translate('INDEX.WALLET_SETTINGS') }</h4>
-                  <div className="panel-group" id="SettingsAccordion" aria-multiselectable="true" role="tablist">
+                  <div className="panel-group" id="SettingsAccordion">
                     <div
                       className="panel"
                       id="WalletInfo"
                       onClick={ () => this.openTab('WalletInfo', 0) }>
-                      <div className="panel-heading" role="tab">
+                      <div className="panel-heading">
                         <a className={ this.state.activeTab === 0 ? 'panel-title' : 'panel-title collapsed' }>
-                          <i className="icon md-balance-wallet" aria-hidden="true"></i>{ translate('INDEX.WALLET_INFO') }
+                          <i className="icon md-balance-wallet"></i>{ translate('INDEX.WALLET_INFO') }
                         </a>
                       </div>
                       <div
                         className={ this.state.activeTab === 0 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
                         style={{ height: this.state.activeTab === 0 ? this.state.activeTabHeight + 'px' : '0' }}
-                        id="WalletInfoTab"
-                        aria-labelledby="WalletInfo"
-                        role="tabpanel">
+                        id="WalletInfoTab">
                         <div className="panel-body">
                           <table className="table" id="wallet-info-table">
                             <thead>
@@ -422,17 +418,15 @@ class Settings extends React.Component {
                       className="panel"
                       id="AddNodeforCoin"
                       onClick={ () => this.openTab('AddNodeforCoin', 1) }>
-                      <div className="panel-heading" role="tab">
+                      <div className="panel-heading">
                         <a className={ this.state.activeTab === 1 ? 'panel-title' : 'panel-title collapsed' }>
-                          <i className="icon md-plus-square" aria-hidden="true"></i>{ translate('INDEX.ADD_NODE') }
+                          <i className="icon md-plus-square"></i>{ translate('INDEX.ADD_NODE') }
                         </a>
                       </div>
                       <div
                         className={ this.state.activeTab === 1 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
                         style={{ height: this.state.activeTab === 1 ? this.state.activeTabHeight + 'px' : '0' }}
-                        id="AddNodeforCoinTab"
-                        aria-labelledby="AddNodeforCoin"
-                        role="tabpanel">
+                        id="AddNodeforCoinTab">
                         <div className="panel-body">
                           <div className="row">
                             <div className="col-sm-6">
@@ -516,17 +510,15 @@ class Settings extends React.Component {
                       className="panel"
                       id="DumpWallet"
                       onClick={ () => this.openTab('DumpWallet', 2) }>
-                      <div className="panel-heading" role="tab">
+                      <div className="panel-heading">
                         <a className={this.state.activeTab === 2 ? 'panel-title' : 'panel-title collapsed'}>
-                          <i className="icon wb-briefcase" aria-hidden="true"></i>{ translate('INDEX.WALLET_BACKUP') }
+                          <i className="icon wb-briefcase"></i>{ translate('INDEX.WALLET_BACKUP') }
                         </a>
                       </div>
                       <div
                         className={ this.state.activeTab === 2 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
                         style={{ height: this.state.activeTab === 2 ? this.state.activeTabHeight + 'px' : '0' }}
-                        id="DumpWalletTab"
-                        aria-labelledby="DumpWallet"
-                        role="tabpanel">
+                        id="DumpWalletTab">
                         <div className="panel-body">Wallet Backup section to be updated soon.</div>
                       </div>
                     </div>
@@ -535,17 +527,15 @@ class Settings extends React.Component {
                       className="panel"
                       id="FiatCurrencySettings"
                       onClick={ () => this.openTab('FiatCurrencySettings', 3) }>
-                      <div className="panel-heading" role="tab">
+                      <div className="panel-heading">
                         <a className={ this.state.activeTab === 3 ? 'panel-title' : 'panel-title collapsed' }>
-                          <i className="icon fa-money" aria-hidden="true"></i>{ translate('INDEX.FIAT_CURRENCY') }
+                          <i className="icon fa-money"></i>{ translate('INDEX.FIAT_CURRENCY') }
                         </a>
                       </div>
                       <div
                         className={ this.state.activeTab === 3 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
                         style={{ height: this.state.activeTab === 3 ? this.state.activeTabHeight + 'px' : '0' }}
-                        id="FiatCurrencySettingsTab"
-                        aria-labelledby="FiatCurrencySettings"
-                        role="tabpanel">
+                        id="FiatCurrencySettingsTab">
                         <div className="panel-body">Fiat currency settings section to be updated soon.</div>
                       </div>
                     </div>
@@ -554,17 +544,15 @@ class Settings extends React.Component {
                       className="panel"
                       id="ExportKeys"
                       onClick={ () => this.openTab('ExportKeys', 4) }>
-                      <div className="panel-heading" role="tab">
+                      <div className="panel-heading">
                         <a className={ this.state.activeTab === 4 ? 'panel-title' : 'panel-title collapsed' }>
-                          <i className="icon md-key" aria-hidden="true"></i>{ translate('INDEX.EXPORT_KEYS') }
+                          <i className="icon md-key"></i>{ translate('INDEX.EXPORT_KEYS') }
                         </a>
                       </div>
                       <div
                         className={ this.state.activeTab === 4 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
                         style={{ height: this.state.activeTab === 4 ? this.state.activeTabHeight + 'px' : '0' }}
-                        id="ExportKeysTab"
-                        aria-labelledby="ExportKeys"
-                        role="tabpanel">
+                        id="ExportKeysTab">
                         <div className="panel-body">
                           <p>
                             <div>{ this.renderLB('INDEX.ONLY_ACTIVE_WIF_KEYS') }</div><br/>
@@ -618,17 +606,15 @@ class Settings extends React.Component {
                       className="panel"
                       id="ImportKeys"
                       onClick={ () => this.openTab('ImportKeys', 5) }>
-                      <div className="panel-heading" role="tab">
+                      <div className="panel-heading">
                         <a className={ this.state.activeTab === 5 ? 'panel-title' : 'panel-title collapsed' }>
-                          <i className="icon md-key" aria-hidden="true"></i>{ translate('INDEX.IMPORT_KEYS') }
+                          <i className="icon md-key"></i>{ translate('INDEX.IMPORT_KEYS') }
                         </a>
                       </div>
                       <div
                         className={ this.state.activeTab === 5 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
                         style={{ height: this.state.activeTab === 5 ? this.state.activeTabHeight + 'px' : '0' }}
-                        id="ImportKeysTab"
-                        aria-labelledby="ImportKeys"
-                        role="tabpanel">
+                        id="ImportKeysTab">
                         <div className="panel-body">
                           <p>
                             <div>{ translate('INDEX.IMPORT_KEYS_DESC_P1') }</div><br/>
@@ -667,15 +653,15 @@ class Settings extends React.Component {
                       className="panel"
                       id="DebugLog"
                       onClick={ () => this.openTab('DebugLog', 6) }>
-                      <div className="panel-heading" role="tab">
+                      <div className="panel-heading">
                         <a className={ this.state.activeTab === 6 ? 'panel-title' : 'panel-title collapsed' }>
-                          <i className="icon fa-bug" aria-hidden="true"></i>{ translate('INDEX.DEBUG_LOG') }
+                          <i className="icon fa-bug"></i>{ translate('INDEX.DEBUG_LOG') }
                         </a>
                       </div>
                       <div
                         className={ this.state.activeTab === 6 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
                         style={{ height: this.state.activeTab === 6 ? this.state.activeTabHeight + 'px' : '0' }}
-                        id="DebugLogTab" aria-labelledby="DebugLog" role="tabpanel">
+                        id="DebugLogTab">
                         <div className="panel-body">
                           <p>{ translate('INDEX.DEBUG_LOG_DESC') }</p>
                           <div className="col-sm-12"></div>
@@ -728,15 +714,15 @@ class Settings extends React.Component {
                       className="panel"
                       id="AppSettings"
                       onClick={ () => this.openTab('AppSettings', 7) }>
-                      <div className="panel-heading" role="tab">
+                      <div className="panel-heading">
                         <a className={ this.state.activeTab === 7 ? 'panel-title' : 'panel-title collapsed' }>
-                          <i className="icon fa-wrench" aria-hidden="true"></i>{ translate('SETTINGS.APP_CONFIG') } (config.json)
+                          <i className="icon fa-wrench"></i>{ translate('SETTINGS.APP_CONFIG') } (config.json)
                         </a>
                       </div>
                       <div
                         className={ this.state.activeTab === 7 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
                         style={{ height: this.state.activeTab === 7 ? this.state.activeTabHeight + 'px' : '0' }}
-                        id="DebugLogTab" aria-labelledby="DebugLog" role="tabpanel">
+                        id="DebugLogTab">
                         <div className="panel-body">
                           <p>
                             <strong>{ translate('SETTINGS.CONFIG_RESTART_REQUIRED') }</strong>

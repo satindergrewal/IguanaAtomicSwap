@@ -49,7 +49,7 @@ class SendCoin extends React.Component {
       amount: 0,
       fee: 0.0001,
       sendSig: false,
-      sendApiType: false,
+      sendApiType: true,
       addressSelectorOpen: false,
       currentStackLength: 0,
       totalStackLength: 0,
@@ -218,12 +218,9 @@ class SendCoin extends React.Component {
 
         return(
           <li
-            data-original-index="2"
             key={ mainAddress }
             className={ mainAddressAmount <= 0 ? 'hide' : '' }>
-            <a
-              tabIndex="0"
-              onClick={ () => this.updateAddressSelection(mainAddress, type, mainAddressAmount) }><i className={ type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash' }></i>  <span className="text">[ { mainAddressAmount } { this.props.ActiveCoin.coin } ]  { mainAddress }</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+            <a onClick={ () => this.updateAddressSelection(mainAddress, type, mainAddressAmount) }><i className={ type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash' }></i>  <span className="text">[ { mainAddressAmount } { this.props.ActiveCoin.coin } ]  { mainAddress }</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
           </li>
         );
       } else {
@@ -242,9 +239,7 @@ class SendCoin extends React.Component {
               <li
                 key={ address.address }
                 className={ _amount <= 0 ? 'hide' : '' }>
-                <a
-                  tabIndex="0"
-                  onClick={ () => this.updateAddressSelection(address.address, type, _amount) }><i className={ type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash' }></i>  <span className="text">[ { _amount } { this.props.ActiveCoin.coin } ]  { address.address }</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+                <a onClick={ () => this.updateAddressSelection(address.address, type, _amount) }><i className={ type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash' }></i>  <span className="text">[ { _amount } { this.props.ActiveCoin.coin } ]  { address.address }</span><span className="glyphicon glyphicon-ok check-mark"></span></a>
               </li>
             );
           }
@@ -291,12 +286,13 @@ class SendCoin extends React.Component {
 
   renderAddressList() {
     return (
-      <div id="showkmdwalletaddrs" className={ `btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ${(this.state.addressSelectorOpen ? 'open' : '')}` }>
+      <div
+        id="showkmdwalletaddrs"
+        className={ `btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ${(this.state.addressSelectorOpen ? 'open' : '')}` }>
         <button
           type="button"
           className="btn dropdown-toggle btn-info"
           title={ '-' + translate('SEND.SELECT_T_OR_Z_ADDR') + '-' }
-          aria-expanded="true"
           onClick={ this.openDropMenu }>
           <span className="filter-option pull-left">{ this.renderSelectorCurrentLabel() } </span>&nbsp;
           <span className="bs-caret">
@@ -304,9 +300,9 @@ class SendCoin extends React.Component {
           </span>
         </button>
         <div className="dropdown-menu open">
-          <ul className="dropdown-menu inner" role="menu">
+          <ul className="dropdown-menu inner">
             <li className="selected">
-              <a tabIndex="0"><span className="text"> - { translate('SEND.SELECT_T_OR_Z_ADDR') } - </span><span className="glyphicon glyphicon-ok check-mark"></span></a>
+              <a><span className="text"> - { translate('SEND.SELECT_T_OR_Z_ADDR') } - </span><span className="glyphicon glyphicon-ok check-mark"></span></a>
             </li>
             { this.renderAddressByType('public') }
           </ul>
@@ -814,8 +810,8 @@ class SendCoin extends React.Component {
                 </h3>
               </div>
               <div className="panel-body container-fluid">
-                <form className="edexcoin-send-form" method="post" role="form" autoComplete="off">
-                  {this.renderSendApiTypeSelector()}
+                <form className="edexcoin-send-form" method="post" autoComplete="off">
+                  { this.renderSendApiTypeSelector() }
                   <div className="row">
                     <div className={ this.props.ActiveCoin.mode === 'basilisk' ? 'col-xlg-12 form-group form-material' : 'hide' }>
                       <label className="control-label" htmlFor="edexcoin_send_from">{ translate('INDEX.SEND_FROM') }</label>
@@ -864,7 +860,7 @@ class SendCoin extends React.Component {
                         onChange={ this.updateInput } />
                     </div>
                     <div className="col-lg-12">
-                      <span data-edexcoin="KMD">
+                      <span>
                         <strong>{ translate('INDEX.TOTAL') } ({ translate('INDEX.AMOUNT_SM') } - txfee):</strong> <span id="edexcoin_total_value">{ Number(this.state.amount) - Number(this.state.fee) }</span> { this.props.ActiveCoin.coin }
                       </span>
                     </div>
@@ -882,7 +878,8 @@ class SendCoin extends React.Component {
                       <button
                         type="button"
                         className="btn btn-primary waves-effect waves-light pull-right edexcoin_send_coins_btn_step1"
-                        onClick={ () => this.changeSendCoinStep(1) }>
+                        onClick={ () => this.changeSendCoinStep(1) }
+                        disabled={ !this.state.sendFrom || !this.state.sendTo || !this.state.amount }>
                         { translate('INDEX.SEND') } { Number(this.state.amount) - Number(this.state.fee) } { this.props.ActiveCoin.coin }
                       </button>
                     </div>

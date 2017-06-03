@@ -59,8 +59,8 @@ class CoinTile extends React.Component {
     return (
       <div className="page-aside padding-top-80">
         <div className="page-aside-switch">
-          <i className="icon md-chevron-left" aria-hidden="true"></i>
-          <i className="icon md-chevron-right" aria-hidden="true"></i>
+          <i className="icon md-chevron-left"></i>
+          <i className="icon md-chevron-right"></i>
         </div>
         <div className="page-aside-inner">
           <div className="search-wallet-widgets panel display-none">
@@ -68,7 +68,7 @@ class CoinTile extends React.Component {
               <div className="panel-actions">
                 <div className="input-search input-group-sm">
                   <button type="submit" className="input-search-btn">
-                    <i className="icon md-search" aria-hidden="true"></i>
+                    <i className="icon md-search"></i>
                   </button>
                   <input type="text" className="form-control" name="" placeholder="Search..." disabled />
                 </div>
@@ -77,8 +77,8 @@ class CoinTile extends React.Component {
             </div>
           </div>
           <div className="wallet-widgets-list">
-            <div data-role="container">
-              <div data-role="content">
+            <div>
+              <div>
                 <div className="list-group row wallet-widgets-row">
                   { this.renderTiles() }
                 </div>

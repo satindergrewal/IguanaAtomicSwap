@@ -125,8 +125,7 @@ class WalletsNativeTxHistory extends React.Component {
       items.push(
         <li className={ this.state.activePage === i + 1 ? 'paginate_button active' : 'paginate_button' }>
           <a
-            aria-controls="kmd-tx-history-tbl"
-            tabIndex="0" key={ `${i}-pagination` }
+            key={ `${i}-pagination` }
             onClick={ this.state.activePage !== (i + 1) ? () => this.updateCurrentPage(i + 1) : null }>{ i + 1 }</a>
         </li>
       );
@@ -145,9 +144,8 @@ class WalletsNativeTxHistory extends React.Component {
             { translate('INDEX.SHOW') }&nbsp;
             <select
               name="itemsPerPage"
-              aria-controls="kmd-tx-history-tbl"
               className="form-control input-sm"
-              onChange={this.updateInput}>
+              onChange={ this.updateInput }>
               <option value="10">10</option>
               <option value="25">25</option>
               <option value="50">50</option>
@@ -175,9 +173,7 @@ class WalletsNativeTxHistory extends React.Component {
           <div className="col-sm-5">
             <div
               className="dataTables_info"
-              id="kmd-tx-history-tbl_info"
-              role="status"
-              aria-live="polite">{ translate('INDEX.SHOWING') } { _paginationStart } { translate('INDEX.TO') } { _paginationEnd } { translate('INDEX.OF') } { this.props.ActiveCoin.txhistory.length } { translate('INDEX.ENTRIES_SM') }</div>
+              id="kmd-tx-history-tbl_info">{ translate('INDEX.SHOWING') } { _paginationStart } { translate('INDEX.TO') } { _paginationEnd } { translate('INDEX.OF') } { this.props.ActiveCoin.txhistory.length } { translate('INDEX.ENTRIES_SM') }</div>
           </div>
           <div className="col-sm-7">
             <div className="dataTables_paginate paging_simple_numbers" id="kmd-tx-history-tbl_paginate">
@@ -185,19 +181,13 @@ class WalletsNativeTxHistory extends React.Component {
                 <li
                   className={ this.state.activePage === 1 ? 'paginate_button previous disabled' : 'paginate_button previous' }
                   id="kmd-tx-history-tbl_previous">
-                  <a
-                    aria-controls="kmd-tx-history-tbl"
-                    tabIndex="0"
-                    onClick={ () => this.updateCurrentPage(this.state.activePage - 1) }>{ translate('INDEX.PREVIOUS') }</a>
+                  <a onClick={ () => this.updateCurrentPage(this.state.activePage - 1) }>{ translate('INDEX.PREVIOUS') }</a>
                 </li>
                 {this.renderPaginationItems()}
                 <li
                   className={ _paginationNextState ? 'paginate_button next disabled' : 'paginate_button next' }
                   id="kmd-tx-history-tbl_next">
-                  <a
-                    aria-controls="kmd-tx-history-tbl"
-                    tabIndex="0"
-                    onClick={ () => this.updateCurrentPage(this.state.activePage + 1) }>{ translate('INDEX.NEXT') }</a>
+                  <a onClick={ () => this.updateCurrentPage(this.state.activePage + 1) }>{ translate('INDEX.NEXT') }</a>
                 </li>
               </ul>
             </div>
@@ -228,7 +218,7 @@ class WalletsNativeTxHistory extends React.Component {
           this.state.itemsList.length &&
           this.props.ActiveCoin.nativeActiveSection === 'default') {
         return this.state.itemsList.map((tx, index) =>
-          <tr key={tx.txid + tx.amount}>
+          <tr key={ tx.txid + tx.amount }>
             <td>
               <span className="label label-default">
                 <i className="icon fa-eye"></i> { translate('IAPI.PUBLIC_SM') }
@@ -275,7 +265,7 @@ class WalletsNativeTxHistory extends React.Component {
                           <div className="col-sm-6">
                             <div id="kmd-tx-history-tbl_filter" className="dataTables_filter">
                               <label>
-                                { translate('INDEX.SEARCH') }: <input type="search" className="form-control input-sm" aria-controls="kmd-tx-history-tbl" disabled="true" />
+                                { translate('INDEX.SEARCH') }: <input type="search" className="form-control input-sm" disabled="true" />
                               </label>
                             </div>
                           </div>

@@ -22,38 +22,22 @@ class WalletsHeader extends React.Component {
               <button
                 type="button"
                 id="easydex_kmd_wallet_actions_header"
-                className="bg-teal-500 btn btn-floating white waves-effect waves-float waves-light"
-                aria-expanded="false">
-                <i className="icon md-plus" aria-hidden="true"></i>
+                className="bg-teal-500 btn btn-floating white waves-effect waves-float waves-light">
+                <i className="icon md-plus"></i>
               </button>
-              <ul
-                className="dropdown-menu animate dropdown-menu-right"
-                aria-labelledby="easydex_kmd_wallet_actions_header"
-                role="menu">
-                <li role="presentation">
-                  <a
-                    href="javascript:void(0)"
-                    role="menuitem"
-                    id="btn_kmd_wallet_dashboard">{ translate('INDEX.DASHBOARD') }</a>
+              <ul className="dropdown-menu animate dropdown-menu-right">
+                <li>
+                  <a id="btn_kmd_wallet_dashboard">{ translate('INDEX.DASHBOARD') }</a>
                 </li>
-                <li role="presentation">
-                  <a
-                    href="javascript:void(0)"
-                    role="menuitem"
-                    id="btn_kmd_wallet_send">{ translate('INDEX.SEND') }</a>
+                <li>
+                  <a id="btn_kmd_wallet_send">{ translate('INDEX.SEND') }</a>
                 </li>
-                <li role="presentation">
-                  <a
-                    href="javascript:void(0)"
-                    role="menuitem"
-                    id="btn_kmd_wallet_recieve">{ translate('INDEX.RECEIVE') }</a>
+                <li>
+                  <a id="btn_kmd_wallet_recieve">{ translate('INDEX.RECEIVE') }</a>
                 </li>
-                <li className="divider" role="presentation"></li>
-                <li role="presentation">
-                  <a
-                    href="javascript:void(0)"
-                    role="menuitem"
-                    id="btn_kmd_wallet_settings">{ translate('INDEX.SETTINGS') }</a>
+                <li className="divider"></li>
+                <li>
+                  <a id="btn_kmd_wallet_settings">{ translate('INDEX.SETTINGS') }</a>
                 </li>
               </ul>
             </div>
@@ -62,42 +46,22 @@ class WalletsHeader extends React.Component {
               <button
                 type="button"
                 id="easydex_zec_wallet_actions_header"
-                className="bg-yellow-600 btn btn-floating white waves-effect waves-float waves-light"
-                aria-expanded="false">
-                <i className="icon md-plus" aria-hidden="true"></i>
+                className="bg-yellow-600 btn btn-floating white waves-effect waves-float waves-light">
+                <i className="icon md-plus"></i>
               </button>
-              <ul
-                className="dropdown-menu animate dropdown-menu-right"
-                aria-labelledby="easydex_zec_wallet_actions_header"
-                role="menu">
-                <li role="presentation">
-                  <a
-                    href="javascript:void(0)"
-                    role="menuitem"
-                    data-extcoin-menu="ZEC"
-                    id="btn_zec_wallet_dashboard">{ translate('INDEX.DASHBOARD') }</a>
+              <ul className="dropdown-menu animate dropdown-menu-right">
+                <li>
+                  <a id="btn_zec_wallet_dashboard">{ translate('INDEX.DASHBOARD') }</a>
                 </li>
-                <li role="presentation">
-                  <a
-                    href="javascript:void(0)"
-                    role="menuitem"
-                    data-extcoin-menu="ZEC"
-                    id="btn_zec_wallet_send">{ translate('INDEX.SEND') }</a>
+                <li>
+                  <a id="btn_zec_wallet_send">{ translate('INDEX.SEND') }</a>
                 </li>
-                <li role="presentation">
-                  <a
-                    href="javascript:void(0)"
-                    role="menuitem"
-                    data-extcoin-menu="ZEC"
-                    id="btn_zec_wallet_recieve">{ translate('INDEX.RECEIVE') }</a>
+                <li>
+                  <a id="btn_zec_wallet_recieve">{ translate('INDEX.RECEIVE') }</a>
                 </li>
-                <li className="divider" role="presentation"></li>
-                <li role="presentation">
-                  <a
-                    href="javascript:void(0)"
-                    role="menuitem"
-                    data-extcoin-menu="ZEC"
-                    id="btn_zec_wallet_settings">{ translate('INDEX.SETTINGS') }</a>
+                <li className="divider"></li>
+                <li>
+                  <a id="btn_zec_wallet_settings">{ translate('INDEX.SETTINGS') }</a>
                 </li>
               </ul>
             </div>
@@ -107,7 +71,7 @@ class WalletsHeader extends React.Component {
                 type="button"
                 id="jumblr_actions_header"
                 className="btn white waves-effect waves-light">
-                <i className="icon fa-refresh" aria-hidden="true"></i>{ translate('INDEX.REFRESH') }
+                <i className="icon fa-refresh"></i>{ translate('INDEX.REFRESH') }
               </button>
             </div>
 
@@ -115,42 +79,22 @@ class WalletsHeader extends React.Component {
               <button
                 type="button"
                 id="easydex_acpax_wallet_actions_header"
-                className="bg-teal-500 btn btn-floating white waves-effect waves-float waves-light"
-                aria-expanded="false">
-                <i className="icon md-plus" aria-hidden="true"></i>
+                className="bg-teal-500 btn btn-floating white waves-effect waves-float waves-light">
+                <i className="icon md-plus"></i>
               </button>
-              <ul
-                className="dropdown-menu animate dropdown-menu-right"
-                aria-labelledby="easydex_acpax_wallet_actions_header"
-                role="menu">
-                <li role="presentation">
-                  <a
-                    href="javascript:void(0)"
-                    role="menuitem"
-                    data-extcoin-menu="KMD"
-                    id="btn_acpax_wallet_dashboard">{ translate('INDEX.DASHBOARD') }</a>
+              <ul className="dropdown-menu animate dropdown-menu-right">
+                <li>
+                  <a id="btn_acpax_wallet_dashboard">{ translate('INDEX.DASHBOARD') }</a>
                 </li>
-                <li role="presentation">
-                  <a
-                    href="javascript:void(0)"
-                    role="menuitem"
-                    data-extcoin-menu="KMD"
-                    id="btn_acpax_wallet_send">{ translate('INDEX.SEND') }</a>
+                <li>
+                  <a id="btn_acpax_wallet_send">{ translate('INDEX.SEND') }</a>
                 </li>
-                <li role="presentation">
-                  <a
-                    href="javascript:void(0)"
-                    role="menuitem"
-                    data-extcoin-menu="KMD"
-                    id="btn_acpax_wallet_recieve">{ translate('INDEX.RECEIVE') }</a>
+                <li>
+                  <a id="btn_acpax_wallet_recieve">{ translate('INDEX.RECEIVE') }</a>
                 </li>
-                <li className="divider" role="presentation"></li>
-                <li role="presentation">
-                  <a
-                    href="javascript:void(0)"
-                    role="menuitem"
-                    data-extcoin-menu="KMD"
-                    id="btn_acpax_wallet_settings">{ translate('INDEX.SETTINGS') }</a>
+                <li className="divider"></li>
+                <li>
+                  <a id="btn_acpax_wallet_settings">{ translate('INDEX.SETTINGS') }</a>
                 </li>
               </ul>
             </div>

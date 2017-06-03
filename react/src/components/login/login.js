@@ -167,8 +167,8 @@ class Login extends React.Component {
     if (this.state.displaySeedBackupModal) {
       return (
         <div className="swal2-container">
-          <div className="swal2-overlay full-opacity display-block" tabIndex="-1"></div>
-          <div className="swal2-modal show-swal2 visible swal2-modal-container" tabIndex="-1">
+          <div className="swal2-overlay full-opacity display-block"></div>
+          <div className="swal2-modal show-swal2 visible swal2-modal-container">
           <div className="swal2-icon swal2-warning pulse-warning display-block">!</div>
           <h2>{ translate('LOGIN.SAVED_WALLET_SEED') }</h2>
           <div className="swal2-content display-block">{ translate('LOGIN.SEED_MAKE_SURE_BACKUP') }</div>
@@ -210,8 +210,8 @@ class Login extends React.Component {
                     <h3 className="panel-title">{ translate('INDEX.UNSUPPORTED_BROWSER') }</h3>
                   </div>
                   <div className="alert alert-danger alert-dismissible" role="alert">
-                    <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
+                    <button type="button" className="close">
+                      <span>&times;</span>
                       <span className="sr-only">{ translate('INDEX.CLOSE') }</span>
                     </button>
                     { translate('INDEX.IE_UNSUPPORTED') }
@@ -263,7 +263,6 @@ class Login extends React.Component {
                     <button
                       className="btn btn-lg btn-flat btn-block waves-effect margin-top-20"
                       id="register-btn"
-                      role="menuitem"
                       onClick={ this.toggleActivateCoinForm }
                       disabled={ !this.props.Main }>
                       <span className="ladda-label">{ translate('ADD_COIN.ADD_ANOTHER_COIN') }</span>
@@ -281,7 +280,6 @@ class Login extends React.Component {
                   <button
                     className="btn btn-lg btn-primary btn-block ladda-button"
                     id="start-coin-login"
-                    role="menuitem"
                     onClick={ this.toggleActivateCoinForm }
                     disabled={ !this.props.Main }>
                     <span className="ladda-label">{ translate('INDEX.ACTIVATE_COIN') }</span>

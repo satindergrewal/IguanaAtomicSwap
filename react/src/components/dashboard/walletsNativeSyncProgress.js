@@ -8,7 +8,6 @@ class WalletsNativeSyncProgress extends React.Component {
       return (
         <div
           className="progress-bar progress-bar-info progress-bar-striped active full-width font-size-80-percent"
-          role="progressbar"
           id="extcoin-sync">
           <span
             id="extcoin-sync-percent"
@@ -19,7 +18,6 @@ class WalletsNativeSyncProgress extends React.Component {
       return (
         <div
           className="progress-bar progress-bar-info progress-bar-striped active full-width font-size-80-percent"
-          role="progressbar"
           id="extcoin-sync">
           <span
             id="extcoin-sync-percent"
@@ -33,7 +31,6 @@ class WalletsNativeSyncProgress extends React.Component {
         <div
           className="progress-bar progress-bar-info progress-bar-striped active font-size-80-percent"
           style={{ width: syncPercentage }}
-          role="progressbar"
           id="extcoin-sync">
           <span
             id="extcoin-sync-percent"
@@ -82,11 +79,10 @@ class WalletsNativeSyncProgress extends React.Component {
         this.props.Dashboard.progress.remoteKMDNode) {
       return (
         <div
-          role="alert"
           className="alert alert-info alert-dismissible margin-bottom-40"
           id="extcoin-wallet-activating-alert">
-          <button aria-label="Close" data-dismiss="alert" className="close" type="button">
-            <span aria-hidden="true">×</span>
+          <button className="close" type="button">
+            <span>×</span>
           </button>
           <h4>
             { translate('INDEX.ACTIVATING_CHAIN') }{ this.renderActivatingBestChainProgress() }

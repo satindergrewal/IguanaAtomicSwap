@@ -245,7 +245,9 @@ class AddCoin extends React.Component {
       const _coin = _item.selectedCoin || '';
 
       items.push(
-        <div className={ this.state.coins.length > 1 ? 'multi' : 'single' } key={ `add-coin-${i}` }>
+        <div
+          className={ this.state.coins.length > 1 ? 'multi' : 'single' }
+          key={ `add-coin-${i}` }>
           <div className="col-sm-8">
             <div className="form-group">
               <select

@@ -38,46 +38,30 @@ class WalletsNativeTxInfo extends React.Component {
 
       return (
         <div onKeyDown={ (event) => this.handleKeydown(event) }>
-          <div className="modal show" id="kmd_txid_info_mdl" aria-hidden="false" role="dialog">
+          <div className="modal show" id="kmd_txid_info_mdl">
             <div className="modal-dialog modal-center modal-lg">
               <div className="modal-content">
                 <div className="modal-body modal-body-container">
                   <div className="panel nav-tabs-horizontal">
-                    <ul className="nav nav-tabs nav-tabs-line" role="tablist">
-                      <li className={ this.state.activeTab === 0 ? 'active' : '' } role="presentation">
-                        <a
-                          data-toggle="tab"
-                          aria-controls="KmdTxIDInfotab1"
-                          role="tab"
-                          onClick={ () => this.openTab(0) }>
-                          <i className="icon md-balance-wallet" aria-hidden="true"></i>TxID Info
+                    <ul className="nav nav-tabs nav-tabs-line">
+                      <li className={ this.state.activeTab === 0 ? 'active' : '' }>
+                        <a onClick={ () => this.openTab(0) }>
+                          <i className="icon md-balance-wallet"></i>TxID Info
                         </a>
                       </li>
-                      <li className={ this.state.activeTab === 1 ? 'active' : '' } role="presentation">
-                        <a
-                          data-toggle="tab"
-                          aria-controls="KmdTxIDInfotab2"
-                          role="tab"
-                          onClick={ () => this.openTab(1) }>
-                          <i className="icon md-plus-square" aria-hidden="true"></i>Vjointsplits, Details
+                      <li className={ this.state.activeTab === 1 ? 'active' : '' }>
+                        <a onClick={ () => this.openTab(1) }>
+                          <i className="icon md-plus-square"></i>Vjointsplits, Details
                         </a>
                       </li>
-                      <li className={ this.state.activeTab === 2 ? 'active' : '' } role="presentation">
-                        <a
-                          data-toggle="tab"
-                          aria-controls="KmdTxIDInfotab3"
-                          role="tab"
-                          onClick={ () => this.openTab(2) }>
-                          <i className="icon wb-briefcase" aria-hidden="true"></i>Hex
+                      <li className={ this.state.activeTab === 2 ? 'active' : '' }>
+                        <a onClick={ () => this.openTab(2) }>
+                          <i className="icon wb-briefcase"></i>Hex
                         </a>
                       </li>
-                      <li className={ this.state.activeTab === 3 ? 'active' : '' } role="presentation">
-                        <a
-                          data-toggle="tab"
-                          aria-controls="KmdTxIDInfotab4"
-                          role="tab"
-                          onClick={ () => this.openTab(3) }>
-                          <i className="icon wb-file" aria-hidden="true"></i>Raw info
+                      <li className={ this.state.activeTab === 3 ? 'active' : '' }>
+                        <a onClick={ () => this.openTab(3) }>
+                          <i className="icon wb-file"></i>Raw info
                         </a>
                       </li>
                     </ul>
@@ -85,8 +69,7 @@ class WalletsNativeTxInfo extends React.Component {
                       <div className="tab-content">
                         <div
                           className={ this.state.activeTab === 0 ? 'tab-pane active' : 'tab-pane' }
-                          id="KmdTxIDInfotab1"
-                          role="tabpanel">
+                          id="KmdTxIDInfotab1">
                           <table className="table table-striped">
                             <tbody>
                               <tr>
@@ -154,8 +137,7 @@ class WalletsNativeTxInfo extends React.Component {
                         </div>
                         <div
                           className={ this.state.activeTab === 1 ? 'tab-pane active' : 'tab-pane' }
-                          id="KmdTxIDInfotab2"
-                          role="tabpanel">
+                          id="KmdTxIDInfotab2">
                           <table className="table table-striped">
                             <tbody>
                               <tr>
@@ -175,8 +157,7 @@ class WalletsNativeTxInfo extends React.Component {
                         </div>
                         <div
                           className={ this.state.activeTab === 2 ? 'tab-pane active' : 'tab-pane' }
-                          id="KmdTxIDInfotab3"
-                          role="tabpanel">
+                          id="KmdTxIDInfotab3">
                           <textarea
                             id="kmd_txid_info_hex"
                             className="full-width height-170"
@@ -186,8 +167,7 @@ class WalletsNativeTxInfo extends React.Component {
                         </div>
                         <div
                           className={ this.state.activeTab === 3 ? 'tab-pane active' : 'tab-pane' }
-                          id="KmdTxIDInfotab4"
-                          role="tabpanel">
+                          id="KmdTxIDInfotab4">
                           <textarea
                             id="kmd_txid_info_hex"
                             className="full-width height-400"
@@ -204,7 +184,6 @@ class WalletsNativeTxInfo extends React.Component {
                   <button
                     type="button"
                     className="btn btn-default"
-                    data-dismiss="modal"
                     onClick={ this.toggleTxInfoModal }>{ translate('INDEX.CLOSE') }</button>
                 </div>
               </div>
