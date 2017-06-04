@@ -82,6 +82,7 @@ class WalletsData extends React.Component {
     }
   }
 
+  // deprecated
   toggleCacheApi() {
     const _useCache = !this.state.useCache;
 
@@ -463,6 +464,7 @@ class WalletsData extends React.Component {
     }
   }*/
 
+  // deprecated
   renderUseCacheToggle() {
     if (this.props.ActiveCoin.mode === 'basilisk') {
       return (
@@ -552,11 +554,11 @@ class WalletsData extends React.Component {
         this.props.Dashboard.activeHandle[this.props.ActiveCoin.coin] &&
         this.props.ActiveCoin.mode === 'basilisk') {
       return (
-        <div className={ 'btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ' + (this.state.addressSelectorOpen ? 'open' : '') }>
+        <div className={ `btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ${(this.state.addressSelectorOpen ? 'open' : '')}` }>
           <button
             type="button"
             className="btn dropdown-toggle btn-info"
-            title={ '-' + translate('KMD_NATIVE.SELECT_ADDRESS') + '-' }
+            title={ `-${translate('KMD_NATIVE.SELECT_ADDRESS')}-` }
             aria-expanded="true"
             onClick={ this.openDropMenu }>
             <span className="filter-option pull-left">{ this.renderSelectorCurrentLabel() } </span>&nbsp;
@@ -609,7 +611,9 @@ class WalletsData extends React.Component {
                               { translate('SEND.PROCESSING_REQ') }: { this.state.currentStackLength } / { this.state.totalStackLength }
                             </div>
                           </div>
-                          <div className={ this.state.basiliskActionsMenu ? 'dropdown open' : 'dropdown' } onClick={ this.toggleBasiliskActionsMenu }>
+                          <div
+                            className={ this.state.basiliskActionsMenu ? 'dropdown open' : 'dropdown' }
+                            onClick={ this.toggleBasiliskActionsMenu }>
                             <a
                               className="dropdown-toggle btn-xs btn-default"
                               id="btn_edexcoin_basilisk"

@@ -19,6 +19,27 @@ class Navbar extends React.Component {
     };
     this.openDropMenu = this.openDropMenu.bind(this);
     this.logout = this.logout.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+
+  componentWillMount() {
+    document.addEventListener('click', this.handleClickOutside, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutside, false);
+  }
+
+  handleClickOutside(e) {
+    if (e.srcElement.className !== 'dropdown-menu' &&
+        e.srcElement.alt !== 'iguana profile pic' &&
+        (e.srcElement.offsetParent && e.srcElement.offsetParent.className !== 'avatar avatar-online') &&
+        e.srcElement.className.indexOf('navbar-avatar') === -1 &&
+        (e.path && e.path[4] && e.path[4].className.indexOf('dropdown-menu') === -1)) {
+      this.setState({
+        openDropMenu: false,
+      });
+    }
   }
 
   openDropMenu() {
@@ -114,11 +135,6 @@ class Navbar extends React.Component {
                   <i className="site-menu-icon" aria-hidden="true"></i> Atomic Explorer
                 </a>
               </li>
-              <li className="nav-top-menu">
-                <a id="nav-iguana-atomic-explorer" onClick={ () => this.openSyncOnlyModal() }>
-                  <i className="site-menu-icon" aria-hidden="true"></i> { translate('ADD_COIN.SYNC_ONLY') }
-                </a>
-              </li>
             </ul>
             <ul className="nav navbar-toolbar navbar-right navbar-toolbar-right">
               <li role="presentation">
@@ -148,6 +164,14 @@ class Navbar extends React.Component {
                       id="nav-iguana-wallet-settings"
                       onClick={ () => this.dashboardChangeSection('settings') }>
                       <i className="icon md-settings" aria-hidden="true"></i> { translate('INDEX.SETTINGS') }
+                    </a>
+                  </li>
+                  <li role="presentation">
+                    <a
+                      role="menuitem"
+                      id="nav-iguana-sync-only"
+                      onClick={ () => this.openSyncOnlyModal() }>
+                      <i className="icon fa-cubes" aria-hidden="true"></i> { translate('ADD_COIN.SYNC_ONLY') }
                     </a>
                   </li>
                   <li role="presentation">

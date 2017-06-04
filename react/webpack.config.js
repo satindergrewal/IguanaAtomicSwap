@@ -122,7 +122,13 @@ if (isProduction) {
       test: /\.scss$/,
       loader: ExtractTextPlugin.extract({
         fallback: 'style-loader',
-        use: 'css-loader!postcss-loader!sass-loader!file-loader!url-loader',
+        use: [
+          'css-loader',
+          'postcss-loader',
+          'sass-loader'
+          //'file-loader',
+          //'url-loader'
+        ]
       }),
     }
   );

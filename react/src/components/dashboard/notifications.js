@@ -12,10 +12,12 @@ class Notifications extends React.Component {
     super(props);
     this.state = {
       displayModal: false,
-      totalCalls: 0,
-      totalErrorCalls: 0,
-      totalSuccessCalls: 0,
-      totalPendingCalls: 0,
+      calls: {
+        total: 0,
+        error: 0,
+        success: 0,
+        pending: 0,
+      },
       activeTab: 2,
       guiLog: null,
     };
@@ -33,31 +35,27 @@ class Notifications extends React.Component {
     if (this.props.Dashboard &&
         this.props.Dashboard.guiLog) {
       const _guiLog = this.props.Dashboard.guiLog;
-      let totalCalls = Object.keys(_guiLog).length;
-      let totalErrorCalls = 0;
-      let totalSuccessCalls = 0;
-      let totalPendingCalls = 0;
+      let _callsLength = {
+        total: Object.keys(_guiLog).length,
+        error: 0,
+        success: 0,
+        pending: 0,
+      }
+
       let guiLogToArray = [];
 
       for (let timestamp in _guiLog) {
         guiLogToArray.push(_guiLog[timestamp]);
-
-        if (_guiLog[timestamp].status === 'error') {
-          totalErrorCalls++;
-        }
-        if (_guiLog[timestamp].status === 'success') {
-          totalSuccessCalls++;
-        }
-        if (_guiLog[timestamp].status === 'pending') {
-          totalPendingCalls++;
-        }
+        _callsLength[_guiLog[timestamp].status]++;
       }
 
       this.setState(Object.assign({}, this.state, {
-        totalCalls,
-        totalErrorCalls,
-        totalSuccessCalls,
-        totalPendingCalls,
+        calls: {
+          total: _callsLength.total,
+          error: _callsLength.error,
+          success: _callsLength.success,
+          pending: _callsLength.pending,
+        },
         guiLog: guiLogToArray,
       }));
     }
@@ -70,7 +68,6 @@ class Notifications extends React.Component {
       let _guiLog = this.state.guiLog;
       _guiLog = sortByDate(_guiLog);
       let items = [];
-      let index = 0;
 
       for (let i = 0; i < _guiLog.length; i++) {
         if (_guiLog[i].status === type) {
@@ -78,7 +75,7 @@ class Notifications extends React.Component {
 
           items.push(
             <div key={ _logItem.timestamp }>
-              <div>{ index + 1 }.</div>
+              <div>{ i + 1 }.</div>
               <div>
                 <strong>Time:</strong> { secondsToString(_logItem.timestamp, true, true) }
               </div>
@@ -101,8 +98,6 @@ class Notifications extends React.Component {
             </div>
           );
         }
-
-        index++;
       }
 
       return items;
@@ -123,21 +118,21 @@ class Notifications extends React.Component {
                         <a
                           role="tab"
                           onClick={ () => this.openTab(0) }>
-                          <i className="icon fa fa-thumbs-o-up" aria-hidden="true"></i> Success ({ this.state.totalSuccessCalls })
+                          <i className="icon fa fa-thumbs-o-up" aria-hidden="true"></i> Success ({ this.state.calls.success })
                         </a>
                       </li>
                       <li className={ this.state.activeTab === 1 ? 'active' : 'pointer' } role="presentation">
                         <a
                           role="tab"
                           onClick={ () => this.openTab(1) }>
-                          <i className="icon fa fa-exclamation-triangle" aria-hidden="true"></i> Error ({ this.state.totalErrorCalls })
+                          <i className="icon fa fa-exclamation-triangle" aria-hidden="true"></i> Error ({ this.state.calls.error })
                         </a>
                       </li>
                       <li className={ this.state.activeTab === 2 ? 'active' : 'pointer' } role="presentation">
                         <a
                           role="tab"
                           onClick={ () => this.openTab(2) }>
-                          <i className="icon fa fa-clock-o" aria-hidden="true"></i> Pending ({ this.state.totalPendingCalls })
+                          <i className="icon fa fa-clock-o" aria-hidden="true"></i> Pending ({ this.state.calls.pending })
                         </a>
                       </li>
                     </ul>
@@ -192,9 +187,16 @@ class Notifications extends React.Component {
         <div
           className={ this.props.Dashboard.activeHandle && this.props.Dashboard.activeHandle.status === 'unlocked' ? 'notifications-badge stick-to-top' : 'notifications-badge' }
           onClick={ this.toggleNotificationsModal }>
-          <span className="badge success">{ this.state.totalSuccessCalls }</span>
-          <span className="badge error">{ this.state.totalErrorCalls }</span>
-          <span className="badge pending">{ this.state.totalPendingCalls }</span>
+          <span className="badge success">{ this.state.calls.success }</span>
+          <span className="badge error">{ this.state.calls.error }</span>
+          <span className="badge pending">{ this.state.calls.pending }</span>
+          <div className={ this.state.calls.pending === 0 ? 'spinner spinner-hide' : 'spinner' }>
+            <div className="rect1"></div>
+            <div className="rect2"></div>
+            <div className="rect3"></div>
+            <div className="rect4"></div>
+            <div className="rect5"></div>
+          </div>
         </div>
         { this.renderNotificationsModal() }
       </div>

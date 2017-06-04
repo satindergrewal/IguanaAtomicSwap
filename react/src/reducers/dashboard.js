@@ -11,6 +11,8 @@ import {
   TOGGLE_NOTIFICATIONS_MODAL
 } from '../actions/storeType';
 
+const HTTP_STACK_MAX_ENTRIES = 150; // limit stack mem length to N records per type
+
 export function Dashboard(state = {
   activeSection: 'wallets',
   activeHandle: null,
@@ -69,6 +71,11 @@ export function Dashboard(state = {
       });
     case LOG_GUI_HTTP:
       let _guiLogState = state.guiLog;
+      let _guiLogStateTrim = {
+        error: [],
+        success: [],
+        pending: []
+      };
 
       if (_guiLogState[action.timestamp]) {
         _guiLogState[action.timestamp].status = action.log.status;
@@ -77,8 +84,30 @@ export function Dashboard(state = {
         _guiLogState[action.timestamp] = action.log;
       }
 
+      for (let timestamp in _guiLogState) {
+        if (_guiLogState[timestamp].status === 'error') {
+          _guiLogStateTrim.error.push(_guiLogState[timestamp]);
+        }
+        if (_guiLogState[timestamp].status === 'success') {
+          _guiLogStateTrim.success.push(_guiLogState[timestamp]);
+        }
+        if (_guiLogState[timestamp].status === 'pending') {
+          _guiLogStateTrim.pending.push(_guiLogState[timestamp]);
+        }
+      }
+
+      let _guiLogStateNew = {};
+      for (let _key in _guiLogStateTrim) {
+        if (_guiLogStateTrim[_key].length > HTTP_STACK_MAX_ENTRIES) {
+          _guiLogStateTrim[_key].shift();
+        }
+        for (let i = 0; i < _guiLogStateTrim[_key].length; i++) {
+          _guiLogStateNew[_guiLogStateTrim[_key][i].timestamp] = _guiLogStateTrim[_key][i];
+        }
+      }
+
       return Object.assign({}, state, {
-        guiLog: _guiLogState,
+        guiLog: _guiLogStateNew,
       });
     default:
       return state;

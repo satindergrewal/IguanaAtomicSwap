@@ -30,7 +30,7 @@ class WalletsBalance extends React.Component {
             this.props.ActiveCoin.mode === 'basilisk' &&
             this.props.ActiveCoin.activeAddress &&
             this.props.ActiveCoin.cache[this.props.ActiveCoin.coin] &&
-            this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress]&&
+            this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress] &&
             this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance &&
             this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data &&
             this.props.ActiveCoin.cache[this.props.ActiveCoin.coin][this.props.ActiveCoin.activeAddress].getbalance.data.balance) {

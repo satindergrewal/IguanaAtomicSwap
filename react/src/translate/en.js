@@ -1,6 +1,7 @@
 export const _lang = {
   'EN': {
     'INDEX': {
+      'EMPTY_DEBUG_LOG': 'Debug.log is empty',
       'RESTART': 'Restart',
       'WALLET_INFO': 'Wallet Info',
       'ADD_COIN': 'Add Coin',

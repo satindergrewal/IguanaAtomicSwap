@@ -14,6 +14,9 @@ import {
 import Store from '../../store';
 import { PassPhraseGenerator } from '../../util/crypto/passphrasegenerator';
 
+const IGUNA_ACTIVE_HANDLE_TIMEOUT = 3000;
+const IGUNA_ACTIVE_COINS_TIMEOUT = 10000;
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -41,9 +44,9 @@ class Login extends React.Component {
   openSyncOnlyModal() {
     Store.dispatch(getSyncOnlyForks());
 
-    const _iguanaActiveHandle = setInterval(function() {
+    const _iguanaActiveHandle = setInterval(() => {
       Store.dispatch(getSyncOnlyForks());
-    }.bind(this), 3000);
+    }, IGUNA_ACTIVE_HANDLE_TIMEOUT);
     Store.dispatch(startInterval('syncOnly', _iguanaActiveHandle));
 
     Store.dispatch(toggleSyncOnlyModal(true));
@@ -67,21 +70,25 @@ class Login extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props && props.Main && props.Main.isLoggedIn) {
+    if (props &&
+        props.Main &&
+        props.Main.isLoggedIn) {
       this.setState({
         display: false,
       });
     }
 
-    if (props && props.Main && !props.Main.isLoggedIn) {
+    if (props &&
+        props.Main &&
+        !props.Main.isLoggedIn) {
       this.setState({
         display: true,
       });
 
       if (!this.props.Interval.interval.activeCoins) {
-        const _iguanaActiveCoins = setInterval(function() {
+        const _iguanaActiveCoins = setInterval(() => {
           Store.dispatch(getDexCoins());
-        }.bind(this), 10000);
+        }, IGUNA_ACTIVE_COINS_TIMEOUT);
         Store.dispatch(startInterval('activeCoins', _iguanaActiveCoins));
       }
 
@@ -89,7 +96,9 @@ class Login extends React.Component {
     }
 
     if (this.state.activeLoginSection !== 'signup') {
-      if (props && props.Main && props.Main.activeCoins) {
+      if (props &&
+          props.Main &&
+          props.Main.activeCoins) {
         this.setState({
           activeLoginSection: 'login',
         });
@@ -164,8 +173,12 @@ class Login extends React.Component {
           <h2>{ translate('LOGIN.SAVED_WALLET_SEED') }</h2>
           <div className="swal2-content display-block">{ translate('LOGIN.SEED_MAKE_SURE_BACKUP') }</div>
           <hr className="swal2-spacer display-block" />
-          <button className="swal2-confirm styled swal2-confirm-container" onClick={ this.execWalletCreate }>{ translate('LOGIN.YES_I_BACKUP') }</button>
-          <button className="swal2-cancel styled swal2-cancel-container" onClick={ this.toggleSeedBackupModal }>{ translate('LOGIN.CANCEL') }</button>
+          <button
+            className="swal2-confirm styled swal2-confirm-container"
+            onClick={ this.execWalletCreate }>{ translate('LOGIN.YES_I_BACKUP') }</button>
+          <button
+            className="swal2-cancel styled swal2-cancel-container"
+            onClick={ this.toggleSeedBackupModal }>{ translate('LOGIN.CANCEL') }</button>
         </div>
       </div>
       );

@@ -23,6 +23,7 @@ import AddCoinOptionsACFiat from '../addcoin/addcoinOptionsACFiat';
   2) add fiat section
   3) kickstart section
   4) batch export/import wallet addresses
+  5) export keys, add coin selector
 */
 class Settings extends React.Component {
   constructor(props) {
@@ -31,8 +32,9 @@ class Settings extends React.Component {
       activeTab: 0,
       debugLinesCount: 10,
       debugTarget: 'iguana',
-      activeTabHeight: '10px',
+      activeTabHeight: '0',
       appSettings: {},
+      tabElId: null,
     };
     this.exportWifKeys = this.exportWifKeys.bind(this);
     this.updateInput = this.updateInput.bind(this);
@@ -52,13 +54,28 @@ class Settings extends React.Component {
     Store.dispatch(getAppInfo());
   }
 
-  openTab(elemId, tab) {
-    const _height = document.querySelector('#' + elemId + ' .panel-collapse .panel-body').offsetHeight;
+  componentWillReceiveProps(props) {
+    if (this.state.tabElId) {
+      const _height = document.querySelector(`#${this.state.tabElId} .panel-collapse .panel-body`).offsetHeight;
 
-    this.setState(Object.assign({}, this.state, {
-      activeTab: tab,
-      activeTabHeight: _height,
-    }));
+      this.setState(Object.assign({}, this.state, {
+        activeTab: this.state.activeTab,
+        activeTabHeight: _height,
+        tabElId: this.state.tabElId,
+      }));
+    }
+  }
+
+  openTab(elemId, tab) {
+    setTimeout(() => {
+      const _height = document.querySelector(`#${elemId} .panel-collapse .panel-body`).offsetHeight;
+
+      this.setState(Object.assign({}, this.state, {
+        activeTab: tab,
+        activeTabHeight: _height,
+        tabElId: elemId,
+      }));
+    }, 100);
   }
 
   exportWifKeys() {
@@ -108,15 +125,15 @@ class Settings extends React.Component {
 
     if (releaseInfo) {
       return (
-        <div className="panel" id="AppInfo">
-          <div className="panel-heading" role="tab" onClick={ () => this.openTab('AppInfo', 8) }>
+        <div className="panel" id="AppInfo" onClick={ () => this.openTab('AppInfo', 8) }>
+          <div className="panel-heading" role="tab">
             <a className={this.state.activeTab === 8 ? 'panel-title' : 'panel-title collapsed'}>
               <i className="icon md-info" aria-hidden="true"></i>{ translate('SETTINGS.APP_INFO') }
             </a>
           </div>
           <div
             className={ this.state.activeTab === 8 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-            style={{ height: this.state.activeTab === 8 ? this.state.activeTabHeight + 'px' : '10px' }}
+            style={{ height: this.state.activeTab === 8 ? this.state.activeTabHeight + 'px' : '0' }}
             aria-labelledby="DebugLog"
             role="tabpanel">
             <div className="panel-body">
@@ -217,8 +234,6 @@ class Settings extends React.Component {
     this.setState({
       appSettings: _appSettings,
     });
-
-    console.log(this.state.appSettings);
   }
 
   _saveAppConfig() {
@@ -295,6 +310,27 @@ class Settings extends React.Component {
     });
   }
 
+  renderDebugLogData() {
+    if (this.props.Settings.debugLog) {
+      const _debugLogDataRows = this.props.Settings.debugLog.split('\n');
+
+      if (_debugLogDataRows &&
+          _debugLogDataRows.length) {
+        return _debugLogDataRows.map((_row) =>
+          <div
+            key={ `settings-debuglog-${Math.random(0, 9) * 10}` }
+            className="padding-bottom-5">{ _row }</div>
+        );
+      } else {
+        return (
+          <span>{ translate('INDEX.EMPTY_DEBUG_LOG') }</span>
+        );
+      }
+    } else {
+      return null;
+    }
+  }
+
   renderLB(_translationID) {
     const _translationComponents = translate(_translationID).split('<br>');
 
@@ -316,15 +352,18 @@ class Settings extends React.Component {
                 <div className="col-xlg-12 col-md-12">
                   <h4 className="font-size-14 text-uppercase">{ translate('INDEX.WALLET_SETTINGS') }</h4>
                   <div className="panel-group" id="SettingsAccordion" aria-multiselectable="true" role="tablist">
-                    <div className="panel" id="WalletInfo">
-                      <div className="panel-heading" role="tab" onClick={ () => this.openTab('WalletInfo', 0) }>
+                    <div
+                      className="panel"
+                      id="WalletInfo"
+                      onClick={ () => this.openTab('WalletInfo', 0) }>
+                      <div className="panel-heading" role="tab">
                         <a className={ this.state.activeTab === 0 ? 'panel-title' : 'panel-title collapsed' }>
                           <i className="icon md-balance-wallet" aria-hidden="true"></i>{ translate('INDEX.WALLET_INFO') }
                         </a>
                       </div>
                       <div
                         className={ this.state.activeTab === 0 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 0 ? this.state.activeTabHeight + 'px' : '10px' }}
+                        style={{ height: this.state.activeTab === 0 ? this.state.activeTabHeight + 'px' : '0' }}
                         id="WalletInfoTab"
                         aria-labelledby="WalletInfo"
                         role="tabpanel">
@@ -379,15 +418,18 @@ class Settings extends React.Component {
                       </div>
                     </div>
 
-                    <div className="panel" id="AddNodeforCoin">
-                      <div className="panel-heading" role="tab" onClick={ () => this.openTab('AddNodeforCoin', 1) }>
+                    <div
+                      className="panel"
+                      id="AddNodeforCoin"
+                      onClick={ () => this.openTab('AddNodeforCoin', 1) }>
+                      <div className="panel-heading" role="tab">
                         <a className={ this.state.activeTab === 1 ? 'panel-title' : 'panel-title collapsed' }>
                           <i className="icon md-plus-square" aria-hidden="true"></i>{ translate('INDEX.ADD_NODE') }
                         </a>
                       </div>
                       <div
                         className={ this.state.activeTab === 1 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 1 ? this.state.activeTabHeight + 'px' : '10px' }}
+                        style={{ height: this.state.activeTab === 1 ? this.state.activeTabHeight + 'px' : '0' }}
                         id="AddNodeforCoinTab"
                         aria-labelledby="AddNodeforCoin"
                         role="tabpanel">
@@ -470,15 +512,18 @@ class Settings extends React.Component {
                       </div>
                     </div>
 
-                    <div className="panel" id="DumpWallet">
-                      <div className="panel-heading" role="tab" onClick={ () => this.openTab('DumpWallet', 2) }>
+                    <div
+                      className="panel"
+                      id="DumpWallet"
+                      onClick={ () => this.openTab('DumpWallet', 2) }>
+                      <div className="panel-heading" role="tab">
                         <a className={this.state.activeTab === 2 ? 'panel-title' : 'panel-title collapsed'}>
                           <i className="icon wb-briefcase" aria-hidden="true"></i>{ translate('INDEX.WALLET_BACKUP') }
                         </a>
                       </div>
                       <div
                         className={ this.state.activeTab === 2 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 2 ? this.state.activeTabHeight + 'px' : '10px' }}
+                        style={{ height: this.state.activeTab === 2 ? this.state.activeTabHeight + 'px' : '0' }}
                         id="DumpWalletTab"
                         aria-labelledby="DumpWallet"
                         role="tabpanel">
@@ -486,18 +531,18 @@ class Settings extends React.Component {
                       </div>
                     </div>
 
-                    <div className="panel" id="FiatCurrencySettings">
-                      <div
-                        className="panel-heading"
-                        role="tab"
-                        onClick={ () => this.openTab('FiatCurrencySettings', 3) }>
+                    <div
+                      className="panel"
+                      id="FiatCurrencySettings"
+                      onClick={ () => this.openTab('FiatCurrencySettings', 3) }>
+                      <div className="panel-heading" role="tab">
                         <a className={ this.state.activeTab === 3 ? 'panel-title' : 'panel-title collapsed' }>
                           <i className="icon fa-money" aria-hidden="true"></i>{ translate('INDEX.FIAT_CURRENCY') }
                         </a>
                       </div>
                       <div
                         className={ this.state.activeTab === 3 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 3 ? this.state.activeTabHeight + 'px' : '10px' }}
+                        style={{ height: this.state.activeTab === 3 ? this.state.activeTabHeight + 'px' : '0' }}
                         id="FiatCurrencySettingsTab"
                         aria-labelledby="FiatCurrencySettings"
                         role="tabpanel">
@@ -505,15 +550,18 @@ class Settings extends React.Component {
                       </div>
                     </div>
 
-                    <div className="panel" id="ExportKeys">
-                      <div className="panel-heading" role="tab" onClick={ () => this.openTab('ExportKeys', 4) }>
+                    <div
+                      className="panel"
+                      id="ExportKeys"
+                      onClick={ () => this.openTab('ExportKeys', 4) }>
+                      <div className="panel-heading" role="tab">
                         <a className={ this.state.activeTab === 4 ? 'panel-title' : 'panel-title collapsed' }>
                           <i className="icon md-key" aria-hidden="true"></i>{ translate('INDEX.EXPORT_KEYS') }
                         </a>
                       </div>
                       <div
                         className={ this.state.activeTab === 4 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 4 ? this.state.activeTabHeight + 'px' : '10px' }}
+                        style={{ height: this.state.activeTab === 4 ? this.state.activeTabHeight + 'px' : '0' }}
                         id="ExportKeysTab"
                         aria-labelledby="ExportKeys"
                         role="tabpanel">
@@ -566,15 +614,18 @@ class Settings extends React.Component {
                       </div>
                     </div>
 
-                    <div className="panel" id="ImportKeys">
-                      <div className="panel-heading" role="tab" onClick={ () => this.openTab('ImportKeys', 5) }>
+                    <div
+                      className="panel"
+                      id="ImportKeys"
+                      onClick={ () => this.openTab('ImportKeys', 5) }>
+                      <div className="panel-heading" role="tab">
                         <a className={ this.state.activeTab === 5 ? 'panel-title' : 'panel-title collapsed' }>
                           <i className="icon md-key" aria-hidden="true"></i>{ translate('INDEX.IMPORT_KEYS') }
                         </a>
                       </div>
                       <div
                         className={ this.state.activeTab === 5 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 5 ? this.state.activeTabHeight + 'px' : '10px' }}
+                        style={{ height: this.state.activeTab === 5 ? this.state.activeTabHeight + 'px' : '0' }}
                         id="ImportKeysTab"
                         aria-labelledby="ImportKeys"
                         role="tabpanel">
@@ -612,15 +663,18 @@ class Settings extends React.Component {
                       </div>
                     </div>
 
-                    <div className="panel" id="DebugLog">
-                      <div className="panel-heading" role="tab" onClick={ () => this.openTab('DebugLog', 6) }>
+                    <div
+                      className="panel"
+                      id="DebugLog"
+                      onClick={ () => this.openTab('DebugLog', 6) }>
+                      <div className="panel-heading" role="tab">
                         <a className={ this.state.activeTab === 6 ? 'panel-title' : 'panel-title collapsed' }>
                           <i className="icon fa-bug" aria-hidden="true"></i>{ translate('INDEX.DEBUG_LOG') }
                         </a>
                       </div>
                       <div
                         className={ this.state.activeTab === 6 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 6 ? this.state.activeTabHeight + 'px' : '10px' }}
+                        style={{ height: this.state.activeTab === 6 ? this.state.activeTabHeight + 'px' : '0' }}
                         id="DebugLogTab" aria-labelledby="DebugLog" role="tabpanel">
                         <div className="panel-body">
                           <p>{ translate('INDEX.DEBUG_LOG_DESC') }</p>
@@ -663,22 +717,25 @@ class Settings extends React.Component {
                                 onClick={ this.readDebugLog }>{ translate('INDEX.LOAD_DEBUG_LOG') }</button>
                             </div>
                             <div className="col-sm-12 col-xs-12 text-align-left">
-                              <div className="padding-top-40 padding-bottom-20 horizontal-padding-0">{ this.props.Settings.debugLog }</div>
+                              <div className="padding-top-40 padding-bottom-20 horizontal-padding-0">{ this.renderDebugLogData() }</div>
                             </div>
                           </form>
                         </div>
                       </div>
                     </div>
 
-                    <div className="panel" id="AppSettings">
-                      <div className="panel-heading" role="tab" onClick={ () => this.openTab('AppSettings', 7) }>
+                    <div
+                      className="panel"
+                      id="AppSettings"
+                      onClick={ () => this.openTab('AppSettings', 7) }>
+                      <div className="panel-heading" role="tab">
                         <a className={ this.state.activeTab === 7 ? 'panel-title' : 'panel-title collapsed' }>
                           <i className="icon fa-wrench" aria-hidden="true"></i>{ translate('SETTINGS.APP_CONFIG') } (config.json)
                         </a>
                       </div>
                       <div
                         className={ this.state.activeTab === 7 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 7 ? this.state.activeTabHeight + 'px' : '10px' }}
+                        style={{ height: this.state.activeTab === 7 ? this.state.activeTabHeight + 'px' : '0' }}
                         id="DebugLogTab" aria-labelledby="DebugLog" role="tabpanel">
                         <div className="panel-body">
                           <p>

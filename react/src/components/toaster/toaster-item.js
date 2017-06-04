@@ -1,6 +1,6 @@
-import React from "react";
-import {dismissToasterMessage} from "../../actions/actionCreators";
-import Store from "../../store";
+import React from 'react';
+import { dismissToasterMessage } from '../../actions/actionCreators';
+import Store from '../../store';
 
 // each toast will be displayed for 5 seconds
 const DISPLAY_LENGTH_MILLIS = 5000;
@@ -10,7 +10,6 @@ const DISPLAY_LENGTH_MILLIS = 5000;
  * each messages has a type, title and a content message
  */
 class ToasterItem extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -60,9 +59,10 @@ class ToasterItem extends React.Component {
     }
 
     return (
-      <div className={ 'toast toast-' + this.state.type }>
-        <button className="toast-close-button" role="button"
-                onClick={ () => this.dismissToast(this.state.toastId) }>×
+      <div className={ `toast toast-${this.state.type}` }>
+        <button
+          className="toast-close-button" role="button"
+          onClick={ () => this.dismissToast(this.state.toastId) }>×
         </button>
         <div className="toast-title">{ this.state.title }</div>
         <div className="toast-message">{ this.state.message }</div>

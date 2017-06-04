@@ -97,12 +97,12 @@ class AddCoin extends React.Component {
         modalClassName: props.display ? 'show fade' : 'show fade',
       }));
 
-      setTimeout(function() {
+      setTimeout(() => {
         this.setState(Object.assign({}, this.state, {
           display: props.display,
           modalClassName: props.display ? 'show in' : 'hide',
         }));
-      }.bind(this), 100);
+      }, 100);
     }
   }
 
@@ -220,7 +220,7 @@ class AddCoin extends React.Component {
     for (let i = 1; i < this.state.coins.length; i++) {
       const _item = this.state.coins[i];
 
-      setTimeout(function() {
+      setTimeout(() => {
         Store.dispatch(addCoin(
           _item.selectedCoin.split('|')[0],
           _item.mode,
@@ -237,7 +237,7 @@ class AddCoin extends React.Component {
 
           Store.dispatch(toggleAddcoinModal(false, false));
         }
-      }.bind(this), 2000 * i);
+      }, 2000 * i);
     }
   }
 
@@ -249,7 +249,7 @@ class AddCoin extends React.Component {
       const _coin = _item.selectedCoin || '';
 
       items.push(
-        <div className={ this.hasMoreThanOneCoin() ? 'multi' : 'single' } key={ 'add-coin-' + i }>
+        <div className={ this.hasMoreThanOneCoin() ? 'multi' : 'single' } key={ `add-coin-${i}` }>
           <div className="col-sm-8">
             <div className="form-group">
               <select

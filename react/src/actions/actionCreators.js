@@ -3,43 +3,68 @@ import 'bluebird';
 
 import _config from '../config';
 import { translate } from '../translate/translate';
-import * as storeType from './storeType';
+import {
+  GET_ACTIVE_COINS,
+  DASHBOARD_ACTIVE_ADDRESS,
+  VIEW_CACHE_DATA,
+  DASHBOARD_DISPLAY_NOTARIES_MODAL,
+  DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR,
+  DASHBOARD_ACTIVE_SECTION,
+  DASHBOARD_ACTIVE_TXINFO_MODAL,
+  BASILISK_CONNECTION,
+  BASILISK_REFRESH,
+  SYNCING_FULL_MODE,
+  SYNCING_NATIVE_MODE,
+  DASHBOARD_ACTIVE_COIN_SEND_FORM,
+  DASHBOARD_ACTIVE_COIN_RECEIVE_FORM,
+  DASHBOARD_ACTIVE_COIN_RESET_FORMS,
+  ADD_TOASTER_MESSAGE,
+  REMOVE_TOASTER_MESSAGE,
+  DISPLAY_ADDCOIN_MODAL,
+  GET_MAIN_ADDRESS,
+  DASHBOARD_SECTION_CHANGE,
+  DASHBOARD_ACTIVE_COIN_CHANGE,
+  ACTIVE_COIN_GET_ADDRESSES,
+  DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY,
+  START_INTERVAL,
+  STOP_INTERVAL
+} from './storeType';
 import {
   logGuiHttp,
   getAgamaLog,
   guiLogState
-} from './log';
+} from './actions/log';
 
-export * from './nativeSyncInfo';
-export * from './basiliskCache';
-export * from './nativeSend';
-export * from './coinList';
-export * from './createWallet';
-export * from './nativeTxHistory';
-export * from './nativeBalance';
-export * from './nativeNewAddress';
-export * from './logout';
-export * from './basiliskProcessAddress';
-export * from './edexGetTx';
-export * from './sendFullBasilisk';
-export * from './settings';
-export * from './syncOnly';
-export * from './iguanaInstance';
-export * from './notary';
-export * from './edexBalance';
-export * from './addCoin';
-export * from './addressBalance';
-export * from './syncInfo';
-export * from './getAddrByAccount';
-export * from './atomic';
-export * from './walletAuth';
-export * from './openAlias';
-export * from './copyAddress';
-export * from './sysInfo';
-export * from './dexCoins';
-export * from './fullTxHistory';
-export * from './basiliskTxHistory';
-export * from './iguanaHelpers';
+export * from './actions/nativeSyncInfo';
+export * from './actions/basiliskCache';
+export * from './actions/nativeSend';
+export * from './actions/coinList';
+export * from './actions/createWallet';
+export * from './actions/nativeTxHistory';
+export * from './actions/nativeBalance';
+export * from './actions/nativeNewAddress';
+export * from './actions/logout';
+export * from './actions/basiliskProcessAddress';
+export * from './actions/edexGetTx';
+export * from './actions/sendFullBasilisk';
+export * from './actions/settings';
+export * from './actions/syncOnly';
+export * from './actions/iguanaInstance';
+export * from './actions/notary';
+export * from './actions/edexBalance';
+export * from './actions/addCoin';
+export * from './actions/addressBalance';
+export * from './actions/syncInfo';
+export * from './actions/getAddrByAccount';
+export * from './actions/atomic';
+export * from './actions/walletAuth';
+export * from './actions/openAlias';
+export * from './actions/copyAddress';
+export * from './actions/sysInfo';
+export * from './actions/dexCoins';
+export * from './actions/fullTxHistory';
+export * from './actions/basiliskTxHistory';
+export * from './actions/iguanaHelpers';
 
 export let Config;
 
@@ -51,7 +76,7 @@ try {
 
 export function changeActiveAddress(address) {
   return {
-    type: storeType.DASHBOARD_ACTIVE_ADDRESS,
+    type: DASHBOARD_ACTIVE_ADDRESS,
     address,
   }
 }
@@ -64,35 +89,35 @@ export function updateErrosStack(method) {
 
 export function toggleViewCacheModal(display) {
   return {
-    type: storeType.VIEW_CACHE_DATA,
+    type: VIEW_CACHE_DATA,
     display,
   }
 }
 
 export function displayNotariesModal(display) {
   return {
-    type: storeType.DASHBOARD_DISPLAY_NOTARIES_MODAL,
+    type: DASHBOARD_DISPLAY_NOTARIES_MODAL,
     display,
   }
 }
 
 export function changeMainBasiliskAddress(address) {
   return {
-    type: storeType.DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR,
+    type: DASHBOARD_ACTIVE_COIN_MAIN_BASILISK_ADDR,
     address,
   }
 }
 
 export function toggleDashboardActiveSection(name) {
   return {
-    type: storeType.DASHBOARD_ACTIVE_SECTION,
+    type: DASHBOARD_ACTIVE_SECTION,
     section: name,
   }
 }
 
 export function toggleDashboardTxInfoModal(display, txIndex) {
   return {
-    type: storeType.DASHBOARD_ACTIVE_TXINFO_MODAL,
+    type: DASHBOARD_ACTIVE_TXINFO_MODAL,
     showTransactionInfo: display,
     showTransactionInfoTxIndex: txIndex,
   }
@@ -100,7 +125,7 @@ export function toggleDashboardTxInfoModal(display, txIndex) {
 
 export function basiliskConnectionState(display, json) {
   return {
-    type: storeType.BASILISK_CONNECTION,
+    type: BASILISK_CONNECTION,
     basiliskConnection: display,
     progress: json,
   }
@@ -108,7 +133,7 @@ export function basiliskConnectionState(display, json) {
 
 export function basiliskRefreshState(display, json) {
   return {
-    type: storeType.BASILISK_REFRESH,
+    type: BASILISK_REFRESH,
     basiliskRefresh: display,
     progress: json,
   }
@@ -128,7 +153,7 @@ export function basiliskConnection(display) {
 
 export function syncingNativeModeState(display, json) {
   return {
-    type: storeType.SYNCING_FULL_MODE,
+    type: SYNCING_FULL_MODE,
     syncingNativeMode: display,
     progress: json,
   }
@@ -136,7 +161,7 @@ export function syncingNativeModeState(display, json) {
 
 export function syncingFullModeState(display, json) {
   return {
-    type: storeType.SYNCING_NATIVE_MODE,
+    type: SYNCING_NATIVE_MODE,
     syncingFullMode: display,
     progress: json,
   }
@@ -144,21 +169,21 @@ export function syncingFullModeState(display, json) {
 
 export function toggleSendCoinFormState(display) {
   return {
-    type: storeType.DASHBOARD_ACTIVE_COIN_SEND_FORM,
+    type: DASHBOARD_ACTIVE_COIN_SEND_FORM,
     send: display,
   }
 }
 
 export function toggleReceiveCoinFormState(display) {
   return {
-    type: storeType.DASHBOARD_ACTIVE_COIN_RECEIVE_FORM,
+    type: DASHBOARD_ACTIVE_COIN_RECEIVE_FORM,
     receive: display,
   }
 }
 
 export function toggleSendReceiveCoinFormsState() {
   return {
-    type: storeType.DASHBOARD_ACTIVE_COIN_RESET_FORMS,
+    type: DASHBOARD_ACTIVE_COIN_RESET_FORMS,
     send: false,
     receive: false,
   }
@@ -166,7 +191,7 @@ export function toggleSendReceiveCoinFormsState() {
 
 export function triggerToaster(display, message, title, _type) {
   return {
-    type: storeType.ADD_TOASTER_MESSAGE,
+    type: ADD_TOASTER_MESSAGE,
     display,
     message,
     title,
@@ -177,14 +202,14 @@ export function triggerToaster(display, message, title, _type) {
 // triggers removing of the toast with the provided toastId
 export function dismissToaster(toastId) {
   return {
-    type: storeType.REMOVE_TOASTER_MESSAGE,
+    type: REMOVE_TOASTER_MESSAGE,
     toastId: toastId
   }
 }
 
 export function toggleAddcoinModalState(display, isLogin) {
   return {
-    type: storeType.DISPLAY_ADDCOIN_MODAL,
+    type: DISPLAY_ADDCOIN_MODAL,
     display: display,
     isLogin: isLogin,
   }
@@ -192,7 +217,7 @@ export function toggleAddcoinModalState(display, isLogin) {
 
 export function dashboardCoinsState(json) {
   return {
-    type: storeType.GET_ACTIVE_COINS,
+    type: GET_ACTIVE_COINS,
     coins: json,
     activeCoins: Object.keys(json.native).length || Object.keys(json.basilisk).length || Object.keys(json.full).length ? true : false
   }
@@ -200,7 +225,7 @@ export function dashboardCoinsState(json) {
 
 export function getMainAddressState(json) {
   return {
-    type: storeType.GET_MAIN_ADDRESS,
+    type: GET_MAIN_ADDRESS,
     activeHandle: json,
   }
 }
@@ -225,7 +250,7 @@ export function toggleSendReceiveCoinForms() {
 
 export function dashboardChangeSectionState(sectionName) {
   return {
-    type: storeType.DASHBOARD_SECTION_CHANGE,
+    type: DASHBOARD_SECTION_CHANGE,
     activeSection: sectionName,
   }
 }
@@ -238,7 +263,7 @@ export function dashboardChangeSection(sectionName) {
 
 export function dashboardChangeActiveCoinState(coin, mode) {
   return {
-    type: storeType.DASHBOARD_ACTIVE_COIN_CHANGE,
+    type: DASHBOARD_ACTIVE_COIN_CHANGE,
     coin: coin,
     mode: mode,
   }
@@ -292,7 +317,7 @@ export function setBasiliskMainAddress(json, coin, mode) {
   }
 
   return {
-    type: storeType.ACTIVE_COIN_GET_ADDRESSES,
+    type: ACTIVE_COIN_GET_ADDRESSES,
     addresses: { 'public': [] },
   }
 }
@@ -308,14 +333,14 @@ export function getNativeTxHistoryState(json) {
   }
 
   return {
-    type: storeType.DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY,
+    type: DASHBOARD_ACTIVE_COIN_NATIVE_TXHISTORY,
     txhistory: json,
   }
 }
 
 export function startInterval(name, handle) {
   return {
-    type: storeType.START_INTERVAL,
+    type: START_INTERVAL,
     name,
     handle,
   }
@@ -325,7 +350,7 @@ export function stopInterval(name, intervals) {
   clearInterval(intervals[name]);
 
   return {
-    type: storeType.STOP_INTERVAL,
+    type: STOP_INTERVAL,
     name,
   }
 }
