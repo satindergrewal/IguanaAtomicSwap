@@ -54,9 +54,7 @@ class Toaster extends React.Component {
     return (
       <div
         id="toast-container"
-        className="single-toast toast-bottom-right"
-        aria-live="polite"
-        role="alert">
+        className="single-toast toast-bottom-right">
         { this.renderToasts() }
       </div>
     );

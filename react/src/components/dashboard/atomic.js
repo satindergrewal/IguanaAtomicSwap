@@ -340,8 +340,7 @@ class Atomic extends React.Component {
       }
 
       if (props.Atomic.response.error === 'less than required responses') {
-        console.log('error');
-        // toastr.error(_lang[defaultLang].DASHBOARD.LESS_RESPONSES_REQ, _lang[defaultLang].DASHBOARD.BASILISC_NOTIFICATION)
+        Store.dispatch(triggerToaster(true, 'Basilisk connection error', translate('TOASTR.SERVICE_NOTIFICATION'), 'error'));
       }
     }
   }

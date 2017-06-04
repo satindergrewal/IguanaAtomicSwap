@@ -153,7 +153,7 @@ export function basiliskConnection(display) {
 
 export function syncingNativeModeState(display, json) {
   return {
-    type: SYNCING_FULL_MODE,
+    type: SYNCING_NATIVE_MODE,
     syncingNativeMode: display,
     progress: json,
   }
@@ -161,7 +161,7 @@ export function syncingNativeModeState(display, json) {
 
 export function syncingFullModeState(display, json) {
   return {
-    type: SYNCING_NATIVE_MODE,
+    type: SYNCING_FULL_MODE,
     syncingFullMode: display,
     progress: json,
   }
