@@ -1,6 +1,10 @@
 export const _lang = {
   'EN': {
     'INDEX': {
+      'IMPORT': 'Import',
+      'CHECK': 'Check',
+      'VALIDATE': 'Validate',
+      'COPY_TO_CLIPBOARD': 'Copy to clipboard',
       'EMPTY_DEBUG_LOG': 'Debug.log is empty',
       'RESTART': 'Restart',
       'WALLET_INFO': 'Wallet Info',

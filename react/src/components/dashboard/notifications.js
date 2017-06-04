@@ -108,49 +108,37 @@ class Notifications extends React.Component {
     if (this.state.displayModal) {
       return (
         <div onKeyDown={ (event) => this.handleKeydown(event) }>
-          <div className="modal show notifications-modal" aria-hidden="false" role="dialog">
+          <div className="modal show notifications-modal">
             <div className="modal-dialog modal-center modal-lg">
               <div className="modal-content">
                 <div className="modal-body modal-body-container">
                   <div className="panel nav-tabs-horizontal">
-                    <ul className="nav nav-tabs nav-tabs-line" role="tablist">
-                      <li className={ this.state.activeTab === 0 ? 'active' : 'pointer' } role="presentation">
-                        <a
-                          role="tab"
-                          onClick={ () => this.openTab(0) }>
-                          <i className="icon fa fa-thumbs-o-up" aria-hidden="true"></i> Success ({ this.state.calls.success })
+                    <ul className="nav nav-tabs nav-tabs-line">
+                      <li className={ this.state.activeTab === 0 ? 'active' : 'pointer' }>
+                        <a onClick={ () => this.openTab(0) }>
+                          <i className="icon fa fa-thumbs-o-up"></i> Success ({ this.state.calls.success })
                         </a>
                       </li>
-                      <li className={ this.state.activeTab === 1 ? 'active' : 'pointer' } role="presentation">
-                        <a
-                          role="tab"
-                          onClick={ () => this.openTab(1) }>
-                          <i className="icon fa fa-exclamation-triangle" aria-hidden="true"></i> Error ({ this.state.calls.error })
+                      <li className={ this.state.activeTab === 1 ? 'active' : 'pointer' }>
+                        <a onClick={ () => this.openTab(1) }>
+                          <i className="icon fa fa-exclamation-triangle"></i> Error ({ this.state.calls.error })
                         </a>
                       </li>
-                      <li className={ this.state.activeTab === 2 ? 'active' : 'pointer' } role="presentation">
-                        <a
-                          role="tab"
-                          onClick={ () => this.openTab(2) }>
-                          <i className="icon fa fa-clock-o" aria-hidden="true"></i> Pending ({ this.state.calls.pending })
+                      <li className={ this.state.activeTab === 2 ? 'active' : 'pointer' }>
+                        <a onClick={ () => this.openTab(2) }>
+                          <i className="icon fa fa-clock-o"></i> Pending ({ this.state.calls.pending })
                         </a>
                       </li>
                     </ul>
                     <div className="panel-body panel-body-container">
                       <div className="tab-content">
-                        <div
-                          className={ this.state.activeTab === 0 ? 'tab-pane active' : 'tab-pane' }
-                          role="tabpanel">
+                        <div className={ this.state.activeTab === 0 ? 'tab-pane active' : 'tab-pane' }>
                           { this.renderNotificationsByType('success') }
                         </div>
-                        <div
-                          className={ this.state.activeTab === 1 ? 'tab-pane active' : 'tab-pane' }
-                          role="tabpanel">
+                        <div className={ this.state.activeTab === 1 ? 'tab-pane active' : 'tab-pane' }>
                           { this.renderNotificationsByType('error') }
                         </div>
-                        <div
-                          className={ this.state.activeTab === 2 ? 'tab-pane active' : 'tab-pane' }
-                          role="tabpanel">
+                        <div className={ this.state.activeTab === 2 ? 'tab-pane active' : 'tab-pane' }>
                           { this.renderNotificationsByType('pending') }
                         </div>
                       </div>
@@ -161,7 +149,6 @@ class Notifications extends React.Component {
                   <button
                     type="button"
                     className="btn btn-default"
-                    data-dismiss="modal"
                     onClick={ this.toggleNotificationsModal }>{ translate('INDEX.CLOSE') }</button>
                 </div>
               </div>

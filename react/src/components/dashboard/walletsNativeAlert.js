@@ -11,12 +11,12 @@ class WalletsNativeAlert extends React.Component {
   render() {
     if (this.hasNoProgress()) {
       return (
-        <div role="alert" className="alert alert-danger alert-dismissible" id="extcoin-wallet-connection-alert">
-          <button aria-label="Close" data-dismiss="alert" className="close" type="button">
-            <span aria-hidden="true">×</span>
+        <div className="alert alert-danger alert-dismissible">
+          <button className="close" type="button">
+            <span>×</span>
           </button>
           <h4>{ translate('INDEX.OOPS_ERROR') }</h4>
-          <p id="extcoin-wallet-connection-alert-text">
+          <p>
             <span>{ translate('INDEX.OOPS_ERROR_DESC') }</span>
             <code>server=1</code><br/>
             <code>rpcport=</code><br/>

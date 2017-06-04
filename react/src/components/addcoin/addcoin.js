@@ -249,13 +249,14 @@ class AddCoin extends React.Component {
       const _coin = _item.selectedCoin || '';
 
       items.push(
-        <div className={ this.hasMoreThanOneCoin() ? 'multi' : 'single' } key={ `add-coin-${i}` }>
+        <div
+          className={ this.hasMoreThanOneCoin() ? 'multi' : 'single' }
+          key={ `add-coin-${i}` }>
           <div className="col-sm-8">
             <div className="form-group">
               <select
                 className="form-control form-material"
                 name="selectedCoin"
-                id="addcoin_select_coin_mdl_options-login"
                 value={ _coin }
                 onChange={ (event) => this.updateSelectedCoin(event, i) }
                 autoFocus>
@@ -269,8 +270,7 @@ class AddCoin extends React.Component {
           <div className={ this.hasMoreThanOneCoin() ? 'hide' : 'col-sm-4' }>
             <button
               type="button"
-              className="btn btn-primary mdl_addcoin_done_btn-login"
-              id="mdl_addcoin_done_btn-login"
+              className="btn btn-primary"
               onClick={ () => this.activateCoin(i) }
               disabled={ _item.mode === -2 }>{ translate('INDEX.ACTIVATE_COIN') }</button>
           </div>
@@ -357,8 +357,7 @@ class AddCoin extends React.Component {
           <div className={ this.hasMoreThanOneCoin() && i !== 0 ? 'col-sm-1' : 'hide' }>
             <button
               type="button"
-              className="btn btn-primary mdl_addcoin_done_btn-login"
-              id="mdl_addcoin_done_btn-login"
+              className="btn btn-primary"
               onClick={ () => this.removeCoin(i) }>
               <i className="fa fa-trash-o"></i>
             </button>
@@ -384,21 +383,15 @@ class AddCoin extends React.Component {
   render() {
     return (
       <div onKeyDown={ (event) => this.handleKeydown(event) }>
-        <div
-          className={ 'modal modal-3d-sign add-coin-modal ' + this.state.modalClassName }
-          id="AddCoinDilogModel-login"
-          aria-hidden="true"
-          aria-labelledby="AddCoinDilogModel-login"
-          role="dialog"
-          tabIndex="-1">
+        <div className={ 'modal modal-3d-sign add-coin-modal ' + this.state.modalClassName }>
           <div className="modal-dialog modal-center modal-lg">
             <div className="modal-content">
               <div className="modal-header bg-orange-a400 wallet-send-header">
                 <button
                   type="button"
                   className="close white"
-                  aria-label="Close" onClick={ this.dismiss }>
-                  <span aria-hidden="true">×</span>
+                  onClick={ this.dismiss }>
+                  <span>×</span>
                 </button>
                 <h4 className="modal-title white">{ translate('INDEX.SELECT_A_COIN') }</h4>
               </div>
@@ -421,7 +414,6 @@ class AddCoin extends React.Component {
                   <button
                     type="button"
                     className="btn btn-primary col-sm-4 float-none"
-                    id="mdl_addcoin_done_btn-login"
                     onClick={ this.activateAllCoins }>{ translate('ADD_COIN.ACTIVATE_ALL') }</button>
                 </div>
                 <div className="col-sm-12">
@@ -434,11 +426,11 @@ class AddCoin extends React.Component {
                   <p>
                     <strong>{ translate('INDEX.NATIVE_MODE') }:</strong> { translate('INDEX.NATIVE_MODE_DESC1') } <strong>Komodo Daemon</strong> { translate('INDEX.NATIVE_MODE_DESC2') } <i>Iguana Daemon</i> { translate('INDEX.NATIVE_MODE_DESC3') }.
                   </p>
-                  <div className="alert alert-icon alert-primary" role="alert">
-                    <button type="button" className="close" aria-label="Close">
-                      <span aria-hidden="true">×</span>
+                  <div className="alert alert-icon alert-primary">
+                    <button type="button" className="close">
+                      <span>×</span>
                     </button>
-                    <i className="icon md-info-outline" aria-hidden="true"></i> <strong>{ translate('INDEX.NATIVE_MODE') }</strong> { translate('INDEX.NATIVE_MODE_DESC4') } <strong>{ translate('INDEX.NATIVE_MODE_DESC5') }</strong>, <i>{ translate('INDEX.NATIVE_MODE_DESC5') }</i>.
+                    <i className="icon md-info-outline"></i> <strong>{ translate('INDEX.NATIVE_MODE') }</strong> { translate('INDEX.NATIVE_MODE_DESC4') } <strong>{ translate('INDEX.NATIVE_MODE_DESC5') }</strong>, <i>{ translate('INDEX.NATIVE_MODE_DESC5') }</i>.
                   </div>
                 </div>
               </div>

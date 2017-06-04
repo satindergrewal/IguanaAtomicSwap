@@ -167,8 +167,8 @@ class Login extends React.Component {
     if (this.state.displaySeedBackupModal) {
       return (
         <div className="swal2-container">
-          <div className="swal2-overlay full-opacity display-block" tabIndex="-1"></div>
-          <div className="swal2-modal show-swal2 visible swal2-modal-container" tabIndex="-1">
+          <div className="swal2-overlay full-opacity display-block"></div>
+          <div className="swal2-modal show-swal2 visible swal2-modal-container">
           <div className="swal2-icon swal2-warning pulse-warning display-block">!</div>
           <h2>{ translate('LOGIN.SAVED_WALLET_SEED') }</h2>
           <div className="swal2-content display-block">{ translate('LOGIN.SEED_MAKE_SURE_BACKUP') }</div>
@@ -190,7 +190,7 @@ class Login extends React.Component {
   render() {
     if ((this.state && this.state.display) || !this.props.Main) {
       return (
-        <div id="wallet-login">
+        <div>
           { this.renderSwallModal() }
           <div className="page animsition vertical-align text-center fade-in">
             <div className="page-content vertical-align-middle">
@@ -204,14 +204,14 @@ class Login extends React.Component {
                 </span>
               </div>
 
-              <div id="section-ie-warning" className={ this.state.activeLoginSection === 'ieWarning' ? 'show' : 'hide' }>
+              <div className={ this.state.activeLoginSection === 'ieWarning' ? 'show' : 'hide' }>
                 <div className="panel">
                   <div className="panel-heading">
                     <h3 className="panel-title">{ translate('INDEX.UNSUPPORTED_BROWSER') }</h3>
                   </div>
-                  <div className="alert alert-danger alert-dismissible" role="alert">
-                    <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
+                  <div className="alert alert-danger alert-dismissible">
+                    <button type="button">
+                      <span>&times;</span>
                       <span className="sr-only">{ translate('INDEX.CLOSE') }</span>
                     </button>
                     { translate('INDEX.IE_UNSUPPORTED') }
@@ -230,15 +230,14 @@ class Login extends React.Component {
                 </div>
               </div>
 
-              <div id="section-login" className={ this.state.activeLoginSection === 'login' ? 'show' : 'hide' }>
-                <h4 className="color-white" id="login-welcome">{translate('INDEX.WELCOME_LOGIN')}</h4>
+              <div className={ this.state.activeLoginSection === 'login' ? 'show' : 'hide' }>
+                <h4 className="color-white">{translate('INDEX.WELCOME_LOGIN')}</h4>
                 <div className="login-form">
                   <div className="form-group form-material floating">
                     <input
                       type={ this.state.seedInputVisibility ? 'text' : 'password' }
                       className="form-control"
                       name="loginPassphrase"
-                      id="password"
                       onChange={ this.updateInput }
                       onKeyDown={ (event) => this.handleKeydown(event) } />
                     <i
@@ -249,7 +248,6 @@ class Login extends React.Component {
                   <button
                     type="button"
                     className="btn btn-primary btn-block"
-                    id="loginbtn"
                     onClick={ this.loginSeed }
                     disabled={ !this.state.loginPassphrase || !this.state.loginPassphrase.length }>{ translate('INDEX.SIGN_IN') }</button>
                   <div className="form-group form-material floating">
@@ -263,7 +261,6 @@ class Login extends React.Component {
                     <button
                       className="btn btn-lg btn-flat btn-block waves-effect margin-top-20"
                       id="register-btn"
-                      role="menuitem"
                       onClick={ this.toggleActivateCoinForm }
                       disabled={ !this.props.Main }>
                       <span className="ladda-label">{ translate('ADD_COIN.ADD_ANOTHER_COIN') }</span>
@@ -272,16 +269,12 @@ class Login extends React.Component {
                 </div>
               </div>
 
-              <div
-                id="section-login-addcoin-btn"
-                className={ this.state.activeLoginSection === 'activateCoin' ? 'show' : 'hide' }>
-                <h4 className="color-white" id="login-welcome">{ translate('INDEX.WELCOME_PLEASE_ADD') }</h4>
+              <div className={ this.state.activeLoginSection === 'activateCoin' ? 'show' : 'hide' }>
+                <h4 className="color-white">{ translate('INDEX.WELCOME_PLEASE_ADD') }</h4>
                 <div
                   className="form-group form-material floating width-540 vertical-margin-30 horizontal-margin-0">
                   <button
                     className="btn btn-lg btn-primary btn-block ladda-button"
-                    id="start-coin-login"
-                    role="menuitem"
                     onClick={ this.toggleActivateCoinForm }
                     disabled={ !this.props.Main }>
                     <span className="ladda-label">{ translate('INDEX.ACTIVATE_COIN') }</span>
@@ -289,9 +282,7 @@ class Login extends React.Component {
                 </div>
               </div>
 
-              <div
-                id="section-register"
-                className={ this.state.activeLoginSection === 'signup' ? 'show' : 'hide' }>
+              <div className={ this.state.activeLoginSection === 'signup' ? 'show' : 'hide' }>
                 <div className="register-form">
                   <h4 className="hint color-white">
                     { translate('INDEX.SELECT_SEED_TYPE') }:
@@ -346,7 +337,6 @@ class Login extends React.Component {
                   </div>
                   <button
                     type="button"
-                    id="register-submit-btn"
                     className="btn btn-primary btn-block"
                     onClick={ this.handleRegisterWallet }>{ translate('INDEX.REGISTER') }</button>
                   <div className="form-group form-material floating">
