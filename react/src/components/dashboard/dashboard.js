@@ -24,16 +24,20 @@ class Dashboard extends React.Component {
     this.renderDashboard = this.renderDashboard.bind(this);
   }
 
+  isSectionActive(section) {
+    return this.props.Dashboard.activeSection === section;
+  }
+
   renderDashboard() {
     document.body.className = '';
 
     return (
       <div className="full-height">
         <div
-          className={ this.props.Dashboard.activeSection === 'wallets' ? 'page-main' : '' }
+          className={ this.isSectionActive('wallets') ? 'page-main' : '' }
           id="section-dashboard">
           <Navbar {...this.props} />
-          <div className={ this.props.Dashboard.activeSection === 'wallets' ? 'show' : 'hide' }>
+          <div className={ this.isSectionActive('wallets') ? 'show' : 'hide' }>
             <CoinTile {...this.props} />
             <WalletsNav {...this.props} />
             <WalletsProgress {...this.props} />
@@ -45,19 +49,19 @@ class Dashboard extends React.Component {
             <WalletsNative {...this.props} />
             <WalletsNativeTxInfo {...this.props} />
           </div>
-          <div className={ this.props.Dashboard.activeSection === 'edex' ? 'show' : 'hide' }>
+          <div className={ this.isSectionActive('edex') ? 'show' : 'hide' }>
             <EDEX {...this.props} />
           </div>
-          <div className={ this.props.Dashboard.activeSection === 'atomic' ? 'show' : 'hide' }>
+          <div className={ this.isSectionActive('atomic') ? 'show' : 'hide' }>
             <Atomic {...this.props} />
           </div>
-          <div className={ this.props.Dashboard.activeSection === 'jumblr' ? 'show' : 'hide' }>
+          <div className={ this.isSectionActive('jumblr') ? 'show' : 'hide' }>
             <Jumblr {...this.props} />
           </div>
-          <div className={ this.props.Dashboard.activeSection === 'settings' ? 'show' : 'hide' }>
+          <div className={ this.isSectionActive('settings') ? 'show' : 'hide' }>
             <Settings {...this.props} />
           </div>
-          <div className={ this.props.Dashboard.activeSection === 'about' ? 'show' : 'hide' }>
+          <div className={ this.isSectionActive('about') ? 'show' : 'hide' }>
             <About {...this.props} />
           </div>
         </div>

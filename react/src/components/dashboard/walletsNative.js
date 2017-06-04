@@ -21,11 +21,15 @@ class WalletsNative extends React.Component {
     }
   }
 
+  isActiveCoinModeNative() {
+    return this.props &&
+      this.props.ActiveCoin &&
+      this.props.ActiveCoin.mode === 'native';
+  }
+
   // <WalletsNativeAlert {...this.props} />
   render() {
-    if (this.props &&
-        this.props.ActiveCoin &&
-        this.props.ActiveCoin.mode === 'native') {
+    if (this.isActiveCoinModeNative()) {
       return (
         <div className="page margin-left-0">
           <div className="padding-top-0">

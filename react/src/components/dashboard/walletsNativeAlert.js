@@ -2,10 +2,14 @@ import React from 'react';
 import { translate } from '../../translate/translate';
 
 class WalletsNativeAlert extends React.Component {
+  hasNoProgress() {
+    return this.props &&
+      this.props.Dashboard &&
+      !this.props.Dashboard.progress;
+  }
+
   render() {
-    if (this.props &&
-        this.props.Dashboard &&
-        !this.props.Dashboard.progress) {
+    if (this.hasNoProgress()) {
       return (
         <div className="alert alert-danger alert-dismissible">
           <button className="close" type="button">

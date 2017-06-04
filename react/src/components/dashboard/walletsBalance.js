@@ -68,6 +68,14 @@ class WalletsBalance extends React.Component {
     return _balance;
   }
 
+  isActiveCoinMode(coinMode) {
+    return this.props.ActiveCoin.mode === coinMode;
+  }
+
+  isNativeOrBasiliskCoinMode() {
+    return this.isActiveCoinMode('native') || this.isActiveCoinMode('basilisk');
+  }
+
   renderLB(_translationID) {
     const _translationComponents = translate(_translationID).split('<br>');
 
@@ -89,7 +97,7 @@ class WalletsBalance extends React.Component {
       return (
         <div id="wallet-widgets">
           <div className="col-xs-12">
-            <div className={ this.props.ActiveCoin.mode === 'native' || (this.props.ActiveCoin.mode === 'full' && !this.isFullySynced()) ? 'col-xs-12' : 'col-xs-12 hide' }>
+            <div className={ this.isActiveCoinMode('native') || (this.isActiveCoinMode('full') && !this.isFullySynced()) ? 'col-xs-12' : 'col-xs-12 hide' }>
               <div className="alert alert-info alert-dismissible">
                 <button className="close" type="button">
                   <span>×</span>
@@ -110,7 +118,8 @@ class WalletsBalance extends React.Component {
                 <p className="font-weight-600">{ this.renderLB('INDEX.IGUANA_FULL_MODE_SYNC_P3') }</p>
               </div>
             </div>
-            <div className={ this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-12 col-xs-12' }>
+
+            <div className={ this.isNativeOrBasiliskCoinMode() ? 'col-lg-4 col-xs-12' : 'col-lg-12 col-xs-12' }>
               <div className="widget widget-shadow">
                 <div className="widget-content">
                   <div className="padding-20 padding-top-10">
@@ -127,7 +136,7 @@ class WalletsBalance extends React.Component {
               </div>
             </div>
 
-            <div className={ this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide' }>
+            <div className={ this.isNativeOrBasiliskCoinMode() ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide' }>
               <div className="widget widget-shadow">
                 <div className="widget-content">
                   <div className="padding-20 padding-top-10">
@@ -144,7 +153,7 @@ class WalletsBalance extends React.Component {
               </div>
             </div>
 
-            <div className={ this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide' }>
+            <div className={ this.isNativeOrBasiliskCoinMode() ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide' }>
               <div className="widget widget-shadow">
                 <div className="widget-content">
                   <div className="padding-20 padding-top-10">

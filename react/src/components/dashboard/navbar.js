@@ -73,6 +73,10 @@ class Navbar extends React.Component {
     Store.dispatch(toggleSyncOnlyModal(true));
   }
 
+  isSectionActive(section) {
+    return this.props.Dashboard.activeSection === section;
+  }
+
   render() {
     return (
       <nav className="site-navbar navbar navbar-default navbar-fixed-top navbar-mega">
@@ -110,22 +114,22 @@ class Navbar extends React.Component {
                   </i>
                 </a>
               </li>
-              <li className={ this.props.Dashboard.activeSection === 'wallets' ? 'active nav-top-menu' : 'nav-top-menu' }>
+              <li className={ this.isSectionActive('wallets') ? 'active nav-top-menu' : 'nav-top-menu' }>
                 <a onClick={ () => this.dashboardChangeSection('wallets') }>
                   <i className="site-menu-icon"></i> { translate('INDEX.WALLETS') }
                 </a>
               </li>
-              <li className={ this.props.Dashboard.activeSection === 'edex' ? 'active nav-top-menu' : 'nav-top-menu' }>
+              <li className={ this.isSectionActive('edex') ? 'active nav-top-menu' : 'nav-top-menu' }>
                 <a onClick={ () => this.dashboardChangeSection('edex') }>
-                  <i className="site-menu-icon" aria-hidden="true"></i> EasyDEX
+                  <i className="site-menu-icon"></i> EasyDEX
                 </a>
               </li>
-              <li className={ 'display-none ' + (this.props.Dashboard.activeSection === 'jumblr' ? 'active nav-top-menu' : 'nav-top-menu') }>
+              <li className={ 'display-none ' + (this.isSectionActive('jumblr') ? 'active nav-top-menu' : 'nav-top-menu') }>
                 <a onClick={ () => this.dashboardChangeSection('jumblr') }>
                   <i className="site-menu-icon"></i> Jumblr
                 </a>
               </li>
-              <li className={ this.props.Dashboard.activeSection === 'atomic' ? 'active nav-top-menu' : 'nav-top-menu' }>
+              <li className={ this.isSectionActive('atomic') ? 'active nav-top-menu' : 'nav-top-menu' }>
                 <a onClick={ () => this.dashboardChangeSection('atomic') }>
                   <i className="site-menu-icon"></i> Atomic Explorer
                 </a>

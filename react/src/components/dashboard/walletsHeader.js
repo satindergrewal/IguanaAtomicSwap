@@ -2,18 +2,26 @@ import React from 'react';
 import { translate } from '../../translate/translate';
 
 class WalletsHeader extends React.Component {
+  hasActiveSection() {
+    return this.props &&
+      this.props.activeSection;
+  }
+
+  isActiveSectionJumblr() {
+    return this.props.activeSection === 'jumblr';
+  }
+
   render() {
-    if (this.props &&
-        this.props.activeSection) {
+    if (this.hasActiveSection()) {
       return (
         <div
           className="page-header page-header-bordered header-easydex margin-bottom-0"
           id="easydex-header-div"
           style={{ backgroundImage: `url("assets/images/bg/${this.props.activeSection}_transparent_header_bg.png")`, backgroundRepeat: 'no-repeat', backgroundPosition: '0%' }}>
-          <h1 className={ this.props.activeSection === 'jumblr' ? 'hide' : 'page-title' }>EasyDEX</h1>
+          <h1 className={ this.isActiveSectionJumblr() ? 'hide' : 'page-title' }>EasyDEX</h1>
           <ol className="breadcrumb">
-            <li className={ this.props.activeSection === 'jumblr' ? 'hide' : 'header-easydex-section' }>{ translate('INDEX.DASHBOARD') }</li>
-            <li className={ this.props.activeSection !== 'jumblr' ? 'hide' : 'header-easydex-section' }>
+            <li className={ this.isActiveSectionJumblr() ? 'hide' : 'header-easydex-section' }>{ translate('INDEX.DASHBOARD') }</li>
+            <li className={ !this.isActiveSectionJumblr() ? 'hide' : 'header-easydex-section' }>
               <img src="assets/images/native/jumblr_header_title_logo.png" /><br /> { translate('SIDEBAR.JUMBLR_MOTTO') }
             </li>
           </ol>
