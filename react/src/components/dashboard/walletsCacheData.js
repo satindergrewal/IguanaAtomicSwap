@@ -18,15 +18,23 @@ class WalletsCacheData extends React.Component {
     Store.dispatch(toggleViewCacheModal(false));
   }
 
+  hasActiveCoinCache() {
+    return this.props.ActiveCoin.cache;
+  }
+
+  coinsInCache() {
+    return Object.keys(this.props.ActiveCoin.cache).length;
+  }
+
   renderNotariesFetching() {
-    if (!this.props.ActiveCoin.cache) {
+    if (!this.hasActiveCoinCache()) {
       return (
         <div>Fetching cache data...</div>
       );
     } else {
       return (
         <div>
-          <strong>{ Object.keys(this.props.ActiveCoin.cache).length }</strong> coin(s) in cache file
+          <strong>{ this.coinsInCache() }</strong> coin(s) in cache file
         </div>
       );
     }
@@ -127,10 +135,14 @@ class WalletsCacheData extends React.Component {
     }
   }
 
+  hasActiveCoinNotaries() {
+    return this.props.ActiveCoin.notaries &&
+      this.props.ActiveCoin.notaries.notaries &&
+      this.props.ActiveCoin.notaries.notaries.length;
+  }
+
   renderCoinData() {
-    if (this.props.ActiveCoin.notaries &&
-        this.props.ActiveCoin.notaries.notaries &&
-        this.props.ActiveCoin.notaries.notaries.length) {
+    if (this.hasActiveCoinNotaries()) {
       return this.props.ActiveCoin.notaries.notaries.map((node, index) =>
         <TreeNode title={ `Node ${index}` } key={ `node-${index}` }>
           <TreeNode key={ `node-${index}-btc` } title={ `BTC: ${node.BTCaddress}` } />

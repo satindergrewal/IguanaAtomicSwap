@@ -2,10 +2,14 @@ import React from 'react';
 import { translate } from '../../translate/translate';
 
 class WalletsNativeAlert extends React.Component {
+  hasNoProgress() {
+    return this.props &&
+      this.props.Dashboard &&
+      !this.props.Dashboard.progress;
+  }
+
   render() {
-    if (this.props &&
-        this.props.Dashboard &&
-        !this.props.Dashboard.progress) {
+    if (this.hasNoProgress()) {
       return (
         <div role="alert" className="alert alert-danger alert-dismissible" id="extcoin-wallet-connection-alert">
           <button aria-label="Close" data-dismiss="alert" className="close" type="button">

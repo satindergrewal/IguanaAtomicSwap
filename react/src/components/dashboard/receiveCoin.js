@@ -27,8 +27,12 @@ class ReceiveCoin extends React.Component {
     Store.dispatch(copyCoinAddress(address));
   }
 
+  isBasiliskMode() {
+    return this.props.mode === 'basilisk';
+  }
+
   renderAddressActions(address) {
-    if (this.props.mode === 'basilisk') {
+    if (this.isBasiliskMode()) {
       return (
         <td>
           <span className="label label-default">
@@ -67,6 +71,14 @@ class ReceiveCoin extends React.Component {
     }
   }
 
+  hasNoAmount(address) {
+    return address.amount === 'N/A' || address.amount === 0;
+  }
+
+  hasNoInterest(address) {
+    return address.interest === 'N/A' || address.interest === 0 || !address.interest;
+  }
+
   renderAddressList() {
     if (this.props.addresses &&
         this.props.addresses.public &&
@@ -76,12 +88,10 @@ class ReceiveCoin extends React.Component {
       for (let i = 0; i < this.props.addresses.public.length; i++) {
         let address = this.props.addresses.public[i];
 
-        if (this.props.mode === 'basilisk' &&
-            (address.amount === 'N/A' || address.amount === 0)) {
+        if (this.isBasiliskMode() && this.hasNoAmount(address)) {
           address.amount = this.props.cache && this.props.cache[this.props.coin][address.address] && this.props.cache[this.props.coin][address.address].getbalance.data && this.props.cache[this.props.coin][address.address].getbalance.data.balance ? this.props.cache[this.props.coin][address.address].getbalance.data.balance : 'N/A';
         }
-        if (this.props.mode === 'basilisk' &&
-            (address.interest === 'N/A' || address.interest === 0 || !address.interest)) {
+        if (this.isBasiliskMode() && this.hasNoInterest(address)) {
           address.interest = this.props.cache && this.props.cache[this.props.coin][address.address] && this.props.cache[this.props.coin][address.address].getbalance.data && this.props.cache[this.props.coin][address.address].getbalance.data.interest ? this.props.cache[this.props.coin][address.address].getbalance.data.interest : 'N/A';
         }
 

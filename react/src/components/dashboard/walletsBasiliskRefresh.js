@@ -2,9 +2,13 @@ import React from 'react';
 import { translate } from '../../translate/translate';
 
 class WalletsBasiliskRefresh extends React.Component {
+  isBasiliskRefresh() {
+   return this.props &&
+    this.props.Dashboard.basiliskRefresh;
+  }
+
   render() {
-    if (this.props &&
-        this.props.Dashboard.basiliskRefresh) {
+    if (this.isBasiliskRefresh()) {
       return (
         <div id="edexcoin_dashboard_basilisk_refresh_status">
           <div className="col-xs-12 margin-top-20">

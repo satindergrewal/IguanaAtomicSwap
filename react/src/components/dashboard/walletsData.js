@@ -507,10 +507,14 @@ class WalletsData extends React.Component {
     }
   }
 
+  hasPublicAdresses() {
+    return this.props.ActiveCoin.addresses &&
+      this.props.ActiveCoin.addresses.public &&
+      this.props.ActiveCoin.addresses.public.length;
+  }
+
   renderAddressAmount() {
-    if (this.props.ActiveCoin.addresses &&
-        this.props.ActiveCoin.addresses.public &&
-        this.props.ActiveCoin.addresses.public.length) {
+    if (this.hasPublicAdresses()) {
       for (let i = 0; i < this.props.ActiveCoin.addresses.public.length; i++) {
         if (this.props.ActiveCoin.addresses.public[i].address === this.state.currentAddress) {
           if (this.props.ActiveCoin.addresses.public[i].amount &&

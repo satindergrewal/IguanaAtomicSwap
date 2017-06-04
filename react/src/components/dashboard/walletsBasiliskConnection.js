@@ -19,9 +19,13 @@ class WalletsBasiliskConnection extends React.Component {
     }
   }
 
+  isBasiliskConnection() {
+    return this.props &&
+      this.props.Dashboard.basiliskConnection;
+  }
+
   render() {
-    if (this.props &&
-        this.props.Dashboard.basiliskConnection) {
+    if (this.isBasiliskConnection()) {
       return (
         <div onKeyDown={ (event) => this.handleKeydown(event) }>
           <div className="modal show" id="RefreshBasiliskConnectionsMdl" aria-hidden="false" role="dialog">
