@@ -250,13 +250,13 @@ class WalletsNativeSend extends React.Component {
           <div className="col-lg-6 form-group form-material">
             <label
               className="control-label"
-              htmlFor="kmd_wallet_sendto">{ translate('INDEX.SEND_TO') } via Openalias address</label>
+              htmlFor="kmdWalletSendTo">{ translate('INDEX.SEND_TO') } via Openalias address</label>
             <input
               type="text"
               className="form-control"
               name="sendToOA"
               onChange={ this.updateInput }
-              id="kmd_wallet_sendto"
+              id="kmdWalletSendTo"
               placeholder="Enter an alias as address@site.com"
               autoComplete="off"
               required />
@@ -265,7 +265,6 @@ class WalletsNativeSend extends React.Component {
             <button
               type="button"
               className="btn btn-primary waves-effect waves-light"
-              id="kmd_wallet_send_coins_btn"
               onClick={ this.getOAdress }>
               Get address
             </button>
@@ -294,29 +293,27 @@ class WalletsNativeSend extends React.Component {
                 <form className="extcoin-send-form" method="post" autoComplete="off">
                   <div className="row">
                     <div className="col-xlg-12 form-group form-material">
-                      <label
-                        className="control-label"
-                        htmlFor="kmd_wallet_send_from">{ translate('INDEX.SEND_FROM') }</label>
+                      <label className="control-label">{ translate('INDEX.SEND_FROM') }</label>
                       { this.renderAddressList() }
                     </div>
                   </div>
                   { this.renderOASendUI() }
                   <div className="row">
                     <div className="col-xlg-12 form-group form-material">
-                      <label className="control-label" htmlFor="kmd_wallet_sendto">{ translate('INDEX.SEND_TO') }</label>
+                      <label className="control-label" htmlFor="kmdWalletSendTo">{ translate('INDEX.SEND_TO') }</label>
                       <input
                         type="text"
                         className="form-control"
                         name="sendTo"
                         onChange={ this.updateInput }
                         value={ this.state.sendTo }
-                        id="kmd_wallet_sendto"
+                        id="kmdWalletSendTo"
                         placeholder={ translate('SEND.ENTER_T_OR_Z_ADDR') }
                         autoComplete="off"
                         required />
                     </div>
                     <div className="col-lg-6 form-group form-material">
-                      <label className="control-label" htmlFor="kmd_wallet_amount" id="kmd_wallet_amount_label">
+                      <label className="control-label" htmlFor="kmdWalletAmount">
                         { this.props.ActiveCoin.coin }
                       </label>
                       <input
@@ -324,18 +321,18 @@ class WalletsNativeSend extends React.Component {
                         className="form-control"
                         name="amount"
                         onChange={ this.updateInput }
-                        id="kmd_wallet_amount"
+                        id="kmdWalletAmount"
                         placeholder="0.000"
                         autoComplete="off" />
                     </div>
                     <div className="col-lg-6 form-group form-material">
-                      <label className="control-label" htmlFor="kmd_wallet_fee">{ translate('INDEX.FEE') }</label>
+                      <label className="control-label" htmlFor="kmdWalletFee">{ translate('INDEX.FEE') }</label>
                       <input
                         type="text"
                         className="form-control"
                         name="fee"
                         onChange={ this.updateInput }
-                        id="kmd_wallet_fee"
+                        id="kmdWalletFee"
                         placeholder="0.000"
                         value={ this.state.fee }
                         autoComplete="off" />
@@ -349,7 +346,6 @@ class WalletsNativeSend extends React.Component {
                       <button
                         type="button"
                         className="btn btn-primary waves-effect waves-light pull-right"
-                        id="kmd_wallet_send_coins_btn"
                         onClick={ this.handleSubmit }
                         disabled={ !this.state.sendFrom || !this.state.sendTo || !this.state.amount }>
                         { translate('INDEX.SEND') } { this.state.amount } { this.props.ActiveCoin.coin }
@@ -364,7 +360,7 @@ class WalletsNativeSend extends React.Component {
           <div className="col-xs-12">
             <div className="row">
               <div className="panel nav-tabs-horizontal">
-                <div id="kmd_wallet_opids_status_section">
+                <div>
                   <div className="col-xlg-12 col-lg-12 col-sm-12 col-xs-12">
                     <div className="panel">
                       <header className="panel-heading">
@@ -373,7 +369,6 @@ class WalletsNativeSend extends React.Component {
                       <div className="panel-body">
                         <table
                           className="table table-hover dataTable table-striped"
-                          id="kmd-opid-status-tbl"
                           width="100%">
                           <thead>
                             <tr>

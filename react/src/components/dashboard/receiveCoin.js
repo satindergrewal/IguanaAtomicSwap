@@ -36,7 +36,6 @@ class ReceiveCoin extends React.Component {
           </span>
           <button
             className="btn btn-default btn-xs clipboard-edexaddr margin-left-10"
-            id="edexcoin_active_addr_clipboard"
             title={ translate('INDEX.COPY_TO_CLIPBOARD') }
             onClick={ () => this._copyCoinAddress(address) }><i className="icon wb-copy"></i> { translate('INDEX.COPY') }</button>
           <span
@@ -61,8 +60,7 @@ class ReceiveCoin extends React.Component {
           </span>
           <button
             className="btn btn-default btn-xs clipboard-edexaddr margin-left-10"
-            id="edexcoin_active_addr_clipboard"
-            onClick={ () => this._copyCoinAddress(address) }><i className="icon wb-copy" aria-hidden="true"></i> { translate('INDEX.COPY') }</button>
+            onClick={ () => this._copyCoinAddress(address) }><i className="icon wb-copy"></i> { translate('INDEX.COPY') }</button>
         </td>
       );
     }
@@ -107,10 +105,10 @@ class ReceiveCoin extends React.Component {
         this.props.receive &&
         this.props.mode !== 'native') {
       return (
-        <div id="edexcoin_recieve">
+        <div>
           <div className="col-xs-12 margin-top-20">
             <div className="panel nav-tabs-horizontal">
-              <div id="edexcoin_recieve_section">
+              <div>
                 <div className="col-xlg-12 col-lg-12 col-sm-12 col-xs-12">
                   <div className="panel">
                     <header className="panel-heading">
@@ -118,7 +116,7 @@ class ReceiveCoin extends React.Component {
                       <h4 className="panel-title">{ translate('INDEX.RECEIVING_ADDRESS') }</h4>
                     </header>
                     <div className="panel-body">
-                      <table className="table table-hover dataTable table-striped" id="edexcoin-recieve-addr-tbl">
+                      <table className="table table-hover dataTable table-striped">
                         <thead>
                           <tr>
                             <th>{ translate('INDEX.TYPE') }</th>

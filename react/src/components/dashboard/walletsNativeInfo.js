@@ -12,9 +12,9 @@ class WalletsNativeInfo extends React.Component {
         this.props.Dashboard.progress &&
         this.props.ActiveCoin.nativeActiveSection === 'settings') {
       return (
-        <div id="kmd_wallet_settings">
+        <div>
           <div className="col-xlg-6 col-md-4">
-            <div className="panel" id="projects">
+            <div className="panel">
               <div className="panel-heading">
                 <h3 className="panel-title">{ translate('INDEX.WALLET_INFO') }</h3>
               </div>
@@ -35,21 +35,15 @@ class WalletsNativeInfo extends React.Component {
                     </tr>
                     <tr>
                       <td>{ translate('INDEX.UNCONFIRMED_BALANCE') }</td>
-                      <td>
-                        <span id="kmd_unconfirmed_balance"></span>
-                      </td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td>{ translate('INDEX.IMMATURE_BALANCE') }</td>
-                      <td>
-                        <span id="kmd_immature_balance"></span>
-                      </td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td>{ translate('INDEX.TOTAL_TX_COUNT') }</td>
-                      <td>
-                        <span id="KMDTotalTransactionsCount"></span>
-                      </td>
+                      <td></td>
                     </tr>
                   </tbody>
                 </table>
@@ -58,7 +52,7 @@ class WalletsNativeInfo extends React.Component {
           </div>
 
           <div className="col-xlg-6 col-md-8">
-            <div className="panel" id="projects">
+            <div className="panel">
               <div className="panel-heading">
                 <h3 className="panel-title">
                   Komodo { translate('INDEX.INFO') }
@@ -102,9 +96,7 @@ class WalletsNativeInfo extends React.Component {
                       <td>
                         { translate('INDEX.NOTARIZED') } BTC
                       </td>
-                      <td>
-                        <span id="kmd_notarizedbtc"></span>
-                      </td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td>{ translate('INDEX.BLOCKS') }</td>

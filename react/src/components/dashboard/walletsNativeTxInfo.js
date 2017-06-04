@@ -67,9 +67,7 @@ class WalletsNativeTxInfo extends React.Component {
                     </ul>
                     <div className="panel-body">
                       <div className="tab-content">
-                        <div
-                          className={ this.state.activeTab === 0 ? 'tab-pane active' : 'tab-pane' }
-                          id="KmdTxIDInfotab1">
+                        <div className={ this.state.activeTab === 0 ? 'tab-pane active' : 'tab-pane' }>
                           <table className="table table-striped">
                             <tbody>
                               <tr>
@@ -135,9 +133,7 @@ class WalletsNativeTxInfo extends React.Component {
                             </tbody>
                           </table>
                         </div>
-                        <div
-                          className={ this.state.activeTab === 1 ? 'tab-pane active' : 'tab-pane' }
-                          id="KmdTxIDInfotab2">
+                        <div className={ this.state.activeTab === 1 ? 'tab-pane active' : 'tab-pane' }>
                           <table className="table table-striped">
                             <tbody>
                               <tr>
@@ -155,21 +151,15 @@ class WalletsNativeTxInfo extends React.Component {
                             </tbody>
                           </table>
                         </div>
-                        <div
-                          className={ this.state.activeTab === 2 ? 'tab-pane active' : 'tab-pane' }
-                          id="KmdTxIDInfotab3">
+                        <div className={ this.state.activeTab === 2 ? 'tab-pane active' : 'tab-pane' }>
                           <textarea
-                            id="kmd_txid_info_hex"
                             className="full-width height-170"
                             rows="10"
                             cols="80"
                             defaultValue={ txInfo.hex } disabled></textarea>
                         </div>
-                        <div
-                          className={ this.state.activeTab === 3 ? 'tab-pane active' : 'tab-pane' }
-                          id="KmdTxIDInfotab4">
+                        <div className={ this.state.activeTab === 3 ? 'tab-pane active' : 'tab-pane' }>
                           <textarea
-                            id="kmd_txid_info_hex"
                             className="full-width height-400"
                             rows="40"
                             cols="80"

@@ -17,7 +17,7 @@ class WalletsBasiliskRefresh extends React.Component {
                   </div>
                 </div>
                 <div className="table-responsive">
-                  <table className="table table-hover table-striped tbl_edexcoin_dashboard_basilisk_refresh_status">
+                  <table className="table table-hover table-striped">
                     <thead>
                       <tr>
                         <th>{ translate('INDEX.ADDRESS') }</th>

@@ -127,7 +127,7 @@ class Settings extends React.Component {
       return (
         <div className="panel" id="AppInfo" onClick={ () => this.openTab('AppInfo', 8) }>
           <div className="panel-heading">
-            <a className={this.state.activeTab === 8 ? 'panel-title' : 'panel-title collapsed'}>
+            <a className={ this.state.activeTab === 8 ? 'panel-title' : 'panel-title collapsed' }>
               <i className="icon md-info"></i>{ translate('SETTINGS.APP_INFO') }
             </a>
           </div>
@@ -344,9 +344,9 @@ class Settings extends React.Component {
     return (
       <div className="margin-left-0">
         <div className="page-content" id="section-iguana-wallet-settings">
-          <div className="row" id="iguana-wallet-settings">
+          <div className="row">
             <div className="col-xlg-12 col-md-12">
-              <div className="row" id="iguana-wallet-settings">
+              <div className="row">
                 <div className="col-xlg-12 col-md-12">
                   <h4 className="font-size-14 text-uppercase">{ translate('INDEX.WALLET_SETTINGS') }</h4>
                   <div className="panel-group" id="SettingsAccordion">
@@ -361,10 +361,9 @@ class Settings extends React.Component {
                       </div>
                       <div
                         className={ this.state.activeTab === 0 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 0 ? this.state.activeTabHeight + 'px' : '0' }}
-                        id="WalletInfoTab">
+                        style={{ height: this.state.activeTab === 0 ? this.state.activeTabHeight + 'px' : '0' }}>
                         <div className="panel-body">
-                          <table className="table" id="wallet-info-table">
+                          <table className="table">
                             <thead>
                               <tr>
                                 <th width="10%">{ translate('INDEX.KEY') }</th>
@@ -374,39 +373,27 @@ class Settings extends React.Component {
                             <tbody>
                               <tr>
                                 <td className="wallet-info-key">pubkey</td>
-                                <td>
-                                  <div id="winfo_pubkey_value">{ this.props.Main.activeHandle.pubkey }</div>
-                                </td>
+                                <td>{ this.props.Main.activeHandle.pubkey }</td>
                               </tr>
                               <tr>
                                 <td className="wallet-info-key">btcpubkey</td>
-                                <td>
-                                  <div id="winfo_btcpubkey_value">{ this.props.Main.activeHandle.btcpubkey }</div>
-                                </td>
+                                <td>{ this.props.Main.activeHandle.btcpubkey }</td>
                               </tr>
                               <tr>
                                 <td className="wallet-info-key">rmd160</td>
-                                <td>
-                                  <div id="winfo_rmd160_value">{ this.props.Main.activeHandle.rmd160 }</div>
-                                </td>
+                                <td>{ this.props.Main.activeHandle.rmd160 }</td>
                               </tr>
                               <tr>
                                 <td className="wallet-info-key">NXT</td>
-                                <td>
-                                  <div id="winfo_NXT_value">{ this.props.Main.activeHandle.NXT }</div>
-                                </td>
+                                <td>{ this.props.Main.activeHandle.NXT }</td>
                               </tr>
                               <tr>
                                 <td className="wallet-info-key">notary</td>
-                                <td>
-                                  <div id="winfo_notary_value">{ this.props.Main.activeHandle.notary }</div>
-                                </td>
+                                <td>{ this.props.Main.activeHandle.notary }</td>
                               </tr>
                               <tr>
                                 <td className="wallet-info-key">status</td>
-                                <td>
-                                  <div id="winfo_status_value">{ this.props.Main.activeHandle.status }</div>
-                                </td>
+                                <td>{ this.props.Main.activeHandle.status }</td>
                               </tr>
                             </tbody>
                           </table>
@@ -425,8 +412,7 @@ class Settings extends React.Component {
                       </div>
                       <div
                         className={ this.state.activeTab === 1 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 1 ? this.state.activeTabHeight + 'px' : '0' }}
-                        id="AddNodeforCoinTab">
+                        style={{ height: this.state.activeTab === 1 ? this.state.activeTabHeight + 'px' : '0' }}>
                         <div className="panel-body">
                           <div className="row">
                             <div className="col-sm-6">
@@ -437,7 +423,6 @@ class Settings extends React.Component {
                                 <div className="form-group">
                                   <select
                                     className="form-control form-material"
-                                    id="settings_select_coin_options"
                                     name="getPeersCoin"
                                     onChange={ this.updateInput }>
                                     <option>{ translate('INDEX.SELECT_COIN') }</option>
@@ -451,18 +436,17 @@ class Settings extends React.Component {
                                 <button
                                   type="button"
                                   className="btn btn-primary waves-effect waves-light"
-                                  id="settings_getcoinpeers_btn"
                                   onClick={ this.checkNodes }>{ translate('INDEX.CHECK_NODES') }</button>
                               </div>
                               <div className="col-sm-12">
                                 <h5>
-                                  SuperNET Peers: <span id="coin_supernetpeers_h"></span>
+                                  SuperNET Peers:
                                 </h5>
-                                <p id="coin_supernetpeers">{ this.renderSNPeersList() }</p>
+                                <p>{ this.renderSNPeersList() }</p>
                                 <h5>
-                                  Raw Peers: <span id="coin_rawpeers_h"></span>
+                                  Raw Peers:
                                 </h5>
-                                <p id="coin_rawpeers">{ this.renderPeersList() }</p>
+                                <p>{ this.renderPeersList() }</p>
                               </div>
                             </div>
 
@@ -474,7 +458,6 @@ class Settings extends React.Component {
                                 <div className="form-group">
                                   <select
                                     className="form-control form-material"
-                                    id="settings_select_coin_addpeer_options"
                                     name="addNodeCoin"
                                     onChange={ this.updateInput }>
                                     <option>{ translate('INDEX.SELECT_COIN') }</option>
@@ -487,7 +470,6 @@ class Settings extends React.Component {
                                   <input
                                     type="text"
                                     className="form-control"
-                                    id="settings_add_peer_ip"
                                     name="addPeerIP"
                                     placeholder={ translate('SETTINGS.ADD_PEER_IP') }
                                     onChange={ this.updateInput } />
@@ -497,7 +479,6 @@ class Settings extends React.Component {
                                 <button
                                   type="button"
                                   className="btn btn-primary waves-effect waves-light"
-                                  id="settings_addcoinpeers_btn"
                                   onClick={ this.addNode }>{ translate('INDEX.ADD_NODE') }</button>
                               </div>
                             </div>
@@ -511,14 +492,13 @@ class Settings extends React.Component {
                       id="DumpWallet"
                       onClick={ () => this.openTab('DumpWallet', 2) }>
                       <div className="panel-heading">
-                        <a className={this.state.activeTab === 2 ? 'panel-title' : 'panel-title collapsed'}>
+                        <a className={ this.state.activeTab === 2 ? 'panel-title' : 'panel-title collapsed' }>
                           <i className="icon wb-briefcase"></i>{ translate('INDEX.WALLET_BACKUP') }
                         </a>
                       </div>
                       <div
                         className={ this.state.activeTab === 2 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 2 ? this.state.activeTabHeight + 'px' : '0' }}
-                        id="DumpWalletTab">
+                        style={{ height: this.state.activeTab === 2 ? this.state.activeTabHeight + 'px' : '0' }}>
                         <div className="panel-body">Wallet Backup section to be updated soon.</div>
                       </div>
                     </div>
@@ -534,8 +514,7 @@ class Settings extends React.Component {
                       </div>
                       <div
                         className={ this.state.activeTab === 3 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 3 ? this.state.activeTabHeight + 'px' : '0' }}
-                        id="FiatCurrencySettingsTab">
+                        style={{ height: this.state.activeTab === 3 ? this.state.activeTabHeight + 'px' : '0' }}>
                         <div className="panel-body">Fiat currency settings section to be updated soon.</div>
                       </div>
                     </div>
@@ -551,8 +530,7 @@ class Settings extends React.Component {
                       </div>
                       <div
                         className={ this.state.activeTab === 4 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 4 ? this.state.activeTabHeight + 'px' : '0' }}
-                        id="ExportKeysTab">
+                        style={{ height: this.state.activeTab === 4 ? this.state.activeTabHeight + 'px' : '0' }}>
                         <div className="panel-body">
                           <p>
                             <div>{ this.renderLB('INDEX.ONLY_ACTIVE_WIF_KEYS') }</div><br/>
@@ -567,21 +545,20 @@ class Settings extends React.Component {
                                 type="password"
                                 className="form-control"
                                 name="wifkeysPassphrase"
-                                id="wifkeys_passphrase"
+                                id="wifkeysPassphrase"
                                 onChange={ this.updateInput } />
-                              <label className="floating-label" htmlFor="wifkeys_passphrase">{ translate('INDEX.PASSPHRASE') }</label>
+                              <label className="floating-label" htmlFor="wifkeysPassphrase">{ translate('INDEX.PASSPHRASE') }</label>
                             </div>
                             <div className="col-sm-12 col-xs-12 text-align-center">
                               <button
                                 type="button"
                                 className="btn btn-primary waves-effect waves-light"
-                                id="wifkeys_passphrase_btn"
                                 onClick={ this.exportWifKeys }>{ translate('INDEX.GET_WIF_KEYS') }</button>
                             </div>
                           </form>
 
                           <div className="col-sm-12 padding-top-15">
-                            <div className="row" id="wif-priv-keys">
+                            <div className="row">
                               <table className={ this.props.Settings && this.props.Settings.address ? 'table show' : 'table hide' }>
                                 <tr>
                                   <td className="width-5-percent">
@@ -613,8 +590,7 @@ class Settings extends React.Component {
                       </div>
                       <div
                         className={ this.state.activeTab === 5 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 5 ? this.state.activeTabHeight + 'px' : '0' }}
-                        id="ImportKeysTab">
+                        style={{ height: this.state.activeTab === 5 ? this.state.activeTabHeight + 'px' : '0' }}>
                         <div className="panel-body">
                           <p>
                             <div>{ translate('INDEX.IMPORT_KEYS_DESC_P1') }</div><br/>
@@ -631,17 +607,16 @@ class Settings extends React.Component {
                                 type="text"
                                 className="form-control"
                                 name="importWifKey"
-                                id="import_wifkey"
+                                id="importWifkey"
                                 onChange={ this.updateInput } />
                               <label
                                 className="floating-label"
-                                htmlFor="import_wifkey">{ translate('INDEX.INPUT_PRIV_KEY') }</label>
+                                htmlFor="importWifkey">{ translate('INDEX.INPUT_PRIV_KEY') }</label>
                             </div>
                             <div className="col-sm-12 col-xs-12 text-align-center">
                               <button
                                 type="button"
                                 className="btn btn-primary waves-effect waves-light"
-                                id="import_wifkey_btn"
                                 onClick={ this.importWifKey }>{ translate('INDEX.IMPORT_PRIV_KEY') }</button>
                             </div>
                           </form>
@@ -660,8 +635,7 @@ class Settings extends React.Component {
                       </div>
                       <div
                         className={ this.state.activeTab === 6 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 6 ? this.state.activeTabHeight + 'px' : '0' }}
-                        id="DebugLogTab">
+                        style={{ height: this.state.activeTab === 6 ? this.state.activeTabHeight + 'px' : '0' }}>
                         <div className="panel-body">
                           <p>{ translate('INDEX.DEBUG_LOG_DESC') }</p>
                           <div className="col-sm-12"></div>
@@ -675,31 +649,30 @@ class Settings extends React.Component {
                                 type="text"
                                 className="form-control"
                                 name="debugLinesCount"
-                                id="read_debug_log_lines"
+                                id="readDebugLogLines"
                                 value={ this.state.debugLinesCount }
                                 onChange={ this.updateInput } />
                               <label
                                 className="floating-label"
-                                htmlFor="read_debug_log_lines">{ translate('INDEX.DEBUG_LOG_LINES') }</label>
+                                htmlFor="readDebugLogLines">{ translate('INDEX.DEBUG_LOG_LINES') }</label>
                             </div>
                             <div className="form-group form-material floating">
                               <select
                                 className="form-control form-material"
                                 name="debugTarget"
-                                id="settings_select_debuglog_options"
+                                id="settingsDelectDebugLogOptions"
                                 onChange={ this.updateInput }>
                                 <option value="iguana">Iguana</option>
                                 <option value="komodo">Komodo</option>
                               </select>
                               <label
                                 className="floating-label"
-                                htmlFor="settings_select_debuglog_options">{ translate('INDEX.TARGET') }</label>
+                                htmlFor="settingsDelectDebugLogOptions">{ translate('INDEX.TARGET') }</label>
                             </div>
                             <div className="col-sm-12 col-xs-12 text-align-center">
                               <button
                                 type="button"
                                 className="btn btn-primary waves-effect waves-light"
-                                id="read_debug_log_btn"
                                 onClick={ this.readDebugLog }>{ translate('INDEX.LOAD_DEBUG_LOG') }</button>
                             </div>
                             <div className="col-sm-12 col-xs-12 text-align-left">
@@ -721,8 +694,7 @@ class Settings extends React.Component {
                       </div>
                       <div
                         className={ this.state.activeTab === 7 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                        style={{ height: this.state.activeTab === 7 ? this.state.activeTabHeight + 'px' : '0' }}
-                        id="DebugLogTab">
+                        style={{ height: this.state.activeTab === 7 ? this.state.activeTabHeight + 'px' : '0' }}>
                         <div className="panel-body">
                           <p>
                             <strong>{ translate('SETTINGS.CONFIG_RESTART_REQUIRED') }</strong>
@@ -738,7 +710,6 @@ class Settings extends React.Component {
                             <button
                               type="button"
                               className="btn btn-primary waves-effect waves-light"
-                              id="read_debug_log_btn"
                               onClick={ this._saveAppConfig }>{ translate('SETTINGS.SAVE_APP_CONFIG') }</button>
                           </div>
                         </div>

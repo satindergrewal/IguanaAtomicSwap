@@ -6,22 +6,14 @@ class WalletsNativeSyncProgress extends React.Component {
     if (this.props.Dashboard.progress.blocks > 0 &&
         this.props.Dashboard.progress.longestchain === 0) {
       return (
-        <div
-          className="progress-bar progress-bar-info progress-bar-striped active full-width font-size-80-percent"
-          id="extcoin-sync">
-          <span
-            id="extcoin-sync-percent"
-            className="full-width">{ translate('INDEX.SYNC_ERR_LONGESTCHAIN') }</span>
+        <div className="progress-bar progress-bar-info progress-bar-striped active full-width font-size-80-percent">
+          <span className="full-width">{ translate('INDEX.SYNC_ERR_LONGESTCHAIN') }</span>
         </div>
       );
     } else if (this.props.Dashboard.progress.blocks === 0) {
       return (
-        <div
-          className="progress-bar progress-bar-info progress-bar-striped active full-width font-size-80-percent"
-          id="extcoin-sync">
-          <span
-            id="extcoin-sync-percent"
-            className="full-width">{ translate('INDEX.SYNC_ERR_BLOCKS') }</span>
+        <div className="progress-bar progress-bar-info progress-bar-striped active full-width font-size-80-percent">
+          <span className="full-width">{ translate('INDEX.SYNC_ERR_BLOCKS') }</span>
         </div>
       );
     } else {
@@ -30,11 +22,8 @@ class WalletsNativeSyncProgress extends React.Component {
       return (
         <div
           className="progress-bar progress-bar-info progress-bar-striped active font-size-80-percent"
-          style={{ width: syncPercentage }}
-          id="extcoin-sync">
-          <span
-            id="extcoin-sync-percent"
-            style={{ width: syncPercentage }}>{ syncPercentage }</span> | <span id="extcoin-synced-blocks">{ this.props.Dashboard.progress.blocks }</span> / <span id="extcoin-longestchain">{ this.props.Dashboard.progress.longestchain }</span> | { translate('INDEX.CONNECTIONS') }: <span id="extcoin-connections">{ this.props.Dashboard.progress.connections }</span>
+          style={{ width: syncPercentage }}>
+          <span style={{ width: syncPercentage }}>{ syncPercentage }</span> | { this.props.Dashboard.progress.blocks } / { this.props.Dashboard.progress.longestchain } | { translate('INDEX.CONNECTIONS') }: { this.props.Dashboard.progress.connections }
         </div>
       );
     }
@@ -57,7 +46,7 @@ class WalletsNativeSyncProgress extends React.Component {
         return(`: ${Math.floor(currentBestChain * 100 / this.props.Dashboard.progress.remoteKMDNode.blocks)}% (blocks ${currentBestChain} / ${this.props.Dashboard.progress.remoteKMDNode.blocks})`);
       } else {
         return (
-          <span id="activating-komodod-tridot">...</span>
+          <span>...</span>
         );
       }
     }
@@ -78,16 +67,14 @@ class WalletsNativeSyncProgress extends React.Component {
     if ((this.props.Dashboard.progress.blocks < this.props.Dashboard.progress.longestchain) ||
         this.props.Dashboard.progress.remoteKMDNode) {
       return (
-        <div
-          className="alert alert-info alert-dismissible margin-bottom-40"
-          id="extcoin-wallet-activating-alert">
+        <div className="alert alert-info alert-dismissible margin-bottom-40">
           <button className="close" type="button">
             <span>×</span>
           </button>
           <h4>
             { translate('INDEX.ACTIVATING_CHAIN') }{ this.renderActivatingBestChainProgress() }
           </h4>
-          <p id="extcoin-wallet-connection-alert-text">{ this.renderLB('INDEX.KMD_STARTED') }</p>
+          <p>{ this.renderLB('INDEX.KMD_STARTED') }</p>
         </div>
       );
     } else {
@@ -103,7 +90,7 @@ class WalletsNativeSyncProgress extends React.Component {
         <div>
           { this.renderChainActivationNotification() }
           <div className="row sync-progress-container">
-            <div className="col-xs-12" id="extcoin-progressbars">
+            <div className="col-xs-12">
               <div className="progress">
                 { this.renderSyncPercentagePlaceholder() }
               </div>

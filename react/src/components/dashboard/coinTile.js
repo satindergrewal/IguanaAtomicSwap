@@ -70,7 +70,7 @@ class CoinTile extends React.Component {
                   <button type="submit" className="input-search-btn">
                     <i className="icon md-search"></i>
                   </button>
-                  <input type="text" className="form-control" name="" placeholder="Search..." disabled />
+                  <input type="text" className="form-control" placeholder="Search..." disabled />
                 </div>
               </div>
               <h3 className="panel-title">{ translate('INDEX.ACTIVE_COINS') }</h3>

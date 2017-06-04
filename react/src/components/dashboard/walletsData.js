@@ -253,8 +253,7 @@ class WalletsData extends React.Component {
           key={ `${i}-pagination-link` }
           className={ this.state.activePage === i + 1 ? 'paginate_button active' : 'paginate_button' }>
           <a
-            aria-controls="kmd-tx-history-tbl"
-            tabIndex="0" key={ `${i}-pagination` }
+            key={ `${i}-pagination` }
             onClick={ this.state.activePage !== (i + 1) ? () => this.updateCurrentPage(i + 1) : null }>{ i + 1 }</a>
         </li>
       );
@@ -268,7 +267,7 @@ class WalletsData extends React.Component {
         this.state.itemsList !== 'loading' &&
         this.props.ActiveCoin.txhistory.length > 10) {
       return (
-        <div className="dataTables_length" id="kmd-tx-history-tbl_length">
+        <div className="dataTables_length">
           <label>
             { translate('INDEX.SHOW') }&nbsp;
             <select
@@ -299,22 +298,16 @@ class WalletsData extends React.Component {
       return (
         <div className="row unselectable">
           <div className="col-sm-5">
-            <div
-              className="dataTables_info"
-              id="kmd-tx-history-tbl_info">{ translate('INDEX.SHOWING') } { _paginationFrom } { translate('INDEX.TO_ALT') } { _paginationTo } { translate('INDEX.OF') } { this.props.ActiveCoin.txhistory.length } { translate('INDEX.ENTRIES_SM') }</div>
+            <div className="dataTables_info">{ translate('INDEX.SHOWING') } { _paginationFrom } { translate('INDEX.TO_ALT') } { _paginationTo } { translate('INDEX.OF') } { this.props.ActiveCoin.txhistory.length } { translate('INDEX.ENTRIES_SM') }</div>
           </div>
           <div className="col-sm-7">
-            <div className="dataTables_paginate paging_simple_numbers" id="kmd-tx-history-tbl_paginate">
+            <div className="dataTables_paginate paging_simple_numbers">
               <ul className="pagination">
-                <li
-                  className={ this.state.activePage === 1 ? 'paginate_button previous disabled' : 'paginate_button previous' }
-                  id="kmd-tx-history-tbl_previous">
+                <li className={ this.state.activePage === 1 ? 'paginate_button previous disabled' : 'paginate_button previous' }>
                   <a onClick={ () => this.updateCurrentPage(this.state.activePage - 1) }>{ translate('INDEX.PREVIOUS') }</a>
                 </li>
                 { this.renderPaginationItems() }
-                <li
-                  className={ this.state.activePage > Math.floor(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage) ? 'paginate_button next disabled' : 'paginate_button next' }
-                  id="kmd-tx-history-tbl_next">
+                <li className={ this.state.activePage > Math.floor(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage) ? 'paginate_button next disabled' : 'paginate_button next' }>
                   <a onClick={ () => this.updateCurrentPage(this.state.activePage + 1) }>{ translate('INDEX.NEXT') }</a>
                 </li>
               </ul>
@@ -411,10 +404,10 @@ class WalletsData extends React.Component {
     }));
 
     if (this.props.ActiveCoin.mode === 'basilisk') {
-      setTimeout(function() {
+      setTimeout(() => {
         Store.dispatch(changeMainBasiliskAddress(address));
         Store.dispatch(getBasiliskTransactionsList(this.props.ActiveCoin.coin, address));
-      }.bind(this), 100);
+      }, 100);
 
       Store.dispatch(fetchNewCacheData({
         'pubkey': this.props.Dashboard.activeHandle.pubkey,
@@ -581,13 +574,12 @@ class WalletsData extends React.Component {
           <div id="edexcoin_dashboardinfo">
             <div className="col-xs-12 margin-top-20">
               <div className="panel nav-tabs-horizontal">
-                <div id="edexcoin_dashoard_section">
-                  <div className="col-xlg-12 col-lg-12 col-sm-12 col-xs-12 edexcoin_dashoard_section_main_div">
-                    <div id="edexcoin_txhistory" className="panel">
+                <div>
+                  <div className="col-xlg-12 col-lg-12 col-sm-12 col-xs-12">
+                    <div className="panel">
                       <header className="panel-heading z-index-10">
                         <div className={ this.props.ActiveCoin.mode === 'basilisk' ? 'panel-actions' : 'panel-actions hide' }>
-                          <div
-                            className={'full-width margin-bottom-3 ' + (this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : 'progress progress-sm') }>
+                          <div className={'full-width margin-bottom-3 ' + (this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : 'progress progress-sm') }>
                             <div
                               className="progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success font-size-80-percent"
                               style={{ width: 100 - (this.state.currentStackLength * 100 / this.state.totalStackLength) + '%'}}>
@@ -597,16 +589,13 @@ class WalletsData extends React.Component {
                           <div
                             className={ this.state.basiliskActionsMenu ? 'dropdown open' : 'dropdown' }
                             onClick={ this.toggleBasiliskActionsMenu }>
-                            <a
-                              className="dropdown-toggle btn-xs btn-default"
-                              id="btn_edexcoin_basilisk">
+                            <a className="dropdown-toggle btn-xs btn-default">
                               <i className="icon fa-magic margin-right-10"></i> { translate('INDEX.BASILISK_ACTIONS') } <span className="caret"></span>
                             </a>
                             <ul className="dropdown-menu dropdown-menu-right">
                               <li>
                                 <a
                                   className="btn_edexcoin_dashboard_getnotaries"
-                                  id="btn_edexcoin_dashboard_getnotaries"
                                   onClick={ this.getDexNotariesAction }>
                                   <i className="icon fa-sitemap"></i> { translate('INDEX.GET_NOTARY_NODES_LIST') }
                                 </a>
@@ -614,7 +603,6 @@ class WalletsData extends React.Component {
                               <li>
                                 <a
                                   className="btn_edexcoin_dashboard_refresh_basilisk_conn"
-                                  id="btn_edexcoin_dashboard_refresh_basilisk_conn"
                                   onClick={ this.basiliskConnectionAction }>
                                   <i className="icon wb-refresh"></i> { translate('INDEX.REFRESH_BASILISK_CONNECTIONS') }
                                 </a>
@@ -622,7 +610,6 @@ class WalletsData extends React.Component {
                               <li className={ !this.state.useCache ? 'hide' : '' }>
                                 <a
                                   className="btn_edexcoin_dashboard_fetchdata"
-                                  id="btn_edexcoin_dashboard_fetchdata"
                                   onClick={ this.basiliskRefreshActionOne }>
                                   <i className="icon fa-cloud-download"></i> { translate('INDEX.FETCH_WALLET_DATA') } ({ translate('INDEX.ACTIVE_ADDRESS') })
                                 </a>
@@ -635,12 +622,11 @@ class WalletsData extends React.Component {
                               <li className={ !this.state.useCache ? 'hide' : '' }>
                                 <a
                                   className="btn_edexcoin_dashboard_refetchdata"
-                                  id="btn_edexcoin_dashboard_refetchdata"
                                   onClick={ this.removeAndFetchNewCache }>
                                   <i className="icon fa-history"></i> { translate('INDEX.REFETCH_WALLET_DATA') }
                                 </a>
                               </li>
-                              <li className={'display-none ' + (!this.state.useCache ? 'hide' : '') }>
+                              <li className={ 'display-none ' + (!this.state.useCache ? 'hide' : '') }>
                                 <a onClick={ this.restartBasiliskInstance }>
                                   <i className="icon fa-refresh"></i> Restart Basilisk Instance (unsafe!)
                                 </a>
@@ -667,7 +653,7 @@ class WalletsData extends React.Component {
                             { this.renderPaginationItemsPerPageSelector() }
                           </div>
                           <div className="col-sm-6">
-                            <div id="kmd-tx-history-tbl_filter" className="dataTables_filter">
+                            <div className="dataTables_filter">
                               <label>
                                 { translate('INDEX.SEARCH') }: <input type="search" className="form-control input-sm" disabled="true" />
                               </label>
@@ -675,7 +661,7 @@ class WalletsData extends React.Component {
                           </div>
                         </div>
                         <div className="row">
-                          <table className="table table-hover dataTable table-striped" id="edex-tx-history-tbl" width="100%">
+                          <table className="table table-hover dataTable table-striped" width="100%">
                             <thead>
                               <tr>
                                 <th>{ translate('INDEX.DIRECTION') }</th>

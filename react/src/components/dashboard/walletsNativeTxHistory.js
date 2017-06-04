@@ -139,7 +139,7 @@ class WalletsNativeTxHistory extends React.Component {
         this.props.ActiveCoin.txhistory !== 'loading' &&
         this.props.ActiveCoin.txhistory.length > 10) {
       return (
-        <div className="dataTables_length" id="kmd-tx-history-tbl_length">
+        <div className="dataTables_length">
           <label>
             { translate('INDEX.SHOW') }&nbsp;
             <select
@@ -171,22 +171,16 @@ class WalletsNativeTxHistory extends React.Component {
       return (
         <div className="row unselectable">
           <div className="col-sm-5">
-            <div
-              className="dataTables_info"
-              id="kmd-tx-history-tbl_info">{ translate('INDEX.SHOWING') } { _paginationStart } { translate('INDEX.TO') } { _paginationEnd } { translate('INDEX.OF') } { this.props.ActiveCoin.txhistory.length } { translate('INDEX.ENTRIES_SM') }</div>
+            <div className="dataTables_info">{ translate('INDEX.SHOWING') } { _paginationStart } { translate('INDEX.TO') } { _paginationEnd } { translate('INDEX.OF') } { this.props.ActiveCoin.txhistory.length } { translate('INDEX.ENTRIES_SM') }</div>
           </div>
           <div className="col-sm-7">
-            <div className="dataTables_paginate paging_simple_numbers" id="kmd-tx-history-tbl_paginate">
+            <div className="dataTables_paginate paging_simple_numbers">
               <ul className="pagination">
-                <li
-                  className={ this.state.activePage === 1 ? 'paginate_button previous disabled' : 'paginate_button previous' }
-                  id="kmd-tx-history-tbl_previous">
+                <li className={ this.state.activePage === 1 ? 'paginate_button previous disabled' : 'paginate_button previous' }>
                   <a onClick={ () => this.updateCurrentPage(this.state.activePage - 1) }>{ translate('INDEX.PREVIOUS') }</a>
                 </li>
                 {this.renderPaginationItems()}
-                <li
-                  className={ _paginationNextState ? 'paginate_button next disabled' : 'paginate_button next' }
-                  id="kmd-tx-history-tbl_next">
+                <li className={ _paginationNextState ? 'paginate_button next disabled' : 'paginate_button next' }>
                   <a onClick={ () => this.updateCurrentPage(this.state.activePage + 1) }>{ translate('INDEX.NEXT') }</a>
                 </li>
               </ul>
@@ -248,10 +242,10 @@ class WalletsNativeTxHistory extends React.Component {
         this.props.ActiveCoin.nativeActiveSection === 'default') {
       return (
         <div className="native-transactions">
-          <div id="kmd_wallet_dashboardinfo">
+          <div>
             <div className="col-xs-12 margin-top-20">
               <div className="panel nav-tabs-horizontal">
-                <div id="kmd_wallet_dashoard_section">
+                <div>
                   <div className="col-xlg-12 col-lg-12 col-sm-12 col-xs-12">
                     <div className="panel">
                       <header className="panel-heading">
@@ -263,7 +257,7 @@ class WalletsNativeTxHistory extends React.Component {
                             { this.renderPaginationItemsPerPageSelector() }
                           </div>
                           <div className="col-sm-6">
-                            <div id="kmd-tx-history-tbl_filter" className="dataTables_filter">
+                            <div className="dataTables_filter">
                               <label>
                                 { translate('INDEX.SEARCH') }: <input type="search" className="form-control input-sm" disabled="true" />
                               </label>
@@ -271,7 +265,7 @@ class WalletsNativeTxHistory extends React.Component {
                           </div>
                         </div>
                         <div className="row">
-                          <table className="table table-hover dataTable table-striped" id="kmd-tx-history-tbl" width="100%">
+                          <table className="table table-hover dataTable table-striped" width="100%">
                             <thead>
                               <tr>
                                 <th>{ translate('INDEX.TYPE') }</th>

@@ -97,15 +97,13 @@ class SyncOnly extends React.Component {
         <div>
           <div className="progress progress-sm">
             <div
-              className={'font-size-80-percent full-width ' + (this.isFullySynced(fork) ? 'progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success' : 'hide') }
-              id="currency-bundles">
-              { translate('INDEX.BUNDLES') } <span id="currency-bundles-percent">({ fork.coin }) 100.00% - ( { fork.blocks } / { fork.blocks } ) ==&gt;&gt; RT{ fork.RTheight }</span>
+              className={'font-size-80-percent full-width ' + (this.isFullySynced(fork) ? 'progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success' : 'hide') }>
+              { translate('INDEX.BUNDLES') } ({ fork.coin }) 100.00% - ( { fork.blocks } / { fork.blocks } ) ==&gt;&gt; RT{ fork.RTheight }
             </div>
             <div
-              className={'font-size-80-percent ' + (this.isFullySynced(fork) ? 'hide' : 'progress-bar progress-bar-info progress-bar-striped active') }
-              style={{ width: fork.bundles + '%' }}
-              id="currency-bundles">
-              { translate('INDEX.BUNDLES') } <span id="currency-bundles-percent">{ fork.bundles }%</span>
+              className={ 'font-size-80-percent ' + (this.isFullySynced(fork) ? 'hide' : 'progress-bar progress-bar-info progress-bar-striped active') }
+              style={{ width: fork.bundles + '%' }}>
+              { translate('INDEX.BUNDLES') } { fork.bundles }%
             </div>
           </div>
         </div>
@@ -113,25 +111,22 @@ class SyncOnly extends React.Component {
           <div className="progress progress-sm">
             <div
               className="progress-bar progress-bar-warning progress-bar-striped active font-size-80-percent"
-              style={{ width: fork.utxo + '%' }}
-              id="currency-utxo">
-              utxo <span id="currency-utxo-percent">{ fork.utxo }%</span>
+              style={{ width: fork.utxo + '%' }}>
+              utxo { fork.utxo }%
             </div>
           </div>
           <div className="progress progress-sm">
             <div
               className="progress-bar progress-bar-danger progress-bar-striped active font-size-80-percent"
-              style={{ width: fork.balances + '%' }}
-              id="currency-balances">
-              { translate('INDEX.BALANCES') } <span id="currency-balances-percent">{ fork.balances }%</span>
+              style={{ width: fork.balances + '%' }}>
+              { translate('INDEX.BALANCES') } { fork.balances }%
             </div>
           </div>
           <div className="progress progress-sm">
             <div
               className="progress-bar progress-bar-success progress-bar-striped active font-size-80-percent"
-              style={{ width: fork.validated + '%' }}
-              id="currency-validated">
-              { translate('INDEX.VALIDATED') } <span id="currency-validated-percent">{ fork.validated }%</span>
+              style={{ width: fork.validated + '%' }}>
+              { translate('INDEX.VALIDATED') } { fork.validated }%
             </div>
           </div>
         </div>
@@ -171,7 +166,7 @@ class SyncOnly extends React.Component {
               </div>
             </div>
             <div className="progress-bars">
-            {this.renderProgress(forkInfo.getinfo)}
+            { this.renderProgress(forkInfo.getinfo) }
             </div>
           </div>
         );

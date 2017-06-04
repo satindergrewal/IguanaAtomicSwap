@@ -21,23 +21,22 @@ class WalletsHeader extends React.Component {
             <div id="kmd_header_button">
               <button
                 type="button"
-                id="easydex_kmd_wallet_actions_header"
                 className="bg-teal-500 btn btn-floating white waves-effect waves-float waves-light">
                 <i className="icon md-plus"></i>
               </button>
               <ul className="dropdown-menu animate dropdown-menu-right">
                 <li>
-                  <a id="btn_kmd_wallet_dashboard">{ translate('INDEX.DASHBOARD') }</a>
+                  <a>{ translate('INDEX.DASHBOARD') }</a>
                 </li>
                 <li>
-                  <a id="btn_kmd_wallet_send">{ translate('INDEX.SEND') }</a>
+                  <a>{ translate('INDEX.SEND') }</a>
                 </li>
                 <li>
-                  <a id="btn_kmd_wallet_recieve">{ translate('INDEX.RECEIVE') }</a>
+                  <a>{ translate('INDEX.RECEIVE') }</a>
                 </li>
                 <li className="divider"></li>
                 <li>
-                  <a id="btn_kmd_wallet_settings">{ translate('INDEX.SETTINGS') }</a>
+                  <a>{ translate('INDEX.SETTINGS') }</a>
                 </li>
               </ul>
             </div>
@@ -45,23 +44,22 @@ class WalletsHeader extends React.Component {
             <div id="zec_header_button" className="display-none">
               <button
                 type="button"
-                id="easydex_zec_wallet_actions_header"
                 className="bg-yellow-600 btn btn-floating white waves-effect waves-float waves-light">
                 <i className="icon md-plus"></i>
               </button>
               <ul className="dropdown-menu animate dropdown-menu-right">
                 <li>
-                  <a id="btn_zec_wallet_dashboard">{ translate('INDEX.DASHBOARD') }</a>
+                  <a>{ translate('INDEX.DASHBOARD') }</a>
                 </li>
                 <li>
-                  <a id="btn_zec_wallet_send">{ translate('INDEX.SEND') }</a>
+                  <a>{ translate('INDEX.SEND') }</a>
                 </li>
                 <li>
-                  <a id="btn_zec_wallet_recieve">{ translate('INDEX.RECEIVE') }</a>
+                  <a>{ translate('INDEX.RECEIVE') }</a>
                 </li>
                 <li className="divider"></li>
                 <li>
-                  <a id="btn_zec_wallet_settings">{ translate('INDEX.SETTINGS') }</a>
+                  <a>{ translate('INDEX.SETTINGS') }</a>
                 </li>
               </ul>
             </div>
@@ -69,7 +67,6 @@ class WalletsHeader extends React.Component {
             <div id="kmd_header_button">
               <button
                 type="button"
-                id="jumblr_actions_header"
                 className="btn white waves-effect waves-light">
                 <i className="icon fa-refresh"></i>{ translate('INDEX.REFRESH') }
               </button>
@@ -78,38 +75,37 @@ class WalletsHeader extends React.Component {
             <div id="kmd_header_button" className="display-none">
               <button
                 type="button"
-                id="easydex_acpax_wallet_actions_header"
                 className="bg-teal-500 btn btn-floating white waves-effect waves-float waves-light">
                 <i className="icon md-plus"></i>
               </button>
               <ul className="dropdown-menu animate dropdown-menu-right">
                 <li>
-                  <a id="btn_acpax_wallet_dashboard">{ translate('INDEX.DASHBOARD') }</a>
+                  <a>{ translate('INDEX.DASHBOARD') }</a>
                 </li>
                 <li>
-                  <a id="btn_acpax_wallet_send">{ translate('INDEX.SEND') }</a>
+                  <a>{ translate('INDEX.SEND') }</a>
                 </li>
                 <li>
-                  <a id="btn_acpax_wallet_recieve">{ translate('INDEX.RECEIVE') }</a>
+                  <a>{ translate('INDEX.RECEIVE') }</a>
                 </li>
                 <li className="divider"></li>
                 <li>
-                  <a id="btn_acpax_wallet_settings">{ translate('INDEX.SETTINGS') }</a>
+                  <a>{ translate('INDEX.SETTINGS') }</a>
                 </li>
               </ul>
             </div>
 
-            <div className="row no-space width-350 hidden-xs" id="easydex_btc_btcd_balances_header display-none">
+            <div className="row no-space width-350 hidden-xs display-none">
               <div className="col-xs-6">
                 <div className="counter">
-                  <span className="font-weight-medium" id="header_coinname_balance"> - BTC</span>
-                  <span className="counter-label small" id="header_coinfiatbalance"> - USD</span>
+                  <span className="font-weight-medium"> - BTC</span>
+                  <span className="counter-label small"> - USD</span>
                 </div>
               </div>
               <div className="col-xs-6">
                 <div className="counter">
-                  <span className="font-weight-medium" id="header_coinname_balance"> - BTCD</span>
-                  <span className="counter-label small" id="header_coinfiatbalance"> - USD</span>
+                  <span className="font-weight-medium"> - BTCD</span>
+                  <span className="counter-label small"> - USD</span>
                 </div>
               </div>
             </div>

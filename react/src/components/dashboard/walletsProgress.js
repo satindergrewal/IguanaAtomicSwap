@@ -34,42 +34,36 @@ class WalletsProgress extends React.Component {
             <div className="row no-space">
               <div id="currency-progressbars">
                 <div className="progress progress-sm">
-                  <div
-                    className={ 'full-width font-size-80-percent ' + (this.isFullySynced() ? 'progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success' : 'hide') }
-                    id="currency-bundles">
+                  <div className={ 'full-width font-size-80-percent ' + (this.isFullySynced() ? 'progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success' : 'hide') }>
                     { translate('INDEX.BUNDLES') } <span id="currency-bundles-percent">({ this.props.ActiveCoin.coin }) 100.00% - ( { this.props.Dashboard.progress.blocks } / { this.props.Dashboard.progress.blocks } ) ==&gt;&gt; RT{ this.props.Dashboard.progress.RTheight }</span>
                   </div>
                   <div
                     className={ 'font-size-80-percent ' + (this.isFullySynced() ? 'hide' : 'progress-bar progress-bar-info progress-bar-striped active') }
-                    style={{ width: this.props.Dashboard.progress.bundles + '%' }}
-                    id="currency-bundles">
-                    { translate('INDEX.BUNDLES') } <span id="currency-bundles-percent">{ this.props.Dashboard.progress.bundles }%</span>
+                    style={{ width: this.props.Dashboard.progress.bundles + '%' }}>
+                    { translate('INDEX.BUNDLES') } { this.props.Dashboard.progress.bundles }%
                   </div>
                 </div>
               </div>
-              <div id="additional-progress-bars" className={ this.isFullySynced() ? 'hide' : '' }>
+              <div className={ this.isFullySynced() ? 'hide' : '' }>
                 <div className="progress progress-sm">
                   <div
                     className="progress-bar progress-bar-warning progress-bar-striped active font-size-80-percent"
-                    style={{ width: this.props.Dashboard.progress.utxo + '%' }}
-                    id="currency-utxo">
-                    utxo <span id="currency-utxo-percent">{ this.props.Dashboard.progress.utxo }%</span>
+                    style={{ width: this.props.Dashboard.progress.utxo + '%' }}>
+                    utxo { this.props.Dashboard.progress.utxo }%
                   </div>
                 </div>
                 <div className="progress progress-sm">
                   <div
                     className="progress-bar progress-bar-danger progress-bar-striped active font-size-80-percent"
-                    style={{ width: this.props.Dashboard.progress.balances + '%' }}
-                    id="currency-balances">
-                    { translate('INDEX.BALANCES') } <span id="currency-balances-percent">{ this.props.Dashboard.progress.balances }%</span>
+                    style={{ width: this.props.Dashboard.progress.balances + '%' }}>
+                    { translate('INDEX.BALANCES') } { this.props.Dashboard.progress.balances }%
                   </div>
                 </div>
                 <div className="progress progress-sm">
                   <div
                     className="progress-bar progress-bar-success progress-bar-striped active font-size-80-percent"
-                    style={{ width: this.props.Dashboard.progress.validated + '%' }}
-                    id="currency-validated">
-                    { translate('INDEX.VALIDATED') } <span id="currency-validated-percent">{ this.props.Dashboard.progress.validated }%</span>
+                    style={{ width: this.props.Dashboard.progress.validated + '%' }}>
+                    { translate('INDEX.VALIDATED') } { this.props.Dashboard.progress.validated }%
                   </div>
                 </div>
               </div>
