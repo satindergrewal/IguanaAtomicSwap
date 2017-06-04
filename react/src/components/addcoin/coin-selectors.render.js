@@ -5,7 +5,7 @@ import AddCoinOptionsAC from '../addcoin/addcoinOptionsAC';
 import AddCoinOptionsACFiat from '../addcoin/addcoinOptionsACFiat';
 
 
-const RenderCoinSelectors = function(item, coin, i) {
+const CoinSelectorsRender = function(item, coin, i) {
   return (
     <div className={ this.hasMoreThanOneCoin() ? 'multi' : 'single' } key={ `add-coin-${i}` }>
       <div className="col-sm-8">
@@ -136,4 +136,4 @@ const RenderCoinSelectors = function(item, coin, i) {
     </div>
   )
 };
-export default RenderCoinSelectors;
+export default CoinSelectorsRender;

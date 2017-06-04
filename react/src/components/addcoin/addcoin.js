@@ -9,7 +9,7 @@ import {
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
-import RenderCoinSelectors from './render-coin-selectors.render';
+import CoinSelectorsRender from './coin-selectors.render';
 import AddCoinRender from './addcoin.render';
 
 class AddCoin extends React.Component {
@@ -249,7 +249,7 @@ class AddCoin extends React.Component {
       const _coin = _item.selectedCoin || '';
 
       items.push(
-        RenderCoinSelectors.call(this, _item, _coin, i)
+        CoinSelectorsRender.call(this, _item, _coin, i)
       );
     }
 

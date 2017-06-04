@@ -1,5 +1,4 @@
 import React from 'react';
-import { translate } from '../../translate/translate';
 import {
   dashboardChangeActiveCoin,
   iguanaActiveHandle,
@@ -20,6 +19,8 @@ import {
   getSyncInfoNative
 } from '../../actions/actionCreators';
 import Store from '../../store';
+
+import CoinTileItemRender from './coinTileItem.render';
 
 const BASILISK_CACHE_UPDATE_TIMEOUT = 240000;
 const IGUNA_ACTIVE_HANDLE_TIMEOUT = 3000;
@@ -141,26 +142,7 @@ class CoinTileItem extends React.Component {
   }
 
   render() {
-    const { item } = this.props;
-
-    return (
-      <div className="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info pointer">
-        <div className={ this.props.ActiveCoin.coin === item.coin ? 'widget widget-shadow active' : 'widget widget-shadow' }>
-          <div
-            className="widget-content text-center bg-white padding-20 edexcoin-logo"
-            onClick={ () => this.dashboardChangeActiveCoin(item.coin, item.mode) }>
-            <a className="avatar margin-bottom-5" id="edexcoin-logo">
-              <img
-                className="img-responsive"
-                src={ `assets/images/cryptologo/${item.coinlogo}.png` }
-                alt={ item.coinname }/>
-              <span className={ `badge up badge-${item.modecolor}` } id="basfull">{ item.modecode }</span>
-            </a>
-            <div className="coin-name">{ item.coinname } ({ item.coinlogo.toUpperCase() })</div>
-          </div>
-        </div>
-      </div>
-    );
+    return CoinTileItemRender.call(this);
   }
 }
 
