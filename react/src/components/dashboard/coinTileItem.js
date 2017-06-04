@@ -36,10 +36,6 @@ class CoinTileItem extends React.Component {
   // TODO: 1) cache native/full node data to file
   //       2) limit amount of req per update e.g. list of addresses don't change too often
   //       3) limit req in basilisk as much as possible incl. activehandle
-  //       4) add pending requests store
-
-  // TODO: update all addresses once in 20 min, current address every 10 min
-  // always fetch main addr data and current selected address
 
   dispatchCoinActions(coin, mode) {
     if (mode === 'native') {
@@ -147,14 +143,14 @@ class CoinTileItem extends React.Component {
       <div className="list-group-item col-xlg-6 col-lg-12 wallet-widgets-info pointer">
         <div className={ this.props.ActiveCoin.coin === item.coin ? 'widget widget-shadow active' : 'widget widget-shadow' }>
           <div
-            className="widget-content text-center bg-white padding-20 edexcoin-logo"
+            className="widget-content text-center bg-white padding-20"
             onClick={ () => this.dashboardChangeActiveCoin(item.coin, item.mode) }>
-            <a className="avatar margin-bottom-5" id="edexcoin-logo">
+            <a className="avatar margin-bottom-5">
               <img
                 className="img-responsive"
                 src={ `assets/images/cryptologo/${item.coinlogo}.png` }
                 alt={ item.coinname }/>
-              <span className={ `badge up badge-${item.modecolor}` } id="basfull">{ item.modecode }</span>
+              <span className={ `badge up badge-${item.modecolor}` }>{ item.modecode }</span>
             </a>
             <div className="coin-name">{ item.coinname } ({ item.coinlogo.toUpperCase() })</div>
           </div>

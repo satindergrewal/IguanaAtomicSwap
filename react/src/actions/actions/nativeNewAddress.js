@@ -2,7 +2,8 @@ import { translate } from '../../translate/translate';
 import {
   triggerToaster,
   Config,
-  getPassthruAgent
+  getPassthruAgent,
+  getKMDAddressesNative
 } from '../actionCreators';
 import {
   logGuiHttp,

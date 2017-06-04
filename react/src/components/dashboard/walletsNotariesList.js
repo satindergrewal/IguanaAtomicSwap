@@ -57,14 +57,14 @@ class WalletsNotariesList extends React.Component {
 
       return (
         <div onKeyDown={ (event) => this.handleKeydown(event) }>
-          <div className="modal show" id="kmd_txid_info_mdl" aria-hidden="false" role="dialog">
+          <div className="modal show" id="kmd_txid_info_mdl">
             <div className="modal-dialog modal-center modal-lg">
               <div className="modal-content">
                 <div className="modal-body modal-body-container">
                   <div className="panel nav-tabs-horizontal">
                     <div className="panel-body">
                       <div className="tab-content">
-                        <div className="tab-pane active" role="tabpanel">
+                        <div className="tab-pane active">
                           { this.renderNotariesFetching() }
                           <Tree defaultExpandAll={ false } openAnimation={ animation }>
                           { this.renderNotariesList() }

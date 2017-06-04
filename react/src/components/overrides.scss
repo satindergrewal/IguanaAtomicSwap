@@ -550,3 +550,7 @@ input:checked + .slider:before {
 .bootstrap-select > .dropdown-toggle {
   z-index: 0;
 }
+
+select.form-control.form-material {
+  color: #757575;
+}

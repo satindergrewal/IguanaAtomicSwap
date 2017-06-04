@@ -13,11 +13,11 @@ class WalletsBasiliskRefresh extends React.Component {
                 <div className="panel-heading">
                   <h3 className="panel-title">{ translate('INDEX.FETCHING_BASILISK_DATA') }</h3>
                   <div className="panel-actions">
-                    <a className="panel-action icon md-refresh-alt" aria-hidden="true"></a>
+                    <a className="panel-action icon md-refresh-alt"></a>
                   </div>
                 </div>
                 <div className="table-responsive">
-                  <table className="table table-hover table-striped tbl_edexcoin_dashboard_basilisk_refresh_status">
+                  <table className="table table-hover table-striped">
                     <thead>
                       <tr>
                         <th>{ translate('INDEX.ADDRESS') }</th>

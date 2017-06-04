@@ -90,30 +90,28 @@ class WalletsBalance extends React.Component {
         <div id="wallet-widgets">
           <div className="col-xs-12">
             <div className={ this.props.ActiveCoin.mode === 'native' || (this.props.ActiveCoin.mode === 'full' && !this.isFullySynced()) ? 'col-xs-12' : 'col-xs-12 hide' }>
-              <div role="alert" className="alert alert-info alert-dismissible" id="edexcoin-wallet-waitingrt-alert">
-                <button aria-label="Close" data-dismiss="alert" className="close" type="button">
-                  <span aria-hidden="true">×</span>
+              <div className="alert alert-info alert-dismissible">
+                <button className="close" type="button">
+                  <span>×</span>
                 </button>
                 <h4>{ translate('INDEX.ACTIVATING_WALLET_RT') }</h4>
-                <p id="edexcoin-wallet-waitingrt-alert-text">{ translate('INDEX.IGUANA_FULL_MODE_SYNC_P1') }</p>
+                <p>{ translate('INDEX.IGUANA_FULL_MODE_SYNC_P1') }</p>
                 <p>{ translate('INDEX.IGUANA_FULL_MODE_SYNC_P2') }</p>
                 <p className="font-weight-600">{ this.renderLB('INDEX.IGUANA_FULL_MODE_SYNC_P3') }</p>
               </div>
 
-              <div role="alert" className="alert alert-info alert-dismissible" id="edexcoin-wallet-waitingcache-alert">
-                <button aria-label="Close" data-dismiss="alert" className="close" type="button">
-                  <span aria-hidden="true">×</span>
+              <div className="alert alert-info alert-dismissible">
+                <button className="close" type="button">
+                  <span>×</span>
                 </button>
                 <h4>{ translate('INDEX.FETCHING_COIN_DATA') }</h4>
-                <p id="edexcoin-wallet-waitingcache-alert-text">{ translate('INDEX.IGUANA_FULL_MODE_SYNC_P1') }</p>
+                <p>{ translate('INDEX.IGUANA_FULL_MODE_SYNC_P1') }</p>
                 <p>{ translate('INDEX.IGUANA_FULL_MODE_SYNC_P2') }</p>
                 <p className="font-weight-600">{ this.renderLB('INDEX.IGUANA_FULL_MODE_SYNC_P3') }</p>
               </div>
             </div>
-            <div
-              className={ this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-12 col-xs-12' }
-              id="edexcoin_getbalance_t">
-              <div className="widget widget-shadow" id="widgetLineareaOne">
+            <div className={ this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-12 col-xs-12' }>
+              <div className="widget widget-shadow">
                 <div className="widget-content">
                   <div className="padding-20 padding-top-10">
                     <div className="clearfix">
@@ -129,10 +127,8 @@ class WalletsBalance extends React.Component {
               </div>
             </div>
 
-            <div
-              className={ this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide' }
-              id="edexcoin_getbalance_interest">
-              <div className="widget widget-shadow" id="widgetLineareaOne">
+            <div className={ this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide' }>
+              <div className="widget widget-shadow">
                 <div className="widget-content">
                   <div className="padding-20 padding-top-10">
                     <div className="clearfix">
@@ -148,10 +144,8 @@ class WalletsBalance extends React.Component {
               </div>
             </div>
 
-            <div
-              className={ this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide' }
-              id="edexcoin_getbalance_total_interest">
-              <div className="widget widget-shadow" id="widgetLineareaOne">
+            <div className={ this.props.ActiveCoin.mode === 'native' || this.props.ActiveCoin.mode === 'basilisk' ? 'col-lg-4 col-xs-12' : 'col-lg-4 col-xs-12 hide' }>
+              <div className="widget widget-shadow">
                 <div className="widget-content">
                   <div className="padding-20 padding-top-10">
                     <div className="clearfix">

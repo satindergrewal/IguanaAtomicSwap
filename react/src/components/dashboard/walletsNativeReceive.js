@@ -55,8 +55,7 @@ class WalletsNativeReceive extends React.Component {
             </span>
             <button
               className="btn btn-default btn-xs clipboard-edexaddr margin-left-10"
-              id="edexcoin_active_addr_clipboard"
-              onClick={ () => this.copyZAddress(address.address) }><i className="icon wb-copy" aria-hidden="true"></i> { translate('INDEX.COPY') }</button>
+              onClick={ () => this.copyZAddress(address.address) }><i className="icon wb-copy"></i> { translate('INDEX.COPY') }</button>
           </td>
           <td>{ type === 'public' ? address.address : address.address.substring(0, 34) + '...' }</td>
           <td>{ address.amount }</td>
@@ -77,43 +76,28 @@ class WalletsNativeReceive extends React.Component {
         this.props.ActiveCoin &&
         this.props.ActiveCoin.nativeActiveSection === 'receive') {
       return (
-        <div id="kmd_wallet_recieve">
+        <div>
           <div className="col-xs-12 margin-top-20">
             <div className="panel nav-tabs-horizontal">
-              <div id="kmd_wallet_recieve_section">
+              <div>
                 <div className="col-xlg-12 col-lg-12 col-sm-12 col-xs-12">
                   <div className="panel">
                     <header className="panel-heading">
                       <div className="panel-actions">
                         <div className={ 'dropdown' + (this.state.openDropMenu ? ' open' : '') } onClick={ this.openDropMenu }>
-                          <a
-                            className="dropdown-toggle white btn btn-warning"
-                            id="GetNewRecievingAddress"
-                            href="javascript:void(0)"
-                            aria-expanded="false"
-                            role="button">
-                            <i className="icon md-arrows margin-right-10" aria-hidden="true"></i> { translate('INDEX.GET_NEW_ADDRESS') } <span className="caret"></span>
+                          <a className="dropdown-toggle white btn btn-warning">
+                            <i className="icon md-arrows margin-right-10"></i> { translate('INDEX.GET_NEW_ADDRESS') } <span className="caret"></span>
                           </a>
                           <ul
-                            className="dropdown-menu dropdown-menu-right"
-                            aria-labelledby="GetNewRecievingAddress"
-                            role="menu">
-                            <li role="presentation">
-                              <a
-                                href="javascript:void(0)"
-                                id="kmd_get_new_taddr"
-                                role="menuitem"
-                                onClick={ () => this.getNewAddress('public') }>
-                                <i className="icon fa-eye" aria-hidden="true"></i> { translate('INDEX.TRANSPARENT_ADDRESS') }
+                            className="dropdown-menu dropdown-menu-right">
+                            <li>
+                              <a onClick={ () => this.getNewAddress('public') }>
+                                <i className="icon fa-eye"></i> { translate('INDEX.TRANSPARENT_ADDRESS') }
                               </a>
                             </li>
-                            <li data-extcoin="COIN" role="presentation">
-                              <a
-                                href="javascript:void(0)"
-                                id="kmd_get_new_zaddr"
-                                role="menuitem"
-                                onClick={ () => this.getNewAddress('private') }>
-                                <i className="icon fa-eye-slash" aria-hidden="true"></i> { translate('INDEX.PRIVATE_Z_ADDRESS') }
+                            <li>
+                              <a onClick={ () => this.getNewAddress('private') }>
+                                <i className="icon fa-eye-slash"></i> { translate('INDEX.PRIVATE_Z_ADDRESS') }
                               </a>
                             </li>
                           </ul>
@@ -122,7 +106,7 @@ class WalletsNativeReceive extends React.Component {
                       <h3 className="panel-title">{ translate('INDEX.RECEIVING_ADDRESS') }</h3>
                     </header>
                     <div className="panel-body">
-                      <table className="table table-hover dataTable table-striped" id="kmd-recieve-addr-tbl">
+                      <table className="table table-hover dataTable table-striped">
                         <thead>
                           <tr>
                             <th>{ translate('INDEX.TYPE') }</th>
