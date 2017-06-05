@@ -28,9 +28,9 @@ const NavbarRender = function () {
         </button>
       </div>
       <div className="navbar-container container-fluid">
-        <div className="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+        <div className="collapse navbar-collapse navbar-collapse-toolbar">
           <ul className="nav navbar-toolbar">
-            <li className="hidden-float display-none" id="toggleMenubar">
+            <li className="hidden-float display-none">
               <a>
                 <i className="icon hamburger hamburger-arrow-left">
                   <span className="sr-only">{ translate('INDEX.TOGGLE_MENUBAR') }</span>
@@ -38,32 +38,30 @@ const NavbarRender = function () {
                 </i>
               </a>
             </li>
-            <li className={ this.props.Dashboard.activeSection === 'wallets' ? 'active nav-top-menu' : 'nav-top-menu' }>
-              <a id="nav-dashboard" onClick={ () => this.dashboardChangeSection('wallets') }>
+            <li className={ this.isSectionActive('wallets') ? 'active nav-top-menu' : 'nav-top-menu' }>
+              <a onClick={ () => this.dashboardChangeSection('wallets') }>
                 <i className="site-menu-icon"></i> { translate('INDEX.WALLETS') }
               </a>
             </li>
-            <li className={ this.props.Dashboard.activeSection === 'edex' ? 'active nav-top-menu' : 'nav-top-menu' }>
-              <a id="nav-easydex" onClick={ () => this.dashboardChangeSection('edex') }>
-                <i className="site-menu-icon" aria-hidden="true"></i> EasyDEX
+            <li className={ this.isSectionActive('edex') ? 'active nav-top-menu' : 'nav-top-menu' }>
+              <a onClick={ () => this.dashboardChangeSection('edex') }>
+                <i className="site-menu-icon"></i> EasyDEX
               </a>
             </li>
-            <li
-              className={'display-none ' + (this.props.Dashboard.activeSection === 'jumblr' ? 'active nav-top-menu' : 'nav-top-menu') }>
-              <a id="nav-jumblr" onClick={ () => this.dashboardChangeSection('jumblr') }>
+            <li className={ 'display-none ' + (this.isSectionActive('jumblr') ? 'active nav-top-menu' : 'nav-top-menu') }>
+              <a onClick={ () => this.dashboardChangeSection('jumblr') }>
                 <i className="site-menu-icon"></i> Jumblr
               </a>
             </li>
-            <li className={ this.props.Dashboard.activeSection === 'atomic' ? 'active nav-top-menu' : 'nav-top-menu' }>
-              <a id="nav-iguana-atomic-explorer" onClick={ () => this.dashboardChangeSection('atomic') }>
+            <li className={ this.isSectionActive('atomic') ? 'active nav-top-menu' : 'nav-top-menu' }>
+              <a onClick={ () => this.dashboardChangeSection('atomic') }>
                 <i className="site-menu-icon"></i> Atomic Explorer
               </a>
             </li>
           </ul>
           <ul className="nav navbar-toolbar navbar-right navbar-toolbar-right">
-            <li role="presentation">
+            <li>
               <a
-                id="btn_edexcoin_addcoin"
                 className="pointer padding-bottom-10 padding-top-16"
                 onClick={ this.toggleAddCoinModal }>
                   <span>
@@ -82,29 +80,23 @@ const NavbarRender = function () {
               </a>
               <ul className="dropdown-menu">
                 <li>
-                  <a
-                    id="nav-iguana-wallet-settings"
-                    onClick={ () => this.dashboardChangeSection('settings') }>
+                  <a onClick={ () => this.dashboardChangeSection('settings') }>
                     <i className="icon md-settings"></i> { translate('INDEX.SETTINGS') }
                   </a>
                 </li>
                 <li>
-                  <a
-                    id="nav-iguana-sync-only"
-                    onClick={ () => this.openSyncOnlyModal() }>
+                  <a onClick={ () => this.openSyncOnlyModal() }>
                     <i className="icon fa-cubes"></i> { translate('ADD_COIN.SYNC_ONLY') }
                   </a>
                 </li>
                 <li>
-                  <a
-                    id="nav-about-iguana"
-                    onClick={ () => this.dashboardChangeSection('about') }>
+                  <a onClick={ () => this.dashboardChangeSection('about') }>
                     <i className="icon fa-users"></i> { translate('INDEX.ABOUT_IGUANA') }
                   </a>
                 </li>
                 <li className="divider"></li>
                 <li>
-                  <a id="logout-account" onClick={ this.logout }>
+                  <a onClick={ this.logout }>
                     <i className="icon md-power"></i> { translate('INDEX.LOGOUT') }
                   </a>
                 </li>

@@ -7,23 +7,23 @@ const JumblrRender = function () {
   return (
     <div className="page margin-left-0">
       <WalletsHeader activeSection="jumblr" />
-      <div className="page-content margin-top-30" id="section-jumblr">
-        <div className="row" id="jumblr_dashboard">
-          <div className="col-xs-12" id="jumblr_testing_alert">
+      <div className="page-content margin-top-30">
+        <div className="row">
+          <div className="col-xs-12">
             <div className="alert alert-danger">
               <button type="button" className="close">
                 <span>×</span>
               </button>
               <span className="jumblr-header">
-                  <i className="icon fa-paw" aria-hidden="true"></i> { translate('JUMBLR.NOTICE') }
+                  <i className="icon fa-paw"></i> { translate('JUMBLR.NOTICE') }
                 </span>
               <br />
               { translate('JUMBLR.DESCRIPTION') }
             </div>
           </div>
 
-          <div className="col-xs-12" id="jumblr_no_native_kmd_alert">
-            <div className="alert alert-info alert-dismissible" role="alert">
+          <div className="col-xs-12">
+            <div className="alert alert-info alert-dismissible">
               <button type="button" className="close">
                 <span>×</span>
               </button>
@@ -42,17 +42,14 @@ const JumblrRender = function () {
           </div>
 
           <div className="col-xs-12">
-            <div className="panel-group" id="jumber_quick_info">
+            <div className="panel-group">
               <div className="panel">
                 <div
                   className="panel-heading"
-                  id="jumblr_security_notes"
                   onClick={ () => this.openTab(0) }>
                   <a className={ this.state.activeTab === 0 ? 'panel-title' : 'panel-title collapsed' }>{ translate('JUMBLR.FEW_SECURITY_NOTES') }</a>
                 </div>
-                <div
-                  className={ this.state.activeTab === 0 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                  id="jumblr_security_notes_1">
+                <div className={ this.state.activeTab === 0 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }>
                   <div className="panel-body">
                     <ul>
                       <li>{ translate('JUMBLR.FEW_SECURITY_NOTES_DESC1') }</li>
@@ -67,13 +64,10 @@ const JumblrRender = function () {
               <div className="panel">
                 <div
                   className="panel-heading"
-                  id="jumblr_access_funds"
                   onClick={ () => this.openTab(1) }>
                   <a className={ this.state.activeTab === 1 ? 'panel-title' : 'panel-title collapsed' }>{ translate('JUMBLR.ACCESS_JUMBLR_FUNDS') }</a>
                 </div>
-                <div
-                  className={ this.state.activeTab === 1 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                  id="jumblr_access_funds_2">
+                <div className={ this.state.activeTab === 1 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }>
                   <div className="panel-body">
                     <p>{ translate('JUMBLR.ADDRESS_ACCESSIBLE_EASILY') }</p>
                     <ul>
@@ -102,12 +96,10 @@ const JumblrRender = function () {
                 </div>
               </div>
               <div className="panel">
-                <div className="panel-heading" id="jumblr_using_jumblr" onClick={ () => this.openTab(2) }>
+                <div className="panel-heading" onClick={ () => this.openTab(2) }>
                   <a className={ this.state.activeTab === 2 ? 'panel-title' : 'panel-title collapsed' }>{ translate('JUMBLR.USING_JUMBLR') }</a>
                 </div>
-                <div
-                  className={ this.state.activeTab === 2 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
-                  id="jumblr_using_jumblr_3">
+                <div className={ this.state.activeTab === 2 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }>
                   <div className="panel-body">
                     <ul>
                       <li>{ translate('JUMBLR.RUN_KMD') }</li>
@@ -131,54 +123,46 @@ const JumblrRender = function () {
 
           <div className="col-xlg-12 col-md-12">
             <h4 className="font-size-14 text-uppercase">{ translate('JUMBLR.JADDR') }</h4>
-            <div className="panel" id="projects">
+            <div className="panel">
               <div className="table-responsive">
                 <table className="table table-striped">
                   <tbody>
                   <tr>
                     <td width="20%">{ translate('JUMBLR.BTC_DEPOSIT') }</td>
                     <td>
-                      <span id="jumblr_BTCdeposit"></span>
+                      <span></span>
                     </td>
                   </tr>
                   <tr>
                     <td>BTC Jumblr</td>
                     <td>
-                      <button type="button" className="btn btn-animate btn-animate-side btn-default btn-sm waves-effect waves-light jumblr_show_hide_addr_btc_btn">
+                      <button type="button" className="btn btn-animate btn-animate-side btn-default btn-sm waves-effect waves-light">
                             <span>
                               <i className="icon fa-eye"></i> { translate('JUMBLR.SHOW_HIDE') }
                             </span>
                       </button>
                       <span
                         className="label label-lg label-outline label-success"
-                        id="jumblr_BTCjumblr"
                         style={{ display: 'none' }}></span>
-                      <span
-                        className="label label-lg label-outline label-default"
-                        id="jumblr_BTCjumblr_showhide">{ translate('JUMBLR.HIDDEN') }</span>
+                      <span className="label label-lg label-outline label-default">{ translate('JUMBLR.HIDDEN') }</span>
                     </td>
                   </tr>
                   <tr>
                     <td>{ translate('JUMBLR.KMD_DEPOSIT') }</td>
-                    <td>
-                      <span id="jumblr_KMDdeposit"></span>
-                    </td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td>KMD Jumblr</td>
                     <td>
-                      <button type="button" className="btn btn-animate btn-animate-side btn-default btn-sm waves-effect waves-light jumblr_show_hide_addr_kmd_btn">
+                      <button type="button" className="btn btn-animate btn-animate-side btn-default btn-sm waves-effect waves-light">
                             <span>
-                              <i className="icon fa-eye" aria-hidden="true"></i> { translate('JUMBLR.SHOW_HIDE') }
+                              <i className="icon fa-eye"></i> { translate('JUMBLR.SHOW_HIDE') }
                             </span>
                       </button>
                       <span
                         className="label label-lg label-outline label-success"
-                        id="jumblr_KMDjumblr"
                         style={{ display: 'none' }}></span>
-                      <span
-                        className="label label-lg label-outline label-default"
-                        id="jumblr_KMDjumblr_showhide">{ translate('JUMBLR.HIDDEN') }</span>
+                      <span className="label label-lg label-outline label-default">{ translate('JUMBLR.HIDDEN') }</span>
                     </td>
                   </tr>
                   </tbody>
@@ -189,51 +173,39 @@ const JumblrRender = function () {
 
           <div className="col-xlg-12 col-md-12">
             <h4 className="font-size-14 text-uppercase">{ translate('JUMBLR.JSTATUS') }</h4>
-            <div className="panel" id="projects">
+            <div className="panel">
               <div className="table-responsive">
                 <table className="table table-striped">
                   <tbody>
                   <tr>
                     <td width="20%">{ translate('JUMBLR.RESULT') }</td>
                     <td>
-                      <span id="jumblr_status_result" className="label label-success"></span>
+                      <span className="label label-success"></span>
                     </td>
                   </tr>
                   <tr>
                     <td>{ translate('JUMBLR.DEPOSITED') }</td>
-                    <td>
-                      <span id="jumblr_status_deposited"></span>
-                    </td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td>{ translate('JUMBLR.PUB_TO_PRIV') }</td>
-                    <td>
-                      <span id="jumblr_status_t_to_z"></span>
-                    </td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td>{ translate('JUMBLR.PRIV_TO_PRIV') }</td>
-                    <td>
-                      <span id="jumblr_status_z_to_z"></span>
-                    </td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td>{ translate('JUMBLR.PRIV_TO_PUB') }</td>
-                    <td>
-                      <span id="jumblr_status_z_to_t"></span>
-                    </td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td>{ translate('JUMBLR.FINISHED') }</td>
-                    <td>
-                      <span id="jumblr_status_finished"></span>
-                    </td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td>{ translate('JUMBLR.PENDING') }</td>
-                    <td>
-                      <span id="jumblr_status_pending"></span>
-                    </td>
+                    <td></td>
                   </tr>
                   </tbody>
                 </table>
