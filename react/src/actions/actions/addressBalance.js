@@ -275,6 +275,14 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
                     'hex': hashHexJson,
                   };
                 }
+                dispatch(logGuiHttp({
+                  'timestamp': _timestamp,
+                  'function': 'getKMDAddressesNative+ZBalance',
+                  'type': 'post',
+                  'url': `http://127.0.0.1:${Config.iguanaCorePort}`,
+                  'payload': payload,
+                  'status': 'pending',
+                }));
 
                 fetch(`http://127.0.0.1:${Config.iguanaCorePort}`,
                 {
@@ -292,17 +300,28 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
                 })
                 .then(response => response.json())
                 .then(function(json) {
-                  resolve(json);
-                  newAddressArray[1][index] = {
-                    address: _address,
-                    amount: json,
-                    type: 'private',
-                  };
-                  dispatch(logGuiHttp({
-                    'timestamp': _timestamp,
-                    'status': 'success',
-                    'response': json,
-                  }));
+                  if (json &&
+                    json.error) {
+                    resolve(0);
+                    dispatch(logGuiHttp({
+                      'timestamp': _timestamp,
+                      'status': 'error',
+                      'response': json,
+                    }));
+                    dispatch(triggerToaster(true, 'getKMDAddressesNative+ZBalance', 'Error', 'error'));
+                  } else {
+                    resolve(json);
+                    newAddressArray[1][index] = {
+                      address: _address,
+                      amount: json,
+                      type: 'private',
+                    };
+                    dispatch(logGuiHttp({
+                      'timestamp': _timestamp,
+                      'status': 'success',
+                      'response': json,
+                    }));
+                  }
                 });
               });
             });
