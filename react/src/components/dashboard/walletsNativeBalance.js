@@ -45,7 +45,7 @@ class WalletsNativeBalance extends React.Component {
                     <div className="pull-left padding-vertical-10">
                       <i className="icon fa-money font-size-24 vertical-align-bottom margin-right-5"></i>{ translate('INDEX.INTEREST_EARNED') }
                     </div>
-                    <span className="pull-right padding-top-10 font-size-22">{ this.props.ActiveCoin.balance.interest ? this.props.ActiveCoin.balance.interest : '-' }</span>
+                    <span className="pull-right padding-top-10 font-size-22">{ this.props.Dashboard.progress && this.props.Dashboard.progress.interest ? this.props.Dashboard.progress.interest : '-' }</span>
                   </div>
                 </div>
               </div>
