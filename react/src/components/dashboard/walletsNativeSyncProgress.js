@@ -31,19 +31,32 @@ class WalletsNativeSyncProgress extends React.Component {
 
   renderActivatingBestChainProgress() {
     if (this.props.Settings &&
-        this.props.Settings.debugLog &&
-        this.props.Dashboard.progress.remoteKMDNode) {
+        this.props.Settings.debugLog) {
       if (this.props.Settings.debugLog.indexOf('UpdateTip') > -1) {
         let temp = this.props.Settings.debugLog.split(' ');
         let currentBestChain;
+        let currentProgress;
 
         for (let i = 0; i < temp.length; i++) {
           if (temp[i].indexOf('height=') > -1) {
             currentBestChain = temp[i].replace('height=', '');
           }
+          if (temp[i].indexOf('progress=') > -1) {
+            currentProgress = Number(temp[i].replace('progress=', '')) * 100;
+          }
         }
 
-        return(`: ${Math.floor(currentBestChain * 100 / this.props.Dashboard.progress.remoteKMDNode.blocks)}% (blocks ${currentBestChain} / ${this.props.Dashboard.progress.remoteKMDNode.blocks})`);
+        // fallback to local data if remote node is inaccessible
+        if (this.props.Dashboard.progress.remoteKMDNode &&
+            !this.props.Dashboard.progress.remoteKMDNode.blocks) {
+          return (
+            `: ${currentProgress}%`
+          );
+        } else {
+          return(
+            `: ${Math.floor(currentBestChain * 100 / this.props.Dashboard.progress.remoteKMDNode.blocks)}% (blocks ${currentBestChain} / ${this.props.Dashboard.progress.remoteKMDNode.blocks})`
+          );
+        }
       } else {
         return (
           <span>...</span>
@@ -57,15 +70,15 @@ class WalletsNativeSyncProgress extends React.Component {
 
     return _translationComponents.map((_translation) =>
       <span>
-        {_translation}
+        { _translation }
         <br />
       </span>
     );
   }
 
   renderChainActivationNotification() {
-    if ((this.props.Dashboard.progress.blocks < this.props.Dashboard.progress.longestchain) ||
-        this.props.Dashboard.progress.remoteKMDNode) {
+    if ((!this.props.Dashboard.progress.blocks && !this.props.Dashboard.progress.longestchain) ||
+        (this.props.Dashboard.progress.blocks < this.props.Dashboard.progress.longestchain)) {
       return (
         <div className="alert alert-info alert-dismissible margin-bottom-40">
           <button className="close" type="button">
