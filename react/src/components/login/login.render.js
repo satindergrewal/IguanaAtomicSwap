@@ -23,8 +23,8 @@ const LoginRender = function () {
                 <h3 className="panel-title">{ translate('INDEX.UNSUPPORTED_BROWSER') }</h3>
               </div>
               <div className="alert alert-danger alert-dismissible" role="alert">
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
+                <button type="button" className="close">
+                  <span>&times;</span>
                   <span className="sr-only">{ translate('INDEX.CLOSE') }</span>
                 </button>
                 { translate('INDEX.IE_UNSUPPORTED') }
@@ -76,7 +76,6 @@ const LoginRender = function () {
                 <button
                   className="btn btn-lg btn-flat btn-block waves-effect margin-top-20"
                   id="register-btn"
-                  role="menuitem"
                   onClick={ this.toggleActivateCoinForm }
                   disabled={ !this.props.Main }>
                   <span className="ladda-label">{ translate('ADD_COIN.ADD_ANOTHER_COIN') }</span>
@@ -94,7 +93,6 @@ const LoginRender = function () {
               <button
                 className="btn btn-lg btn-primary btn-block ladda-button"
                 id="start-coin-login"
-                role="menuitem"
                 onClick={ this.toggleActivateCoinForm }
                 disabled={ !this.props.Main }>
                 <span className="ladda-label">{ translate('INDEX.ACTIVATE_COIN') }</span>

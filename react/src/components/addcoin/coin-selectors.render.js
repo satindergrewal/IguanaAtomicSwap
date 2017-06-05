@@ -7,7 +7,9 @@ import AddCoinOptionsACFiat from '../addcoin/addcoinOptionsACFiat';
 
 const CoinSelectorsRender = function(item, coin, i) {
   return (
-    <div className={ this.hasMoreThanOneCoin() ? 'multi' : 'single' } key={ `add-coin-${i}` }>
+    <div
+      className={ this.hasMoreThanOneCoin() > 1 ? 'multi' : 'single' }
+      key={ `add-coin-${i}` }>
       <div className="col-sm-8">
         <div className="form-group">
           <select
