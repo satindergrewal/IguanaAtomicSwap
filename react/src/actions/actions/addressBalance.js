@@ -5,7 +5,8 @@ import {
   triggerToaster,
   Config,
   shepherdGroomPost,
-  getPassthruAgent
+  getPassthruAgent,
+  iguanaHashHex
 } from '../actionCreators';
 import {
   logGuiHttp,
@@ -171,7 +172,6 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
         };
       }
 
-      // if api cache option is off
       if (mode === 'basilisk') {
         payload = {
           'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
@@ -235,17 +235,90 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
               sum += filteredArray[i];
             }
 
+            if (sum === 0 &&
+                a === 1) {
+
+            }
+
             newAddressArray[a][b] = {
               address: result[a][b],
               amount: currentAddress === result[a][b] || mode === 'native' ? sum : 'N/A',
+              type: a === 0 ? 'public': 'private',
             };
           }
         }
 
-        dispatch(getKMDAddressesNativeState({
-          'public': newAddressArray[0],
-          'private': newAddressArray[1]
-        }));
+        // get zaddr balance
+        if (result[1] &&
+            result[1].length) {
+          Promise.all(result[1].map((_address, index) => {
+            return new Promise((resolve, reject) => {
+              const _timestamp = Date.now();
+              let ajaxDataToHex = `["${_address}"]`;
+
+              iguanaHashHex(ajaxDataToHex, dispatch).then((hashHexJson) => {
+                if (getPassthruAgent(coin) === 'iguana') {
+                  payload = {
+                    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
+                    'agent': getPassthruAgent(coin),
+                    'method': 'passthru',
+                    'asset': coin,
+                    'function': 'z_getbalance',
+                    'hex': hashHexJson,
+                  };
+                } else {
+                  payload = {
+                    'userpass': `tmpIgRPCUser@${sessionStorage.getItem('IguanaRPCAuth')}`,
+                    'agent': getPassthruAgent(coin),
+                    'method': 'passthru',
+                    'function': 'z_getbalance',
+                    'hex': hashHexJson,
+                  };
+                }
+
+                fetch(`http://127.0.0.1:${Config.iguanaCorePort}`,
+                {
+                  method: 'POST',
+                  body: JSON.stringify(payload),
+                })
+                .catch(function(error) {
+                  console.log(error);
+                  dispatch(logGuiHttp({
+                    'timestamp': _timestamp,
+                    'status': 'error',
+                    'response': error,
+                  }));
+                  dispatch(triggerToaster(true, 'getKMDAddressesNative+ZBalance', 'Error', 'error'));
+                })
+                .then(response => response.json())
+                .then(function(json) {
+                  resolve(json);
+                  newAddressArray[1][index] = {
+                    address: _address,
+                    amount: json,
+                    type: 'private',
+                  };
+                  dispatch(logGuiHttp({
+                    'timestamp': _timestamp,
+                    'status': 'success',
+                    'response': json,
+                  }));
+                });
+              });
+            });
+          }))
+          .then(zresult => {
+            dispatch(getKMDAddressesNativeState({
+              'public': newAddressArray[0],
+              'private': newAddressArray[1]
+            }));
+          });
+        } else {
+          dispatch(getKMDAddressesNativeState({
+            'public': newAddressArray[0],
+            'private': newAddressArray[1]
+          }));
+        }
       }
 
       if (mode === 'basilisk') {
