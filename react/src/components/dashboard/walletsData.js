@@ -583,7 +583,7 @@ class WalletsData extends React.Component {
                     <div className="panel">
                       <header className="panel-heading z-index-10">
                         <div className={ this.props.ActiveCoin.mode === 'basilisk' ? 'panel-actions' : 'panel-actions hide' }>
-                          <div className={'full-width margin-bottom-3 ' + (this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : 'progress progress-sm') }>
+                          <div className={ 'margin-bottom-3 ' + (this.state.currentStackLength === 1 || (this.state.currentStackLength === 0 && this.state.totalStackLength === 0) ? 'hide' : 'progress progress-sm') }>
                             <div
                               className="progress-bar progress-bar-striped active progress-bar-indicating progress-bar-success font-size-80-percent"
                               style={{ width: 100 - (this.state.currentStackLength * 100 / this.state.totalStackLength) + '%'}}>
@@ -598,23 +598,17 @@ class WalletsData extends React.Component {
                             </a>
                             <ul className="dropdown-menu dropdown-menu-right">
                               <li>
-                                <a
-                                  className="btn_edexcoin_dashboard_getnotaries"
-                                  onClick={ this.getDexNotariesAction }>
+                                <a onClick={ this.getDexNotariesAction }>
                                   <i className="icon fa-sitemap"></i> { translate('INDEX.GET_NOTARY_NODES_LIST') }
                                 </a>
                               </li>
                               <li>
-                                <a
-                                  className="btn_edexcoin_dashboard_refresh_basilisk_conn"
-                                  onClick={ this.basiliskConnectionAction }>
+                                <a onClick={ this.basiliskConnectionAction }>
                                   <i className="icon wb-refresh"></i> { translate('INDEX.REFRESH_BASILISK_CONNECTIONS') }
                                 </a>
                               </li>
                               <li className={ !this.state.useCache ? 'hide' : '' }>
-                                <a
-                                  className="btn_edexcoin_dashboard_fetchdata"
-                                  onClick={ this.basiliskRefreshActionOne }>
+                                <a onClick={ this.basiliskRefreshActionOne }>
                                   <i className="icon fa-cloud-download"></i> { translate('INDEX.FETCH_WALLET_DATA') } ({ translate('INDEX.ACTIVE_ADDRESS') })
                                 </a>
                               </li>
@@ -624,9 +618,7 @@ class WalletsData extends React.Component {
                                 </a>
                               </li>
                               <li className={ !this.state.useCache ? 'hide' : '' }>
-                                <a
-                                  className="btn_edexcoin_dashboard_refetchdata"
-                                  onClick={ this.removeAndFetchNewCache }>
+                                <a onClick={ this.removeAndFetchNewCache }>
                                   <i className="icon fa-history"></i> { translate('INDEX.REFETCH_WALLET_DATA') }
                                 </a>
                               </li>
@@ -636,7 +628,7 @@ class WalletsData extends React.Component {
                                 </a>
                               </li>
                               <li className={ !this.state.useCache ? 'hide' : '' }>
-                                <a className="btn_edexcoin_dashboard_fetchdata" onClick={ this._toggleViewCacheModal }>
+                                <a onClick={ this._toggleViewCacheModal }>
                                   <i className="icon fa-list-alt"></i> { translate('INDEX.VIEW_CACHE_DATA') }
                                 </a>
                               </li>
