@@ -10,7 +10,8 @@ import {
   addPeerNode,
   getAppConfig,
   saveAppConfig,
-  getAppInfo
+  getAppInfo,
+  shepherdCli
 } from '../../actions/actionCreators';
 import Store from '../../store';
 import AddCoinOptionsCrypto from '../addcoin/addcoinOptionsCrypto';
@@ -35,6 +36,9 @@ class Settings extends React.Component {
       activeTabHeight: '0',
       appSettings: {},
       tabElId: null,
+      cliCmdString: null,
+      cliCoin: null,
+      cliResponse: null,
     };
     this.exportWifKeys = this.exportWifKeys.bind(this);
     this.updateInput = this.updateInput.bind(this);
@@ -64,6 +68,12 @@ class Settings extends React.Component {
         tabElId: this.state.tabElId,
       }));
     }
+
+    console.log('settings props', props);
+  }
+
+  execCliCmd() {
+    Store.dispatch(shepherdCli('passthru', null, 'getinfo'));
   }
 
   openTab(elemId, tab) {
@@ -338,6 +348,16 @@ class Settings extends React.Component {
         <br />
       </span>
     );
+  }
+
+  renderCliResponse() {
+    if (this.state.cliResponse) {
+      return (
+      1234
+      );
+    } else {
+      return null;
+    }
   }
 
   render() {
@@ -676,7 +696,9 @@ class Settings extends React.Component {
                                 onClick={ this.readDebugLog }>{ translate('INDEX.LOAD_DEBUG_LOG') }</button>
                             </div>
                             <div className="col-sm-12 col-xs-12 text-align-left">
-                              <div className="padding-top-40 padding-bottom-20 horizontal-padding-0">{ this.renderDebugLogData() }</div>
+                              <div className="padding-top-40 padding-bottom-20 horizontal-padding-0">
+                                { this.renderDebugLogData() }
+                              </div>
                             </div>
                           </form>
                         </div>
@@ -716,6 +738,66 @@ class Settings extends React.Component {
                       </div>
                     </div>
                     { this.renderAppInfoTab() }
+
+                    <div
+                      className="panel"
+                      id="Cli"
+                      onClick={ () => this.openTab('Cli', 9) }>
+                      <div className="panel-heading">
+                        <a className={ this.state.activeTab === 9 ? 'panel-title' : 'panel-title collapsed' }>
+                          <i className="icon fa-code"></i> CLI
+                        </a>
+                      </div>
+                      <div
+                        className={ this.state.activeTab === 9 ? 'panel-collapse collapse in' : 'panel-collapse collapse' }
+                        style={{ height: this.state.activeTab === 9 ? this.state.activeTabHeight + 'px' : '0' }}>
+                        <div className="panel-body">
+                          <p>Select a coin and type in CLI compatible command</p>
+                          <div className="col-sm-12"></div>
+                          <form
+                            className="execute-cli-cmd-form"
+                            method="post"
+                            action="javascript:"
+                            autoComplete="off">
+                            <div className="form-group form-material floating">
+                              <select
+                                className="form-control form-material"
+                                name="cliCoin"
+                                id="settingsCliOptions"
+                                onChange={ this.updateInput }>
+                                <option value="komodo">Komodo</option>
+                              </select>
+                              <label
+                                className="floating-label"
+                                htmlFor="settingsDelectDebugLogOptions">Coin</label>
+                            </div>
+                            <div className="form-group form-material floating">
+                              <textarea
+                                type="text"
+                                className="form-control"
+                                name="cliCmd"
+                                id="cliCmd"
+                                value={ this.state.cliCmdString }
+                                onChange={ this.updateInput }></textarea>
+                              <label
+                                className="floating-label"
+                                htmlFor="readDebugLogLines">Type in CLI compatible cmd</label>
+                            </div>
+                            <div className="col-sm-12 col-xs-12 text-align-center">
+                              <button
+                                type="button"
+                                className="btn btn-primary waves-effect waves-light"
+                                onClick={ () => this.execCliCmd() }>Execute</button>
+                            </div>
+                            <div className="col-sm-12 col-xs-12 text-align-left">
+                              <div className="padding-top-40 padding-bottom-20 horizontal-padding-0">
+                                { this.renderCliResponse() }
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
