@@ -1,9 +1,14 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
-import { secondsToString } from '../../util/time';
 import { sortByDate } from '../../util/sort';
 import { toggleDashboardTxInfoModal } from '../../actions/actionCreators';
 import Store from '../../store';
+import {
+  PaginationItemsPerPageSelectorRender,
+  PaginationRender,
+  TxHistoryListRender,
+  WalletsNativeTxHistoryRender
+} from './walletsNativeTxHistory.render';
 
 class WalletsNativeTxHistory extends React.Component {
   constructor(props) {
@@ -138,23 +143,7 @@ class WalletsNativeTxHistory extends React.Component {
     if (this.props.ActiveCoin.txhistory &&
         this.props.ActiveCoin.txhistory !== 'loading' &&
         this.props.ActiveCoin.txhistory.length > 10) {
-      return (
-        <div className="dataTables_length">
-          <label>
-            { translate('INDEX.SHOW') }&nbsp;
-            <select
-              name="itemsPerPage"
-              className="form-control input-sm"
-              onChange={ this.updateInput }>
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>&nbsp;
-            { translate('INDEX.ENTRIES_SM') }
-          </label>
-        </div>
-      );
+      return PaginationItemsPerPageSelectorRender.call(this);
     } else {
       return null;
     }
@@ -168,29 +157,10 @@ class WalletsNativeTxHistory extends React.Component {
       const _paginationEnd = this.state.activePage * this.state.itemsPerPage;
       const _paginationNextState = this.state.activePage > Math.floor(this.props.ActiveCoin.txhistory.length / this.state.itemsPerPage);
 
-      return (
-        <div className="row unselectable">
-          <div className="col-sm-5">
-            <div className="dataTables_info">{ translate('INDEX.SHOWING') } { _paginationStart } { translate('INDEX.TO') } { _paginationEnd } { translate('INDEX.OF') } { this.props.ActiveCoin.txhistory.length } { translate('INDEX.ENTRIES_SM') }</div>
-          </div>
-          <div className="col-sm-7">
-            <div className="dataTables_paginate paging_simple_numbers">
-              <ul className="pagination">
-                <li className={ this.state.activePage === 1 ? 'paginate_button previous disabled' : 'paginate_button previous' }>
-                  <a onClick={ () => this.updateCurrentPage(this.state.activePage - 1) }>{ translate('INDEX.PREVIOUS') }</a>
-                </li>
-                {this.renderPaginationItems()}
-                <li className={ _paginationNextState ? 'paginate_button next disabled' : 'paginate_button next' }>
-                  <a onClick={ () => this.updateCurrentPage(this.state.activePage + 1) }>{ translate('INDEX.NEXT') }</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      );
-    } else {
-      return null;
+      return PaginationRender.call(this, _paginationStart, _paginationEnd, _paginationNextState);
     }
+
+    return null;
   }
 
   renderTxHistoryList() {
@@ -211,101 +181,20 @@ class WalletsNativeTxHistory extends React.Component {
       if (this.state.itemsList &&
           this.state.itemsList.length &&
           this.props.ActiveCoin.nativeActiveSection === 'default') {
-        return this.state.itemsList.map((tx, index) =>
-          <tr key={ tx.txid + tx.amount }>
-            <td>
-              <span className="label label-default">
-                <i className="icon fa-eye"></i> { translate('IAPI.PUBLIC_SM') }
-              </span>
-            </td>
-            <td>{ this.renderTxType(tx.category) }</td>
-            <td>{ tx.confirmations }</td>
-            <td>{ tx.amount }</td>
-            <td>{ secondsToString(tx.time) }</td>
-            <td>{ this.renderAddress(tx) }</td>
-            <td>
-              <button
-                type="button"
-                className="btn btn-xs white btn-info waves-effect waves-light btn-kmdtxid"
-                onClick={ () => this.toggleTxInfoModal(!this.props.ActiveCoin.showTransactionInfo, index) }><i className="icon fa-search"></i></button>
-            </td>
-          </tr>
-        );
-      } else {
-        return null;
+        return TxHistoryListRender.call(this);
       }
+
+      return null;
     }
   }
 
   render() {
     if (this.props &&
         this.props.ActiveCoin.nativeActiveSection === 'default') {
-      return (
-        <div className="native-transactions">
-          <div>
-            <div className="col-xs-12 margin-top-20">
-              <div className="panel nav-tabs-horizontal">
-                <div>
-                  <div className="col-xlg-12 col-lg-12 col-sm-12 col-xs-12">
-                    <div className="panel">
-                      <header className="panel-heading">
-                        <h3 className="panel-title">{ translate('INDEX.TRANSACTION_HISTORY') }</h3>
-                      </header>
-                      <div className="panel-body">
-                        <div className="row">
-                          <div className="col-sm-6">
-                            { this.renderPaginationItemsPerPageSelector() }
-                          </div>
-                          <div className="col-sm-6">
-                            <div className="dataTables_filter">
-                              <label>
-                                { translate('INDEX.SEARCH') }: <input type="search" className="form-control input-sm" disabled="true" />
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <table className="table table-hover dataTable table-striped" width="100%">
-                            <thead>
-                              <tr>
-                                <th>{ translate('INDEX.TYPE') }</th>
-                                <th>{ translate('INDEX.DIRECTION') }</th>
-                                <th>{ translate('INDEX.CONFIRMATIONS') }</th>
-                                <th>{ translate('INDEX.AMOUNT') }</th>
-                                <th>{ translate('INDEX.TIME') }</th>
-                                <th>{ translate('INDEX.DEST_ADDRESS') }</th>
-                                <th>{ translate('INDEX.TX_DETAIL') }</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                            { this.renderTxHistoryList() }
-                            </tbody>
-                            <tfoot>
-                              <tr>
-                                <th>{ translate('INDEX.TYPE') }</th>
-                                <th>{ translate('INDEX.DIRECTION') }</th>
-                                <th>{ translate('INDEX.CONFIRMATIONS') }</th>
-                                <th>{ translate('INDEX.AMOUNT') }</th>
-                                <th>{ translate('INDEX.TIME') }</th>
-                                <th>{ translate('INDEX.DEST_ADDRESS') }</th>
-                                <th>{ translate('INDEX.TX_DETAIL') }</th>
-                              </tr>
-                            </tfoot>
-                          </table>
-                        </div>
-                        { this.renderPagination() }
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    } else {
-      return null;
+      return WalletsNativeTxHistoryRender.call(this);
     }
+
+    return null;
   }
 }
 
