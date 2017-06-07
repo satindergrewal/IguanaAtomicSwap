@@ -1,0 +1,9 @@
+v0.2.0.2a-beta
+front:
+- added pending request(s) spinner
+- added missing native z_balance api call for z-addresses
+- fixed native t to z address send bug
+- added cli settings section
+
+back:
+- added cli route
