@@ -42,7 +42,7 @@ export function getAppInfo() {
 export function settingsWifkeyState(json, coin) {
   return {
     type: GET_WIF_KEY,
-    wifkey: json[`{$coin}wif`],
+    wifkey: json[`${coin}wif`],
     address: json[coin],
   }
 }

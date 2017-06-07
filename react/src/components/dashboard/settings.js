@@ -627,16 +627,16 @@ class Settings extends React.Component {
                             <div className="row">
                               <table className={ this.props.Settings && this.props.Settings.address ? 'table show' : 'table hide' }>
                                 <tr>
-                                  <td className="width-5-percent">
+                                  <td>
                                     <strong>{ this.props.ActiveCoin.coin }</strong>
                                   </td>
-                                  <td>{ this.props.Settings.address }</td>
+                                  <td className="padding-left-15">{ this.props.Settings.address }</td>
                                 </tr>
                                 <tr>
                                   <td>
                                     <strong>{ this.props.ActiveCoin.coin }Wif</strong>
                                   </td>
-                                  <td>{ this.props.Settings.wifkey }</td>
+                                  <td className="padding-left-15">{ this.props.Settings.wifkey }</td>
                                 </tr>
                               </table>
                             </div>
