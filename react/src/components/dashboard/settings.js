@@ -10,7 +10,8 @@ import {
   addPeerNode,
   getAppConfig,
   saveAppConfig,
-  getAppInfo
+  getAppInfo,
+  shepherdCli
 } from '../../actions/actionCreators';
 import Store from '../../store';
 
@@ -37,6 +38,9 @@ class Settings extends React.Component {
       activeTabHeight: '0',
       appSettings: {},
       tabElId: null,
+      cliCmdString: null,
+      cliCoin: null,
+      cliResponse: null,
     };
     this.exportWifKeys = this.exportWifKeys.bind(this);
     this.updateInput = this.updateInput.bind(this);
@@ -66,6 +70,10 @@ class Settings extends React.Component {
         tabElId: this.state.tabElId,
       }));
     }
+  }
+
+  execCliCmd() {
+    Store.dispatch(shepherdCli('passthru', this.state.cliCoin, this.state.cliCmd));
   }
 
   openTab(elemId, tab) {
@@ -263,6 +271,64 @@ class Settings extends React.Component {
         <br />
       </span>
     );
+  }
+
+  renderCliResponse() {
+    const _cliResponse = this.props.Settings.cli;
+
+    if (_cliResponse) {
+      let _cliResponseParsed;
+
+      try {
+        _cliResponseParsed = JSON.parse(_cliResponse.result)
+      } catch(e) {
+        _cliResponseParsed = _cliResponse.result;
+      }
+
+      return (
+        <div>
+          <div>
+            <strong>CLI response:</strong>
+          </div>
+          { JSON.stringify(_cliResponseParsed, null, '\t') }
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderActiveCoinsList(mode) {
+    const modes = [
+      'native',
+      'basilisk',
+      'full'
+    ];
+
+    const allCoins = this.props.Main.coins;
+    let items = [];
+
+    if (allCoins) {
+      if (mode === 'all') {
+        modes.map(function(mode) {
+          allCoins[mode].map(function(coin) {
+            items.push(
+              <option value={ coin } key={ coin }>{ coin } ({ mode })</option>
+            );
+          });
+        });
+      } else {
+        allCoins[mode].map(function(coin) {
+          items.push(
+            <option value={ coin } key={ coin }>{ coin } ({ mode })</option>
+          );
+        });
+      }
+
+      return items;
+    } else {
+      return null;
+    }
   }
 
   render() {

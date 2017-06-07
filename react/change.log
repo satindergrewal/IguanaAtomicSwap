@@ -1,0 +1,13 @@
+v0.2.0.2a-beta
+front:
+- added pending request(s) spinner
+- added missing native z_balance api call for z-addresses
+- fixed native t to z address send bug
+- added cli settings section
+- disabled initial basilisk connection process
+- minor UI reorder change
+- limit http stack history to 150 calls of each type
+- sort http stack history desc
+
+back:
+- added cli route

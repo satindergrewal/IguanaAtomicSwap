@@ -65,6 +65,7 @@ export * from './actions/dexCoins';
 export * from './actions/fullTxHistory';
 export * from './actions/basiliskTxHistory';
 export * from './actions/iguanaHelpers';
+export * from './actions/cli';
 
 export let Config;
 

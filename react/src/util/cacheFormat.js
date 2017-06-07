@@ -5,15 +5,11 @@ export function edexGetTxIDList(getTxData) {
     getTxidList.push(getTxData[i].txid);
   }
 
-  console.log(getTxidList);
-
   return getTxidList;
 }
 
 export function edexRemoveTXID(_obj, address, txidArray) {
   let txidToStr = ':' + txidArray.join(':') + ':';
-
-  console.log(txidToStr);
 
   if (_obj, _obj.basilisk) {
     if (Object.keys(_obj.basilisk).length === 0) {
@@ -21,7 +17,8 @@ export function edexRemoveTXID(_obj, address, txidArray) {
     } else {
       for (let key in _obj.basilisk) {
         for (let coinAddr in _obj.basilisk[key]) {
-          if (_obj.basilisk[key][coinAddr] !== 'addresses' && coinAddr === address) {
+          if (_obj.basilisk[key][coinAddr] !== 'addresses' &&
+              coinAddr === address) {
             if (_obj.basilisk[key][coinAddr].refresh &&
                 _obj.basilisk[key][coinAddr].refresh.data &&
                 _obj.basilisk[key][coinAddr].refresh.data.length > 0) {
