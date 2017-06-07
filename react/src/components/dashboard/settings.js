@@ -68,12 +68,10 @@ class Settings extends React.Component {
         tabElId: this.state.tabElId,
       }));
     }
-
-    console.log('settings props', props);
   }
 
   execCliCmd() {
-    Store.dispatch(shepherdCli('passthru', null, 'getinfo'));
+    Store.dispatch(shepherdCli('passthru', this.state.cliCoin, this.state.cliCmd));
   }
 
   openTab(elemId, tab) {
@@ -351,10 +349,58 @@ class Settings extends React.Component {
   }
 
   renderCliResponse() {
-    if (this.state.cliResponse) {
+    const _cliResponse = this.props.Settings.cli;
+
+    if (_cliResponse) {
+      let _cliResponseParsed;
+
+      try {
+        _cliResponseParsed = JSON.parse(_cliResponse.result)
+      } catch(e) {
+        _cliResponseParsed = _cliResponse.result;
+      }
+
       return (
-      1234
+        <div>
+          <div>
+            <strong>CLI response:</strong>
+          </div>
+          { JSON.stringify(_cliResponseParsed, null, '\t') }
+        </div>
       );
+    } else {
+      return null;
+    }
+  }
+
+  renderActiveCoinsList(mode) {
+    const modes = [
+      'native',
+      'basilisk',
+      'full'
+    ];
+
+    const allCoins = this.props.Main.coins;
+    let items = [];
+
+    if (allCoins) {
+      if (mode === 'all') {
+        modes.map(function(mode) {
+          allCoins[mode].map(function(coin) {
+            items.push(
+              <option value={ coin } key={ coin }>{ coin } ({ mode })</option>
+            );
+          });
+        });
+      } else {
+        allCoins[mode].map(function(coin) {
+          items.push(
+            <option value={ coin } key={ coin }>{ coin } ({ mode })</option>
+          );
+        });
+      }
+
+      return items;
     } else {
       return null;
     }
@@ -765,7 +811,8 @@ class Settings extends React.Component {
                                 name="cliCoin"
                                 id="settingsCliOptions"
                                 onChange={ this.updateInput }>
-                                <option value="komodo">Komodo</option>
+                                <option value="">Select coin</option>
+                                { this.renderActiveCoinsList('native') }
                               </select>
                               <label
                                 className="floating-label"
@@ -787,6 +834,7 @@ class Settings extends React.Component {
                               <button
                                 type="button"
                                 className="btn btn-primary waves-effect waves-light"
+                                disabled={ !this.state.cliCoin || !this.state.cliCmd }
                                 onClick={ () => this.execCliCmd() }>Execute</button>
                             </div>
                             <div className="col-sm-12 col-xs-12 text-align-left">

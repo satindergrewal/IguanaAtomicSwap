@@ -52,12 +52,11 @@ export function shepherdCli(mode, chain, cmd) {
       dispatch(triggerToaster(true, 'shepherdCli', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => cliResponseState(json))
+    .then(json => dispatch(cliResponseState(json)))
   }
 }
 
 export function cliResponseState(json) {
-  console.log('cliResponseState', json);
   return {
     type: CLI,
     data: json,
