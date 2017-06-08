@@ -1,7 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 
-const WalletsHeaderRender = function () {
+const WalletsHeaderRender = function() {
   return (
     <div
       className="page-header page-header-bordered header-easydex margin-bottom-0"

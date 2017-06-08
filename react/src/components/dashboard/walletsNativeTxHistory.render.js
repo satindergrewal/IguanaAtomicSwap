@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 import { translate } from '../../translate/translate';
 import { secondsToString } from '../../util/time';
 
-export const PaginationItemsPerPageSelectorRender = function () {
+export const PaginationItemsPerPageSelectorRender = function() {
   return (
     <div className="dataTables_length">
       <label>
@@ -22,7 +22,7 @@ export const PaginationItemsPerPageSelectorRender = function () {
   );
 };
 
-export const PaginationRender = function (paginationStart, paginationEnd, paginationNextState) {
+export const PaginationRender = function(paginationStart, paginationEnd, paginationNextState) {
   return (
     <div className="row unselectable">
       <div className="col-sm-5">
@@ -47,13 +47,13 @@ export const PaginationRender = function (paginationStart, paginationEnd, pagina
   );
 };
 
-export const TxHistoryListRender = function () {
+export const TxHistoryListRender = function() {
   return this.state.itemsList.map((tx, index) =>
     <tr key={ tx.txid + tx.amount }>
       <td>
-              <span className="label label-default">
-                <i className="icon fa-eye"></i> { translate('IAPI.PUBLIC_SM') }
-              </span>
+        <span className="label label-default">
+          <i className="icon fa-eye"></i> { translate('IAPI.PUBLIC_SM') }
+        </span>
       </td>
       <td>{ this.renderTxType(tx.category) }</td>
       <td>{ tx.confirmations }</td>
@@ -70,7 +70,7 @@ export const TxHistoryListRender = function () {
   );
 };
 
-export const WalletsNativeTxHistoryRender = function () {
+export const WalletsNativeTxHistoryRender = function() {
   return (
     <div className="native-transactions">
       <div>
@@ -109,7 +109,7 @@ export const WalletsNativeTxHistoryRender = function () {
                         </tr>
                         </thead>
                         <tbody>
-                        { this.renderTxHistoryList() }
+                          { this.renderTxHistoryList() }
                         </tbody>
                         <tfoot>
                         <tr>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 
-const NavbarRender = function () {
+const NavbarRender = function() {
   return (
     <nav className="site-navbar navbar navbar-default navbar-fixed-top navbar-mega">
       <div className="navbar-header">

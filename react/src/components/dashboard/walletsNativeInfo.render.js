@@ -1,7 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 
-const WalletsNativeInfoRender = function () {
+const WalletsNativeInfoRender = function() {
   return (
     <div>
       <div className="col-xlg-6 col-md-4">

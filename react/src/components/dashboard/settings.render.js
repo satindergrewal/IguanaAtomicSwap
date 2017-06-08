@@ -4,8 +4,7 @@ import AddCoinOptionsCrypto from '../addcoin/addcoinOptionsCrypto';
 import AddCoinOptionsAC from '../addcoin/addcoinOptionsAC';
 import AddCoinOptionsACFiat from '../addcoin/addcoinOptionsACFiat';
 
-
-export const AppInfoTabRender = function () {
+export const AppInfoTabRender = function() {
   return (
     <div className="panel" id="AppInfo" onClick={ () => this.openTab('AppInfo', 8) }>
       <div className="panel-heading">
@@ -86,7 +85,7 @@ export const AppInfoTabRender = function () {
   );
 };
 
-export const SettingsRender = function () {
+export const SettingsRender = function() {
   return (
     <div className="margin-left-0">
       <div className="page-content" id="section-iguana-wallet-settings">

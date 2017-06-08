@@ -3,7 +3,7 @@ import { translate } from '../../translate/translate';
 import { animation } from '../../util/rc-tree-animate';
 import { TreeNode } from 'rc-tree';
 
-const WalletsCacheDataRender = function () {
+const WalletsCacheDataRender = function() {
   return (
     <div>
       <div className="modal show">

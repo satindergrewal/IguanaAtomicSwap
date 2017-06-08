@@ -6,7 +6,7 @@ import WalletsNativeSend from './walletsNativeSend';
 import WalletsNativeSyncProgress from './walletsNativeSyncProgress';
 import WalletsNativeTxHistory from './walletsNativeTxHistory';
 
-const WalletsNativeRender = function () {
+const WalletsNativeRender = function() {
   return (
     <div className="page margin-left-0">
       <div className="padding-top-0">

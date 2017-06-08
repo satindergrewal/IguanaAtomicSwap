@@ -1,7 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 
-const CoinTileRender = function () {
+const CoinTileRender = function() {
   return (
     <div className="page-aside padding-top-80">
       <div className="page-aside-switch">

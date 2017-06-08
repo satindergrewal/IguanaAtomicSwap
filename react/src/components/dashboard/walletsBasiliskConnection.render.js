@@ -1,7 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 
-const WalletsBasiliskConnectionRender = function () {
+const WalletsBasiliskConnectionRender = function() {
   return (
     <div onKeyDown={ (event) => this.handleKeydown(event) }>
       <div className="modal show" id="RefreshBasiliskConnectionsMdl">
@@ -62,8 +62,8 @@ const WalletsBasiliskConnectionRender = function () {
                 <div className="progress-bar progress-bar-info progress-bar-striped active font-size-80-percent" style={{ width: Math.floor(this.props.Dashboard.connectedNotaries.current * 100 / this.props.Dashboard.connectedNotaries.total) + '%' }} role="progressbar" id="basilisk-connections-refresh-progress-bar"></div>
               </div>
               <pre id="basilisk-connections-refresh-status-output no-padding">
-                  { this.props.Dashboard.connectedNotaries.failedToConnectNodes ? `Failed: ${this.props.Dashboard.connectedNotaries.failedToConnectNodes}` : null }
-                  </pre>
+                { this.props.Dashboard.connectedNotaries.failedToConnectNodes ? `Failed: ${this.props.Dashboard.connectedNotaries.failedToConnectNodes}` : null }
+                </pre>
             </div>
           </div>
         </div>

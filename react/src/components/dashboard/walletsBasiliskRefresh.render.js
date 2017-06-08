@@ -1,7 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 
-const WalletsBasiliskRefreshRender = function () {
+const WalletsBasiliskRefreshRender = function() {
   return (
     <div id="edexcoin_dashboard_basilisk_refresh_status">
       <div className="col-xs-12 margin-top-20">
@@ -24,8 +24,6 @@ const WalletsBasiliskRefreshRender = function () {
                   <th>{ translate('INDEX.REFRESH') }</th>
                 </tr>
                 </thead>
-                <tbody>
-                </tbody>
               </table>
             </div>
           </div>

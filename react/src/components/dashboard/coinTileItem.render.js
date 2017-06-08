@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CoinTileItemRender = function () {
+const CoinTileItemRender = function() {
   const { item } = this.props;
 
   return (

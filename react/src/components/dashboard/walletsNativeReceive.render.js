@@ -1,13 +1,13 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 
-export const AddressListRender = function (address, type) {
+export const AddressListRender = function(address, type) {
   return (
     <tr key={ address.address }>
       <td>
-            <span className={ type === 'public' ? 'label label-default' : 'label label-dark' }>
-              <i className={ type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash' }></i> { type === 'public' ? translate('IAPI.PUBLIC_SM') : translate('KMD_NATIVE.PRIVATE') }
-            </span>
+        <span className={ type === 'public' ? 'label label-default' : 'label label-dark' }>
+          <i className={ type === 'public' ? 'icon fa-eye' : 'icon fa-eye-slash' }></i> { type === 'public' ? translate('IAPI.PUBLIC_SM') : translate('KMD_NATIVE.PRIVATE') }
+        </span>
         <button
           className="btn btn-default btn-xs clipboard-edexaddr margin-left-10"
           onClick={ () => this.copyZAddress(address.address) }><i className="icon wb-copy"></i> { translate('INDEX.COPY') }</button>
@@ -19,7 +19,7 @@ export const AddressListRender = function (address, type) {
   );
 };
 
-export const WalletsNativeReceiveRender = function () {
+export const WalletsNativeReceiveRender = function() {
   return (
     <div>
       <div className="col-xs-12 margin-top-20">

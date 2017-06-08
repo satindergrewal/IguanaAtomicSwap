@@ -45,9 +45,9 @@ const CoinSelectorsRender = function(item, coin, i) {
             htmlFor={ `addcoin_mdl_full_mode_login-${i}` }
             onClick={ () => this.updateSelectedMode('1', i) }
             style={{ pointerEvents: item.fullMode.disabled ? 'none' : 'all' }}>
-                <span
-                  className="labelauty-unchecked-image"
-                  style={{ display: item.fullMode.checked ? 'none' : 'inline-block' }}></span>
+            <span
+              className="labelauty-unchecked-image"
+              style={{ display: item.fullMode.checked ? 'none' : 'inline-block' }}></span>
             <span
               className="labelauty-unchecked"
               style={{ display: item.fullMode.checked ? 'none' : 'inline-block' }}>{ translate('INDEX.FULL_MODE') }</span>
@@ -71,9 +71,9 @@ const CoinSelectorsRender = function(item, coin, i) {
             htmlFor={ `addcoin_mdl_basilisk_mode_login-${i}` }
             onClick={ () => this.updateSelectedMode('0', i) }
             style={{ pointerEvents: item.basiliskMode.disabled ? 'none' : 'all' }}>
-                <span
-                  className="labelauty-unchecked-image"
-                  style={{ display: item.basiliskMode.checked ? 'none' : 'inline-block' }}></span>
+            <span
+              className="labelauty-unchecked-image"
+              style={{ display: item.basiliskMode.checked ? 'none' : 'inline-block' }}></span>
             <span
               className="labelauty-unchecked"
               style={{ display: item.basiliskMode.checked ? 'none' : 'inline-block' }}>{ translate('INDEX.BASILISK_MODE') }</span>
@@ -97,9 +97,9 @@ const CoinSelectorsRender = function(item, coin, i) {
             htmlFor={ `addcoin_mdl_native_mode_login-${i}` }
             onClick={ () => this.updateSelectedMode('-1', i) }
             style={{ pointerEvents: item.nativeMode.disabled ? 'none' : 'all' }}>
-                <span
-                  className="labelauty-unchecked-image"
-                  style={{ display: item.nativeMode.checked ? 'none' : 'inline-block' }}></span>
+            <span
+              className="labelauty-unchecked-image"
+              style={{ display: item.nativeMode.checked ? 'none' : 'inline-block' }}></span>
             <span
               className="labelauty-unchecked"
               style={{ display: item.nativeMode.checked ? 'none' : 'inline-block' }}>{ translate('INDEX.NATIVE_MODE') }</span>
@@ -122,13 +122,15 @@ const CoinSelectorsRender = function(item, coin, i) {
       </div>
       <div className={ item.mode === '1' || item.mode === 1 ? 'col-sm-12' : 'hide' }>
         <div className="toggle-box padding-top-3 padding-bottom-10">
-              <span className="pointer">
-                <label className="switch">
-                  <input type="checkbox" checked={ item.syncOnly } />
-                  <div className="slider" onClick={ () => this.toggleSyncOnlyMode(i) }></div>
-                </label>
-                <div className="toggle-label" onClick={ () => this.toggleSyncOnlyMode(i) }>{ translate('ADD_COIN.SYNC_ONLY') }</div>
-              </span>
+          <span className="pointer">
+            <label className="switch">
+              <input type="checkbox" checked={ item.syncOnly } />
+              <div className="slider" onClick={ () => this.toggleSyncOnlyMode(i) }></div>
+            </label>
+            <div 
+              className="toggle-label"
+              onClick={ () => this.toggleSyncOnlyMode(i) }>{ translate('ADD_COIN.SYNC_ONLY') }</div>
+          </span>
         </div>
       </div>
     </div>

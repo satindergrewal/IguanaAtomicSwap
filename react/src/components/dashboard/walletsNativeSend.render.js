@@ -1,7 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 
-export const AddressListRender = function () {
+export const AddressListRender = function() {
   return (
     <div className={ `btn-group bootstrap-select form-control form-material showkmdwalletaddrs show-tick ${(this.state.addressSelectorOpen ? 'open' : '')}` }>
       <button
@@ -27,7 +27,7 @@ export const AddressListRender = function () {
   );
 };
 
-export const OASendUIRender = function () {
+export const OASendUIRender = function() {
   return (
     <div className="row">
       <div className="col-lg-6 form-group form-material">
@@ -56,7 +56,7 @@ export const OASendUIRender = function () {
   );
 };
 
-export const WalletsNativeSendRender = function () {
+export const WalletsNativeSendRender = function() {
   return (
     <div id="kmd_wallet_send">
       <div className="col-xlg-12 col-md-12 col-sm-12 col-xs-12">
@@ -115,9 +115,9 @@ export const WalletsNativeSendRender = function () {
                     autoComplete="off" />
                 </div>
                 <div className="col-lg-12">
-                      <span>
-                        <strong>{ translate('INDEX.TOTAL') }:</strong> { this.state.amount } - { this.state.fee }/kb = { Number(this.state.amount) - Number(this.state.fee) } { this.props.ActiveCoin.coin }
-                      </span>
+                  <span>
+                    <strong>{ translate('INDEX.TOTAL') }:</strong> { this.state.amount } - { this.state.fee }/kb = { Number(this.state.amount) - Number(this.state.fee) } { this.props.ActiveCoin.coin }
+                  </span>
                 </div>
                 <div className="col-lg-12">
                   <button

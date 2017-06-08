@@ -1,7 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 
-const WalletsNativeAlertRender = function () {
+const WalletsNativeAlertRender = function() {
   return (
     <div className="alert alert-danger alert-dismissible">
       <button className="close" type="button">

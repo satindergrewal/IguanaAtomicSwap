@@ -5,7 +5,7 @@ import {
   secondsToString
 } from '../../util/time';
 
-export const UTXOCacheInfoRender = function (refreshCacheData, isReadyToUpdate, waitUntilCallIsFinished, timestamp) {
+export const UTXOCacheInfoRender = function(refreshCacheData, isReadyToUpdate, waitUntilCallIsFinished, timestamp) {
   return (
     <div className="col-lg-12">
       <hr />

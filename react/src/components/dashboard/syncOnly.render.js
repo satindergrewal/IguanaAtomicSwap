@@ -55,16 +55,16 @@ export const ForkItemRender = function (forkInfo, port) {
         <span className="badge up badge-success margin-bottom-5">Full</span>
         <div className="coin-name">{ this.renderCoinName(forkInfo.registry.coin).name } ({ forkInfo.registry.coin.toUpperCase() })</div>
         <div className="margin-top-10">
-                <span
-                  className="btn btn-primary"
-                  onClick={ () => this._stopIguanaFork(forkInfo.registry.pmid) }>
-                  <span className="fa fa-stop"></span> { translate('INDEX.STOP') }
-                </span>
+          <span
+            className="btn btn-primary"
+            onClick={ () => this._stopIguanaFork(forkInfo.registry.pmid) }>
+            <span className="fa fa-stop"></span> { translate('INDEX.STOP') }
+          </span>
           <span
             className="btn btn-primary margin-left-10"
             onClick={ () => this._restartIguanaFork(forkInfo.registry.coin.toUpperCase(), forkInfo.registry.pmid, port) }>
-                  <span className="fa fa-undo"></span> { translate('INDEX.RESTART') }
-                </span>
+            <span className="fa fa-undo"></span> { translate('INDEX.RESTART') }
+          </span>
         </div>
       </div>
       <div className="progress-bars">
@@ -74,7 +74,7 @@ export const ForkItemRender = function (forkInfo, port) {
   );
 };
 
-export const SyncOnlyRender = function () {
+export const SyncOnlyRender = function() {
   return (
     <div>
       <div className="modal show sync-only-forks">

@@ -1,5 +1,5 @@
-import React from "react";
-import { translate } from "../../translate/translate";
+import React from 'react';
+import { translate } from '../../translate/translate';
 
 const LoginRender = function () {
   return (
@@ -12,9 +12,9 @@ const LoginRender = function () {
           </div>
 
           <div className="vertical-padding-20 horizontal-padding-0">
-                <span className="display-sync-only-coins-toggle" onClick={ this.openSyncOnlyModal }>
-                  <i className="fa fa-cubes"></i> { translate('LOGIN.DISPLAY_SYNC_ONLY') }
-                </span>
+            <span className="display-sync-only-coins-toggle" onClick={ this.openSyncOnlyModal }>
+              <i className="fa fa-cubes"></i> { translate('LOGIN.DISPLAY_SYNC_ONLY') }
+            </span>
           </div>
 
           <div className={ this.state.activeLoginSection === 'ieWarning' ? 'show' : 'hide' }>
@@ -84,8 +84,7 @@ const LoginRender = function () {
 
           <div className={ this.state.activeLoginSection === 'activateCoin' ? 'show' : 'hide' }>
             <h4 className="color-white">{ translate('INDEX.WELCOME_PLEASE_ADD') }</h4>
-            <div
-              className="form-group form-material floating width-540 vertical-margin-30 horizontal-margin-0">
+            <div className="form-group form-material floating width-540 vertical-margin-30 horizontal-margin-0">
               <button
                 className="btn btn-lg btn-primary btn-block ladda-button"
                 onClick={ this.toggleActivateCoinForm }
@@ -139,12 +138,12 @@ const LoginRender = function () {
                 <label className="floating-label" htmlFor="walletseed">{ translate('INDEX.WALLET_SEED') }</label>
               </div>
               <div className="form-group form-material floating">
-                    <textarea
-                      className="form-control placeholder-no-fix height-100"
-                      type="text"
-                      name="randomSeedConfirm"
-                      onChange={ this.updateInput }
-                      id="rwalletseed"></textarea>
+                <textarea
+                  className="form-control placeholder-no-fix height-100"
+                  type="text"
+                  name="randomSeedConfirm"
+                  onChange={ this.updateInput }
+                  id="rwalletseed"></textarea>
                 <span className={ this.state.isSeedConfirmError ? 'help-block' : 'hide' }>{ translate('LOGIN.ENTER_VALUE_AGAIN') }.</span>
                 <label className="floating-label" htmlFor="rwalletseed">{ translate('INDEX.CONFIRM_SEED') }</label>
               </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 
-const WalletsNativeBalanceRender = function () {
+const WalletsNativeBalanceRender = function() {
   return (
     <div className="col-xs-12">
       <div className="col-lg-3 col-xs-12">

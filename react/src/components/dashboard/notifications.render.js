@@ -4,7 +4,7 @@ import {
 } from '../../util/time';
 import { translate } from '../../translate/translate';
 
-export const NotificationsByTypeRender = function (logItem, type, index) {
+export const NotificationsByTypeRender = function(logItem, type, index) {
   return (
     <div key={ logItem.timestamp }>
       <div>{ index + 1 }.</div>
@@ -31,7 +31,7 @@ export const NotificationsByTypeRender = function (logItem, type, index) {
   );
 }
 
-export const NotificationsModalRender = function () {
+export const NotificationsModalRender = function() {
   return (
     <div onKeyDown={ (event) => this.handleKeydown(event) }>
       <div className="modal show notifications-modal">
@@ -91,7 +91,7 @@ export const NotificationsModalRender = function () {
   );
 };
 
-export const NotificationsRender = function () {
+export const NotificationsRender = function() {
   return (
     <div>
       <div

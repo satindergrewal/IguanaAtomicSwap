@@ -1,7 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 
-export const AddressActionsBasiliskModeRender = function (address) {
+export const AddressActionsBasiliskModeRender = function(address) {
   return (
     <td>
       <span className="label label-default">
@@ -21,7 +21,7 @@ export const AddressActionsBasiliskModeRender = function (address) {
         className="label label-default margin-left-10 action"
         title={ translate('INDEX.VALIDATE') }
         onClick={ () => this._validateAddressBasilisk(address) }>
-            <i className="icon fa-info-circle"></i>
+        <i className="icon fa-info-circle"></i>
       </span>
     </td>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 
-export const ChainActivationNotificationRender = function () {
+export const ChainActivationNotificationRender = function() {
   return (
     <div className="alert alert-info alert-dismissible margin-bottom-40">
       <button className="close" type="button">
@@ -15,7 +15,7 @@ export const ChainActivationNotificationRender = function () {
   );
 };
 
-export const WalletsNativeSyncProgressRender = function () {
+export const WalletsNativeSyncProgressRender = function() {
   return (
     <div>
       { this.renderChainActivationNotification() }

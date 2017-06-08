@@ -2,7 +2,7 @@ import React from 'react';
 import { translate } from '../../translate/translate';
 import { secondsToString } from '../../util/time';
 
-const WalletsNativeTxInfoRender = function (txInfo) {
+const WalletsNativeTxInfoRender = function(txInfo) {
   return (
     <div onKeyDown={ (event) => this.handleKeydown(event) }>
       <div className="modal show" id="kmd_txid_info_mdl">
@@ -119,19 +119,19 @@ const WalletsNativeTxInfoRender = function (txInfo) {
                       </table>
                     </div>
                     <div className={ this.state.activeTab === 2 ? 'tab-pane active' : 'tab-pane' }>
-                          <textarea
-                            className="full-width height-170"
-                            rows="10"
-                            cols="80"
-                            defaultValue={ txInfo.hex } disabled></textarea>
+                      <textarea
+                        className="full-width height-170"
+                        rows="10"
+                        cols="80"
+                        defaultValue={ txInfo.hex } disabled></textarea>
                     </div>
                     <div className={ this.state.activeTab === 3 ? 'tab-pane active' : 'tab-pane' }>
-                          <textarea
-                            className="full-width height-400"
-                            rows="40"
-                            cols="80"
-                            defaultValue={ JSON.stringify(txInfo, null, '\t') }
-                            disabled></textarea>
+                      <textarea
+                        className="full-width height-400"
+                        rows="40"
+                        cols="80"
+                        defaultValue={ JSON.stringify(txInfo, null, '\t') }
+                        disabled></textarea>
                     </div>
                   </div>
                 </div>

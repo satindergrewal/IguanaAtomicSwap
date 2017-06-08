@@ -3,7 +3,7 @@ import { translate } from '../../translate/translate';
 
 import WalletsHeader from './walletsHeader';
 
-const JumblrRender = function () {
+const JumblrRender = function() {
   return (
     <div className="page margin-left-0">
       <WalletsHeader activeSection="jumblr" />
@@ -137,9 +137,9 @@ const JumblrRender = function () {
                     <td>BTC Jumblr</td>
                     <td>
                       <button type="button" className="btn btn-animate btn-animate-side btn-default btn-sm waves-effect waves-light">
-                            <span>
-                              <i className="icon fa-eye"></i> { translate('JUMBLR.SHOW_HIDE') }
-                            </span>
+                        <span>
+                          <i className="icon fa-eye"></i> { translate('JUMBLR.SHOW_HIDE') }
+                        </span>
                       </button>
                       <span
                         className="label label-lg label-outline label-success"
@@ -155,9 +155,9 @@ const JumblrRender = function () {
                     <td>KMD Jumblr</td>
                     <td>
                       <button type="button" className="btn btn-animate btn-animate-side btn-default btn-sm waves-effect waves-light">
-                            <span>
-                              <i className="icon fa-eye"></i> { translate('JUMBLR.SHOW_HIDE') }
-                            </span>
+                        <span>
+                          <i className="icon fa-eye"></i> { translate('JUMBLR.SHOW_HIDE') }
+                        </span>
                       </button>
                       <span
                         className="label label-lg label-outline label-success"
