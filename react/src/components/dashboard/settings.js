@@ -39,6 +39,7 @@ class Settings extends React.Component {
       cliCmdString: null,
       cliCoin: null,
       cliResponse: null,
+      exportWifKeysRaw: false,
     };
     this.exportWifKeys = this.exportWifKeys.bind(this);
     this.updateInput = this.updateInput.bind(this);
@@ -50,6 +51,7 @@ class Settings extends React.Component {
     this.renderPeersList = this.renderPeersList.bind(this);
     this.renderSNPeersList = this.renderSNPeersList.bind(this);
     this._saveAppConfig = this._saveAppConfig.bind(this);
+    this.exportWifKeysRaw = this.exportWifKeysRaw.bind(this);
   }
 
   componentDidMount() {
@@ -406,6 +408,60 @@ class Settings extends React.Component {
     }
   }
 
+  renderExportWifKeysRaw() {
+    const _wifKeysResponse = this.props.Settings.wifkey;
+
+    if (_wifKeysResponse &&
+        this.state.exportWifKeysRaw) {
+      return (
+        <div className="padding-bottom-30 padding-top-30">{ JSON.stringify(_wifKeysResponse, null, '\t') }</div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderWifKeys() {
+    let items = [];
+
+    if (this.props.Settings.wifkey) {
+      const _wifKeys = this.props.Settings.wifkey;
+
+      for (let i = 0; i < 2; i++) {
+        items.push(
+          <tr key={ `wif-export-table-header-${i}` }>
+            <td className="padding-bottom-10 padding-top-10">
+              <strong>{ i === 0 ? 'Address list' : 'Wif key list' }</strong>
+            </td>
+            <td className="padding-bottom-10 padding-top-10"></td>
+          </tr>
+        );
+
+        for (let _key in _wifKeys) {
+          if ((i === 0 && _key.length === 3 && _key !== 'tag') ||
+              (i === 1 && _key.indexOf('wif') > -1)) {
+            items.push(
+              <tr key={ _key }>
+                <td>{ _key }</td>
+                <td className="padding-left-15">{ _wifKeys[_key] }</td>
+              </tr>
+            );
+          }
+        }
+      }
+
+      return items;
+    } else {
+      return null;
+    }
+  }
+
+  exportWifKeysRaw() {
+    this.setState(Object.assign({}, this.state, {
+      exportWifKeysRaw: !this.state.exportWifKeysRaw,
+    }));
+  }
+
   render() {
     return (
       <div className="margin-left-0">
@@ -625,20 +681,18 @@ class Settings extends React.Component {
 
                           <div className="col-sm-12 padding-top-15">
                             <div className="row">
-                              <table className={ this.props.Settings && this.props.Settings.address ? 'table show' : 'table hide' }>
-                                <tr>
-                                  <td>
-                                    <strong>{ this.props.ActiveCoin.coin }</strong>
-                                  </td>
-                                  <td className="padding-left-15">{ this.props.Settings.address }</td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <strong>{ this.props.ActiveCoin.coin }Wif</strong>
-                                  </td>
-                                  <td className="padding-left-15">{ this.props.Settings.wifkey }</td>
-                                </tr>
+                              <table className="table">
+                                { this.renderWifKeys() }
                               </table>
+                              <div className={ this.props.Settings.wifkey ? 'col-sm-12 col-xs-12 text-align-center' : 'hide' }>
+                                <button
+                                  type="button"
+                                  className="btn btn-primary waves-effect waves-light"
+                                  onClick={ this.exportWifKeysRaw }>{ this.state.exportWifKeysRaw ? 'Hide' : 'Show' } raw data</button>
+                              </div>
+                              <div className={ this.state.exportWifKeysRaw ? 'col-sm-12 col-xs-12 text-align-center' : 'hide' }>
+                                { this.renderExportWifKeysRaw() }
+                              </div>
                             </div>
                           </div>
                         </div>
