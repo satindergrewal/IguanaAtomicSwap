@@ -1,5 +1,4 @@
 import React from 'react';
-import { translate } from '../../translate/translate';
 
 class EDEX extends React.Component {
   render() {
