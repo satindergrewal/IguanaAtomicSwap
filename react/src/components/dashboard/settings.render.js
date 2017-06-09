@@ -280,8 +280,7 @@ export const SettingsRender = function() {
                         <p>
                           <div className="padding-bottom-20">{ this.renderLB('INDEX.ONLY_ACTIVE_WIF_KEYS') }</div>
                           <div className="padding-bottom-20">
-                            <i>Note: it's important that you provide the same passphrase as you used to login to the wallet!<br />
-                            In case passphrases will not match wallet is going to log you out of current session.</i>
+                            <i>{ this.renderLB('SETTINGS.EXPORT_KEYS_NOTE') }</i>
                           </div>
                           <strong>
                             <i>{ translate('INDEX.PLEASE_KEEP_KEYS_SAFE') }</i>
@@ -291,11 +290,14 @@ export const SettingsRender = function() {
                         <form className="wifkeys-form" method="post" action="javascript:" autoComplete="off">
                           <div className="form-group form-material floating">
                             <input
-                              type="password"
+                              type={ this.state.seedInputVisibility ? 'text' : 'password' }
                               className="form-control"
                               name="wifkeysPassphrase"
                               id="wifkeysPassphrase"
                               onChange={ this.updateInput } />
+                            <i
+                              className={ this.state.seedInputVisibility ? 'seed-toggle fa fa-eye-slash' : 'seed-toggle fa fa-eye' }
+                              onClick={ this.toggleSeedInputVisibility }></i>
                             <label className="floating-label" htmlFor="wifkeysPassphrase">{ translate('INDEX.PASSPHRASE') }</label>
                           </div>
                           <div className="col-sm-12 col-xs-12 text-align-center">

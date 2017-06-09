@@ -41,6 +41,7 @@ class Settings extends React.Component {
       cliCoin: null,
       cliResponse: null,
       exportWifKeysRaw: false,
+      seedInputVisibility: false,
     };
     this.exportWifKeys = this.exportWifKeys.bind(this);
     this.updateInput = this.updateInput.bind(this);
@@ -53,6 +54,7 @@ class Settings extends React.Component {
     this.renderSNPeersList = this.renderSNPeersList.bind(this);
     this._saveAppConfig = this._saveAppConfig.bind(this);
     this.exportWifKeysRaw = this.exportWifKeysRaw.bind(this);
+    this.toggleSeedInputVisibility = this.toggleSeedInputVisibility.bind(this);
   }
 
   componentDidMount() {
@@ -71,6 +73,12 @@ class Settings extends React.Component {
         tabElId: this.state.tabElId,
       }));
     }
+  }
+
+  toggleSeedInputVisibility() {
+    this.setState({
+      seedInputVisibility: !this.state.seedInputVisibility,
+    });
   }
 
   execCliCmd() {
@@ -115,12 +123,14 @@ class Settings extends React.Component {
 
   renderPeersList() {
     if (this.state.getPeersCoin) {
-      const coin = this.state.getPeersCoin.split('|')[0];
+      const _getPeersCoin = this.state.getPeersCoin;
+      const _rawPeers = this.props.Settings.rawPeers;
+      const coin = _getPeersCoin.split('|')[0];
 
-      if (this.props.Settings.rawPeers &&
-          this.state.getPeersCoin &&
-          this.props.Settings.rawPeers[coin]) {
-        return this.props.Settings.rawPeers[coin].map((ip) =>
+      if (_rawPeers &&
+          _getPeersCoin &&
+          _rawPeers[coin]) {
+        return _rawPeers[coin].map((ip) =>
           <div key={ ip }>{ ip }</div>
         );
       } else {
@@ -143,12 +153,14 @@ class Settings extends React.Component {
 
   renderSNPeersList() {
     if (this.state.getPeersCoin) {
-      const coin = this.state.getPeersCoin.split('|')[0];
+      const _getPeersCoin = this.state.getPeersCoin;
+      const _supernetPeers = this.props.Settings.supernetPeers;
+      const coin = _getPeersCoin.split('|')[0];
 
-      if (this.props.Settings.supernetPeers &&
-          this.state.getPeersCoin &&
-          this.props.Settings.supernetPeers[coin]) {
-        return this.props.Settings.supernetPeers[coin].map((ip) =>
+      if (_supernetPeers &&
+          _getPeersCoin &&
+          _supernetPeers[coin]) {
+        return _supernetPeers[coin].map((ip) =>
           <div key={ ip }>{ ip }</div>
         );
       } else {

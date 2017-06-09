@@ -1,5 +1,7 @@
 v0.2.0.2a-beta
+--------------
 front:
+- fixed native t to t bug that led to interest loss
 - added pending request(s) spinner
 - added missing native z_balance api call for z-addresses
 - fixed native t to z address send bug
@@ -8,6 +10,8 @@ front:
 - minor UI reorder change
 - limit http stack history to 150 calls of each type
 - sort http stack history desc
+- swapped gettotalbalance interest with getinfo interest
+- extended settings / export keys ui
 
 back:
 - added cli route
