@@ -2,8 +2,11 @@ import React from 'react';
 import { translate } from '../../translate/translate';
 import { displayNotariesModal } from '../../actions/actionCreators';
 import Store from '../../store';
-import Tree, { TreeNode } from 'rc-tree';
-import { animation } from '../../util/rc-tree-animate';
+import { TreeNode } from 'rc-tree';
+import {
+  NotariesListRender,
+  WalletsNotariesListRender
+} from './walletsNotariesList.render';
 
 class WalletsNotariesList extends React.Component {
   constructor(props) {
@@ -38,11 +41,7 @@ class WalletsNotariesList extends React.Component {
         this.props.ActiveCoin.notaries.notaries &&
         this.props.ActiveCoin.notaries.notaries.length) {
       return this.props.ActiveCoin.notaries.notaries.map((node, index) =>
-        <TreeNode title={ `Node ${index}` } key={ `node-${index}` }>
-          <TreeNode key={ `node-${index}-btc` } title={ `BTC: ${node.BTCaddress}` } />
-          <TreeNode key={ `node-${index}-kmd` } title={ `KMD: ${node.KMDaddress}` } />
-          <TreeNode key={ `node-${index}-pubkey` } title={ `Pubkey: ${node.pubkey}` } />
-        </TreeNode>
+        NotariesListRender.call(this, node, index)
       );
     } else {
       return null;
@@ -53,42 +52,10 @@ class WalletsNotariesList extends React.Component {
     if (this.props &&
         this.props.ActiveCoin.mode === 'basilisk' &&
         this.props.ActiveCoin.displayNotariesModal) {
-      const notariesData = this.props.ActiveCoin.notaries ? this.props.ActiveCoin.notaries.notaries : null;
-
-      return (
-        <div onKeyDown={ (event) => this.handleKeydown(event) }>
-          <div className="modal show" id="kmd_txid_info_mdl">
-            <div className="modal-dialog modal-center modal-lg">
-              <div className="modal-content">
-                <div className="modal-body modal-body-container">
-                  <div className="panel nav-tabs-horizontal">
-                    <div className="panel-body">
-                      <div className="tab-content">
-                        <div className="tab-pane active">
-                          { this.renderNotariesFetching() }
-                          <Tree defaultExpandAll={ false } openAnimation={ animation }>
-                          { this.renderNotariesList() }
-                          </Tree>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-default"
-                    onClick={ this.closeNotariesModal }>{ translate('INDEX.CLOSE') }</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="modal-backdrop show in"></div>
-        </div>
-      );
-    } else {
-      return null;
+      return WalletsNotariesListRender.call(this);
     }
+
+    return null;
   }
 }
 

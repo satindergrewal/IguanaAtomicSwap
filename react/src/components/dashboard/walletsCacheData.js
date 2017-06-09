@@ -1,10 +1,9 @@
 import React from 'react';
-import { translate } from '../../translate/translate';
 import { secondsToString } from '../../util/time';
 import { toggleViewCacheModal } from '../../actions/actionCreators';
 import Store from '../../store';
-import Tree, { TreeNode } from 'rc-tree';
-import { animation } from '../../util/rc-tree-animate';
+import { TreeNode } from 'rc-tree';
+import WalletsCacheDataRender from './walletsCacheData.render';
 
 // TODO: refresh data render
 
@@ -160,37 +159,7 @@ class WalletsCacheData extends React.Component {
         this.props.ActiveCoin.mode === 'basilisk' &&
         this.props.Dashboard.displayViewCacheModal) {
 
-      return (
-        <div>
-          <div className="modal show">
-            <div className="modal-dialog modal-center modal-lg">
-              <div className="modal-content">
-                <div className="modal-body modal-body-container">
-                  <div className="panel nav-tabs-horizontal">
-                    <div className="panel-body">
-                      <div className="tab-content">
-                        <div className="tab-pane active">
-                          { this.renderNotariesFetching() }
-                          <Tree defaultExpandAll={ false } openAnimation={ animation }>
-                          { this.renderCoinRootNodes() }
-                          </Tree>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-default"
-                    onClick={ this.closeViewCacheModal }>{ translate('INDEX.CLOSE') }</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="modal-backdrop show in"></div>
-        </div>
-      );
+      return WalletsCacheDataRender.call(this);
     } else {
       return null;
     }
