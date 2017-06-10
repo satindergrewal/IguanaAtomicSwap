@@ -26,7 +26,6 @@ import {
   2) add fiat section
   3) kickstart section
   4) batch export/import wallet addresses
-  5) export keys, add coin selector
 */
 class Settings extends React.Component {
   constructor(props) {
@@ -41,6 +40,8 @@ class Settings extends React.Component {
       cliCmdString: null,
       cliCoin: null,
       cliResponse: null,
+      exportWifKeysRaw: false,
+      seedInputVisibility: false,
     };
     this.exportWifKeys = this.exportWifKeys.bind(this);
     this.updateInput = this.updateInput.bind(this);
@@ -52,6 +53,8 @@ class Settings extends React.Component {
     this.renderPeersList = this.renderPeersList.bind(this);
     this.renderSNPeersList = this.renderSNPeersList.bind(this);
     this._saveAppConfig = this._saveAppConfig.bind(this);
+    this.exportWifKeysRaw = this.exportWifKeysRaw.bind(this);
+    this.toggleSeedInputVisibility = this.toggleSeedInputVisibility.bind(this);
   }
 
   componentDidMount() {
@@ -70,6 +73,12 @@ class Settings extends React.Component {
         tabElId: this.state.tabElId,
       }));
     }
+  }
+
+  toggleSeedInputVisibility() {
+    this.setState({
+      seedInputVisibility: !this.state.seedInputVisibility,
+    });
   }
 
   execCliCmd() {
@@ -114,12 +123,14 @@ class Settings extends React.Component {
 
   renderPeersList() {
     if (this.state.getPeersCoin) {
-      const coin = this.state.getPeersCoin.split('|')[0];
+      const _getPeersCoin = this.state.getPeersCoin;
+      const _rawPeers = this.props.Settings.rawPeers;
+      const coin = _getPeersCoin.split('|')[0];
 
-      if (this.props.Settings.rawPeers &&
-          this.state.getPeersCoin &&
-          this.props.Settings.rawPeers[coin]) {
-        return this.props.Settings.rawPeers[coin].map((ip) =>
+      if (_rawPeers &&
+          _getPeersCoin &&
+          _rawPeers[coin]) {
+        return _rawPeers[coin].map((ip) =>
           <div key={ ip }>{ ip }</div>
         );
       } else {
@@ -142,12 +153,14 @@ class Settings extends React.Component {
 
   renderSNPeersList() {
     if (this.state.getPeersCoin) {
-      const coin = this.state.getPeersCoin.split('|')[0];
+      const _getPeersCoin = this.state.getPeersCoin;
+      const _supernetPeers = this.props.Settings.supernetPeers;
+      const coin = _getPeersCoin.split('|')[0];
 
-      if (this.props.Settings.supernetPeers &&
-          this.state.getPeersCoin &&
-          this.props.Settings.supernetPeers[coin]) {
-        return this.props.Settings.supernetPeers[coin].map((ip) =>
+      if (_supernetPeers &&
+          _getPeersCoin &&
+          _supernetPeers[coin]) {
+        return _supernetPeers[coin].map((ip) =>
           <div key={ ip }>{ ip }</div>
         );
       } else {
@@ -329,6 +342,60 @@ class Settings extends React.Component {
     } else {
       return null;
     }
+  }
+
+  renderExportWifKeysRaw() {
+    const _wifKeysResponse = this.props.Settings.wifkey;
+
+    if (_wifKeysResponse &&
+        this.state.exportWifKeysRaw) {
+      return (
+        <div className="padding-bottom-30 padding-top-30">{ JSON.stringify(_wifKeysResponse, null, '\t') }</div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderWifKeys() {
+    let items = [];
+
+    if (this.props.Settings.wifkey) {
+      const _wifKeys = this.props.Settings.wifkey;
+
+      for (let i = 0; i < 2; i++) {
+        items.push(
+          <tr key={ `wif-export-table-header-${i}` }>
+            <td className="padding-bottom-10 padding-top-10">
+              <strong>{ i === 0 ? 'Address list' : 'Wif key list' }</strong>
+            </td>
+            <td className="padding-bottom-10 padding-top-10"></td>
+          </tr>
+        );
+
+        for (let _key in _wifKeys) {
+          if ((i === 0 && _key.length === 3 && _key !== 'tag') ||
+              (i === 1 && _key.indexOf('wif') > -1)) {
+            items.push(
+              <tr key={ _key }>
+                <td>{ _key }</td>
+                <td className="padding-left-15">{ _wifKeys[_key] }</td>
+              </tr>
+            );
+          }
+        }
+      }
+
+      return items;
+    } else {
+      return null;
+    }
+  }
+
+  exportWifKeysRaw() {
+    this.setState(Object.assign({}, this.state, {
+      exportWifKeysRaw: !this.state.exportWifKeysRaw,
+    }));
   }
 
   render() {

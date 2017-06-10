@@ -278,7 +278,10 @@ export const SettingsRender = function() {
                       style={{ height: this.state.activeTab === 4 ? this.state.activeTabHeight + 'px' : '0' }}>
                       <div className="panel-body">
                         <p>
-                          <div>{ this.renderLB('INDEX.ONLY_ACTIVE_WIF_KEYS') }</div><br/>
+                          <div className="padding-bottom-20">{ this.renderLB('INDEX.ONLY_ACTIVE_WIF_KEYS') }</div>
+                          <div className="padding-bottom-20">
+                            <i>{ this.renderLB('SETTINGS.EXPORT_KEYS_NOTE') }</i>
+                          </div>
                           <strong>
                             <i>{ translate('INDEX.PLEASE_KEEP_KEYS_SAFE') }</i>
                           </strong>
@@ -287,11 +290,14 @@ export const SettingsRender = function() {
                         <form className="wifkeys-form" method="post" action="javascript:" autoComplete="off">
                           <div className="form-group form-material floating">
                             <input
-                              type="password"
+                              type={ this.state.seedInputVisibility ? 'text' : 'password' }
                               className="form-control"
                               name="wifkeysPassphrase"
                               id="wifkeysPassphrase"
                               onChange={ this.updateInput } />
+                            <i
+                              className={ this.state.seedInputVisibility ? 'seed-toggle fa fa-eye-slash' : 'seed-toggle fa fa-eye' }
+                              onClick={ this.toggleSeedInputVisibility }></i>
                             <label className="floating-label" htmlFor="wifkeysPassphrase">{ translate('INDEX.PASSPHRASE') }</label>
                           </div>
                           <div className="col-sm-12 col-xs-12 text-align-center">
@@ -304,20 +310,18 @@ export const SettingsRender = function() {
 
                         <div className="col-sm-12 padding-top-15">
                           <div className="row">
-                            <table className={ this.props.Settings && this.props.Settings.address ? 'table show' : 'table hide' }>
-                              <tr>
-                                <td>
-                                  <strong>{ this.props.ActiveCoin.coin }</strong>
-                                </td>
-                                <td className="padding-left-15">{ this.props.Settings.address }</td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <strong>{ this.props.ActiveCoin.coin }Wif</strong>
-                                </td>
-                                <td className="padding-left-15">{ this.props.Settings.wifkey }</td>
-                              </tr>
+                            <table className="table">
+                              { this.renderWifKeys() }
                             </table>
+                            <div className={ this.props.Settings.wifkey ? 'col-sm-12 col-xs-12 text-align-center' : 'hide' }>
+                              <button
+                                type="button"
+                                className="btn btn-primary waves-effect waves-light"
+                                onClick={ this.exportWifKeysRaw }>{ this.state.exportWifKeysRaw ? 'Hide' : 'Show' } raw data</button>
+                            </div>
+                            <div className={ this.state.exportWifKeysRaw ? 'col-sm-12 col-xs-12 text-align-center' : 'hide' }>
+                              { this.renderExportWifKeysRaw() }
+                            </div>
                           </div>
                         </div>
                       </div>
