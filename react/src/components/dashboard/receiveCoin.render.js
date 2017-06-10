@@ -1,28 +1,28 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
 
-export const AddressActionsBasiliskModeRender = function (address) {
+export const AddressActionsBasiliskModeRender = function(address) {
   return (
     <td>
-          <span className="label label-default">
-            <i className="icon fa-eye"></i> { translate('IAPI.PUBLIC_SM') }
-          </span>
+      <span className="label label-default">
+        <i className="icon fa-eye"></i> { translate('IAPI.PUBLIC_SM') }
+      </span>
       <button
         className="btn btn-default btn-xs clipboard-edexaddr margin-left-10"
-        id="edexcoin_active_addr_clipboard"
-        onClick={ () => this._copyCoinAddress(address) }><i className="icon wb-copy" aria-hidden="true"></i> { translate('INDEX.COPY') }</button>
+        title={ translate('INDEX.COPY_TO_CLIPBOARD') }
+        onClick={ () => this._copyCoinAddress(address) }><i className="icon wb-copy"></i> { translate('INDEX.COPY') }</button>
       <span
         className="label label-default margin-left-10 action"
-        title="Check"
+        title={ translate('INDEX.CHECK') }
         onClick={ () => this._checkAddressBasilisk(address) }>
-            <i className="icon fa-database"></i>
-          </span>
+        <i className="icon fa-database"></i>
+      </span>
       <span
         className="label label-default margin-left-10 action"
-        title="Import"
+        title={ translate('INDEX.VALIDATE') }
         onClick={ () => this._validateAddressBasilisk(address) }>
-            <i className="icon fa-info-circle"></i>
-          </span>
+        <i className="icon fa-info-circle"></i>
+      </span>
     </td>
   );
 };
@@ -35,8 +35,7 @@ export const AddressActionsNonBasiliskModeRender = function (address) {
       </span>
       <button
         className="btn btn-default btn-xs clipboard-edexaddr margin-left-10"
-        id="edexcoin_active_addr_clipboard"
-        onClick={ () => this._copyCoinAddress(address) }><i className="icon wb-copy" aria-hidden="true"></i> { translate('INDEX.COPY') }</button>
+        onClick={ () => this._copyCoinAddress(address) }><i className="icon wb-copy"></i> { translate('INDEX.COPY') }</button>
     </td>
   );
 };
@@ -54,19 +53,18 @@ export const AddressItemRender = function (address) {
 
 export const ReceiveCoinRender = function () {
   return (
-    <div id="edexcoin_recieve">
+    <div>
       <div className="col-xs-12 margin-top-20">
         <div className="panel nav-tabs-horizontal">
-          <div id="edexcoin_recieve_section">
+          <div>
             <div className="col-xlg-12 col-lg-12 col-sm-12 col-xs-12">
               <div className="panel">
                 <header className="panel-heading">
-                  <div className="panel-actions">
-                  </div>
+                  <div className="panel-actions"></div>
                   <h4 className="panel-title">{ translate('INDEX.RECEIVING_ADDRESS') }</h4>
                 </header>
                 <div className="panel-body">
-                  <table className="table table-hover dataTable table-striped" id="edexcoin-recieve-addr-tbl">
+                  <table className="table table-hover dataTable table-striped">
                     <thead>
                     <tr>
                       <th>{ translate('INDEX.TYPE') }</th>

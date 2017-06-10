@@ -17,7 +17,7 @@ import WalletsNative from './walletsNative';
 import WalletsNativeTxInfo from './walletsNativeTxInfo';
 import WalletsTxInfo from './walletsTxInfo';
 
-const DashboardRender = function () {
+const DashboardRender = function() {
   return (
     <div className="full-height">
       <div

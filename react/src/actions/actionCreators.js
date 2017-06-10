@@ -65,6 +65,7 @@ export * from './actions/dexCoins';
 export * from './actions/fullTxHistory';
 export * from './actions/basiliskTxHistory';
 export * from './actions/iguanaHelpers';
+export * from './actions/cli';
 
 export let Config;
 
@@ -189,13 +190,14 @@ export function toggleSendReceiveCoinFormsState() {
   }
 }
 
-export function triggerToaster(display, message, title, _type) {
+export function triggerToaster(display, message, title, _type, autoClose = true) {
   return {
     type: ADD_TOASTER_MESSAGE,
     display,
     message,
     title,
     _type,
+    autoClose
   }
 }
 

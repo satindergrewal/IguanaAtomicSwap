@@ -70,14 +70,8 @@ export function sendNativeTx(coin, _payload) {
         dispatch(triggerToaster(true, 'sendNativeTx', 'Error', 'error'));
       })
       .then(function(response) {
-        if (_apiMethod === 'sendtoaddress') {
-          const _response = response.text().then(function(text) { return text; });
-
-          console.log('native sendtoaddress', _response);
-          return _response;
-        } else {
-          return response.json();
-        }
+        const _response = response.text().then(function(text) { return text; });
+        return response.json();
       })
       .then(function(json) {
         dispatch(logGuiHttp({

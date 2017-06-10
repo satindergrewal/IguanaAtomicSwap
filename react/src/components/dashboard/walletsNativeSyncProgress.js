@@ -1,5 +1,9 @@
 import React from 'react';
 import { translate } from '../../translate/translate';
+import {
+  ChainActivationNotificationRender,
+  WalletsNativeSyncProgressRender
+} from './walletsNativeSyncProgress.render';
 
 class WalletsNativeSyncProgress extends React.Component {
   renderSyncPercentagePlaceholder() {
@@ -79,41 +83,20 @@ class WalletsNativeSyncProgress extends React.Component {
   renderChainActivationNotification() {
     if ((!this.props.Dashboard.progress.blocks && !this.props.Dashboard.progress.longestchain) ||
         (this.props.Dashboard.progress.blocks < this.props.Dashboard.progress.longestchain)) {
-      return (
-        <div className="alert alert-info alert-dismissible margin-bottom-40">
-          <button className="close" type="button">
-            <span>×</span>
-          </button>
-          <h4>
-            { translate('INDEX.ACTIVATING_CHAIN') }{ this.renderActivatingBestChainProgress() }
-          </h4>
-          <p>{ this.renderLB('INDEX.KMD_STARTED') }</p>
-        </div>
-      );
-    } else {
-      return null;
+      return ChainActivationNotificationRender.call(this);
     }
+
+    return null;
   }
 
   render() {
     if (this.props &&
         this.props.Dashboard &&
         this.props.Dashboard.progress) {
-      return (
-        <div>
-          { this.renderChainActivationNotification() }
-          <div className="row sync-progress-container">
-            <div className="col-xs-12">
-              <div className="progress">
-                { this.renderSyncPercentagePlaceholder() }
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    } else {
-      return null;
+      return WalletsNativeSyncProgressRender.call(this);
     }
+
+    return null;
   }
 }
 

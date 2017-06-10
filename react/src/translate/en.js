@@ -426,7 +426,9 @@ export const _lang = {
       'BIN': 'Bin',
       'DIR': 'Dir',
       'ADD_PEER_IP': 'Add Peer IP',
-      'APP_SESSION': 'App Session'
+      'APP_SESSION': 'App Session',
+      'EXPORT_KEYS_NOTE': 'Note: it\'s important that you provide the same passphrase you used to login to the wallet!<br>' +
+                          'In case passphrases will not match wallet is going to log you out of current session.'
     },
     'TX_INFO': {
       'ADDRESS': 'address',
