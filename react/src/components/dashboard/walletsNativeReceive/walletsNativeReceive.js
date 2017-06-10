@@ -66,7 +66,7 @@ class WalletsNativeReceive extends React.Component {
     if (this.props &&
         this.props.ActiveCoin &&
         this.props.ActiveCoin.nativeActiveSection === 'receive') {
-      WalletsNativeReceiveRender.call(this);
+      return WalletsNativeReceiveRender.call(this);
     }
 
     return null;
