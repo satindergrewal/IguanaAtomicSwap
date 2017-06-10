@@ -16,7 +16,8 @@ class ToasterItem extends React.Component {
       display: false,
       message: null,
       type: null,
-      title: null
+      title: null,
+      autoClose: true
     };
 
     this.dismissToast = this.dismissToast.bind(this);
@@ -33,6 +34,7 @@ class ToasterItem extends React.Component {
         display: props.display,
         type: props._type,
         title: props.title,
+        autoClose: props.autoClose,
         toastId: props.toastId
       });
     } else {
@@ -41,6 +43,7 @@ class ToasterItem extends React.Component {
         message: null,
         type: null,
         title: null,
+        autoClose: true,
         toastId: null
       });
     }
@@ -52,7 +55,7 @@ class ToasterItem extends React.Component {
 
   renderToast() {
     // ensure that setTimeout is called only once for each toast message
-    if (!this.timeoutHandler) {
+    if (this.state.autoClose && !this.timeoutHandler) {
       this.timeoutHandler = setTimeout(() => {
         this.dismissToast(this.state.toastId);
       }, DISPLAY_LENGTH_MILLIS);

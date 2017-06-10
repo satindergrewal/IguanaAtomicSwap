@@ -27,10 +27,6 @@ class Toaster extends React.Component {
     }
   }
 
-  dismissToast(toastId) {
-    Store.dispatch(dismissToasterMessage(toastId));
-  }
-
   renderToasts() {
     if (this.state.toasts &&
         this.state.toasts.length) {
