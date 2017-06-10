@@ -13,11 +13,11 @@ function createNewWalletState(json) {
       json.result &&
       json.result === 'success') {
     return dispatch => {
-      dispatch(triggerToaster(true, translate('TOASTR.WALLET_CREATED_SUCCESFULLY'), translate('TOASTR.ACCOUNT_NOTIFICATION'), 'success'));
+      dispatch(triggerToaster(translate('TOASTR.WALLET_CREATED_SUCCESFULLY'), translate('TOASTR.ACCOUNT_NOTIFICATION'), 'success'));
     }
   } else {
     return dispatch => {
-      dispatch(triggerToaster(true, 'Couldn\'t create new wallet seed', translate('TOASTR.ACCOUNT_NOTIFICATION'), 'error'));
+      dispatch(triggerToaster('Couldn\'t create new wallet seed', translate('TOASTR.ACCOUNT_NOTIFICATION'), 'error'));
     }
   }
 }
@@ -52,7 +52,7 @@ export function createNewWallet(_passphrase) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'createNewWallet', 'Error', 'error'));
+      dispatch(triggerToaster('createNewWallet', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => {

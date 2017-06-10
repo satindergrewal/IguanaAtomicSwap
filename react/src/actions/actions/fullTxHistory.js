@@ -42,7 +42,7 @@ export function getFullTransactionsList(coin) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'getFullTransactionsList', 'Error', 'error'));
+      dispatch(triggerToaster('getFullTransactionsList', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => {

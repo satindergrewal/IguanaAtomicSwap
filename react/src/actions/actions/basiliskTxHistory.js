@@ -20,7 +20,7 @@ export function getBasiliskTransactionsList(coin, address) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'getBasiliskTransactionsList+cache', 'Error', 'error'));
+      dispatch(triggerToaster('getBasiliskTransactionsList+cache', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(function(json) {

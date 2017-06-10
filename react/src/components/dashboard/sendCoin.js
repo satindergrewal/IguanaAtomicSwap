@@ -394,7 +394,7 @@ class SendCoin extends React.Component {
       console.log('iguanaUTXORawTXJSON', json);
       if (json.result === 'success' &&
           json.completed === true) {
-        Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_GENERATED') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
+        Store.dispatch(triggerToaster(translate('TOASTR.SIGNED_TX_GENERATED') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
 
         if (sendData.sendsig === 1) {
           const dexrawtxData = {
@@ -405,19 +405,19 @@ class SendCoin extends React.Component {
           .then(function(dexRawTxJSON) {
             console.log('dexRawTxJSON', dexRawTxJSON);
             if (dexRawTxJSON.indexOf('"error":{"code"') > -1) {
-              Store.dispatch(triggerToaster(true, 'Transaction failed', translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
+              Store.dispatch(triggerToaster('Transaction failed', translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
               Store.dispatch(sendToAddressStateAlt(JSON.parse(dexRawTxJSON)));
 
               this.setState(Object.assign({}, this.state, {
                 utxoMethodInProgress: false,
               }));
             } else {
-              Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_SENT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
+              Store.dispatch(triggerToaster(translate('TOASTR.SIGNED_TX_SENT'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
               Store.dispatch(sendToAddressStateAlt(json));
 
               let getTxidData = function() {
                 return new Promise(function(resolve, reject) {
-                  Store.dispatch(triggerToaster(true, translate('TOASTR.GETTING_TXID_INFO') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'info'));
+                  Store.dispatch(triggerToaster(translate('TOASTR.GETTING_TXID_INFO') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'info'));
 
                   edexGetTransaction({
                     'coin': sendData.coin,
@@ -464,7 +464,7 @@ class SendCoin extends React.Component {
                     console.log(result);
                     resolve(result);
                     forceUpdateCache();
-                    Store.dispatch(triggerToaster(true, translate('TOASTR.LOCAL_UTXO_UPDATED'), translate('TOASTR.WALLET_NOTIFICATION'), 'info'));
+                    Store.dispatch(triggerToaster(translate('TOASTR.LOCAL_UTXO_UPDATED'), translate('TOASTR.WALLET_NOTIFICATION'), 'info'));
 
                     this.setState(Object.assign({}, this.state, {
                       utxoMethodInProgress: false,
@@ -473,10 +473,10 @@ class SendCoin extends React.Component {
                 }.bind(this));
               }.bind(this);
 
-              Store.dispatch(triggerToaster(true, translate('TOASTR.AWAITING_TX_RESP') + '...', translate('TOASTR.WALLET_NOTIFICATION'), 'info'));
+              Store.dispatch(triggerToaster(translate('TOASTR.AWAITING_TX_RESP') + '...', translate('TOASTR.WALLET_NOTIFICATION'), 'info'));
 
               function waterfallUTXOProcess() {
-                Store.dispatch(triggerToaster(true, translate('TOASTR.PROCESSING_UTXO') + '...', translate('TOASTR.WALLET_NOTIFICATION'), 'info'));
+                Store.dispatch(triggerToaster(translate('TOASTR.PROCESSING_UTXO') + '...', translate('TOASTR.WALLET_NOTIFICATION'), 'info'));
 
                 getTxidData()
                 .then(function(gettxdata) {
@@ -512,7 +512,7 @@ class SendCoin extends React.Component {
         }
       } else {
         Store.dispatch(sendToAddressStateAlt(json));
-        Store.dispatch(triggerToaster(true, translate('TOASTR.SIGNED_TX_GENERATED_FAIL') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
+        Store.dispatch(triggerToaster(translate('TOASTR.SIGNED_TX_GENERATED_FAIL') + '.', translate('TOASTR.WALLET_NOTIFICATION'), 'error'));
 
         this.setState(Object.assign({}, this.state, {
           utxoMethodInProgress: false,
@@ -622,10 +622,10 @@ class SendCoin extends React.Component {
         }
 
         if (this.state.sendTo === '') {
-          Store.dispatch(triggerToaster(true, 'Couldn\'t find any ' + this.props.ActiveCoin.coin + ' addresses', 'OpenAlias', 'error'));
+          Store.dispatch(triggerToaster('Couldn\'t find any ' + this.props.ActiveCoin.coin + ' addresses', 'OpenAlias', 'error'));
         }
       } else {
-        Store.dispatch(triggerToaster(true, 'Couldn\'t find any addresses', 'OpenAlias', 'error'));
+        Store.dispatch(triggerToaster('Couldn\'t find any addresses', 'OpenAlias', 'error'));
       }
     }.bind(this));
   }

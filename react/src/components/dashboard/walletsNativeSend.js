@@ -218,10 +218,10 @@ class WalletsNativeSend extends React.Component {
         }
 
         if (this.state.sendTo === '') {
-          Store.dispatch(triggerToaster(true, 'Couldn\'t find any ' + this.props.ActiveCoin.coin + ' addresses', 'OpenAlias', 'error'));
+          Store.dispatch(triggerToaster('Couldn\'t find any ' + this.props.ActiveCoin.coin + ' addresses', 'OpenAlias', 'error'));
         }
       } else {
-        Store.dispatch(triggerToaster(true, 'Couldn\'t find any addresses', 'OpenAlias', 'error'));
+        Store.dispatch(triggerToaster('Couldn\'t find any addresses', 'OpenAlias', 'error'));
       }
     });
   }

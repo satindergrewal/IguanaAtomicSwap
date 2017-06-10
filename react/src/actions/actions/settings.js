@@ -32,7 +32,7 @@ export function getAppInfo() {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'getAppInfo', 'Error', 'error'));
+      dispatch(triggerToaster('getAppInfo', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(getAppInfoState(json)))
@@ -50,19 +50,19 @@ export function settingsWifkeyState(json, coin) {
 function parseImportPrivKeyResponse(json, dispatch) {
   if (json.error === 'illegal privkey') {
     return dispatch => {
-      dispatch(triggerToaster(true, 'Illegal privkey', translate('TOASTR.SETTINGS_NOTIFICATION'), 'error'));
+      dispatch(triggerToaster('Illegal privkey', translate('TOASTR.SETTINGS_NOTIFICATION'), 'error'));
     }
   }
   if (json.error === 'privkey already in wallet') {
     return dispatch => {
-      dispatch(triggerToaster(true, 'Privkey already in wallet', translate('TOASTR.SETTINGS_NOTIFICATION'), 'warning'));
+      dispatch(triggerToaster('Privkey already in wallet', translate('TOASTR.SETTINGS_NOTIFICATION'), 'warning'));
     }
   }
   if (json &&
       json.result !== undefined &&
       json.result == 'success') {
     return dispatch => {
-      dispatch(triggerToaster(true, translate('TOASTR.PRIV_KEY_IMPORTED'), translate('TOASTR.SETTINGS_NOTIFICATION'), 'success'));
+      dispatch(triggerToaster(translate('TOASTR.PRIV_KEY_IMPORTED'), translate('TOASTR.SETTINGS_NOTIFICATION'), 'success'));
     }
   }
 }
@@ -99,7 +99,7 @@ export function importPrivKey(wifKey) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'importPrivKey', 'Error', 'error'));
+      dispatch(triggerToaster('importPrivKey', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => {
@@ -144,7 +144,7 @@ export function getDebugLog(target, linesCount) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'getDebugLog', 'Error', 'error'));
+      dispatch(triggerToaster('getDebugLog', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(getDebugLogState(json)))
@@ -181,7 +181,7 @@ export function getPeersList(coin) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'getPeersList', 'Error', 'error'));
+      dispatch(triggerToaster('getPeersList', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => {
@@ -216,22 +216,22 @@ export function getPeersListState(json) {
 function addPeerNodeState(json, dispatch) {
   if (json.error === 'addnode needs active coin, do an addcoin first') {
     return dispatch => {
-      dispatch(triggerToaster(true, 'Addnode needs active coin', translate('TOASTR.SETTINGS_NOTIFICATION'), 'error'));
+      dispatch(triggerToaster('Addnode needs active coin', translate('TOASTR.SETTINGS_NOTIFICATION'), 'error'));
     }
   }
   if (json.result === 'peer was already connected') {
     return dispatch => {
-      dispatch(triggerToaster(true, 'Peer was already connected', translate('TOASTR.SETTINGS_NOTIFICATION'), 'warning'));
+      dispatch(triggerToaster('Peer was already connected', translate('TOASTR.SETTINGS_NOTIFICATION'), 'warning'));
     }
   }
   if (json.result === 'addnode connection was already pending') {
     return dispatch => {
-      dispatch(triggerToaster(true, 'Addnode connection was already pending', translate('TOASTR.SETTINGS_NOTIFICATION'), 'warning'));
+      dispatch(triggerToaster('Addnode connection was already pending', translate('TOASTR.SETTINGS_NOTIFICATION'), 'warning'));
     }
   }
   if (json.result === 'addnode submitted') {
     return dispatch => {
-      dispatch(triggerToaster(true, 'Peer is added', translate('TOASTR.SETTINGS_NOTIFICATION'), 'success'));
+      dispatch(triggerToaster('Peer is added', translate('TOASTR.SETTINGS_NOTIFICATION'), 'success'));
     }
   }
 }
@@ -267,7 +267,7 @@ export function addPeerNode(coin, ip) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'addPeerNode', 'Error', 'error'));
+      dispatch(triggerToaster('addPeerNode', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => {
@@ -292,7 +292,7 @@ export function saveAppConfig(_payload) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'saveAppConfig', 'Error', 'error'));
+      dispatch(triggerToaster('saveAppConfig', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(getAppConfig()))
@@ -316,7 +316,7 @@ export function getAppConfig() {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'getAppConfig', 'Error', 'error'));
+      dispatch(triggerToaster('getAppConfig', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(getAppConfigState(json)))

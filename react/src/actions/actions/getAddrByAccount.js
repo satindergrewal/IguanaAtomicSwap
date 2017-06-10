@@ -61,7 +61,7 @@ export function getAddressesByAccount(coin, mode) {
         'response': error,
       }));
       dispatch(updateErrosStack('activeHandle'));
-      dispatch(triggerToaster(true, 'getAddressesByAccount', 'Error', 'error'));
+      dispatch(triggerToaster('getAddressesByAccount', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => {

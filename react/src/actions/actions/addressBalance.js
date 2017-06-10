@@ -89,7 +89,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
           })
           .catch(function(error) {
             console.log(error);
-            dispatch(triggerToaster(true, 'getKMDAddressesNative+addresslist+cache', 'Error', 'error'));
+            dispatch(triggerToaster('getKMDAddressesNative+addresslist+cache', 'Error', 'error'));
           })
           .then(response => response.json())
           .then(function(json) {
@@ -121,7 +121,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
               'status': 'error',
               'response': error,
             }));
-            dispatch(triggerToaster(true, 'getKMDAddressesNative', 'Error', 'error'));
+            dispatch(triggerToaster('getKMDAddressesNative', 'Error', 'error'));
           })
           .then(response => response.json())
           .then(json => {
@@ -296,7 +296,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
                     'status': 'error',
                     'response': error,
                   }));
-                  dispatch(triggerToaster(true, 'getKMDAddressesNative+ZBalance', 'Error', 'error'));
+                  dispatch(triggerToaster('getKMDAddressesNative+ZBalance', 'Error', 'error'));
                 })
                 .then(response => response.json())
                 .then(function(json) {
@@ -308,7 +308,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
                       'status': 'error',
                       'response': json,
                     }));
-                    dispatch(triggerToaster(true, 'getKMDAddressesNative+ZBalance', 'Error', 'error'));
+                    dispatch(triggerToaster('getKMDAddressesNative+ZBalance', 'Error', 'error'));
                   } else {
                     resolve(json);
                     newAddressArray[1][index] = {
@@ -351,7 +351,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
         })
         .catch(function(error) {
           console.log(error);
-          dispatch(triggerToaster(true, 'getKMDAddressesNative+addresslist+cache', 'Error', 'error'));
+          dispatch(triggerToaster('getKMDAddressesNative+addresslist+cache', 'Error', 'error'));
         })
         .then(response => response.json())
         .then(function(json) {
@@ -383,7 +383,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
                 'status': 'error',
                 'response': error,
               }));
-              dispatch(triggerToaster(true, 'getKMDAddressesNative+Balance', 'Error', 'error'));
+              dispatch(triggerToaster('getKMDAddressesNative+Balance', 'Error', 'error'));
             })
             .then(response => response.json())
             .then(function(json) {
@@ -424,7 +424,7 @@ export function getKMDAddressesNative(coin, mode, currentAddress) {
             'status': 'error',
             'response': error,
           }));
-          dispatch(triggerToaster(true, 'getKMDAddressesNative+Balance', 'Error', 'error'));
+          dispatch(triggerToaster('getKMDAddressesNative+Balance', 'Error', 'error'));
         })
         .then(response => response.json())
         .then(function(json) {

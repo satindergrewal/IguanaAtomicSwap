@@ -49,7 +49,7 @@ export function iguanaHashHex(data, dispatch) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'iguanaHashHex', 'Error', 'error'));
+      dispatch(triggerToaster('iguanaHashHex', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => {

@@ -11,7 +11,7 @@ import {
 } from './log';
 
 function handleGetNewKMDAddresses(pubpriv, coin, dispatch) {
-  dispatch(triggerToaster(true, translate('KMD_NATIVE.NEW_ADDR_GENERATED'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
+  dispatch(triggerToaster(translate('KMD_NATIVE.NEW_ADDR_GENERATED'), translate('TOASTR.WALLET_NOTIFICATION'), 'success'));
   dispatch(getKMDAddressesNative(coin));
 
   return {};
@@ -69,7 +69,7 @@ export function getNewKMDAddresses(coin, pubpriv) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'getNewKMDAddresses', 'Error', 'error'));
+      dispatch(triggerToaster('getNewKMDAddresses', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => {
