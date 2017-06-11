@@ -283,7 +283,7 @@ class AddCoin extends React.Component {
     for (let mode of modes) {
       if (this.existingCoins[mode].indexOf(coin) !== -1) {
         const message = `${coin} ${translate('ADD_COIN.ALREADY_ADDED')} ${translate('ADD_COIN.IN')} ${mode} ${translate('ADD_COIN.MODE')}`;
-        Store.dispatch(triggerToaster(true, message, translate('ADD_COIN.COIN_ALREADY_ADDED'), 'error'));
+        Store.dispatch(triggerToaster(message, translate('ADD_COIN.COIN_ALREADY_ADDED'), 'error'));
         return true;
       }
     }
