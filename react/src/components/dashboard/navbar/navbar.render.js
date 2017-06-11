@@ -30,7 +30,7 @@ const NavbarRender = function() {
       <div className="navbar-container container-fluid">
         <div className="collapse navbar-collapse navbar-collapse-toolbar">
           <ul className="nav navbar-toolbar">
-            <li className="hidden-float display-none">
+            <li className="hidden-float hide">
               <a>
                 <i className="icon hamburger hamburger-arrow-left">
                   <span className="sr-only">{ translate('INDEX.TOGGLE_MENUBAR') }</span>
@@ -48,7 +48,7 @@ const NavbarRender = function() {
                 <i className="site-menu-icon"></i> EasyDEX
               </a>
             </li>
-            <li className={ 'display-none ' + (this.isSectionActive('jumblr') ? 'active nav-top-menu' : 'nav-top-menu') }>
+            <li className={ 'hide ' + (this.isSectionActive('jumblr') ? 'active nav-top-menu' : 'nav-top-menu') }>
               <a onClick={ () => this.dashboardChangeSection('jumblr') }>
                 <i className="site-menu-icon"></i> Jumblr
               </a>
@@ -64,19 +64,19 @@ const NavbarRender = function() {
               <a
                 className="pointer padding-bottom-10 padding-top-16"
                 onClick={ this.toggleAddCoinModal }>
-                  <span>
-                    <img src="assets/images/icons/activatecoin.png" alt={ translate('INDEX.ADD_COIN') } />
-                  </span>
+                <span>
+                  <img src="assets/images/icons/activatecoin.png" alt={ translate('INDEX.ADD_COIN') } />
+                </span>
               </a>
             </li>
             <li
               className={ 'pointer dropdown' + (this.state.openDropMenu ? ' open' : '') }
               onClick={ this.openDropMenu }>
               <a className="navbar-avatar dropdown-toggle">
-                  <span className="avatar avatar-online">
-                    <img src="assets/images/iguana_profile_02.jpg" alt="iguana profile pic" />
-                    <i></i>
-                  </span>
+                <span className="avatar avatar-online">
+                  <img src="assets/images/iguana_profile_02.jpg" alt="iguana profile pic" />
+                  <i></i>
+                </span>
               </a>
               <ul className="dropdown-menu">
                 <li>

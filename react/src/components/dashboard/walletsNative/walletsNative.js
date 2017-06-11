@@ -20,7 +20,6 @@ class WalletsNative extends React.Component {
       this.props.ActiveCoin.mode === 'native';
   }
 
-  // <WalletsNativeAlert {...this.props} />
   render() {
     if (this.isActiveCoinModeNative()) {
       return WalletsNativeRender.call(this);

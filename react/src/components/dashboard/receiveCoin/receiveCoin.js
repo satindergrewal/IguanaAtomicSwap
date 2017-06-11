@@ -62,10 +62,12 @@ class ReceiveCoin extends React.Component {
       for (let i = 0; i < this.props.addresses.public.length; i++) {
         let address = this.props.addresses.public[i];
 
-        if (this.isBasiliskMode() && this.hasNoAmount(address)) {
+        if (this.isBasiliskMode() &&
+            this.hasNoAmount(address)) {
           address.amount = this.props.cache && this.props.cache[this.props.coin][address.address] && this.props.cache[this.props.coin][address.address].getbalance.data && this.props.cache[this.props.coin][address.address].getbalance.data.balance ? this.props.cache[this.props.coin][address.address].getbalance.data.balance : 'N/A';
         }
-        if (this.isBasiliskMode() && this.hasNoInterest(address)) {
+        if (this.isBasiliskMode() &&
+            this.hasNoInterest(address)) {
           address.interest = this.props.cache && this.props.cache[this.props.coin][address.address] && this.props.cache[this.props.coin][address.address].getbalance.data && this.props.cache[this.props.coin][address.address].getbalance.data.interest ? this.props.cache[this.props.coin][address.address].getbalance.data.interest : 'N/A';
         }
 

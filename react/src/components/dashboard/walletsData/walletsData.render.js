@@ -171,7 +171,7 @@ export const WalletsDataRender = function() {
                               <i className="icon fa-history"></i> { translate('INDEX.REFETCH_WALLET_DATA') }
                             </a>
                           </li>
-                          <li className={ 'display-none ' + (!this.state.useCache ? 'hide' : '') }>
+                          <li className={ 'hide ' + (!this.state.useCache ? 'hide' : '') }>
                             <a onClick={ this.restartBasiliskInstance }>
                               <i className="icon fa-refresh"></i> Restart Basilisk Instance (unsafe!)
                             </a>
