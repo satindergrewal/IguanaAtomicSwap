@@ -38,6 +38,7 @@ class AddCoin extends React.Component {
       actionsMenu: false,
       modalClassName: 'hide',
     };
+    this.existingCoins = null;
     this.activateCoin = this.activateCoin.bind(this);
     this.dismiss = this.dismiss.bind(this);
     this.addNewItem = this.addNewItem.bind(this);
@@ -91,16 +92,18 @@ class AddCoin extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props && props.display !== this.state.display) {
+    this.existingCoins = props && props.Main ? props.Main.coins : null;
+    const addCoinProps = props ? props.AddCoin : null;
+    if (addCoinProps && addCoinProps.display !== this.state.display) {
       this.setState(Object.assign({}, this.state, {
-        display: props.display,
-        modalClassName: props.display ? 'show fade' : 'show fade',
+        display: addCoinProps.display,
+        modalClassName: addCoinProps.display ? 'show fade' : 'show fade',
       }));
 
       setTimeout(() => {
         this.setState(Object.assign({}, this.state, {
-          display: props.display,
-          modalClassName: props.display ? 'show in' : 'hide',
+          display: addCoinProps.display,
+          modalClassName: addCoinProps.display ? 'show in' : 'hide',
         }));
       }, 100);
     }
@@ -172,8 +175,14 @@ class AddCoin extends React.Component {
   }
 
   activateCoin() {
+    const coin = this.state.coins[0].selectedCoin.split('|')[0];
+    if (this.isCoinAlreadyAdded(coin)) {
+      this.dismiss();
+      return;
+    }
+
     Store.dispatch(addCoin(
-      this.state.coins[0].selectedCoin.split('|')[0],
+      coin,
       this.state.coins[0].mode,
       this.state.coins[0].syncOnly
     ));
@@ -211,21 +220,27 @@ class AddCoin extends React.Component {
   }
 
   activateAllCoins() {
-    Store.dispatch(addCoin(
-      this.state.coins[0].selectedCoin.split('|')[0],
-      this.state.coins[0].mode,
-      this.state.coins[0].syncOnly
-    ));
+    const coin = this.state.coins[0].selectedCoin.split('|')[0];
+    if (!this.isCoinAlreadyAdded(coin)) {
+      Store.dispatch(addCoin(
+        coin,
+        this.state.coins[0].mode,
+        this.state.coins[0].syncOnly
+      ));
+    }
 
     for (let i = 1; i < this.state.coins.length; i++) {
       const _item = this.state.coins[i];
+      const itemCoin = _item.selectedCoin.split('|')[0];
 
       setTimeout(() => {
-        Store.dispatch(addCoin(
-          _item.selectedCoin.split('|')[0],
-          _item.mode,
-          _item.syncOnly
-        ));
+        if (!this.isCoinAlreadyAdded(itemCoin)) {
+          Store.dispatch(addCoin(
+            itemCoin,
+            _item.mode,
+            _item.syncOnly
+          ));
+        }
 
         if (i === this.state.coins.length - 1) {
           let _coins = [];
@@ -260,6 +275,20 @@ class AddCoin extends React.Component {
     return (
       AddCoinRender.call(this)
     );
+  }
+
+  isCoinAlreadyAdded(coin) {
+    const modes = ['basilisk', 'full', 'native'];
+
+    for (let mode of modes) {
+      if (this.existingCoins[mode].indexOf(coin) !== -1) {
+        const message = `${coin} ${translate('ADD_COIN.ALREADY_ADDED')} ${translate('ADD_COIN.IN')} ${mode} ${translate('ADD_COIN.MODE')}`;
+        Store.dispatch(triggerToaster(true, message, translate('ADD_COIN.COIN_ALREADY_ADDED'), 'error'));
+        return true;
+      }
+    }
+
+    return false;
   }
 }
 

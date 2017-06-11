@@ -221,7 +221,11 @@ export const _lang = {
       'SAVE_SELECTION': 'Save Selection',
       'LOAD_SELECTION': 'Load Selection',
       'ACTIVATE_ALL': 'Activate all',
-      'ADD_ANOTHER_COIN': 'Add another coin'
+      'ADD_ANOTHER_COIN': 'Add another coin',
+      'ALREADY_ADDED': 'is already added',
+      'COIN_ALREADY_ADDED': 'Coin already added',
+      'IN': 'in',
+      'MODE': 'mode'
     },
     'JUMBLR': {
       'NOTICE': 'EXPERIMENTAL TEST VERSION ONLY',

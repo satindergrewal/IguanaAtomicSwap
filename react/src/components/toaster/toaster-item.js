@@ -13,11 +13,12 @@ class ToasterItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      display: false,
-      message: null,
-      type: null,
-      title: null,
-      autoClose: true
+      display: props.display,
+      message: props.message,
+      type: props._type,
+      title: props.title,
+      autoClose: props.autoClose,
+      toastId: props.toastId
     };
 
     this.dismissToast = this.dismissToast.bind(this);
