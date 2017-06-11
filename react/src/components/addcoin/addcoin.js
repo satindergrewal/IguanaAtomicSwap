@@ -64,7 +64,7 @@ class AddCoin extends React.Component {
           actionsMenu: false,
         }));
       } else {
-        Store.dispatch(triggerToaster(true, translate('TOASTR.SELECTION_NOT_FOUND'), translate('TOASTR.COIN_SELECTION'), 'info'));
+        Store.dispatch(triggerToaster(translate('TOASTR.SELECTION_NOT_FOUND'), translate('TOASTR.COIN_SELECTION'), 'info'));
       }
     }.bind(this));
   }

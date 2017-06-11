@@ -36,7 +36,7 @@ export function getSyncOnlyForks() {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'getSyncOnlyForks', 'Error', 'error'));
+      dispatch(triggerToaster('getSyncOnlyForks', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(getSyncOnlyForksState(json)))
@@ -53,9 +53,9 @@ export function stopIguanaFork(pmid) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'stopIguanaFork', 'Error', 'error'));
+      dispatch(triggerToaster('stopIguanaFork', 'Error', 'error'));
     })
     .then(response => response.json())
-    .then(json => dispatch(triggerToaster(true, 'Iguana instance is stopped', translate('TOASTR.SERVICE_NOTIFICATION'), 'success')))
+    .then(json => dispatch(triggerToaster('Iguana instance is stopped', translate('TOASTR.SERVICE_NOTIFICATION'), 'success')))
   }
 }

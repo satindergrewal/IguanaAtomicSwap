@@ -28,11 +28,9 @@ class ToasterItem extends React.Component {
 
   componentWillReceiveProps(props) {
     if (props &&
-      props.message &&
-      props.display) {
+      props.message) {
       this.setState({
         message: props.message,
-        display: props.display,
         type: props._type,
         title: props.title,
         autoClose: props.autoClose,
@@ -40,7 +38,6 @@ class ToasterItem extends React.Component {
       });
     } else {
       this.setState({
-        display: false,
         message: null,
         type: null,
         title: null,
@@ -75,8 +72,7 @@ class ToasterItem extends React.Component {
   }
 
   render() {
-    return (this.state.message && this.state.display) ?
-      this.renderToast() : null;
+    return this.state.message ? this.renderToast() : null;
   }
 }
 

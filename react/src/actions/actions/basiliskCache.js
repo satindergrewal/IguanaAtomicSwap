@@ -19,7 +19,7 @@ export function deleteCacheFile(_payload) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'deleteCacheFile', 'Error', 'error'))
+      dispatch(triggerToaster('deleteCacheFile', 'Error', 'error'))
     })
     .then(response => response.json())
     .then(json => dispatch(fetchNewCacheData(_payload)));
@@ -38,7 +38,7 @@ export function getCacheFile(pubkey) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'getCacheFile', 'Error', 'error'))
+      dispatch(triggerToaster('getCacheFile', 'Error', 'error'))
     })
     .then(response => response.json())
     .then(json => resolve(json))
@@ -63,7 +63,7 @@ export function fetchNewCacheData(_payload) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'fetchNewCacheData', 'Error', 'error'));
+      dispatch(triggerToaster('fetchNewCacheData', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => console.log(json))
@@ -80,7 +80,7 @@ export function getShepherdCache(pubkey, coin) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'getShepherdCache', 'Error', 'error'));
+      dispatch(triggerToaster('getShepherdCache', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(getShepherdCacheState(json, pubkey, coin)))
@@ -125,7 +125,7 @@ export function fetchUtxoCache(_payload) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'fetchNewCacheData', 'Error', 'error'));
+      dispatch(triggerToaster('fetchNewCacheData', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(getShepherdCache(_pubkey)))
@@ -146,7 +146,7 @@ export function shepherdGroomPost(_filename, _payload) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'shepherdGroomPost', 'Error', 'error'));
+      dispatch(triggerToaster('shepherdGroomPost', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => console.log(json))
@@ -167,7 +167,7 @@ export function shepherdGroomPostPromise(_filename, _payload) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'shepherdGroomPostPromise', 'Error', 'error'));
+      dispatch(triggerToaster('shepherdGroomPostPromise', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => resolve(json))

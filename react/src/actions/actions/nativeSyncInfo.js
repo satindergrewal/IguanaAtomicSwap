@@ -34,7 +34,7 @@ export function getSyncInfoNativeKMD(skipDebug) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'getSyncInfoNativeKMD', 'Error', 'error'));
+      dispatch(triggerToaster('getSyncInfoNativeKMD', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => {
@@ -98,7 +98,7 @@ export function getSyncInfoNative(coin, skipDebug) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'getSyncInfo', 'Error', 'error'));
+      dispatch(triggerToaster('getSyncInfo', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => {

@@ -7,11 +7,11 @@ export function copyCoinAddress(address) {
 
   if (_result) {
     return dispatch => {
-      dispatch(triggerToaster(true, translate('DASHBOARD.ADDR_COPIED'), translate('TOASTR.COIN_NOTIFICATION'), 'success'));
+      dispatch(triggerToaster(translate('DASHBOARD.ADDR_COPIED'), translate('TOASTR.COIN_NOTIFICATION'), 'success'));
     }
   } else {
     return dispatch => {
-      dispatch(triggerToaster(true, 'Couldn\'t copy address to clipboard', translate('TOASTR.COIN_NOTIFICATION'), 'error'));
+      dispatch(triggerToaster('Couldn\'t copy address to clipboard', translate('TOASTR.COIN_NOTIFICATION'), 'error'));
     }
   }
 }
