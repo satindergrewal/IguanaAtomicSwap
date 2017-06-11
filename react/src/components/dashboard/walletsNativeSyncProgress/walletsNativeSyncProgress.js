@@ -37,7 +37,7 @@ class WalletsNativeSyncProgress extends React.Component {
     if (this.props.Settings &&
         this.props.Settings.debugLog) {
       if (this.props.Settings.debugLog.indexOf('UpdateTip') > -1) {
-        let temp = this.props.Settings.debugLog.split(' ');
+        const temp = this.props.Settings.debugLog.split(' ');
         let currentBestChain;
         let currentProgress;
 
@@ -61,6 +61,18 @@ class WalletsNativeSyncProgress extends React.Component {
             `: ${Math.floor(currentBestChain * 100 / this.props.Dashboard.progress.remoteKMDNode.blocks)}% (blocks ${currentBestChain} / ${this.props.Dashboard.progress.remoteKMDNode.blocks})`
           );
         }
+      } else if (this.props.Settings.debugLog.indexOf('Still rescanning') > -1) {
+        const temp = this.props.Settings.debugLog.split(' ');
+
+        for (let i = 0; i < temp.length; i++) {
+          if (temp[i].indexOf('Progress=') > -1) {
+            currentProgress = Number(temp[i].replace('Progress=', '')) * 100;
+          }
+        }
+
+        return (
+          `: ${currentProgress}%`
+        );
       } else {
         return (
           <span>...</span>
