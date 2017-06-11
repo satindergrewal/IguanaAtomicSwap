@@ -44,7 +44,7 @@ function initNotaryNodesConSequence(nodes) {
             'status': 'error',
             'response': error,
           }));
-          dispatch(triggerToaster(true, `getInfoDexNode+${node}`, 'Error', 'error'));
+          dispatch(triggerToaster(`getInfoDexNode+${node}`, 'Error', 'error'));
         })
         .then(response => response.json())
         .then(json => {
@@ -114,7 +114,7 @@ export function connectNotaries() {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'connectNotaries', 'Error', 'error'));
+      dispatch(triggerToaster('connectNotaries', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(connectAllNotaryNodes(json, dispatch)))
@@ -124,7 +124,7 @@ export function connectNotaries() {
 function getDexNotariesState(json) {
   if (json.error === 'less than required responses') {
     return dispatch => {
-      dispatch(triggerToaster(true, translate('TOASTR.LESS_RESPONSES_REQ'), translate('TOASTR.BASILISK_NOTIFICATION'), 'error'));
+      dispatch(triggerToaster(translate('TOASTR.LESS_RESPONSES_REQ'), translate('TOASTR.BASILISK_NOTIFICATION'), 'error'));
     }
   } else {
     return {
@@ -163,7 +163,7 @@ export function getDexNotaries(coin) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'getDexNotaries', 'Error', 'error'));
+      dispatch(triggerToaster('getDexNotaries', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => {

@@ -39,7 +39,7 @@ export function iguanaEdexBalance(coin) {
           'status': 'error',
           'response': error,
         }));
-        dispatch(triggerToaster(true, 'Error iguanaEdexBalance', 'Error', 'error'));
+        dispatch(triggerToaster('Error iguanaEdexBalance', 'Error', 'error'));
       })
       .then(response => response.json())
       .then(json => dispatch(iguanaEdexBalanceState(json)));
@@ -86,7 +86,7 @@ export function getDexBalance(coin, mode, addr) {
           'status': 'error',
           'response': error,
         }));
-        dispatch(triggerToaster(true, 'getDexBalance', 'Error', 'error'));
+        dispatch(triggerToaster('getDexBalance', 'Error', 'error'));
       })
       .then(response => response.json())
       .then(json => {

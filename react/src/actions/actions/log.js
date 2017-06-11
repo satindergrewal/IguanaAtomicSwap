@@ -18,7 +18,7 @@ export function logGuiHttp(payload) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'logGuiHttp', 'Error', 'error'));
+      dispatch(triggerToaster('logGuiHttp', 'Error', 'error'));
     })
     .then(response => response.json())*/
   }
@@ -34,7 +34,7 @@ export function getAgamaLog(type) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'getAgamaLog', 'Error', 'error'));
+      dispatch(triggerToaster('getAgamaLog', 'Error', 'error'));
     })
     .then(response => response.json())
     .then()

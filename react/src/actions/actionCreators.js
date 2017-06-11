@@ -190,10 +190,9 @@ export function toggleSendReceiveCoinFormsState() {
   }
 }
 
-export function triggerToaster(display, message, title, _type, autoClose = true) {
+export function triggerToaster(message, title, _type, autoClose = true) {
   return {
     type: ADD_TOASTER_MESSAGE,
-    display,
     message,
     title,
     _type,
@@ -295,7 +294,7 @@ export function rpcErrorHandler(json, dispatch) {
   if (json &&
       json.error) {
     if (json.error === 'bitcoinrpc needs coin that is active') {
-      dispatch(triggerToaster(true, 'No active coin', translate('TOASTR.SERVICE_NOTIFICATION'), 'error'));
+      dispatch(triggerToaster('No active coin', translate('TOASTR.SERVICE_NOTIFICATION'), 'error'));
     }
   }
 }

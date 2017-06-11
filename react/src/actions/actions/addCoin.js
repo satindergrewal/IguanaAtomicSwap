@@ -95,7 +95,7 @@ export function iguanaAddCoin(coin, mode, acData, port) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, translate('TOASTR.FAILED_TO_ADDCOIN'), translate('TOASTR.ACCOUNT_NOTIFICATION'), 'error'));
+      dispatch(triggerToaster(translate('TOASTR.FAILED_TO_ADDCOIN'), translate('TOASTR.ACCOUNT_NOTIFICATION'), 'error'));
     })
     .then(response => response.json())
     .then(json => {
@@ -176,7 +176,7 @@ export function shepherdHerd(coin, mode, path) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, translate('FAILED_SHEPHERD_HERD'), translate('TOASTR.SERVICE_NOTIFICATION'), 'error'));
+      dispatch(triggerToaster(translate('FAILED_SHEPHERD_HERD'), translate('TOASTR.SERVICE_NOTIFICATION'), 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(iguanaAddCoin(coin, mode, acData)));
@@ -191,7 +191,7 @@ export function addCoinResult(coin, mode) {
   };
 
   return dispatch => {
-    dispatch(triggerToaster(true, `${coin} ${translate('TOASTR.STARTED_IN')} ${modeToValue[mode]} ${translate('TOASTR.MODE')}`, translate('TOASTR.COIN_NOTIFICATION'), 'success'));
+    dispatch(triggerToaster(`${coin} ${translate('TOASTR.STARTED_IN')} ${modeToValue[mode]} ${translate('TOASTR.MODE')}`, translate('TOASTR.COIN_NOTIFICATION'), 'success'));
     dispatch(toggleAddcoinModal(false, false));
     dispatch(getDexCoins());
   }
@@ -208,7 +208,7 @@ export function _shepherdGetConfig(coin, mode) {
     })
     .catch(function(error) {
       console.log(error);
-      dispatch(triggerToaster(true, 'Failed to get mode config', 'Error', 'error'));
+      dispatch(triggerToaster('Failed to get mode config', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => dispatch(shepherdHerd(coin, mode, json)));
@@ -228,7 +228,7 @@ export function shepherdGetConfig(coin, mode) {
       })
       .catch(function(error) {
         console.log(error);
-        dispatch(triggerToaster(true, 'Failed to get KMD config', 'Error', 'error'));
+        dispatch(triggerToaster('Failed to get KMD config', 'Error', 'error'));
       })
       .then(response => response.json())
       .then(json => dispatch(shepherdHerd(coin, mode, json)))
@@ -244,7 +244,7 @@ export function shepherdGetConfig(coin, mode) {
       })
       .catch(function(error) {
         console.log(error);
-        dispatch(triggerToaster(true, 'Failed to get mode config', 'Error', 'error'));
+        dispatch(triggerToaster('Failed to get mode config', 'Error', 'error'));
       })
       .then(response => response.json())
       .then(json => dispatch(shepherdHerd(coin, mode, json)));

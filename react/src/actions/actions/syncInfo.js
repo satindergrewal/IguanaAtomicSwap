@@ -53,7 +53,7 @@ export function getSyncInfo(coin) {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'getSyncInfo', 'Error', 'error'));
+      dispatch(triggerToaster('getSyncInfo', 'Error', 'error'));
     })
     .then(function(response) {
       const _response = response.text().then(function(text) { return text; });

@@ -52,7 +52,7 @@ function walletLock() {
         'status': 'error',
         'response': error,
       }));
-      dispatch(triggerToaster(true, 'walletLock', 'Error', 'error'));
+      dispatch(triggerToaster('walletLock', 'Error', 'error'));
     })
     .then(response => response.json())
     .then(json => {
