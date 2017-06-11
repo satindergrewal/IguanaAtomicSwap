@@ -8,8 +8,8 @@ export const WalletsNavNoWalletRender = function () {
         <div className="alert alert-info alert-dismissible">
           <button type="button" className="close"></button>
           <span className="font-size-24 text-align-center">
-                <i className="icon fa-paw"></i> { translate('INDEX.NO_WALLET_CAPS') }
-              </span>
+            <i className="icon fa-paw"></i> { translate('INDEX.NO_WALLET_CAPS') }
+          </span>
           <br/>
           { translate('INDEX.PLEASE_SELECT_A_WALLET') }.
         </div>

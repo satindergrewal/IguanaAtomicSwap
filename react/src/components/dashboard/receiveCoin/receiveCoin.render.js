@@ -27,7 +27,7 @@ export const AddressActionsBasiliskModeRender = function(address) {
   );
 };
 
-export const AddressActionsNonBasiliskModeRender = function (address) {
+export const AddressActionsNonBasiliskModeRender = function(address) {
   return (
     <td>
       <span className="label label-default">
@@ -40,7 +40,7 @@ export const AddressActionsNonBasiliskModeRender = function (address) {
   );
 };
 
-export const AddressItemRender = function (address) {
+export const AddressItemRender = function(address) {
   return (
     <tr key={ address.address }>
       { this.renderAddressActions(address.address) }
@@ -51,7 +51,7 @@ export const AddressItemRender = function (address) {
   );
 };
 
-export const ReceiveCoinRender = function () {
+export const ReceiveCoinRender = function() {
   return (
     <div>
       <div className="col-xs-12 margin-top-20">

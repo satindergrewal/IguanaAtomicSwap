@@ -9,7 +9,7 @@ const CoinTileRender = function() {
         <i className="icon md-chevron-right"></i>
       </div>
       <div className="page-aside-inner">
-        <div className="search-wallet-widgets panel display-none">
+        <div className="search-wallet-widgets panel hide">
           <div className="panel-heading">
             <div className="panel-actions">
               <div className="input-search input-group-sm">
