@@ -12,7 +12,7 @@ class WalletMain extends React.Component {
       <div className="full-height">
         <SyncOnly {...this.props} />
         <Dashboard {...this.props} />
-        <AddCoin {...this.props.AddCoin} />
+        <AddCoin {...this.props} />
         <Login {...this.props} />
         <Toaster {...this.props.toaster} />
         <Notifications {...this.props} />
