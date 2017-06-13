@@ -14,16 +14,17 @@ const defaultState = {
   Main: null,
 };
 
-const enhancers = compose(window.devToolsExtension ? window.devToolsExtension() : f => f);
+// const enhancers = compose(window.devToolsExtension ? window.devToolsExtension() : f => f);
 
+/* eslint-disable no-underscore-dangle */
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const enhancers = composeEnhancers(applyMiddleware(thunkMiddleware));
 const store = createStore(
   rootReducer,
   defaultState,
-    applyMiddleware(
-      thunkMiddleware,
-      loggerMiddleware,
-    ),
   enhancers);
+/* eslint-enable */
 
 export const history = syncHistoryWithStore(browserHistory, store);
 

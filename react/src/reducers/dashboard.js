@@ -13,6 +13,14 @@ import {
 
 const HTTP_STACK_MAX_ENTRIES = 150; // limit stack mem length to N records per type
 
+const trimHTTPLogs = (logObject) => {
+  const logObjectArray = Object.keys(logObject);
+  if (logObjectArray.length - HTTP_STACK_MAX_ENTRIES === 1) {
+    delete logObject[logObjectArray.shift()]
+  }
+  return logObject;
+};
+
 export function Dashboard(state = {
   activeSection: 'wallets',
   activeHandle: null,
@@ -70,44 +78,22 @@ export function Dashboard(state = {
         displayViewCacheModal: action.display,
       });
     case LOG_GUI_HTTP:
-      let _guiLogState = state.guiLog;
-      let _guiLogStateTrim = {
-        error: [],
-        success: [],
-        pending: []
-      };
+      const logState = state.guiLog;
+      const actionTS = action.timestamp;
+      let newLogState = {};
 
-      if (_guiLogState[action.timestamp]) {
-        _guiLogState[action.timestamp].status = action.log.status;
-        _guiLogState[action.timestamp].response = action.log.response;
+      if (logState[actionTS]) {
+        const logItem = { [actionTS]: logState[actionTS] }
+        logItem[actionTS].status = action.log.status;
+        logItem[actionTS].response = action.log.response;
+        newLogState = trimHTTPLogs(Object.assign({}, logState, logItem));
       } else {
-        _guiLogState[action.timestamp] = action.log;
+        const logItem = { [actionTS]: action.log };
+        newLogState = trimHTTPLogs(Object.assign({}, logState, logItem));
       }
-
-      for (let timestamp in _guiLogState) {
-        if (_guiLogState[timestamp].status === 'error') {
-          _guiLogStateTrim.error.push(_guiLogState[timestamp]);
-        }
-        if (_guiLogState[timestamp].status === 'success') {
-          _guiLogStateTrim.success.push(_guiLogState[timestamp]);
-        }
-        if (_guiLogState[timestamp].status === 'pending') {
-          _guiLogStateTrim.pending.push(_guiLogState[timestamp]);
-        }
-      }
-
-      let _guiLogStateNew = {};
-      for (let _key in _guiLogStateTrim) {
-        if (_guiLogStateTrim[_key].length > HTTP_STACK_MAX_ENTRIES) {
-          _guiLogStateTrim[_key].shift();
-        }
-        for (let i = 0; i < _guiLogStateTrim[_key].length; i++) {
-          _guiLogStateNew[_guiLogStateTrim[_key][i].timestamp] = _guiLogStateTrim[_key][i];
-        }
-      }
-
+      
       return Object.assign({}, state, {
-        guiLog: _guiLogStateNew,
+        guiLog: newLogState,
       });
     default:
       return state;
