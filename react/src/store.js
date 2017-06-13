@@ -19,7 +19,7 @@ const defaultState = {
 /* eslint-disable no-underscore-dangle */
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const enhancers = composeEnhancers(applyMiddleware(thunkMiddleware));
+const enhancers = composeEnhancers(applyMiddleware(thunkMiddleware, loggerMiddleware));
 const store = createStore(
   rootReducer,
   defaultState,
