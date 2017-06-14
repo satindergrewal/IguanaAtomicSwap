@@ -15,9 +15,11 @@ const HTTP_STACK_MAX_ENTRIES = 150; // limit stack mem length to N records per t
 
 const trimHTTPLogs = (logObject) => {
   const logObjectArray = Object.keys(logObject);
+  
   if (logObjectArray.length - HTTP_STACK_MAX_ENTRIES === 1) {
-    delete logObject[logObjectArray.shift()]
+    delete logObject[logObjectArray.shift()];
   }
+
   return logObject;
 };
 
@@ -33,7 +35,7 @@ export function Dashboard(state = {
     currentNodeName: null,
     failedToConnectNodes: null,
   },
-  guiLog: {}
+  guiLog: {},
 }, action) {
   switch (action.type) {
     case DASHBOARD_SECTION_CHANGE:
@@ -83,7 +85,7 @@ export function Dashboard(state = {
       let newLogState = {};
 
       if (logState[actionTS]) {
-        const logItem = { [actionTS]: logState[actionTS] }
+        const logItem = { [actionTS]: logState[actionTS] };
         logItem[actionTS].status = action.log.status;
         logItem[actionTS].response = action.log.response;
         newLogState = trimHTTPLogs(Object.assign({}, logState, logItem));
