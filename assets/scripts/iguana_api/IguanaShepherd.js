@@ -1,103 +1,103 @@
 function Shepherd_getConf(coin) {
-  var result = [],
-      ajax_data = { 'chain': coin };
+	var result = [],
+			ajax_data = { 'chain': coin };
 
-  console.log(ajax_data);
-  $.ajax({
-    async: false,
-    type: 'POST',
-    data: JSON.stringify(ajax_data),
-    url: 'http://127.0.0.1:17777/shepherd/getconf',
-    contentType: 'application/json', // send as JSON
-    success: function(data, textStatus, jqXHR) {
-      var AjaxOutputData = JSON.parse(data);
-      console.log(AjaxOutputData.result);
-      result.push({ 'path': AjaxOutputData.result });
-    },
-    error: function(xhr, textStatus, error) {
-    }
-  });
+	console.log(ajax_data);
+	$.ajax({
+		async: false,
+		type: 'POST',
+		data: JSON.stringify(ajax_data),
+		url: 'http://127.0.0.1:17777/shepherd/getconf',
+		contentType: 'application/json', // send as JSON
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data);
+			console.log(AjaxOutputData.result);
+			result.push({ 'path': AjaxOutputData.result });
+		},
+		error: function(xhr, textStatus, error) {
+		}
+	});
 
-  return result;
+	return result;
 }
 
 function Shepherd_setConf(coin) {
-  var result = [],
-      ajax_data = { 'chain': coin };
+	var result = [],
+			ajax_data = { 'chain': coin };
 
-  console.log(ajax_data);
-  $.ajax({
-    async: false,
-    type: 'POST',
-    data: JSON.stringify(ajax_data),
-    url: 'http://127.0.0.1:17777/shepherd/setconf',
-    contentType: 'application/json', // send as JSON
-    success: function(data, textStatus, jqXHR) {
-      var AjaxOutputData = JSON.parse(data);
-      console.log(AjaxOutputData);
-      result.push({ 'result': AjaxOutputData.msg });
-    },
-    error: function(xhr, textStatus, error) {
-    }
-  });
+	console.log(ajax_data);
+	$.ajax({
+		async: false,
+		type: 'POST',
+		data: JSON.stringify(ajax_data),
+		url: 'http://127.0.0.1:17777/shepherd/setconf',
+		contentType: 'application/json', // send as JSON
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data);
+			console.log(AjaxOutputData);
+			result.push({ 'result': AjaxOutputData.msg });
+		},
+		error: function(xhr, textStatus, error) {
+		}
+	});
 
-  return result;
+	return result;
 }
 
 function Shepherd_herd(coin,herd_data) {
-  var result = [];
-      ajax_data = {
-        'herd': coin,
-        'options': herd_data
-      };
+	var result = [];
+			ajax_data = {
+				'herd': coin,
+				'options': herd_data
+			};
 
-  console.log(ajax_data);
-  $.ajax({
-    async: false,
-    type: 'POST',
-    data: JSON.stringify(ajax_data),
-    url: 'http://127.0.0.1:17777/shepherd/herd',
-    contentType: 'application/json', // send as JSON
-    success: function(data, textStatus, jqXHR) {
-      var AjaxOutputData = JSON.parse(data);
-      console.log(AjaxOutputData);
-      result.push({ 'result': AjaxOutputData.msg });
-    },
-    error: function(xhr, textStatus, error) {
-    }
-  });
+	console.log(ajax_data);
+	$.ajax({
+		async: false,
+		type: 'POST',
+		data: JSON.stringify(ajax_data),
+		url: 'http://127.0.0.1:17777/shepherd/herd',
+		contentType: 'application/json', // send as JSON
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data);
+			console.log(AjaxOutputData);
+			result.push({ 'result': AjaxOutputData.msg });
+		},
+		error: function(xhr, textStatus, error) {
+		}
+	});
 
-  return result;
+	return result;
 }
 
 function Shepherd_herdlist(data) {
-  return new Promise((resolve) => {
-    var ajax_data_1 = { 'herdname': data },
-        ajax_call_1 = $.ajax({
-          data: JSON.stringify(ajax_data_1),
-          url: 'http://127.0.0.1:17777/shepherd/herdlist',
-          type: 'POST',
-          contentType: 'application/json'
-        });
+	return new Promise((resolve) => {
+		var ajax_data_1 = { 'herdname': data },
+				ajax_call_1 = $.ajax({
+					data: JSON.stringify(ajax_data_1),
+					url: 'http://127.0.0.1:17777/shepherd/herdlist',
+					type: 'POST',
+					contentType: 'application/json'
+				});
 
-    ajax_call_1.done(function(data) {
-      resolve(data);
-    });
-  });
+		ajax_call_1.done(function(data) {
+			resolve(data);
+		});
+	});
 }
 
 function Shepherd_FetchBasiliskData(req_data) {
-  return new Promise((resolve) => {
-    var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-        parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
+	return new Promise((resolve) => {
+		var tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
+				parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
 
-    parse_session_data = JSON.parse(JSON.parse(parse_session_data));
+		parse_session_data = JSON.parse(JSON.parse(parse_session_data));
 
-    var session_pubkey = parse_session_data.pubkey,
-        ajax_data = {
-          'userpass': tmpIguanaRPCAuth,
-          'pubkey': session_pubkey
-        };
+		var session_pubkey = parse_session_data.pubkey,
+				ajax_data = {
+					'userpass': tmpIguanaRPCAuth,
+					'pubkey': session_pubkey
+				};
 
     console.log(req_data);
     if (req_data.allcoins !== false ) {
@@ -106,21 +106,20 @@ function Shepherd_FetchBasiliskData(req_data) {
       var req_url = 'http://127.0.0.1:17777/shepherd/cache-one';
       ajax_data.coin = req_data.coin;
       ajax_data.calls = req_data.calls;
-      ajax_data.address = req_data.address;
     }
 
     console.log(ajax_data);
 
-    $.ajax({
-      type: 'GET',
-      data: ajax_data,
-      url: req_url,
-      contentType: 'application/json', // send as JSON
-    })
+		$.ajax({
+			type: 'GET',
+			data: ajax_data,
+			url: req_url,
+			contentType: 'application/json', // send as JSON
+		})
     .done(function(data) {
-      resolve(data);
-    });
-  });
+			resolve(data);
+		});
+	});
 }
 
 function Shepherd_GroomData_Get() {
@@ -129,9 +128,9 @@ function Shepherd_GroomData_Get() {
     parse_session_data = JSON.parse(JSON.parse(parse_session_data));
 
     var request_method = '',
-        session_pubkey = parse_session_data.pubkey,
-        ajax_data = { 'filename': session_pubkey },
-        req_url = 'http://127.0.0.1:17777/shepherd/groom';
+    		session_pubkey = parse_session_data.pubkey,
+    		ajax_data = { 'filename': session_pubkey },
+      	req_url = 'http://127.0.0.1:17777/shepherd/groom';
 
     console.log(ajax_data);
     $.ajax({
@@ -153,12 +152,12 @@ function Shepherd_GroomData_Post(req_data) {
     parse_session_data = JSON.parse(JSON.parse(parse_session_data));
 
     var request_method = '',
-        session_pubkey = parse_session_data.pubkey,
-        ajax_data = {
-          'filename': session_pubkey,
-          'payload': JSON.stringify(req_data)
-        },
-        req_url = 'http://127.0.0.1:17777/shepherd/groom';
+    		session_pubkey = parse_session_data.pubkey,
+    		ajax_data = {
+    			'filename': session_pubkey,
+    			'payload': JSON.stringify(req_data)
+    		},
+    		req_url = 'http://127.0.0.1:17777/shepherd/groom';
 
     console.log(req_data);
     console.log(ajax_data);
@@ -201,19 +200,19 @@ function Shepherd_GroomData_Delete() {
 }
 
 function Shepherd_GetBasiliskCache() {
-  return new Promise((resolve) => {
-    var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
-    parse_session_data = JSON.parse(JSON.parse(parse_session_data));
+	return new Promise((resolve) => {
+		var parse_session_data = sessionStorage.getItem('IguanaActiveAccount');
+		parse_session_data = JSON.parse(JSON.parse(parse_session_data));
 
     var session_pubkey = parse_session_data.pubkey,
-        ajax_data = { 'pubkey': session_pubkey };
+				ajax_data = { 'pubkey': session_pubkey };
 
-    $.ajax({
-      type: 'GET',
-      data: ajax_data,
-      url: 'http://127.0.0.1:17777/shepherd/cache',
-      contentType: 'application/json' // send as JSON
-    })
+		$.ajax({
+			type: 'GET',
+			data: ajax_data,
+			url: 'http://127.0.0.1:17777/shepherd/cache',
+			contentType: 'application/json' // send as JSON
+		})
     .done(function(data) {
       resolve(data);
       data = JSON.parse(data);
@@ -224,23 +223,8 @@ function Shepherd_GetBasiliskCache() {
           console.log('error reading cache, flushing...');
         });
       }
-    });
-  });
-}
-
-function Shepherd_RefreshUTXO(coin, address) {
-  coin = 'KMD';
-  address = 'RDbGxL8QYdEp8sMULaVZS2E6XThcTKT9Jd';
-  var call_data = {
-        'allcoins': false,
-        'coin': coin,
-        'address': address,
-        'calls': 'refresh'
-      };
-  Shepherd_FetchBasiliskData(call_data)
-  .then(function(result) {
-    console.log(result);
-  });
+		});
+	});
 }
 
 function Shepherd_CheckBasiliskCacheData(coin) {
@@ -248,7 +232,7 @@ function Shepherd_CheckBasiliskCacheData(coin) {
     Shepherd_GetBasiliskCache()
     .then(function(result) {
       var _data = JSON.parse(result),
-          query = _data.result.basilisk,
+      		query = _data.result.basilisk,
           coin_exists = true,
           addresses_exists = true,
           getbalance_exists = true,
@@ -259,35 +243,35 @@ function Shepherd_CheckBasiliskCacheData(coin) {
       if (!query) {
         console.log('data not found.');
         var res_data = {
-              'coin': false,
-              'addresses': false,
-              'getbalance': false,
-              'listtransactions': false,
-              'listunspent': false,
-              'refresh': false
-            };
+		        	'coin': false,
+		        	'addresses': false,
+		        	'getbalance': false,
+		        	'listtransactions': false,
+		        	'listunspent': false,
+		        	'refresh': false
+		        };
         resolve(res_data);
       } else if (!query[coin]) {
           console.log(coin + ' not found.');
           coin_exists = false;
           var res_data = {
-                'coin': coin_exists,
-                'addresses': false,
-                'getbalance': false,
-                'listtransactions': false,
-                'listunspent': false,
-                'refresh': false
-              };
+          			'coin': coin_exists,
+          			'addresses': false,
+          			'getbalance': false,
+          			'listtransactions': false,
+          			'listunspent': false,
+          			'refresh': false
+          		};
           resolve(res_data);
       } else if (!('addresses' in query[coin])) {
           console.log(coin + ' addresses not found.');
           addresses_exists = false;
           res_data = {
-            'coin': coin_exists,
-            'getbalance': false,
-            'listtransactions': false,
-            'listunspent': false,
-            'refresh': false
+          	'coin': coin_exists,
+          	'getbalance': false,
+          	'listtransactions': false,
+          	'listunspent': false,
+          	'refresh': false
           };
           resolve(res_data);
       } else {
@@ -312,10 +296,10 @@ function Shepherd_CheckBasiliskCacheData(coin) {
             }
 
             pass_data = {
-              'getbalance': getbalance_exists,
-              'listtransactions': listtransactions_exists,
-              'listunspent': listunspent_exists,
-              'refresh': refresh_exists
+            	'getbalance': getbalance_exists,
+            	'listtransactions': listtransactions_exists,
+            	'listunspent': listunspent_exists,
+            	'refresh': refresh_exists
             };
             resolve(pass_data);
           });
@@ -358,3 +342,6 @@ function Shepherd_SendPendValue() {
     sessionStorage.setItem('IguanaPendValue', pend_val);
   });
 }
+
+
+

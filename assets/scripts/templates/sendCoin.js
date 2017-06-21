@@ -32,7 +32,7 @@ templates.sendCoin =
     <div class="panel" id="edexcoin-send-screen">
       <div class="panel-heading">
         <h3 data-edexcoin="COIN" class="panel-title">
-          <span data-lang="INDEX.SEND"></span> <span data-edexcoin="COIN"></span>
+          <span data-lang="INDEX.SEND"> <span data-edexcoin="COIN"></span>
         </h3>
         <div class="panel-actions">
           <a href="javascript:void(0)" class="dropdown-toggle white btn-xs btn-info btn_refresh_edexcoin_send" data-edexcoin="COIN" aria-expanded="false" role="button">

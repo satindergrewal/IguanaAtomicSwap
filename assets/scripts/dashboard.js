@@ -1008,11 +1008,6 @@ var Dashboard = function() {
 			});
 		});
 
-		$('.btn_edexcoin_dashboard_update_utxo').click(function() {
-			var selected_coin = $(this).data('edexcoin');
-			Shepherd_RefreshUTXO();
-		});		
-
 		$('.btn_edexcoin_dashboard_refresh_basilisk_conn').click(function() {
 			var show_mdl = setTimeout(function() {
 											var selected_coin = $(this).data('edexcoin');

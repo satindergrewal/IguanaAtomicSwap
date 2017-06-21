@@ -191,12 +191,9 @@ function EdexGetTxList(coin) {
 							tmp_amount,
 							tmp_secondsToString,
 							tmp_addr,
-							'<button type="button" class="btn btn-xs white btn-info waves-effect waves-light" data-edexcoin="' + coin + '" data-toggle="modal" data-target="#txid_info_mdl" id="kmd-txid-details-btn" data-txid-type="private" data-txid="' + result_data[index].txid + '">' +
+							'<button type="button" class="btn btn-xs white btn-info waves-effect waves-light kmd-txid-details-btn" data-edexcoin="' + coin + '" data-txidtype="public" data-txid="' + result_data[index].txid + '">' +
 								'<i class="icon fa-search"></i>' +
 							'</button>'
-							/*'<button type="button" class="btn btn-xs white btn-info waves-effect waves-light kmd-txid-details-btn" data-edexcoin="' + coin + '" data-txidtype="public" data-txid="' + result_data[index].txid + '">' +
-								'<i class="icon fa-search"></i>' +
-							'</button>'*/
 						];
 						compiled_result.push(tmplisttransactions);
 					}
@@ -267,12 +264,9 @@ function EdexGetTxList(coin) {
 							tmp_amount,
 							tmp_secondsToString,
 							tmp_addr,
-							'<button type="button" class="btn btn-xs white btn-info waves-effect waves-light" data-edexcoin="' + coin + '" data-toggle="modal" data-target="#txid_info_mdl" id="kmd-txid-details-btn" data-txid-type="private" data-txid="' + result_data[index].txid + '">' +
+							'<button type="button" class="btn btn-xs white btn-info waves-effect waves-light kmd-txid-details-btn" data-edexcoin="' + coin + '" data-txidtype="public" data-txid="' + result_data[index].txid + '">' +
 								'<i class="icon fa-search"></i>' +
-							'</button>'							
-							/*'<button type="button" class="btn btn-xs white btn-info waves-effect waves-light kmd-txid-details-btn" data-edexcoin="' + coin + '" data-txidtype="public" data-txid="' + result_data[index].txid + '">' +
-								'<i class="icon fa-search"></i>' +
-							'</button>'*/
+							'</button>'
 						];
 						compiled_result.push(tmplisttransactions);
 					}
@@ -283,21 +277,6 @@ function EdexGetTxList(coin) {
 			});
 		});
 	});
-}
-
-var txList;
-
-function fillTxIfModal(index) {
-	console.log('fillTxIfModal', txList[index]);
-	$('#kmd_txid_info_amount').text(txList[index].amount);
-	$('#kmd_txid_info_category').text(txList[index].category || txList[index].type);
-	$('#kmd_txid_info_height').text(txList[index].height);
-	$('#kmd_txid_info_confirmations').text(txList[index].confirmations);
-	$('#kmd_txid_info_blockhash').text(txList[index].blockhash);
-	$('#kmd_txid_info_timestamp').text(txList[index].timestamp);
-	$('#kmd_txid_info_txid').text(txList[index].txid);
-	$('#kmd_txid_info_interest').text(txList[index].interest);
-	$('#txid_info_hex').val(JSON.stringify(txList[index], null, '\t'));
 }
 
 function EdexGetTxList_cache(coin) {
@@ -327,7 +306,6 @@ function EdexGetTxList_cache(coin) {
 				let result_data = result[result.length - 1],
 						compiled_result = [];
 
-				txList = result_data;
 				$.each(result_data, function(index, value) {
 					if ( active_edexcoinmodecode == 'Basilisk' && coin !== 'BTC' && coin !== 'SYS') {
 						var tmp_category = '',
@@ -381,12 +359,9 @@ function EdexGetTxList_cache(coin) {
 							tmp_amount,
 							tmp_secondsToString,
 							tmp_addr,
-							'<button type="button" class="btn btn-xs white btn-info waves-effect waves-light" data-edexcoin="' + coin + '" data-toggle="modal" data-target="#txid_info_mdl" id="kmd-txid-details-btn" data-txid-type="private" data-txid="' + result_data[index].txid + '" onclick="fillTxIfModal(' + index + ')">' +
+							'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light kmd-txid-details-btn" data-edexcoin="' + coin + '" data-txidtype="public" data-txid="' + result_data[index].txid + '">' +
 								'<i class="icon fa-search"></i>' +
-							'</button>'								
-							/*'<button  type="button" class="btn btn-xs white btn-info waves-effect waves-light kmd-txid-details-btn" data-edexcoin="' + coin + '" data-txidtype="public" data-txid="' + result_data[index].txid + '">' +
-								'<i class="icon fa-search"></i>' +
-							'</button>'*/
+							'</button>'
 						];
 						compiled_result.push(tmplisttransactions);
 					}

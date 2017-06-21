@@ -55,20 +55,6 @@ function getPassthruAgent() {
 	return passthru_agent;
 }
 
-function SelectCoinCli() {
-	var extcoin = $('[data-extcoin]').attr('data-extcoin');
-			passthru_agent = '';
-
-	console.log(extcoin);
-
-	if ( extcoin == 'KMD') { passthru_agent = 'kmd'; };
-	if ( extcoin == 'ZEC') { passthru_agent = 'zec'; };
-
-	if (checkAC(extcoin)) { passthru_agent = 'acpax'; };
-
-	return passthru_agent;
-}
-
 function CheckIfConnected(cb) {
 	var result = [],
 			extcoin = $('[data-extcoin]').attr('data-extcoin'),
@@ -189,39 +175,58 @@ function CheckIfWalletEncrypted() {
 function KMD_getInfo_rtrn(cb) {
 	var result = [],
 			extcoin = $('[data-extcoin]').attr('data-extcoin'),
-			coincli_agent = SelectCoinCli(),
+			passthru_agent = getPassthruAgent(),
 			tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth');
 
-	if (coincli_agent == 'acpax') {
-		var cli_params = {
-					'cli': 'kmd',
-					'command': '-ac_name='+$('[data-extcoin]').attr('data-extcoin')+' getinfo'
+	if (passthru_agent == 'iguana') {
+		var ajax_data = {
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'asset': $('[data-extcoin]').attr('data-extcoin'),
+					'function': 'getinfo',
+					'hex': ''
 				};
 	} else {
-		var cli_params = {
-					'cli': coincli_agent,
-					'command': 'getinfo'
+		var ajax_data = {
+					'userpass': tmpIguanaRPCAuth,
+					'agent': passthru_agent,
+					'method': 'passthru',
+					'asset': $('[data-extcoin]').attr('data-extcoin'),
+					'function': 'getinfo',
+					'hex': ''
 				};
 	}
 
-	//console.log(cli_params)
-	//console.log(cli_params.cli)
-	//console.log(cli_params.command)
-	ipc.send('InvokeCoinCliAction', {"cli":cli_params.cli,"command":cli_params.command});
-	ipc.once('coincliReply', function(event, response){
-		//console.log(response);
-		response = JSON.parse(response)
-		if ( response.errors != undefined ) {
-			result.push(response);
-		} else if ( response['error'].message = 'Activating best chain...' ) {
-			result.push('activating');
-		} else if ( response.errors == undefined) {
-			result.push('not active');
-		} else {
-			result.push(response.errors);
-		}
+	$.ajax({
+		type: 'POST',
+		data: JSON.stringify(ajax_data),
+		url: 'http://127.0.0.1:' + config.iguanaPort,
+		success: function(data, textStatus, jqXHR) {
+			var AjaxOutputData = JSON.parse(data);
 
-		cb.call(this, result[0]);
+			if ( AjaxOutputData.errors != undefined ) {
+				result.push(AjaxOutputData);
+			} else if ( AjaxOutputData['error'].message = 'Activating best chain...' ) {
+				result.push('activating');
+			} else if ( AjaxOutputData.errors == undefined) {
+				result.push('not active');
+			} else {
+				result.push(AjaxOutputData.errors);
+			}
+
+			cb.call(this, result[0]);
+		},
+		error: function(xhr, textStatus, error) {
+			console.log('failed getting Coin History.');
+			console.log(xhr.statusText);
+			if ( xhr.readyState == 0 ) {
+				Iguana_ServiceUnavailable();
+			}
+			console.log(textStatus);
+			console.log(error);
+			cb.call(this, result);
+		}
 	});
 
 	return result[0];
