@@ -1,609 +1,339 @@
 <!DOCTYPE html>
 <html class="no-js css-menubar" lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-  <meta name="description" content="bootstrap admin template">
-  <meta name="author" content="">
-  <title>SuperNET Iguana</title>
-  <link rel="apple-touch-icon" href="assets/images/android-chrome-192x192.png">
-  <link rel="icon" type="image/png" href="assets/images/favicon-32x32.png" sizes="32x32">
-  <link rel="icon" type="image/png" href="assets/images/favicon-194x194.png" sizes="194x194">
-  <link rel="icon" type="image/png" href="assets/images/favicon-96x96.png" sizes="96x96">
-  <link rel="icon" type="image/png" href="assets/images/android-chrome-192x192.png" sizes="192x192">
-  <link rel="icon" type="image/png" href="assets/images/favicon-16x16.png" sizes="16x16">
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="assets/global/css/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/global/css/bootstrap-extend.min.css">
-  <link rel="stylesheet" href="assets/css/site.min.css">
-  <link rel="stylesheet" href="assets/css/progress-bars.css">
-  <link rel="stylesheet" href="assets/css/dashboard.css">
-  <!-- Plugins -->
-  <link rel="stylesheet" href="assets/global/vendor/animsition/animsition.min.css">
-  <link rel="stylesheet" href="assets/global/vendor/asscrollable/asScrollable.min.css">
-  <link rel="stylesheet" href="assets/global/vendor/jquery-scrollbar/jquery.scrollbar.css">
-  <link rel="stylesheet" href="assets/global/vendor/switchery/switchery.min.css">
-  <link rel="stylesheet" href="assets/global/vendor/intro-js/introjs.min.css">
-  <link rel="stylesheet" href="assets/global/vendor/slidepanel/slidePanel.min.css">
-  <!--<link rel="stylesheet" href="assets/global/vendor/flag-icon-css/flag-icon.min.css">-->
-  <link rel="stylesheet" href="assets/global/vendor/jquery-labelauty/jquery-labelauty.min.css">
-  <link rel="stylesheet" href="assets/global/vendor/bootstrap-toastr/toastr.min.css">
-  <link rel="stylesheet" href="assets/global/vendor/bootstrap-select/bootstrap-select.min.css">
-  <link rel="stylesheet" href="assets/global/vendor/sweetalert2/sweetalert2.min.css">
-  <link rel="stylesheet" href="assets/global/vendor/waves/waves.min.css">
-  <link id="loginStyle" rel="stylesheet" href="assets/pages/login.css">
-  <!-- Fonts -->
-  <link rel="stylesheet" href="assets/global/fonts/font-awesome/font-awesome.min.css">
-  <link rel="stylesheet" href="assets/global/fonts/glyphicons/glyphicons.min.css">
-  <link rel="stylesheet" href="assets/global/fonts/material-design/material-design.min.css">
-  <link rel="stylesheet" href="assets/global/fonts/web-icons/web-icons.css">
-  <link rel="stylesheet" href="assets/global/fonts/brand-icons/brand-icons.min.css">
-  <!--<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>-->
-  <!--[if lt IE 9]>
-    <script src="assets/global/vendor/html5shiv/html5shiv.min.js"></script>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="bootstrap admin template">
+    <meta name="author" content="">
+    <title>Agama - EasyDEX (v0.1.6.2e-beta)</title>
+    <link rel="apple-touch-icon" href="assets/images/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" href="assets/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="assets/images/favicon-194x194.png" sizes="194x194">
+    <link rel="icon" type="image/png" href="assets/images/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="assets/images/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="assets/images/favicon-16x16.png" sizes="16x16">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/global/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/global/css/bootstrap-extend.min.css">
+    <link rel="stylesheet" href="assets/global/css/alertify.css">
+    <link rel="stylesheet" href="assets/css/site.min.css">
+    <link rel="stylesheet" href="assets/css/progress-bars.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/dashboard-wallet-widgets.css">
+    <!-- Plugins -->
+    <link rel="stylesheet" href="assets/global/vendor/animsition/animsition.min.css">
+    <link rel="stylesheet" href="assets/global/vendor/asscrollable/asScrollable.min.css">
+    <link rel="stylesheet" href="assets/global/vendor/jquery-scrollbar/jquery.scrollbar.css">
+    <link rel="stylesheet" href="assets/global/vendor/switchery/switchery.min.css">
+    <link rel="stylesheet" href="assets/global/vendor/intro-js/introjs.min.css">
+    <link rel="stylesheet" href="assets/global/vendor/slidepanel/slidePanel.min.css">
+    <link rel="stylesheet" href="assets/global/vendor/jquery-labelauty/jquery-labelauty.min.css">
+    <link rel="stylesheet" href="assets/global/vendor/bootstrap-toastr/toastr.min.css">
+    <link rel="stylesheet" href="assets/global/vendor/bootstrap-select/bootstrap-select.min.css">
+    <link rel="stylesheet" href="assets/global/vendor/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="assets/global/vendor/waves/waves.min.css">
+    <link rel="stylesheet" href="assets/global/vendor/alertify-js/alertify.min.css">
+    <link rel="stylesheet" href="assets/global/vendor/ladda-bootstrap/ladda.min.css">
+    <link rel="stylesheet" href="assets/global/vendor/nprogress/nprogress.min.css">
+    <link rel="stylesheet" href="assets/global/vendor/datatables-bootstrap/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="assets/global/vendor/datatables-fixedheader/dataTables.fixedHeader.min.css">
+    <link rel="stylesheet" href="assets/global/vendor/datatables-responsive/dataTables.responsive.min.css">
+    <link rel="stylesheet" href="assets/pages/login.css" id="loginStyle">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="assets/global/fonts/font-awesome/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/global/fonts/glyphicons/glyphicons.min.css">
+    <link rel="stylesheet" href="assets/global/fonts/material-design/material-design.min.css">
+    <link rel="stylesheet" href="assets/global/fonts/web-icons/web-icons.css">
+    <link rel="stylesheet" href="assets/global/fonts/brand-icons/brand-icons.min.css">
+    <link rel="stylesheet" href="assets/skins/orange.min.css" id="skinStyle">
+
+    <!--<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>-->
+    <!--[if lt IE 9]>
+      <script src="assets/global/vendor/html5shiv/html5shiv.min.js"></script>
     <![endif]-->
-  <!--[if lt IE 10]>
-    <script src="assets/global/vendor/media-match/media.match.min.js"></script>
-    <script src="assets/global/vendor/respond/respond.min.js"></script>
+    <!--[if lt IE 10]>
+      <script src="assets/global/vendor/media-match/media.match.min.js"></script>
+      <script src="assets/global/vendor/respond/respond.min.js"></script>
     <![endif]-->
-  <!-- Scripts -->
-  <script src="assets/global/vendor/modernizr/modernizr.min.js"></script>
-  <script src="assets/global/vendor/breakpoints/breakpoints.min.js"></script>
-  <script>
-  Breakpoints();
-  </script>
-  <link id="skinStyle" href="assets/skins/orange.min.css" rel="stylesheet" type="text/css">
-</head>
-<body class="page-login layout-full page-dark">
-  <!--[if lt IE 8]>
-        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-  <!-- BEGIN Login Page -->
-  <div id="wallet-login">
-  <div class="page animsition vertical-align text-center" data-animsition-in="fade-in"
-  data-animsition-out="fade-out">>
-    <div class="page-content vertical-align-middle">
-      <div class="brand">
-        <img class="brand-img" src="assets/images/supernet-iguana-logo-big.png" alt="SuperNET Iguana">
-      </div>
-      <!-- BEGIN section login -->
-      <div id="section-login">
-      <h4 style="color: #fff;" id="login-welcome">Welcome. Please login.</h4>
-      <form class="login-form" method="post" action="javascript:;" autocomplete="off" onsubmit="return false;">
-        <div class="form-group form-material floating">
-          <input type="password" class="form-control" name="password" id="password">
-          <label class="floating-label" for="inputPassword">Passphrase</label>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block" id="loginbtn">Sign in</button>
-        <div class="form-group form-material floating">
-          <button class="btn btn-lg btn-flat btn-block waves-effect" id="register-btn">Create new wallet</button>
-          <button class="btn btn-lg btn-flat btn-block waves-effect" id="logint-another-wallet">Login to another wallet</button>
-        </div>
-        <!-- START ADVANCED OPTIONS TO SELECT COINS -->
-        <div class="form-group form-material row" id="logincoinslist">
-          <!-- START BITCOIN COIN OPTIONS -->
-          <div class="col-sm-12">
-          <div class="col-sm-3">
-            <div class="checkbox-custom checkbox-default" style="margin-top: 0px; text-align: left;">
-              <input type="checkbox" id="logincoinbtc" value="BTC" name="logincoinbtc" checked="" autocomplete="off">
-              <label for="logincoinbtc">Bitcoin</label>
-            </div>
-          </div>
-          <div class="col-sm-9">
-            <div>
-              <div class="radio-custom radio-default radio-inline">
-                <input type="radio" id="logincoinbtcmodeF" name="logincoinbtcmode" value="1">
-                <label for="logincoinbtcmodeF">Full Mode</label>
-              </div>
-              <div class="radio-custom radio-default radio-inline">
-                <input type="radio" id="logincoinbtcmodeB" name="logincoinbtcmode" value="0" checked="">
-                <label for="logincoinbtcmodeB">Basilisk Mode</label>
-              </div>
-            </div>
-          </div>
-          </div>
-          <!-- END BITCOIN COIN OPTIONS -->
-          <!-- START BITCOIN COIN OPTIONS -->
-          <div class="col-sm-12">
-          <div class="col-sm-3">
-            <div class="checkbox-custom checkbox-default" style="margin-top: 0px; text-align: left;">
-              <input type="checkbox" id="logincoinbtcd" value="BTCD" name="logincoinbtcd" checked="" autocomplete="off">
-              <label for="logincoinbtcd">BitcoinDark</label>
-            </div>
-          </div>
-          <div class="col-sm-9">
-            <div>
-              <div class="radio-custom radio-default radio-inline">
-                <input type="radio" id="logincoinbtcdmodeF" name="logincoinbtcdmode" value="1" checked>
-                <label for="logincoinbtcdmodeF">Full Mode</label>
-              </div>
-              <div class="radio-custom radio-default radio-inline">
-                <input type="radio" id="logincoinbtcdmodeB" name="logincoinbtcdmode" value="0">
-                <label for="logincoinbtcdmodeB">Basilisk Mode</label>
-              </div>
-            </div>
-          </div>
-          </div>
-          <!-- END BITCOIN COIN OPTIONS -->
-        </div>
-        <!-- END ADVANCED OPTIONS TO SELECT COINS -->
-      </form>
 
-
-
-      </div>
-      <!-- END section login -->
-      <!-- BEGIN section register -->
-      <div id="section-register" style="display: none;">
-      <form class="register-form" method="post" role="form" autocomplete="off" onsubmit="return false;">
-        <h4 class="hint" style="color: #fff;"> Please select compatible wallet seed type: </h4>
-        <div class="form-group form-material floating">
-          <div class="radio-custom radio-default radio-inline">
-            <input type="radio" id="PassPhraseOptionsIguana" value="PassPhraseOptionsIguana" name="PassPhraseOptions" checked="">
-            <label for="PassPhraseOptionsIguana">Iguana (256bits)</label>
-          </div>
-          <div class="radio-custom radio-default radio-inline">
-            <input type="radio" id="PassPhraseOptionsWaves" value="PassPhraseOptionsWaves" name="PassPhraseOptions">
-            <label for="PassPhraseOptionsWaves">Waves</label>
-          </div>
-          <div class="radio-custom radio-default radio-inline">
-            <input type="radio" id="PassPhraseOptionsNXT" value="PassPhraseOptionsNXT" name="PassPhraseOptions">
-            <label for="PassPhraseOptionsNXT">NXT</label>
-          </div>
-        </div>
-        <div class="form-group form-material floating">
-          <textarea class="form-control placeholder-no-fix" type="text" placeholder="" name="walletseed" id="walletseed" style="height: 100px;"></textarea>
-          <label class="floating-label" for="walletseed">Wallet Seed</label>
-        </div>
-        <div class="form-group form-material floating">
-          <textarea class="form-control placeholder-no-fix" type="text" placeholder="" name="rwalletseed" id="rwalletseed" style="height: 100px;"></textarea>
-          <label class="floating-label" for="rwalletseed">Confirm Wallet Seed</label>
-        </div>
-        <!--<h4 class="hint" style="color: #fff;"> Please enter password for new wallet: </h4>
-        <div class="form-group form-material floating">
-          <input type="text" class="form-control" id="register_password" name="password">
-          <label class="floating-label" for="register_password">Password</label>
-        </div>
-        <div class="form-group form-material floating">
-          <input type="text" class="form-control" id="rpassword" name="rpassword">
-          <label class="floating-label" for="rpassword">Retype Password</label>
-        </div>-->
-        <button type="submit" id="register-submit-btn" class="btn btn-primary btn-block">Register</button>
-        <div class="form-group form-material floating">
-          <button class="btn btn-lg btn-flat btn-block waves-effect" id="register-back-btn">Back to Login</button>
-        </div>
-      </form>
-      </div>
-      <!-- END section register -->
-    </div>
-  </div>
-  </div>
-  <!-- END Login Page -->
-
-
-  <!-- BEGIN Wallet Core Pages -->
-  <div id="wallet-core" style="display: none;">
-  <nav class="site-navbar navbar navbar-fixed-top navbar-mega" role="navigation">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided"
-      data-toggle="menubar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="hamburger-bar"></span>
-      </button>
-      <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-collapse"
-      data-toggle="collapse">
-        <i class="icon md-more" aria-hidden="true"></i>
-      </button>
-      <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
-        <img class="navbar-brand-logo hidden-xs" src="assets/images/supernet-iguana-logo.png" title="SuperNET Igauana">
-        <img class="navbar-brand-logo hidden-md hidden-sm hidden-lg" src="assets/images/supernet-iguana-logo-white.png" title="SuperNET Igauana white">
-        <span class="navbar-brand-text hidden-xs"></span>
-      </div>
-      <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-search"
-      data-toggle="collapse">
-        <span class="sr-only">Toggle Search</span>
-        <i class="icon md-search" aria-hidden="true"></i>
-      </button>
-    </div>
-    <div class="navbar-container container-fluid">
-      <!-- Navbar Collapse -->
-      <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
-        <!-- Navbar Toolbar -->
-        <ul class="nav navbar-toolbar">
-          <li class="hidden-float" id="toggleMenubar">
-            <a data-toggle="menubar" href="#" role="button">
-              <i class="icon hamburger hamburger-arrow-left">
-                  <span class="sr-only">Toggle menubar</span>
-                  <span class="hamburger-bar"></span>
-                </i>
-            </a>
-          </li>
-        </ul>
-        <!-- End Navbar Toolbar -->
-        <!-- Navbar Toolbar Right -->
-        <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up"
-            aria-expanded="false" role="button">
-              <span class="icon fa-money"></span>
-            </a>
-            <ul class="dropdown-menu" role="menu">
-              <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem" data-fiatcurrency="USD" onclick="WalletFiatCurrency($(this).data())">
-                  <span class="icon fa-usd"></span> USD</a>
-              </li>
-              <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem" data-fiatcurrency="GBP" onclick="WalletFiatCurrency($(this).data())">
-                  <span class="icon fa-gbp"></span> GBP</a>
-              </li>
-              <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem" data-fiatcurrency="EUR" onclick="WalletFiatCurrency($(this).data())">
-                  <span class="icon fa-eur"></span> EURO</a>
-              </li>
-              <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem" data-fiatcurrency="CNY" onclick="WalletFiatCurrency($(this).data())">
-                  <span class="icon fa-cny"></span> CNY</a>
-              </li>
-              <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem" data-fiatcurrency="JPY" onclick="WalletFiatCurrency($(this).data())">
-                  <span class="icon fa-jpy"></span> JPY</a>
-              </li>
-              <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem" data-fiatcurrency="INR" onclick="WalletFiatCurrency($(this).data())">
-                  <span class="icon fa-inr"></span> INR</a>
-              </li>
-            </ul>
-          </li>
-          <li class="dropdown">
-            <a class="navbar-avatar dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"
-            data-animation="scale-up" role="button">
-              <span class="avatar avatar-online">
-                <img src="assets/images/20.jpg" alt="...">
-                <i></i>
-              </span>
-            </a>
-            <ul class="dropdown-menu" role="menu">
-              <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem" id="lock-settings"><i class="icon md-settings" aria-hidden="true"></i> Settings</a>
-              </li>
-              <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem" id="lock-screen"><i class="icon md-lock" aria-hidden="true"></i> Lock Screen</a>
-              </li>
-              <li role="presentation">
-                <a href="javascript:void(0)" role="menuitem" id="logout-account"><i class="icon md-power" aria-hidden="true"></i> Logout</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <!-- End Navbar Toolbar Right -->
-      </div>
-      <!-- End Navbar Collapse -->
-    </div>
-  </nav>
-  <div class="site-menubar site-menubar-dark">
-    <div class="site-menubar-body">
-      <ul class="site-menu">
-        <li class="site-menu-item" id="nav-dashboard">
-          <a class="animsition-link" href="javascript:;">
-            <i class="site-menu-icon md-view-dashboard" aria-hidden="true"></i>
-            <span class="site-menu-title">Dashboard</span>
-          </a>
-        </li>
-        <li class="site-menu-item" id="nav-easydex">
-          <a class="animsition-link" href="javascript:;">
-            <i class="site-menu-icon fa-exchange" aria-hidden="true"></i>
-            <span class="site-menu-title">EasyDEX</span>
-          </a>
-        </li>
-        <li class="site-menu-item" id="nav-about-iguana">
-          <a class="animsition-link" href="javascript:;">
-            <i class="site-menu-icon fa-info-circle" aria-hidden="true"></i>
-            <span class="site-menu-title">About Iguana</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <!-- Page -->
-  <div class="page animsition">
-    <!-- BEGIN DASHBOARD CONTENT BODY -->
-    
-    <!-- Example With Stats -->
-    <div class="page-header page-header-bordered">
-      <h1 class="page-title">EasyDEX</h1>
-      <ol class="breadcrumb">
-        <li>Dashboard</li>
-        <!--<li class="active">You are Here</li>-->
-      </ol>
-      <div class="page-header-actions">
-        <div class="row no-space width-350 hidden-xs">
-          <div class="col-xs-6">
-            <div class="counter">
-              <span class="font-weight-medium" data-currency="BTC" id="header_coinname_balance"> - BTC</span>
-              <span class="counter-label small" data-currency="BTC" id="header_coinfiatbalance"> - USD</span>
-            </div>
-          </div>
-          <div class="col-xs-6">
-            <div class="counter">
-              <span class="font-weight-medium" data-currency="BTCD" id="header_coinname_balance"> - BTCD</span>
-              <span class="counter-label small" data-currency="BTCD" id="header_coinfiatbalance"> - USD</span>
-            </div>
-          </div>
-          <!--<div class="col-xs-4">
-            <div class="counter">
-              <span class="font-weight-medium" data-currency="USD" id="header_fiatname">USD</span>
-              <div class="counter-label small" data-currency="USD" id="header_fiattotalbalance">0</div>
-            </div>
-          </div>-->
-        </div>
-      </div>
-    </div>
-    <!-- End Example With Stats -->
-
-    <!-- Begin page header -->
-      <!--<div class="page-header" id="header-dashboard">
-      <ol class="breadcrumb">
-        <li><a href="../index.html">Home</a></li>
-        <li><a href="javascript:void(0)">Widgets</a></li>
-        <li class="active">Social</li>
-      </ol>
-      <div class="page-header-actions">
-        <button type="button" class="btn btn-sm btn-primary btn-round waves-effect waves-light waves-round">
-          <span class="text hidden-xs">Settings</span>
-          <i class="icon md-chevron-right" aria-hidden="true"></i>
-        </button>
-      </div>
-    </div>-->
-    <!-- End page header -->
-    <div class="page-content" id="section-dashboard">
-      <div class="row" id="wallet-widgets" data-plugin="masonry">
-        
-      </div>
-      <!-- Modal -->
-      <div class="modal fade modal-3d-sign" id="SendCoinModelStep1" aria-hidden="true"
-      aria-labelledby="SendCoinModelTitle" role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-center modal-lg">
-          <form class="modal-content" id="send_currency_form">
-            <div class="modal-header bg-orange-a400 wallet-send-header">
-              <button type="button" class="close white" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-              <h4 class="modal-title white" id="SendCoinModelLabel">SEND <span id="mdl_currency_coin">[COIN]</span> <span id="mdl_currency_balance">(Balance)</span> <small class="white" style="font-size: 10px;">STEP 1 of 2</small></h4>
-            </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col-lg-12 form-group form-material">
-                  <label class="control-label" for="mdl_currency_sendto">Send To</label>
-                  <input type="text" class="form-control" id="mdl_currency_sendto" name="mdl_currency_sendto" placeholder="Enter [coin] address" autocomplete="off" required/>
-                </div>
-                <div class="col-lg-6 form-group form-material">
-                  <label class="control-label" for="mdl_currency_amount" id="mdl_currency_amount_label">[Coin]</label>
-                  <input type="text" class="form-control" id="mdl_currency_amount" name="mdl_currency_amount" placeholder="0.000" autocomplete="off"/>
-                </div>
-                <div class="col-lg-6 form-group form-material">
-                  <label class="control-label" for="mdl_currency_fee">Fee</label>
-                  <input type="text" class="form-control" id="mdl_currency_fee" name="mdl_currency_fee" placeholder="0.000" autocomplete="off"/>
-                </div>
-                <div class="col-lg-12">
-                  <span><b>Total:</b>
-                  <span id="mdl_currency_total_value">0.000</span> <span id="mdl_currency_total_coinname">[Coin]</span> <span class="icon glyphicon glyphicon-resize-horizontal"></span> <span id="mdl_currency_total_fiat_value">0.00</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal" onclick="CurrencyMdlBtnClean()">Close</button>
-              <button type="button" class="btn btn-primary disabled" data-toggle="modal" id="mdl_currency_send_btn">Send</button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <!-- End Modal -->
-      <!-- Modal -->
-      <div class="modal fade modal-3d-sign" id="SendCoinModelStep2" aria-hidden="false" role="dialog"
-      tabindex="-1">
-        <div class="modal-dialog modal-center modal-lg">
-          <div class="modal-content">
-            <div class="modal-header bg-orange-a400 wallet-send-header">
-              <button type="button" class="close white" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-              <h4 class="modal-title white"><span class="icon wb-upload" style="margin: 0;"></span> Confirm <small class="white" style="font-size: 10px;">STEP 2 of 2</small></h4>
-              <span class="white">Please review your transaction</span>
-            </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col-xs-12"><b>To:</b></div>
-                <div class="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendto_addr">[coin-address-goes-here]</div>
-                <div class="col-lg-4 col-sm-4 col-xs-6"><span id="mdl_confirm_currency_send_amount">0.00000000</span> <span id="mdl_confirm_currency_coinname">[COIN]</span></div>
-                <div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_amount_fiat">$0.00</div>
-                <div class="col-lg-6 col-sm-6 col-xs-12">Transaction Fee (Required by miners)</div>
-                <div class="col-lg-4 col-sm-4 col-xs-6"><span id="mdl_confirm_currency_send_fee">0.00000000</span> <span id="mdl_confirm_currency_coinname_fee">[COIN]</span></div>
-                <div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_send_fee_fiat">$0.00</div>
-              </div>
-              <br>
-              
-              <div class="row">
-                <div class="col-xs-12"><b>From:</b></div>
-                <div class="col-lg-6 col-sm-6 col-xs-12" id="mdl_confirm_currency_sendfrom_addr">[coin-address-goes-here]</div>
-                <div class="col-lg-4 col-sm-4 col-xs-6" style="color: #f44336;"><span id="mdl_confirm_currency_sendfrom_total_dedcut">-0.00000000</span> <span id="mdl_confirm_currency_coinname_total">[COIN]</span></div>
-                <div class="col-lg-2 col-sm-2 col-xs-6" id="mdl_confirm_currency_sendfrom_total_deduct_fiat" style="color: #f44336;">-$0.00</div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <a class="btn btn-default" data-target="#SendCoinModelStep1" data-toggle="modal" data-dismiss="modal">Back</a>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" onclick="ExecuteSendCurrencyAPI()">Confirm</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- End Modal -->
-      <!-- Modal -->
-      <div class="modal fade modal-3d-sign" id="ReceiveCoinModel" aria-hidden="false" role="dialog"
-      tabindex="-1">
-        <div class="modal-dialog modal-center modal-lg">
-          <div class="modal-content">
-            <div class="modal-header bg-orange-a400 wallet-send-header">
-              <button type="button" class="close white" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-              <h4 class="modal-title white"><span class="icon wb-download" style="margin: 0;"></span> Receive <span id="mdl_receive_coin_name"></span></h4>
-              <span class="white">This is your default Iguana wallet address.</span>
-            </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col-xs-8" style="text-align: center;"><h4>Copy and Share</h4></div><div class="col-xs-4" style="text-align: center;"><h4>Scan</h4></div>
-                <span class="col-sm-8 col-xs-12" style="text-align: center;"><input type="text" class="force-select form-control empty" id="mdl_receive_coin_addr" readonly/><br>
-                <button class="btn btn-round btn-info waves-effect waves-round waves-light" data-clipboard-action="copy" data-clipboard-target="#mdl_receive_coin_addr" data-toggle="tooltip"><i class="icon md-copy" aria-hidden="true"></i>Copy to clipboard</button></span>
-                <span class="col-sm-4 col-xs-12" id="mdl_receive_coin_addr_qr_code" style="width: 60px;"></span>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" id="mdl_receive_coin_done_btn" onclick="ReceiveCoinMdlBtnClean()">Done</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- End Modal -->
-      
-    </div>
-
+    <!-- Scripts -->
+    <!--<script>window.kmdcli = require('../../private/kmdcli');</script>
+    <script src="assets/js/kmdcli.js"></script>-->
+    <script>
+    	if (typeof module === 'object') {
+    		window.module = module;
+    		module = undefined;
+    	}
+    </script>
+    <script src="assets/global/vendor/modernizr/modernizr.min.js"></script>
+    <script src="assets/global/vendor/breakpoints/breakpoints.min.js"></script>
+    <script>
+      if (window.module)
+        module = window.module;
+      const templates = {};
+    </script>
+    <script src="assets/scripts/templates/addCoinOptions.js"></script>
+    <script src="assets/scripts/templates/nprogressBar.js"></script>
+    <script src="assets/scripts/templates/refreshBasiliskConnectionsModal.js"></script>
+    <script src="assets/scripts/templates/addCoinModal.js"></script>
+    <script src="assets/scripts/templates/ieFix.js"></script>
+    <script src="assets/scripts/templates/loginPage.js"></script>
+    <script src="assets/scripts/templates/addCoinLoginModal.js"></script>
+    <script src="assets/scripts/templates/navBar.js"></script>
+    <script src="assets/scripts/templates/menuBar.js"></script>
+    <script src="assets/scripts/templates/walletWidgetsSidebar.js"></script>
+    <script src="assets/scripts/templates/headerMenu.js"></script>
+    <script src="assets/scripts/templates/walletBalanceWidget.js"></script>
+    <script src="assets/scripts/templates/dashboardInfo.js"></script>
+    <script src="assets/scripts/templates/sendCoin.js"></script>
+    <script src="assets/scripts/templates/jumblr.js"></script>
+    <script src="assets/scripts/templates/kmdWallet.js"></script>
+    <script src="assets/scripts/templates/atomicExplorer.js"></script>
+    <script src="assets/scripts/templates/walletSettings.js"></script>
+    <script src="assets/scripts/templates/bottomIncludes.js"></script>
+    <script src="assets/scripts/templates/txInfoModal.js"></script>
+  </head>
+	<body class="page-login layout-full page-dark">
     <!-- START ADD COIN DIV -->
     <div>
-    <!-- Modal -->
-      <div class="modal fade modal-3d-sign" id="exampleGrid" aria-hidden="true" aria-labelledby="exampleGrid" role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-center modal-lg">
-          <div class="modal-content">
-            <div class="modal-header bg-orange-a400 wallet-send-header">
-              <button type="button" class="close white" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-              <h4 class="modal-title white">Select Coin to add to EasyDEX</h4>
+      <script>
+        document.write(templates.refreshBasiliskConnectionsModal +
+                       templates.addCoinModal +
+                       templates.ieFix);
+      </script>
+    </div>
+    <!-- END ADD COIN DIV -->
+
+    <script>
+      document.write(templates.loginPage +
+                     templates.addCoinLoginModal);
+    </script>
+    </div>
+    <!--^ extra div ? -->
+    <!-- START ADD COIN DIV -->
+    <!-- END Login Page -->
+
+    <!-- BEGIN Wallet Core Pages -->
+    <div id="wallet-core" style="display: none">
+      <script>
+        document.write(templates.navBar +
+                       templates.menuBar);
+      </script>
+
+      <!-- Page -->
+      <div class="page animsition" style="margin-left: 0px">
+        <!-- BEGIN DASHBOARD CONTENT BODY -->
+
+        <script>
+          document.write(templates.walletWidgetsSidebar +
+                         templates.headerMenu);
+        </script>
+        <div class="page-main" id="section-dashboard" data-edexcoin="COIN">
+          <div id="edex-footer" data-edexcoin="COIN">
+            <div class="row no-space " data-edexcoin="COIN">
+              <div data-edexcoin="COIN" id="currency-progressbars" style="display: none">
+                <div class="progress progress-sm">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 0%; font-size: 80%" role="progressbar" data-edexcoin="COIN" id="currency-bundles">
+                    <span data-lang="INDEX.BUNDLES"></span> <span data-edexcoin="COIN" id="currency-bundles-percent">0%</span>
+                  </div>
+                </div>
+              </div>
+              <div data-edexcoin="COIN" id="additional-progress-bars" style="display: none">
+                <div class="progress progress-sm">
+                  <div class="progress-bar progress-bar-warning progress-bar-striped active" style="width: 0%; font-size: 80%" role="progressbar" data-edexcoin="COIN" id="currency-utxo">
+                    utxo <span data-edexcoin="COIN" id="currency-utxo-percent">0%</span>
+                  </div>
+                </div>
+                <div class="progress progress-sm">
+                  <div class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 0%; font-size: 80%" role="progressbar" data-edexcoin="COIN" id="currency-balances">
+                    <span data-lang="INDEX.BALANCES"></span> <span data-edexcoin="COIN" id="currency-balances-percent">0%</span>
+                  </div>
+                </div>
+                <div class="progress progress-sm">
+                  <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: 0%; font-size: 80%" role="progressbar" data-edexcoin="COIN" id="currency-validated">
+                    <span data-lang="INDEX.VALIDATED"></span> <span data-edexcoin="COIN" id="currency-validated-percent">0%</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="modal-body">
-              <div class="col-sm-6" style="text-align: center;">
-                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl" data-plugin="labelauty" id="addcoin_mdl_full_mode" data-labelauty="Full Mode|Full Mode" value="1" checked>
-                </div>
-                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                  <input type="radio" class="to-labelauty labelauty" name="addcoin_select_mode_mdl" data-plugin="labelauty" id="addcoin_mdl_basilisk_mode" value="0" data-labelauty="Basilisk Mode|Basilisk Mode">
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="form-group">
-                  <select class="form-control form-material" id="addcoin_select_coin_mdl_options">
-                    <option>-Select-</option>
-                    <option value="BTC">Bitcoin</option>
-                    <option value="BTCD">BitcoinDark</option>
-                    <option value="LTC">Litcoin</option>
-                    <option value="DOGE">Dogecoin</option>
-                    <option value="DGB">Digibyte</option>
-                    <option value="SYS">SysCoin</option>
-                    <option value="MZC">MazaCoin</option>
-                    <option value="UNO">Unobtanium</option>
-                    <option value="ZET">Zetacoin</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-sm-2" style="text-align: center;">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" id="mdl_addcoin_done_btn" onclick="ExecuteAddCoinFn()">Add Coin</button>
+            <!-- END additional-progress-bars -->
+          </div>
+
+          <div class="col-xs-12 padding-top-20" id="no_wallet_selected">
+            <div class="alert alert-danger alert-dismissible agamainfo_alert" role="alert" style="display: none;">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <!--<span aria-hidden="true">×</span>-->
+              </button>
+              <span style="font-size:24px; text-align: center">
+                <i class="icon fa-exclamation-triangle" aria-hidden="true"></i> <span class="agamainfo_msgtitle">Custom Title</span>
+              </span>
+              <br/>
+              <span class="agamainfo_msg">Custom Message</span>.
+            </div>
+
+            <div class="alert alert-info alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <!--<span aria-hidden="true">×</span>-->
+              </button>
+              <span style="font-size:24px; text-align: center">
+                <i class="icon fa-paw" aria-hidden="true"></i> <span data-lang="INDEX.NO_WALLET_CAPS"></span>
+              </span>
+              <br/>
+              <span data-lang="INDEX.PLEASE_SELECT_A_WALLET"></span>.
+            </div>
+          </div>
+          <!-- Begin page header -->
+          <div class="page-header page-header-bordered header-easydex" id="header-dashboard" data-edexcoin="COIN" style="display: none">
+            <ol class="breadcrumb" data-edexcoin="COIN">
+              <b><span data-lang="INDEX.MY"></span> <span data-edexcoin="COIN" id="edexcoin-active">-</span> <span data-lang="INDEX.ADDRESS"></span>: </b> <span data-edexcoin="COIN" id="edexcoin_active_addr">-</span> <button class="btn btn-default btn-xs clipboard-edexaddr" data-edexcoin="COIN" id="edexcoin_active_addr_clipboard" data-clipboard-text=""><i class="icon wb-copy" aria-hidden="true"></i> <span data-lang="INDEX.COPY"></span></button>
+            </ol>
+            <div class="page-header-actions" data-edexcoin="COIN" id="edexcoin-actions">
+              <!-- EasyDEX Coin Wallet Header button -->
+              <div id="kmd_header_button">
+                <button type="button" class="btn btn-dark waves-effect waves-light" data-edexcoinmenu="COIN" id="btn_edexcoin_dashboard" style="display: none">
+                  <i class="icon md-view-dashboard" aria-hidden="true"></i> <span data-lang="INDEX.DASHBOARD"></span>
+                </button>
+                <button type="button" class="btn btn-primary waves-effect waves-light" data-edexcoinmenu="COIN" id="btn_edexcoin_send">
+                  <i class="icon fa-send" aria-hidden="true"></i> <span data-lang="INDEX.SEND"></span>
+                </button>
+                <button type="button" class="btn btn-info waves-effect waves-light" data-edexcoinmenu="COIN" id="btn_edexcoin_recieve">
+                  <i class="icon fa-inbox" aria-hidden="true"></i> <span data-lang="INDEX.RECEIVE"></span>
+                </button>
               </div>
             </div>
           </div>
+          <!-- End page header -->
+
+          <script>
+            document.write(templates.walletBalanceWidget);
+          </script>
+
+          <div data-edexcoin="COIN" id="edexcoin_dashboard_basilisk_refresh_status" style="display: none">
+            <div class="col-xs-12 margin-top-20">
+              <div class="col-xs-12">
+                <!-- Panel Tasks -->
+                <div class="panel">
+                  <div class="panel-heading">
+                    <h3 class="panel-title" data-lang="INDEX.FETCHING_BASILISK_DATA"></h3>
+                    <div style="padding-left: 30px; padding-bottom: 10px; font-weight: 600">Calls left to complete: <span id="basilisk-refresh-current-length"></span> / <span id="basilisk-refresh-total-length"></span></div>
+                    <div class="panel-actions">
+                      <a class="panel-action icon md-refresh-alt" data-toggle="panel-refresh" data-load-type="blue-only" aria-hidden="true"></a>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-hover table-striped tbl_edexcoin_dashboard_basilisk_refresh_status">
+                      <thead>
+                        <tr>
+                          <th data-lang="INDEX.ADDRESS"></th>
+                          <th data-lang="INDEX.LIST_UNSPENT"></th>
+                          <th data-lang="INDEX.LIST_TRANSACTIONS"></th>
+                          <th data-lang="INDEX.GET_BALANCE"></th>
+                          <th data-lang="INDEX.REFRESH"></th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- End Panel Tasks -->
+              </div>
+            </div>
+          </div>
+
+          <script>
+            document.write(templates.dashboardInfo +
+                           templates.sendCoin +
+                           templates.txInfoModal);
+          </script>
+          <!-- End EasyDEX Panel send -->
+
+          <div data-edexcoin="COIN" id="edexcoin_recieve" style="display: none">
+            <div class="col-xs-12 margin-top-20">
+              <!-- Komodo Wallet receive tab -->
+              <div class="panel nav-tabs-horizontal">
+                <!-- KMD Wallet Receive -->
+                <div data-edexcoin="COIN" id="edexcoin_recieve_section">
+                  <div class="col-xlg-12 col-lg-12 col-sm-12 col-xs-12">
+                    <!-- Panel FixedHeader -->
+                    <div class="panel">
+                      <header class="panel-heading">
+                        <div class="panel-actions">
+                        </div>
+                        <h3 class="panel-title" data-lang="INDEX.RECEIVING_ADDRESS"></h3>
+                      </header>
+                      <div class="panel-body">
+                        <table class="table table-hover dataTable table-striped" data-edexcoin="COIN" id="edexcoin-recieve-addr-tbl">
+                          <thead>
+                            <tr>
+                              <th data-lang="INDEX.TYPE"></th>
+                              <th data-lang="INDEX.ADDRESS"></th>
+                              <th data-lang="INDEX.BALANCE"></th>
+                              <th data-lang="INDEX.INTEREST"></th>
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                              <th data-lang="INDEX.TYPE"></th>
+                              <th data-lang="INDEX.ADDRESS"></th>
+                              <th data-lang="INDEX.BALANCE"></th>
+                              <th data-lang="INDEX.INTEREST"></th>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                    </div>
+                    <!-- End Panel FixedHeader -->
+                  </div>
+                </div>
+                <!-- End KMD Wallet Receive -->
+              </div>
+              <!-- End Komodo Wallet receive tab -->
+            </div>
+          </div>
+        </div>
+        <!-- END DASHBOARD CONTENT BODY -->
+      </div>
+      <!-- End Page -->
+
+      <!-- BEGIN EASYDEX CONTENT BODY -->
+      <div class="page animsition" data-animsition-in="fade-in" data-animsition-out="fade-out" style="margin-left: 0px">
+        <div class="page-content" id="section-easydex">
+          <h2>Coming Soon!</h2>
         </div>
       </div>
-      <!-- End Modal -->
-    <button type="button" class="btn btn-info btn-lg btn-block waves-effect waves-light" data-target="#exampleGrid" data-toggle="modal">Add Coin</button>
-    </div>
-    <!-- START ADD COIN DIV -->
-    <!-- END DASHBOARD CONTENT BODY -->
+      <!-- END EASYDEX CONTENT BODY -->
 
-    <!-- BEGIN EASYDEX CONTENT BODY -->
-    <div class="page-content" id="section-easydex">
-      <h2>EasyDEX</h2>
-      <p>Page content goes here</p>
-    </div>
-    <!-- END EASYDEX CONTENT BODY -->
+      <script>
+        document.write(templates.jumblr +
+                       templates.kmdWallet);
+      </script>
 
-    <!-- BEGIN ABOUT SUPERNET IGUANA CONTENT BODY -->
-    <div class="page-content" id="section-about-iguana">
-      <h2>About Iguana</h2>
-      <p>Page content goes here</p>
+      <!-- BEGIN ZCASH WALLET CONTENT BODY -->
+      <div class="page-content" id="section-zcash">
+        <h2>Zcash Wallet</h2>
+        <p>Page content goes here</p>
+      </div>
+      <!-- END ZCASH WALLET CONTENT BODY -->
+
+      <script>
+        document.write(templates.atomicExplorer +
+                       templates.walletSettings);
+      </script>
+
+      <!-- BEGIN ABOUT SUPERNET IGUANA CONTENT BODY -->
+      <div class="page animsition" data-animsition-in="fade-in" data-animsition-out="fade-out" style="margin-left: 0px">
+  	    <div class="page-content" id="section-about-iguana">
+  	      <h2>About Iguana</h2>
+  	      <p>Page content goes here</p>
+  	    </div>
+      </div>
+      <!-- END ABOUT SUPERNET IGUANA CONTENT BODY -->
     </div>
-    <!-- END ABOUT SUPERNET IGUANA CONTENT BODY -->
-  <div class="progress-bar progress-bar-info progress-bar-striped active" aria-valuemin="0" aria-valuemax="100" style="width: 50%" aria-valuenow="60" role="progressbar"><span class="progress-label"></span></div>
-  </div>
-  <!-- End Page -->
-  <!-- Footer -->
-  <!--<footer class="site-footer">
-    <div class="site-footer-legal">© 2016 <a href="javascript:;">SuperNET</a></div>
-    <div class="site-footer-right">
-      Crafted with <i class="red-600 icon md-favorite"></i> by <a href="javascript:;">Iguana</a>
-    </div>
-  </footer>-->
-  </div>
-  <!-- END Wallet Core Pages -->
-  <script src="assets/global/vendor/jquery/jquery.min.js"></script>
-  <script src="assets/global/vendor/bootstrap/bootstrap.min.js"></script>
-  <script src="assets/global/vendor/animsition/animsition.min.js"></script>
-  <script src="assets/global/vendor/asscroll/jquery-asScroll.min.js"></script>
-  <script src="assets/global/vendor/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-  <script src="assets/global/vendor/mousewheel/jquery.mousewheel.min.js"></script>
-  <script src="assets/global/vendor/asscrollable/jquery.asScrollable.all.min.js"></script>
-  <script src="assets/global/vendor/ashoverscroll/jquery-asHoverScroll.min.js"></script>
-  <script src="assets/global/vendor/waves/waves.min.js"></script>
-  <!-- Plugins -->
-  <script src="assets/global/vendor/switchery/switchery.min.js"></script>
-  <script src="assets/global/vendor/intro-js/intro.min.js"></script>
-  <script src="assets/global/vendor/screenfull/screenfull.min.js"></script>
-  <script src="assets/global/vendor/slidepanel/jquery-slidePanel.min.js"></script>
-  <script src="assets/global/vendor/bootbox/bootbox.js"></script>
-  <script src="assets/global/vendor/jquery-validation/jquery.validate.min.js"></script>
-  <script src="assets/global/vendor/jquery-validation/additional-methods.min.js"></script>
-  <script src="assets/global/vendor/bootstrap-toastr/toastr.min.js"></script>
-  <script src="assets/global/vendor/bootstrap-select/bootstrap-select.min.js"></script>
-  <script src="assets/global/vendor/sweetalert2/sweetalert2.min.js" type="text/javascript"></script>
-  <script src="assets/global/vendor/jquery-qrcode/jquery.qrcode.min.js" type="text/javascript"></script>
-  <script src="assets/global/vendor/clipboard/clipboard.min.js"></script>
-  <script src="assets/global/vendor/asprogress/jquery-asProgress.min.js"></script>
-  <script src="assets/global/vendor/jquery-labelauty/jquery-labelauty.js"></script>
-  <!-- Crypto Dependencies -->
-  <script src="assets/scripts/wordlist.js" type="text/javascript"></script>
-  <script src="assets/scripts/passphrasegenerator.js" type="text/javascript"></script>
-  <script src="assets/scripts/seedrandom.js" type="text/javascript"></script>
-  <!-- Scripts -->
-  <script src="assets/global/js/core.js"></script>
-  <script src="assets/js/site.js"></script>
-  <script src="assets/js/sections/menu.js"></script>
-  <script src="assets/js/sections/menubar.js"></script>
-  <script src="assets/js/sections/sidebar.js"></script>
-  <script src="assets/global/js/configs/config-colors.js"></script>
-  <script src="assets/js/configs/config-tour.js"></script>
-  <script src="assets/global/js/components/asscrollable.js"></script>
-  <script src="assets/global/js/components/animsition.js"></script>
-  <script src="assets/global/js/components/slidepanel.js"></script>
-  <script src="assets/global/js/components/bootbox.js"></script>
-  <script src="assets/global/js/components/switchery.js"></script>
-  <script src="assets/global/js/components/tabs.js"></script>
-  <script src="assets/global/js/components/asprogress.min.js"></script>
-  <script src="assets/global/js/components/jquery-labelauty.min.js"></script>
-  <script src="assets/scripts/iguana_api.js"></script>
-  <script src="assets/scripts/login.js"></script>
-  <script src="assets/scripts/dashboard.js"></script>
-  <script src="assets/scripts/coinwallets.js"></script>
-  <script src="assets/scripts/sidebar.js"></script>
-  <script>
-  (function(document, window, $) {
-    'use strict';
-    var Site = window.Site;
-    $(document).ready(function() {
-      Site.run();
-    });
-  })(document, window, jQuery);
-  </script>
-  <script type="text/javascript">
-  jQuery(document).ready(function(){
-    jQuery('.scrollbar-dynamic').scrollbar();
-  });
-  </script>
-</body>
+    <!-- END Wallet Core Pages -->
+
+    <script>
+      document.write(templates.bottomIncludes);
+    </script>
+  </body>
 </html>
