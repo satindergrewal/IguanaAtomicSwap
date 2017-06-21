@@ -1,6 +1,7 @@
 templates.bottomIncludes =
 `
 <script>
+  var ipc = require('electron').ipcRenderer;
   if (typeof module === 'object') {
     window.module = module; module = undefined;
   }
@@ -125,6 +126,17 @@ templates.bottomIncludes =
       });
       socket.on('messages', function(data) {
         console.log(data);
+        if (data && data.message && data.message.shepherd.iguanaAPI && data.message.shepherd.iguanaAPI.totalStackLength) {
+          $('#basilisk-refresh-total-length').html(data.message.shepherd.iguanaAPI.totalStackLength);
+        }
+        if (data && data.message && data.message.shepherd.iguanaAPI && data.message.shepherd.iguanaAPI.currentStackLength) {
+          $('#basilisk-refresh-current-length').html(data.message.shepherd.iguanaAPI.currentStackLength);
+        }
+        if (data && data.message && data.message.shepherd.method && data.message.shepherd.method === 'cache-one' && data.message.shepherd.status === 'done') {
+          setTimeout(function() {
+            $('#edexcoin_dashboard_basilisk_refresh_status').css({ 'display': 'none' });
+          }, 2000);
+        }
       });
       socket.on('service', function(data) {
         console.log('service', data);

@@ -35,38 +35,31 @@ function RunKMDInitFunctions() {
 			$('#extcoin-wallet-connection-alert').hide();
 
 			function _getKMDInfo() {
-				var passthru_agent = getPassthruAgent(),
-						tmpIguanaRPCAuth = 'tmpIgRPCUser@' + sessionStorage.getItem('IguanaRPCAuth'),
-						ajax_data = {
-							'userpass': tmpIguanaRPCAuth,
-							'agent': passthru_agent,
-							'method': 'passthru',
-							'function': 'getinfo',
-							'hex': ''
-						};
+				var coincli_agent = SelectCoinCli();
 
-				console.log(ajax_data);
-				$.ajax({
-					type: 'POST',
-					data: JSON.stringify(ajax_data),
-					url: 'http://127.0.0.1:' + config.iguanaPort,
-					success: function(data, textStatus, jqXHR) {
-						var AjaxOutputData = JSON.parse(data);
+				if (coincli_agent == 'acpax') {
+					var cli_params = {
+								'cli': 'kmd',
+								'command': '-ac_name='+$('[data-extcoin]').attr('data-extcoin')+' getinfo'
+							};
+				} else {
+					var cli_params = {
+								'cli': coincli_agent,
+								'command': 'getinfo'
+							};
+				}
 
-						if (AjaxOutputData && !AjaxOutputData.blocks) {
-							startBestBlockInterval();
-						} else {
-							clearInterval(currentBestBlockInterval);
-						}
-					},
-					error: function(xhr, textStatus, error) {
-						console.log('failed getting Coin History.');
-						console.log(xhr.statusText);
-						if ( xhr.readyState == 0 ) {
-							Iguana_ServiceUnavailable();
-						}
-						console.log(textStatus);
-						console.log(error);
+				console.log(cli_params)
+				console.log(cli_params.cli)
+				console.log(cli_params.command)
+				ipc.send('InvokeCoinCliAction', {"cli":cli_params.cli,"command":cli_params.command});
+				ipc.once('coincliReply', function(event, response){
+					//console.log(response);
+					response = JSON.parse(response)
+					if (response && !response.blocks) {
+						startBestBlockInterval();
+					} else {
+						clearInterval(currentBestBlockInterval);
 					}
 				});
 			}
